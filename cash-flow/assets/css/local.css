@@ -1,0 +1,4 @@
+body {
+    height: 100%; /* Used to enable scrolling */
+    background: linear-gradient(55deg, #590882 0%, #670565 51%, #6d21b9 85%);
+  }
