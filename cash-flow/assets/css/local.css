@@ -3,4 +3,10 @@ body {
     background: linear-gradient(55deg, #590882 0%, #670565 51%, #6d21b9 85%);
   }
 
-body {background-color: #590882;}  
+body {background-color: #590882;}
+
+.marginsetter {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 6%;
+}
