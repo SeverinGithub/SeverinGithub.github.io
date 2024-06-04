@@ -18,7 +18,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Cash Flow">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="translucent-black">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
@@ -39,16 +39,21 @@
 
 </head>
 <body>
-    <div class="marginsetter card text-center">
+    <nav class="navbar bg-dark sticky-top border-bottom border-body" data-bs-theme="dark">
+        <div class="container-fluid">
+            <a class="navbar-brand">Banking</a>
+            <a></a>
+        </div>
+      </nav>
+    <div class="marginsetter text-bg-dark card text-center">
         <div class="card-header">
           <h3 id="mainBankStatus">0</h3>
         </div>
         <div class="card-body">
-          <h5 class="card-title">Summary</h5>
           <p class="card-text">Total networth</p> 
         </div>
       </div>
-      <div class="marginsetter card text-center">
+      <div class="marginsetter text-bg-dark card text-center">
         <div class="card-header">
           <h3 id="bankAccountStatus">0</h3>
         </div>
@@ -56,12 +61,12 @@
           <h5 class="card-title">Bank Account</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <div class="col">
-            <button class="btn btn-primary">Add Money</button>
-            <button class="btn btn-primary">Money Out</button>
+            <button onclick="addBankMoney()" class="btn btn-dark">Add Money</button>
+            <button onclick="subtractBankMoney" class="btn btn-dark">Money Out</button>
         </div>
        </div>
       </div>
-      <div class="marginsetter card text-center">
+      <div class="marginsetter text-bg-dark card text-center">
         <div class="card-header">
           <h3 id="cashStatus">0</h3>
         </div>
@@ -69,8 +74,8 @@
           <h5 class="card-title">Cash</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <div class="col">
-            <button href="#" class="btn btn-primary">Add Cash</button>
-            <button href="#" class="btn btn-primary">Cash Out</button>
+            <button onclick="addCash" class="btn btn-dark">Add Cash</button>
+            <button onclick="subtractCash" class="btn btn-dark">Cash Out</button>
           </div>
         </div>
       </div>
