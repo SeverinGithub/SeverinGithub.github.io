@@ -38,7 +38,7 @@
     </script>
 
 </head>
-<body>
+<body data-bs-theme="dark">
     <nav class="navbar bg-dark sticky-top border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid">
             <a class="navbar-brand">Banking</a>
@@ -47,7 +47,7 @@
       </nav>
     <div class="marginsetter text-bg-dark card text-center">
         <div class="card-header">
-          <h3 id="mainBankStatus">0</h3>
+          <span id="mainBankStatus">0</span>
         </div>
         <div class="card-body">
           <p class="card-text">Total networth</p> 
@@ -61,7 +61,29 @@
           <h5 class="card-title">Bank Account</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <div class="col">
-            <button onclick="addBankMoney()" class="btn btn-dark">Add Money</button>
+            <button type="button" role="button" tabindex="-1" onclick="addBankMoney()" class="btn btn-dark">Add Money</button>
+
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Add Money
+            </button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    ...
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-dark">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <button onclick="subtractBankMoney" class="btn btn-dark">Money Out</button>
         </div>
        </div>

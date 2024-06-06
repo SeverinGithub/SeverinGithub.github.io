@@ -1,5 +1,8 @@
-var totalMoney = parseInt(localStorage.getItem("totalMoney"));
+var totalMoney = 0;
+document.getElementById("mainBankStatus").innerHTML = totalMoney;
 
 function addBankMoney() {
-    var totalMoney =+ newOrderMoney
+    console.log("add 100 Money");
+    totalMoney += 100;
+    document.getElementById("mainBankStatus").innerHTML = totalMoney;
 }
