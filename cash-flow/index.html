@@ -57,14 +57,14 @@
       </div>
       <div class="marginsetter  card text-center">
         <div class="card-header">
-          <span id="bankAccountStatus">0</span>
+          <span id="mainTotalStatus">0</span>
         </div>
         <div class="card-body">
           <h5 class="card-title">Bank Account</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <div class="col">
 
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" onclick="addBankMoney()" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#exampleModal">
               Add Money
             </button>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -78,11 +78,11 @@
 
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash-stack"></i></span>
-                      <input id="newMoneyIncome" type="text" class="form-control" placeholder="New Income" aria-describedby="basic-addon1">
+                      <input id="newMoneyIncome" type="text" class="form-control" placeholder="New Income" aria-describedby="basic-addon1" />
                     </div>
                     <div class="input-group mb-3">
                       <span class="input-group-text" id="basic-addon1"><i class="bi bi-chat-dots"></i></span>
-                      <input id="addBankMoneyComment" type="text" class="form-control" placeholder="Comment" aria-describedby="basic-addon1">
+                      <input id="addBankMoneyComment" type="text" class="form-control" placeholder="Comment" aria-describedby="basic-addon1" />
                     </div>
 
                   </div>
@@ -128,14 +128,14 @@
       </div>
       <div class="marginsetter card text-center">
         <div class="card-header">
-          <span id="cashStatus">0</span>
+          <span id="mainCashStatus">0</span>
         </div>
         <div class="card-body">
           <h5 class="card-title">Cash</h5>
           <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
           <div class="col">
 
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" onclick="addCashMoney()" data-bs-target="#exampleModal">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" onclick="addCash()" data-bs-target="#exampleModal">
               Add Cash 
             </button>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
