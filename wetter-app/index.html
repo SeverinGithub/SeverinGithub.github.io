@@ -36,11 +36,10 @@
     <script>
         window.appVersion = '0.1.0';
     </script>
-
 </head>
+<!--Body ------------------------------------- -->
 <body data-bs-theme="dark">
 
-<!--Body ------------------------------------- -->
 <nav class="navbar bg-primary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Weather App</a>
@@ -87,45 +86,46 @@
         </div>
     </div>
 </div>
-<ul class="nav nav-tabs">
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Active</a>
-      </li>
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Active</a>
-      </li>
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Active</a>
-      </li>
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Active</a>
-      </li>
-    <li class="nav-item">
-        <a class="nav-link active" aria-current="page" href="#">Active</a>
-      </li>
-      
-      <li class="nav-body">
-      <div id="card-friedenfels" class="card" style="margin-top: 15px;">
-        <img src="w-ol-ex-today.png" class="card-img-top" alt="...">
-        <div class="card-body">
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        <div class="btn-group">
-            <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-             Other statistics
-            </button>
-            <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Yesterday's statistic</a></li>
-            <li><a class="dropdown-item" href="#">Month statistics</a></li>                    
-            <li><a class="dropdown-item" href="#">Year statistics</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">close</a></li>
-            </ul>
-        </div>
-        </div>
-    </div>
-</li>
+<div class="marginSetter">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Olching</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Active</a>
+            </li>
+        </ul>
 
-</ul>
+        <div id="card-friedenfels" class="card" style="margin-top: 15px;">
+            <img src="w-ol-ex-today.png" class="card-img-top" alt="...">
+            <div class="card-body">
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Other statistics
+                </button>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Yesterday's statistic</a></li>
+                <li><a class="dropdown-item" href="#">Month statistics</a></li>                    
+                <li><a class="dropdown-item" href="#">Year statistics</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">close</a></li>
+                </ul>
+            </div>
+            </div>
+        </div>
+    </div> 
+</body>
+
 <!--/Body ------------------------------------- -->
 
     <script src="assets/js/bootstrap.bundle.min.js"></script>
