@@ -5,3 +5,15 @@
     margin-right: 6%;
 }
 
+img {
+    border-radius: 1%;
+  }
+
+/* #div{
+  background-image: url(../../png.jpg);
+} */
+
+#div{
+    height: 1800px; /* Used to enable scrolling */
+    background: linear-gradient(55deg, #aad5ec 15%, #2a6ae3 51%, #5961d0 85%);
+  }
