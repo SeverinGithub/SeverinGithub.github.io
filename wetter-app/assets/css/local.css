@@ -6,19 +6,15 @@
 }
 
 img {
-    border-radius: 1%;
-  }
+    border-radius: 4%;
+}
 
-/* #div{
-  background-image: url(../../png.jpg);
-} */
-
-#div{
+#div {
     height: 1000px; /* Used to enable scrolling */
     background: linear-gradient(55deg, #aad5ec 15%, #2a6ae3 51%, #5961d0 85%);
-  }
+}
 
 body {
     overflow: hidden;
     position: fixed;    
-} 
+}
