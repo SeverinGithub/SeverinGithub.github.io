@@ -1,8 +1,7 @@
+localStorage.setItem(localTotalClicks, 0);
+
 var totalclicks = parseInt(localStorage.getItem("localTotalClicks"));
 document.getElementById("totalClicks").innerHTML = totalclicks;
-
-localStorage.setItem("localTotalClicks", "");
-
 
 function addAClick() {
     totalclicks += 1;
