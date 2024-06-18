@@ -9,7 +9,7 @@ img {
     border-radius: 4%;
 }
 
-#backgroundcolor {
+#div {
     height: 1000px; /* Used to enable scrolling */
     background: linear-gradient(55deg, #aad5ec 15%, #2a6ae3 51%, #5961d0 85%);
 }
