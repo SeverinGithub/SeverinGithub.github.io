@@ -42,7 +42,6 @@
 
     <div class="position-absolute top-50 start-50 translate-middle">
         hello world
-    
         <button id="addAClick" onclick="addAClick()" type="button" class="btn btn-primary">add 1</button>
         <button id="totalClicks" type="button" class="btn btn-primary"><span id="clckcounter"></span></button>    
     </div>
@@ -54,12 +53,11 @@
     <script>
         if (UpUp !== null) {
             UpUp.start({
-            'cache-version': window.gameVersion,
+            'cache-version': window.appVersion,
             'content-url': 'index.html',
-            'assets': [ '../assets/css/local.css', '../scr/js/main.js' ]
+            'assets': [ '../assets/css/local.css', '../scr/js/main.js', '' ]
             });
         }
     </script>
-
 </body>
 </html>
