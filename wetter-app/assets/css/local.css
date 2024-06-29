@@ -9,12 +9,17 @@ img {
     border-radius: 4%;
 }
 
-#div {
-    height: 1000px; /* Used to enable scrolling */
+/* #div {
+    height: 1000px; 
     background: linear-gradient(55deg, #aad5ec 15%, #2a6ae3 51%, #5961d0 85%);
+} */
+
+#div {
+    background-color: #007bff;
 }
 
 body {
     overflow: hidden;
     position: fixed;    
 }
+
