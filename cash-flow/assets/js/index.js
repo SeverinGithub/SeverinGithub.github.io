@@ -51,7 +51,6 @@ function addCash(newMoney) {
     cash += newMoney
 }
 function addBank(newMoney) {
-    console.log("New Income + " + newMoney);
     bank += newMoney
 }
 
@@ -67,7 +66,7 @@ function getTotal() {
 
 function redisplay() {
     console.log("redisplay")
-    document.getElementById("mainCashStatus").innerHTML = cash;// + "&nbsp;&euro;"
+    document.getElementById("mainCashStatus").innerHTML = cash;
     document.getElementById("mainBankStatus").innerHTML = bank;
     document.getElementById("mainTotalStatus").innerHTML = getTotal();
 }
@@ -86,7 +85,10 @@ function saveBankInput() {
 }
 
 function saveCashInput() {
-    console.log("saved money input");
-    addCash(parseFloat(document.getElementById("newCashMoneyIncome").value))
+    var str = document.getElementById("newMoneyIncome").value
+    console.log("saved money input" + str);
+    var flt = parseFloat(str)
+    console.log(" float: " + flt)
+    addBank(flt)
     redisplay()
 }
