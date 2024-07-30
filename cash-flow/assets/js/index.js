@@ -44,19 +44,30 @@
 // -----------------------------------
 // MODEL
 
-var cash = 0
-var bank = 0
+
+var cash = 0;
+var bank = 0; 
+// var total = 0;
+
+function initModel() {
+    cash = 0;
+    bank = 0;
+}
 
 function addCash(newMoney) {
-    cash += newMoney
+    console.log("addCash("+newMoney+") adding to cash "+cash);
+    cash += newMoney;
+
 }
 function addBank(newMoney) {
-    bank += newMoney
+    console.log("addBank("+newMoney+") adding to bank "+bank);
+    bank += newMoney;
 }
 
 function getTotal() {
-    return cash + bank
+  return cash + bank
 }
+
 
 //addCash(200)
 
@@ -66,29 +77,54 @@ function getTotal() {
 
 function redisplay() {
     console.log("redisplay")
+    document.getElementById('newBankIncome').value = '';
+    document.getElementById('newCashIncome').value = '';
     document.getElementById("mainCashStatus").innerHTML = cash;
     document.getElementById("mainBankStatus").innerHTML = bank;
     document.getElementById("mainTotalStatus").innerHTML = getTotal();
 }
 
-
 // -----------------------------------
 // CONTROLLER
 
-function saveBankInput() {
-    var str = document.getElementById("newMoneyIncome").value
-    console.log("saved money input" + str);
-    var flt = parseFloat(str)
-    console.log(" float: " + flt)
-    addBank(flt)
+function initController() {
+    cash = parseFloat(localStorage.getItem("cash"))
+    if (isNaN(cash))
+        cash = 0
+    bank = parseFloat(localStorage.getItem("bank"))
+    if (isNaN(bank))
+        bank = 0
+    
     redisplay()
 }
 
-function saveCashInput() {
-    var str = document.getElementById("newMoneyIncome").value
-    console.log("saved money input" + str);
-    var flt = parseFloat(str)
-    console.log(" float: " + flt)
-    addBank(flt)
-    redisplay()
-}
+
+$(document).ready(function() {
+    console.log("jquery is ready");
+    initModel();
+    initController();
+
+    $("#saveBankInput").off('click').on('click', function() {
+        var str = document.getElementById("newBankIncome").value
+        console.log("saved money input" + str);
+        var flt = parseFloat(str)
+        console.log(" float: " + flt)
+        addBank(flt)
+        localStorage.setItem("bank", bank)
+        redisplay()
+    });
+
+    $("#saveCashInput").off('click').on('click', function() {
+        var str = document.getElementById("newCashIncome").value
+        console.log("saved money input" + " " + str);
+        var flt = parseFloat(str)
+        console.log(" float: " + flt)
+        addCash(flt)
+        localStorage.setItem("cash", cash)
+        redisplay()
+    }); 
+
+    $("#addMoneyButton").off('click').on('click', function() {
+        console.log("addMoneyButton Pressed")
+    });
+});
