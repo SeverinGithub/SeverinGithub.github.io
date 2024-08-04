@@ -43,6 +43,8 @@
 
     <script type="text/javascript" src="lib/js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="assets/js/index.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap-functions.js"></script>
+
 </head>
 <body data-bs-theme="dark">
     <nav class="navbar bg-danger sticky-top border-bottom border-body" data-bs-theme="dark">
@@ -180,7 +182,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" onclick="document.getElementById('newBankIncome').value = ''" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="saveBankInput" type="button" data-bs-dismiss="modal" class="btn btn-dark">Save changes</button>
+            <button id="liveToastBtnBank" type="button" data-bs-dismiss="modal" class="btn btn-dark">Save changes</button>
           </div>
         </div>
       </div>
@@ -204,15 +206,63 @@
             </div>
             <div class="modal-footer">
               <button type="button" onclick="document.getElementById('newCashIncome').value = ''" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button id="saveCashInput" type="button" data-bs-dismiss="modal" class="btn btn-dark">Save changes</button>
+              <button id="liveToastBtnCash" type="button" data-bs-dismiss="modal" class="btn btn-dark">Save changes</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-</div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToastCash" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <i class="bi bi-cash">&nbsp;</i>
+          <strong class="me-auto">Bootstrap</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Your account has been addet money 
+        </div>
+      </div>
+    </div>
+
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+      <div id="liveToastBank" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+          <i class="bi bi-cash">&nbsp;</i>
+          <strong class="me-auto">Bootstrap</strong>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+          Your account has been addet money 
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      const toastTrigger1 = document.getElementById('liveToastBtnCash')
+      const toastTrigger2 = document.getElementById('liveToastBtnBank')
+
+      const toastLiveExample1 = document.getElementById('liveToastCash')
+      const toastLiveExample2 = document.getElementById('liveToastBank')
+
+        if (toastTrigger1) {
+          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample1)
+          toastTrigger1.addEventListener('click', () => {
+          toastBootstrap.show()
+          })
+        }
+
+        if (toastTrigger2) {
+          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample2)
+          toastTrigger2.addEventListener('click', () => {
+          toastBootstrap.show()
+          })
+        }
+
+
+  </script>
 
 </body>
 </html>
