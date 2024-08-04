@@ -57,7 +57,7 @@ $(document).ready(function() {
     initModel();
     initController();
 
-    $("#saveBankInput").off('click').on('click', function() {
+    $("#liveToastBtnBank").off('click').on('click', function() {
         var str = document.getElementById("newBankIncome").value
         console.log("saved money input" + str);
         var flt = parseFloat(str)
@@ -69,7 +69,7 @@ $(document).ready(function() {
         redisplay()
     });
 
-    $("#saveCashInput").off('click').on('click', function() {
+    $("#liveToastBtnCash").off('click').on('click', function() {
         var str = document.getElementById("newCashIncome").value
         console.log("saved money input" + " " + str);
         var flt = parseFloat(str)
