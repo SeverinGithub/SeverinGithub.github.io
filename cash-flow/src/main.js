@@ -1,10 +1,8 @@
 // -----------------------------------
 // MODEL
 
-
 var cash = 0;
 var bank = 0; 
-
 
 function initModel() {
     cash = 0;
@@ -14,8 +12,8 @@ function initModel() {
 function addCash(newMoney) {
     console.log("addCash("+newMoney+") adding to cash "+cash);
     cash += newMoney;
-
 }
+
 function addBank(newMoney) {
     console.log("addBank("+newMoney+") adding to bank "+bank);
     bank += newMoney;
@@ -47,29 +45,20 @@ function initController() {
     bank = parseFloat(localStorage.getItem("bank"))
     if (isNaN(bank))
         bank = 0
-    
     redisplay()
 }
-
 
 $(document).ready(function() {
     console.log("jquery is ready");
     initModel();
     initController();
 
-    $("#liveToastBtnBank").off('click').on('click', function() {
-        var str = document.getElementById("newBankIncome").value
-        console.log("saved money input" + str);
-        var flt = parseFloat(str)
-        console.log(" float: " + flt)
-        if (isNaN(flt))
-            flt = 0;
-        addBank(flt)
-        localStorage.setItem("bank", bank)
-        redisplay()
-    });
+    {#DOCREADY#}
 
-    $("#liveToastBtnCash").off('click').on('click', function() {
+   
+
+    {#DOCREADY#:
+        $("#liveToastBtnCash").off('click').on('click', function() {
         var str = document.getElementById("newCashIncome").value
         console.log("saved money input" + " " + str);
         var flt = parseFloat(str)
@@ -80,6 +69,9 @@ $(document).ready(function() {
         localStorage.setItem("cash", cash)
         redisplay()
     }); 
+    :##}
+
+    {#DOCREADY#:
 
      $("#factoryResetBtn").off('click').on('click', function() {
          console.log("factoryResetBtn Pressed")
@@ -89,7 +81,5 @@ $(document).ready(function() {
          localStorage.setItem("bank", 0)
          redisplay()
      });
-
-
-
+     :##}
 });

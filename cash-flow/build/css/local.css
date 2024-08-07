@@ -1,0 +1,26 @@
+
+
+body {background-color: #014473;}
+
+xbody {
+  height: 100%; /* Used to enable scrolling */
+  background: linear-gradient(55deg, #590882 0%, #670565 51%, #6d21b9 85%);
+}
+
+.marginsetter {
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-top: 6%;
+  margin-bottom: 6%;
+}
+
+.slimMarginsetter {
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 6%;
+  margin-bottom: 6%;
+}
+
+#collapseClear {
+  margin: 20%;
+}
