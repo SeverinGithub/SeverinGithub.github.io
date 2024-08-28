@@ -33,6 +33,8 @@ function redisplay() {
     document.getElementById("mainCashStatus").innerHTML = cash;
     document.getElementById("mainBankStatus").innerHTML = bank;
     document.getElementById("mainTotalStatus").innerHTML = getTotal();
+
+    drawGraph();
 }
 
 // -----------------------------------
@@ -57,7 +59,6 @@ $(document).ready(function() {
 
    
 
-    {#DOCREADY#:
         $("#liveToastBtnCash").off('click').on('click', function() {
         var str = document.getElementById("newCashIncome").value
         console.log("saved money input" + " " + str);
@@ -69,9 +70,7 @@ $(document).ready(function() {
         localStorage.setItem("cash", cash)
         redisplay()
     }); 
-    :##}
 
-    {#DOCREADY#:
 
      $("#factoryResetBtn").off('click').on('click', function() {
          console.log("factoryResetBtn Pressed")
@@ -81,5 +80,4 @@ $(document).ready(function() {
          localStorage.setItem("bank", 0)
          redisplay()
      });
-     :##}
 });

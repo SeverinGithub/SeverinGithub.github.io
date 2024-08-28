@@ -27,6 +27,7 @@
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/local.css">
+    <link rel="stylesheet" href="css/graph.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <script>
         window.appVersion = '0.3.6';
@@ -34,6 +35,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
     <script type="text/javascript" src="js/app.min.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
 </head>
 <body data-bs-theme="dark">
   <nav class="navbar bg-danger sticky-top border-bottom border-body" data-bs-theme="dark">
@@ -110,7 +112,7 @@
                         <button data-bs-toggle="collapse" data-bs-target="#collapseWidthExample">close</button>
                       </div>
                       <div class="col">
-                        <button id="factoryResetBtn">yes</button>
+                        <button data-bs-dismiss="modal" id="factoryResetBtn">yes</button>
                       </div>
                     </div>
                   </div>
@@ -207,56 +209,29 @@
             </div>
           </div>
         </div>
-    <script>
-const toastTrigger1 = document.getElementById('liveToastBtnCash')
-const toastLiveExample1 = document.getElementById('liveToastCash')
-        if (toastTrigger1) {
-          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample1)
-          toastTrigger1.addEventListener('click', () => {
-          toastBootstrap.show()
-          })
-        }
-const toastTrigger2 = document.getElementById('liveToastBtnBank')
-const toastLiveExample2 = document.getElementById('liveToastBank')
-        if (toastTrigger2) {
-          const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample1)
-          toastTrigger2.addEventListener('click', () => {
-          toastBootstrap.show()
-          })
-        }
-    $("#liveToastBtnBank").off('click').on('click', function() {
-        var str = document.getElementById("newBankIncome").value
-        console.log("saved money input" + str);
-        var flt = parseFloat(str)
-        console.log(" float: " + flt)
-        if (isNaN(flt))
-            flt = 0;
-        addBank(flt)
-        localStorage.setItem("bank", bank)
-        redisplay()
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToastBank'))
-        toastBootstrap.show()
-    });
-        $("#liveToastBtnCash").off('click').on('click', function() {
-        var str = document.getElementById("newCashIncome").value
-        console.log("saved money input" + " " + str);
-        var flt = parseFloat(str)
-        console.log(" float: " + flt)
-        if (isNaN(flt))
-            flt = 0;
-        addCash(flt)
-        localStorage.setItem("cash", cash)
-        redisplay()
-    });
-     $("#factoryResetBtn").off('click').on('click', function() {
-         console.log("factoryResetBtn Pressed")
-         cash = 0;
-         localStorage.setItem("cash", 0)
-         bank = 0;
-         localStorage.setItem("bank", 0)
-         redisplay()
-     });
-    </script>
+    <div class="slimMarginsetter">
+<div id="carouselExample" class="carousel carousel-dark slide">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+            <div class="ct-chart ct-golden-section" id="chart1" style="max-height: 60%; max-width: 2800px"></div>
+    </div>
+    <div class="carousel-item">
+{/* #2 carousel innerobject */}
+    </div>
+    <div class="carousel-item">
+{/* #3 carousel innerobject */}
+    </div>
+  </div>
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+    </div>
     <!-- <script src="js/bootstrap.bundle.min.js"></script> -->
     <!-- <script src="js/index.js"></script> -->
     <!-- <script src="upup.min.js"></script>

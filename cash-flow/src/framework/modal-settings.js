@@ -22,7 +22,7 @@
                         <button data-bs-toggle="collapse" data-bs-target="#collapseWidthExample">close</button>
                       </div>
                       <div class="col">
-                        <button id="factoryResetBtn">yes</button>
+                        <button data-bs-dismiss="modal" id="factoryResetBtn">yes</button>
                       </div>
                     </div>
                   </div>
