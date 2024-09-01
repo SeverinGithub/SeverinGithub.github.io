@@ -6,16 +6,6 @@
     {#GRAPH#}
 
     </div>
-    <div class="carousel-item">
-{/*   #2 carousel innerobject   */}
-
-
-    </div>
-    <div class="carousel-item">
-{/*   #3 carousel innerobject   */}
-
-      
-    </div>
   </div>
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>

@@ -1,20 +1,3 @@
-{#DOCREADY#:
-    $("#liveToastBtnBank").off('click').on('click', function() {
-        var str = document.getElementById("newBankIncome").value
-        console.log("saved money input" + str);
-        var flt = parseFloat(str)
-        console.log(" float: " + flt)
-        if (isNaN(flt))
-            flt = 0;
-        addBank(flt)
-        localStorage.setItem("bank", bank)
-        redisplay()
-
-        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToastBank'))
-        toastBootstrap.show()
-    });
-    :##}
-
 
 {#MODAL#:
     <div class="modal fade" id="bankModal" tabindex="-1" aria-labelledby="bankModal" aria-hidden="true">
@@ -25,18 +8,21 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
+          <div class="text-center cssitem">
+          <button type="button" class="btn btn-outline-danger" disabled>JJJJ MM DD</button>
+          </div>
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash-stack"></i></span>
               <input id="newBankIncome" type="text" class="form-control" placeholder="New Income" aria-describedby="basic-addon1" />
             </div>
             <div class="input-group mb-3">
-              <span class="input-group-text" id="basic-addon1"><i class="bi bi-chat-dots"></i></span>
-              <input id="addBankMoneyComment" type="text" class="form-control" placeholder="Comment" aria-describedby="basic-addon1" />
+              <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash"></i></span>
+              <input id="setTotalBank" type="text" class="form-control" placeholder="Set Total" aria-describedby="basic-addon1" />
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" onclick="document.getElementById('newBankIncome').value = ''" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button id="liveToastBtnBank" type="button" data-bs-dismiss="modal" class="btn btn-dark">Save changes</button>
+            <button id="SaveChangesBtnBank" type="button" data-bs-dismiss="modal" class="btn btn-dark">Save changes</button>
           </div>
         </div>
       </div>

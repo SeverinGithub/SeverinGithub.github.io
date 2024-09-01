@@ -14,9 +14,19 @@ function addCash(newMoney) {
     cash += newMoney;
 }
 
+function setCash(newMoney) {
+    console.log("addCash("+newMoney+") adding to cash"+cash);
+    cash = newMoney;
+}
+
 function addBank(newMoney) {
     console.log("addBank("+newMoney+") adding to bank "+bank);
     bank += newMoney;
+}
+
+function setBank(newMoney) {
+    console.log("addBank("+newMoney+") adding to bank"+bank);
+    bank = newMoney;
 }
 
 function getTotal() {
@@ -30,6 +40,8 @@ function redisplay() {
     console.log("redisplay")
     document.getElementById('newBankIncome').value = '';
     document.getElementById('newCashIncome').value = '';
+    document.getElementById('setTotalCash').value = '';
+    document.getElementById('setTotalBank').value = '';
     document.getElementById("mainCashStatus").innerHTML = cash;
     document.getElementById("mainBankStatus").innerHTML = bank;
     document.getElementById("mainTotalStatus").innerHTML = getTotal();
@@ -57,20 +69,61 @@ $(document).ready(function() {
 
     {#DOCREADY#}
 
-   
+        $("#SaveChangesBtnCash").off('click').on('click', function() {
+            if(document.getElementById("newCashIncome").value != ""){
+                var str = document.getElementById("newCashIncome").value
+                console.log("saved money input" + " " + str);
+                var flt = parseFloat(str)
+                console.log(" float: " + flt)
+                if (isNaN(flt))
+                    flt = 0;
+                addCash(flt)
+                localStorage.setItem("cash", cash)
+            }    
+        else {
+                var str = document.getElementById("setTotalCash").value
+                console.log("saved money set to" + " " + str);
+                var flt = parseFloat(str)
+                console.log(" float: " + flt)
+                if (isNaN(flt))
+                    flt = 0;
+                setCash(flt)
+                localStorage.setItem("cash", cash)
+        }
 
-        $("#liveToastBtnCash").off('click').on('click', function() {
-        var str = document.getElementById("newCashIncome").value
-        console.log("saved money input" + " " + str);
-        var flt = parseFloat(str)
-        console.log(" float: " + flt)
-        if (isNaN(flt))
-            flt = 0;
-        addCash(flt)
-        localStorage.setItem("cash", cash)
+        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToastCash'))
+        toastBootstrap.show()
+
         redisplay()
-    }); 
+         }); 
 
+        $("#SaveChangesBtnBank").off('click').on('click', function() {
+            if(document.getElementById("newBankIncome").value != ""){
+                var str = document.getElementById("newBankIncome").value
+                console.log("saved money input" + str);
+                var flt = parseFloat(str)
+                console.log(" float: " + flt)
+                if (isNaN(flt))
+                    flt = 0;
+                addBank(flt)
+                localStorage.setItem("bank", bank)
+            }
+            else {
+                var str = document.getElementById("setTotalBank").value
+                console.log("saved bank set to" + " " + str);
+                var flt = parseFloat(str)
+                console.log(" float: " + flt)
+                if (isNaN(flt))
+                    flt = 0;
+                setBank(flt)
+                localStorage.setItem("bank", cash)
+            }
+
+            const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToastBank'))
+            toastBootstrap.show()
+            
+            redisplay()
+        });
 
      $("#factoryResetBtn").off('click').on('click', function() {
          console.log("factoryResetBtn Pressed")
