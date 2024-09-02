@@ -1,6 +1,14 @@
 // -----------------------------------
 // MODEL
 
+
+var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+
+today = dd + ' ' + mm + ' ' + yyyy;
+
 var cash = 0;
 var bank = 0; 
 
@@ -45,6 +53,8 @@ function redisplay() {
     document.getElementById("mainCashStatus").innerHTML = cash;
     document.getElementById("mainBankStatus").innerHTML = bank;
     document.getElementById("mainTotalStatus").innerHTML = getTotal();
+    document.getElementById("todaysDateBank").innerHTML = today;
+    document.getElementById("todaysDateCash").innerHTML = today;
 
     drawGraph();
 }

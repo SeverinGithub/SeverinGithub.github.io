@@ -8,7 +8,7 @@
           </div>
           <div class="modal-body">
           <div class="text-center cssitem">
-          <button type="button" class="btn btn-outline-danger" disabled>JJJJ MM DD</button>
+          <button type="button" class="btn btn-outline-danger" disabled><span id="todaysDateCash"></span></button>
           </div>
             <div class="input-group mb-3">
               <span class="input-group-text" id="basic-addon1"><i class="bi bi-cash-stack"></i></span>
