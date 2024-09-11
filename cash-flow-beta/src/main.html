@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <meta charset="UTF-8">
+    <meta name="author" content="Severin Github">
+    <meta name="description" content="Cash Flow App">
+    <meta name="viewport" content="width=device-width,height=device-height,user-scalable=no,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0">
+
+    <title>Cash Flow - A Cash counter App</title>
+
+    <meta property="og:description" content="Cash Flow App - SeverinGithub"/>
+    <meta property="og:image" content="icons/meta-image.png"/>
+    <meta property="og:site_name" content="Cash Flow"/>
+    <meta property="og:title" content="Cash Flow"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="https://SeverinGithub.github.io/"/>
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Cash Flow">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="manifest" href="icons/site.webmanifest">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#5bbad5">
+
+    <meta name="apple-mobile-web-app-title" content="Cash Flow">
+    <meta name="application-name" content="Cash Flow">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="stylesheet" href="css/local.scss">
+    <link rel="stylesheet" href="css/local.css">
+    <link rel="stylesheet" href="css/graph.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script>
+        window.appVersion = '0.4.0';
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="js/app.min.js"></script>
+    <script type="text/javascript" src="js/graph.js"></script>
+    
+
+</head>
+<body data-bs-theme="dark">
+
+    
+    <!-- {#NAVBAR#} -->
+
+    {#CARDTOTAL#}
+    {#CARDBANK#}
+    {#CARDCASH#}    
+    {#MODAL#}
+    {#TOAST#}
+    <div class="slimMarginsetter">
+    {#CAROUSELMAIN#}
+    </div>
+
+
+    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/index.js"></script>
+    <script src="upup.min.js"></script>
+    <script>
+        if (UpUp !== null) {
+            UpUp.start({
+            'cache-version': window.gameVersion,
+            'content-url': 'index.html',
+            'assets': [ 'css/local.css', 'js/app.min.js', 'css/graph.css', 'css/bootstrap.min.css', 'css/bootstrap.min.css', 'js/bootstrap.bundle.min.js', 'js/bootstrap.bundle.min.js.map', 'js/graph.js', 'icons/site.webmanifest', ]
+            });
+        }
+    </script>
+
+</body>
+</html>
