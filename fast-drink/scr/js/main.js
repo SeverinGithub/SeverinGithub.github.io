@@ -1,17 +1,29 @@
-var totalclicks = 0
 
-function addAClick() {
-        totalclicks += 1;
-        document.getElementById("totalClicks").innerHTML = totalclicks;
-        localStorage.setItem("localTotalClicks", totalclicks);
+function sendMail(subject, body) {
+    var req = new XMLHttpRequest()
+    req.open("GET", "https://monet.schwarz-online.com:8140/luis-delivery-cgi/sendmail.pl?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body))
+    req.onload = function(oEvent) {
+        if (req.responseText.startsWith("E-Mail sent")) {
+            //alert("Erfolg!"); -> toast
+            
+        }
+        else {
+            alert("Fehler!");
+        }
+    };
+
+    req.send(null)
 }
 
-window.onload = (event) => {
-    if (localStorage.getItem("localTotalClicks", NaN)){
-        totalclicks = 0;
-        localStorage.setItem("localTotalClicks", 0);
-        document.getElementById("totalClicks").innerHTML = totalclicks;
-    }
-    totalclicks = parseInt(localStorage.getItem("localTotalClicks", totalclicks));
-    document.getElementById("totalClicks").innerHTML = totalclicks;
-};
+var subject = " ";
+var body = " ";
+
+$(document).ready(function() {
+    sendMail("my subject", "my body")
+})
+
+$("#").off('click').on('click', function() {
+
+});
+
+
