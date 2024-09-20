@@ -41,6 +41,8 @@ function getTotal() {
   return cash + bank
 }
 
+const listofallusernames = ["Severin", "User2", "User3", "User4", "User5"];
+
 // -----------------------------------
 // VIEW
 
@@ -57,6 +59,19 @@ function redisplay() {
     document.getElementById("todaysDateCash").innerHTML = today;
 
     drawGraph();
+
+    var accountlogin = false;
+    var loginaccount = "Severin Schwarz";
+
+    document.getElementById("exUsername").disabled = accountlogin;
+    document.getElementById("newUsername").disabled = accountlogin;
+    document.getElementById("createThenewUsernameBTN").disabled = accountlogin;
+    
+    if(accountlogin == true){
+        document.getElementById("exUsername").value = 'Logdin with: ' + loginaccount;
+        document.getElementById("newUsername").value = 'Logdin with: ' + loginaccount;
+    }
+
 }
 
 // -----------------------------------
@@ -143,4 +158,11 @@ $(document).ready(function() {
          localStorage.setItem("bank", 0)
          redisplay()
      });
+
+     $("#loginAUsernameBTN").off('click').on('click', function() {
+        if(document.getElementById("exUsername") == listofallusernames)
+            var accountlogin = false;
+        redisplay()
+    });
 });
+
