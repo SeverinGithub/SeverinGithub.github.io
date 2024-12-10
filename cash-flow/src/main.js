@@ -72,8 +72,6 @@ function redisplay() {
         document.getElementById("newUsername").value = 'Logdin with: ' + loginaccount;
     }
 
-}
-
 // -----------------------------------
 // CONTROLLER
 

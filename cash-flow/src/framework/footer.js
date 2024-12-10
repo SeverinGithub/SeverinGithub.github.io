@@ -1,5 +1,5 @@
 {#FOOTER#:
-    <footer class="shadow-lg p-3 mb-5 bg-body rounded bg-body-tertiary nav">
+    <footer class="shadow-lg p-3 mb-5 bg-body marginsetter rounded bg-body-tertiary nav">
         <div class="container text-center">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                 <div class="col">

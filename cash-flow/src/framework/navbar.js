@@ -2,9 +2,17 @@
   <nav class="navbar bg-danger sticky-top border-bottom border-body" data-bs-theme="dark">
        <div class="container-fluid">
             <a class="navbar-brand" style="color: #ffffff;">CashFlow Pro</a>
-            <a></a>
-            <span class="navbar-text">
 
+
+  <div class="g-col-4">Home</div>
+  <a class="vr d-lg-flex"></a>
+  <div class="g-col-4">List</div>
+  <a class="vr"></a>
+  <div class="g-col-4">Graphic</div>
+
+
+
+            <span class="navbar-text">
 
 
             <button type="button" class="btn btn-danger btn-lg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">

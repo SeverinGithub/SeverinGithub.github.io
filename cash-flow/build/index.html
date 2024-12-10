@@ -41,7 +41,11 @@
   <nav class="navbar bg-danger sticky-top border-bottom border-body" data-bs-theme="dark">
        <div class="container-fluid">
             <a class="navbar-brand" style="color: #ffffff;">CashFlow Pro</a>
-            <a></a>
+  <div class="g-col-4">Home</div>
+  <a class="vr d-lg-flex"></a>
+  <div class="g-col-4">List</div>
+  <a class="vr"></a>
+  <div class="g-col-4">Graphic</div>
             <span class="navbar-text">
             <button type="button" class="btn btn-danger btn-lg"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
               <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -63,16 +67,6 @@
             </span>
         </div>
     </nav>
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <h3 class="nav-link active" aria-controls="ex1-tabs-1" aria-current="page" href="#">Home</h3>
-        </li>
-        <li class="nav-item">
-          <h3 class="nav-link active" aria-current="page" href="#">List</h3>
-        </li>
-    </ul>
-          <div class="tab-content">
-            <div class="tab-pane fade show active" id="ex1-tabs-1" role="tabpanel">
   <div class="slimMarginsetter card text-center text-bg-danger">
     <div class="card-header">
       <h2 id="mainTotalStatus">0</h2>
@@ -104,7 +98,24 @@
         </div>
     </div>
   </div>
-            </div>
+  <ul class="list-group marginsetter list-group-flush">
+  <li id="listOb1" class="list-group-item"></li>
+  <li id="listOb2" class="list-group-item"></li>
+  <li id="listOb3" class="list-group-item"></li>
+  </ul>
+<script>
+let text = '{"listorders":[' +
+'{"date":"02.12.2024","ordervalue":"120€" },' +
+'{"date":"11.03.2025","ordervalue":"220€" },' +
+'{"date":"12.03.2025","ordervalue":"-340€" }]}';
+const obj = JSON.parse(text);
+document.getElementById("listOb1").innerHTML =
+obj.listorders[0].date + " / " + obj.listorders[0].ordervalue;
+document.getElementById("listOb2").innerHTML =
+obj.listorders[1].date + " / " + obj.listorders[1].ordervalue;
+document.getElementById("listOb3").innerHTML =
+obj.listorders[2].date + " / " + obj.listorders[2].ordervalue;
+</script>
   <div class="modal fade" id="settingsModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -249,7 +260,7 @@
             </div>
           </div>
         </div>
-    <footer class="shadow-lg p-3 mb-5 bg-body rounded bg-body-tertiary nav">
+    <footer class="shadow-lg p-3 mb-5 bg-body marginsetter rounded bg-body-tertiary nav">
         <div class="container text-center">
             <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
                 <div class="col">
