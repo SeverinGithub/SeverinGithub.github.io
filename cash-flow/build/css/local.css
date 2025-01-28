@@ -41,3 +41,38 @@ xbody {
   height: 1em;
   
 }
+
+.rigtmargin {
+  margin-right: 15%;
+}
+
+.negativ {
+  color: red;
+}
+
+/*     
+.tab {
+  display: none;
+}
+.tab-header {
+  display: flex;
+  background-color: #f1f1f1;
+  padding: 10px;
+  justify-content: space-around;
+}
+.tab-header div {
+  cursor: pointer;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #e0e0e0;
+}
+.tab-header div.active {
+  background-color: #d0d0d0;
+}
+.tab-content {
+  padding: 20px;
+  border-top: 1px solid #ccc;
+}
+*/
+
