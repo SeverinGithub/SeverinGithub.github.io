@@ -50,6 +50,7 @@
             max-width: 500px;
             margin: 0 auto;
             transition: background-color 0.3s ease;
+            padding-bottom: 80px;  /* Ensure content isn't hidden behind navbar */
         }
 
         .header {
@@ -123,6 +124,7 @@
             font-weight: 600;
             color: var(--text-color);
             margin-bottom: 15px;
+            line-height: 1;
         }
 
         .button-group {
@@ -379,6 +381,102 @@
             grid-template-columns: 1fr;
             gap: 10px;
         }
+
+        /* Remove market indicator styles */
+        .market-indicator,
+        .value-container {
+            display: none;
+        }
+
+        /* Add new styles */
+        .history-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--card-bg);
+            border-radius: 20px 20px 0 0;
+            margin: 0;
+            padding: 15px;
+            box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.05);
+            z-index: 100;
+        }
+
+        .history-button {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 15px;
+            background: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .history-button svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-color);
+        }
+
+        .history-modal {
+            max-height: 70vh;
+            overflow-y: auto;
+        }
+
+        .transaction-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .transaction-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--subtract-btn-bg);
+        }
+
+        .transaction-amount {
+            font-weight: 600;
+        }
+
+        .transaction-amount.positive {
+            color: #22c55e;
+        }
+
+        .transaction-amount.negative {
+            color: #ef4444;
+        }
+
+        .transaction-date {
+            color: var(--secondary-text);
+            font-size: 14px;
+        }
+
+        /* Add styles for comments */
+        .transaction-comment {
+            color: var(--secondary-text);
+            font-size: 14px;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        /* Update modal input styles */
+        .modal-input-group {
+            margin-bottom: 15px;
+        }
+
+        .modal-input-group input {
+            margin-bottom: 10px;
+        }
+
+        /* Make history modal start above the navbar */
+        .modal.history-modal {
+            margin-bottom: 80px;
+        }
     </style>
 </head>
 <body>
@@ -427,13 +525,24 @@
         </div>
     </div>
 
+    <div class="history-container">
+        <button class="history-button" onclick="showHistory()">
+            <svg viewBox="0 0 24 24">
+                <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+            </svg>
+        </button>
+    </div>
+
     <div class="modal-overlay" id="amountModal">
         <div class="modal">
             <div class="modal-title" id="modalTitle">Enter Amount</div>
-            <input type="number" id="amountInput" step="0.01" placeholder="0.00">
+            <div class="modal-input-group">
+                <input type="number" id="amountInput" step="0.01" placeholder="Enter amount">
+                <input type="text" id="commentInput" placeholder="Add a comment (optional)">
+            </div>
             <div class="modal-buttons">
-                <button class="modal-btn cancel-btn" onclick="closeModal()">Cancel</button>
                 <button class="modal-btn confirm-btn" onclick="confirmAmount()">Confirm</button>
+                <button class="modal-btn cancel-btn" onclick="closeModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -460,12 +569,26 @@
         </div>
     </div>
 
+    <!-- Add new modal for history -->
+    <div class="modal-overlay" id="historyModal">
+        <div class="modal history-modal">
+            <div class="modal-title">Transaction History</div>
+            <ul class="transaction-list" id="transactionList">
+                <!-- Transactions will be inserted here -->
+            </ul>
+            <div class="modal-buttons">
+                <button class="modal-btn cancel-btn" onclick="closeHistory()">Close</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let bankBalance = parseFloat(localStorage.getItem('bankBalance')) || 0;
         let cashBalance = parseFloat(localStorage.getItem('cashBalance')) || 0;
         let otherBalance = parseFloat(localStorage.getItem('otherBalance')) || 0;
         let currentAction = null;
         let currentType = null;
+        let transactionHistory = JSON.parse(localStorage.getItem('transactionHistory')) || [];
 
         function updateDisplay() {
             document.getElementById('bankAmount').textContent = `$${bankBalance.toFixed(2)}`;
@@ -492,10 +615,13 @@
             document.getElementById('amountModal').style.display = 'none';
             currentAction = null;
             currentType = null;
+            document.getElementById('amountInput').value = '';
+            document.getElementById('commentInput').value = '';
         }
 
         function confirmAmount() {
             const amount = parseFloat(document.getElementById('amountInput').value || 0);
+            const comment = document.getElementById('commentInput').value.trim();
             if (isNaN(amount)) return;
 
             if (currentType === 'bank' || currentType === 'cash') {
@@ -506,12 +632,24 @@
                     if (currentType === 'bank') bankBalance -= amount;
                     else cashBalance -= amount;
                 } else if (currentAction === 'set') {
+                    const oldValue = currentType === 'bank' ? bankBalance : cashBalance;
                     if (currentType === 'bank') bankBalance = amount;
                     else cashBalance = amount;
+                    // Add special comment for set action
+                    addTransaction(currentType, 'set', amount, 
+                        comment || `Value set from $${oldValue.toFixed(2)} to $${amount.toFixed(2)}`);
+                    updateDisplay();
+                    closeModal();
+                    return;
+                }
+                // Record transaction if it's not a 'set' action
+                if (currentAction !== 'set') {
+                    addTransaction(currentType, currentAction, amount, comment);
                 }
             } else if (currentType === 'other') {
                 if (currentAction === 'add') otherBalance += amount;
                 else otherBalance -= amount;
+                addTransaction('shares', currentAction, amount, comment);
             }
 
             updateDisplay();
@@ -576,6 +714,48 @@
             document.getElementById('amountModal').style.display = 'flex';
             document.getElementById('amountInput').value = '';
             document.getElementById('amountInput').focus();
+        }
+
+        function addTransaction(type, action, amount, comment) {
+            const transaction = {
+                type: type,
+                action: action,
+                amount: amount,
+                comment: comment || '',
+                date: new Date().toLocaleString()
+            };
+            transactionHistory.unshift(transaction);
+            localStorage.setItem('transactionHistory', JSON.stringify(transactionHistory));
+        }
+
+        function showHistory() {
+            const list = document.getElementById('transactionList');
+            list.innerHTML = '';
+            
+            transactionHistory.forEach(transaction => {
+                const item = document.createElement('li');
+                item.className = 'transaction-item';
+                const isPositive = transaction.action === 'add';
+                
+                item.innerHTML = `
+                    <div>
+                        <div>${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</div>
+                        <div class="transaction-date">${transaction.date}</div>
+                        ${transaction.comment ? `<div class="transaction-comment">${transaction.comment}</div>` : ''}
+                    </div>
+                    <div class="transaction-amount ${isPositive ? 'positive' : 'negative'}">
+                        ${isPositive ? '+' : '-'}$${Math.abs(transaction.amount).toFixed(2)}
+                    </div>
+                `;
+                
+                list.appendChild(item);
+            });
+            
+            document.getElementById('historyModal').style.display = 'flex';
+        }
+
+        function closeHistory() {
+            document.getElementById('historyModal').style.display = 'none';
         }
     </script>
 </body>
