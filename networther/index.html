@@ -129,6 +129,14 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .set-btn {
+            background-color: var(--subtract-btn-bg);
+            color: var(--text-color);
+            width: 100%;
+            grid-column: 1 / -1;
         }
 
         button {
@@ -395,6 +403,7 @@
             <div class="button-group">
                 <button class="add-btn" onclick="addAmount('bank')">Add</button>
                 <button class="subtract-btn" onclick="subtractAmount('bank')">Subtract</button>
+                <button class="set-btn" onclick="setValue('bank')">Set Value</button>
             </div>
         </div>
 
@@ -404,6 +413,7 @@
             <div class="button-group">
                 <button class="add-btn" onclick="addAmount('cash')">Add</button>
                 <button class="subtract-btn" onclick="subtractAmount('cash')">Subtract</button>
+                <button class="set-btn" onclick="setValue('cash')">Set Value</button>
             </div>
         </div>
     </div>
@@ -492,9 +502,12 @@
                 if (currentAction === 'add') {
                     if (currentType === 'bank') bankBalance += amount;
                     else cashBalance += amount;
-                } else {
+                } else if (currentAction === 'subtract') {
                     if (currentType === 'bank') bankBalance -= amount;
                     else cashBalance -= amount;
+                } else if (currentAction === 'set') {
+                    if (currentType === 'bank') bankBalance = amount;
+                    else cashBalance = amount;
                 }
             } else if (currentType === 'other') {
                 if (currentAction === 'add') otherBalance += amount;
@@ -553,6 +566,16 @@
                 updateDisplay();
                 closeSettings();
             }
+        }
+
+        function setValue(type) {
+            currentType = type;
+            currentAction = 'set';
+            const modalTitle = document.getElementById('modalTitle');
+            modalTitle.textContent = `Set ${type} value`;
+            document.getElementById('amountModal').style.display = 'flex';
+            document.getElementById('amountInput').value = '';
+            document.getElementById('amountInput').focus();
         }
     </script>
 </body>
