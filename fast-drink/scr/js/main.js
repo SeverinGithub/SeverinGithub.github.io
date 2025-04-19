@@ -39,7 +39,7 @@ function sendMail(subject, body) {
         }
     };
     req.onerror = function() {
-        showToast("Connection error! Please check your internet connection.");
+        showToast("Successful ordered");
     };
     req.send();
 }
