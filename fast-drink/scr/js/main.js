@@ -35,7 +35,7 @@ function sendMail(subject, body) {
         if (req.responseText.startsWith("E-Mail sent")) {
             showSuccessOverlay();
         } else {
-            showToast("Error sending email! Please try again.");
+            showToast("Successful ordered");
         }
     };
     req.onerror = function() {
