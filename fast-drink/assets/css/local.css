@@ -15,3 +15,11 @@ p{
   color: grey;
 }
 
+input:not(:placeholder-shown) {
+  background-color:  #000000!important;
+}
+
+
+input:placeholder-shown {
+  background-color:  #cc3b3b!important;
+}
