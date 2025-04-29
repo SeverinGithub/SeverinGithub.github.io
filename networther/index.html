@@ -27,6 +27,10 @@
             --card-bg: white;
             --secondary-text: #666;
             --subtract-btn-bg: #f0f0f0;
+            --primary-main: #4e6fff;
+            --primary-grad: #4287ff;
+            --add-btn-bg: var(--primary-main);
+            --primary-shadow: 78, 111, 255; /* Default blue shadow as rgb */
         }
 
         [data-theme="dark"] {
@@ -60,7 +64,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: linear-gradient(135deg, #4e6fff 0%, #4287ff 100%);
+            background: linear-gradient(135deg, var(--primary-main) 0%, var(--primary-grad) 100%);
             border-radius: 0;
             box-shadow: none;
             margin: 0 0 30px 0;
@@ -79,11 +83,11 @@
         }
 
         .networth-container {
-            background: linear-gradient(135deg, #4e6fff 0%, #4287ff 100%);
+            background: linear-gradient(135deg, var(--primary-main) 0%, var(--primary-grad) 100%);
             border-radius: 25px;
             padding: 20px;
             text-align: left;
-            box-shadow: 0 10px 20px rgba(78, 111, 255, 0.2);
+            box-shadow: 0 10px 20px rgba(var(--primary-shadow), 0.2);
             margin: 15px;
             color: white;
         }
@@ -151,7 +155,7 @@
         }
 
         .add-btn {
-            background-color: #4e6fff;
+            background-color: var(--add-btn-bg);
             color: white;
         }
 
@@ -358,9 +362,13 @@
 
         /* Remove graph-related styles */
         .graph-container,
-        .graph-title,
-        canvas {
+        .graph-title {
             display: none;
+        }
+
+        canvas {
+            display: block;
+            background: transparent !important;
         }
 
         /* Add this to your existing styles */
@@ -477,7 +485,147 @@
         .modal.history-modal {
             margin-bottom: 80px;
         }
+
+        .modal-close-x {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+            color: #888;
+            transition: color 0.2s;
+        }
+        .modal-close-x:hover {
+            color: #ff4444;
+        }
+
+        /* Bar chart styles */
+        .chart-container {
+            margin: 20px 15px;
+            background-color: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px 10px 30px 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            height: 380px;
+            position: relative;
+        }
+        
+        .bar-chart {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            height: 240px;
+            width: 100%;
+            padding-top: 20px;
+        }
+        
+        .bar {
+            width: 30px;
+            background: linear-gradient(0deg, var(--primary-main) 0%, var(--primary-grad) 100%);
+            margin: 0 2px;
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .bar-thin {
+            width: 12px;
+            margin: 0 8px;
+        }
+        
+        .bar-label {
+            position: absolute;
+            bottom: -25px;
+            text-align: center;
+            font-size: 12px;
+            color: var(--secondary-text);
+            width: 100%;
+            transform: rotate(-45deg);
+            transform-origin: left top;
+            white-space: nowrap;
+        }
+        
+        /* Different colors for different spending types */
+        .bar-work { background: linear-gradient(0deg, #4e6fff 0%, #4287ff 100%); }
+        .bar-shares { background: linear-gradient(0deg, #22c55e 0%, #16a34a 100%); }
+        .bar-gaming { background: linear-gradient(0deg, #ef4444 0%, #b91c1c 100%); }
+        .bar-freetime { background: linear-gradient(0deg, #a21caf 0%, #7c3aed 100%); }
+        .bar-donations { background: linear-gradient(0deg, #f59e42 0%, #f97316 100%); }
+        .bar-other { background: linear-gradient(0deg, #444 0%, #222 100%); }
+        
+        /* Dashboard button at the bottom */
+        .dashboard-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-main);
+            color: white;
+            padding: 12px 24px;
+            font-weight: 500;
+            font-size: 16px;
+            border-radius: 20px;
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+        
+        /* Hide history container */
+        .history-container {
+            display: none;
+        }
+
+        .chart-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .chart-tab {
+            padding: 5px 15px;
+            background: none;
+            border: 1px solid var(--primary-main);
+            border-radius: 15px;
+            color: var(--primary-main);
+            font-size: 12px;
+        }
+
+        .chart-tab.active {
+            background-color: var(--primary-main);
+            color: white;
+        }
+
+        .chart-title {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .chart-badge {
+            display: inline-block;
+            padding: 2px 10px;
+            background-color: #e0e7ff;
+            color: var(--primary-main);
+            border-radius: 12px;
+            font-size: 12px;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .bar-chart {
+            height: 220px;
+            width: 100%;
+        }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <div class="header">
@@ -525,6 +673,21 @@
         </div>
     </div>
 
+    <div id="chartsContainer" class="chart-container">
+        <h3 style="margin-bottom: 15px; color: var(--text-color);">Financial Analysis</h3>
+        <div class="chart-tabs">
+            <button class="chart-tab active">Month</button>
+            <button class="chart-tab">Year</button>
+        </div>
+        <div class="chart-title">Analytics</div>
+        <div class="chart-badge">All Data</div>
+        <div class="bar-chart" id="barChart">
+            <!-- Chart will be placed here -->
+        </div>
+    </div>
+
+    <button class="dashboard-btn" onclick="showDashboard()">Dashboard</button>
+
     <div class="history-container">
         <button class="history-button" onclick="showHistory()">
             <svg viewBox="0 0 24 24">
@@ -539,9 +702,10 @@
             <div class="modal-input-group">
                 <input type="number" id="amountInput" step="0.01" placeholder="Enter amount">
                 <input type="text" id="commentInput" placeholder="Add a comment (optional)">
+                <select id="topicSelect"></select>
             </div>
             <div class="modal-buttons">
-                <button class="modal-btn confirm-btn" onclick="confirmAmount()">Confirm</button>
+                <button class="modal-btn confirm-btn" onclick="document.getElementById('amountModal').style.display = 'none'; saveTransaction();">Confirm</button>
                 <button class="modal-btn cancel-btn" onclick="closeModal()">Cancel</button>
             </div>
         </div>
@@ -562,6 +726,34 @@
                 </div>
             </div>
 
+            <!-- NEW: Theme Color Dropdown -->
+            <div class="settings-section">
+                <div class="theme-switch">
+                    <span>Theme Color</span>
+                    <select id="themeColorSelect" onchange="changeThemeColor()">
+                        <option value="blue">Blue</option>
+                        <option value="green">Green</option>
+                        <option value="red">Red</option>
+                        <option value="purple">Purple</option>
+                        <option value="orange">Orange</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <div class="theme-switch">
+                    <span>Currency</span>
+                    <select id="currencySelect" onchange="changeCurrency()">
+                        <option value="USD">$ (USD)</option>
+                        <option value="EUR">€ (EUR)</option>
+                        <option value="GBP">£ (GBP)</option>
+                        <option value="CHF">CHF (Swiss Franc)</option>
+                        <option value="JPY">¥ (JPY)</option>
+                        <option value="CNY">¥ (CNY)</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="modal-buttons">
                 <button class="modal-btn danger-btn" onclick="resetAllValues()">Reset All Values</button>
                 <button class="modal-btn cancel-btn" onclick="closeSettings()">Close</button>
@@ -571,14 +763,14 @@
 
     <!-- Add new modal for history -->
     <div class="modal-overlay" id="historyModal">
-        <div class="modal history-modal">
+        <div class="modal history-modal" style="position:relative;">
             <div class="modal-title">Transaction History</div>
+            <!-- X close button in upper right -->
+            <div style="position:absolute; right:10px; top:10px; cursor:pointer; font-size:20px;" 
+                 onclick="document.getElementById('historyModal').style.display = 'none';">✕</div>
             <ul class="transaction-list" id="transactionList">
                 <!-- Transactions will be inserted here -->
             </ul>
-            <div class="modal-buttons">
-                <button class="modal-btn cancel-btn" onclick="closeHistory()">Close</button>
-            </div>
         </div>
     </div>
 
@@ -589,12 +781,20 @@
         let currentAction = null;
         let currentType = null;
         let transactionHistory = JSON.parse(localStorage.getItem('transactionHistory')) || [];
+        
+        // Store chart instances globally
+        let incomeChart = null;
+        let spendChart = null;
+
+        const incomeTopics = ['Work', 'Shares', 'Gift', 'Other'];
+        const spendTopics = ['Work', 'Shares', 'Gaming', 'FreeTime', 'Donations', 'Other'];
 
         function updateDisplay() {
-            document.getElementById('bankAmount').textContent = `$${bankBalance.toFixed(2)}`;
-            document.getElementById('cashAmount').textContent = `$${cashBalance.toFixed(2)}`;
-            document.getElementById('otherAmount').textContent = `$${otherBalance.toFixed(2)}`;
-            document.getElementById('totalNetworth').textContent = `$${(bankBalance + cashBalance).toFixed(2)}`;
+            const symbol = getCurrencySymbol();
+            document.getElementById('bankAmount').textContent = `${symbol}${bankBalance.toFixed(2)}`;
+            document.getElementById('cashAmount').textContent = `${symbol}${cashBalance.toFixed(2)}`;
+            document.getElementById('otherAmount').textContent = `${symbol}${otherBalance.toFixed(2)}`;
+            document.getElementById('totalNetworth').textContent = `${symbol}${(bankBalance + cashBalance + otherBalance).toFixed(2)}`;
             
             localStorage.setItem('bankBalance', bankBalance);
             localStorage.setItem('cashBalance', cashBalance);
@@ -604,11 +804,51 @@
         function showModal(type, action) {
             currentType = type;
             currentAction = action;
-            const modalTitle = document.getElementById('modalTitle');
-            modalTitle.textContent = `Enter amount to ${action}`;
+            document.getElementById('modalTitle').textContent = `Enter amount to ${action}`;
             document.getElementById('amountModal').style.display = 'flex';
             document.getElementById('amountInput').value = '';
+            document.getElementById('commentInput').value = '';
             document.getElementById('amountInput').focus();
+
+            // Populate topic dropdown - FIXED
+            const topicSelect = document.getElementById('topicSelect');
+            topicSelect.innerHTML = '';
+            if (action === 'set') {
+                const allTopics = [...new Set([...incomeTopics, ...spendTopics])];
+                // Add default option
+                const defaultOpt = document.createElement('option');
+                defaultOpt.value = '';
+                defaultOpt.textContent = '(no topic)';
+                defaultOpt.selected = true;
+                topicSelect.appendChild(defaultOpt);
+                
+                // Add all topics
+                allTopics.forEach(topic => {
+                    const opt = document.createElement('option');
+                    opt.value = topic;
+                    opt.textContent = topic;
+                    topicSelect.appendChild(opt);
+                });
+            } else {
+                const topics = (action === 'add') ? incomeTopics : spendTopics;
+                
+                // Always add a default selected option
+                if (topics.length > 0) {
+                    const defaultOpt = document.createElement('option');
+                    defaultOpt.value = topics[0];
+                    defaultOpt.textContent = topics[0];
+                    defaultOpt.selected = true;
+                    topicSelect.appendChild(defaultOpt);
+                    
+                    // Add the rest of the topics
+                    topics.slice(1).forEach(topic => {
+                        const opt = document.createElement('option');
+                        opt.value = topic;
+                        opt.textContent = topic;
+                        topicSelect.appendChild(opt);
+                    });
+                }
+            }
         }
 
         function closeModal() {
@@ -617,43 +857,41 @@
             currentType = null;
             document.getElementById('amountInput').value = '';
             document.getElementById('commentInput').value = '';
+            document.getElementById('topicSelect').innerHTML = '';
         }
 
-        function confirmAmount() {
+        function saveTransaction() {
             const amount = parseFloat(document.getElementById('amountInput').value || 0);
             const comment = document.getElementById('commentInput').value.trim();
-            if (isNaN(amount)) return;
+            const topic = document.getElementById('topicSelect').value;
 
-            if (currentType === 'bank' || currentType === 'cash') {
-                if (currentAction === 'add') {
-                    if (currentType === 'bank') bankBalance += amount;
-                    else cashBalance += amount;
-                } else if (currentAction === 'subtract') {
-                    if (currentType === 'bank') bankBalance -= amount;
-                    else cashBalance -= amount;
-                } else if (currentAction === 'set') {
-                    const oldValue = currentType === 'bank' ? bankBalance : cashBalance;
-                    if (currentType === 'bank') bankBalance = amount;
-                    else cashBalance = amount;
-                    // Add special comment for set action
-                    addTransaction(currentType, 'set', amount, 
-                        comment || `Value set from $${oldValue.toFixed(2)} to $${amount.toFixed(2)}`);
-                    updateDisplay();
-                    closeModal();
-                    return;
-                }
-                // Record transaction if it's not a 'set' action
-                if (currentAction !== 'set') {
-                    addTransaction(currentType, currentAction, amount, comment);
-                }
-            } else if (currentType === 'other') {
-                if (currentAction === 'add') otherBalance += amount;
-                else otherBalance -= amount;
-                addTransaction('shares', currentAction, amount, comment);
+            if (isNaN(amount) || amount <= 0) {
+                alert('Please enter a valid amount greater than zero.');
+                return;
             }
 
+            // Transaction logic - FIXED
+            if (currentAction === 'set') {
+                // For set action, directly set the value
+                if (currentType === 'bank') bankBalance = amount;
+                if (currentType === 'cash') cashBalance = amount;
+                if (currentType === 'other') otherBalance = amount;
+            } else {
+                // For add/subtract, adjust the value
+                if (currentType === 'bank') bankBalance += (currentAction === 'add' ? amount : -amount);
+                if (currentType === 'cash') cashBalance += (currentAction === 'add' ? amount : -amount);
+                if (currentType === 'other') otherBalance += (currentAction === 'add' ? amount : -amount);
+            }
+
+            // Add transaction to history - only for add/subtract, not for set
+            if (currentAction !== 'set') {
+                addTransaction(currentType, currentAction, amount, comment, topic);
+            }
+            
+            // Update UI
             updateDisplay();
-            closeModal();
+            generateNetWorthGraph(); // Update the chart
+            closeModal(); // Close the modal after saving
         }
 
         function addAmount(type) {
@@ -680,15 +918,33 @@
             const isDark = document.body.getAttribute('data-theme') === 'dark';
             document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             localStorage.setItem('theme', isDark ? 'light' : 'dark');
+            // Re-render charts when theme changes
+            renderCharts();
         }
 
-        // Initialize theme from localStorage
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        document.body.setAttribute('data-theme', savedTheme);
-        document.getElementById('themeToggle').checked = savedTheme === 'dark';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme from localStorage
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggle').checked = savedTheme === 'dark';
 
-        // Initialize the display
-        updateDisplay();
+            // Initialize theme color from localStorage
+            let savedColor = localStorage.getItem('themeColor') || 'blue';
+            if (savedColor === 'black') {
+                savedColor = 'blue';
+                localStorage.setItem('themeColor', 'blue');
+            }
+            document.getElementById('themeColorSelect').value = savedColor;
+            applyThemeColor(savedColor);
+
+            // Initialize currency from localStorage
+            const savedCurrency = localStorage.getItem('currency') || 'USD';
+            document.getElementById('currencySelect').value = savedCurrency;
+
+            // Initialize the display
+            updateDisplay();
+            generateNetWorthGraph();
+        });
 
         function resetAllValues() {
             if (confirm('Are you sure you want to reset all values to 0? This cannot be undone.')) {
@@ -700,6 +956,10 @@
                 localStorage.setItem('bankBalance', 0);
                 localStorage.setItem('cashBalance', 0);
                 localStorage.setItem('otherBalance', 0);
+                
+                // Clear transaction history for the graph
+                transactionHistory = [];
+                localStorage.removeItem('transactionHistory');
                 
                 updateDisplay();
                 closeSettings();
@@ -714,14 +974,23 @@
             document.getElementById('amountModal').style.display = 'flex';
             document.getElementById('amountInput').value = '';
             document.getElementById('amountInput').focus();
+            
+            // Clear the topic selector for set operations
+            const topicSelect = document.getElementById('topicSelect');
+            topicSelect.innerHTML = '';
+            const opt = document.createElement('option');
+            opt.value = '';
+            opt.textContent = '(no topic)';
+            topicSelect.appendChild(opt);
         }
 
-        function addTransaction(type, action, amount, comment) {
+        function addTransaction(type, action, amount, comment, topic) {
             const transaction = {
                 type: type,
                 action: action,
                 amount: amount,
                 comment: comment || '',
+                topic: topic || '',
                 date: new Date().toLocaleString()
             };
             transactionHistory.unshift(transaction);
@@ -737,6 +1006,7 @@
                 item.className = 'transaction-item';
                 const isPositive = transaction.action === 'add';
                 
+                const symbol = getCurrencySymbol();
                 item.innerHTML = `
                     <div>
                         <div>${transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1)}</div>
@@ -744,7 +1014,7 @@
                         ${transaction.comment ? `<div class="transaction-comment">${transaction.comment}</div>` : ''}
                     </div>
                     <div class="transaction-amount ${isPositive ? 'positive' : 'negative'}">
-                        ${isPositive ? '+' : '-'}$${Math.abs(transaction.amount).toFixed(2)}
+                        ${isPositive ? '+' : '-'}${symbol}${Math.abs(transaction.amount).toFixed(2)}
                     </div>
                 `;
                 
@@ -756,6 +1026,456 @@
 
         function closeHistory() {
             document.getElementById('historyModal').style.display = 'none';
+        }
+
+        // Theme color map
+        const themeColors = {
+            blue:   { main: '#4e6fff', grad: '#4287ff', shadow: '78, 111, 255' },
+            green:  { main: '#22c55e', grad: '#16a34a', shadow: '34, 197, 94' },
+            red:    { main: '#ef4444', grad: '#b91c1c', shadow: '239, 68, 68' },
+            purple: { main: '#a21caf', grad: '#7c3aed', shadow: '162, 28, 175' },
+            orange: { main: '#f59e42', grad: '#f97316', shadow: '245, 158, 66' }
+        };
+
+        function applyThemeColor(color) {
+            const colors = themeColors[color] || themeColors.blue;
+            document.documentElement.style.setProperty('--primary-main', colors.main);
+            document.documentElement.style.setProperty('--primary-grad', colors.grad);
+            document.documentElement.style.setProperty('--add-btn-bg', colors.main);
+            document.documentElement.style.setProperty('--primary-shadow', colors.shadow);
+            generateNetWorthGraph();
+        }
+
+        function changeThemeColor() {
+            const color = document.getElementById('themeColorSelect').value;
+            localStorage.setItem('themeColor', color);
+            applyThemeColor(color);
+            generateNetWorthGraph();
+        }
+
+        // Currency symbol map
+        const currencySymbols = {
+            USD: '$',
+            EUR: '€',
+            GBP: '£',
+            CHF: 'CHF',
+            JPY: '¥',
+            CNY: '¥'
+        };
+
+        function changeCurrency() {
+            const currency = document.getElementById('currencySelect').value;
+            localStorage.setItem('currency', currency);
+            updateDisplay();
+        }
+
+        // Update display to use selected currency
+        function getCurrencySymbol() {
+            const currency = localStorage.getItem('currency') || 'USD';
+            return currencySymbols[currency] || '$';
+        }
+
+        // FIXED - Now uses real transaction data
+        function generateNetWorthGraph() {
+            // Get the container and clear it
+            const chartContainer = document.getElementById('barChart');
+            chartContainer.innerHTML = '';
+            
+            // Create a container div with proper padding for the chart
+            const chartWrapper = document.createElement('div');
+            chartWrapper.style.width = '100%';
+            chartWrapper.style.height = '100%';
+            chartWrapper.style.padding = '10px 0 25px 0';
+            chartContainer.appendChild(chartWrapper);
+            
+            // Create canvas with proper size
+            const canvas = document.createElement('canvas');
+            canvas.id = 'netWorthChart';
+            chartWrapper.appendChild(canvas);
+            
+            // Set up tab functionality
+            const monthTab = document.querySelector('.chart-tab:nth-child(1)');
+            const yearTab = document.querySelector('.chart-tab:nth-child(2)');
+            
+            monthTab.onclick = function() {
+                monthTab.classList.add('active');
+                yearTab.classList.remove('active');
+                drawChart('month');
+            };
+            
+            yearTab.onclick = function() {
+                yearTab.classList.add('active');
+                monthTab.classList.remove('active');
+                drawChart('year');
+            };
+            
+            // Create chart with specific data based on timeframe
+            function drawChart(timeframe) {
+                const chartData = getChartData();
+
+                if (window.networthChart) {
+                    window.networthChart.destroy();
+                }
+
+                const colorName = document.getElementById('themeColorSelect').value || 'purple';
+                let mainColor = themeColors[colorName]?.main || '#7c3aed';
+                let gradColor = themeColors[colorName]?.grad || mainColor;
+
+                // If in dark mode and black theme, use a visible color for the line
+                const isDark = document.body.getAttribute('data-theme') === 'dark';
+                if (isDark && colorName === 'black') {
+                    mainColor = '#fff'; // white line for black theme in dark mode
+                    gradColor = '#888'; // light gray gradient
+                }
+
+                // Find min and max of the last 10 values
+                let minValue = Math.min(...chartData.values);
+                let maxValue = Math.max(...chartData.values);
+
+                // Add a small buffer so the line doesn't touch the top/bottom
+                if (minValue === maxValue) {
+                    minValue -= 1;
+                    maxValue += 1;
+                } else {
+                    const buffer = (maxValue - minValue) * 0.08;
+                    minValue -= buffer;
+                    maxValue += buffer;
+                }
+
+                window.networthChart = new Chart(canvas, {
+                    type: 'line',
+                    data: {
+                        labels: chartData.labels,
+                        datasets: [{
+                            data: chartData.values,
+                            borderColor: mainColor,
+                            backgroundColor: function(context) {
+                                const ctx = context.chart.ctx;
+                                const gradient = ctx.createLinearGradient(0, 0, 0, ctx.canvas.height);
+                                gradient.addColorStop(0, mainColor + 'CC');
+                                gradient.addColorStop(1, gradColor + '22');
+                                return gradient;
+                            },
+                            borderWidth: 2.5,
+                            tension: 0.3,
+                            fill: true,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: mainColor,
+                            pointHoverBackgroundColor: 'white',
+                            pointBorderColor: 'white',
+                            pointHoverBorderColor: mainColor,
+                            pointBorderWidth: 1.5
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                left: 10,
+                                right: 15,
+                                top: 10,
+                                bottom: 20
+                            }
+                        },
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                backgroundColor: 'rgba(0,0,0,0.7)',
+                                titleColor: 'white',
+                                bodyColor: 'white',
+                                titleFont: { size: 12 },
+                                bodyFont: { size: 14 },
+                                padding: 10,
+                                displayColors: false,
+                                callbacks: {
+                                    label: function(context) {
+                                        return getCurrencySymbol() + context.parsed.y.toFixed(2);
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false, drawBorder: false },
+                                ticks: {
+                                    font: { size: 11 },
+                                    color: isDark ? '#bbb' : 'rgba(150,150,150,0.8)',
+                                    maxRotation: 45,
+                                    minRotation: 0,
+                                    padding: 5
+                                },
+                                border: { display: false }
+                            },
+                            y: {
+                                position: 'left',
+                                grid: { color: 'rgba(200,200,200,0.1)', tickLength: 0 },
+                                border: { display: false },
+                                min: minValue,
+                                max: maxValue,
+                                ticks: {
+                                    font: { size: 11 },
+                                    color: isDark ? '#bbb' : 'rgba(150,150,150,0.8)',
+                                    padding: 8,
+                                    callback: function(value) {
+                                        return getCurrencySymbol() + value.toFixed(2);
+                                    },
+                                    maxTicksLimit: 6
+                                },
+                                beginAtZero: false
+                            }
+                        },
+                        interaction: {
+                            mode: 'nearest',
+                            intersect: false,
+                            axis: 'x'
+                        },
+                        elements: {
+                            line: { capBezierPoints: true }
+                        }
+                    }
+                });
+            }
+            
+            // Get data for the chart - always based on last 10 transactions
+            function getChartData() {
+                const totalNetWorth = bankBalance + cashBalance + otherBalance;
+                let labels = [];
+                let values = [];
+                
+                // If no transactions, generate sample data with 10 points
+                if (transactionHistory.length === 0) {
+                    const baseValue = Math.max(totalNetWorth * 0.8, 1000) || 1000;
+                    
+                    // Generate 10 sample data points with more variation 
+                    for (let i = 9; i >= 0; i--) {
+                        const date = new Date();
+                        date.setDate(date.getDate() - i * 3); // Every 3 days
+                        labels.push(date.toLocaleDateString('en-US', {
+                            month: 'short', 
+                            day: 'numeric'
+                        }));
+                        
+                        // Create more variation in the values
+                        const randomChange = Math.random() * 200 - 50; // More dramatic changes
+                        values.push(baseValue + randomChange * (9-i)/5);
+                    }
+                    
+                    // Make sure the last value matches current net worth
+                    values[values.length - 1] = totalNetWorth;
+                } else {
+                    // Sort transactions by date (newest first)
+                    const sortedTransactions = [...transactionHistory]
+                        .sort((a, b) => new Date(b.date) - new Date(a.date));
+                    
+                    // Get up to last 10 transactions
+                    const lastTenTransactions = sortedTransactions.slice(0, 10).reverse();
+                    
+                    // Start from the current net worth and work backwards
+                    let runningTotal = totalNetWorth;
+                    
+                    // Add the current point
+                    labels.push('Now');
+                    values.push(runningTotal);
+                    
+                    // Go through transactions in reverse to calculate previous net worth values
+                    for (let i = lastTenTransactions.length - 1; i >= 0; i--) {
+                        const tx = lastTenTransactions[i];
+                        const txDate = new Date(tx.date);
+                        
+                        // Format the date
+                        const dateLabel = txDate.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric'
+                        });
+                        
+                        // Adjust running total - reverse the transaction
+                        if (tx.action === 'add') {
+                            runningTotal -= tx.amount;
+                        } else if (tx.action === 'subtract') {
+                            runningTotal += tx.amount;
+                        }
+                        
+                        // Add data point (at the beginning of the arrays)
+                        labels.unshift(dateLabel);
+                        values.unshift(runningTotal);
+                    }
+                }
+                
+                return { labels, values };
+            }
+            
+            // Initial draw with month view
+            drawChart('month');
+        }
+
+        function showDashboard() {
+            // Close any open modals first
+            closeModal();
+            document.getElementById('settingsModal').style.display = 'none';
+            document.getElementById('historyModal').style.display = 'none';
+            
+            // Create a dashboard overlay
+            const dashboardOverlay = document.createElement('div');
+            dashboardOverlay.className = 'modal-overlay';
+            dashboardOverlay.id = 'dashboardModal';
+            dashboardOverlay.style.display = 'flex';
+            
+            // Create dashboard content
+            const dashboardContent = document.createElement('div');
+            dashboardContent.className = 'modal';
+            dashboardContent.style.maxWidth = '90%';
+            dashboardContent.style.height = '80vh';
+            dashboardContent.style.overflowY = 'auto';
+            
+            // Add a close button
+            const closeBtn = document.createElement('button');
+            closeBtn.type = 'button';
+            closeBtn.setAttribute('aria-label', 'Close');
+            closeBtn.innerHTML = '✕';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.right = '15px';
+            closeBtn.style.top = '15px';
+            closeBtn.style.width = '36px';
+            closeBtn.style.height = '36px';
+            closeBtn.style.border = 'none';
+            closeBtn.style.borderRadius = '50%';
+            closeBtn.style.background = 'var(--primary-main)';
+            closeBtn.style.color = '#fff';
+            closeBtn.style.fontSize = '22px';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.style.display = 'flex';
+            closeBtn.style.alignItems = 'center';
+            closeBtn.style.justifyContent = 'center';
+            closeBtn.style.boxShadow = '0 2px 8px rgba(0,0,0,0.10)';
+            closeBtn.style.transition = 'background 0.2s, color 0.2s';
+
+            closeBtn.onmouseover = () => {
+                closeBtn.style.background = 'var(--primary-grad)';
+            };
+            closeBtn.onmouseout = () => {
+                closeBtn.style.background = 'var(--primary-main)';
+            };
+
+            closeBtn.onclick = () => {
+                document.body.removeChild(dashboardOverlay);
+            };
+
+            closeBtn.onfocus = () => {
+                closeBtn.style.outline = '2px solid #fff';
+            };
+            closeBtn.onblur = () => {
+                closeBtn.style.outline = 'none';
+            };
+            
+            // Add title
+            const title = document.createElement('h2');
+            title.textContent = 'Financial Dashboard';
+            title.style.marginBottom = '20px';
+            title.style.textAlign = 'center';
+            
+            // Add summary section
+            const summary = document.createElement('div');
+            summary.style.marginBottom = '30px';
+            
+            const networth = document.createElement('h3');
+            networth.textContent = `Total Net Worth: ${getCurrencySymbol()}${(bankBalance + cashBalance + otherBalance).toFixed(2)}`;
+            networth.style.marginBottom = '15px';
+            
+            // Add account summaries
+            const accounts = document.createElement('div');
+            accounts.style.display = 'flex';
+            accounts.style.justifyContent = 'space-around';
+            accounts.style.marginBottom = '20px';
+            
+            const bankSummary = document.createElement('div');
+            bankSummary.innerHTML = `<strong>Bank:</strong> ${getCurrencySymbol()}${bankBalance.toFixed(2)}`;
+            
+            const cashSummary = document.createElement('div');
+            cashSummary.innerHTML = `<strong>Cash:</strong> ${getCurrencySymbol()}${cashBalance.toFixed(2)}`;
+            
+            const otherSummary = document.createElement('div');
+            otherSummary.innerHTML = `<strong>Shares:</strong> ${getCurrencySymbol()}${otherBalance.toFixed(2)}`;
+            
+            accounts.appendChild(bankSummary);
+            accounts.appendChild(cashSummary);
+            accounts.appendChild(otherSummary);
+            
+            // Add recent activity
+            const recentActivity = document.createElement('div');
+            recentActivity.style.marginBottom = '30px';
+            
+            const recentTitle = document.createElement('h3');
+            recentTitle.textContent = 'Recent Transactions';
+            recentTitle.style.marginBottom = '15px';
+            
+            const recentList = document.createElement('ul');
+            recentList.style.listStyle = 'none';
+            recentList.style.padding = '0';
+            
+            // Get last 5 transactions
+            const recentTransactions = transactionHistory.slice(0, 5);
+            
+            if (recentTransactions.length > 0) {
+                recentTransactions.forEach(tx => {
+                    const txItem = document.createElement('li');
+                    txItem.style.padding = '10px 0';
+                    txItem.style.borderBottom = '1px solid #eee';
+                    
+                    const isPositive = tx.action === 'add';
+                    const symbol = getCurrencySymbol();
+                    
+                    txItem.innerHTML = `
+                        <div style="display: flex; justify-content: space-between">
+                            <div>
+                                <strong>${tx.type.charAt(0).toUpperCase() + tx.type.slice(1)}</strong>
+                                <span style="color: #777; font-size: 14px; margin-left: 10px">${tx.date}</span>
+                            </div>
+                            <div style="color: ${isPositive ? '#22c55e' : '#ef4444'}; font-weight: bold">
+                                ${isPositive ? '+' : '-'}${symbol}${Math.abs(tx.amount).toFixed(2)}
+                            </div>
+                        </div>
+                    `;
+                    
+                    recentList.appendChild(txItem);
+                });
+            } else {
+                const noTx = document.createElement('p');
+                noTx.textContent = 'No transactions yet.';
+                noTx.style.color = '#777';
+                recentList.appendChild(noTx);
+            }
+            
+            // Add spending breakdown
+            const spendingBreakdown = document.createElement('div');
+            
+            const spendingTitle = document.createElement('h3');
+            spendingTitle.textContent = 'Spending Breakdown';
+            spendingTitle.style.marginBottom = '15px';
+            
+            // Assemble the dashboard
+            summary.appendChild(networth);
+            summary.appendChild(accounts);
+            
+            recentActivity.appendChild(recentTitle);
+            recentActivity.appendChild(recentList);
+            
+            spendingBreakdown.appendChild(spendingTitle);
+            
+            dashboardContent.appendChild(closeBtn);
+            dashboardContent.appendChild(title);
+            dashboardContent.appendChild(summary);
+            dashboardContent.appendChild(recentActivity);
+            dashboardContent.appendChild(spendingBreakdown);
+            
+            dashboardOverlay.appendChild(dashboardContent);
+            document.body.appendChild(dashboardOverlay);
+        }
+
+        function renderCharts() {
+            // This now calls our line chart function
+            generateNetWorthGraph();
         }
     </script>
 </body>
