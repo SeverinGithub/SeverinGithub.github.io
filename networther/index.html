@@ -918,8 +918,8 @@
             const isDark = document.body.getAttribute('data-theme') === 'dark';
             document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
             localStorage.setItem('theme', isDark ? 'light' : 'dark');
-            // Re-render charts when theme changes
             renderCharts();
+            updateThemeColorMeta();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1044,6 +1044,7 @@
             document.documentElement.style.setProperty('--add-btn-bg', colors.main);
             document.documentElement.style.setProperty('--primary-shadow', colors.shadow);
             generateNetWorthGraph();
+            updateThemeColorMeta();
         }
 
         function changeThemeColor() {
@@ -1476,6 +1477,14 @@
         function renderCharts() {
             // This now calls our line chart function
             generateNetWorthGraph();
+        }
+
+        function updateThemeColorMeta() {
+            let color = getComputedStyle(document.documentElement).getPropertyValue('--primary-main').trim();
+            let metaThemeColor = document.querySelector("meta[name=theme-color]");
+            if (metaThemeColor) {
+                metaThemeColor.setAttribute("content", color);
+            }
         }
     </script>
 </body>
