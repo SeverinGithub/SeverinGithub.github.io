@@ -1,0 +1,521 @@
+:root {
+    --primary-color: #4f46e5;
+    --secondary-color: #818cf8;
+    --background-color: #f9fafb;
+    --card-background: #ffffff;
+    --text-color: #1f2937;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+}
+
+/* Theme Colors */
+[data-theme="indigo"] {
+    --primary-color: #4f46e5;
+    --secondary-color: #818cf8;
+    --background-color: #f9fafb;
+}
+
+[data-theme="emerald"] {
+    --primary-color: #059669;
+    --secondary-color: #34d399;
+    --background-color: #e6f4ea;
+}
+
+[data-theme="rose"] {
+    --primary-color: #e11d48;
+    --secondary-color: #fb7185;
+    --background-color: #fbeff2;
+}
+
+[data-theme="amber"] {
+    --primary-color: #d97706;
+    --secondary-color: #fbbf24;
+    --background-color: #fff8e1;
+}
+
+[data-theme="cyan"] {
+    --primary-color: #0891b2;
+    --secondary-color: #22d3ee;
+    --background-color: #e0f7fa;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    padding-bottom: 5rem;
+}
+
+.card {
+    border: none;
+    border-radius: 1rem;
+    background-color: var(--card-background);
+    transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.card-title {
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.form-control {
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 600;
+    color: var(--text-muted);
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.table td {
+    vertical-align: middle;
+    color: var(--text-color);
+}
+
+#totalEarnings, #totalHours {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+}
+
+.navbar {
+    padding: 0.75rem 0;
+    border-bottom: none;
+    background-color: var(--primary-color) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-brand {
+    color: white !important;
+    font-size: 1.25rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.nav-link {
+    color: var(--text-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.2s ease-in-out;
+}
+
+.nav-link:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.nav-link i {
+    font-size: 1.1rem;
+}
+
+#settingsButton {
+    color: white !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+}
+
+#settingsButton:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--card-background);
+    border-top: 1px solid var(--border-color);
+    padding: 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.btn-nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-muted);
+    padding: 0.5rem 1.5rem;
+    border-radius: 0.75rem;
+    transition: all 0.2s ease-in-out;
+    border: none;
+    background: none;
+}
+
+.btn-nav:hover {
+    color: var(--primary-color);
+    background-color: rgba(79, 70, 229, 0.1);
+}
+
+.btn-nav:active {
+    transform: scale(0.95);
+}
+
+.btn-nav i {
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.nav-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.monthly-item {
+    padding: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.monthly-item:last-child {
+    border-bottom: none;
+}
+
+.monthly-item .month {
+    font-weight: 500;
+    color: var(--text-color);
+}
+
+.monthly-item .amount {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.monthly-item .hours {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.current-month-summary {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1.5rem 0;
+    margin-bottom: 1rem;
+}
+
+.summary-item {
+    text-align: center;
+}
+
+.summary-item .label {
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+.summary-item .value {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.theme-selector {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.theme-btn {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    padding: 0;
+}
+
+.theme-btn:hover {
+    transform: scale(1.1);
+}
+
+.theme-btn.active {
+    border-color: var(--text-color);
+    box-shadow: 0 0 0 2px var(--background-color);
+}
+
+.theme-btn-submit {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+    width: 100%;
+}
+
+.theme-btn-submit:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-1px);
+    color: white;
+}
+
+.theme-btn-submit:active {
+    transform: translateY(0);
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-check-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25);
+}
+
+/* Progress Bar Styles */
+.progress {
+    height: 10rem;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 0.1rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background-color: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+/* Theme-specific Progress Bar Colors */
+[data-theme="indigo"] .progress-bar {
+    background-color: #4338ca;
+}
+
+[data-theme="emerald"] .progress-bar {
+    background-color: #047857;
+}
+
+[data-theme="rose"] .progress-bar {
+    background-color: #be123c;
+}
+
+[data-theme="amber"] .progress-bar {
+    background-color: #b45309;
+}
+
+[data-theme="cyan"] .progress-bar {
+    background-color: #0e7490;
+}
+
+/* Bottom Sheet Modal Styles */
+.modal-dialog-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0;
+    max-width: 100%;
+    transform: translateY(100%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal-dialog-bottom.show {
+    transform: translateY(0);
+}
+
+.modal-content {
+    border-radius: 1rem 1rem 0 0;
+    border: none;
+    box-shadow: 0 -4px 6px -1px rgba(0, 0, 0, 0.1), 0 -2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.modal-header {
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+}
+
+.modal-body {
+    padding: 1rem;
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.history-list {
+    margin-bottom: 1rem;
+}
+
+.history-summary {
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+#historyButton {
+    width: auto;
+    min-width: 200px;
+    margin: 0 auto;
+}
+
+/* Adjust table styles for bottom sheet */
+.modal .table {
+    margin-bottom: 0;
+}
+
+.modal .table th {
+    position: sticky;
+    top: 0;
+    background-color: var(--card-background);
+    z-index: 1;
+}
+
+.modal .table td {
+    padding: 0.75rem;
+}
+
+/* Add pull indicator */
+.modal-header::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 4px;
+    background-color: var(--border-color);
+    border-radius: 2px;
+}
+
+/* Theme-specific bottom nav styles */
+[data-theme="indigo"] .btn-nav:hover {
+    background-color: rgba(79, 70, 229, 0.1);
+}
+
+[data-theme="emerald"] .btn-nav:hover {
+    background-color: rgba(5, 150, 105, 0.1);
+}
+
+[data-theme="rose"] .btn-nav:hover {
+    background-color: rgba(225, 29, 72, 0.1);
+}
+
+[data-theme="amber"] .btn-nav:hover {
+    background-color: rgba(217, 119, 6, 0.1);
+}
+
+[data-theme="cyan"] .btn-nav:hover {
+    background-color: rgba(8, 145, 178, 0.1);
+}
+
+.month-header-row {
+    color: white;
+    font-weight: bold;
+    font-size: 1.1rem;
+    background: var(--primary-color);
+    border-radius: 0.5rem;
+}
+
+/* Flatpickr noch größer */
+.flatpickr-calendar {
+    font-size: 2.4rem !important;
+    min-width: 700px !important;
+    min-height: 600px !important;
+    padding: 2rem !important;
+}
+
+.flatpickr-days {
+    min-height: 400px !important;
+}
+
+.flatpickr-day, .flatpickr-weekday {
+    font-size: 2.2rem !important;
+    width: 5.5rem !important;
+    height: 5.5rem !important;
+    line-height: 5.5rem !important;
+}
+
+.flatpickr-months .flatpickr-month {
+    font-size: 2rem !important;
+    height: 4.5rem !important;
+}
+
+.flatpickr-current-month input.cur-year {
+    font-size: 2rem !important;
+    height: 3.5rem !important;
+}
+
+html .flatpickr-calendar,
+html .flatpickr-day,
+html .flatpickr-weekday,
+html .flatpickr-months .flatpickr-month,
+html .flatpickr-current-month input.cur-year {
+    font-size: 2rem !important;
+    min-width: 500px !important;
+    min-height: 400px !important;
+    width: 3.5rem !important;
+    height: 3.5rem !important;
+    line-height: 3.5rem !important;
+}
