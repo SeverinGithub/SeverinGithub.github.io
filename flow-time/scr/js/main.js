@@ -1,11 +1,28 @@
 // Initialize Bootstrap components
 let settingsModal;
 let historyModal;
+let notificationToast;
 
 // Initialize the app
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Initializing app...');
     
+    // Request notification permission
+    if ('Notification' in window) {
+        if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+            Notification.requestPermission();
+        }
+    }
+    
+    // Initialize notification toast
+    const toastElement = document.getElementById('notificationToast');
+    if (toastElement) {
+        notificationToast = new bootstrap.Toast(toastElement, {
+            autohide: true,
+            delay: 3000
+        });
+    }
+
     // Initialize Bootstrap modals
     const settingsModalElement = document.getElementById('settingsModal');
     if (settingsModalElement) {
@@ -176,6 +193,41 @@ function loadMonthlyGoal() {
     }
 }
 
+// Show notification function
+function showNotification(message, type = 'info') {
+    const toast = document.getElementById('notificationToast');
+    const toastBody = toast.querySelector('.toast-body');
+    const toastHeader = toast.querySelector('.toast-header');
+    const icon = toastHeader.querySelector('i');
+    
+    // Reset classes
+    toast.classList.remove('error', 'success', 'warning');
+    
+    // Set type-specific styles
+    switch(type) {
+        case 'error':
+            toast.classList.add('error');
+            icon.className = 'bi bi-exclamation-circle me-2';
+            break;
+        case 'success':
+            toast.classList.add('success');
+            icon.className = 'bi bi-check-circle me-2';
+            break;
+        case 'warning':
+            toast.classList.add('warning');
+            icon.className = 'bi bi-exclamation-triangle me-2';
+            break;
+        default:
+            icon.className = 'bi bi-info-circle me-2';
+    }
+    
+    // Set message
+    toastBody.textContent = message;
+    
+    // Show toast
+    notificationToast.show();
+}
+
 // Clear all data
 function clearAllData() {
     if (confirm('Are you sure you want to clear all data? This cannot be undone.')) {
@@ -197,6 +249,8 @@ function clearAllData() {
         if (settingsModal) {
             settingsModal.hide();
         }
+
+        showNotification('All data has been cleared', 'success');
     }
 }
 
@@ -241,28 +295,30 @@ function updateCurrentMonthSummary() {
     const monthlyGoal = parseFloat(localStorage.getItem('monthlyGoal') || '0');
     if (monthlyGoal > 0) {
         const progress = (monthTotal / monthlyGoal) * 100;
-        const progressBar = document.createElement('div');
-        progressBar.className = 'progress mt-2';
-        progressBar.innerHTML = `
-            <div class="progress-bar" role="progressbar" 
-                 style="width: ${Math.min(progress, 100)}%" 
-                 aria-valuenow="${progress}" 
-                 aria-valuemin="0" 
-                 aria-valuemax="100">
-                ${progress.toFixed(1)}%
+        const progressWrapper = document.createElement('div');
+        progressWrapper.className = 'progress-wrapper';
+        progressWrapper.innerHTML = `
+            <div class="progress mt-2">
+                <div class="progress-bar" role="progressbar" 
+                     style="width: ${Math.min(progress, 100)}%" 
+                     aria-valuenow="${progress}" 
+                     aria-valuemin="0" 
+                     aria-valuemax="100">
+                    ${progress.toFixed(1)}%
+                </div>
             </div>
         `;
         const summaryContainer = document.querySelector('.current-month-summary .container');
         if (summaryContainer) {
-            const existingProgress = summaryContainer.querySelector('.progress');
+            const existingProgress = summaryContainer.querySelector('.progress-wrapper');
             if (existingProgress) {
                 existingProgress.remove();
             }
-            summaryContainer.appendChild(progressBar);
+            summaryContainer.appendChild(progressWrapper);
         }
     } else {
         // Remove progress bar if no goal is set
-        const existingProgress = document.querySelector('.current-month-summary .progress');
+        const existingProgress = document.querySelector('.current-month-summary .progress-wrapper');
         if (existingProgress) {
             existingProgress.remove();
         }
@@ -365,59 +421,114 @@ function updateRateDisplay(rate) {
     }
 }
 
+// Send iOS notification
+function sendNotification(title, options = {}) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        // Check if it's an iOS device
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        
+        if (isIOS) {
+            // For iOS, we'll use a custom notification sound and badge
+            const notification = new Notification(title, {
+                ...options,
+                badge: '../assets/notification-icon.png',
+                icon: '../assets/logo.svg',
+                silent: false, // This will play the default notification sound
+                requireInteraction: true, // Keep notification visible until user interacts
+                vibrate: [200, 100, 200], // Vibration pattern
+                tag: 'work-session', // Group similar notifications
+                renotify: true, // Show notification even if there's an existing one
+            });
+
+            // Handle notification click
+            notification.onclick = function() {
+                window.focus(); // Focus the window
+                this.close(); // Close the notification
+            };
+        } else {
+            // For other devices, use standard notification
+            new Notification(title, options);
+        }
+    }
+}
+
 // Handle work session form submission
 function handleFormSubmit(event) {
     event.preventDefault();
-    event.stopPropagation();
-    console.log('Form submission attempted');
-
-    const defaultRate = localStorage.getItem('defaultRate') || '12';
-    const workDateInput = document.getElementById('workDate');
-    const hoursWorkedInput = document.getElementById('hoursWorked');
-
-    if (!workDateInput || !hoursWorkedInput) {
-        console.error('Work date or hours worked input not found for form submission');
+    
+    const submitButton = event.target.querySelector('.theme-btn-submit');
+    const successAnimation = document.querySelector('.success-animation');
+    const successMessage = document.querySelector('.success-message');
+    
+    // Add submitting state to button
+    submitButton.classList.add('submitting');
+    submitButton.disabled = true;
+    
+    // Get form values
+    const dateInput = document.getElementById('workDate');
+    const date = dateInput.value || new Date().toISOString().split('T')[0];
+    const hours = parseFloat(document.getElementById('hoursWorked').value);
+    const rate = parseFloat(localStorage.getItem('defaultRate') || '0');
+    
+    if (isNaN(hours) || hours <= 0) {
+        showNotification('Please enter valid hours worked', 'error');
+        submitButton.classList.remove('submitting');
+        submitButton.disabled = false;
         return;
     }
 
-    const workDate = workDateInput.value;
-    const hoursWorked = parseFloat(hoursWorkedInput.value);
-    const hourlyRate = parseFloat(defaultRate);
-
-    // Basic validation for hours worked
-    if (isNaN(hoursWorked) || hoursWorked <= 0) {
-        alert('Please enter a valid number of hours worked.');
+    if (isNaN(rate) || rate <= 0) {
+        showNotification('Please set a default rate in settings', 'warning');
+        submitButton.classList.remove('submitting');
+        submitButton.disabled = false;
         return;
     }
-
-    console.log('Preparing session data:', { date: workDate, hours: hoursWorked, rate: hourlyRate });
-
-    const workSession = {
-        date: workDate,
-        hours: hoursWorked,
-        rate: hourlyRate,
-        total: hoursWorked * hourlyRate
+    
+    // Calculate total
+    const total = hours * rate;
+    
+    // Create session object
+    const session = {
+        date: date,
+        hours: hours,
+        rate: rate,
+        total: total
     };
-
-    // Save the work session
-    saveWorkSession(workSession);
-    console.log('Work session saved to localStorage');
-
+    
+    // Save session
+    saveWorkSession(session);
+    
+    // Show success animation
+    successAnimation.classList.add('active');
+    successMessage.style.display = 'block';
+    
     // Reset form
-    const workSessionForm = document.getElementById('workSessionForm');
-    if (workSessionForm) {
-        workSessionForm.reset();
-    }
-    // Set date back to today after reset
-    if (workDateInput) {
-        workDateInput.valueAsDate = new Date();
-    }
-
-    // Update summaries and history display
+    event.target.reset();
+    dateInput.valueAsDate = new Date();
+    
+    // Update UI
     loadWorkHistory();
     updateCurrentMonthSummary();
     
-    return false;
+    // Show success notification
+    showNotification(`Added ${hours} hours of work`, 'success');
+    
+    // Send iOS notification
+    sendNotification('Work Session Added', {
+        body: `You've added ${hours} hours of work (€${total.toFixed(2)})`,
+        icon: '../assets/logo.svg',
+        badge: '../assets/notification-icon.png',
+        tag: 'work-session',
+        requireInteraction: true
+    });
+    
+    // Remove submitting state and hide success message after animation
+    setTimeout(() => {
+        submitButton.classList.remove('submitting');
+        submitButton.disabled = false;
+        successAnimation.classList.remove('active');
+        successMessage.style.display = 'none';
+    }, 2000);
 }
 
 // Register service worker for PWA

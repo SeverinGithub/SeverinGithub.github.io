@@ -31,17 +31,23 @@
     <!-- Current Month Summary -->
     <div class="current-month-summary">
         <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <div class="summary-item">
-                        <div class="label">This Month</div>
-                        <div class="value" id="currentMonthEarnings">€0.00</div>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="bi bi-currency-euro"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-label">This Month</div>
+                        <div class="summary-value" id="currentMonthEarnings">€0.00</div>
                     </div>
                 </div>
-                <div class="col-6">
-                    <div class="summary-item">
-                        <div class="label">Hours</div>
-                        <div class="value" id="currentMonthHours">0.0</div>
+                <div class="summary-card">
+                    <div class="summary-icon">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-label">Hours</div>
+                        <div class="summary-value" id="currentMonthHours">0.0</div>
                     </div>
                 </div>
             </div>
@@ -57,7 +63,7 @@
                         <form id="workSessionForm">
                             <div class="mb-3">
                                 <label for="workDate" class="form-label">Date</label>
-                                <input type="date" class="form-control" id="workDate" required>
+                                <input type="date" class="form-control" id="workDate">
                             </div>
                             <div class="mb-3">
                                 <label for="hoursWorked" class="form-label">Hours Worked</label>
@@ -161,6 +167,39 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="notificationToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <i class="bi bi-info-circle me-2"></i>
+                <strong class="me-auto">Notification</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Animation Container -->
+    <div class="success-animation">
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+        <div class="confetti"></div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" style="display: none;">
+        <i class="bi bi-check-circle-fill success-checkmark"></i>
+        <h3>Great job!</h3>
+        <p>Your work session has been recorded.</p>
     </div>
 
     <!-- Scripts -->
