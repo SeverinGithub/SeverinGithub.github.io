@@ -55,7 +55,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;
-    padding-bottom: 6rem;
+    padding-bottom: 5rem;
     animation: fadeIn 0.5s ease-out;
 }
 
@@ -180,19 +180,10 @@ body {
 @media (max-width: 768px) {
     .container {
         padding: 1rem;
-        padding-bottom: 7.5rem;
     }
     
     .card {
         margin-bottom: 1rem;
-    }
-    
-    .bottom-nav {
-        height: 6.5rem;
-    }
-    
-    .btn-nav {
-        height: 5rem;
     }
 }
 
@@ -288,7 +279,6 @@ body {
     box-shadow: var(--shadow-lg);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    height: 6rem;
 }
 
 .btn-nav {
@@ -297,13 +287,12 @@ body {
     align-items: center;
     justify-content: center;
     color: var(--text-muted);
-    padding: 0.5rem 1.75rem;
+    padding: 0.75rem 1.75rem;
     border-radius: 1rem;
     transition: var(--transition-base);
     border: none;
     background: none;
     position: relative;
-    height: 4.5rem;
 }
 
 .btn-nav::before {
@@ -346,7 +335,6 @@ body {
 .nav-label {
     font-size: 0.75rem;
     font-weight: 500;
-    margin-top: 0.25rem;
 }
 
 .monthly-item {
