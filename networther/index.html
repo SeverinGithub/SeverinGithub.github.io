@@ -794,7 +794,7 @@
             document.getElementById('bankAmount').textContent = `${symbol}${bankBalance.toFixed(2)}`;
             document.getElementById('cashAmount').textContent = `${symbol}${cashBalance.toFixed(2)}`;
             document.getElementById('otherAmount').textContent = `${symbol}${otherBalance.toFixed(2)}`;
-            document.getElementById('totalNetworth').textContent = `${symbol}${(bankBalance + cashBalance + otherBalance).toFixed(2)}`;
+            document.getElementById('totalNetworth').textContent = `${symbol}${(bankBalance + cashBalance).toFixed(2)}`;
             
             localStorage.setItem('bankBalance', bankBalance);
             localStorage.setItem('cashBalance', cashBalance);
@@ -1381,7 +1381,7 @@
             summary.style.marginBottom = '30px';
             
             const networth = document.createElement('h3');
-            networth.textContent = `Total Net Worth: ${getCurrencySymbol()}${(bankBalance + cashBalance + otherBalance).toFixed(2)}`;
+            networth.textContent = `Total Net Worth: ${getCurrencySymbol()}${(bankBalance + cashBalance).toFixed(2)}`;
             networth.style.marginBottom = '15px';
             
             // Add account summaries
