@@ -468,7 +468,7 @@ function handleFormSubmit(event) {
     const dateInput = document.getElementById('workDate');
     const date = dateInput.value || new Date().toISOString().split('T')[0];
     const hours = parseFloat(document.getElementById('hoursWorked').value);
-    const rate = parseFloat(localStorage.getItem('defaultRate') || '0');
+    const rate = parseFloat(localStorage.getItem('defaultRate') || '12');
     
     if (isNaN(hours) || hours <= 0) {
         showNotification('Please enter valid hours worked', 'error');
@@ -478,10 +478,7 @@ function handleFormSubmit(event) {
     }
 
     if (isNaN(rate) || rate <= 0) {
-        showNotification('Please set a default rate in settings', 'warning');
-        submitButton.classList.remove('submitting');
-        submitButton.disabled = false;
-        return;
+        rate = 12; // Fallback to 12 if rate is invalid
     }
     
     // Calculate total
