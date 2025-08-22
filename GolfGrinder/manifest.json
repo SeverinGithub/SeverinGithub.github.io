@@ -2,12 +2,12 @@
   "name": "Golf Tracker",
   "short_name": "Golf Tracker",
   "description": "Track your golf rounds with customizable scoring and game modes",
-  "start_url": "/",
+  "start_url": "https://severingithub.github.io/GolfGrinder/",
   "display": "standalone",
   "background_color": "#0b5d1e",
   "theme_color": "#0b5d1e",
   "orientation": "portrait-primary",
-  "scope": "/",
+  "scope": "https://severingithub.github.io/GolfGrinder/",
   "lang": "en",
   "categories": ["sports", "utilities"],
   "icons": [
@@ -29,7 +29,7 @@
       "name": "Start 18 Holes",
       "short_name": "18 Holes",
       "description": "Quick start 18 hole round",
-      "url": "/?mode=18-holes",
+      "url": "https://severingithub.github.io/GolfGrinder/?mode=18-holes",
       "icons": [
         {
           "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%230b5d1e' rx='16'/><text x='48' y='60' font-family='system-ui' font-size='40' text-anchor='middle' fill='white'>⛳</text></svg>",
@@ -41,7 +41,7 @@
       "name": "Start Chipping Pro",
       "short_name": "Chipping",
       "description": "Quick start chipping practice",
-      "url": "/?mode=chipping-pro",
+      "url": "https://severingithub.github.io/GolfGrinder/?mode=chipping-pro",
       "icons": [
         {
           "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'><rect width='96' height='96' fill='%230b5d1e' rx='16'/><text x='48' y='60' font-family='system-ui' font-size='40' text-anchor='middle' fill='white'>⛳</text></svg>",
