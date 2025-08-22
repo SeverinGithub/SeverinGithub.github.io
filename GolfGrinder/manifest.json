@@ -10,6 +10,13 @@
   "scope": "https://severingithub.github.io/GolfGrinder/",
   "lang": "en",
   "categories": ["sports", "utilities"],
+  "prefer_related_applications": false,
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
   "icons": [
     {
       "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect width='192' height='192' fill='%230b5d1e' rx='32'/><text x='96' y='120' font-family='system-ui' font-size='80' text-anchor='middle' fill='white'>⛳</text></svg>",

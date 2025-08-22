@@ -198,7 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       const parFooter = document.createElement("div");
       parFooter.className = "table-cell footer";
-      parFooter.textContent = "Total Par";
+      // Set the total par value immediately instead of waiting for JavaScript
+      const totalPar = numHoles * 3;
+      parFooter.textContent = `Total Par ${totalPar}`;
       parCol.appendChild(parFooter);
       const parPoints = document.createElement("div");
       parPoints.className = "table-cell footer";
@@ -257,8 +259,45 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!isChippingPro) {
       bindParInputs();
+      // Ensure total par is calculated correctly after building
+      setTimeout(() => {
+        const parInputs = scorecardTable.querySelectorAll(".par-input");
+        if (parInputs.length === 0) {
+          // For fixed par courses, the total is already set correctly when created
+          console.log('Total par already set correctly for fixed par courses');
+        }
+      }, 0);
     }
     bindScoring();
+    
+    // Initialize auto-filled state for all players
+    if (!isChippingPro) {
+      // Force immediate visual update of all empty fields FIRST
+      setTimeout(() => {
+        const allInputs = scorecardTable.querySelectorAll('.score-input');
+        allInputs.forEach((inp) => {
+          const val = inp instanceof HTMLInputElement ? parseInt(inp.value, 10) : NaN;
+          if (Number.isNaN(val)) {
+            inp.classList.add('auto-filled');
+            inp.placeholder = "8";
+          }
+        });
+        
+        // THEN calculate all scores after visual update is complete
+        players.forEach((_, playerIdx) => {
+          computeSum(playerIdx);
+        });
+        
+        // Force one more recalculation after everything is settled
+        setTimeout(() => {
+          console.log('Final recalculation...');
+          players.forEach((_, playerIdx) => {
+            computeSum(playerIdx);
+          });
+        }, 100);
+      }, 0);
+    }
+    
     setFooterOffset();
   }
 
@@ -268,12 +307,36 @@ document.addEventListener("DOMContentLoaded", () => {
     
     function updateTotalPar() {
       let totalPar = 0;
+      
+      // Handle editable par inputs (9/18 hole courses)
       parInputs.forEach((inp) => {
         const val = inp instanceof HTMLInputElement ? parseInt(inp.value, 10) : NaN;
         if (!Number.isNaN(val)) totalPar += val;
       });
-      const totalParCell = scorecardTable.querySelector(".table-cell.footer:nth-child(2)");
-      if (totalParCell) totalParCell.textContent = `Total Par ${totalPar}`;
+      
+      // Handle fixed par values (3/6 hole courses)
+      if (parInputs.length === 0) {
+        // For fixed par courses, count the number of holes and multiply by 3
+        const numHoles = scorecardTable.querySelectorAll('.score-input[data-hole="1"]').length;
+        totalPar = numHoles * 3; // All holes are Par 3
+      }
+      
+      // Find the par column more reliably by looking for the column that contains "Par" header
+      const allCols = scorecardTable.querySelectorAll('.col');
+      let parCol = null;
+      allCols.forEach((col, index) => {
+        const header = col.querySelector('.table-cell.header');
+        if (header && header.textContent === 'Par') {
+          parCol = col;
+        }
+      });
+      
+      if (parCol) {
+        const totalParCell = parCol.querySelector('.table-cell.footer');
+        if (totalParCell) {
+          totalParCell.textContent = `Total Par ${totalPar}`;
+        }
+      }
     }
 
     parInputs.forEach((inp) => {
@@ -294,18 +357,48 @@ document.addEventListener("DOMContentLoaded", () => {
       let totalPoints = 0;
       const playerInputs = scorecardTable.querySelectorAll(`.score-input[data-player="${playerIdx}"]`);
       
-      playerInputs.forEach((inp) => {
+      console.log(`Computing sum for player ${playerIdx}, found ${playerInputs.length} inputs`);
+      
+      playerInputs.forEach((inp, index) => {
         const val = inp instanceof HTMLInputElement ? parseInt(inp.value, 10) : NaN;
+        console.log(`Player ${playerIdx}, Hole ${index + 1}: value=${val}, isNaN=${Number.isNaN(val)}`);
+        
         if (!Number.isNaN(val)) {
           sum += val;
           if (isChippingPro) {
             totalPoints += calculateChippingPoints(val);
           }
+          // Remove auto-filled styling when user enters a value
+          inp.classList.remove('auto-filled');
+          inp.placeholder = "-";
+        } else if (!isChippingPro) {
+          // For hole-based games, empty fields automatically count as 8 (maximum points)
+          sum += 8;
+          // Add visual indicator for auto-filled field
+          inp.classList.add('auto-filled');
+          inp.placeholder = "8";
+        } else {
+          // For Chipping Pro, remove auto-filled styling
+          inp.classList.remove('auto-filled');
+          inp.placeholder = "-";
         }
       });
       
+      console.log(`Player ${playerIdx} total sum: ${sum}`);
+      
       const sumCell = scorecardTable.querySelector(`.score-sum[data-player-sum="${playerIdx}"]`);
-      if (sumCell) sumCell.textContent = String(sum);
+      if (sumCell) {
+        sumCell.textContent = String(sum);
+        console.log(`Updated sum cell for player ${playerIdx} to ${sum}`);
+      } else {
+        console.log(`Could not find sum cell for player ${playerIdx}`);
+        // Debug: show all sum cells
+        const allSumCells = scorecardTable.querySelectorAll('.score-sum');
+        console.log(`All sum cells found:`, allSumCells);
+        allSumCells.forEach((cell, idx) => {
+          console.log(`Sum cell ${idx}:`, cell.dataset.playerSum, cell.textContent);
+        });
+      }
       
       // Calculate and update points
       const pointsCell = scorecardTable.querySelector(`.score-points[data-player-points="${playerIdx}"]`);
@@ -320,10 +413,60 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
+    // Function to automatically update all empty fields
+    function updateAllEmptyFields() {
+      if (isChippingPro) return; // Don't auto-fill for Chipping Pro
+      
+      const allInputs = scorecardTable.querySelectorAll('.score-input');
+      allInputs.forEach((inp) => {
+        const val = inp instanceof HTMLInputElement ? parseInt(inp.value, 10) : NaN;
+        if (Number.isNaN(val)) {
+          // Field is empty, make it auto-filled
+          inp.classList.add('auto-filled');
+          inp.placeholder = "8";
+        } else {
+          // Field has a value, remove auto-filled styling
+          inp.classList.remove('auto-filled');
+          inp.placeholder = "-";
+        }
+      });
+    }
+
+    // Run initial update for all empty fields
+    updateAllEmptyFields();
+
     inputs.forEach((inp) => {
       inp.addEventListener("input", () => {
-        const playerIdx = inp.getAttribute("data-player");
-        if (playerIdx != null) computeSum(playerIdx);
+        // Update all players when any input changes
+        const allPlayers = scorecardTable.querySelectorAll('.score-input[data-player]');
+        const uniquePlayers = new Set();
+        allPlayers.forEach(input => {
+          const playerIdx = input.getAttribute("data-player");
+          if (playerIdx != null) uniquePlayers.add(playerIdx);
+        });
+        
+        // Recalculate scores for all players
+        uniquePlayers.forEach(playerIdx => computeSum(playerIdx));
+        
+        // Update visual state of all fields
+        updateAllEmptyFields();
+      });
+      
+      // Also handle when fields are cleared (empty string)
+      inp.addEventListener("change", () => {
+        // Update all players when any input changes
+        const allPlayers = scorecardTable.querySelectorAll('.score-input[data-player]');
+        const uniquePlayers = new Set();
+        allPlayers.forEach(input => {
+          const playerIdx = input.getAttribute("data-player");
+          if (playerIdx != null) uniquePlayers.add(playerIdx);
+        });
+        
+        // Recalculate scores for all players
+        uniquePlayers.forEach(playerIdx => computeSum(playerIdx));
+        
+        // Update visual state of all fields
+        updateAllEmptyFields();
       });
     });
   }
@@ -398,4 +541,19 @@ document.addEventListener("DOMContentLoaded", () => {
   window.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && modal && !modal.hidden) closeModal();
   });
+
+  // Service Worker Registration for PWA
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('https://severingithub.github.io/GolfGrinder/sw.js', { 
+        scope: 'https://severingithub.github.io/GolfGrinder/' 
+      })
+        .then((registration) => {
+          console.log('SW registered: ', registration);
+        })
+        .catch((registrationError) => {
+          console.log('SW registration failed: ', registrationError);
+        });
+    });
+  }
 }); 

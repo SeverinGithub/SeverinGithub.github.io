@@ -1,10 +1,10 @@
 const CACHE_NAME = 'golf-tracker-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
-  '/manifest.json'
+  'https://severingithub.github.io/GolfGrinder/',
+  'https://severingithub.github.io/GolfGrinder/index.html',
+  'https://severingithub.github.io/GolfGrinder/styles.css',
+  'https://severingithub.github.io/GolfGrinder/script.js',
+  'https://severingithub.github.io/GolfGrinder/manifest.json'
 ];
 
 // Install event - cache resources

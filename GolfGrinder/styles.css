@@ -21,6 +21,46 @@ body {
   touch-action: manipulation;
 }
 
+/* Additional mobile-specific PWA styles */
+@media (display-mode: standalone) {
+  body {
+    /* Ensure full screen in PWA mode */
+    height: 100vh;
+    height: 100dvh;
+    height: 100svh;
+  }
+  
+  .site-header {
+    /* Adjust header positioning for PWA */
+    margin-top: max(8vh, env(safe-area-inset-top));
+    padding-top: max(16px, env(safe-area-inset-top));
+  }
+  
+  .action-card {
+    /* Ensure action card is properly positioned in PWA */
+    bottom: max(12px, env(safe-area-inset-bottom));
+    padding-bottom: max(12px, env(safe-area-inset-bottom));
+  }
+}
+
+/* Enhanced touch interactions for mobile */
+@media (hover: none) and (pointer: coarse) {
+  .mode-option,
+  .picker-trigger,
+  .add-player,
+  .cancel-modal,
+  .confirm-modal,
+  .remove-player {
+    min-height: 44px; /* iOS recommended touch target size */
+  }
+  
+  .score-input,
+  .par-input {
+    min-height: 44px;
+    font-size: 18px; /* Prevent zoom on iOS */
+  }
+}
+
 /* Safe area handling for notched devices */
 .site-header {
   padding-top: max(24px, env(safe-area-inset-top));
@@ -79,13 +119,16 @@ body {
 }
 
 .site-header {
-  position: relative;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  padding: 12px 16px;
   display: grid;
   place-items: center;
-  text-align: center;
-  padding: 24px;
-  margin: 12vh auto 0;
-  width: min(92vw, 720px);
+  z-index: 100;
+  margin: 0;
+  width: 100%;
   color: #f2fff2;
 
   background: linear-gradient(
@@ -94,7 +137,7 @@ body {
     rgba(255, 255, 255, 0.02)
   );
   border: 1px solid rgba(255,255,255,0.16);
-  border-radius: 16px;
+  border-radius: 0 0 16px 16px;
   backdrop-filter: blur(6px) saturate(120%);
   -webkit-backdrop-filter: blur(6px) saturate(120%);
   box-shadow: 0 10px 30px rgba(0,0,0,0.25);
@@ -117,6 +160,12 @@ body {
 /* Scorecard */
 .scorecard[hidden] { display: none; }
 .scorecard { width: min(1200px, 96vw); margin: 24px auto var(--action-card-offset, 140px); }
+
+/* Main content spacing for fixed header */
+main {
+  margin-top: 120px; /* Adjusted for the new header height */
+}
+
 .scorecard-head { display: flex; gap: 12px; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
 .scorecard-mode { opacity: 0.9; font-weight: 700; }
 
@@ -135,16 +184,47 @@ body {
 }
 
 .table-grid {
-  display: grid;
-  grid-auto-flow: column;
-  grid-auto-columns: minmax(70px, 1fr);
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  overflow-x: auto;
 }
-.table-grid .col { display: grid; grid-template-rows: auto repeat(var(--holes), 1fr) auto; }
+
+.table-grid .col { 
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 80px; /* Fixed width, no growing or shrinking */
+  width: 80px;
+  border-right: 1px solid rgba(255,255,255,0.16);
+}
+
+.table-grid .col:first-child {
+  flex: 0 0 80px;
+  width: 80px;
+}
+
+.table-grid .col:nth-child(2) {
+  flex: 0 0 80px;
+  width: 80px;
+}
+
+.table-grid .col:not(:first-child):not(:nth-child(2)) {
+  flex: 0 0 80px;
+  width: 80px;
+}
 
 .table-cell {
   padding: 10px;
   border-bottom: 1px solid rgba(255,255,255,0.16);
-  border-right: 1px solid rgba(255,255,255,0.16);
+  width: 100%; /* Ensure cells take full width of their column */
+  box-sizing: border-box; /* Include padding in width calculation */
+  overflow: hidden; /* Prevent content from overflowing */
+  text-align: center; /* Center all content */
+  min-height: 44px; /* Ensure consistent height */
+  white-space: nowrap; /* Prevent text wrapping */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .table-cell.header { position: sticky; top: 0; background: rgba(0,0,0,0.38); backdrop-filter: blur(6px); font-weight: 800; z-index: 1; }
@@ -163,10 +243,40 @@ body {
 }
 .score-input:focus,
 .par-input:focus { outline: 2px solid rgba(255,255,255,0.4); outline-offset: 2px; }
+
+/* Style for automatically filled fields (empty fields that count as 8) */
+.score-input.auto-filled {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  color: rgba(255, 255, 255, 0.8);
+  font-style: italic;
+}
+
+.score-input.auto-filled::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+  content: "8";
+}
+
 .score-sum { text-align: center; display: grid; place-items: center; }
 
 @media (max-width: 720px) {
-  .table-grid { grid-auto-columns: minmax(64px, 1fr); }
+  .table-grid .col:first-child {
+    width: 70px; /* Hole column same width on mobile */
+    flex-basis: 70px;
+    min-width: 70px;
+  }
+  
+  .table-grid .col:nth-child(2) {
+    width: 70px; /* Par column same width on mobile */
+    flex-basis: 70px;
+    min-width: 70px;
+  }
+  
+  .table-grid .col:not(:first-child):not(:nth-child(2)) {
+    width: 70px; /* Player columns same width on mobile */
+    flex-basis: 70px;
+    min-width: 70px;
+  }
 }
 
 /* Modal overlay */
