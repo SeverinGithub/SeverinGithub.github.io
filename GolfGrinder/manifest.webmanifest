@@ -1,0 +1,12 @@
+{
+  "name": "Golf Tracker",
+  "short_name": "Golf",
+  "start_url": "./?source=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b172a",
+  "theme_color": "#0b172a",
+  "description": "Track your rounds, anywhere.",
+  "orientation": "portrait",
+  "icons": []
+} 

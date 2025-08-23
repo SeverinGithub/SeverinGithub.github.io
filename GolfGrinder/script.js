@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const isStandalone = (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || (window.navigator && window.navigator.standalone === true);
+  if (isStandalone) {
+    document.documentElement.classList.add('standalone');
+    // Prevent Safari toolbar from showing
+    if (window.navigator.standalone === true) {
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.height = '100%';
+    }
+  }
   const picker = document.querySelector(".game-picker");
   const current = document.querySelector(".current-mode");
   const buttons = document.querySelectorAll(".mode-option");
