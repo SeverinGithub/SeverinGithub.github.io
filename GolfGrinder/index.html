@@ -2,32 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Golf Grinder</title>
-  
-  <!-- PWA Meta Tags -->
-  <meta name="theme-color" content="#0b5d1e">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Golf Grinder">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="application-name" content="Golf Grinder">
-  <meta name="msapplication-TileColor" content="#0b5d1e">
-  <meta name="msapplication-tap-highlight" content="no">
-  
-  <!-- Additional PWA Meta Tags for better mobile support -->
-  <meta name="format-detection" content="telephone=no">
-  <meta name="apple-touch-fullscreen" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  
-  <!-- PWA Icons -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
-  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
-  
-  <!-- PWA Manifest -->
-  <link rel="manifest" href="manifest.json">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Golf Tracker</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;800&display=swap" rel="stylesheet">
@@ -37,7 +13,7 @@
   <div class="bg-decor" aria-hidden="true"></div>
 
   <header class="site-header">
-    <h1>Golf Grinder</h1>
+    <h1>Golf Tracker</h1>
     <p>Track your rounds, anywhere.</p>
   </header>
 
@@ -49,6 +25,7 @@
       </div>
       <div class="scorecard-table" role="table" aria-label="Scorecard"></div>
     </section>
+    <br/>
   </main>
 
   <div class="modal-overlay" id="playerModal" hidden>
@@ -68,24 +45,6 @@
             <button type="button" class="remove-player" aria-label="Remove player">×</button>
           </div>
         </div>
-        
-        <div class="rounds-selector" id="roundsSelector" hidden>
-          <label for="roundsInput">Number of holes:</label>
-          <select id="roundsInput" name="rounds">
-            <option value="5">5 Holes</option>
-            <option value="6">6 Holes</option>
-            <option value="7">7 Holes</option>
-            <option value="8">8 Holes</option>
-            <option value="9" selected>9 Holes</option>
-            <option value="10">10 Holes</option>
-            <option value="11">11 Holes</option>
-            <option value="12">12 Holes</option>
-            <option value="13">13 Holes</option>
-            <option value="14">14 Holes</option>
-            <option value="15">15 Holes</option>
-          </select>
-        </div>
-        
         <div class="modal-actions">
           <button type="button" class="add-player">Add player</button>
           <div class="spacer"></div>
@@ -118,6 +77,5 @@
   </footer>
 
   <script src="script.js" defer></script>
-  <script src="sw.js" defer></script>
 </body>
 </html>
