@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golf Scorecard Pro</title>
+    <meta name="description" content="Track your golf scores with style">
+    <meta name="theme-color" content="#2d5a27">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⛳</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2d5a27;
+            --secondary: #4a7c59;
+            --accent: #8bc34a;
+            --light: #f5f5f5;
+            --dark: #1a1a1a;
+            --shadow: 0 4px 20px rgba(0,0,0,0.1);
+            --border-radius: 12px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            min-height: 100vh;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            color: var(--light);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            color: var(--accent);
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .setup-section {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.8s ease-out 0.2s both;
+        }
+
+        .setup-section h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.1);
+        }
+
+        .players-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .player-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .player-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+        }
+
+        .remove-player {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            float: right;
+            transition: all 0.3s ease;
+        }
+
+        .remove-player:hover {
+            background: #ff3742;
+            transform: scale(1.05);
+        }
+
+        .btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+        }
+
+        .scorecard {
+            background: var(--light);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            animation: slideUp 0.8s ease-out 0.4s both;
+            display: none;
+        }
+
+        .scorecard.show {
+            display: block;
+        }
+
+        .scorecard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .scorecard-header h2 {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        .holes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .hole-header {
+            text-align: center;
+            font-weight: 600;
+            color: var(--primary);
+            padding: 10px;
+            background: var(--accent);
+            border-radius: 8px;
+            color: white;
+        }
+
+        .score-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .score-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(139, 195, 74, 0.1);
+        }
+
+        .score-input.par {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .score-input.birdie {
+            background: #e8f5e8;
+            border-color: var(--accent);
+        }
+
+        .score-input.eagle {
+            background: #e8f5e8;
+            border-color: var(--accent);
+        }
+
+        .score-input.bogey {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .score-input.double-bogey {
+            background: #ffebee;
+            border-color: #f44336;
+        }
+
+        .totals-row {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            margin-top: 30px;
+        }
+
+        .totals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .total-item {
+            text-align: center;
+        }
+
+        .total-item h4 {
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .total-item .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .floating-action {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .floating-action:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 15px;
+            }
+            
+            .setup-section, .scorecard {
+                padding: 20px;
+            }
+            
+            .holes-grid {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+                gap: 10px;
+            }
+            
+            .score-input {
+                padding: 8px;
+                font-size: 14px;
+            }
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--accent);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⛳ Golf Scorecard Pro</h1>
+            <p>Track your game with style and precision</p>
+        </div>
+
+        <div class="setup-section" id="setupSection">
+            <h2>Game Setup</h2>
+            <div class="form-group">
+                <label for="courseName">Course Name</label>
+                <input type="text" id="courseName" placeholder="Enter course name" value="My Golf Course">
+            </div>
+            
+            <div class="form-group">
+                <label for="holeCount">Number of Holes</label>
+                <select id="holeCount">
+                    <option value="3">3 Holes</option>
+                    <option value="6">6 Holes</option>
+                    <option value="9" selected>9 Holes</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Players</label>
+                <div class="players-container" id="playersContainer">
+                    <div class="player-card">
+                        <button class="remove-player" onclick="removePlayer(this)">×</button>
+                        <div class="form-group">
+                            <input type="text" class="player-name" placeholder="Player Name">
+                        </div>
+                        <div class="form-group">
+                            <input type="number" class="player-handicap" placeholder="Handicap" value="54" min="0" max="54">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-secondary" onclick="addPlayer()">+ Add Player</button>
+            </div>
+
+            <button class="btn" onclick="startGame()">Start Game</button>
+        </div>
+
+        <div class="loading" id="loadingSection">
+            <div class="spinner"></div>
+            <p>Setting up your scorecard...</p>
+        </div>
+
+        <div class="scorecard" id="scorecardSection">
+            <div class="scorecard-header">
+                <h2 id="courseNameDisplay">My Golf Course</h2>
+                <div>
+                    <span id="holeCountDisplay">9 Holes</span>
+                </div>
+            </div>
+
+            <div id="scorecardContent">
+                <!-- Scorecard content will be generated here -->
+            </div>
+
+            <div class="totals-row">
+                <div class="totals-grid" id="totalsGrid">
+                    <!-- Totals will be generated here -->
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="resetGame()">New Game</button>
+                <button class="btn" onclick="saveGame()">Save Game</button>
+                <button class="btn" onclick="loadGame()">Load Game</button>
+            </div>
+        </div>
+    </div>
+
+    <button class="floating-action" onclick="closeRound()" title="Close round">×</button>
+
+    <script>
+        let currentGame = {
+            courseName: '',
+            holeCount: 9,
+            players: [],
+            scores: {},
+            date: null
+        };
+
+        let parValues = [4, 4, 3, 4, 5, 4, 3, 4, 4]; // Default par values for 9 holes
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadGameFromStorage();
+            updateParValues();
+        });
+
+        function updateParValues() {
+            const holeCount = parseInt(document.getElementById('holeCount').value);
+            if (holeCount === 3) {
+                parValues = [3, 3, 3];
+            } else if (holeCount === 6) {
+                parValues = [3, 3, 3, 3, 3, 3];
+            } else {
+                parValues = [4, 4, 3, 4, 5, 4, 3, 4, 4];
+            }
+        }
+
+        function addPlayer() {
+            const container = document.getElementById('playersContainer');
+            const playerCount = container.children.length + 1;
+            
+            const playerCard = document.createElement('div');
+            playerCard.className = 'player-card';
+            playerCard.innerHTML = `
+                <button class="remove-player" onclick="removePlayer(this)">×</button>
+                <div class="form-group">
+                    <input type="text" class="player-name" placeholder="Player Name">
+                </div>
+                <div class="form-group">
+                    <input type="number" class="player-handicap" placeholder="Handicap" value="54" min="0" max="54">
+                </div>
+            `;
+            
+            container.appendChild(playerCard);
+        }
+
+        function removePlayer(button) {
+            const playerCard = button.parentElement;
+            if (document.getElementById('playersContainer').children.length > 1) {
+                playerCard.remove();
+            }
+        }
+
+        function startGame() {
+            const courseName = document.getElementById('courseName').value;
+            const holeCount = parseInt(document.getElementById('holeCount').value);
+            
+            if (!courseName.trim()) {
+                alert('Please enter a course name');
+                return;
+            }
+
+            // Collect player data
+            const players = [];
+            const playerCards = document.querySelectorAll('.player-card');
+            playerCards.forEach(card => {
+                const name = card.querySelector('.player-name').value.trim();
+                const handicap = parseInt(card.querySelector('.player-handicap').value) || 0;
+                if (name) {
+                    players.push({ name, handicap });
+                }
+            });
+
+            if (players.length === 0) {
+                alert('Please add at least one player');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('setupSection').style.display = 'none';
+            document.getElementById('loadingSection').classList.add('show');
+
+            // Simulate loading
+            setTimeout(() => {
+                document.getElementById('loadingSection').classList.remove('show');
+                document.getElementById('scorecardSection').classList.add('show');
+                
+                // Initialize game
+                currentGame = {
+                    courseName,
+                    holeCount,
+                    players,
+                    scores: {},
+                    date: new Date()
+                };
+
+                // Initialize scores
+                players.forEach(player => {
+                    currentGame.scores[player.name] = {};
+                    for (let i = 1; i <= holeCount; i++) {
+                        currentGame.scores[player.name][i] = '';
+                    }
+                });
+
+                generateScorecard();
+                updateDisplay();
+                saveGameToStorage();
+            }, 1500);
+        }
+
+        function generateScorecard() {
+            const content = document.getElementById('scorecardContent');
+            const holeCount = currentGame.holeCount;
+            
+            let html = '<div class="holes-grid">';
+            
+            // Headers
+            html += '<div class="hole-header">Player</div>';
+            for (let i = 1; i <= holeCount; i++) {
+                html += `<div class="hole-header">${i}</div>`;
+            }
+            html += '<div class="hole-header">Total</div>';
+            html += '</div>';
+
+            // Player rows
+            currentGame.players.forEach(player => {
+                html += '<div class="holes-grid">';
+                html += `<div style="padding: 10px; font-weight: 600; color: var(--primary);">${player.name}</div>`;
+                
+                for (let i = 1; i <= holeCount; i++) {
+                    html += `<input type="number" class="score-input" data-player="${player.name}" data-hole="${i}" 
+                                placeholder="${parValues[i-1]}" min="1" max="12" onchange="updateScore(this)">`;
+                }
+                
+                html += `<div style="padding: 10px; font-weight: 600; color: var(--primary); text-align: center;" 
+                            id="total-${player.name}">0</div>`;
+                html += '</div>';
+            });
+
+            content.innerHTML = html;
+        }
+
+        function updateScore(input) {
+            const player = input.dataset.player;
+            const hole = parseInt(input.dataset.hole);
+            const score = parseInt(input.value) || 0;
+            
+            currentGame.scores[player][hole] = score;
+            
+            // Update input styling based on score vs par
+            updateScoreStyling(input, score, hole);
+            
+            // Update totals
+            updateTotals();
+            saveGameToStorage();
+        }
+
+        function updateScoreStyling(input, score, hole) {
+            const par = parValues[hole - 1];
+            const diff = score - par;
+            
+            // Remove existing classes
+            input.classList.remove('par', 'birdie', 'eagle', 'bogey', 'double-bogey');
+            
+            if (score === 0) return;
+            
+            if (diff === 0) {
+                input.classList.add('par');
+            } else if (diff === -1) {
+                input.classList.add('birdie');
+            } else if (diff === -2) {
+                input.classList.add('eagle');
+            } else if (diff === 1) {
+                input.classList.add('bogey');
+            } else if (diff >= 2) {
+                input.classList.add('double-bogey');
+            }
+        }
+
+        function updateTotals() {
+            currentGame.players.forEach(player => {
+                let total = 0;
+                let count = 0;
+                
+                for (let i = 1; i <= currentGame.holeCount; i++) {
+                    const score = currentGame.scores[player.name][i];
+                    if (score && score > 0) {
+                        total += score;
+                        count++;
+                    }
+                }
+                
+                document.getElementById(`total-${player.name}`).textContent = total || 0;
+            });
+
+            updateTotalsGrid();
+        }
+
+        function updateTotalsGrid() {
+            const totalsGrid = document.getElementById('totalsGrid');
+            let html = '';
+            
+            currentGame.players.forEach(player => {
+                let total = 0;
+                let count = 0;
+                
+                for (let i = 1; i <= currentGame.holeCount; i++) {
+                    const score = currentGame.scores[player.name][i];
+                    if (score && score > 0) {
+                        total += score;
+                        count++;
+                    }
+                }
+                
+                html += `
+                    <div class="total-item">
+                        <h4>${player.name}</h4>
+                        <div class="value">${total || 0}</div>
+                        <small>${count}/${currentGame.holeCount} holes</small>
+                    </div>
+                `;
+            });
+            
+            totalsGrid.innerHTML = html;
+        }
+
+        function updateDisplay() {
+            document.getElementById('courseNameDisplay').textContent = currentGame.courseName;
+            document.getElementById('holeCountDisplay').textContent = `${currentGame.holeCount} Holes`;
+        }
+
+        function resetGame() {
+            if (confirm('Are you sure you want to start a new game? All current scores will be lost.')) {
+                document.getElementById('scorecardSection').classList.remove('show');
+                document.getElementById('setupSection').style.display = 'block';
+                currentGame = {
+                    courseName: '',
+                    holeCount: 9,
+                    players: [],
+                    scores: {},
+                    date: null
+                };
+                clearGameFromStorage();
+            }
+        }
+
+        function saveGame() {
+            saveGameToStorage();
+            showNotification('Game saved successfully!', 'success');
+        }
+
+        function loadGame() {
+            loadGameFromStorage();
+            if (currentGame.players.length > 0) {
+                document.getElementById('setupSection').style.display = 'none';
+                document.getElementById('scorecardSection').classList.add('show');
+                generateScorecard();
+                updateDisplay();
+                updateTotals();
+                
+                // Restore scores
+                currentGame.players.forEach(player => {
+                    for (let i = 1; i <= currentGame.holeCount; i++) {
+                        const score = currentGame.scores[player.name][i];
+                        if (score) {
+                            const input = document.querySelector(`[data-player="${player.name}"][data-hole="${i}"]`);
+                            if (input) {
+                                input.value = score;
+                                updateScoreStyling(input, score, i);
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        function saveGameToStorage() {
+            localStorage.setItem('golfScorecard', JSON.stringify(currentGame));
+        }
+
+        function loadGameFromStorage() {
+            const saved = localStorage.getItem('golfScorecard');
+            if (saved) {
+                currentGame = JSON.parse(saved);
+            }
+        }
+
+        function clearGameFromStorage() {
+            localStorage.removeItem('golfScorecard');
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4caf50' : '#2196f3'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+                z-index: 10000;
+                animation: slideIn 0.3s ease-out;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOut 0.3s ease-out';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        function closeRound() {
+            if (confirm('Are you sure you want to close this round? All scores will be lost.')) {
+                document.getElementById('scorecardSection').classList.remove('show');
+                document.getElementById('setupSection').style.display = 'block';
+                currentGame = {
+                    courseName: '',
+                    holeCount: 9,
+                    players: [],
+                    scores: {},
+                    date: null
+                };
+                clearGameFromStorage();
+                showNotification('Round closed. Ready for a new game!', 'info');
+            }
+        }
+
+        // Add CSS animations for notifications
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // Handle hole count change
+        document.getElementById('holeCount').addEventListener('change', updateParValues);
+    </script>
+</body>
+</html>
