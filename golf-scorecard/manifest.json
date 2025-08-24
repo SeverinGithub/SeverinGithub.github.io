@@ -2,7 +2,7 @@
   "name": "Golf Scorecard Pro",
   "short_name": "Golf Pro",
   "description": "Track your golf scores with style and precision",
-  "start_url": "/",
+  "start_url": "https://severingithub.github.io/golf-scorecard/",
   "display": "standalone",
   "background_color": "#2d5a27",
   "theme_color": "#2d5a27",

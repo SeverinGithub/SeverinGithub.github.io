@@ -1,8 +1,8 @@
 const CACHE_NAME = 'golf-scorecard-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  'https://severingithub.github.io/golf-scorecard/',
+  'https://severingithub.github.io/golf-scorecard/index.html',
+  'https://severingithub.github.io/golf-scorecard/manifest.json'
 ];
 
 // Install event - cache resources
