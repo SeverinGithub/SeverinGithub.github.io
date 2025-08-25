@@ -604,6 +604,7 @@
                 html += `<div class="hole-header">${i}</div>`;
             }
             html += '<div class="hole-header">Total</div>';
+            html += '<div class="hole-header">Stableford</div>';
             html += '</div>';
 
             // Player rows
@@ -618,6 +619,8 @@
                 
                 html += `<div style="padding: 10px; font-weight: 600; color: var(--primary); text-align: center;" 
                             id="total-${player.name}">0</div>`;
+                html += `<div style="padding: 10px; font-weight: 600; color: var(--primary); text-align: center;" 
+                            id="stableford-${player.name}">0</div>`;
                 html += '</div>';
             });
 
@@ -664,6 +667,7 @@
         function updateTotals() {
             currentGame.players.forEach(player => {
                 let total = 0;
+                let stablefordPoints = 0;
                 let count = 0;
                 
                 for (let i = 1; i <= currentGame.holeCount; i++) {
@@ -671,10 +675,28 @@
                     if (score && score > 0) {
                         total += score;
                         count++;
+                        
+                        // Calculate Stableford points with handicap adjustment
+                        const par = parValues[i - 1];
+                        const adjustedPar = par + Math.floor(player.handicap / 18); // Basic handicap adjustment
+                        const diff = score - adjustedPar;
+                        
+                        if (diff === 0) {
+                            stablefordPoints += 2; // Adjusted Par
+                        } else if (diff === -1) {
+                            stablefordPoints += 3; // Birdie on adjusted par
+                        } else if (diff === -2) {
+                            stablefordPoints += 4; // Eagle on adjusted par
+                        } else if (diff === 1) {
+                            stablefordPoints += 1; // Bogey on adjusted par
+                        } else if (diff >= 2) {
+                            stablefordPoints += 0; // Double bogey or worse on adjusted par
+                        }
                     }
                 }
                 
                 document.getElementById(`total-${player.name}`).textContent = total || 0;
+                document.getElementById(`stableford-${player.name}`).textContent = stablefordPoints || 0;
             });
 
             updateTotalsGrid();
@@ -686,6 +708,7 @@
             
             currentGame.players.forEach(player => {
                 let total = 0;
+                let stablefordPoints = 0;
                 let count = 0;
                 
                 for (let i = 1; i <= currentGame.holeCount; i++) {
@@ -693,6 +716,23 @@
                     if (score && score > 0) {
                         total += score;
                         count++;
+                        
+                        // Calculate Stableford points with handicap adjustment
+                        const par = parValues[i - 1];
+                        const adjustedPar = par + Math.floor(player.handicap / 18); // Basic handicap adjustment
+                        const diff = score - adjustedPar;
+                        
+                        if (diff === 0) {
+                            stablefordPoints += 2; // Adjusted Par
+                        } else if (diff === -1) {
+                            stablefordPoints += 3; // Birdie on adjusted par
+                        } else if (diff === -2) {
+                            stablefordPoints += 4; // Eagle on adjusted par
+                        } else if (diff === 1) {
+                            stablefordPoints += 1; // Bogey on adjusted par
+                        } else if (diff >= 2) {
+                            stablefordPoints += 0; // Double bogey or worse on adjusted par
+                        }
                     }
                 }
                 
@@ -700,7 +740,9 @@
                     <div class="total-item">
                         <h4>${player.name}</h4>
                         <div class="value">${total || 0}</div>
-                        <small>${count}/${currentGame.holeCount} holes</small>
+                        <small>Total Score</small>
+                        <div class="value" style="margin-top: 10px; color: var(--accent);">${stablefordPoints || 0}</div>
+                        <small>Stableford Points</small>
                     </div>
                 `;
             });
