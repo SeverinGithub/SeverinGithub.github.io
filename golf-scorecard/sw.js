@@ -1,4 +1,4 @@
-const CACHE_NAME = 'golf-scorecard-v1';
+const CACHE_NAME = 'golf-scorecard-v2';
 const urlsToCache = [
   'https://severingithub.github.io/golf-scorecard/',
   'https://severingithub.github.io/golf-scorecard/index.html',
