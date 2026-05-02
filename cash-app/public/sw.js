@@ -1,4 +1,4 @@
-const CACHE_NAME = 'cashflow-pwa-v2'
+const CACHE_NAME = 'cashflow-pwa-v3'
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './favicon.svg']
 
 self.addEventListener('install', (event) => {
