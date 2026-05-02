@@ -50,7 +50,12 @@ self.addEventListener('fetch', (event) => {
           caches.open(CACHE_NAME).then((cache) => cache.put(request, copy))
           return response
         })
-        .catch(() => caches.match('./index.html'))
+        .catch(() => {
+          return new Response('offline', {
+            status: 503,
+            statusText: 'Offline asset',
+          })
+        })
     }),
   )
 })
