@@ -669,6 +669,95 @@
             margin-bottom: 15px;
         }
 
+        /* Settings Modal Styles */
+        .settings-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .settings-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .settings-section h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .settings-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .settings-actions .btn {
+            width: 100%;
+            margin-bottom: 5px;
+        }
+
+        /* Custom Checkbox Styles */
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 16px;
+            line-height: 1.4;
+            position: relative;
+            padding-left: 35px;
+        }
+
+        .checkbox-label input[type="checkbox"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+        .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 20px;
+            width: 20px;
+            background-color: #eee;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-label:hover input ~ .checkmark {
+            background-color: #ccc;
+        }
+
+        .checkbox-label input:checked ~ .checkmark {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .checkmark:after {
+            content: "";
+            position: absolute;
+            display: none;
+        }
+
+        .checkbox-label input:checked ~ .checkmark:after {
+            display: block;
+        }
+
+        .checkbox-label .checkmark:after {
+            left: 6px;
+            top: 2px;
+            width: 6px;
+            height: 10px;
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            transform: rotate(45deg);
+        }
+
         /* iPhone and mobile optimizations */
         @media (max-width: 768px) {
             .bottom-nav {
@@ -839,6 +928,10 @@
             <span class="nav-icon">📊</span>
             <span class="nav-text">History</span>
         </button>
+        <button class="nav-btn" onclick="showSettings()" title="Settings">
+            <span class="nav-icon">⚙️</span>
+            <span class="nav-text">Settings</span>
+        </button>
     </nav>
 
     <!-- History Modal -->
@@ -850,6 +943,68 @@
             </div>
             <div class="modal-body" id="historyContent">
                 <!-- History content will be generated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="settingsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button class="modal-close" onclick="closeSettings()">×</button>
+            </div>
+            <div class="modal-body" id="settingsContent">
+                <div class="settings-section">
+                    <h3>Game Defaults</h3>
+                    <div class="form-group">
+                        <label for="defaultHoleCount">Default Number of Holes</label>
+                        <select id="defaultHoleCount">
+                            <option value="3">3 Holes</option>
+                            <option value="6">6 Holes</option>
+                            <option value="9">9 Holes</option>
+                            <option value="12">12 Holes</option>
+                            <option value="18">18 Holes</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="defaultHandicap">Default Handicap</label>
+                        <input type="number" id="defaultHandicap" min="0" max="54" value="54">
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Display Options</h3>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showParValues" checked>
+                            <span class="checkmark"></span>
+                            Show par values in scorecard header
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="autoSave" checked>
+                            <span class="checkmark"></span>
+                            Auto-save scores as you type
+                        </label>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>Data Management</h3>
+                    <div class="settings-actions">
+                        <button class="btn btn-secondary" onclick="exportData()">Export Data</button>
+                        <button class="btn btn-secondary" onclick="importData()">Import Data</button>
+                        <button class="btn" onclick="clearAllData()" style="background: #f44336;">Clear All Data</button>
+                    </div>
+                </div>
+
+                <div class="settings-section">
+                    <h3>About</h3>
+                    <p>Golf Scorecard Pro v1.0</p>
+                    <p>Track your golf scores with style and precision</p>
+                </div>
             </div>
         </div>
     </div>
@@ -869,7 +1024,22 @@
         document.addEventListener('DOMContentLoaded', function() {
             updateParValues();
             updateRemoveButtonsVisibility();
+            loadDefaultSettings();
         });
+
+        function loadDefaultSettings() {
+            const settings = getSettings();
+            
+            // Set default hole count
+            document.getElementById('holeCount').value = settings.defaultHoleCount || '3';
+            updateParValues();
+            
+            // Set default handicap for new players
+            const handicapInputs = document.querySelectorAll('.player-handicap');
+            handicapInputs.forEach(input => {
+                input.value = settings.defaultHandicap || 54;
+            });
+        }
 
         function updateParValues() {
             const holeCount = parseInt(document.getElementById('holeCount').value);
@@ -892,6 +1062,8 @@
         function addPlayer() {
             const container = document.getElementById('playersContainer');
             const playerCount = container.children.length + 1;
+            const settings = getSettings();
+            const defaultHandicap = settings.defaultHandicap || 54;
             
             const playerCard = document.createElement('div');
             playerCard.className = 'player-card';
@@ -901,7 +1073,7 @@
                     <input type="text" class="player-name" placeholder="Player Name" aria-label="Player name">
                 </div>
                 <div class="form-group">
-                    <input type="number" class="player-handicap" placeholder="Handicap" value="54" min="0" max="54" aria-label="Player handicap" inputmode="numeric" pattern="[0-9]*">
+                    <input type="number" class="player-handicap" placeholder="Handicap" value="${defaultHandicap}" min="0" max="54" aria-label="Player handicap" inputmode="numeric" pattern="[0-9]*">
                 </div>
             `;
             
@@ -1379,6 +1551,147 @@
         document.getElementById('historyModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeHistory();
+            }
+        });
+
+        // Settings functionality
+        function showSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.add('show');
+            loadSettings();
+        }
+
+        function closeSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.classList.remove('show');
+        }
+
+        function loadSettings() {
+            const settings = getSettings();
+            
+            // Load default hole count
+            document.getElementById('defaultHoleCount').value = settings.defaultHoleCount || '3';
+            
+            // Load default handicap
+            document.getElementById('defaultHandicap').value = settings.defaultHandicap || 54;
+            
+            // Load display options
+            document.getElementById('showParValues').checked = settings.showParValues !== false;
+            document.getElementById('autoSave').checked = settings.autoSave !== false;
+        }
+
+        function getSettings() {
+            const settings = localStorage.getItem('golfScorecardSettings');
+            return settings ? JSON.parse(settings) : {
+                defaultHoleCount: '3',
+                defaultHandicap: 54,
+                showParValues: true,
+                autoSave: true
+            };
+        }
+
+        function saveSettings() {
+            const settings = {
+                defaultHoleCount: document.getElementById('defaultHoleCount').value,
+                defaultHandicap: parseInt(document.getElementById('defaultHandicap').value),
+                showParValues: document.getElementById('showParValues').checked,
+                autoSave: document.getElementById('autoSave').checked
+            };
+            localStorage.setItem('golfScorecardSettings', JSON.stringify(settings));
+            showNotification('Settings saved!', 'success');
+        }
+
+        function exportData() {
+            const data = {
+                currentGame: currentGame,
+                history: getGameHistory(),
+                settings: getSettings(),
+                exportDate: new Date().toISOString()
+            };
+            
+            const dataStr = JSON.stringify(data, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `golf-scorecard-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showNotification('Data exported successfully!', 'success');
+        }
+
+        function importData() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        try {
+                            const data = JSON.parse(e.target.result);
+                            
+                            if (data.currentGame) {
+                                localStorage.setItem('golfScorecard', JSON.stringify(data.currentGame));
+                            }
+                            if (data.history) {
+                                localStorage.setItem('golfScorecardHistory', JSON.stringify(data.history));
+                            }
+                            if (data.settings) {
+                                localStorage.setItem('golfScorecardSettings', JSON.stringify(data.settings));
+                            }
+                            
+                            showNotification('Data imported successfully!', 'success');
+                            closeSettings();
+                        } catch (error) {
+                            showNotification('Invalid file format!', 'error');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            };
+            input.click();
+        }
+
+        function clearAllData() {
+            if (confirm('Are you sure you want to clear ALL data? This cannot be undone!')) {
+                localStorage.removeItem('golfScorecard');
+                localStorage.removeItem('golfScorecardHistory');
+                localStorage.removeItem('golfScorecardSettings');
+                
+                // Reset current game
+                currentGame = {
+                    courseName: '',
+                    holeCount: 9,
+                    players: [],
+                    scores: {},
+                    date: null
+                };
+                
+                // Reset UI
+                document.getElementById('scorecardSection').classList.remove('show');
+                document.getElementById('setupSection').style.display = 'block';
+                document.querySelector('.floating-action').classList.remove('show');
+                
+                showNotification('All data cleared!', 'success');
+                closeSettings();
+            }
+        }
+
+        // Save settings when changed
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add event listeners for settings changes
+            document.getElementById('defaultHoleCount').addEventListener('change', saveSettings);
+            document.getElementById('defaultHandicap').addEventListener('change', saveSettings);
+            document.getElementById('showParValues').addEventListener('change', saveSettings);
+            document.getElementById('autoSave').addEventListener('change', saveSettings);
+        });
+
+        // Close settings modal when clicking outside
+        document.getElementById('settingsModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeSettings();
             }
         });
 

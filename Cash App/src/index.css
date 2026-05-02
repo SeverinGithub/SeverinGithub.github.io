@@ -1,0 +1,449 @@
+:root {
+  color-scheme: dark;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  line-height: 1.4;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --bg: #090909;
+  --surface: #131313;
+  --surface-alt: #1a1a1a;
+  --text: #f5f5f5;
+  --muted: #a3a3a3;
+  --line: #2e2e2e;
+  --plus: #e5e5e5;
+  --minus: #b4b4b4;
+  --radius: 20px;
+  --accent: #efefef;
+  --accent-text: #0b0b0b;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: radial-gradient(circle at 20% 0%, #202020 0%, var(--bg) 34%);
+  color: var(--text);
+}
+
+#root {
+  width: min(720px, 100%);
+  margin: 0 auto;
+}
+
+.app-shell {
+  padding: 20px 14px 40px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: clamp(1.7rem, 4vw, 2.1rem);
+  letter-spacing: 0.02em;
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.topbar p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.top-settings {
+  margin-top: 2px;
+}
+
+.tabs {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  background: #111;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 6px;
+}
+
+.tab {
+  border: 0;
+  border-radius: 10px;
+  padding: 11px;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 600;
+  transition: 180ms ease;
+}
+
+.tab.active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.panels {
+  position: relative;
+  margin-top: 16px;
+}
+
+.panel {
+  display: grid;
+  gap: 14px;
+  transform-origin: center top;
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.panel.hidden {
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+}
+
+.panel.visible {
+  opacity: 1;
+  transform: translateY(0);
+  position: relative;
+}
+
+.card {
+  background: linear-gradient(180deg, var(--surface-alt), var(--surface));
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.card-head h3 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #dfdfdf;
+}
+
+.balance-card p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.balance-card h2 {
+  margin: 8px 0 0;
+  font-size: clamp(2rem, 8vw, 2.8rem);
+}
+
+.balance-line {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.balance-date {
+  color: var(--muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.balance-card small {
+  color: var(--muted);
+}
+
+.form-grid {
+  display: grid;
+  gap: 8px;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #0f0f0f;
+  color: var(--text);
+  padding: 12px;
+  font: inherit;
+}
+
+input:focus,
+select:focus,
+button:focus {
+  outline: none;
+  border-color: #757575;
+}
+
+button {
+  cursor: pointer;
+  background: var(--accent);
+  color: var(--accent-text);
+  font-weight: 700;
+  transition: transform 140ms ease;
+}
+
+button:active {
+  transform: scale(0.99);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.list-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: #0e0e0e;
+  gap: 8px;
+}
+
+.list-item strong {
+  display: block;
+}
+
+.list-item span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.row-end {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.plus {
+  color: var(--plus);
+}
+
+.minus {
+  color: var(--minus);
+}
+
+.ghost {
+  width: auto;
+  background: transparent;
+  border-color: #444;
+  color: var(--muted);
+  padding: 7px 10px;
+  font-size: 0.8rem;
+}
+
+.chart-expand {
+  padding: 6px 10px;
+}
+
+.chart-card {
+  overflow: hidden;
+}
+
+.mini-chart {
+  width: 100%;
+  height: 210px;
+  display: block;
+}
+
+.axis {
+  stroke: #727272;
+  stroke-width: 0.4;
+}
+
+.grid-line {
+  stroke: #2f2f2f;
+  stroke-width: 0.28;
+}
+
+.tick-label {
+  fill: #9a9a9a;
+  font-size: 3.1px;
+}
+
+.y-label {
+  text-anchor: start;
+}
+
+.chart-path {
+  fill: none;
+  stroke: #efefef;
+  stroke-width: 0.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.chart-point {
+  fill: #efefef;
+}
+
+.chart-point.selected {
+  fill: #ffffff;
+}
+
+.chart-point-hit {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.empty {
+  color: var(--muted);
+  margin: 0;
+  text-align: center;
+  padding: 12px;
+}
+
+.chart-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 4, 4, 0.88);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  z-index: 80;
+}
+
+.chart-overlay-card {
+  width: min(1100px, 100%);
+  background: linear-gradient(180deg, #1a1a1a, #101010);
+  border: 1px solid #323232;
+  border-radius: 18px;
+  padding: 14px;
+}
+
+.chart-overlay-inner .mini-chart {
+  height: min(72vh, 620px);
+}
+
+.clear-point {
+  margin-top: 10px;
+}
+
+.account-share-line {
+  margin-top: 10px;
+  width: 100%;
+  height: 8px;
+  background: #1a1a1a;
+  border-radius: 999px;
+  overflow: hidden;
+  display: flex;
+}
+
+.account-share-line .seg {
+  height: 100%;
+  display: block;
+}
+
+.account-share-line .cash {
+  background: #22c55e;
+}
+
+.account-share-line .ing {
+  background: #f97316;
+}
+
+.account-share-line .sparkasse {
+  background: #ef4444;
+}
+
+.accounts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.account-card {
+  border-radius: 14px;
+  padding: 12px;
+  border: 1px solid #343434;
+  background: #111;
+}
+
+.account-card h4 {
+  margin: 0;
+  font-size: 0.92rem;
+  color: #d7d7d7;
+}
+
+.account-card p {
+  margin: 8px 0 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.account-card.cash {
+  box-shadow: inset 0 0 0 1px rgba(34, 197, 94, 0.45);
+}
+
+.account-card.ing {
+  box-shadow: inset 0 0 0 1px rgba(249, 115, 22, 0.45);
+}
+
+.account-card.sparkasse {
+  box-shadow: inset 0 0 0 1px rgba(239, 68, 68, 0.45);
+}
+
+.transfer-card {
+  margin-top: 8px;
+}
+
+.confirm-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.confirm-row input {
+  width: auto;
+  margin-top: 2px;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+body[data-theme='mono'] {
+  --accent: #efefef;
+  --accent-text: #0b0b0b;
+}
+
+body[data-theme='ocean'] {
+  --accent: #60a5fa;
+  --accent-text: #0b1220;
+}
+
+body[data-theme='forest'] {
+  --accent: #4ade80;
+  --accent-text: #062012;
+}

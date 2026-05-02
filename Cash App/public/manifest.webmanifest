@@ -1,0 +1,18 @@
+{
+  "name": "Cashflow - Finanz Tracker",
+  "short_name": "Cashflow",
+  "description": "Minimalistische PWA zum Tracken von Einnahmen, Ausgaben und Zukunftsplanung.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#090909",
+  "theme_color": "#090909",
+  "lang": "de-DE",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "48x46",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
