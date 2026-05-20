@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm -v)",
+      "Read(//usr/local/bin/**)",
+      "Read(//Users/leopold/.nvm/versions/**)",
+      "Read(//Users/leopold/.volta/**)",
+      "Read(//Users/leopold/.local/state/**)",
+      "Bash(export PATH=\"/usr/local/bin:/opt/homebrew/bin:$PATH\")",
+      "Bash(brew --prefix node)",
+      "Read(//usr/local/opt/node/bin/**)",
+      "Read(//usr/local/Cellar/**)",
+      "Read(//usr/local/opt/**)",
+      "Bash(brew install *)",
+      "Bash(cat /private/tmp/claude-504/-Users-leopold-Desktop-closet/f8e48a3c-2d54-42bd-af1a-a1281ce6246b/tasks/bcswibgaa.output; echo \"=== which ===\"; which curl tar ln grep; echo \"=== state ===\"; ls -la ~/.local/)",
+      "Bash(export PATH=\"$HOME/.local/node/bin:$PATH\")",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(xargs kill)",
+      "mcp__Claude_Preview__preview_start"
+    ]
+  }
+}
