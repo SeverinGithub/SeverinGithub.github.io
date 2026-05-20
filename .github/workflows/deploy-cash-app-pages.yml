@@ -1,4 +1,4 @@
-name: Deploy cash-app folder to Pages
+name: Deploy GitHub Pages
 
 on:
   push:
@@ -26,15 +26,25 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: cash-app/package-lock.json
+          cache-dependency-path: |
+            cash-app/package-lock.json
+            closet/package-lock.json
 
-      - name: Install dependencies
+      - name: Install cash-app dependencies
         run: npm ci
         working-directory: cash-app
 
       - name: Build cash-app
         run: npm run build
         working-directory: cash-app
+
+      - name: Install closet dependencies
+        run: npm ci
+        working-directory: closet
+
+      - name: Build closet
+        run: npm run build
+        working-directory: closet
 
       - name: Prepare Pages artifact
         run: |
@@ -44,6 +54,9 @@ jobs:
           rm -rf .site/cash-app
           mkdir -p .site/cash-app
           cp -R cash-app/dist/. .site/cash-app/
+          rm -rf .site/closet
+          mkdir -p .site/closet
+          cp -R closet/dist/. .site/closet/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
