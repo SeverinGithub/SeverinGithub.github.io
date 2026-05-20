@@ -141,7 +141,12 @@ export function WardrobeProvider({ children }) {
 
   const value = useMemo(() => {
     const season = getCurrentSeason()
-    const fits = generateFits(items, { season, activity })
+    let fits = []
+    try {
+      fits = generateFits(items, { season, activity })
+    } catch (err) {
+      console.error('generateFits', err)
+    }
     const fitReady = canGenerateFits(items)
     return {
       items,

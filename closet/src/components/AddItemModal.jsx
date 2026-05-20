@@ -5,6 +5,8 @@ import {
   getDirectionById,
 } from '../lib/styleDirections.js'
 import {
+  applyExclusiveTagKeys,
+  coerceRawTags,
   detectDirectionFromKeys,
   getStyleSubTagSuggestions,
   getTagSuggestions,
@@ -25,10 +27,18 @@ function readImageFile(file) {
 }
 
 function parseTagsInput(value) {
-  return value
-    .split(/[,;]+/)
+  return coerceRawTags(
+    value
+      .split(/[,;]+/)
+      .map((t) => t.trim())
+      .filter(Boolean),
+  )
     .map((t) => normalizeTag(t)?.label)
     .filter(Boolean)
+}
+
+function mergeTagLabels(prevLabels, additions) {
+  return normalizeTags([...coerceRawTags(prevLabels), ...coerceRawTags(additions)]).tags
 }
 
 const EMPTY_FORM = {
@@ -68,9 +78,10 @@ export default function AddItemModal({ open, item = null, onClose, onSave, onUpd
     if (item) {
       setImageDataUrl(item.imageDataUrl)
       setCategory(item.category)
-      setSeasons([...item.seasons])
-      setTags([...item.tags])
-      setActiveDirection(detectDirectionFromKeys(item.tagKeys ?? []))
+      setSeasons(Array.isArray(item.seasons) ? [...item.seasons] : [])
+      const normalized = normalizeTags(item.tags ?? item.tagKeys ?? [])
+      setTags(normalized.tags)
+      setActiveDirection(detectDirectionFromKeys(normalized.tagKeys))
       setTagInput('')
       setError('')
       setConfirmRemove(false)
@@ -140,7 +151,7 @@ export default function AddItemModal({ open, item = null, onClose, onSave, onUpd
   function addTagsFromInput() {
     const parsed = parseTagsInput(tagInput)
     if (!parsed.length) return
-    setTags((prev) => [...new Set([...prev, ...parsed])])
+    setTags((prev) => mergeTagLabels(prev, parsed))
     setTagInput('')
   }
 
@@ -156,7 +167,7 @@ export default function AddItemModal({ open, item = null, onClose, onSave, onUpd
   }
 
   function addSuggestion(label) {
-    setTags((prev) => [...new Set([...prev, label])])
+    setTags((prev) => mergeTagLabels(prev, [label]))
   }
 
   function selectDirection(directionId) {
@@ -165,9 +176,11 @@ export default function AddItemModal({ open, item = null, onClose, onSave, onUpd
     setActiveDirection(directionId)
     const anchor = getDirectionAnchorTag(directionId)
     const { tagKeys } = normalizeTags(tags)
-    const withoutDir = tagKeys.filter((k) => !k.startsWith('dir:') && k !== 'dir:trendy' && k !== 'dir:party' && k !== 'dir:home')
-    const nextKeys = [...withoutDir, dir.tagKey]
-    if (anchor && !withoutDir.includes(anchor)) nextKeys.push(anchor)
+    const withoutDir = tagKeys.filter(
+      (k) => !k.startsWith('dir:') && k !== 'dir:trendy' && k !== 'dir:party' && k !== 'dir:home',
+    )
+    let nextKeys = applyExclusiveTagKeys(withoutDir, dir.tagKey)
+    if (anchor) nextKeys = applyExclusiveTagKeys(nextKeys, anchor)
     setTags(tagsFromKeys(nextKeys))
   }
 
@@ -190,7 +203,7 @@ export default function AddItemModal({ open, item = null, onClose, onSave, onUpd
       return
     }
     const pending = parseTagsInput(tagInput)
-    const allTags = [...new Set([...tags, ...pending])]
+    const allTags = mergeTagLabels(tags, pending)
     const draft = { imageDataUrl, category, seasons, tags: allTags }
 
     if (isEdit) {

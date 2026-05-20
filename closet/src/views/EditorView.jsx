@@ -78,7 +78,7 @@ export default function EditorView() {
                   <span className="wardrobe-item-nr">Nr. {item.displayNumber}</span>
                   <div className="wardrobe-item-meta">
                     <span className="wardrobe-item-cat">{categoryLabel(item.category)}</span>
-                    {item.tags.length > 0 && (
+                    {Array.isArray(item.tags) && item.tags.length > 0 && (
                       <span className="wardrobe-item-tags">{item.tags.slice(0, 2).join(' · ')}</span>
                     )}
                     <span className="wardrobe-item-seasons">{seasonLabels(item.seasons).join(', ')}</span>

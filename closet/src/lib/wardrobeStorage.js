@@ -30,11 +30,9 @@ function normalizeItem(item, fallbackIndex = 0) {
   const category = item.category ?? item.cat ?? item.type
   if (!category || typeof category !== 'string') return null
 
-  let tagSource = item.tags
-  if (!Array.isArray(tagSource) && Array.isArray(item.tagKeys)) {
-    tagSource = item.tagKeys
-  }
-  const { tags, tagKeys } = normalizeTags(Array.isArray(tagSource) ? tagSource : [])
+  const tagSource =
+    item.tags ?? (Array.isArray(item.tagKeys) || typeof item.tagKeys === 'string' ? item.tagKeys : [])
+  const { tags, tagKeys } = normalizeTags(tagSource)
 
   let seasons = item.seasons ?? item.season ?? item.jahreszeit
   if (!Array.isArray(seasons)) {

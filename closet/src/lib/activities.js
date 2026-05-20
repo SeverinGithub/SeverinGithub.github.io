@@ -316,11 +316,11 @@ export function scoreActivityMatch(parts, activityId) {
   for (const part of parts) {
     const keys = getItemTagKeys(part)
     for (const key of keys) {
-      if (activity.prefer.includes(key)) {
+      if (activity.prefer?.includes(key)) {
         score += 16
         preferHits += 1
       }
-      if (activity.avoid.includes(key)) {
+      if (activity.avoid?.includes(key)) {
         score -= 20
         avoidHits += 1
       }

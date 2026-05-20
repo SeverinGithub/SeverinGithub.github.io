@@ -65,7 +65,7 @@ export function getHardViolations(parts, activityId) {
 
   for (const part of parts) {
     for (const key of getAllItemKeys(part)) {
-      if (activity.avoid.includes(key) && !hardAvoid.has(key)) {
+      if (activity.avoid?.includes(key) && !hardAvoid.has(key)) {
         violations.push(`${activity.label}: ${key}`)
       }
     }
@@ -141,7 +141,7 @@ function scoreLegacyActivityAvoid(parts, activityId) {
   for (const part of parts) {
     const keys = getAllItemKeys(part)
     for (const key of keys) {
-      if (activity.avoid.includes(key)) {
+      if (activity.avoid?.includes(key)) {
         penalty += isLenientActivity(activityId) ? 8 : 18
       }
     }

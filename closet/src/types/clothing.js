@@ -28,7 +28,9 @@ export function seasonLabels(ids) {
 
 export function nextDisplayNumber(items) {
   if (!items.length) return 1
-  return Math.max(...items.map((i) => i.displayNumber)) + 1
+  const nums = items.map((i) => Number(i.displayNumber)).filter((n) => Number.isFinite(n))
+  if (!nums.length) return 1
+  return Math.max(...nums) + 1
 }
 
 export function createClothingItem({ category, seasons, tags, imageDataUrl }, existingItems) {

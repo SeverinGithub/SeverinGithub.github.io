@@ -207,41 +207,124 @@ function slugify(text) {
     .replace(/^-|-$/g, '')
 }
 
+/** Pro Gruppe nur ein Tag (z. B. eine Farbe, eine Richtung). */
+const EXCLUSIVE_TAG_GROUPS = new Set(['color', 'type', 'fit', 'style', 'material', 'direction', 'vibe', 'semantic'])
+
+const LEGACY_DIRECTION_KEYS = new Set(['dir:trendy', 'dir:party', 'dir:home'])
+
+/** @param {unknown} tagKeys */
+export function coerceTagKeys(tagKeys) {
+  if (Array.isArray(tagKeys)) {
+    return tagKeys.filter((k) => typeof k === 'string' && k.length > 0)
+  }
+  if (typeof tagKeys === 'string' && tagKeys.length > 0) {
+    return [tagKeys]
+  }
+  return []
+}
+
+/** @param {unknown} rawTags */
+export function coerceRawTags(rawTags) {
+  if (rawTags == null) return []
+  if (Array.isArray(rawTags)) {
+    return rawTags
+      .map((raw) => {
+        if (typeof raw === 'string') return raw
+        if (raw && typeof raw === 'object') {
+          if (typeof raw.label === 'string') return raw.label
+          if (typeof raw.key === 'string') return tagKeyToLabel(raw.key)
+        }
+        return ''
+      })
+      .filter(Boolean)
+  }
+  if (typeof rawTags === 'string') {
+    return rawTags
+      .split(/[,;]+/)
+      .map((t) => t.trim())
+      .filter(Boolean)
+  }
+  return []
+}
+
+export function getTagGroup(key) {
+  if (typeof key !== 'string' || !key) return null
+  if (key.startsWith('dir:') || LEGACY_DIRECTION_KEYS.has(key)) return 'direction'
+  if (key.startsWith('free:')) return null
+  return TAG_CATALOG[key]?.group ?? null
+}
+
+function isDirectionKey(key) {
+  return typeof key === 'string' && (key.startsWith('dir:') || LEGACY_DIRECTION_KEYS.has(key))
+}
+
+/** Ersetzt andere Tags derselben exklusiven Gruppe (z. B. Schwarz → Weiß). */
+export function applyExclusiveTagKeys(keys, newKey) {
+  const group = getTagGroup(newKey)
+  if (!group || !EXCLUSIVE_TAG_GROUPS.has(group)) {
+    return [...keys.filter((k) => k !== newKey), newKey]
+  }
+
+  const filtered = keys.filter((k) => {
+    if (k === newKey) return false
+    if (group === 'direction') return !isDirectionKey(k) && getTagGroup(k) !== 'direction'
+    return getTagGroup(k) !== group
+  })
+  return [...filtered, newKey]
+}
+
 export function normalizeTag(raw) {
-  const trimmed = raw.trim().replace(/\s+/g, ' ')
+  if (raw == null) return null
+  const trimmed = String(raw).trim().replace(/\s+/g, ' ')
   if (!trimmed) return null
   const lookup = trimmed.toLowerCase()
   const key = TAG_ALIASES[lookup] ?? (TAG_CATALOG[lookup] ? lookup : null)
   if (key && TAG_CATALOG[key]) {
     return { key, label: TAG_CATALOG[key].label }
   }
-  const freeSlug = slugify(trimmed)
+  const freeSlug = slugify(trimmed) || `custom-${lookup.replace(/[^a-z0-9]+/g, '-').slice(0, 24)}`
   return { key: `free:${freeSlug}`, label: trimmed.charAt(0).toUpperCase() + trimmed.slice(1) }
 }
 
 /** @returns {{ tags: string[], tagKeys: string[] }} */
 export function normalizeTags(rawTags) {
-  const tags = []
-  const tagKeys = []
-  const seen = new Set()
+  const raws = coerceRawTags(rawTags)
+  const labelByKey = new Map()
+  let keys = []
 
-  for (const raw of rawTags) {
-    const entry = normalizeTag(typeof raw === 'string' ? raw : raw?.label ?? '')
-    if (!entry || seen.has(entry.key)) continue
-    seen.add(entry.key)
-    tagKeys.push(entry.key)
-    tags.push(entry.label)
+  for (const raw of raws) {
+    const entry = normalizeTag(raw)
+    if (!entry) continue
+    keys = applyExclusiveTagKeys(keys, entry.key)
+    labelByKey.set(entry.key, entry.label)
+    const keySet = new Set(keys)
+    for (const k of [...labelByKey.keys()]) {
+      if (!keySet.has(k)) labelByKey.delete(k)
+    }
   }
 
+  const tagKeys = [...new Set(keys)]
+  const tags = tagKeys.map((k) => labelByKey.get(k) ?? tagKeyToLabel(k))
   return { tags, tagKeys }
 }
 
 export function getItemTagKeys(item) {
-  if (Array.isArray(item.tagKeys) && item.tagKeys.length) return item.tagKeys
-  return normalizeTags(item.tags ?? []).tagKeys
+  const stored = coerceTagKeys(item?.tagKeys)
+  if (stored.length) return stored
+  return normalizeTags(item?.tags).tagKeys
 }
 
 export function tagKeyToLabel(key) {
+  if (typeof key !== 'string') return ''
+  if (key.startsWith('free:')) {
+    const slug = key.slice(5)
+    if (!slug) return 'Eigenes Tag'
+    return slug
+      .split('-')
+      .filter(Boolean)
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(' ')
+  }
   return TAG_CATALOG[key]?.label ?? key
 }
 
@@ -252,7 +335,7 @@ export function tagsFromKeys(keys) {
 /** Unter-Tags für gewählte Stil-Richtung (dynamisch nach Kategorie) */
 export function getStyleSubTagSuggestions(directionId, selectedTagKeys = [], categoryId = null) {
   if (!directionId) return []
-  const selected = new Set(selectedTagKeys)
+  const selected = new Set(coerceTagKeys(selectedTagKeys))
   return getSubTagKeysForDirection(directionId, categoryId)
     .filter((key) => TAG_CATALOG[key] && !selected.has(key))
     .slice(0, 14)
@@ -261,7 +344,7 @@ export function getStyleSubTagSuggestions(directionId, selectedTagKeys = [], cat
 
 /** Farben & Typ (ohne Stil – Stil läuft über Richtungen) */
 export function getTagSuggestions(categoryId, selectedTagKeys = [], { directionId } = {}) {
-  const selected = new Set(selectedTagKeys)
+  const selected = new Set(coerceTagKeys(selectedTagKeys))
   const styleGroups = new Set(['style', 'direction', 'vibe'])
   const keys = [
     ...COLOR_SUGGESTIONS,
@@ -278,17 +361,19 @@ export function getTagSuggestions(categoryId, selectedTagKeys = [], { directionI
 export { detectDirectionFromKeys }
 
 export function tagsConflict(keysA, keysB) {
-  for (const [a, b] of STYLE_CONFLICTS) {
-    const hasA = keysA.includes(a) || keysB.includes(a)
-    const hasB = keysA.includes(b) || keysB.includes(b)
+  const a = coerceTagKeys(keysA)
+  const b = coerceTagKeys(keysB)
+  for (const [x, y] of STYLE_CONFLICTS) {
+    const hasA = a.includes(x) || b.includes(x)
+    const hasB = a.includes(y) || b.includes(y)
     if (hasA && hasB) return true
   }
   return false
 }
 
 export function sharedTagKeys(keysA, keysB) {
-  const setB = new Set(keysB)
-  return keysA.filter((k) => setB.has(k) && !k.startsWith('free:'))
+  const setB = new Set(coerceTagKeys(keysB))
+  return coerceTagKeys(keysA).filter((k) => setB.has(k) && !k.startsWith('free:'))
 }
 
 const SEMANTIC_PATTERNS = [
@@ -299,8 +384,9 @@ const SEMANTIC_PATTERNS = [
 
 function inferSemanticKeys(item) {
   const inferred = []
-  const labels = [...(item.tags ?? []), ...(item.tagKeys ?? [])]
-  const text = labels.join(' ')
+  const tagLabels = coerceRawTags(item?.tags)
+  const keyLabels = coerceTagKeys(item?.tagKeys).map((k) => tagKeyToLabel(k))
+  const text = [...tagLabels, ...keyLabels].join(' ')
   for (const { key, pattern } of SEMANTIC_PATTERNS) {
     if (pattern.test(text)) inferred.push(key)
   }

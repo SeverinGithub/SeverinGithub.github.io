@@ -190,15 +190,21 @@ export function getDirectionById(id) {
 }
 
 export function detectDirectionFromKeys(tagKeys) {
-  for (const key of tagKeys) {
+  const keys = Array.isArray(tagKeys)
+    ? tagKeys.filter((k) => typeof k === 'string' && k.length > 0)
+    : typeof tagKeys === 'string' && tagKeys.length > 0
+      ? [tagKeys]
+      : []
+
+  for (const key of keys) {
     if (LEGACY_DIRECTION_KEYS[key]) return LEGACY_DIRECTION_KEYS[key]
   }
   for (const dir of STANDARD_STYLE_DIRECTIONS) {
-    if (tagKeys.includes(dir.tagKey)) return dir.id
+    if (keys.includes(dir.tagKey)) return dir.id
   }
   for (const directionId of Object.keys(STYLE_SUB_TAGS_BASE)) {
     const pool = getSubTagKeysForDirection(directionId)
-    if (pool.some((k) => tagKeys.includes(k))) return directionId
+    if (pool.some((k) => keys.includes(k))) return directionId
   }
   return null
 }
@@ -236,6 +242,8 @@ export function getDirectionFamilyKeys(directionId) {
 
 export function itemMatchesDirection(item, directionId) {
   const family = new Set(getDirectionFamilyKeys(directionId))
-  const keys = item?.tagKeys ?? []
+  const keys = Array.isArray(item?.tagKeys)
+    ? item.tagKeys.filter((k) => typeof k === 'string')
+    : []
   return keys.some((k) => family.has(k) || LEGACY_DIRECTION_KEYS[k] === directionId)
 }
