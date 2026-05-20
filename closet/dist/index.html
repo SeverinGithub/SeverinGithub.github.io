@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <link rel="manifest" href="manifest.webmanifest" />
+    <meta name="theme-color" content="#FF7A00" />
+    <meta
+      name="description"
+      content="Dein digitaler Kleiderschrank – Outfits, Kategorien und Styling."
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Closet</title>
+    <script>
+      (function () {
+        var KEY = 'closet-app-settings-v1'
+        var DARK = { bg: '#121218', surface: '#1c1c24', text: '#f4f4f5' }
+        try {
+          var s = JSON.parse(localStorage.getItem(KEY) || '{}')
+          var mode =
+            s.colorMode === 'system'
+              ? window.matchMedia('(prefers-color-scheme: dark)').matches
+                ? 'dark'
+                : 'light'
+              : s.colorMode || 'light'
+          if (mode === 'dark') {
+            var root = document.documentElement
+            root.dataset.colorMode = 'dark'
+            root.style.colorScheme = 'dark'
+            root.style.setProperty('--bg', DARK.bg)
+            root.style.setProperty('--surface', DARK.surface)
+            root.style.setProperty('--text', DARK.text)
+          }
+        } catch (e) {
+          /* ignore */
+        }
+      })()
+    </script>
+    <script type="module" crossorigin src="/closet/assets/index-zvMI3HfC.js"></script>
+    <link rel="stylesheet" crossorigin href="/closet/assets/index-CRKKNzST.css">
+  </head>
+  <body>
+    <div id="root">
+      <p style="padding: 24px; font-family: Poppins, sans-serif">Closet lädt …</p>
+    </div>
+  </body>
+</html>
