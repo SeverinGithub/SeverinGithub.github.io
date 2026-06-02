@@ -1,53 +1,24 @@
 <!doctype html>
-<html lang="de">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-    <link rel="manifest" href="manifest.webmanifest" />
-    <meta name="theme-color" content="#FF7A00" />
-    <meta
-      name="description"
-      content="Dein digitaler Kleiderschrank – Outfits, Kategorien und Styling."
-    />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <title>Closet</title>
-    <script>
-      (function () {
-        var KEY = 'closet-app-settings-v1'
-        var DARK = { bg: '#121218', surface: '#1c1c24', text: '#f4f4f5' }
-        try {
-          var s = JSON.parse(localStorage.getItem(KEY) || '{}')
-          var mode =
-            s.colorMode === 'system'
-              ? window.matchMedia('(prefers-color-scheme: dark)').matches
-                ? 'dark'
-                : 'light'
-              : s.colorMode || 'light'
-          if (mode === 'dark') {
-            var root = document.documentElement
-            root.dataset.colorMode = 'dark'
-            root.style.colorScheme = 'dark'
-            root.style.setProperty('--bg', DARK.bg)
-            root.style.setProperty('--surface', DARK.surface)
-            root.style.setProperty('--text', DARK.text)
-          }
-        } catch (e) {
-          /* ignore */
-        }
-      })()
-    </script>
-    <script type="module" crossorigin src="/closet/assets/index-R7EIkA2w.js"></script>
-    <link rel="stylesheet" crossorigin href="/closet/assets/index-CRKKNzST.css">
-  </head>
-  <body>
-    <div id="root">
-      <p style="padding: 24px; font-family: Poppins, sans-serif">Closet lädt …</p>
-    </div>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="The Closet — A digital wardrobe diary. Curate your style, track your outfits, and dress with intention." />
+  <meta name="theme-color" content="#F4F1EA" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0E0D0B" media="(prefers-color-scheme: dark)" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="The Closet" />
+  <meta property="og:title" content="The Closet" />
+  <meta property="og:description" content="A digital wardrobe diary. Curate your style, track your outfits, and dress with intention." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="/closet/favicon.svg" />
+  <title>The Closet — A Wardrobe Diary</title>
+  <script type="module" crossorigin src="/closet/assets/index-R7EIkA2w.js"></script>
+  <link rel="stylesheet" crossorigin href="/closet/assets/index-CRKKNzST.css">
+</head>
+<body>
+  <div id="root"></div>
+</body>
 </html>
