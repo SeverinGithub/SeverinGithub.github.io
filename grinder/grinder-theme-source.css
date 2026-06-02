@@ -1,0 +1,133 @@
+/* ───────────────────────────────────────────────────────────
+   GRINDER — golf scorecard · design tokens
+   Three themes via [data-theme]. Tokens are consumed by the app
+   only; the device bezel stays neutral.
+   ─────────────────────────────────────────────────────────── */
+
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,400;100,500;100,600;100,700;125,700;125,800;125,900&display=swap');
+
+:root {
+  --font: 'Archivo', system-ui, -apple-system, sans-serif;
+  --r-sm: 12px;
+  --r-md: 18px;
+  --r-lg: 26px;
+  --r-xl: 34px;
+  --ease: cubic-bezier(.22,1,.36,1);
+}
+
+/* ── Theme A · FAIRWAY (light, clean — recommended) ───────── */
+[data-theme="fairway"] {
+  --bg: #E9EFE8;
+  --bg-2: #DFE7DD;
+  --surface: #FFFFFF;
+  --surface-2: #F0F4EF;
+  --ink: #112019;
+  --ink-soft: #586a60;
+  --ink-faint: #93a199;
+  --line: rgba(17,32,25,.09);
+  --line-strong: rgba(17,32,25,.16);
+  --primary: #11824A;
+  --primary-strong: #0C6038;
+  --on-primary: #FFFFFF;
+  --accent: #B7ED3C;
+  --accent-ink: #1d2b07;
+  --under: #11824A;   /* under par / good */
+  --over: #C9603A;    /* over par */
+  --shadow-sm: 0 1px 2px rgba(17,32,25,.06), 0 4px 12px rgba(17,32,25,.05);
+  --shadow-md: 0 2px 6px rgba(17,32,25,.07), 0 16px 36px rgba(17,32,25,.09);
+  --hairline: 1px;
+}
+
+/* ── Theme B · MIDNIGHT (dark sport) ──────────────────────── */
+[data-theme="midnight"] {
+  --bg: #0A120E;
+  --bg-2: #0E1813;
+  --surface: #15211B;
+  --surface-2: #1D2C24;
+  --ink: #ECF4EE;
+  --ink-soft: #9cb0a5;
+  --ink-faint: #647a6e;
+  --line: rgba(255,255,255,.08);
+  --line-strong: rgba(255,255,255,.16);
+  --primary: #2ECC71;
+  --primary-strong: #25A85E;
+  --on-primary: #04130A;
+  --accent: #C7F24B;
+  --accent-ink: #10200a;
+  --under: #2ECC71;
+  --over: #F0875A;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.4), 0 4px 14px rgba(0,0,0,.3);
+  --shadow-md: 0 2px 8px rgba(0,0,0,.45), 0 18px 40px rgba(0,0,0,.4);
+  --hairline: 1px;
+}
+
+/* ── Theme C · LINKS (deep turf, refined screenshot vibe) ── */
+[data-theme="links"] {
+  --bg: #0E3D2A;
+  --bg-2: #0B3323;
+  --surface: #134A33;
+  --surface-2: #0C3A28;
+  --ink: #F5F1E2;
+  --ink-soft: #b9caba;
+  --ink-faint: #82997f;
+  --line: rgba(245,241,226,.13);
+  --line-strong: rgba(245,241,226,.24);
+  --primary: #DCEB4E;
+  --primary-strong: #C8D63C;
+  --on-primary: #143524;
+  --accent: #F5F1E2;
+  --accent-ink: #143524;
+  --under: #DCEB4E;
+  --over: #F0A95D;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,.3), 0 4px 14px rgba(0,0,0,.25);
+  --shadow-md: 0 2px 8px rgba(0,0,0,.35), 0 18px 40px rgba(0,0,0,.3);
+  --hairline: 1px;
+}
+
+/* ── App scaffold ─────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+.gg-app {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--ink);
+  height: 100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+
+.gg-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+.gg-scroll::-webkit-scrollbar { width: 0; height: 0; }
+
+/* numerals always tabular for scorecard alignment */
+.gg-app { font-variant-numeric: tabular-nums; }
+
+.tnum { font-variant-numeric: tabular-nums; }
+.expanded { font-stretch: 125%; }
+
+/* fade/slide screen transition */
+@keyframes gg-screen-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.gg-screen { animation: gg-screen-in .34s var(--ease) both; }
+
+@keyframes gg-pop {
+  0% { transform: scale(.82); opacity: .4; }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.gg-pop { animation: gg-pop .26s var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  .gg-screen, .gg-pop { animation: none !important; }
+}
