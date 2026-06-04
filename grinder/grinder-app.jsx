@@ -36,14 +36,10 @@ function SplashScreen({ onDone }) {
     return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
   return (
-    <div style={{
-      position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 999,
-      background: 'var(--bg)',
-      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-      gap: 20,
+    <div className="gg-app" style={{
+      alignItems: 'center', justifyContent: 'center', gap: 20,
       opacity: fading ? 0 : 1,
       transition: 'opacity .45s cubic-bezier(.22,1,.36,1)',
-      pointerEvents: fading ? 'none' : 'auto',
     }}>
       <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
         <rect width="72" height="72" rx="18" fill="var(--primary)" opacity=".12" />
@@ -116,10 +112,9 @@ function App() {
   return (
     <>
       <IOSDevice dark={theme.dark}>
-        <div data-theme={theme.id} style={{ height: '100%', width: '100%', position: 'relative' }}>
-          {screen}
+        <div data-theme={theme.id} style={{ height: '100%', width: '100%' }}>
+          {showSplash ? <SplashScreen onDone={() => setShowSplash(false)} /> : screen}
           {share && <ShareSheet round={share} onClose={() => setShare(null)} />}
-          {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
         </div>
       </IOSDevice>
 
