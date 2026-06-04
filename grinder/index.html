@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#0E3D2A" />
+<script>try{var _t=localStorage.getItem('gg_theme')||'links';document.documentElement.style.background=_t==='fairway'?'#E9EFE8':_t==='midnight'?'#0A120E':'#0E3D2A';}catch(e){document.documentElement.style.background='#0E3D2A';}</script>
 <title>Grinder — Golf Scorecard</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2311824A'/%3E%3Cline x1='13' y1='7' x2='13' y2='25' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M13 8 L23 12.5 L13 17Z' fill='%23B7ED3C'/%3E%3Cellipse cx='13' cy='25.5' rx='5' ry='2' fill='rgba(255,255,255,0.25)'/%3E%3C/svg%3E" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
@@ -61,8 +63,13 @@
 .gg-pop { animation: gg-pop .26s var(--ease); }
 @media (prefers-reduced-motion: reduce) { .gg-screen, .gg-pop { animation: none !important; } }
 
+/* ── splash fallback: auto-hide after 8s if JS fails ── */
+@keyframes gg-splash-out { to { opacity: 0; pointer-events: none; visibility: hidden; } }
+#gg-splash { animation: gg-splash-out 0.5s 8s ease forwards; }
+
 /* ── page scaffold ── */
 html, body { margin: 0; }
+html { background: #0E3D2A; }
 body {
   font-family: 'Archivo', system-ui, sans-serif;
   display: flex; flex-direction: column; align-items: center; min-height: 100vh;
@@ -126,7 +133,7 @@ body {
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
 
-<script type="text/babel" data-src="ios-frame.jsx">
+<script type="text/babel" data-src="ios-frame.jsx?v=4">
 // @ds-adherence-ignore -- omelette starter scaffold (raw elements/hex/px by design)
 
 /* BEGIN USAGE */
@@ -478,7 +485,7 @@ Object.assign(window, {
 });
 
 </script>
-<script type="text/babel" data-src="tweaks-panel.jsx">
+<script type="text/babel" data-src="tweaks-panel.jsx?v=4">
 // @ds-adherence-ignore -- omelette starter scaffold (raw elements/hex/px by design)
 
 /* BEGIN USAGE */
@@ -1022,7 +1029,7 @@ Object.assign(window, {
 });
 
 </script>
-<script type="text/babel" data-src="grinder-logic.jsx">
+<script type="text/babel" data-src="grinder-logic.jsx?v=4">
 // grinder-logic.jsx — pure data + scoring helpers (no UI)
 // Exposed on window for the other babel scripts.
 
@@ -1182,7 +1189,7 @@ Object.assign(window, {
 });
 
 </script>
-<script type="text/babel" data-src="grinder-ui.jsx">
+<script type="text/babel" data-src="grinder-ui.jsx?v=4">
 // grinder-ui.jsx — shared UI primitives + icon set
 const { useState, useRef, useEffect } = React;
 
@@ -1363,7 +1370,7 @@ function Avatar({ name, i = 0, size = 34 }) {
 Object.assign(window, { Icon, Btn, Seg, Card, BigStepper, ScorePill, Label, Avatar });
 
 </script>
-<script type="text/babel" data-src="grinder-setup.jsx">
+<script type="text/babel" data-src="grinder-setup.jsx?v=4">
 // grinder-setup-play.jsx — Setup + Play screens
 const { useState: useS, useRef: useR, useEffect: useE } = React;
 
@@ -1694,7 +1701,7 @@ window.TopBar = TopBar;
 window.RoundIconBtn = RoundIconBtn;
 
 </script>
-<script type="text/babel" data-src="grinder-play.jsx">
+<script type="text/babel" data-src="grinder-play.jsx?v=4">
 // grinder-play.jsx — Play screen: hole-by-hole + full scorecard
 const { useState: useSp, useEffect: useEp } = React;
 
@@ -1923,7 +1930,7 @@ function CardView({ round, onPick }) {
 window.PlayScreen = PlayScreen;
 
 </script>
-<script type="text/babel" data-src="grinder-summary.jsx">
+<script type="text/babel" data-src="grinder-summary.jsx?v=4">
 // grinder-summary.jsx — Summary, Share sheet, History
 const { useState: useSs } = React;
 
@@ -2175,7 +2182,7 @@ function HistoryScreen({ history, onBack, onOpen, onClear }) {
 Object.assign(window, { SummaryScreen, ShareSheet, HistoryScreen, standings });
 
 </script>
-<script type="text/babel" data-src="grinder-app.jsx">
+<script type="text/babel" data-src="grinder-app.jsx?v=4">
 // grinder-app.jsx — top-level app: routing, theme store, mounting
 const { useState: useSt, useEffect: useEf } = React;
 
@@ -2288,6 +2295,27 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 ReactDOM.createRoot(document.getElementById('variant-bar')).render(<VariantBar />);
 
 
+</script>
+<script>
+(function(){
+  var done = false;
+  function removeSplash() {
+    if (done) return; done = true;
+    var s = document.getElementById('gg-splash');
+    if (!s) return;
+    s.style.transition = 'opacity .45s ease';
+    s.style.opacity = '0';
+    setTimeout(function(){ if (s.parentNode) s.parentNode.removeChild(s); }, 500);
+  }
+  var root = document.getElementById('root');
+  if (root) {
+    var obs = new MutationObserver(function(){
+      if (root.firstChild) { obs.disconnect(); setTimeout(removeSplash, 100); }
+    });
+    obs.observe(root, { childList: true });
+  }
+  setTimeout(removeSplash, 8000); // hard fallback
+})();
 </script>
 </body>
 </html>

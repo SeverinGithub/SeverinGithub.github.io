@@ -40,11 +40,6 @@ function App() {
   useEf(() => {
     const live = loadLive();
     if (live && live.players) { setRound(live); setView('play'); }
-    const splash = document.getElementById('gg-splash');
-    if (splash) {
-      setTimeout(() => { splash.style.opacity = '0'; }, 600);
-      setTimeout(() => { splash.remove(); }, 1100);
-    }
   }, []);
 
   const updateRound = (updater) => setRound(prev => {
@@ -115,6 +110,7 @@ function VariantBar() {
 
 ReactDOM.createRoot(document.getElementById('root')).render(<App />);
 ReactDOM.createRoot(document.getElementById('variant-bar')).render(<VariantBar />);
+
 
 // responsive scaling of the phone
 function fit() {
