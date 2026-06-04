@@ -28,9 +28,48 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "maxPlayers": 8
 }/*EDITMODE-END*/;
 
+function SplashScreen({ onDone }) {
+  const [fading, setFading] = useSt(false);
+  useEf(() => {
+    const t1 = setTimeout(() => setFading(true), 1400);
+    const t2 = setTimeout(() => onDone(), 1800);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
+  return (
+    <div style={{
+      position: 'absolute', inset: 0, zIndex: 999,
+      background: 'var(--bg)',
+      display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+      gap: 20,
+      opacity: fading ? 0 : 1,
+      transition: 'opacity .45s cubic-bezier(.22,1,.36,1)',
+      pointerEvents: fading ? 'none' : 'auto',
+    }}>
+      <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
+        <rect width="72" height="72" rx="18" fill="var(--primary)" opacity=".12" />
+        <line x1="33" y1="16" x2="33" y2="58" stroke="var(--ink)" strokeWidth="2.5" strokeLinecap="round"/>
+        <path d="M33 17 L54 26 L33 35Z" fill="var(--primary)"/>
+        <ellipse cx="33" cy="58" rx="9" ry="3.5" fill="var(--ink-faint)" opacity=".5"/>
+      </svg>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{
+          fontFamily: 'var(--font)', fontWeight: 900, fontSize: 34,
+          fontStretch: '125%', letterSpacing: '-.02em', color: 'var(--ink)',
+        }}>Grinder</div>
+        <div style={{
+          fontFamily: 'var(--font)', fontWeight: 600, fontSize: 12,
+          color: 'var(--ink-soft)', marginTop: 5,
+          letterSpacing: '.1em', textTransform: 'uppercase',
+        }}>Golf Scorecard</div>
+      </div>
+    </div>
+  );
+}
+
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [themeId, setThemeId] = useTheme();
+  const [showSplash, setShowSplash] = useSt(true);
   const [view, setView] = useSt('setup');     // setup | play | summary | history | view
   const [round, setRound] = useSt(null);
   const [viewRound, setViewRound] = useSt(null);
@@ -77,9 +116,10 @@ function App() {
   return (
     <>
       <IOSDevice dark={theme.dark}>
-        <div data-theme={theme.id} style={{ height: '100%', width: '100%' }}>
+        <div data-theme={theme.id} style={{ height: '100%', width: '100%', position: 'relative' }}>
           {screen}
           {share && <ShareSheet round={share} onClose={() => setShare(null)} />}
+          {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
         </div>
       </IOSDevice>
 
