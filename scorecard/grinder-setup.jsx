@@ -125,7 +125,7 @@ function SetupScreen({ onStart, onHistory, hasHistory, maxPlayers = 8 }) {
               <div style={{ width: 34, height: 34, borderRadius: 10, background: 'var(--primary)', color: 'var(--on-primary)', display: 'grid', placeItems: 'center' }}>
                 <Icon name="flag" size={20} sw={2.4} />
               </div>
-              <div className="expanded" style={{ fontWeight: 900, fontSize: 30, letterSpacing: '-.01em', lineHeight: 1 }}>GRINDER</div>
+              <div className="expanded" style={{ fontWeight: 900, fontSize: 30, letterSpacing: '-.01em', lineHeight: 1 }}>GOLF - Scorecard</div>
             </div>
             <div style={{ color: 'var(--ink-soft)', fontWeight: 600, fontSize: 14, marginTop: 7 }}>Neue Runde aufsetzen</div>
           </div>

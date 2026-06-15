@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#0E3D2A" />
 <script>try{var _t=localStorage.getItem('gg_theme')||'links';document.documentElement.style.background=_t==='fairway'?'#E9EFE8':_t==='midnight'?'#0A120E':'#0E3D2A';}catch(e){document.documentElement.style.background='#0E3D2A';}</script>
-<title>Grinder — Golf Scorecard</title>
+<title>GOLF - Scorecard</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2311824A'/%3E%3Cline x1='13' y1='7' x2='13' y2='25' stroke='white' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M13 8 L23 12.5 L13 17Z' fill='%23B7ED3C'/%3E%3Cellipse cx='13' cy='25.5' rx='5' ry='2' fill='rgba(255,255,255,0.25)'/%3E%3C/svg%3E" />
 <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 <style>
@@ -104,8 +104,7 @@ body {
     <ellipse cx="33" cy="58" rx="9" ry="3.5" fill="#82997f" opacity=".5"/>
   </svg>
   <div style="text-align:center">
-    <div style="font-weight:900;font-size:34px;font-stretch:expanded;letter-spacing:-.02em;color:#F5F1E2">Grinder</div>
-    <div style="font-weight:600;font-size:12px;color:#b9caba;margin-top:5px;letter-spacing:.1em;text-transform:uppercase">Golf Scorecard</div>
+    <div style="font-weight:900;font-size:34px;font-stretch:expanded;letter-spacing:-.02em;color:#F5F1E2">GOLF - Scorecard</div>
   </div>
 </div>
 <script>
@@ -1496,7 +1495,7 @@ function SetupScreen({ onStart, onHistory, hasHistory, maxPlayers = 8 }) {
               <div style={{ width: 34, height: 34, borderRadius: 10, background: 'var(--primary)', color: 'var(--on-primary)', display: 'grid', placeItems: 'center' }}>
                 <Icon name="flag" size={20} sw={2.4} />
               </div>
-              <div className="expanded" style={{ fontWeight: 900, fontSize: 30, letterSpacing: '-.01em', lineHeight: 1 }}>GRINDER</div>
+              <div className="expanded" style={{ fontWeight: 900, fontSize: 30, letterSpacing: '-.01em', lineHeight: 1 }}>GOLF - Scorecard</div>
             </div>
             <div style={{ color: 'var(--ink-soft)', fontWeight: 600, fontSize: 14, marginTop: 7 }}>Neue Runde aufsetzen</div>
           </div>
@@ -2083,7 +2082,7 @@ function ShareSheet({ round, onClose }) {
       if (round.modeStbl) line += ` · ${r.stbl} Pkt`;
       s += line + '\n';
     });
-    s += '— via Grinder';
+    s += '— via GOLF - Scorecard';
     return s;
   })();
 
