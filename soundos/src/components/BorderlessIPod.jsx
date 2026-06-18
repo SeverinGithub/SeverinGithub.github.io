@@ -24,9 +24,18 @@ export default function BorderlessIPod(props) {
 
   return (
     <div className="bl-ipod-root">
-      <div className="bl-ipod-screen-wrap">
-        <Screen {...props} />
+      <div className="bl-ipod-top-bar">
+        <span className="bl-ipod-logo">SoundOS</span>
       </div>
+
+      <div className="bl-ipod-screen-wrap">
+        <div className="bl-ipod-bezel">
+          <Screen {...props} />
+        </div>
+      </div>
+
+      <div className="bl-ipod-divider" />
+
       <div className="bl-ipod-wheel-wrap">
         <ClickWheel
           onScroll={onScroll}

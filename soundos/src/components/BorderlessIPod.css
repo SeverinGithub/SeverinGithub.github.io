@@ -1,69 +1,116 @@
+/* Borderless: full-screen silver iPod body */
 .bl-ipod-root {
   position: fixed;
   inset: 0;
-  background: linear-gradient(170deg, #e8e8e8 0%, #c8c8c8 40%, #b0b0b0 100%);
+  background: linear-gradient(160deg, #e2e2e2 0%, #c8c8c8 45%, #b4b4b4 100%);
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: hidden;
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
-/* Screen grows to fill top space, with 4:3 aspect ratio capping the width */
+/* Top label */
+.bl-ipod-top-bar {
+  width: 100%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0 5px;
+}
+
+.bl-ipod-logo {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(0,0,0,0.3);
+  text-transform: uppercase;
+}
+
+/* Screen bezel fills all available height above the wheel */
 .bl-ipod-screen-wrap {
   flex: 1;
   width: 100%;
   min-height: 0;
   display: flex;
+  padding: 0 14px 8px;
+}
+
+.bl-ipod-bezel {
+  flex: 1;
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 7px;
+  box-shadow:
+    0 6px 30px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.07),
+    0 1px 0 rgba(255,255,255,0.6);
+  display: flex;
   flex-direction: column;
 }
 
-.bl-ipod-screen-wrap .screen {
+/* Screen fills the bezel completely */
+.bl-ipod-bezel .screen {
   flex: 1;
-  height: 100%;
-  border-radius: 0;
+  height: auto !important;
+  border-radius: 4px;
+  min-height: 0;
 }
 
-.bl-ipod-screen-wrap .screen-header {
-  min-height: 26px;
+.bl-ipod-bezel .screen-header {
+  min-height: 24px;
+  font-size: 13px;
+  padding: 4px 12px;
+}
+
+.bl-ipod-bezel .menu-list {
+  flex: 1;
+}
+
+.bl-ipod-bezel .menu-item {
+  min-height: 34px;
   font-size: 14px;
-  padding: 4px 14px;
+  padding: 5px 14px;
 }
 
-.bl-ipod-screen-wrap .menu-item {
-  min-height: 40px;
-  font-size: 15px;
-  padding: 5px 16px;
+.bl-ipod-bezel .menu-item-label { font-size: 14px; }
+.bl-ipod-bezel .menu-item-sub   { font-size: 11px; }
+
+.bl-ipod-bezel .now-playing     { padding: 10px 14px 8px; gap: 6px; }
+.bl-ipod-bezel .np-art          { width: 70px; height: 70px; }
+.bl-ipod-bezel .np-title        { font-size: 14px; }
+.bl-ipod-bezel .np-artist       { font-size: 12px; }
+.bl-ipod-bezel .np-album        { font-size: 11px; }
+.bl-ipod-bezel .np-times        { font-size: 11px; }
+
+/* Divider */
+.bl-ipod-divider {
+  flex-shrink: 0;
+  width: 55%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.18), transparent);
+  margin-bottom: 2px;
 }
 
-.bl-ipod-screen-wrap .menu-item-label { font-size: 15px; }
-.bl-ipod-screen-wrap .menu-item-sub { font-size: 12px; }
-
-.bl-ipod-screen-wrap .now-playing { padding: 12px 20px 10px; gap: 10px; }
-.bl-ipod-screen-wrap .np-art { width: 100px; height: 100px; }
-.bl-ipod-screen-wrap .np-title { font-size: 16px; }
-.bl-ipod-screen-wrap .np-artist { font-size: 13px; }
-.bl-ipod-screen-wrap .np-album { font-size: 12px; }
-.bl-ipod-screen-wrap .np-times { font-size: 12px; }
-
-/* Click wheel: fixed size, centered, at bottom */
+/* Click wheel — centered, sized relative to viewport */
 .bl-ipod-wheel-wrap {
   flex-shrink: 0;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px 0 max(20px, env(safe-area-inset-bottom));
-  background: transparent;
+  padding: 6px 0 max(20px, env(safe-area-inset-bottom));
 }
 
 .bl-ipod-wheel-wrap .clickwheel-container { padding: 0; }
 
 .bl-ipod-wheel-wrap .clickwheel {
-  width: min(54vw, 210px);
-  height: min(54vw, 210px);
+  width: min(56vw, 220px);
+  height: min(56vw, 220px);
 }
 
-.bl-ipod-wheel-wrap .wheel-menu { font-size: 10px; top: 12px; }
-.bl-ipod-wheel-wrap .wheel-prev { font-size: 13px; left: 12px; }
-.bl-ipod-wheel-wrap .wheel-next { font-size: 13px; right: 12px; }
-.bl-ipod-wheel-wrap .wheel-play { font-size: 11px; bottom: 12px; }
+.bl-ipod-wheel-wrap .wheel-menu  { font-size: 10px; top: 13px; }
+.bl-ipod-wheel-wrap .wheel-prev  { font-size: 14px; left: 13px; }
+.bl-ipod-wheel-wrap .wheel-next  { font-size: 14px; right: 13px; }
+.bl-ipod-wheel-wrap .wheel-play  { font-size: 12px; bottom: 13px; }
