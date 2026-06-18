@@ -48,7 +48,13 @@ export default function App() {
   const audio = useAudio()
 
   useEffect(() => {
-    loadTracks().then(setTracks)
+    loadTracks().then(tracks => {
+      // Blob URLs don't survive PWA reloads — strip them so the placeholder shows instead of a broken img
+      setTracks(tracks.map(t => ({
+        ...t,
+        cover: t.cover?.startsWith('blob:') ? null : (t.cover || null),
+      })))
+    })
     loadPlaylists().then(setPlaylists)
   }, [])
 

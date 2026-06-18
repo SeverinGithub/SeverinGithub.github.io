@@ -531,9 +531,9 @@
 /* Retro NowPlaying: art left, info right */
 .now-playing--retro {
   flex-direction: row;
-  align-items: center;
-  padding: 6px 8px 4px;
-  gap: 8px;
+  align-items: flex-start;
+  padding: 8px 10px 6px;
+  gap: 10px;
 }
 
 .np-art--retro {

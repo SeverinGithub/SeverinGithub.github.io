@@ -118,17 +118,33 @@ function decodeText(view, offset, len, encoding) {
 
 function extractCover(view, buf, offset, frameSize) {
   // encoding(1) + mime(null-terminated) + picture type(1) + description(null-terminated) + data
+  const encoding = view.getUint8(offset)
   let pos = offset + 1
   const end = offset + frameSize
   // skip mime type until null
   while (pos < end && view.getUint8(pos) !== 0) pos++
   pos++ // skip null
   pos++ // skip picture type
-  // skip description until null (or double null for utf16)
-  while (pos < end && view.getUint8(pos) !== 0) pos++
-  pos++ // skip null
+  // skip description (utf-16 uses double-null)
+  if (encoding === 1 || encoding === 2) {
+    while (pos + 1 < end && !(view.getUint8(pos) === 0 && view.getUint8(pos + 1) === 0)) pos += 2
+    pos += 2
+  } else {
+    while (pos < end && view.getUint8(pos) !== 0) pos++
+    pos++
+  }
 
   const imgData = new Uint8Array(buf, pos, end - pos)
-  const blob = new Blob([imgData])
-  return URL.createObjectURL(blob)
+  if (imgData.length === 0) return null
+
+  // Detect type from magic bytes
+  const mimeType = (imgData[0] === 0x89 && imgData[1] === 0x50) ? 'image/png' : 'image/jpeg'
+
+  // Convert to base64 data URL so it survives PWA reloads (blob URLs are ephemeral)
+  let binary = ''
+  const chunk = 8192
+  for (let i = 0; i < imgData.length; i += chunk) {
+    binary += String.fromCharCode(...imgData.subarray(i, Math.min(i + chunk, imgData.length)))
+  }
+  return `data:${mimeType};base64,${btoa(binary)}`
 }

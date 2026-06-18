@@ -61,9 +61,17 @@ export function useAudio() {
 
   const togglePlay = useCallback(() => {
     const audio = audioRef.current
-    if (audio.paused) audio.play().catch(() => {})
-    else audio.pause()
-  }, [])
+    if (audio.paused) {
+      // iOS suspends audio after backgrounding — re-set src if needed
+      if (!audio.src && queue[queueIndex]) {
+        const url = URL.createObjectURL(queue[queueIndex].blob)
+        audio.src = url
+      }
+      audio.play().catch(() => {})
+    } else {
+      audio.pause()
+    }
+  }, [queue, queueIndex])
 
   const next = useCallback(() => {
     setQueueIndex(prev => Math.min(prev + 1, queue.length - 1))

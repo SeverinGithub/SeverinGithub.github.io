@@ -6,7 +6,7 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
   const lastAngleRef = useRef(null)
   const accumulatedRef = useRef(0)
   const isDraggingRef = useRef(false)
-  const startAngleRef = useRef(null)
+  const startPosRef = useRef(null) // { cx, cy } center at touch start
 
   const getAngle = useCallback((e, rect) => {
     const cx = rect.left + rect.width / 2
@@ -14,6 +14,16 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     const { clientX, clientY } = e.touches ? e.touches[0] : e
     return Math.atan2(clientY - cy, clientX - cx) * (180 / Math.PI)
   }, [])
+
+  const fireZone = useCallback((clientX, clientY, cx, cy) => {
+    const dx = clientX - cx
+    const dy = clientY - cy
+    const angle = Math.atan2(dy, dx) * (180 / Math.PI)
+    if (angle > -45 && angle <= 45) onNext()
+    else if (angle > 45 && angle <= 135) onPlayPause()
+    else if (angle > 135 || angle <= -135) onPrev()
+    else onMenu()
+  }, [onNext, onPlayPause, onPrev, onMenu])
 
   const handleStart = useCallback((e) => {
     const rect = wheelRef.current.getBoundingClientRect()
@@ -26,13 +36,13 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     const outerR = rect.width / 2
     const innerR = outerR * 0.35
 
-    // Ignore center button area
-    if (dist < innerR) return
+    if (dist < innerR) return // center button — let click handle it
+    if (dist > outerR) return // outside wheel
 
     isDraggingRef.current = true
     lastAngleRef.current = getAngle(e, rect)
-    startAngleRef.current = lastAngleRef.current
     accumulatedRef.current = 0
+    startPosRef.current = { cx, cy, clientX, clientY }
     e.preventDefault()
   }, [getAngle])
 
@@ -42,14 +52,12 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     const angle = getAngle(e, rect)
     let delta = angle - lastAngleRef.current
 
-    // Handle wraparound
     if (delta > 180) delta -= 360
     if (delta < -180) delta += 360
 
     accumulatedRef.current += delta
     lastAngleRef.current = angle
 
-    // Every ~15 degrees triggers a scroll tick
     const threshold = 15
     if (Math.abs(accumulatedRef.current) >= threshold) {
       const ticks = Math.floor(Math.abs(accumulatedRef.current) / threshold)
@@ -60,10 +68,20 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     e.preventDefault()
   }, [getAngle, onScroll])
 
-  const handleEnd = useCallback(() => {
+  const handleEnd = useCallback((e) => {
+    if (!isDraggingRef.current) return
     isDraggingRef.current = false
+
+    // On touch, preventDefault() blocks click events — detect taps here instead
+    const wasTap = Math.abs(accumulatedRef.current) < 8
     lastAngleRef.current = null
-  }, [])
+
+    if (wasTap && e.changedTouches?.length > 0 && startPosRef.current) {
+      const { clientX, clientY } = e.changedTouches[0]
+      const { cx, cy } = startPosRef.current
+      fireZone(clientX, clientY, cx, cy)
+    }
+  }, [fireZone])
 
   useEffect(() => {
     const el = wheelRef.current
@@ -83,30 +101,19 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     }
   }, [handleStart, handleMove, handleEnd])
 
+  // Desktop: click handler for mouse-based zone detection
   const handleZoneClick = (e) => {
-    if (isDraggingRef.current) return
+    if (e.pointerType === 'touch') return // handled by touchend above
     const rect = wheelRef.current.getBoundingClientRect()
     const cx = rect.left + rect.width / 2
     const cy = rect.top + rect.height / 2
-    const { clientX, clientY } = e
-    const dx = clientX - cx
-    const dy = clientY - cy
+    const dx = e.clientX - cx
+    const dy = e.clientY - cy
     const dist = Math.sqrt(dx * dx + dy * dy)
     const outerR = rect.width / 2
     const innerR = outerR * 0.35
-
-    if (dist < innerR) {
-      onSelect()
-      return
-    }
-    if (dist > outerR) return
-
-    // Determine zone by angle
-    const angle = Math.atan2(dy, dx) * (180 / Math.PI)
-    if (angle > -45 && angle <= 45) onNext()
-    else if (angle > 45 && angle <= 135) onPlayPause()
-    else if (angle > 135 || angle <= -135) onPrev()
-    else onMenu()
+    if (dist < innerR || dist > outerR) return
+    fireZone(e.clientX, e.clientY, cx, cy)
   }
 
   return (
@@ -116,7 +123,8 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
         <div className="wheel-label wheel-prev">⏮</div>
         <div className="wheel-label wheel-next">⏭</div>
         <div className="wheel-label wheel-play">▶︎ ❙❙</div>
-        <div className="wheel-center" onClick={(e) => { e.stopPropagation(); onSelect() }} />
+        <div className="wheel-center" onClick={(e) => { e.stopPropagation(); onSelect() }}
+          onTouchEnd={(e) => { e.stopPropagation(); e.preventDefault(); onSelect() }} />
       </div>
     </div>
   )
