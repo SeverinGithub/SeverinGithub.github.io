@@ -26,7 +26,7 @@ export default function Screen({
   screen, menuIndex, menuItems, audio, tracks,
   uploading, creatingPlaylist, newPlaylistName,
   onUpload, onDeleteTrack, onCreatePlaylist, onDeletePlaylist,
-  onNewPlaylistName, onCancelPlaylist, playlists,
+  onNewPlaylistName, onCancelPlaylist, playlists, onToggleBorderless,
 }) {
   const fileInputRef = useRef(null)
 
@@ -57,7 +57,7 @@ export default function Screen({
           onDelete={onDeleteTrack}
         />
       ) : screen === SCREENS.SETTINGS ? (
-        <SettingsScreen tracks={tracks} />
+        <SettingsScreen tracks={tracks} onToggleBorderless={onToggleBorderless} />
       ) : screen === SCREENS.PLAYLISTS && creatingPlaylist ? (
         <NewPlaylistScreen
           name={newPlaylistName}
@@ -172,7 +172,7 @@ function UploadScreen({ tracks, uploading, fileInputRef, onUpload, onDelete }) {
   )
 }
 
-function SettingsScreen({ tracks }) {
+function SettingsScreen({ tracks, onToggleBorderless }) {
   return (
     <div className="settings-screen">
       <div className="settings-item">
@@ -183,9 +183,9 @@ function SettingsScreen({ tracks }) {
         <span>Songs</span>
         <span className="settings-value">{tracks.length}</span>
       </div>
-      <div className="settings-item">
-        <span>Storage</span>
-        <span className="settings-value">IndexedDB</span>
+      <div className="settings-item" style={{ cursor: 'pointer' }} onClick={onToggleBorderless}>
+        <span>Borderless Mode</span>
+        <span className="settings-toggle">OFF ›</span>
       </div>
       <div className="settings-about">
         <div>Built with ♥</div>

@@ -366,6 +366,12 @@
   font-size: 10px;
 }
 
+.settings-toggle {
+  color: #3a6aae;
+  font-size: 10px;
+  font-weight: bold;
+}
+
 .settings-about {
   margin-top: 8px;
   text-align: center;

@@ -3,6 +3,7 @@ import { saveTracks, loadTracks, deleteTrack, loadPlaylists, savePlaylist, delet
 import { readTags } from './useTags'
 import { useAudio } from './useAudio'
 import IPodShell from './components/iPodShell'
+import BorderlessView from './components/BorderlessView'
 import './App.css'
 
 const SCREENS = {
@@ -46,12 +47,26 @@ export default function App() {
   const [uploading, setUploading] = useState(false)
   const [newPlaylistName, setNewPlaylistName] = useState('')
   const [creatingPlaylist, setCreatingPlaylist] = useState(false)
+  const [borderless, setBorderless] = useState(() => localStorage.getItem('soundos-borderless') === 'true')
 
   const audio = useAudio()
 
   useEffect(() => {
     loadTracks().then(setTracks)
     loadPlaylists().then(setPlaylists)
+  }, [])
+
+  const toggleBorderless = useCallback(() => {
+    setBorderless(prev => {
+      const next = !prev
+      localStorage.setItem('soundos-borderless', String(next))
+      if (next) {
+        document.documentElement.requestFullscreen?.().catch(() => {})
+      } else {
+        document.exitFullscreen?.().catch(() => {})
+      }
+      return next
+    })
   }, [])
 
   const navigate = useCallback((newScreen, index = 0) => {
@@ -200,30 +215,35 @@ export default function App() {
     })
   }
 
-  return (
-    <IPodShell
-      screen={screen}
-      menuIndex={menuIndex}
-      menuItems={getMenuItems()}
-      audio={audio}
-      tracks={tracks}
-      playlists={playlists}
-      uploading={uploading}
-      creatingPlaylist={creatingPlaylist}
-      newPlaylistName={newPlaylistName}
-      onScroll={scrollMenu}
-      onSelect={() => handleSelect(getMenuItems()[menuIndex])}
-      onMenu={goBack}
-      onPlayPause={audio.togglePlay}
-      onNext={audio.next}
-      onPrev={audio.prev}
-      onUpload={handleUpload}
-      onDeleteTrack={handleDeleteTrack}
-      onCreatePlaylist={handleCreatePlaylist}
-      onDeletePlaylist={handleDeletePlaylist}
-      onNewPlaylistName={setNewPlaylistName}
-      onCancelPlaylist={() => { setCreatingPlaylist(false); setNewPlaylistName('') }}
-    />
-  )
-}
+  const sharedProps = {
+    screen,
+    menuIndex,
+    menuItems: getMenuItems(),
+    audio,
+    tracks,
+    playlists,
+    uploading,
+    creatingPlaylist,
+    newPlaylistName,
+    borderless,
+    onScroll: scrollMenu,
+    onSelect: () => handleSelect(getMenuItems()[menuIndex]),
+    onMenu: goBack,
+    onPlayPause: audio.togglePlay,
+    onNext: audio.next,
+    onPrev: audio.prev,
+    onUpload: handleUpload,
+    onDeleteTrack: handleDeleteTrack,
+    onCreatePlaylist: handleCreatePlaylist,
+    onDeletePlaylist: handleDeletePlaylist,
+    onNewPlaylistName: setNewPlaylistName,
+    onCancelPlaylist: () => { setCreatingPlaylist(false); setNewPlaylistName('') },
+    onToggleBorderless: toggleBorderless,
+  }
 
+  if (borderless) {
+    return <BorderlessView {...sharedProps} />
+  }
+
+  return <IPodShell {...sharedProps} />
+}
