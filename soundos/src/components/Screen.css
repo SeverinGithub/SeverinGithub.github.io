@@ -366,10 +366,39 @@
   font-size: 10px;
 }
 
-.settings-toggle {
-  color: #3a6aae;
-  font-size: 10px;
-  font-weight: bold;
+.settings-mode-row {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding-bottom: 6px;
+}
+
+.settings-mode-select {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+}
+
+.settings-mode-btn {
+  flex: 1;
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 3px;
+  padding: 3px 2px;
+  font-size: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  background: rgba(0,0,0,0.06);
+  color: #4a5a3a;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.settings-mode-btn.active {
+  background: linear-gradient(180deg, #5a9aee 0%, #3a6aae 100%);
+  color: white;
+  border-color: #2a5a9e;
 }
 
 .settings-about {

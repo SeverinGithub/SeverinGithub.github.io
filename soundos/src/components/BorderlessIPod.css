@@ -1,0 +1,82 @@
+.bl-ipod-root {
+  position: fixed;
+  inset: 0;
+  background: #1a1a1a;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Screen fills the top portion */
+.bl-ipod-screen-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Override .screen to fill fully */
+.bl-ipod-screen-wrap .screen {
+  height: 100%;
+  border-radius: 0;
+  flex: 1;
+}
+
+/* Screen header slightly taller */
+.bl-ipod-screen-wrap .screen-header {
+  min-height: 26px;
+  font-size: 13px;
+  padding: 4px 12px;
+}
+
+.bl-ipod-screen-wrap .menu-item {
+  min-height: 36px;
+  font-size: 14px;
+  padding: 6px 14px;
+}
+
+.bl-ipod-screen-wrap .menu-item-label { font-size: 14px; }
+.bl-ipod-screen-wrap .menu-item-sub { font-size: 11px; }
+
+/* Now Playing enlarged */
+.bl-ipod-screen-wrap .now-playing {
+  padding: 10px 16px 8px;
+  gap: 8px;
+}
+
+.bl-ipod-screen-wrap .np-art {
+  width: 90px;
+  height: 90px;
+}
+
+.bl-ipod-screen-wrap .np-title { font-size: 15px; }
+.bl-ipod-screen-wrap .np-artist { font-size: 12px; }
+.bl-ipod-screen-wrap .np-album { font-size: 11px; }
+.bl-ipod-screen-wrap .np-times { font-size: 11px; }
+
+/* Click wheel fills bottom area */
+.bl-ipod-wheel-wrap {
+  background: #1a1a1a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 0 max(12px, env(safe-area-inset-bottom));
+  flex-shrink: 0;
+}
+
+/* Scale up the click wheel to fill width */
+.bl-ipod-wheel-wrap .clickwheel-container {
+  width: 100%;
+  padding: 0 16px;
+}
+
+.bl-ipod-wheel-wrap .clickwheel {
+  width: min(72vw, 300px);
+  height: min(72vw, 300px);
+}
+
+/* Bigger labels */
+.bl-ipod-wheel-wrap .wheel-menu { font-size: 11px; top: 16px; }
+.bl-ipod-wheel-wrap .wheel-prev { font-size: 14px; left: 18px; }
+.bl-ipod-wheel-wrap .wheel-next { font-size: 14px; right: 18px; }
+.bl-ipod-wheel-wrap .wheel-play { font-size: 12px; bottom: 16px; }

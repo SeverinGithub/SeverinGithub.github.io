@@ -26,7 +26,7 @@ export default function Screen({
   screen, menuIndex, menuItems, audio, tracks,
   uploading, creatingPlaylist, newPlaylistName,
   onUpload, onDeleteTrack, onCreatePlaylist, onDeletePlaylist,
-  onNewPlaylistName, onCancelPlaylist, playlists, onToggleBorderless,
+  onNewPlaylistName, onCancelPlaylist, playlists, onChangeViewMode, viewMode,
 }) {
   const fileInputRef = useRef(null)
 
@@ -57,7 +57,7 @@ export default function Screen({
           onDelete={onDeleteTrack}
         />
       ) : screen === SCREENS.SETTINGS ? (
-        <SettingsScreen tracks={tracks} onToggleBorderless={onToggleBorderless} />
+        <SettingsScreen tracks={tracks} viewMode={viewMode} onChangeViewMode={onChangeViewMode} />
       ) : screen === SCREENS.PLAYLISTS && creatingPlaylist ? (
         <NewPlaylistScreen
           name={newPlaylistName}
@@ -172,7 +172,14 @@ function UploadScreen({ tracks, uploading, fileInputRef, onUpload, onDelete }) {
   )
 }
 
-function SettingsScreen({ tracks, onToggleBorderless }) {
+const VIEW_MODES = [
+  { value: 'ipod', label: 'iPod Sim.' },
+  { value: 'borderless', label: 'Borderless' },
+  { value: 'modern', label: 'Modern Borderless' },
+]
+
+function SettingsScreen({ tracks, viewMode, onChangeViewMode }) {
+  const currentLabel = VIEW_MODES.find(m => m.value === viewMode)?.label || 'iPod Sim.'
   return (
     <div className="settings-screen">
       <div className="settings-item">
@@ -183,9 +190,19 @@ function SettingsScreen({ tracks, onToggleBorderless }) {
         <span>Songs</span>
         <span className="settings-value">{tracks.length}</span>
       </div>
-      <div className="settings-item" style={{ cursor: 'pointer' }} onClick={onToggleBorderless}>
-        <span>Borderless Mode</span>
-        <span className="settings-toggle">OFF ›</span>
+      <div className="settings-item settings-mode-row">
+        <span>View</span>
+        <div className="settings-mode-select">
+          {VIEW_MODES.map(m => (
+            <button
+              key={m.value}
+              className={`settings-mode-btn${viewMode === m.value ? ' active' : ''}`}
+              onClick={() => onChangeViewMode(m.value)}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
       </div>
       <div className="settings-about">
         <div>Built with ♥</div>

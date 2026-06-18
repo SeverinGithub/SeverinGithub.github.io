@@ -3,22 +3,15 @@ import { saveTracks, loadTracks, deleteTrack, loadPlaylists, savePlaylist, delet
 import { readTags } from './useTags'
 import { useAudio } from './useAudio'
 import IPodShell from './components/iPodShell'
-import BorderlessView from './components/BorderlessView'
+import BorderlessIPod from './components/BorderlessIPod'
+import ModernView from './components/ModernView'
 import './App.css'
 
 const SCREENS = {
-  MENU: 'menu',
-  MUSIC: 'music',
-  SONGS: 'songs',
-  ARTISTS: 'artists',
-  ARTIST_SONGS: 'artist_songs',
-  ALBUMS: 'albums',
-  ALBUM_SONGS: 'album_songs',
-  PLAYLISTS: 'playlists',
-  PLAYLIST_VIEW: 'playlist_view',
-  NOW_PLAYING: 'now_playing',
-  UPLOAD: 'upload',
-  SETTINGS: 'settings',
+  MENU: 'menu', MUSIC: 'music', SONGS: 'songs', ARTISTS: 'artists',
+  ARTIST_SONGS: 'artist_songs', ALBUMS: 'albums', ALBUM_SONGS: 'album_songs',
+  PLAYLISTS: 'playlists', PLAYLIST_VIEW: 'playlist_view',
+  NOW_PLAYING: 'now_playing', UPLOAD: 'upload', SETTINGS: 'settings',
 }
 
 const MAIN_MENU = [
@@ -47,7 +40,8 @@ export default function App() {
   const [uploading, setUploading] = useState(false)
   const [newPlaylistName, setNewPlaylistName] = useState('')
   const [creatingPlaylist, setCreatingPlaylist] = useState(false)
-  const [borderless, setBorderless] = useState(() => localStorage.getItem('soundos-borderless') === 'true')
+  // 'ipod' | 'borderless' | 'modern'
+  const [viewMode, setViewMode] = useState(() => localStorage.getItem('soundos-viewmode') || 'ipod')
 
   const audio = useAudio()
 
@@ -56,17 +50,14 @@ export default function App() {
     loadPlaylists().then(setPlaylists)
   }, [])
 
-  const toggleBorderless = useCallback(() => {
-    setBorderless(prev => {
-      const next = !prev
-      localStorage.setItem('soundos-borderless', String(next))
-      if (next) {
-        document.documentElement.requestFullscreen?.().catch(() => {})
-      } else {
-        document.exitFullscreen?.().catch(() => {})
-      }
-      return next
-    })
+  const changeViewMode = useCallback((mode) => {
+    setViewMode(mode)
+    localStorage.setItem('soundos-viewmode', mode)
+    if (mode !== 'ipod') {
+      document.documentElement.requestFullscreen?.().catch(() => {})
+    } else {
+      document.exitFullscreen?.().catch(() => {})
+    }
   }, [])
 
   const navigate = useCallback((newScreen, index = 0) => {
@@ -88,10 +79,9 @@ export default function App() {
     const newTracks = []
     for (const file of files) {
       const tags = await readTags(file)
-      const blob = file
       const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`
       newTracks.push({
-        id, blob, filename: file.name,
+        id, blob: file, filename: file.name,
         title: tags.title, artist: tags.artist,
         album: tags.album, cover: tags.cover,
         size: file.size,
@@ -114,14 +104,6 @@ export default function App() {
     setCreatingPlaylist(false)
     setNewPlaylistName('')
   }, [])
-
-  const handleAddToPlaylist = useCallback(async (playlistId, trackId) => {
-    const pl = playlists.find(p => p.id === playlistId)
-    if (!pl || pl.trackIds.includes(trackId)) return
-    const updated = { ...pl, trackIds: [...pl.trackIds, trackId] }
-    await savePlaylist(updated)
-    setPlaylists(prev => prev.map(p => p.id === playlistId ? updated : p))
-  }, [playlists])
 
   const handleDeletePlaylist = useCallback(async (id) => {
     await deletePlaylist(id)
@@ -156,50 +138,35 @@ export default function App() {
     switch (screen) {
       case SCREENS.MENU:
         if (item.screen === SCREENS.NOW_PLAYING && !audio.currentTrack) return
-        navigate(item.screen)
-        break
-      case SCREENS.MUSIC:
-        navigate(item.screen)
-        break
+        navigate(item.screen); break
+      case SCREENS.MUSIC: navigate(item.screen); break
       case SCREENS.SONGS:
         audio.playQueue(tracks, tracks.indexOf(item.track))
-        navigate(SCREENS.NOW_PLAYING)
-        break
+        navigate(SCREENS.NOW_PLAYING); break
       case SCREENS.ARTISTS:
-        setSelectedArtist(item.id)
-        navigate(SCREENS.ARTIST_SONGS)
-        break
+        setSelectedArtist(item.id); navigate(SCREENS.ARTIST_SONGS); break
       case SCREENS.ARTIST_SONGS: {
-        const artistTracks = tracks.filter(t => t.artist === selectedArtist)
-        audio.playQueue(artistTracks, artistTracks.indexOf(item.track))
-        navigate(SCREENS.NOW_PLAYING)
-        break
+        const at = tracks.filter(t => t.artist === selectedArtist)
+        audio.playQueue(at, at.indexOf(item.track))
+        navigate(SCREENS.NOW_PLAYING); break
       }
       case SCREENS.ALBUMS:
-        setSelectedAlbum(item.id)
-        navigate(SCREENS.ALBUM_SONGS)
-        break
+        setSelectedAlbum(item.id); navigate(SCREENS.ALBUM_SONGS); break
       case SCREENS.ALBUM_SONGS: {
-        const albumTracks = tracks.filter(t => t.album === selectedAlbum)
-        audio.playQueue(albumTracks, albumTracks.indexOf(item.track))
-        navigate(SCREENS.NOW_PLAYING)
-        break
+        const at = tracks.filter(t => t.album === selectedAlbum)
+        audio.playQueue(at, at.indexOf(item.track))
+        navigate(SCREENS.NOW_PLAYING); break
       }
       case SCREENS.PLAYLISTS:
-        if (item.id === '__new__') {
-          setCreatingPlaylist(true)
-        } else {
-          setSelectedPlaylist(item.playlist.id)
-          navigate(SCREENS.PLAYLIST_VIEW)
-        }
+        if (item.id === '__new__') { setCreatingPlaylist(true) }
+        else { setSelectedPlaylist(item.playlist.id); navigate(SCREENS.PLAYLIST_VIEW) }
         break
       case SCREENS.PLAYLIST_VIEW: {
         const pl = playlists.find(p => p.id === selectedPlaylist)
         if (!pl) break
-        const plTracks = pl.trackIds.map(tid => tracks.find(t => t.id === tid)).filter(Boolean)
-        audio.playQueue(plTracks, plTracks.indexOf(item.track))
-        navigate(SCREENS.NOW_PLAYING)
-        break
+        const pt = pl.trackIds.map(tid => tracks.find(t => t.id === tid)).filter(Boolean)
+        audio.playQueue(pt, pt.indexOf(item.track))
+        navigate(SCREENS.NOW_PLAYING); break
       }
     }
   }
@@ -216,16 +183,8 @@ export default function App() {
   }
 
   const sharedProps = {
-    screen,
-    menuIndex,
-    menuItems: getMenuItems(),
-    audio,
-    tracks,
-    playlists,
-    uploading,
-    creatingPlaylist,
-    newPlaylistName,
-    borderless,
+    screen, menuIndex, menuItems: getMenuItems(), audio, tracks, playlists,
+    uploading, creatingPlaylist, newPlaylistName, viewMode,
     onScroll: scrollMenu,
     onSelect: () => handleSelect(getMenuItems()[menuIndex]),
     onMenu: goBack,
@@ -238,12 +197,10 @@ export default function App() {
     onDeletePlaylist: handleDeletePlaylist,
     onNewPlaylistName: setNewPlaylistName,
     onCancelPlaylist: () => { setCreatingPlaylist(false); setNewPlaylistName('') },
-    onToggleBorderless: toggleBorderless,
+    onChangeViewMode: changeViewMode,
   }
 
-  if (borderless) {
-    return <BorderlessView {...sharedProps} />
-  }
-
+  if (viewMode === 'borderless') return <BorderlessIPod {...sharedProps} />
+  if (viewMode === 'modern') return <ModernView {...sharedProps} />
   return <IPodShell {...sharedProps} />
 }
