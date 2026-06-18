@@ -29,6 +29,7 @@ jobs:
           cache-dependency-path: |
             cash-app/package-lock.json
             closet/package-lock.json
+            soundos/package-lock.json
 
       - name: Install cash-app dependencies
         run: npm ci
@@ -46,6 +47,14 @@ jobs:
         run: npm run build
         working-directory: closet
 
+      - name: Install soundos dependencies
+        run: npm ci
+        working-directory: soundos
+
+      - name: Build soundos
+        run: npm run build
+        working-directory: soundos
+
       - name: Prepare Pages artifact
         run: |
           rm -rf .site
@@ -57,6 +66,9 @@ jobs:
           rm -rf .site/closet
           mkdir -p .site/closet
           cp -R closet/dist/. .site/closet/
+          rm -rf .site/soundos
+          mkdir -p .site/soundos
+          cp -R soundos/dist/. .site/soundos/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

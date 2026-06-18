@@ -1,0 +1,101 @@
+.clickwheel-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 0;
+}
+
+.clickwheel {
+  position: relative;
+  width: 210px;
+  height: 210px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 35% 30%, #ffffff 0%, #f0f0f0 30%, #d8d8d8 60%, #c0c0c0 100%);
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.3),
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 -2px 4px rgba(0,0,0,0.2) inset;
+  cursor: pointer;
+  touch-action: none;
+  flex-shrink: 0;
+}
+
+/* Outer ring texture */
+.clickwheel::before {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 40% 30%, #f8f8f8 0%, #e8e8e8 50%, #d0d0d0 100%);
+  box-shadow: 0 0 0 1px rgba(0,0,0,0.08);
+}
+
+.wheel-label {
+  position: absolute;
+  font-size: 9px;
+  font-weight: 600;
+  color: #888;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.wheel-menu {
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wheel-prev {
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+}
+
+.wheel-next {
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+}
+
+.wheel-play {
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+}
+
+.wheel-center {
+  position: absolute;
+  width: 38%;
+  height: 38%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at 40% 30%, #f0f0f0 0%, #d8d8d8 60%, #c8c8c8 100%);
+  box-shadow:
+    0 2px 6px rgba(0,0,0,0.25),
+    0 1px 0 rgba(255,255,255,0.8) inset;
+  cursor: pointer;
+  z-index: 3;
+  transition: transform 0.05s;
+}
+
+.wheel-center:active {
+  transform: translate(-50%, -50%) scale(0.96);
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.3),
+    0 1px 0 rgba(255,255,255,0.6) inset;
+}
+
+@media (max-width: 320px), (max-height: 700px) {
+  .clickwheel { width: 180px; height: 180px; }
+}
+
+@media (max-height: 560px) {
+  .clickwheel { width: 160px; height: 160px; }
+}
