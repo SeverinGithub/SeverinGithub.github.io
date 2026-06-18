@@ -42,6 +42,8 @@ export default function App() {
   const [creatingPlaylist, setCreatingPlaylist] = useState(false)
   // 'ipod' | 'borderless' | 'modern'
   const [viewMode, setViewMode] = useState(() => localStorage.getItem('soundos-viewmode') || 'ipod')
+  // 'classic' | 'retro'
+  const [screenTheme, setScreenTheme] = useState(() => localStorage.getItem('soundos-screentheme') || 'classic')
 
   const audio = useAudio()
 
@@ -58,6 +60,11 @@ export default function App() {
     } else {
       document.exitFullscreen?.().catch(() => {})
     }
+  }, [])
+
+  const changeScreenTheme = useCallback((theme) => {
+    setScreenTheme(theme)
+    localStorage.setItem('soundos-screentheme', theme)
   }, [])
 
   const navigate = useCallback((newScreen, index = 0) => {
@@ -184,7 +191,7 @@ export default function App() {
 
   const sharedProps = {
     screen, menuIndex, menuItems: getMenuItems(), audio, tracks, playlists,
-    uploading, creatingPlaylist, newPlaylistName, viewMode,
+    uploading, creatingPlaylist, newPlaylistName, viewMode, screenTheme,
     onScroll: scrollMenu,
     onSelect: () => handleSelect(getMenuItems()[menuIndex]),
     onMenu: goBack,
@@ -198,6 +205,7 @@ export default function App() {
     onNewPlaylistName: setNewPlaylistName,
     onCancelPlaylist: () => { setCreatingPlaylist(false); setNewPlaylistName('') },
     onChangeViewMode: changeViewMode,
+    onChangeScreenTheme: changeScreenTheme,
   }
 
   if (viewMode === 'borderless') return <BorderlessIPod {...sharedProps} />

@@ -463,6 +463,100 @@
   color: #3a4a2a;
 }
 
+/* Retro theme — white glass 2010s Apple style */
+.screen--retro {
+  background: #f5f5f5;
+  position: relative;
+  overflow: hidden;
+}
+
+.screen--retro::after {
+  content: none;
+}
+
+.screen--retro::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 50%;
+  background: linear-gradient(180deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.05) 100%);
+  border-radius: 4px 4px 0 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.screen--retro .screen-header {
+  background: linear-gradient(180deg, #e8e8e8 0%, #d0d0d0 100%);
+  color: #333;
+  border-bottom: 1px solid #bbb;
+}
+
+.screen--retro .menu-item {
+  color: #222;
+  border-bottom: 1px solid #e0e0e0;
+  background: white;
+}
+
+.screen--retro .menu-item.selected {
+  background: linear-gradient(180deg, #4a90e2 0%, #2e6db8 100%);
+  color: white;
+}
+
+.screen--retro .np-title { color: #111; }
+.screen--retro .np-artist { color: #444; }
+.screen--retro .np-album { color: #888; }
+.screen--retro .np-times { color: #555; }
+
+.screen--retro .np-progress-fill {
+  background: linear-gradient(90deg, #4a90e2, #6ab0ff);
+}
+
+.screen--retro .now-playing-empty { color: #888; }
+.screen--retro .upload-screen { background: #f5f5f5; }
+.screen--retro .upload-track-title { color: #111; }
+.screen--retro .upload-track-artist { color: #666; }
+.screen--retro .track-count { color: #888; }
+.screen--retro .settings-item { color: #111; border-color: #ddd; }
+.screen--retro .settings-value { color: #888; }
+.screen--retro .settings-mode-btn { background: #e8e8e8; color: #444; border-color: #ccc; }
+.screen--retro .settings-mode-btn.active {
+  background: linear-gradient(180deg, #4a90e2 0%, #2e6db8 100%);
+  color: white;
+  border-color: #2e6db8;
+}
+.screen--retro .settings-about { color: #aaa; }
+.screen--retro .mini-player { background: rgba(0,0,0,0.08); color: #333; }
+.screen--retro .screen-empty { color: #999; }
+
+/* Retro NowPlaying: art left, info right */
+.now-playing--retro {
+  flex-direction: row;
+  align-items: center;
+  padding: 6px 8px 4px;
+  gap: 8px;
+}
+
+.np-art--retro {
+  width: 72px;
+  height: 72px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+}
+
+.np-retro-right {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.np-retro-right .np-info {
+  text-align: left;
+}
+
 @media (max-height: 700px) {
   .screen { height: 165px; }
   .np-art { width: 46px; height: 46px; }

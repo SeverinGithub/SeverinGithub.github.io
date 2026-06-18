@@ -27,6 +27,7 @@ export default function Screen({
   uploading, creatingPlaylist, newPlaylistName,
   onUpload, onDeleteTrack, onCreatePlaylist, onDeletePlaylist,
   onNewPlaylistName, onCancelPlaylist, playlists, onChangeViewMode, viewMode,
+  screenTheme = 'classic', onChangeScreenTheme,
 }) {
   const fileInputRef = useRef(null)
 
@@ -38,7 +39,7 @@ export default function Screen({
   const visible = menuItems.slice(startIdx, startIdx + VISIBLE)
 
   return (
-    <div className="screen">
+    <div className={`screen screen--${screenTheme}`}>
       <div className="screen-header">
         <div className="screen-title">{title}</div>
         <div className="screen-battery">
@@ -47,7 +48,7 @@ export default function Screen({
       </div>
 
       {screen === SCREENS.NOW_PLAYING ? (
-        <NowPlaying audio={audio} />
+        <NowPlaying audio={audio} screenTheme={screenTheme} />
       ) : screen === SCREENS.UPLOAD ? (
         <UploadScreen
           tracks={tracks}
@@ -57,7 +58,8 @@ export default function Screen({
           onDelete={onDeleteTrack}
         />
       ) : screen === SCREENS.SETTINGS ? (
-        <SettingsScreen tracks={tracks} viewMode={viewMode} onChangeViewMode={onChangeViewMode} />
+        <SettingsScreen tracks={tracks} viewMode={viewMode} onChangeViewMode={onChangeViewMode}
+          screenTheme={screenTheme} onChangeScreenTheme={onChangeScreenTheme} />
       ) : screen === SCREENS.PLAYLISTS && creatingPlaylist ? (
         <NewPlaylistScreen
           name={newPlaylistName}
@@ -103,7 +105,7 @@ function MenuList({ items, selectedIndex }) {
   )
 }
 
-function NowPlaying({ audio }) {
+function NowPlaying({ audio, screenTheme }) {
   const { currentTrack, isPlaying, progress, currentTime, duration } = audio
   if (!currentTrack) {
     return (
@@ -111,6 +113,32 @@ function NowPlaying({ audio }) {
         <div className="now-playing-icon">♪</div>
         <div>No track selected</div>
         <div className="now-playing-hint">Go to Music to play a song</div>
+      </div>
+    )
+  }
+  if (screenTheme === 'retro') {
+    return (
+      <div className="now-playing now-playing--retro">
+        <div className="np-art np-art--retro">
+          {currentTrack.cover
+            ? <img src={currentTrack.cover} alt="cover" />
+            : <div className="np-art-placeholder">♪</div>}
+        </div>
+        <div className="np-retro-right">
+          <div className="np-info">
+            <div className="np-title">{currentTrack.title}</div>
+            <div className="np-artist">{currentTrack.artist}</div>
+            <div className="np-album">{currentTrack.album}</div>
+          </div>
+          <div className="np-progress-bar">
+            <div className="np-progress-fill" style={{ width: `${progress}%` }} />
+          </div>
+          <div className="np-times">
+            <span>{formatTime(currentTime)}</span>
+            <span className="np-state">{isPlaying ? '▶' : '❙❙'}</span>
+            <span>-{formatTime(duration - currentTime)}</span>
+          </div>
+        </div>
       </div>
     )
   }
@@ -175,11 +203,15 @@ function UploadScreen({ tracks, uploading, fileInputRef, onUpload, onDelete }) {
 const VIEW_MODES = [
   { value: 'ipod', label: 'iPod Sim.' },
   { value: 'borderless', label: 'Borderless' },
-  { value: 'modern', label: 'Modern Borderless' },
+  { value: 'modern', label: 'Modern' },
 ]
 
-function SettingsScreen({ tracks, viewMode, onChangeViewMode }) {
-  const currentLabel = VIEW_MODES.find(m => m.value === viewMode)?.label || 'iPod Sim.'
+const SCREEN_THEMES = [
+  { value: 'classic', label: 'Classic' },
+  { value: 'retro', label: 'Retro' },
+]
+
+function SettingsScreen({ tracks, viewMode, onChangeViewMode, screenTheme, onChangeScreenTheme }) {
   return (
     <div className="settings-screen">
       <div className="settings-item">
@@ -204,8 +236,21 @@ function SettingsScreen({ tracks, viewMode, onChangeViewMode }) {
           ))}
         </div>
       </div>
+      <div className="settings-item settings-mode-row">
+        <span>Screen</span>
+        <div className="settings-mode-select">
+          {SCREEN_THEMES.map(t => (
+            <button
+              key={t.value}
+              className={`settings-mode-btn${screenTheme === t.value ? ' active' : ''}`}
+              onClick={() => onChangeScreenTheme?.(t.value)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </div>
       <div className="settings-about">
-        <div>Built with ♥</div>
         <div>SoundOS — a classic experience</div>
       </div>
     </div>

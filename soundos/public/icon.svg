@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF8C00"/>
+      <stop offset="100%" stop-color="#FF4500"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
+      <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+    </linearGradient>
+  </defs>
+  <!-- Orange background -->
+  <rect width="512" height="512" rx="114" fill="url(#bg)"/>
+  <!-- Shine overlay -->
+  <rect width="512" height="256" rx="114" fill="url(#shine)"/>
+  <!-- iPod body -->
+  <rect x="165" y="72" width="182" height="280" rx="22" fill="white" opacity="0.95"/>
+  <!-- Screen -->
+  <rect x="185" y="92" width="142" height="108" rx="8" fill="#1a1a1a"/>
+  <!-- Screen reflection -->
+  <rect x="185" y="92" width="142" height="36" rx="8" fill="rgba(255,255,255,0.15)"/>
+  <!-- Click wheel circle -->
+  <circle cx="256" cy="290" r="60" fill="white" opacity="0.95"/>
+  <!-- Wheel ring -->
+  <circle cx="256" cy="290" r="60" fill="none" stroke="#d0d0d0" stroke-width="3"/>
+  <!-- Center button -->
+  <circle cx="256" cy="290" r="22" fill="#e8e8e8"/>
+</svg>

@@ -25,16 +25,21 @@ const SCREEN_TITLES = {
 const VIEW_MODES = [
   { value: 'ipod', label: 'iPod Sim.' },
   { value: 'borderless', label: 'Borderless' },
-  { value: 'modern', label: 'Modern Borderless' },
+  { value: 'modern', label: 'Modern' },
+]
+
+const SCREEN_THEMES = [
+  { value: 'classic', label: 'Classic' },
+  { value: 'retro', label: 'Retro' },
 ]
 
 export default function ModernView(props) {
   const {
     screen, menuIndex, menuItems, audio, tracks, playlists,
-    uploading, creatingPlaylist, newPlaylistName, viewMode,
+    uploading, creatingPlaylist, newPlaylistName, viewMode, screenTheme,
     onScroll, onSelect, onMenu, onPlayPause, onNext, onPrev,
     onUpload, onDeleteTrack, onCreatePlaylist, onDeletePlaylist,
-    onNewPlaylistName, onCancelPlaylist, onChangeViewMode,
+    onNewPlaylistName, onCancelPlaylist, onChangeViewMode, onChangeScreenTheme,
   } = props
 
   const fileInputRef = useRef(null)
@@ -65,7 +70,8 @@ export default function ModernView(props) {
         ) : screen === SCREENS.UPLOAD ? (
           <UploadFull tracks={tracks} uploading={uploading} fileInputRef={fileInputRef} onUpload={onUpload} onDelete={onDeleteTrack} />
         ) : screen === SCREENS.SETTINGS ? (
-          <SettingsFull tracks={tracks} viewMode={viewMode} onChangeViewMode={onChangeViewMode} />
+          <SettingsFull tracks={tracks} viewMode={viewMode} onChangeViewMode={onChangeViewMode}
+            screenTheme={screenTheme} onChangeScreenTheme={onChangeScreenTheme} />
         ) : screen === SCREENS.PLAYLISTS && creatingPlaylist ? (
           <NewPlaylistFull name={newPlaylistName} onChange={onNewPlaylistName} onCreate={onCreatePlaylist} onCancel={onCancelPlaylist} />
         ) : (
@@ -175,7 +181,7 @@ function UploadFull({ tracks, uploading, fileInputRef, onUpload, onDelete }) {
   )
 }
 
-function SettingsFull({ tracks, viewMode, onChangeViewMode }) {
+function SettingsFull({ tracks, viewMode, onChangeViewMode, screenTheme, onChangeScreenTheme }) {
   return (
     <div className="bl-settings">
       <div className="bl-settings-item">
@@ -192,6 +198,17 @@ function SettingsFull({ tracks, viewMode, onChangeViewMode }) {
               className={`bl-mode-btn${viewMode === m.value ? ' active' : ''}`}
               onClick={() => onChangeViewMode(m.value)}
             >{m.label}</button>
+          ))}
+        </div>
+      </div>
+      <div className="bl-settings-item bl-settings-mode-row">
+        <span className="bl-settings-mode-label">Screen Theme</span>
+        <div className="bl-mode-buttons">
+          {SCREEN_THEMES.map(t => (
+            <button key={t.value}
+              className={`bl-mode-btn${screenTheme === t.value ? ' active' : ''}`}
+              onClick={() => onChangeScreenTheme?.(t.value)}
+            >{t.label}</button>
           ))}
         </div>
       </div>
