@@ -19,7 +19,7 @@ const SCREEN_TITLES = {
   menu: 'SoundOS', music: 'Music', songs: 'Songs', artists: 'Artists',
   artist_songs: 'Artist', albums: 'Albums', album_songs: 'Album',
   playlists: 'Playlists', playlist_view: 'Playlist',
-  now_playing: 'Now Playing', upload: 'Upload', settings: 'Settings',
+  now_playing: 'Cover Flow', upload: 'Upload', settings: 'Settings',
 }
 
 export default function Screen({
@@ -48,7 +48,7 @@ export default function Screen({
       </div>
 
       {screen === SCREENS.NOW_PLAYING ? (
-        <NowPlaying audio={audio} screenTheme={screenTheme} />
+        <NowPlaying audio={audio} />
       ) : screen === SCREENS.UPLOAD ? (
         <UploadScreen
           tracks={tracks}
@@ -105,8 +105,13 @@ function MenuList({ items, selectedIndex }) {
   )
 }
 
-function NowPlaying({ audio, screenTheme }) {
-  const { currentTrack, isPlaying, progress, currentTime, duration } = audio
+function CoverImg({ track }) {
+  if (track?.cover) return <img className="cf-img" src={track.cover} alt="" />
+  return <div className="cf-img cf-ph">♪</div>
+}
+
+function NowPlaying({ audio }) {
+  const { currentTrack, isPlaying, progress, currentTime, duration, queue, queueIndex } = audio
   if (!currentTrack) {
     return (
       <div className="now-playing-empty">
@@ -116,43 +121,33 @@ function NowPlaying({ audio, screenTheme }) {
       </div>
     )
   }
-  if (screenTheme === 'retro') {
-    return (
-      <div className="now-playing now-playing--retro">
-        <div className="np-art np-art--retro">
-          {currentTrack.cover
-            ? <img src={currentTrack.cover} alt="cover" />
-            : <div className="np-art-placeholder">♪</div>}
-        </div>
-        <div className="np-retro-right">
-          <div className="np-info">
-            <div className="np-title">{currentTrack.title}</div>
-            <div className="np-artist">{currentTrack.artist}</div>
-            <div className="np-album">{currentTrack.album}</div>
-          </div>
-          <div className="np-progress-bar">
-            <div className="np-progress-fill" style={{ width: `${progress}%` }} />
-          </div>
-          <div className="np-times">
-            <span>{formatTime(currentTime)}</span>
-            <span className="np-state">{isPlaying ? '▶' : '❙❙'}</span>
-            <span>-{formatTime(duration - currentTime)}</span>
-          </div>
-        </div>
-      </div>
-    )
-  }
+
+  const prevTrack = queueIndex > 0 ? queue[queueIndex - 1] : null
+  const nextTrack = queueIndex < queue.length - 1 ? queue[queueIndex + 1] : null
+
   return (
-    <div className="now-playing">
-      <div className="np-art">
-        {currentTrack.cover
-          ? <img src={currentTrack.cover} alt="cover" />
-          : <div className="np-art-placeholder">♪</div>}
+    <div className="now-playing now-playing--cf">
+      <div className="cf-stage">
+        {prevTrack && (
+          <div className="cf-item cf-item--prev">
+            <CoverImg track={prevTrack} />
+            <div className="cf-reflect"><CoverImg track={prevTrack} /></div>
+          </div>
+        )}
+        <div className="cf-item cf-item--center">
+          <CoverImg track={currentTrack} />
+          <div className="cf-reflect"><CoverImg track={currentTrack} /></div>
+        </div>
+        {nextTrack && (
+          <div className="cf-item cf-item--next">
+            <CoverImg track={nextTrack} />
+            <div className="cf-reflect"><CoverImg track={nextTrack} /></div>
+          </div>
+        )}
       </div>
-      <div className="np-info">
-        <div className="np-title">{currentTrack.title}</div>
-        <div className="np-artist">{currentTrack.artist}</div>
-        <div className="np-album">{currentTrack.album}</div>
+      <div className="cf-meta">
+        <div className="cf-title">{currentTrack.title}</div>
+        <div className="cf-artist">{currentTrack.artist}</div>
       </div>
       <div className="np-progress-bar">
         <div className="np-progress-fill" style={{ width: `${progress}%` }} />
