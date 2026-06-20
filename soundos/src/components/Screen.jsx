@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import './Screen.css'
 
 const SCREENS = {
@@ -112,6 +112,19 @@ function CoverImg({ track }) {
 
 function NowPlaying({ audio }) {
   const { currentTrack, isPlaying, progress, currentTime, duration, queue, queueIndex } = audio
+  const prevIndexRef = useRef(queueIndex)
+  const [animDir, setAnimDir] = useState(null)
+
+  useEffect(() => {
+    if (prevIndexRef.current !== queueIndex) {
+      const dir = queueIndex > prevIndexRef.current ? 'next' : 'prev'
+      prevIndexRef.current = queueIndex
+      setAnimDir(dir)
+      const t = setTimeout(() => setAnimDir(null), 380)
+      return () => clearTimeout(t)
+    }
+  }, [queueIndex])
+
   if (!currentTrack) {
     return (
       <div className="now-playing-empty">
@@ -126,7 +139,7 @@ function NowPlaying({ audio }) {
   const nextTrack = queueIndex < queue.length - 1 ? queue[queueIndex + 1] : null
 
   return (
-    <div className="now-playing now-playing--cf">
+    <div className={`now-playing now-playing--cf${animDir ? ` cf-anim-${animDir}` : ''}`}>
       <div className="cf-stage">
         {prevTrack && (
           <div className="cf-item cf-item--prev">

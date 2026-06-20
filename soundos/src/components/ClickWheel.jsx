@@ -1,12 +1,15 @@
 import { useRef, useCallback, useEffect } from 'react'
 import './ClickWheel.css'
 
+const vibrate = (ms) => navigator.vibrate?.(ms)
+
 export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, onNext, onPrev }) {
   const wheelRef = useRef(null)
   const lastAngleRef = useRef(null)
   const accumulatedRef = useRef(0)
+  const totalRotationRef = useRef(0) // total angle moved, never reset by ticks
   const isDraggingRef = useRef(false)
-  const startPosRef = useRef(null) // { cx, cy } center at touch start
+  const startPosRef = useRef(null) // zone detected at touchstart, not touchend
 
   const getAngle = useCallback((e, rect) => {
     const cx = rect.left + rect.width / 2
@@ -16,6 +19,7 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
   }, [])
 
   const fireZone = useCallback((clientX, clientY, cx, cy) => {
+    vibrate(10)
     const dx = clientX - cx
     const dy = clientY - cy
     const angle = Math.atan2(dy, dx) * (180 / Math.PI)
@@ -36,12 +40,14 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     const outerR = rect.width / 2
     const innerR = outerR * 0.35
 
-    if (dist < innerR) return // center button — let click handle it
-    if (dist > outerR) return // outside wheel
+    if (dist < innerR) return
+    if (dist > outerR) return
 
     isDraggingRef.current = true
     lastAngleRef.current = getAngle(e, rect)
     accumulatedRef.current = 0
+    totalRotationRef.current = 0
+    // Record start position for tap detection — zone is always fired based on WHERE user touched down
     startPosRef.current = { cx, cy, clientX, clientY }
     e.preventDefault()
   }, [getAngle])
@@ -56,13 +62,17 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     if (delta < -180) delta += 360
 
     accumulatedRef.current += delta
+    totalRotationRef.current += Math.abs(delta)
     lastAngleRef.current = angle
 
     const threshold = 15
     if (Math.abs(accumulatedRef.current) >= threshold) {
       const ticks = Math.floor(Math.abs(accumulatedRef.current) / threshold)
       const dir = accumulatedRef.current > 0 ? 1 : -1
-      for (let i = 0; i < ticks; i++) onScroll(dir)
+      for (let i = 0; i < ticks; i++) {
+        onScroll(dir)
+        vibrate(4)
+      }
       accumulatedRef.current = accumulatedRef.current % threshold
     }
     e.preventDefault()
@@ -72,13 +82,13 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     if (!isDraggingRef.current) return
     isDraggingRef.current = false
 
-    // On touch, preventDefault() blocks click events — detect taps here instead
-    const wasTap = Math.abs(accumulatedRef.current) < 8
+    // Only fire tap if total rotation was clearly a touch (< 14° total movement)
+    // Using start position so scrolling to a different zone doesn't misfire
+    const wasTap = totalRotationRef.current < 14
     lastAngleRef.current = null
 
-    if (wasTap && e.changedTouches?.length > 0 && startPosRef.current) {
-      const { clientX, clientY } = e.changedTouches[0]
-      const { cx, cy } = startPosRef.current
+    if (wasTap && startPosRef.current) {
+      const { cx, cy, clientX, clientY } = startPosRef.current
       fireZone(clientX, clientY, cx, cy)
     }
   }, [fireZone])
@@ -101,9 +111,8 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     }
   }, [handleStart, handleMove, handleEnd])
 
-  // Desktop: click handler for mouse-based zone detection
   const handleZoneClick = (e) => {
-    if (e.pointerType === 'touch') return // handled by touchend above
+    if (e.pointerType === 'touch') return
     const rect = wheelRef.current.getBoundingClientRect()
     const cx = rect.left + rect.width / 2
     const cy = rect.top + rect.height / 2
@@ -123,8 +132,9 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
         <div className="wheel-label wheel-prev">⏮</div>
         <div className="wheel-label wheel-next">⏭</div>
         <div className="wheel-label wheel-play">▶︎ ❙❙</div>
-        <div className="wheel-center" onClick={(e) => { e.stopPropagation(); onSelect() }}
-          onTouchEnd={(e) => { e.stopPropagation(); e.preventDefault(); onSelect() }} />
+        <div className="wheel-center"
+          onClick={(e) => { e.stopPropagation(); vibrate(10); onSelect() }}
+          onTouchEnd={(e) => { e.stopPropagation(); e.preventDefault(); vibrate(10); onSelect() }} />
       </div>
     </div>
   )

@@ -681,6 +681,26 @@
   .np-art { width: 38px; height: 38px; }
 }
 
+/* CoverFlow slide animation on track change */
+@keyframes cf-enter-next {
+  from { transform: translateX(22%) scale(0.93); opacity: 0.3; }
+  to   { transform: translateX(0)   scale(1);    opacity: 1; }
+}
+@keyframes cf-enter-prev {
+  from { transform: translateX(-22%) scale(0.93); opacity: 0.3; }
+  to   { transform: translateX(0)    scale(1);    opacity: 1; }
+}
+.cf-anim-next .cf-stage {
+  animation: cf-enter-next 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.cf-anim-prev .cf-stage {
+  animation: cf-enter-prev 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.cf-anim-next .cf-meta,
+.cf-anim-prev .cf-meta {
+  animation: cf-enter-next 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 /* Playlist edit: highlight added tracks */
 .menu-item-sub--added {
   opacity: 1;
