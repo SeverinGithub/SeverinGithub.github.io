@@ -10,7 +10,7 @@ import './App.css'
 const SCREENS = {
   MENU: 'menu', MUSIC: 'music', SONGS: 'songs', ARTISTS: 'artists',
   ARTIST_SONGS: 'artist_songs', ALBUMS: 'albums', ALBUM_SONGS: 'album_songs',
-  PLAYLISTS: 'playlists', PLAYLIST_VIEW: 'playlist_view',
+  PLAYLISTS: 'playlists', PLAYLIST_VIEW: 'playlist_view', PLAYLIST_EDIT: 'playlist_edit',
   NOW_PLAYING: 'now_playing', UPLOAD: 'upload', SETTINGS: 'settings',
 }
 
@@ -138,10 +138,20 @@ export default function App() {
       case SCREENS.PLAYLISTS: return [...playlists.map(p => ({ id: p.id, label: p.name, playlist: p })), { id: '__new__', label: '+ New Playlist' }]
       case SCREENS.PLAYLIST_VIEW: {
         const pl = playlists.find(p => p.id === selectedPlaylist)
-        return pl ? pl.trackIds.map(tid => {
+        const trackItems = pl ? pl.trackIds.map(tid => {
           const t = tracks.find(tr => tr.id === tid)
           return t ? { id: t.id, label: t.title, sub: t.artist, track: t } : null
         }).filter(Boolean) : []
+        return [...trackItems, { id: '__edit__', label: '+ Add / Remove Songs' }]
+      }
+      case SCREENS.PLAYLIST_EDIT: {
+        const pl = playlists.find(p => p.id === selectedPlaylist)
+        if (!pl) return []
+        return tracks.map(t => ({
+          id: t.id, label: t.title, track: t,
+          sub: pl.trackIds.includes(t.id) ? '✓ Added' : t.artist,
+          inPlaylist: pl.trackIds.includes(t.id),
+        }))
       }
       default: return []
     }
@@ -175,11 +185,23 @@ export default function App() {
         else { setSelectedPlaylist(item.playlist.id); navigate(SCREENS.PLAYLIST_VIEW) }
         break
       case SCREENS.PLAYLIST_VIEW: {
+        if (item.id === '__edit__') { navigate(SCREENS.PLAYLIST_EDIT); break }
         const pl = playlists.find(p => p.id === selectedPlaylist)
         if (!pl) break
         const pt = pl.trackIds.map(tid => tracks.find(t => t.id === tid)).filter(Boolean)
         audio.playQueue(pt, pt.indexOf(item.track))
         navigate(SCREENS.NOW_PLAYING); break
+      }
+      case SCREENS.PLAYLIST_EDIT: {
+        const pl = playlists.find(p => p.id === selectedPlaylist)
+        if (!pl) break
+        const newIds = pl.trackIds.includes(item.id)
+          ? pl.trackIds.filter(id => id !== item.id)
+          : [...pl.trackIds, item.id]
+        const updated = { ...pl, trackIds: newIds }
+        setPlaylists(prev => prev.map(p => p.id === pl.id ? updated : p))
+        savePlaylist(updated)
+        break
       }
     }
   }

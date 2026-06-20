@@ -4,7 +4,7 @@ import './Screen.css'
 const SCREENS = {
   MENU: 'menu', MUSIC: 'music', SONGS: 'songs', ARTISTS: 'artists',
   ARTIST_SONGS: 'artist_songs', ALBUMS: 'albums', ALBUM_SONGS: 'album_songs',
-  PLAYLISTS: 'playlists', PLAYLIST_VIEW: 'playlist_view',
+  PLAYLISTS: 'playlists', PLAYLIST_VIEW: 'playlist_view', PLAYLIST_EDIT: 'playlist_edit',
   NOW_PLAYING: 'now_playing', UPLOAD: 'upload', SETTINGS: 'settings',
 }
 
@@ -18,7 +18,7 @@ function formatTime(s) {
 const SCREEN_TITLES = {
   menu: 'SoundOS', music: 'Music', songs: 'Songs', artists: 'Artists',
   artist_songs: 'Artist', albums: 'Albums', album_songs: 'Album',
-  playlists: 'Playlists', playlist_view: 'Playlist',
+  playlists: 'Playlists', playlist_view: 'Playlist', playlist_edit: 'Add Songs',
   now_playing: 'Cover Flow', upload: 'Upload', settings: 'Settings',
 }
 
@@ -97,7 +97,7 @@ function MenuList({ items, selectedIndex }) {
           className={`menu-item${i === selectedIndex ? ' selected' : ''}`}
         >
           <span className="menu-item-label">{item.label}</span>
-          {item.sub && <span className="menu-item-sub">{item.sub}</span>}
+          {item.sub && <span className={`menu-item-sub${item.inPlaylist ? ' menu-item-sub--added' : ''}`}>{item.sub}</span>}
           {i === selectedIndex && <span className="menu-arrow">›</span>}
         </li>
       ))}
