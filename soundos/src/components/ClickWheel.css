@@ -39,6 +39,7 @@
   text-transform: uppercase;
   pointer-events: none;
   z-index: 2;
+  font-variant-emoji: text;
 }
 
 .wheel-menu {

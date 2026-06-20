@@ -129,9 +129,9 @@ export default function ClickWheel({ onScroll, onSelect, onMenu, onPlayPause, on
     <div className="clickwheel-container">
       <div className="clickwheel" ref={wheelRef} onClick={handleZoneClick}>
         <div className="wheel-label wheel-menu">MENU</div>
-        <div className="wheel-label wheel-prev">⏮</div>
-        <div className="wheel-label wheel-next">⏭</div>
-        <div className="wheel-label wheel-play">▶︎ ❙❙</div>
+        <div className="wheel-label wheel-prev">{'⏮︎'}</div>
+        <div className="wheel-label wheel-next">{'⏭︎'}</div>
+        <div className="wheel-label wheel-play">{'▶︎'} ❙❙</div>
         <div className="wheel-center"
           onClick={(e) => { e.stopPropagation(); vibrate(10); onSelect() }}
           onTouchEnd={(e) => { e.stopPropagation(); e.preventDefault(); vibrate(10); onSelect() }} />
