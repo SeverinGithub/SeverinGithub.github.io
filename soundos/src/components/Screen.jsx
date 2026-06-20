@@ -131,17 +131,14 @@ function NowPlaying({ audio }) {
         {prevTrack && (
           <div className="cf-item cf-item--prev">
             <CoverImg track={prevTrack} />
-            <div className="cf-reflect"><CoverImg track={prevTrack} /></div>
           </div>
         )}
         <div className="cf-item cf-item--center">
           <CoverImg track={currentTrack} />
-          <div className="cf-reflect"><CoverImg track={currentTrack} /></div>
         </div>
         {nextTrack && (
           <div className="cf-item cf-item--next">
             <CoverImg track={nextTrack} />
-            <div className="cf-reflect"><CoverImg track={nextTrack} /></div>
           </div>
         )}
       </div>
