@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sino — Musik</title>
-  <meta name="description" content="Sino — Musik-Artist. Produziert Sounds zwischen elektronisch und melancholisch." />
+  <meta name="description" content="Sino — House und christliche Musik." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
@@ -69,6 +69,32 @@
     @keyframes pulse {
       0%, 100% { opacity: 0.4; transform: scale(1); }
       50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    .lang {
+      display: inline-flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .lang button {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      cursor: pointer;
+      padding: 0;
+      transition: color 0.2s ease;
+    }
+
+    .lang button:hover { color: var(--fg); }
+    .lang button[aria-pressed="true"] { color: var(--accent); }
+
+    .lang .sep {
+      color: var(--line);
     }
 
     .hero {
@@ -143,8 +169,6 @@
     footer {
       padding-top: 3rem;
       border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
       font-size: 0.7rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -156,37 +180,91 @@
       header { padding-bottom: 3rem; }
       .hero { padding: 1rem 0 2.5rem; }
       section { padding: 2.5rem 0; }
-      footer { flex-direction: column; gap: 0.5rem; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <span><span class="dot"></span>im studio</span>
-      <span>MMXXVI</span>
+      <span><span class="dot"></span><span data-i18n="status">im studio</span></span>
+      <span class="lang">
+        <button type="button" data-lang="de" aria-pressed="true">DE</button>
+        <span class="sep">/</span>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </span>
     </header>
 
     <div class="hero">
       <h1>Sino</h1>
-      <p class="tagline">Musik zwischen elektronisch, melancholisch und ehrlich.</p>
+      <p class="tagline" data-i18n="tagline">House und christliche Musik — für den Tanz und für die Stille.</p>
     </div>
 
     <section class="about">
-      <span class="label">Über</span>
-      <p>Ich bin Sino. Ich mache Musik, weil ich das Gefühl brauche, dass ein Moment bleibt — auch wenn er längst vorbei ist.</p>
-      <p>Meine Sounds bewegen sich zwischen elektronischen Texturen und leisen, akustischen Momenten. Manches entsteht am Klavier, manches im Kopfhörer nachts um drei. Am Ende ist es einfach das, was gerade rausmuss.</p>
+      <span class="label" data-i18n="about-label">Über</span>
+      <p data-i18n="about-1">Ich bin Sino. Ich feiere zwei Welten in meiner Musik: House — für die Nächte, in denen der Beat alles trägt — und christliche Musik, für die Momente, in denen der Sound tiefer geht.</p>
+      <p data-i18n="about-2">Beides gehört für mich zusammen. Der Groove, der bewegt, und der Text, der bleibt. Ich produziere, was ich selbst hören will — ehrlich, warm und mit Herz.</p>
     </section>
 
     <section class="contact">
-      <span class="label">Kontakt</span>
+      <span class="label" data-i18n="contact-label">Kontakt</span>
       <a href="mailto:severinschwarz@icloud.com">severinschwarz@icloud.com</a>
     </section>
 
     <footer>
       <span>Sino</span>
-      <span>© 2026</span>
     </footer>
   </div>
+
+  <script>
+    const translations = {
+      de: {
+        title: "Sino — Musik",
+        htmlLang: "de",
+        status: "im studio",
+        tagline: "House und christliche Musik — für den Tanz und für die Stille.",
+        "about-label": "Über",
+        "about-1": "Ich bin Sino. Ich feiere zwei Welten in meiner Musik: House — für die Nächte, in denen der Beat alles trägt — und christliche Musik, für die Momente, in denen der Sound tiefer geht.",
+        "about-2": "Beides gehört für mich zusammen. Der Groove, der bewegt, und der Text, der bleibt. Ich produziere, was ich selbst hören will — ehrlich, warm und mit Herz.",
+        "contact-label": "Kontakt"
+      },
+      en: {
+        title: "Sino — Music",
+        htmlLang: "en",
+        status: "in the studio",
+        tagline: "House and Christian music — for the dance and for the stillness.",
+        "about-label": "About",
+        "about-1": "I'm Sino. I celebrate two worlds in my music: house — for the nights when the beat carries everything — and Christian music, for the moments when the sound goes deeper.",
+        "about-2": "For me, they belong together. The groove that moves you and the words that stay. I produce what I want to hear myself — honest, warm, and from the heart.",
+        "contact-label": "Contact"
+      }
+    };
+
+    function setLang(lang) {
+      const t = translations[lang];
+      if (!t) return;
+      document.documentElement.lang = t.htmlLang;
+      document.title = t.title;
+      document.querySelectorAll("[data-i18n]").forEach((el) => {
+        const key = el.getAttribute("data-i18n");
+        if (t[key] !== undefined) el.textContent = t[key];
+      });
+      document.querySelectorAll(".lang button").forEach((btn) => {
+        btn.setAttribute("aria-pressed", btn.dataset.lang === lang ? "true" : "false");
+      });
+      try { localStorage.setItem("sino-lang", lang); } catch (e) {}
+    }
+
+    document.querySelectorAll(".lang button").forEach((btn) => {
+      btn.addEventListener("click", () => setLang(btn.dataset.lang));
+    });
+
+    let initial = "de";
+    try {
+      const saved = localStorage.getItem("sino-lang");
+      if (saved === "de" || saved === "en") initial = saved;
+      else if ((navigator.language || "").toLowerCase().startsWith("en")) initial = "en";
+    } catch (e) {}
+    setLang(initial);
+  </script>
 </body>
 </html>
