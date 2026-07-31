@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy": "vite build && rm -rf assets vorlage.xlsx && cp -r dist/index.html dist/assets dist/vorlage.xlsx . && echo '\\n✓ Deployed. Commit + push to publish.\\n  Restore dev index.html with: cp index.dev.html index.html'"
   },
   "dependencies": {
     "exceljs": "^4.4.0",
