@@ -75,7 +75,7 @@ function App() {
   else if (view === 'bag')
     screen = <ClubBagScreen initialClubs={clubs} onDone={commitClubs} onCancel={() => setView('setup')} />;
   else if (view === 'play' && round)
-    screen = <PlayScreen round={round} setRound={updateRound} onFinish={finish} onExit={exitPlay} />;
+    screen = <PlayScreen round={round} setRound={updateRound} clubs={clubs} onFinish={finish} onExit={exitPlay} />;
   else if (view === 'summary' && round)
     screen = <SummaryScreen round={round} onShare={() => setShare(round)} onSaveClose={saveClose} onAgain={discard} />;
   else if (view === 'history')

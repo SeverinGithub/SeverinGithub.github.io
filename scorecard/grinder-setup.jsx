@@ -45,8 +45,11 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
   const [holes, setHoles] = useS(9);
   const [modePar, setModePar] = useS(true);
   const [modeStbl, setModeStbl] = useS(false);
+  const [modeTrack, setModeTrack] = useS(() => loadTrackMode());
   const [nearbyCourses, setNearbyCourses] = useS([]);
   const [geoState, setGeoState] = useS('idle'); // idle | loading | done | denied | error
+
+  const changeTrackMode = (v) => { setModeTrack(v); saveTrackMode(v); };
 
   const isCustom = courseId === 'custom';
   const isNearby = courseId.startsWith('nearby-');
@@ -107,7 +110,9 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
     onStart({
       id: uid(), courseId: isCustom ? null : courseId, courseName,
       location: isCustom ? '' : (course ? course.location : ''),
-      holes, pars, modePar, modeStbl, players: pl, scores,
+      holes, pars, modePar, modeStbl, modeTrack,
+      trackedPlayerId: pl[0].id,   // the user is always seat 0
+      players: pl, scores, shots: [],
       currentHole: 0, startedAt: Date.now(), status: 'live',
     });
   };
@@ -288,8 +293,21 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
           <div style={{ height: 1, background: 'var(--line)', margin: '0 14px' }} />
           <ModeRow label="Stableford" sub="Punkte statt nur Schläge" checked={modeStbl} onToggle={() => setModeStbl(v => !v)} />
         </Card>
-        <div style={{ fontSize: 12.5, color: 'var(--ink-faint)', fontWeight: 600, padding: '2px 6px', marginBottom: 100 }}>
+        <div style={{ fontSize: 12.5, color: 'var(--ink-faint)', fontWeight: 600, padding: '2px 6px', marginBottom: 22 }}>
           Tipp: Zählweise lässt sich nur vor dem Start wählen.
+        </div>
+
+        {/* shot tracking mode */}
+        <Label style={{ marginBottom: 10 }}>Schlag-Tracking</Label>
+        <Seg
+          options={[{ value: 'simple', label: 'Nur Schläge' }, { value: 'advanced', label: 'Pro Schlag' }]}
+          value={modeTrack} onChange={changeTrackMode}
+          style={{ marginBottom: 8 }}
+        />
+        <div style={{ fontSize: 12.5, color: 'var(--ink-faint)', fontWeight: 600, padding: '2px 6px', marginBottom: 100 }}>
+          {modeTrack === 'advanced'
+            ? 'Erfasst Club + Distanz pro Schlag – nur für dich (Spieler 1).'
+            : 'Nur die Gesamt-Schläge pro Loch, wie bisher.'}
         </div>
       </div>
 

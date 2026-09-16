@@ -1,11 +1,12 @@
 // grinder-play.jsx — Play screen: hole-by-hole + full scorecard
 const { useState: useSp, useEffect: useEp } = React;
 
-function PlayScreen({ round, setRound, onFinish, onExit }) {
+function PlayScreen({ round, setRound, clubs, onFinish, onExit }) {
   const [view, setView] = useSp('hole'); // 'hole' | 'card'
   const h = round.currentHole;
   const N = round.holes;
   const par = round.pars[h];
+  const isAdvanced = round.modeTrack === 'advanced' && !!round.trackedPlayerId;
 
   const setHole = (i) => setRound(r => ({ ...r, currentHole: Math.max(0, Math.min(N - 1, i)) }));
   const setScore = (pid, val) => setRound(r => {
@@ -29,7 +30,8 @@ function PlayScreen({ round, setRound, onFinish, onExit }) {
         right={<RoundIconBtn icon={view === 'hole' ? 'cards' : 'flag'} onClick={() => setView(v => v === 'hole' ? 'card' : 'hole')} />}
       />
       {view === 'hole'
-        ? <HoleView round={round} h={h} par={par} setScore={setScore} setPar={setPar} setHole={setHole} />
+        ? <HoleView round={round} h={h} par={par} setScore={setScore} setPar={setPar} setHole={setHole}
+            isAdvanced={isAdvanced} clubs={clubs} setRound={setRound} />
         : <CardView round={round} onPick={(i) => { setHole(i); setView('hole'); }} />}
 
       {/* footer */}
@@ -65,8 +67,9 @@ function navBtn(disabled) {
 }
 
 /* ─── one hole at a time ─── */
-function HoleView({ round, h, par, setScore, setPar, setHole }) {
+function HoleView({ round, h, par, setScore, setPar, setHole, isAdvanced, clubs, setRound }) {
   const N = round.holes;
+  const trackedId = round.trackedPlayerId;
   return (
     <div className="gg-scroll" style={{ padding: '0 18px 8px' }}>
       {/* hole header */}
@@ -137,9 +140,14 @@ function HoleView({ round, h, par, setScore, setPar, setHole }) {
                 </div>
                 {round.modePar && <ScorePill strokes={cur} par={par} />}
               </div>
-              <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
-                <BigStepper value={cur} onChange={(v) => setScore(p.id, v)} />
-              </div>
+              {isAdvanced && p.id === trackedId ? (
+                <ShotList round={round} playerId={p.id} hole={h + 1}
+                  clubs={clubs} onChange={setRound} />
+              ) : (
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: 8 }}>
+                  <BigStepper value={cur} onChange={(v) => setScore(p.id, v)} />
+                </div>
+              )}
             </div>
           );
         })}

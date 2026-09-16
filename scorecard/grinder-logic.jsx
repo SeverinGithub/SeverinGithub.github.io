@@ -280,6 +280,19 @@ function removeShot(round, shotId) {
   return round;
 }
 
+// In advanced mode, shots.length is the source of truth for that
+// player+hole. Call this after every shot mutation so the existing
+// scorecard/summary continue to work unchanged.
+function syncScoreFromShots(round, playerId, hole /* 1..N */) {
+  if (!round || !round.scores || !round.scores[playerId]) return round;
+  const holeIdx = hole - 1;
+  const n = shotsFor(round, playerId, hole).length;
+  const nextScores = round.scores[playerId].slice();
+  nextScores[holeIdx] = n > 0 ? n : null;
+  round.scores = { ...round.scores, [playerId]: nextScores };
+  return round;
+}
+
 // ── Club stats — Bayesian-ish blend of seed + measurements ───
 // The seed acts like SEED_WEIGHT prior shots. After ~20 real shots
 // the measured average dominates; before that the seed still speaks.
@@ -335,7 +348,7 @@ Object.assign(window, {
   CLUB_CATEGORIES, DISPERSION_PRESETS, DEFAULT_BAG,
   loadClubs, saveClubs, buildDefaultBag, findClub, activeClubs,
   // shots
-  ensureShotsArray, shotsFor, nextShotSeq, addShot, updateShot, removeShot,
+  ensureShotsArray, shotsFor, nextShotSeq, addShot, updateShot, removeShot, syncScoreFromShots,
   // stats
   clubStats, SEED_WEIGHT,
   // misc
