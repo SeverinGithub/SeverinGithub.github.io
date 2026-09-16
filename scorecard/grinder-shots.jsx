@@ -67,14 +67,15 @@ function ClubPickerSheet({ clubs, currentClubId, onPick, onClose }) {
 }
 
 // ── One shot row ────────────────────────────────────────────
-function ShotRow({ index, shot, club, onUpdate, onRemove, onPickClub }) {
+function ShotRow({ index, shot, club, onUpdate, onRemove, onPickClub, onOpenMap }) {
   const isPutter = club && club.category === 'putter';
+  const hasMapPos = !!shot.end;
   return (
     <div style={{
       background: 'var(--surface-2)', borderRadius: 14, padding: '10px 12px',
       display: 'flex', flexDirection: 'column', gap: 8,
     }}>
-      {/* Row 1: shot number + club chip + remove */}
+      {/* Row 1: shot number + club chip + map + remove */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <div className="tnum" style={{
           width: 22, fontWeight: 800, fontSize: 13,
@@ -93,6 +94,13 @@ function ShotRow({ index, shot, club, onUpdate, onRemove, onPickClub }) {
           </div>
           <Icon name="right" size={14} sw={2.4} style={{ color: 'var(--ink-faint)' }} />
         </button>
+        <button onClick={onOpenMap} aria-label="Karte öffnen" style={{
+          width: 28, height: 28, borderRadius: '50%', border: 'none', cursor: 'pointer',
+          background: hasMapPos ? 'var(--primary)' : 'var(--surface)',
+          color: hasMapPos ? 'var(--on-primary)' : 'var(--ink-faint)',
+          flexShrink: 0, display: 'grid', placeItems: 'center',
+          WebkitTapHighlightColor: 'transparent',
+        }}><Icon name="map-pin" size={14} sw={2.4} /></button>
         <button onClick={onRemove} aria-label="Schlag entfernen" style={{
           width: 28, height: 28, borderRadius: '50%', border: 'none', cursor: 'pointer',
           background: 'var(--surface)', color: 'var(--ink-faint)', flexShrink: 0,
@@ -106,12 +114,17 @@ function ShotRow({ index, shot, club, onUpdate, onRemove, onPickClub }) {
           <input
             type="range" min={5} max={300} step={5}
             value={shot.distanceM ?? (club?.seededDistance ?? 100)}
-            onChange={e => onUpdate({ distanceM: +e.target.value })}
+            onChange={e => onUpdate({ distanceM: +e.target.value, end: null })}
             className="gg-range" style={{ flex: 1 }}
+            disabled={hasMapPos}
           />
           <div className="tnum" style={{
-            minWidth: 48, textAlign: 'right', fontWeight: 800, fontSize: 14,
-          }}>{Math.round(shot.distanceM ?? (club?.seededDistance ?? 100))} m</div>
+            minWidth: 60, textAlign: 'right', fontWeight: 800, fontSize: 14,
+            color: hasMapPos ? 'var(--primary)' : 'var(--ink)',
+          }}>
+            {hasMapPos && <Icon name="map-pin" size={12} sw={2.4} style={{ verticalAlign: '-2px', marginRight: 3 }} />}
+            {Math.round(shot.distanceM ?? (club?.seededDistance ?? 100))} m
+          </div>
         </div>
       )}
     </div>
@@ -120,7 +133,9 @@ function ShotRow({ index, shot, club, onUpdate, onRemove, onPickClub }) {
 
 // ── Shot list for one player-hole ───────────────────────────
 function ShotList({ round, playerId, hole /* 1..N */, clubs, onChange }) {
-  const [pickerFor, setPickerFor] = useSs2(null);  // shot.id when open
+  const [pickerFor, setPickerFor] = useSs2(null);  // shot.id when club picker open
+  const [mapFor,    setMapFor]    = useSs2(null);  // { shotId, startPos } when map open
+  const [gpsWaiting, setGpsWaiting] = useSs2(false);
   const shots = shotsFor(round, playerId, hole);
   const activeBag = activeClubs(clubs);
   const lastUsedClubId = shots.length > 0 ? shots[shots.length - 1].clubId : (activeBag[0]?.id ?? null);
@@ -133,7 +148,6 @@ function ShotList({ round, playerId, hole /* 1..N */, clubs, onChange }) {
   };
 
   const addNewShot = () => mutate(next => {
-    // Default distance = last shot's distance, else the seeded distance of the club.
     const club = findClub(activeBag, lastUsedClubId);
     const defaultDistance = club && typeof club.seededDistance === 'number' ? club.seededDistance : 100;
     addShot(next, {
@@ -151,6 +165,38 @@ function ShotList({ round, playerId, hole /* 1..N */, clubs, onChange }) {
     setPickerFor(null);
   };
 
+  // Start-position for the map picker:
+  //   1) the shot's own `start` if already recorded
+  //   2) the previous shot's `end` (chain within this hole)
+  //   3) previous hole's last shot's `end` (chain across holes)
+  //   4) live GPS
+  //   5) null → user must tap twice (once for start, once for end)
+  const derivedStartPos = async (shot, i) => {
+    if (shot.start) return shot.start;
+    if (i > 0 && shots[i - 1].end) return shots[i - 1].end;
+    // Look back through previous holes for the last known end position.
+    const allByThisPlayer = (round.shots || []).filter(s => s.playerId === playerId);
+    for (let j = allByThisPlayer.length - 1; j >= 0; j--) {
+      const s = allByThisPlayer[j];
+      if (s.hole < hole && s.end) return s.end;
+    }
+    setGpsWaiting(true);
+    const pos = await getGeoPosOnce();
+    setGpsWaiting(false);
+    return pos;
+  };
+
+  const openMapFor = async (shot, i) => {
+    const startPos = await derivedStartPos(shot, i);
+    setMapFor({ shotId: shot.id, startPos });
+  };
+
+  const commitMap = ({ start, end, distanceM }) => {
+    const shotId = mapFor.shotId;
+    mutate(next => updateShot(next, shotId, { start, end, distanceM }));
+    setMapFor(null);
+  };
+
   return (
     <>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 10 }}>
@@ -160,6 +206,7 @@ function ShotList({ round, playerId, hole /* 1..N */, clubs, onChange }) {
             onUpdate={(patch) => updateOne(s.id, patch)}
             onRemove={() => removeOne(s.id)}
             onPickClub={() => setPickerFor(s.id)}
+            onOpenMap={() => openMapFor(s, i)}
           />
         ))}
         <button onClick={addNewShot} style={{
@@ -180,6 +227,32 @@ function ShotList({ round, playerId, hole /* 1..N */, clubs, onChange }) {
           onPick={pickClub}
           onClose={() => setPickerFor(null)}
         />
+      )}
+
+      {mapFor && (
+        <MapPickerModal
+          startPos={mapFor.startPos}
+          initialEnd={shots.find(s => s.id === mapFor.shotId)?.end}
+          title={`Schlag ${(shots.findIndex(s => s.id === mapFor.shotId)) + 1}`}
+          onPick={commitMap}
+          onCancel={() => setMapFor(null)}
+        />
+      )}
+
+      {gpsWaiting && (
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 150,
+          background: 'rgba(0,0,0,.4)', display: 'grid', placeItems: 'center',
+        }}>
+          <div style={{
+            background: 'var(--surface)', color: 'var(--ink)', borderRadius: 18,
+            padding: '18px 22px', fontWeight: 700, fontSize: 15,
+            display: 'flex', alignItems: 'center', gap: 12, boxShadow: 'var(--shadow-md)',
+          }}>
+            <Icon name="loader" size={20} />
+            Standort wird ermittelt…
+          </div>
+        </div>
       )}
     </>
   );

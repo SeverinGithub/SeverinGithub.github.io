@@ -323,6 +323,15 @@ function clubStats(club, allRounds) {
   return { distanceM: blended, sampleN: n, confidence: n / (SEED_WEIGHT + n), measuredAvg };
 }
 
+// Great-circle distance between two lat/lng points, in metres.
+function haversineM(lat1, lon1, lat2, lon2) {
+  const R = 6371000;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
 function uid() { return Math.random().toString(36).slice(2, 10); }
 
 function relTime(ts) {
@@ -352,5 +361,5 @@ Object.assign(window, {
   // stats
   clubStats, SEED_WEIGHT,
   // misc
-  uid, relTime,
+  uid, relTime, haversineM,
 });
