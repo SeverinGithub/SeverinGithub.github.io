@@ -38,7 +38,7 @@ function haversine(lat1, lon1, lat2, lon2) {
 }
 
 /* ══════════════════════════ SETUP ══════════════════════════ */
-function SetupScreen({ onStart, onHistory, hasHistory, maxPlayers = 8 }) {
+function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers = 8 }) {
   const [players, setPlayers] = useS(['Spieler 1']);
   const [courseId, setCourseId] = useS(COURSES[0].id);
   const [custom, setCustom] = useS('');
@@ -129,7 +129,10 @@ function SetupScreen({ onStart, onHistory, hasHistory, maxPlayers = 8 }) {
             </div>
             <div style={{ color: 'var(--ink-soft)', fontWeight: 600, fontSize: 14, marginTop: 7 }}>Neue Runde aufsetzen</div>
           </div>
-          {hasHistory && <RoundIconBtn icon="clock" onClick={onHistory} />}
+          <div style={{ display: 'flex', gap: 8 }}>
+            {hasBag && <RoundIconBtn icon="cards" onClick={onBag} />}
+            {hasHistory && <RoundIconBtn icon="clock" onClick={onHistory} />}
+          </div>
         </div>
 
         {/* players */}

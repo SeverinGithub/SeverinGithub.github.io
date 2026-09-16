@@ -31,16 +31,19 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 function App() {
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
   const [themeId, setThemeId] = useTheme();
-  const [view, setView] = useSt('setup');     // setup | play | summary | history | view
-  const [round, setRound] = useSt(null);
+  const [round, setRound] = useSt(() => {
+    const live = loadLive();
+    return (live && live.players) ? live : null;
+  });
+  const [clubs, setClubs] = useSt(() => loadClubs());
+  const [view, setView] = useSt(() => {
+    const live = loadLive();
+    if (live && live.players) return 'play';
+    return loadClubs() === null ? 'onboard-bag' : 'setup';
+  });
   const [viewRound, setViewRound] = useSt(null);
   const [share, setShare] = useSt(null);
   const [history, setHistory] = useSt(() => loadHistory());
-
-  useEf(() => {
-    const live = loadLive();
-    if (live && live.players) { setRound(live); setView('play'); }
-  }, []);
 
   const updateRound = (updater) => setRound(prev => {
     const next = typeof updater === 'function' ? updater(prev) : updater;
@@ -61,9 +64,17 @@ function App() {
   const openHistory = () => setView('history');
   const openRound = (r) => { setViewRound(r); setView('view'); };
   const clearHistory = () => { if (confirm('Verlauf löschen?')) { saveHistory([]); setHistory([]); } };
+  const openBag = () => setView('bag');
+  const commitClubs = (nextClubs) => {
+    saveClubs(nextClubs); setClubs(nextClubs); setView('setup');
+  };
 
   let screen;
-  if (view === 'play' && round)
+  if (view === 'onboard-bag')
+    screen = <ClubBagScreen isOnboarding onDone={commitClubs} />;
+  else if (view === 'bag')
+    screen = <ClubBagScreen initialClubs={clubs} onDone={commitClubs} onCancel={() => setView('setup')} />;
+  else if (view === 'play' && round)
     screen = <PlayScreen round={round} setRound={updateRound} onFinish={finish} onExit={exitPlay} />;
   else if (view === 'summary' && round)
     screen = <SummaryScreen round={round} onShare={() => setShare(round)} onSaveClose={saveClose} onAgain={discard} />;
@@ -72,7 +83,8 @@ function App() {
   else if (view === 'view' && viewRound)
     screen = <SummaryScreen round={viewRound} readOnly onShare={() => setShare(viewRound)} onSaveClose={() => setView('history')} />;
   else
-    screen = <SetupScreen onStart={start} onHistory={openHistory} hasHistory={history.length > 0} maxPlayers={t.maxPlayers} />;
+    screen = <SetupScreen onStart={start} onHistory={openHistory} onBag={openBag}
+      hasHistory={history.length > 0} hasBag={clubs !== null} maxPlayers={t.maxPlayers} />;
 
   return (
     <>
