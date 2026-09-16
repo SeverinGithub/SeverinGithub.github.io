@@ -42,6 +42,7 @@ function App() {
     return loadClubs() === null ? 'onboard-bag' : 'setup';
   });
   const [viewRound, setViewRound] = useSt(null);
+  const [detailClubId, setDetailClubId] = useSt(null);
   const [share, setShare] = useSt(null);
   const [history, setHistory] = useSt(() => loadHistory());
 
@@ -65,15 +66,24 @@ function App() {
   const openRound = (r) => { setViewRound(r); setView('view'); };
   const clearHistory = () => { if (confirm('Verlauf löschen?')) { saveHistory([]); setHistory([]); } };
   const openBag = () => setView('bag');
+  const openBagEdit = () => setView('bag-edit');
+  const openBagDetail = (clubId) => { setDetailClubId(clubId); setView('bag-detail'); };
   const commitClubs = (nextClubs) => {
-    saveClubs(nextClubs); setClubs(nextClubs); setView('setup');
+    saveClubs(nextClubs); setClubs(nextClubs); setView(clubs === null ? 'setup' : 'bag');
   };
+  const allRounds = () => (round ? [round, ...history] : history);
+  const detailClub = () => (clubs || []).find(c => c.id === detailClubId);
 
   let screen;
   if (view === 'onboard-bag')
     screen = <ClubBagScreen isOnboarding onDone={commitClubs} />;
   else if (view === 'bag')
-    screen = <ClubBagScreen initialClubs={clubs} onDone={commitClubs} onCancel={() => setView('setup')} />;
+    screen = <ClubInventoryScreen clubs={clubs} allRounds={allRounds()}
+      onBack={() => setView('setup')} onEdit={openBagEdit} onOpenClub={openBagDetail} />;
+  else if (view === 'bag-edit')
+    screen = <ClubBagScreen initialClubs={clubs} onDone={commitClubs} onCancel={() => setView('bag')} />;
+  else if (view === 'bag-detail' && detailClub())
+    screen = <ClubDetailScreen club={detailClub()} allRounds={allRounds()} onBack={() => setView('bag')} />;
   else if (view === 'play' && round)
     screen = <PlayScreen round={round} setRound={updateRound} clubs={clubs} onFinish={finish} onExit={exitPlay} />;
   else if (view === 'summary' && round)
