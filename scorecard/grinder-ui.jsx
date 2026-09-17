@@ -22,6 +22,8 @@ function Icon({ name, size = 22, sw = 2, style }) {
     settings:<><circle cx="12" cy="12" r="3" {...p}/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1" {...p}/></>,
     'map-pin':<><path d="M12 22s7-8 7-13a7 7 0 10-14 0c0 5 7 13 7 13z" {...p}/><circle cx="12" cy="9" r="2.5" {...p}/></>,
     loader:  <><path d="M12 3v3M12 18v3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M3 12h3M18 12h3M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1" {...p}/></>,
+    up:      <><path d="M5 15l7-7 7 7" {...p}/></>,
+    down:    <><path d="M5 9l7 7 7-7" {...p}/></>,
   };
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" style={style} aria-hidden="true">

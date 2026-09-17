@@ -31,25 +31,44 @@ const NEW_CLUB_DEFAULTS = {
 };
 
 // ── One club card ───────────────────────────────────────────
-function ClubRow({ club, onUpdate, onRemove }) {
+function ClubRow({ club, onUpdate, onRemove, onMove, atTop, atBottom }) {
   const isPutter = club.category === 'putter';
+  const arrowStyle = (disabled) => ({
+    width: 26, height: 14, border: 'none', borderRadius: 6,
+    cursor: disabled ? 'default' : 'pointer',
+    background: 'var(--surface-2)', color: 'var(--ink-faint)',
+    display: 'grid', placeItems: 'center', flexShrink: 0,
+    opacity: disabled ? 0.35 : 1, WebkitTapHighlightColor: 'transparent',
+  });
   return (
     <div style={{
       background: 'var(--surface)', borderRadius: 18, padding: 14,
       boxShadow: 'var(--shadow-sm)', display: 'flex', flexDirection: 'column',
       gap: isPutter ? 0 : 12,
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <input
           value={club.name}
           onChange={e => onUpdate(club.id, { name: e.target.value })}
           placeholder="Schläger benennen"
           style={{
-            flex: 1, border: 'none', background: 'transparent', outline: 'none',
+            flex: 1, minWidth: 0, border: 'none', background: 'transparent', outline: 'none',
             fontFamily: 'var(--font)', fontWeight: 800, fontSize: 16, color: 'var(--ink)',
             padding: 0,
           }}
         />
+        {onMove && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 2, flexShrink: 0 }}>
+            <button onClick={() => onMove('up')} disabled={atTop} aria-label="Nach oben"
+              style={arrowStyle(atTop)}>
+              <Icon name="up" size={12} sw={2.6} />
+            </button>
+            <button onClick={() => onMove('down')} disabled={atBottom} aria-label="Nach unten"
+              style={arrowStyle(atBottom)}>
+              <Icon name="down" size={12} sw={2.6} />
+            </button>
+          </div>
+        )}
         <button onClick={() => onRemove(club.id)} aria-label="Entfernen" style={{
           width: 32, height: 32, borderRadius: '50%', border: 'none', cursor: 'pointer',
           background: 'var(--surface-2)', color: 'var(--ink-faint)',
@@ -101,7 +120,8 @@ function ClubRow({ club, onUpdate, onRemove }) {
 }
 
 // ── Category section (label + cards + add button) ───────────
-function CategorySection({ category, clubs, onUpdate, onRemove, onAdd }) {
+function CategorySection({ category, clubs, onUpdate, onRemove, onAdd, onMove }) {
+  const singleton = clubs.length <= 1;
   return (
     <div style={{ marginBottom: 22 }}>
       <div style={{
@@ -115,8 +135,13 @@ function CategorySection({ category, clubs, onUpdate, onRemove, onAdd }) {
       </div>
       {clubs.length > 0 && (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 8 }}>
-          {clubs.map(c => (
-            <ClubRow key={c.id} club={c} onUpdate={onUpdate} onRemove={onRemove} />
+          {clubs.map((c, i) => (
+            <ClubRow key={c.id} club={c}
+              onUpdate={onUpdate} onRemove={onRemove}
+              onMove={singleton ? null : ((dir) => onMove(c.id, dir))}
+              atTop={i === 0}
+              atBottom={i === clubs.length - 1}
+            />
           ))}
         </div>
       )}
@@ -149,6 +174,26 @@ function ClubBagScreen({ initialClubs, isOnboarding = false, onDone, onCancel })
       seat: cs.length, createdAt: Date.now(), retiredAt: null,
       ...NEW_CLUB_DEFAULTS[category],
     }]);
+  };
+  // Swap this club's array position with the previous/next club of the same
+  // category. Order-within-category is what the user sees + edits; seats are
+  // reassigned from array index on save.
+  const moveClub = (id, dir /* 'up' | 'down' */) => {
+    setClubs(cs => {
+      const idx = cs.findIndex(c => c.id === id);
+      if (idx === -1) return cs;
+      const cat = cs[idx].category;
+      const step = dir === 'up' ? -1 : 1;
+      // Find the neighbour of the same category in that direction.
+      let neighbourIdx = -1;
+      for (let j = idx + step; j >= 0 && j < cs.length; j += step) {
+        if (cs[j].category === cat) { neighbourIdx = j; break; }
+      }
+      if (neighbourIdx === -1) return cs;
+      const next = cs.slice();
+      [next[idx], next[neighbourIdx]] = [next[neighbourIdx], next[idx]];
+      return next;
+    });
   };
 
   const total = clubs.length;
@@ -204,7 +249,8 @@ function ClubBagScreen({ initialClubs, isOnboarding = false, onDone, onCancel })
           const inCat = clubs.filter(c => c.category === cat.id);
           return (
             <CategorySection key={cat.id} category={cat} clubs={inCat}
-              onUpdate={updateClub} onRemove={removeClub} onAdd={addClub} />
+              onUpdate={updateClub} onRemove={removeClub} onAdd={addClub}
+              onMove={moveClub} />
           );
         })}
 
