@@ -191,9 +191,9 @@ function ShotList({ round, playerId, hole /* 1..N */, clubs, onChange }) {
     setMapFor({ shotId: shot.id, startPos });
   };
 
-  const commitMap = ({ start, end, distanceM }) => {
+  const commitMap = ({ start, end, target, distanceM, lateralOffsetM }) => {
     const shotId = mapFor.shotId;
-    mutate(next => updateShot(next, shotId, { start, end, distanceM }));
+    mutate(next => updateShot(next, shotId, { start, end, target, distanceM, lateralOffsetM }));
     setMapFor(null);
   };
 
@@ -233,6 +233,7 @@ function ShotList({ round, playerId, hole /* 1..N */, clubs, onChange }) {
         <MapPickerModal
           startPos={mapFor.startPos}
           initialEnd={shots.find(s => s.id === mapFor.shotId)?.end}
+          initialTarget={shots.find(s => s.id === mapFor.shotId)?.target}
           title={`Schlag ${(shots.findIndex(s => s.id === mapFor.shotId)) + 1}`}
           onPick={commitMap}
           onCancel={() => setMapFor(null)}

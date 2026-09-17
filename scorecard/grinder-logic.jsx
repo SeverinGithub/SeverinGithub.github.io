@@ -332,6 +332,31 @@ function haversineM(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
+// Initial bearing from point 1 to point 2, in radians (0 = north, clockwise).
+function bearingRad(lat1, lon1, lat2, lon2) {
+  const φ1 = lat1 * Math.PI / 180;
+  const φ2 = lat2 * Math.PI / 180;
+  const Δλ = (lon2 - lon1) * Math.PI / 180;
+  const y = Math.sin(Δλ) * Math.cos(φ2);
+  const x = Math.cos(φ1) * Math.sin(φ2) - Math.sin(φ1) * Math.cos(φ2) * Math.cos(Δλ);
+  return Math.atan2(y, x);
+}
+
+// Perpendicular distance from `end` to the line start → target, in metres.
+// Positive = right of the intended line, negative = left.
+// Flat-plane approximation; fine at golf-shot scale (< 500 m).
+function lateralOffsetM(start, target, end) {
+  if (!start || !target || !end) return null;
+  const bTarget = bearingRad(start.lat, start.lng, target.lat, target.lng);
+  const bEnd = bearingRad(start.lat, start.lng, end.lat, end.lng);
+  const distEnd = haversineM(start.lat, start.lng, end.lat, end.lng);
+  let dθ = bEnd - bTarget;
+  // wrap to [-π, π]
+  while (dθ > Math.PI) dθ -= 2 * Math.PI;
+  while (dθ < -Math.PI) dθ += 2 * Math.PI;
+  return distEnd * Math.sin(dθ);
+}
+
 function uid() { return Math.random().toString(36).slice(2, 10); }
 
 function relTime(ts) {
@@ -361,5 +386,5 @@ Object.assign(window, {
   // stats
   clubStats, SEED_WEIGHT,
   // misc
-  uid, relTime, haversineM,
+  uid, relTime, haversineM, bearingRad, lateralOffsetM,
 });
