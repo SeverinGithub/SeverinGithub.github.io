@@ -37,6 +37,9 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
   const [tapMode, setTapMode] = useSm('end');  // 'end' | 'target' | 'start'
   const tapModeRef = useRm('end');
   useEm(() => { tapModeRef.current = tapMode; }, [tapMode]);
+  // Golf-course nearby search via Overpass — reuses the pattern from Setup.
+  const [courseSearch, setCourseSearch] = useSm({ status: 'idle', results: [] });
+  const [courseSheetOpen, setCourseSheetOpen] = useSm(false);
 
   const distanceM = (start && end)
     ? haversineM(start.lat, start.lng, end.lat, end.lng)
@@ -154,6 +157,40 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
   const toggleStartMode = () => setTapMode(m => m === 'start' ? 'end' : 'start');
   const clearTarget = () => { setTarget(null); setTapMode('end'); };
 
+  // Overpass API query for golf courses within 30 km of the map centre.
+  // Same pattern as SetupScreen's findNearby(), just anchored to what the
+  // user is currently looking at, not their device GPS.
+  const searchNearbyCourses = async () => {
+    if (!mapRef.current) return;
+    const c = mapRef.current.getCenter();
+    setCourseSearch({ status: 'loading', results: [] });
+    setCourseSheetOpen(true);
+    try {
+      const q = `[out:json][timeout:15];(way["leisure"="golf_course"](around:30000,${c.lat},${c.lng});relation["leisure"="golf_course"](around:30000,${c.lat},${c.lng}););out center 20;`;
+      const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: q });
+      const data = await res.json();
+      const results = (data.elements || [])
+        .filter(el => el.center || (el.lat && el.lon))
+        .map(el => {
+          const clat = el.center ? el.center.lat : el.lat;
+          const clon = el.center ? el.center.lon : el.lon;
+          const distM = haversineM(c.lat, c.lng, clat, clon);
+          const name = el.tags?.name || el.tags?.['name:de'] || 'Golfplatz';
+          return { id: el.id, name, lat: clat, lng: clon, distM };
+        })
+        .sort((a, b) => a.distM - b.distM)
+        .slice(0, 10);
+      setCourseSearch({ status: 'done', results });
+    } catch (e) {
+      setCourseSearch({ status: 'error', results: [] });
+    }
+  };
+
+  const flyToCourse = (course) => {
+    mapRef.current?.flyTo([course.lat, course.lng], 16, { duration: 0.8 });
+    setCourseSheetOpen(false);
+  };
+
   const subText = !start
     ? 'Erst Startposition tippen'
     : tapMode === 'start'
@@ -181,10 +218,37 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
         sub={subText}
         right={end ? <RoundIconBtn icon="minus" onClick={reset} /> : null}
       />
-      <div ref={mapContainer} style={{
-        flex: 1, background: '#111', minHeight: 200,
+      {/* Map + floating course-search overlay */}
+      <div style={{
+        flex: 1, position: 'relative', minHeight: 200,
         borderTop: '1px solid var(--line)', borderBottom: '1px solid var(--line)',
-      }} />
+      }}>
+        <div ref={mapContainer} style={{
+          position: 'absolute', inset: 0, background: '#111',
+        }} />
+        <div style={{
+          position: 'absolute', top: 12, left: '50%', transform: 'translateX(-50%)',
+          zIndex: 400,
+        }}>
+          <button onClick={searchNearbyCourses}
+            disabled={courseSearch.status === 'loading'}
+            style={{
+              display: 'flex', alignItems: 'center', gap: 7, border: 'none',
+              cursor: courseSearch.status === 'loading' ? 'default' : 'pointer',
+              padding: '8px 14px', borderRadius: 999,
+              fontFamily: 'var(--font)', fontWeight: 700, fontSize: 13,
+              background: 'var(--surface)', color: 'var(--ink)',
+              boxShadow: 'var(--shadow-md)',
+              opacity: courseSearch.status === 'loading' ? .7 : 1,
+              WebkitTapHighlightColor: 'transparent', whiteSpace: 'nowrap',
+            }}>
+            <Icon name={courseSearch.status === 'loading' ? 'loader' : 'flag'}
+              size={14} sw={2.4}
+              style={{ color: 'var(--primary)' }} />
+            {courseSearch.status === 'loading' ? 'Suche…' : 'Golfplätze in der Nähe'}
+          </button>
+        </div>
+      </div>
       <div style={{
         padding: '10px 18px 30px',
         background: 'linear-gradient(to top, var(--bg) 62%, transparent)',
@@ -238,6 +302,73 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
           {canConfirm ? `Bestätigen · ${Math.round(distanceM)} m` : 'Position wählen'}
         </Btn>
       </div>
+
+      {/* Bottom sheet with nearby-course results */}
+      {courseSheetOpen && (
+        <div onClick={() => setCourseSheetOpen(false)} style={{
+          position: 'absolute', inset: 0, zIndex: 300, display: 'flex', alignItems: 'flex-end',
+          background: 'rgba(0,0,0,.4)', backdropFilter: 'blur(2px)',
+          animation: 'gg-screen-in .2s ease',
+        }}>
+          <div onClick={e => e.stopPropagation()} style={{
+            width: '100%', maxHeight: '78%', background: 'var(--bg)',
+            borderRadius: '28px 28px 0 0', padding: '14px 18px 24px',
+            boxShadow: '0 -10px 40px rgba(0,0,0,.3)',
+            display: 'flex', flexDirection: 'column',
+          }}>
+            <div style={{
+              width: 40, height: 5, borderRadius: 99, background: 'var(--line-strong)',
+              margin: '0 auto 14px', flexShrink: 0,
+            }} />
+            <Label style={{ marginBottom: 12 }}>Golfplätze in der Nähe</Label>
+            <div style={{ flex: 1, overflowY: 'auto', margin: '0 -18px', padding: '0 18px' }}>
+              {courseSearch.status === 'loading' && (
+                <div style={{ padding: 28, textAlign: 'center', color: 'var(--ink-faint)', fontWeight: 700, fontSize: 14 }}>
+                  Suche läuft…
+                </div>
+              )}
+              {courseSearch.status === 'error' && (
+                <div style={{ padding: 24, textAlign: 'center', color: 'var(--over)', fontWeight: 700, fontSize: 14 }}>
+                  Fehler beim Suchen — versuch's nochmal
+                </div>
+              )}
+              {courseSearch.status === 'done' && courseSearch.results.length === 0 && (
+                <div style={{ padding: 24, textAlign: 'center', color: 'var(--ink-faint)', fontWeight: 700, fontSize: 14, lineHeight: 1.45 }}>
+                  Keine Golfplätze in 30 km gefunden — pann die Karte in Richtung deines Platzes und versuch's nochmal.
+                </div>
+              )}
+              {courseSearch.status === 'done' && courseSearch.results.length > 0 && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                  {courseSearch.results.map(course => (
+                    <button key={course.id} onClick={() => flyToCourse(course)} style={{
+                      display: 'flex', alignItems: 'center', gap: 10, width: '100%',
+                      textAlign: 'left', border: 'none', cursor: 'pointer',
+                      background: 'var(--surface)', borderRadius: 14, padding: '10px 12px',
+                      boxShadow: 'var(--shadow-sm)',
+                      WebkitTapHighlightColor: 'transparent',
+                    }}>
+                      <div style={{
+                        width: 32, height: 32, borderRadius: 10, flexShrink: 0,
+                        background: 'var(--surface-2)', color: 'var(--primary)',
+                        display: 'grid', placeItems: 'center',
+                      }}><Icon name="flag" size={16} sw={2.2} /></div>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontWeight: 800, fontSize: 15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {course.name}
+                        </div>
+                        <div style={{ fontSize: 12, color: 'var(--ink-soft)', fontWeight: 600, marginTop: 2 }}>
+                          {(course.distM / 1000).toFixed(1)} km vom Karten-Zentrum
+                        </div>
+                      </div>
+                      <Icon name="right" size={14} sw={2.4} style={{ color: 'var(--ink-faint)' }} />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
