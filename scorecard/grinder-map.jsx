@@ -31,10 +31,10 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
   const [start, setStart] = useSm(startPos || null);
   const [end, setEnd] = useSm(initialEnd || null);
   const [target, setTarget] = useSm(initialTarget || null);
-  // Which position the next map-tap sets. Default 'end'; the target toggle
-  // switches to 'target' for one tap, then auto-reverts. The ref mirrors the
-  // state so the map's click closure always sees the current value.
-  const [tapMode, setTapMode] = useSm('end');  // 'end' | 'target'
+  // Which position the next map-tap sets. Default 'end'; each toggle enables
+  // its mode for one tap, then auto-reverts. The ref mirrors state so the
+  // map's click closure (defined once) always sees the current value.
+  const [tapMode, setTapMode] = useSm('end');  // 'end' | 'target' | 'start'
   const tapModeRef = useRm('end');
   useEm(() => { tapModeRef.current = tapMode; }, [tapMode]);
 
@@ -117,12 +117,17 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
       const pos = { lat: e.latlng.lat, lng: e.latlng.lng };
       // Precedence: if there's no start yet, first tap sets it.
       if (!startMarkerRef.current && !startPos) { setStart(pos); return; }
-      if (tapModeRef.current === 'target') {
+      const mode = tapModeRef.current;
+      if (mode === 'start') {
+        setStart(pos);
+      } else if (mode === 'target') {
         setTarget(pos);
-        tapModeRef.current = 'end';   // auto-revert after one tap
-        setTapMode('end');
       } else {
         setEnd(pos);
+      }
+      if (mode !== 'end') {
+        tapModeRef.current = 'end';   // auto-revert after one tap
+        setTapMode('end');
       }
     });
 
@@ -146,15 +151,18 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
 
   const reset = () => { setEnd(null); if (!startPos) setStart(null); };
   const toggleTargetMode = () => setTapMode(m => m === 'target' ? 'end' : 'target');
+  const toggleStartMode = () => setTapMode(m => m === 'start' ? 'end' : 'start');
   const clearTarget = () => { setTarget(null); setTapMode('end'); };
 
   const subText = !start
     ? 'Erst Startposition tippen'
-    : tapMode === 'target'
-      ? 'Zielposition tippen'
-      : !end
-        ? 'Ballposition tippen'
-        : `${Math.round(distanceM)} m`;
+    : tapMode === 'start'
+      ? 'Neue Startposition tippen'
+      : tapMode === 'target'
+        ? 'Zielposition tippen'
+        : !end
+          ? 'Ballposition tippen'
+          : `${Math.round(distanceM)} m`;
 
   // Human-readable lateral offset — signed → "12 m rechts" / "8 m links".
   const lateralLabel = lateralM != null
@@ -182,26 +190,39 @@ function MapPickerModal({ startPos, initialEnd, initialTarget, onPick, onCancel,
         background: 'linear-gradient(to top, var(--bg) 62%, transparent)',
         display: 'flex', flexDirection: 'column', gap: 10,
       }}>
-        {/* Target toolbar: toggle + offset display */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        {/* Toolbar: Start / Target toggles + optional offset display */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          {start && (
+            <button onClick={toggleStartMode} style={{
+              display: 'flex', alignItems: 'center', gap: 6, border: 'none', cursor: 'pointer',
+              padding: '9px 12px', borderRadius: 12, fontFamily: 'var(--font)',
+              fontWeight: 700, fontSize: 13,
+              background: tapMode === 'start' ? '#2ECC71' : 'var(--surface-2)',
+              color: tapMode === 'start' ? '#04130A' : 'var(--ink-soft)',
+              WebkitTapHighlightColor: 'transparent',
+            }}>
+              <Icon name="map-pin" size={14} sw={2.2} />
+              {tapMode === 'start' ? 'Tippen…' : 'Start ändern'}
+            </button>
+          )}
           <button onClick={toggleTargetMode} style={{
-            display: 'flex', alignItems: 'center', gap: 7, border: 'none', cursor: 'pointer',
-            padding: '9px 14px', borderRadius: 12, fontFamily: 'var(--font)',
-            fontWeight: 700, fontSize: 13.5,
+            display: 'flex', alignItems: 'center', gap: 6, border: 'none', cursor: 'pointer',
+            padding: '9px 12px', borderRadius: 12, fontFamily: 'var(--font)',
+            fontWeight: 700, fontSize: 13,
             background: tapMode === 'target' ? '#4EC9F0' : (target ? 'rgba(78,201,240,.18)' : 'var(--surface-2)'),
             color: tapMode === 'target' ? '#0A2635' : (target ? '#4EC9F0' : 'var(--ink-soft)'),
             WebkitTapHighlightColor: 'transparent',
           }}>
-            <Icon name="target" size={15} sw={2.2} />
-            {tapMode === 'target' ? 'Karte tippen…' : (target ? 'Ziel gesetzt' : 'Ziel markieren')}
+            <Icon name="target" size={14} sw={2.2} />
+            {tapMode === 'target' ? 'Tippen…' : (target ? 'Ziel gesetzt' : 'Ziel markieren')}
           </button>
           {target && tapMode !== 'target' && (
             <button onClick={clearTarget} aria-label="Ziel löschen" style={{
-              width: 32, height: 32, borderRadius: '50%', border: 'none', cursor: 'pointer',
+              width: 30, height: 30, borderRadius: '50%', border: 'none', cursor: 'pointer',
               background: 'var(--surface-2)', color: 'var(--ink-faint)',
               display: 'grid', placeItems: 'center', flexShrink: 0,
               WebkitTapHighlightColor: 'transparent',
-            }}><Icon name="x" size={14} sw={2.4} /></button>
+            }}><Icon name="x" size={13} sw={2.4} /></button>
           )}
           {lateralLabel && (
             <div style={{
