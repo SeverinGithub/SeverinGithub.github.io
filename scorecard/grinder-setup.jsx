@@ -50,6 +50,14 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
   const [geoState, setGeoState] = useS('idle'); // idle | loading | done | denied | error
 
   const changeTrackMode = (v) => { setModeTrack(v); saveTrackMode(v); };
+  const isAdvanced = modeTrack === 'advanced';
+
+  // Advanced tracking only makes sense for solo play — the map view + shot
+  // list is scoped to one player. If the user switches to Advanced with
+  // several names filled in, silently keep only the first (which is 'you').
+  useE(() => {
+    if (isAdvanced && players.length > 1) setPlayers(p => p.slice(0, 1));
+  }, [isAdvanced]);
 
   const isCustom = courseId === 'custom';
   const isNearby = courseId.startsWith('nearby-');
@@ -163,7 +171,7 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
             </div>
           ))}
         </div>
-        {players.length < maxPlayers && (
+        {!isAdvanced && players.length < maxPlayers && (
           <button onClick={addPlayer} style={{
             width: '100%', border: '1.5px dashed var(--line-strong)', background: 'transparent',
             color: 'var(--ink-soft)', borderRadius: 16, padding: '13px', cursor: 'pointer',
@@ -171,6 +179,12 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
             display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 26,
             whiteSpace: 'nowrap',
           }}><Icon name="plus" size={18} sw={2.6} /> Spieler hinzufügen</button>
+        )}
+        {isAdvanced && (
+          <div style={{
+            fontSize: 12.5, color: 'var(--ink-faint)', fontWeight: 600,
+            padding: '4px 6px 0', marginBottom: 26, lineHeight: 1.45,
+          }}>Pro-Schläge-Modus ist nur für Solospiel — Schlag-Details werden auf der Karte für dich getrackt.</div>
         )}
 
         {/* course */}
