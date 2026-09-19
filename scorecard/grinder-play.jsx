@@ -30,8 +30,10 @@ function PlayScreen({ round, setRound, clubs, onFinish, onExit }) {
         right={<RoundIconBtn icon={view === 'hole' ? 'cards' : 'flag'} onClick={() => setView(v => v === 'hole' ? 'card' : 'hole')} />}
       />
       {view === 'hole'
-        ? <HoleView round={round} h={h} par={par} setScore={setScore} setPar={setPar} setHole={setHole}
-            isAdvanced={isAdvanced} clubs={clubs} setRound={setRound} />
+        ? (isAdvanced
+            ? <AdvancedHoleView round={round} h={h} setRound={setRound} clubs={clubs} />
+            : <HoleView round={round} h={h} par={par} setScore={setScore} setPar={setPar} setHole={setHole}
+                isAdvanced={false} clubs={clubs} setRound={setRound} />)
         : <CardView round={round} onPick={(i) => { setHole(i); setView('hole'); }} />}
 
       {/* footer */}
