@@ -3890,6 +3890,58 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
     }
   }, [shotsHere]);
 
+  // Tap-to-commit: every click on the map records the next shot for this hole
+  // using the currently selected club. Start position is chained from the
+  // previous shot's end (within the hole or across holes), else GPS, else the
+  // map centre as a last resort.
+  useEap(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    const handler = async (e) => {
+      if (!selectedClub) return;
+      const endPos = { lat: e.latlng.lat, lng: e.latlng.lng };
+
+      let startPos = null;
+      if (shotsHere.length > 0 && shotsHere[shotsHere.length - 1].end) {
+        startPos = shotsHere[shotsHere.length - 1].end;
+      }
+      if (!startPos) {
+        // Look back through previous holes for the last known end.
+        const all = (round.shots || []).filter(s => s.playerId === round.trackedPlayerId);
+        for (let i = all.length - 1; i >= 0; i--) {
+          if (all[i].hole < (h + 1) && all[i].end) { startPos = all[i].end; break; }
+        }
+      }
+      if (!startPos) {
+        const gps = await getGeoPosOnce();
+        if (gps) startPos = gps;
+      }
+      if (!startPos) {
+        const c = map.getCenter();
+        startPos = { lat: c.lat, lng: c.lng };
+      }
+
+      const distanceM = Math.round(haversineM(startPos.lat, startPos.lng, endPos.lat, endPos.lng));
+      const lie = shotsHere.length === 0 ? 'tee' : 'fairway';
+
+      setRound(r => {
+        const next = { ...r, shots: (r.shots || []).slice() };
+        addShot(next, {
+          playerId: r.trackedPlayerId,
+          hole: h + 1,
+          clubId: selectedClub.id,
+          lie, start: startPos, end: endPos, distanceM,
+        });
+        syncScoreFromShots(next, r.trackedPlayerId, h + 1);
+        return next;
+      });
+    };
+
+    map.on('click', handler);
+    return () => { map.off('click', handler); };
+  }, [selectedClub, shotsHere, h, round.shots, round.trackedPlayerId, setRound]);
+
   return (
     <div style={{ flex: 1, position: 'relative', minHeight: 200 }}>
       <div ref={mapContainer} style={{ position: 'absolute', inset: 0, background: '#111' }} />
