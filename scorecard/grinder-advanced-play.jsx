@@ -151,6 +151,17 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
   const [tapMode, setTapMode] = useSap('commit');   // 'commit' | 'start' | 'target'
   const [target, setTarget] = useSap(null);         // {lat, lng} or null
   const [manualStart, setManualStart] = useSap(null);
+  // Implicit tee position for the current hole — GPS at hole-start when no
+  // shot has been committed yet. Used to keep a T marker visible and to zoom
+  // the map onto the tee on hole-open.
+  const [gpsTee, setGpsTee] = useSap(null);
+
+  // Effective tee = the first committed shot's start (if any), else the GPS
+  // pin we grabbed on hole-open. Drives both the T marker and initial zoom.
+  const effectiveTee = useMap(() => {
+    if (shotsHere.length > 0 && shotsHere[0].start) return shotsHere[0].start;
+    return gpsTee;
+  }, [shotsHere, gpsTee]);
 
   // Bayesian-blended distance for the currently selected club, using this
   // round's own shots plus all persisted history (kept alongside so we don't
@@ -168,13 +179,14 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
     if (manualStart) return manualStart;
     if (shotsHere.length > 0 && shotsHere[shotsHere.length - 1].end)
       return shotsHere[shotsHere.length - 1].end;
+    if (gpsTee) return gpsTee;   // implicit tee from hole-open GPS
     // Look back through previous holes for the last known end.
     const all = (round.shots || []).filter(s => s.playerId === round.trackedPlayerId);
     for (let i = all.length - 1; i >= 0; i--) {
       if (all[i].hole < (h + 1) && all[i].end) return all[i].end;
     }
     return null;
-  }, [manualStart, shotsHere, h, round.shots, round.trackedPlayerId]);
+  }, [manualStart, shotsHere, gpsTee, h, round.shots, round.trackedPlayerId]);
 
   // Recommendation: closest-avg-distance club to the intended shot distance
   // (start → target). Only shows a highlight when the user has set a target.
@@ -195,12 +207,17 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
   useEap(() => {
     if (!mapContainer.current || !window.L) return;
 
+    // Priority for initial centre: current hole's tee (from first shot),
+    // else the last known ball anywhere in the round, else Germany-wide.
+    const firstShotOfHole = shotsHere[0];
+    const teeFromShot = firstShotOfHole && firstShotOfHole.start
+      ? firstShotOfHole.start : null;
     const lastShotWithEnd = (round.shots || [])
       .slice().reverse().find(s => s && s.end);
-    const initialCentre = lastShotWithEnd
-      ? [lastShotWithEnd.end.lat, lastShotWithEnd.end.lng]
-      : [51, 10];
-    const initialZoom = lastShotWithEnd ? 16 : 5;
+    const initialCentre = teeFromShot
+      ? [teeFromShot.lat, teeFromShot.lng]
+      : (lastShotWithEnd ? [lastShotWithEnd.end.lat, lastShotWithEnd.end.lng] : [51, 10]);
+    const initialZoom = teeFromShot ? 19 : (lastShotWithEnd ? 16 : 5);
 
     const map = L.map(mapContainer.current, {
       center: initialCentre, zoom: initialZoom,
@@ -223,6 +240,31 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
       ephemeralLayerRef.current = null;
     };
   }, []);
+
+  // Ask the browser for a GPS fix when we enter a hole that has no shots yet
+  // (mount OR hole switch). This gives us an implicit tee position for the
+  // T marker + initial zoom without needing the user to tap first.
+  useEap(() => {
+    if (shotsHere.length > 0) { setGpsTee(null); return; }
+    let cancelled = false;
+    (async () => {
+      const gps = await getGeoPosOnce();
+      if (!cancelled && gps) setGpsTee(gps);
+    })();
+    return () => { cancelled = true; };
+  }, [h, shotsHere.length]);
+
+  // If we didn't know the tee at map-init time and one materialises later
+  // (GPS resolves, or the user commits their first shot), fly the map there.
+  useEap(() => {
+    const map = mapRef.current;
+    if (!map || !effectiveTee) return;
+    // Only steal focus if the user hasn't clearly panned away — i.e. the map
+    // is still at a wide/global zoom level.
+    if (map.getZoom() < 15) {
+      map.setView([effectiveTee.lat, effectiveTee.lng], 19, { animate: true });
+    }
+  }, [effectiveTee]);
 
   // Draw the ephemeral overlay: target crosshair (+ aim line from
   // derivedNextStart to target) and the manual-start override preview.
@@ -249,21 +291,21 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
     }
   }, [target, manualStart, derivedNextStart]);
 
-  // Redraw the shot chain whenever this hole's shots change (or on hole switch).
+  // Redraw the tee + shot chain whenever the tee, this hole's shots, or the
+  // hole itself change. The T marker persists even before the first shot so
+  // the user can see where the current hole starts from.
   useEap(() => {
     const map = mapRef.current;
     const layer = shotLayerRef.current;
     if (!map || !layer) return;
     layer.clearLayers();
-    if (shotsHere.length === 0) return;
 
     const positions = [];  // for the connecting dashed line
 
-    // Tee marker: first shot's start (green).
-    const first = shotsHere[0];
-    if (first.start) {
-      positions.push([first.start.lat, first.start.lng]);
-      L.marker([first.start.lat, first.start.lng], {
+    // Tee marker (green): always shown when we know the tee.
+    if (effectiveTee) {
+      positions.push([effectiveTee.lat, effectiveTee.lng]);
+      L.marker([effectiveTee.lat, effectiveTee.lng], {
         icon: makeAdvPin('#2ECC71', 'T'), interactive: false,
       }).addTo(layer);
     }
@@ -282,7 +324,7 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
         color: '#fff', weight: 2, dashArray: '6, 6', opacity: .9,
       }).addTo(layer);
     }
-  }, [shotsHere]);
+  }, [effectiveTee, shotsHere]);
 
   // Tap-to-commit + mode branching. Depending on tapMode, the next tap sets
   // either the ephemeral target, the ephemeral manual start, or commits a shot.
