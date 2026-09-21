@@ -3727,9 +3727,17 @@ function clubShortName(club) {
 }
 
 // ── Top-left overlay: current stroke + club selector ────────
-function ShotPanel({ strokeNumber, selectedClub, avgDistanceM, bag, recommendedClubId, onSelectClub }) {
+function ShotPanel({ hole, strokeNumber, selectedClub, avgDistanceM, bag, recommendedClubId, onSelectClub }) {
   const [open, setOpen] = useSap(false);
   const cols = bag && bag.length ? Math.ceil(bag.length / 2) : 0;
+  const labelStyle = {
+    fontSize: 11, letterSpacing: '.14em', fontWeight: 800,
+    color: 'var(--ink-faint)', textTransform: 'uppercase',
+  };
+  const numberStyle = {
+    fontWeight: 900, fontSize: 44, lineHeight: .95, letterSpacing: '-.02em',
+    marginTop: 2,
+  };
   return (
     <div style={{
       position: 'absolute', top: 12, left: 12, zIndex: 400,
@@ -3739,21 +3747,23 @@ function ShotPanel({ strokeNumber, selectedClub, avgDistanceM, bag, recommendedC
       backdropFilter: 'blur(4px)', WebkitBackdropFilter: 'blur(4px)',
       fontFamily: 'var(--font)', minWidth: 168, maxWidth: 260,
     }}>
-      <div style={{
-        fontSize: 11, letterSpacing: '.14em', fontWeight: 800,
-        color: 'var(--ink-faint)', textTransform: 'uppercase',
-      }}>stroke</div>
-      <div className="expanded tnum" style={{
-        fontWeight: 900, fontSize: 44, lineHeight: .95, letterSpacing: '-.02em',
-        marginTop: 2,
-      }}>{strokeNumber}</div>
+      <div style={{ display: 'flex', gap: 14, alignItems: 'flex-end' }}>
+        <div>
+          <div style={labelStyle}>hole</div>
+          <div className="expanded tnum" style={numberStyle}>H{hole}</div>
+        </div>
+        <div style={{
+          width: 1, alignSelf: 'stretch', background: 'var(--line)', margin: '2px 0',
+        }} />
+        <div>
+          <div style={labelStyle}>stroke</div>
+          <div className="expanded tnum" style={numberStyle}>{strokeNumber}</div>
+        </div>
+      </div>
 
       <div style={{ height: 1, background: 'var(--line)', margin: '10px -4px 8px' }} />
 
-      <div style={{
-        fontSize: 11, letterSpacing: '.14em', fontWeight: 800,
-        color: 'var(--ink-faint)', textTransform: 'uppercase',
-      }}>club</div>
+      <div style={labelStyle}>club</div>
       <button onClick={() => setOpen(o => !o)} style={{
         display: 'flex', alignItems: 'center', gap: 8, width: '100%',
         marginTop: 4, padding: '4px 4px 4px 8px', borderRadius: 10,
@@ -4085,6 +4095,7 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
     <div style={{ flex: 1, position: 'relative', minHeight: 200 }}>
       <div ref={mapContainer} style={{ position: 'absolute', inset: 0, background: '#111' }} />
       <ShotPanel
+        hole={h + 1}
         strokeNumber={strokeNumber}
         selectedClub={selectedClub}
         avgDistanceM={avgDistanceM}
