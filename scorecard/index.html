@@ -3696,6 +3696,19 @@ function makeAdvPin(color, label) {
   return L.divIcon({ html, className: '', iconSize: [26, 26], iconAnchor: [13, 13] });
 }
 
+// Cyan crosshair for the ephemeral target (matches MapPickerModal's design
+// language so the two views feel like one system).
+function makeAdvTargetPin() {
+  const html = `<div style="width:26px;height:26px;border-radius:50%;background:rgba(78,201,240,.22);border:3px solid #4EC9F0;box-shadow:0 2px 6px rgba(0,0,0,.4);display:grid;place-items:center;box-sizing:border-box;"><div style="width:6px;height:6px;border-radius:50%;background:#fff;"></div></div>`;
+  return L.divIcon({ html, className: '', iconSize: [26, 26], iconAnchor: [13, 13] });
+}
+
+// Small hollow ring for a not-yet-committed manual start override.
+function makeManualStartPin() {
+  const html = `<div style="width:22px;height:22px;border-radius:50%;background:transparent;border:3px dashed #2ECC71;box-shadow:0 2px 6px rgba(0,0,0,.4);box-sizing:border-box;"></div>`;
+  return L.divIcon({ html, className: '', iconSize: [22, 22], iconAnchor: [11, 11] });
+}
+
 // Compact scorecard-style shortnames — matches the "9i", "3W", "PW" look
 // from the design references. Falls back to the first 2 chars of the name.
 function clubShortName(club) {
@@ -3804,7 +3817,8 @@ function ShotPanel({ strokeNumber, selectedClub, avgDistanceM, bag, recommendedC
 function AdvancedHoleView({ round, h, setRound, clubs }) {
   const mapContainer = useRap(null);
   const mapRef = useRap(null);
-  const shotLayerRef = useRap(null);   // layer group holding all past-shot markers for this hole
+  const shotLayerRef = useRap(null);       // past-shot chain markers for this hole
+  const ephemeralLayerRef = useRap(null);  // target crosshair + aim line + manual-start preview
 
   const bag = useMap(() => activeClubs(clubs), [clubs]);
   const shotsHere = useMap(() => shotsFor(round, round.trackedPlayerId, h + 1), [round, h]);
@@ -3816,6 +3830,11 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
   );
   const strokeNumber = shotsHere.length + 1;
 
+  // Ephemeral, per-shot planning state — cleared whenever a shot commits.
+  const [tapMode, setTapMode] = useSap('commit');   // 'commit' | 'start' | 'target'
+  const [target, setTarget] = useSap(null);         // {lat, lng} or null
+  const [manualStart, setManualStart] = useSap(null);
+
   // Bayesian-blended distance for the currently selected club, using this
   // round's own shots plus all persisted history (kept alongside so we don't
   // ignore data from earlier rounds).
@@ -3824,6 +3843,37 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
     const stats = clubStats(selectedClub, [round]);
     return stats.distanceM;
   }, [selectedClub, round]);
+
+  // The start position the next tap-commit will use — same derivation the
+  // click handler uses, exposed as memo so the panel + recommendation can
+  // reason about it.
+  const derivedNextStart = useMap(() => {
+    if (manualStart) return manualStart;
+    if (shotsHere.length > 0 && shotsHere[shotsHere.length - 1].end)
+      return shotsHere[shotsHere.length - 1].end;
+    // Look back through previous holes for the last known end.
+    const all = (round.shots || []).filter(s => s.playerId === round.trackedPlayerId);
+    for (let i = all.length - 1; i >= 0; i--) {
+      if (all[i].hole < (h + 1) && all[i].end) return all[i].end;
+    }
+    return null;
+  }, [manualStart, shotsHere, h, round.shots, round.trackedPlayerId]);
+
+  // Recommendation: closest-avg-distance club to the intended shot distance
+  // (start → target). Only shows a highlight when the user has set a target.
+  const recommendedClubId = useMap(() => {
+    if (!target || !derivedNextStart) return null;
+    const dist = haversineM(derivedNextStart.lat, derivedNextStart.lng, target.lat, target.lng);
+    let bestId = null, bestDelta = Infinity;
+    for (const c of bag) {
+      if (c.category === 'putter') continue;
+      const s = clubStats(c, [round]);
+      if (s.distanceM == null) continue;
+      const delta = Math.abs(s.distanceM - dist);
+      if (delta < bestDelta) { bestDelta = delta; bestId = c.id; }
+    }
+    return bestId;
+  }, [target, derivedNextStart, bag, round]);
 
   useEap(() => {
     if (!mapContainer.current || !window.L) return;
@@ -3845,6 +3895,7 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
 
     mapRef.current = map;
     shotLayerRef.current = L.layerGroup().addTo(map);
+    ephemeralLayerRef.current = L.layerGroup().addTo(map);
     setTimeout(() => map.invalidateSize(), 60);
     setTimeout(() => map.invalidateSize(), 400);
 
@@ -3852,8 +3903,34 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
       map.remove();
       mapRef.current = null;
       shotLayerRef.current = null;
+      ephemeralLayerRef.current = null;
     };
   }, []);
+
+  // Draw the ephemeral overlay: target crosshair (+ aim line from
+  // derivedNextStart to target) and the manual-start override preview.
+  useEap(() => {
+    const layer = ephemeralLayerRef.current;
+    if (!layer) return;
+    layer.clearLayers();
+
+    if (target) {
+      L.marker([target.lat, target.lng], {
+        icon: makeAdvTargetPin(), interactive: false,
+      }).addTo(layer);
+      if (derivedNextStart) {
+        L.polyline(
+          [[derivedNextStart.lat, derivedNextStart.lng], [target.lat, target.lng]],
+          { color: '#4EC9F0', weight: 1.5, dashArray: '3, 5', opacity: .85 },
+        ).addTo(layer);
+      }
+    }
+    if (manualStart) {
+      L.marker([manualStart.lat, manualStart.lng], {
+        icon: makeManualStartPin(), interactive: false,
+      }).addTo(layer);
+    }
+  }, [target, manualStart, derivedNextStart]);
 
   // Redraw the shot chain whenever this hole's shots change (or on hole switch).
   useEap(() => {
@@ -3890,29 +3967,30 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
     }
   }, [shotsHere]);
 
-  // Tap-to-commit: every click on the map records the next shot for this hole
-  // using the currently selected club. Start position is chained from the
-  // previous shot's end (within the hole or across holes), else GPS, else the
-  // map centre as a last resort.
+  // Tap-to-commit + mode branching. Depending on tapMode, the next tap sets
+  // either the ephemeral target, the ephemeral manual start, or commits a shot.
+  // Committing consumes any ephemeral state and hands the tap-mode back to 'commit'.
   useEap(() => {
     const map = mapRef.current;
     if (!map) return;
 
     const handler = async (e) => {
-      if (!selectedClub) return;
-      const endPos = { lat: e.latlng.lat, lng: e.latlng.lng };
+      const pos = { lat: e.latlng.lat, lng: e.latlng.lng };
 
-      let startPos = null;
-      if (shotsHere.length > 0 && shotsHere[shotsHere.length - 1].end) {
-        startPos = shotsHere[shotsHere.length - 1].end;
+      if (tapMode === 'target') {
+        setTarget(pos);
+        setTapMode('commit');
+        return;
       }
-      if (!startPos) {
-        // Look back through previous holes for the last known end.
-        const all = (round.shots || []).filter(s => s.playerId === round.trackedPlayerId);
-        for (let i = all.length - 1; i >= 0; i--) {
-          if (all[i].hole < (h + 1) && all[i].end) { startPos = all[i].end; break; }
-        }
+      if (tapMode === 'start') {
+        setManualStart(pos);
+        setTapMode('commit');
+        return;
       }
+      // Commit path.
+      if (!selectedClub) return;
+
+      let startPos = derivedNextStart;
       if (!startPos) {
         const gps = await getGeoPosOnce();
         if (gps) startPos = gps;
@@ -3922,8 +4000,11 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
         startPos = { lat: c.lat, lng: c.lng };
       }
 
-      const distanceM = Math.round(haversineM(startPos.lat, startPos.lng, endPos.lat, endPos.lng));
+      const distanceM = Math.round(haversineM(startPos.lat, startPos.lng, pos.lat, pos.lng));
       const lie = shotsHere.length === 0 ? 'tee' : 'fairway';
+      const shotLateralOffsetM = target
+        ? Math.round(lateralOffsetM(startPos, target, pos))
+        : null;
 
       setRound(r => {
         const next = { ...r, shots: (r.shots || []).slice() };
@@ -3931,16 +4012,32 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
           playerId: r.trackedPlayerId,
           hole: h + 1,
           clubId: selectedClub.id,
-          lie, start: startPos, end: endPos, distanceM,
+          lie, start: startPos, end: pos, distanceM,
+          target: target || null, lateralOffsetM: shotLateralOffsetM,
         });
         syncScoreFromShots(next, r.trackedPlayerId, h + 1);
         return next;
       });
+      // Ephemeral state is one-shot: consumed by this commit.
+      setTarget(null);
+      setManualStart(null);
     };
 
     map.on('click', handler);
     return () => { map.off('click', handler); };
-  }, [selectedClub, shotsHere, h, round.shots, round.trackedPlayerId, setRound]);
+  }, [selectedClub, shotsHere, h, round.shots, round.trackedPlayerId, setRound,
+      tapMode, target, derivedNextStart]);
+
+  const undoLast = () => {
+    if (shotsHere.length === 0) return;
+    const lastId = shotsHere[shotsHere.length - 1].id;
+    setRound(r => {
+      const next = { ...r, shots: (r.shots || []).slice() };
+      removeShot(next, lastId);
+      syncScoreFromShots(next, r.trackedPlayerId, h + 1);
+      return next;
+    });
+  };
 
   return (
     <div style={{ flex: 1, position: 'relative', minHeight: 200 }}>
@@ -3950,11 +4047,85 @@ function AdvancedHoleView({ round, h, setRound, clubs }) {
         selectedClub={selectedClub}
         avgDistanceM={avgDistanceM}
         bag={bag}
-        recommendedClubId={null /* step 6: derive from distance-to-target */}
+        recommendedClubId={recommendedClubId}
         onSelectClub={setSelectedClubId}
       />
-      {/* Step 4: past-shot markers get drawn on the map instance. */}
-      {/* Step 6: bottom actions will replace the plain nav footer. */}
+      <AdvancedActionBar
+        tapMode={tapMode}
+        hasStart={!!manualStart}
+        hasTarget={!!target}
+        canUndo={shotsHere.length > 0}
+        onToggleStart={() => setTapMode(m => m === 'start' ? 'commit' : 'start')}
+        onToggleTarget={() => setTapMode(m => m === 'target' ? 'commit' : 'target')}
+        onClearStart={() => setManualStart(null)}
+        onClearTarget={() => setTarget(null)}
+        onUndo={undoLast}
+      />
+    </div>
+  );
+}
+
+// ── Bottom action bar: Start ändern / Ziel / Rückgängig ─────
+function AdvancedActionBar({
+  tapMode, hasStart, hasTarget, canUndo,
+  onToggleStart, onToggleTarget, onClearStart, onClearTarget, onUndo,
+}) {
+  const pill = (opts) => ({
+    display: 'flex', alignItems: 'center', gap: 6,
+    padding: '9px 12px', borderRadius: 12,
+    fontFamily: 'var(--font)', fontWeight: 700, fontSize: 13,
+    border: 'none', cursor: opts.disabled ? 'default' : 'pointer',
+    background: opts.bg, color: opts.color,
+    opacity: opts.disabled ? .35 : 1,
+    boxShadow: 'var(--shadow-sm)',
+    WebkitTapHighlightColor: 'transparent',
+    whiteSpace: 'nowrap',
+  });
+
+  return (
+    <div style={{
+      position: 'absolute', bottom: 12, left: 12, right: 12,
+      zIndex: 400, display: 'flex', gap: 8, justifyContent: 'center',
+      pointerEvents: 'none',   // let map clicks fall through the gaps
+    }}>
+      <div style={{ display: 'flex', gap: 8, pointerEvents: 'auto' }}>
+        <button onClick={onToggleStart} style={pill({
+          bg: tapMode === 'start' ? '#2ECC71' : (hasStart ? 'color-mix(in srgb, #2ECC71 22%, var(--surface))' : 'var(--surface)'),
+          color: tapMode === 'start' ? '#04130A' : (hasStart ? '#2ECC71' : 'var(--ink-soft)'),
+        })}>
+          <Icon name="map-pin" size={14} sw={2.2} />
+          {tapMode === 'start' ? 'Tippen…' : (hasStart ? 'Start ok' : 'Start ändern')}
+          {hasStart && tapMode !== 'start' && (
+            <span onClick={(e) => { e.stopPropagation(); onClearStart(); }} style={{
+              marginLeft: 4, width: 18, height: 18, borderRadius: '50%',
+              display: 'grid', placeItems: 'center',
+              background: 'color-mix(in srgb, #2ECC71 25%, transparent)',
+            }}><Icon name="x" size={11} sw={2.4} /></span>
+          )}
+        </button>
+
+        <button onClick={onToggleTarget} style={pill({
+          bg: tapMode === 'target' ? '#4EC9F0' : (hasTarget ? 'color-mix(in srgb, #4EC9F0 22%, var(--surface))' : 'var(--surface)'),
+          color: tapMode === 'target' ? '#0A2635' : (hasTarget ? '#4EC9F0' : 'var(--ink-soft)'),
+        })}>
+          <Icon name="target" size={14} sw={2.2} />
+          {tapMode === 'target' ? 'Tippen…' : (hasTarget ? 'Ziel ok' : 'Ziel markieren')}
+          {hasTarget && tapMode !== 'target' && (
+            <span onClick={(e) => { e.stopPropagation(); onClearTarget(); }} style={{
+              marginLeft: 4, width: 18, height: 18, borderRadius: '50%',
+              display: 'grid', placeItems: 'center',
+              background: 'color-mix(in srgb, #4EC9F0 25%, transparent)',
+            }}><Icon name="x" size={11} sw={2.4} /></span>
+          )}
+        </button>
+
+        <button onClick={canUndo ? onUndo : undefined} disabled={!canUndo} style={pill({
+          bg: 'var(--surface)', color: 'var(--ink-soft)', disabled: !canUndo,
+        })}>
+          <Icon name="left" size={14} sw={2.4} />
+          Rückgängig
+        </button>
+      </div>
     </div>
   );
 }
