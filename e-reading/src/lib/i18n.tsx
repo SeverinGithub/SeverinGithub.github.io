@@ -4,7 +4,7 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 export const LANGS = ["en", "es", "de", "it"] as const;
 export type Lang = (typeof LANGS)[number];
 export const NATIVE: Record<Lang, string> = { en: "English", es: "Español", de: "Deutsch", it: "Italiano" };
-export const READ: Record<Lang, string> = { en: "Read.", es: "Lee.", de: "Lies.", it: "Leggi." };
+export const READ: Record<Lang, string> = { en: "Read.", es: "Leer.", de: "Lesen.", it: "Leggere." };
 
 const en = {
   locale: "en-GB", nav_label: "Main navigation", lang_label: "Language", nav_catalog: "Catalog", nav_langs: "4 languages", nav_faq: "FAQ", nav_cart: "Cart", nav_about: "About",
