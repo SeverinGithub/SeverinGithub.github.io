@@ -117,7 +117,8 @@ nav a,.cart-btn{text-decoration:none;background:none;border:0;padding:8px 0;min-
 .tongue:focus-visible{outline:2px solid var(--accent);outline-offset:4px}
 .tongue .code{display:flex;justify-content:space-between;gap:8px;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase}
 .tongue .code span+span{color:var(--grey)}
-.tongue .w{font-size:clamp(52px,7.6vw,116px);font-weight:900;letter-spacing:-.055em;line-height:.88;transition:color .15s}
+.tongue{container-type:inline-size}
+.tongue .w{font-size:min(24cqi,116px);white-space:nowrap;font-weight:900;letter-spacing:-.055em;line-height:.88;transition:color .15s}
 .tongue:hover .w{color:var(--grey)}
 .tongue[aria-pressed="true"]{border-top:4px solid var(--accent);padding-top:9px}
 .tongue[aria-pressed="true"] .w{color:var(--accent)}
