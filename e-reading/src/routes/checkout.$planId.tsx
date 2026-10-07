@@ -20,9 +20,16 @@ function CheckoutPage() {
   const t = useT();
   const tx = useText();
   const money = useMoney();
-  const { products } = useShop();
+  const shop = useShop();
+  const { products } = shop;
   const navigate = useNavigate();
-  const product = products.find((entry) => entry.planId === planId || entry.sub?.planId === planId);
+  // "cart" = ganzer Warenkorb in einer Zahlung (Einmalkauf); sonst ein einzelner Plan mit Abo-Wahl.
+  const isCart = planId === "cart";
+  const cartLines = shop.cart.map(shop.byId).filter((p): p is NonNullable<typeof p> => Boolean(p?.planId));
+  const product = isCart ? undefined : products.find((entry) => entry.planId === planId || entry.sub?.planId === planId);
+  const lines = isCart ? cartLines : product ? [product] : [];
+  const planIds = isCart ? cartLines.map((p) => p.planId) : [planId];
+  const total = cartLines.reduce((sum, p) => sum + p.price, 0);
   const isSub = Boolean(product?.sub && product.sub.planId === planId);
   const choose = (id: string) => { if (id !== planId) navigate({ to: "/checkout/$planId", params: { planId: id }, replace: true }); };
   const [ready, setReady] = useState(false);
@@ -31,8 +38,11 @@ function CheckoutPage() {
   useEffect(() => {
     setReady(true);
     setOrigin(window.location.origin);
-    try { sessionStorage.setItem(PENDING_KEY, planId); } catch { /* ignore */ }
-  }, [planId]);
+  }, []);
+
+  useEffect(() => {
+    try { sessionStorage.setItem(PENDING_KEY, planIds.join(",")); } catch { /* ignore */ }
+  }, [planIds.join(",")]);
 
   const returnUrl = useMemo(() => (origin ? `${origin}/order-complete` : undefined), [origin]);
 
@@ -45,15 +55,22 @@ function CheckoutPage() {
       <div className="checkout">
         <div className="co-summary">
           <h1 id="co-title" className="prod-h">{t.co_title}<Dot /></h1>
-          {product ? (
-            <div className="line" style={{ borderBottom: "1px solid var(--ink)" }}>
-              <Cover product={product} index={products.indexOf(product)} />
-              <div><h4>{tx(product).title}</h4><div className="sub">EPUB + PDF</div></div>
-              <div className="meta" style={{ color: "var(--ink)" }}>
-                {isSub && product.sub ? `${money(product.sub.price, product.currency)} ${t.per_month}` : money(product.price, product.currency)}
+          <div>
+            {lines.map((p) => (
+              <div className="line" key={p.id}>
+                <Cover product={p} index={products.indexOf(p)} />
+                <div><h4>{tx(p).title}</h4><div className="sub">EPUB + PDF</div></div>
+                <div className="meta" style={{ color: "var(--ink)" }}>
+                  {isSub && p.sub ? `${money(p.sub.price, p.currency)} ${t.per_month}` : money(p.price, p.currency)}
+                </div>
               </div>
-            </div>
-          ) : null}
+            ))}
+            {isCart && cartLines.length > 1 ? (
+              <div className="sum" style={{ paddingTop: 16, borderTop: "1px solid var(--ink)" }}>
+                <span className="meta">{t.sum}</span><b>{money(total, cartLines[0].currency)}</b>
+              </div>
+            ) : null}
+          </div>
           {product?.sub ? (
             <div className="plan-pick" role="group" aria-label={t.plan_label}>
               <button type="button" aria-pressed={!isSub} onClick={() => choose(product.planId)}>
@@ -66,8 +83,10 @@ function CheckoutPage() {
           ) : null}
         </div>
         <div className="co-form">
-          {ready && returnUrl ? (
-            <ElementsCheckout planId={planId} accountId={accountId} returnUrl={returnUrl} />
+          {isCart && shop.loaded && !cartLines.length ? (
+            <p className="co-loading">{t.empty}</p>
+          ) : ready && returnUrl && planIds.length ? (
+            <ElementsCheckout planIds={planIds} accountId={accountId} returnUrl={returnUrl} />
           ) : (
             <p className="co-loading">{t.co_loading}</p>
           )}

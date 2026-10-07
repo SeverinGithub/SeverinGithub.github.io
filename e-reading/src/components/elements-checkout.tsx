@@ -7,7 +7,7 @@ const ELEMENTS_SRC = "https://js.whop.cloud/elements/amber/elements.js";
 const ENVIRONMENT = "production";
 
 type ElementsCheckoutProps = {
-  planId: string;
+  planIds: string[];
   accountId?: string;
   returnUrl: string;
 };
@@ -42,7 +42,7 @@ function loadScript(src: string) {
   });
 }
 
-export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheckoutProps) {
+export function ElementsCheckout({ planIds, accountId, returnUrl }: ElementsCheckoutProps) {
   const { t, lang } = useLang();
   const brandingRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLDivElement>(null);
@@ -60,6 +60,8 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
   const [emailValue, setEmailValue] = useState<EmailValue>({ email: "", complete: false });
   const [methodComplete, setMethodComplete] = useState(false);
 
+  const items = planIds.join(",");
+
   useEffect(() => {
     let destroyed = false;
 
@@ -69,7 +71,7 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
         if (destroyed) return;
 
         const session = await createCheckoutSession({
-          data: { planId, returnUrl },
+          data: { planIds: items.split(","), returnUrl },
         });
         if (destroyed) return;
         sessionRef.current = session;
@@ -139,7 +141,7 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
       setMounted(false);
       setMethodComplete(false);
     };
-  }, [accountId, planId, returnUrl, lang]);
+  }, [accountId, items, returnUrl, lang]);
 
   async function onCompletePurchase() {
     const session = sessionRef.current;

@@ -16,9 +16,9 @@ function OrderComplete() {
   useEffect(() => {
     if (!shop.loaded) return;
     try {
-      const plan = sessionStorage.getItem(PENDING_KEY);
-      const bought = shop.products.find((p) => p.planId === plan);
-      if (bought && shop.inCart(bought.id)) shop.remove(bought.id);
+      const plans = (sessionStorage.getItem(PENDING_KEY) ?? "").split(",");
+      const bought = shop.products.filter((p) => plans.includes(p.planId) || (p.sub && plans.includes(p.sub.planId)));
+      if (bought.length) shop.removeMany(bought.map((p) => p.id));
       sessionStorage.removeItem(PENDING_KEY);
     } catch { /* ignore */ }
   }, [shop]);

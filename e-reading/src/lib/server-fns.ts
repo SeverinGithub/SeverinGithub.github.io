@@ -63,10 +63,10 @@ function asAmount(value: unknown): number {
 }
 
 export const createCheckoutSession = createServerFn({ method: "POST" })
-  .validator((input: { planId: string; returnUrl: string }) => input)
+  .validator((input: { planIds: string[]; returnUrl: string }) => input)
   .handler(async ({ data }): Promise<CheckoutSessionResult> => {
     const raw = await whopPost<RawCheckoutSession>("/checkout_sessions", {
-      items: [{ plan: data.planId, quantity: 1 }],
+      items: data.planIds.map((plan) => ({ plan, quantity: 1 })),
       return_url: data.returnUrl,
     });
     const id = asText(raw.id);

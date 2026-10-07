@@ -25,6 +25,7 @@ type ShopState = {
   inCart: (id: string) => boolean;
   add: (id: string) => void;
   remove: (id: string) => void;
+  removeMany: (ids: string[]) => void;
   panel: Panel;
   detailId: string | null;
   openCart: () => void;
@@ -85,6 +86,7 @@ export function ShopProvider({ products, children }: { products: Product[]; chil
       toast(t.added(localize(p, lang).title));
     },
     remove: (id) => persist(cart.filter((x) => x !== id)),
+    removeMany: (ids) => persist(cart.filter((x) => !ids.includes(x))),
     panel,
     detailId,
     openCart: () => { remember(); setPanel("cart"); },

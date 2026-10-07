@@ -66,11 +66,6 @@ export function Panels() {
               </div>
               <div className="meta" style={{ color: "var(--ink)" }}>{money(p.price, p.currency)}</div>
               <div className="line-actions">
-                {p.planId ? (
-                  <Link className="btn btn-accent btn-pay" to="/checkout/$planId" params={{ planId: p.planId }} onClick={close}>
-                    <span>{t.pay}</span><span aria-hidden="true">→</span>
-                  </Link>
-                ) : null}
                 <button className="rm" type="button" onClick={() => shop.remove(p.id)}>{t.remove}</button>
               </div>
             </div>
@@ -83,7 +78,12 @@ export function Panels() {
         </div>
         <div className="panel-foot">
           <div className="sum"><span className="meta">{t.sum}</span><b>{money(total, currency)}</b></div>
-          <p className="note">{t.checkout_multi}</p>
+          {lines.length ? (
+            <Link className="btn btn-accent btn-checkout" to="/checkout/$planId" params={{ planId: lines.length === 1 ? lines[0].planId : "cart" }} onClick={close}>
+              <span>{t.checkout}</span><span aria-hidden="true">→</span>
+            </Link>
+          ) : null}
+          <p className="note">{t.checkout_note}</p>
         </div>
       </aside>
 

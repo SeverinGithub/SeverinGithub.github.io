@@ -216,9 +216,10 @@ footer.site-footer{margin-top:176px;padding-bottom:48px}
 .line h4{font-size:16px;font-weight:600;line-height:1.25}
 .line .sub{font-family:var(--mono);font-size:12px;color:var(--grey);margin-top:4px}
 .line-actions{grid-column:2 / -1;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-.btn-pay{height:48px;padding:0 20px;flex:1 1 200px;justify-content:space-between;font-size:16px}
-.btn-pay span:last-child{transition:transform .15s}
-.btn-pay:hover span:last-child{transform:translateX(4px)}
+.btn-pay,.btn-checkout{height:48px;padding:0 20px;flex:1 1 200px;justify-content:space-between;font-size:16px}
+.btn-checkout{width:100%;height:56px;font-size:17px}
+.btn-pay span:last-child,.btn-checkout span:last-child{transition:transform .15s}
+.btn-pay:hover span:last-child,.btn-checkout:hover span:last-child{transform:translateX(4px)}
 .rm{background:none;border:0;padding:8px 0;font-family:var(--mono);font-size:12px;text-decoration:underline;text-underline-offset:3px;color:var(--grey);min-height:36px;display:inline-flex;align-items:center}
 .rm:hover{color:var(--accent)}
 .sum{display:flex;justify-content:space-between;align-items:baseline}
