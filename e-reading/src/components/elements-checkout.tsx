@@ -99,7 +99,7 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
         brandingElementRef.current = branding;
         branding.mount(brandingRef.current);
 
-        // Zeigt alle in Whop freigeschalteten Zahlungsarten (Karte, PayPal, Apple Pay, …).
+        // Zeigt alle in Whop freigeschalteten Zahlungsarten (Karte, Apple Pay, Google Pay, …).
         const payment = payments.create("payment", {
           layout: "accordion",
           onChange: (payload: { complete?: boolean }) => setMethodComplete(Boolean(payload.complete)),
