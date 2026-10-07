@@ -28,7 +28,7 @@ export const seedProducts: Product[] = [
     "Der Disziplin-Reset: Wie du Gewohnheiten aufbaust, die wirklich bleiben",
     "Dir fehlt nicht die Disziplin, sondern ein System, das auch an schlechten Tagen funktioniert.",
     4.99,
-    "books",
+    "workbooks",
     "/products/der-disziplin-reset.png",
     "plan_LrMXCNxUIVPNp",
   ),

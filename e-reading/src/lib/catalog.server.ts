@@ -1,4 +1,4 @@
-import type { Product } from "#/lib/catalog";
+import { toCategory, type Product } from "#/lib/catalog";
 import { seedProducts } from "#/lib/seed";
 import { loadAccountId } from "#/lib/brand.server";
 import { listAll } from "#/lib/whop.server";
@@ -115,7 +115,7 @@ function mapProduct(row: RawProduct, plans: RawPlan[]): Product | null {
     price: moneyAmount(plan.initial_price) || moneyAmount((plan as { renewal_price?: unknown }).renewal_price),
     currency: moneyCurrency(plan.initial_price, moneyCurrency(plan.currency)),
     image: productImage(row, metadata, handle, seed),
-    collection: (labels[0] || seed?.collection || "books").toLowerCase(),
+    collection: toCategory(labels.length ? labels : [seed?.collection ?? ""]),
     planId: String(plan.id),
   };
 }
