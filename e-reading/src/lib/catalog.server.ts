@@ -97,6 +97,18 @@ function pickPlan(row: RawProduct, plans: RawPlan[]): RawPlan | null {
   return productPlans[0] ?? null;
 }
 
+/* Labels (= Kategorie) liefert Whop erst ab neuerer API-Version – daher separat holen. */
+const LABELS_VERSION = { "Api-Version-Date": "2026-09-29" };
+
+async function loadLabels(account: string | undefined): Promise<Map<string, string[]>> {
+  try {
+    const rows = await listAll<RawProduct>("products", account, LABELS_VERSION);
+    return new Map(rows.map((row) => [String(row.id), Array.isArray(row.labels) ? row.labels.filter((l): l is string => typeof l === "string") : []]));
+  } catch {
+    return new Map();
+  }
+}
+
 function mapProduct(row: RawProduct, plans: RawPlan[]): Product | null {
   if (row.visibility && row.visibility !== "visible") return null;
   const title = typeof row.title === "string" ? row.title.trim() : "";
@@ -126,11 +138,14 @@ export async function loadCatalogue(): Promise<Product[]> {
   if (snapshot && Date.now() - snapshot.at < FRESH_MS) return snapshot.products;
   try {
     const account = await loadAccountId();
-    const [rawProducts, rawPlans] = await Promise.all([
+    const [rawProducts, rawPlans, labels] = await Promise.all([
       listAll<RawProduct>("products", account),
       listAll<RawPlan>("plans", account),
+      loadLabels(account),
     ]);
-    const products = rawProducts.map((row) => mapProduct(row, rawPlans)).filter((row): row is Product => Boolean(row));
+    const products = rawProducts
+      .map((row) => (Array.isArray(row.labels) && row.labels.length ? row : { ...row, labels: labels.get(String(row.id)) ?? [] }))
+      .map((row) => mapProduct(row, rawPlans)).filter((row): row is Product => Boolean(row));
     if (products.length === 0) return seedProducts;
     snapshot = { products, at: Date.now() };
     return products;

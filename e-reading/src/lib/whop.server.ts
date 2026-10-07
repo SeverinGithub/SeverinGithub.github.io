@@ -20,8 +20,8 @@ type Page<T> = {
   page_info?: { has_next_page?: boolean; end_cursor?: string | null };
 };
 
-export async function whopGet<T>(path: string): Promise<T> {
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
+export async function whopGet<T>(path: string, extra: Record<string, string> = {}): Promise<T> {
+  const headers: Record<string, string> = { "Content-Type": "application/json", ...extra };
   const key = apiKey();
   if (key) headers.Authorization = `Bearer ${key}`;
   const response = await fetch(`${apiOrigin()}/api/v1${path}`, { headers });
@@ -32,7 +32,7 @@ export async function whopGet<T>(path: string): Promise<T> {
   return payload as T;
 }
 
-export async function listAll<T>(resource: string, accountId?: string): Promise<T[]> {
+export async function listAll<T>(resource: string, accountId?: string, extra: Record<string, string> = {}): Promise<T[]> {
   const account = accountId || companyId();
   const rows: T[] = [];
   let after: string | null = null;
@@ -40,7 +40,7 @@ export async function listAll<T>(resource: string, accountId?: string): Promise<
     const query = new URLSearchParams({ first: "100" });
     if (account) query.set("account_id", account);
     if (after) query.set("after", after);
-    const body: Page<T> = await whopGet(`/${resource}?${query}`);
+    const body: Page<T> = await whopGet(`/${resource}?${query}`, extra);
     rows.push(...(body.data ?? []));
     if (!body.page_info?.has_next_page || !body.page_info.end_cursor) break;
     after = body.page_info.end_cursor;
