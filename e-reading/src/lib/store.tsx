@@ -2,7 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 
 import { FALLBACK_BRAND, type Brand } from "#/lib/brand";
 import type { Product } from "#/lib/catalog";
-import { storage, useT } from "#/lib/i18n";
+import { storage, useLang, useT } from "#/lib/i18n";
+import { localize } from "#/lib/product-text";
 
 const BrandContext = createContext<Brand>(FALLBACK_BRAND);
 
@@ -36,7 +37,7 @@ const ShopContext = createContext<ShopState | null>(null);
 const CART_KEY = "cart3";
 
 export function ShopProvider({ products, children }: { products: Product[]; children: React.ReactNode }) {
-  const t = useT();
+  const { t, lang } = useLang();
   const [cart, setCart] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
   const [panel, setPanel] = useState<Panel>(null);
@@ -81,7 +82,7 @@ export function ShopProvider({ products, children }: { products: Product[]; chil
       if (!p) return;
       if (cart.includes(id)) return toast(t.dupe);
       persist([...cart, id]);
-      toast(t.added(p.title));
+      toast(t.added(localize(p, lang).title));
     },
     remove: (id) => persist(cart.filter((x) => x !== id)),
     panel,

@@ -6,6 +6,7 @@ import { Dot } from "#/components/dot";
 import { Spec } from "#/components/panels";
 import { LANGS, NATIVE, READ, useLang } from "#/lib/i18n";
 import { useMoney, useShop } from "#/lib/store";
+import { useText } from "#/lib/product-text";
 
 export const Route = createFileRoute("/")({
   component: Home,
@@ -15,6 +16,7 @@ function Home() {
   const { t, lang, setLang } = useLang();
   const money = useMoney();
   const shop = useShop();
+  const tx = useText();
   const featured = shop.products[0];
 
   return (
@@ -73,8 +75,8 @@ function Home() {
             <Cover product={featured} index={0} />
             <div className="feature-body">
               <span className="meta">{categoryName(t, featured.collection)}</span>
-              <h3>{featured.title}<Dot /></h3>
-              <p>{featured.description}</p>
+              <h3>{tx(featured).title}<Dot /></h3>
+              <p>{tx(featured).description}</p>
               <Spec category={featured.collection} price={money(featured.price, featured.currency)} />
               <div className="hero-actions">
                 <button className="btn btn-accent" type="button" onClick={() => shop.add(featured.id)}>{t.add}</button>

@@ -7,6 +7,7 @@ import { ElementsCheckout } from "#/components/elements-checkout";
 import { useT } from "#/lib/i18n";
 import { loadStoreAccountId } from "#/lib/server-fns";
 import { PENDING_KEY, useMoney, useShop } from "#/lib/store";
+import { useText } from "#/lib/product-text";
 
 export const Route = createFileRoute("/checkout/$planId")({
   loader: async () => ({ accountId: await loadStoreAccountId() }),
@@ -17,6 +18,7 @@ function CheckoutPage() {
   const { planId } = Route.useParams();
   const { accountId } = Route.useLoaderData();
   const t = useT();
+  const tx = useText();
   const money = useMoney();
   const { products } = useShop();
   const product = products.find((entry) => entry.planId === planId);
@@ -43,7 +45,7 @@ function CheckoutPage() {
           {product ? (
             <div className="line" style={{ borderBottom: "1px solid var(--ink)" }}>
               <Cover product={product} index={products.indexOf(product)} />
-              <div><h4>{product.title}</h4><div className="sub">EPUB + PDF</div></div>
+              <div><h4>{tx(product).title}</h4><div className="sub">EPUB + PDF</div></div>
               <div className="meta" style={{ color: "var(--ink)" }}>{money(product.price, product.currency)}</div>
             </div>
           ) : null}

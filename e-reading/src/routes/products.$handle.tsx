@@ -7,6 +7,7 @@ import { Spec } from "#/components/panels";
 import { useT } from "#/lib/i18n";
 import { loadStoreProduct } from "#/lib/server-fns";
 import { useMoney, useShop } from "#/lib/store";
+import { useText } from "#/lib/product-text";
 
 export const Route = createFileRoute("/products/$handle")({
   loader: async ({ params }) => {
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/products/$handle")({
 function ProductPage() {
   const product = Route.useLoaderData();
   const t = useT();
+  const tx = useText();
   const money = useMoney();
   const shop = useShop();
   const index = Math.max(0, shop.products.findIndex((p) => p.id === product.id));
@@ -37,8 +39,8 @@ function ProductPage() {
       <div className="feature" style={{ marginTop: 0 }}>
         <Cover product={product} index={index} />
         <div className="feature-body">
-          <h1 id="prod-title" className="prod-h">{product.title}<Dot /></h1>
-          <p>{product.description}</p>
+          <h1 id="prod-title" className="prod-h">{tx(product).title}<Dot /></h1>
+          <p>{tx(product).description}</p>
           <Spec category={product.collection} price={money(product.price, product.currency)} />
           {product.planId ? (
             <div className="buy-box">

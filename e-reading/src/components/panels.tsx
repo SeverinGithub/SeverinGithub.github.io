@@ -6,6 +6,7 @@ import { Dot } from "#/components/dot";
 import { ExpressCheckout } from "#/components/express-checkout";
 import { useT } from "#/lib/i18n";
 import { useMoney, useShop } from "#/lib/store";
+import { useText } from "#/lib/product-text";
 
 const CloseIcon = () => (
   <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
@@ -28,6 +29,7 @@ export function Panels() {
   const t = useT();
   const money = useMoney();
   const shop = useShop();
+  const tx = useText();
   const { panel, close } = shop;
   const cartClose = useRef<HTMLButtonElement>(null);
   const detailClose = useRef<HTMLButtonElement>(null);
@@ -59,7 +61,7 @@ export function Panels() {
             <div className="line" key={p.id}>
               <Cover product={p} index={shop.products.indexOf(p)} />
               <div>
-                <h4>{p.title}</h4>
+                <h4>{tx(p).title}</h4>
                 <div className="sub">EPUB + PDF</div>
               </div>
               <div className="meta" style={{ color: "var(--ink)" }}>{money(p.price, p.currency)}</div>
@@ -94,8 +96,8 @@ export function Panels() {
           {detail ? (
             <>
               <Cover product={detail} index={detailIndex} />
-              <h2 id="detailTitle">{detail.title}</h2>
-              <p className="desc">{detail.description}</p>
+              <h2 id="detailTitle">{tx(detail).title}</h2>
+              <p className="desc">{tx(detail).description}</p>
               <Spec category={detail.collection} />
             </>
           ) : null}
