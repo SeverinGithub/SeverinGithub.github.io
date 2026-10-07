@@ -61,14 +61,16 @@ export function Panels() {
               <div>
                 <h4>{p.title}</h4>
                 <div className="sub">EPUB + PDF</div>
-                <div className="line-actions">
-                  <button className="rm" type="button" onClick={() => shop.remove(p.id)}>{t.remove}</button>
-                  {p.planId ? (
-                    <Link className="rm pay" to="/checkout/$planId" params={{ planId: p.planId }} onClick={close}>{t.pay} →</Link>
-                  ) : null}
-                </div>
               </div>
               <div className="meta" style={{ color: "var(--ink)" }}>{money(p.price, p.currency)}</div>
+              <div className="line-actions">
+                {p.planId ? (
+                  <Link className="btn btn-accent btn-pay" to="/checkout/$planId" params={{ planId: p.planId }} onClick={close}>
+                    <span>{t.pay}</span><span aria-hidden="true">→</span>
+                  </Link>
+                ) : null}
+                <button className="rm" type="button" onClick={() => shop.remove(p.id)}>{t.remove}</button>
+              </div>
             </div>
           )) : (
             <>

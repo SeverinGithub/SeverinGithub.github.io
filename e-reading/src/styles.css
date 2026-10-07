@@ -190,16 +190,18 @@ footer.site-footer{margin-top:120px;padding-bottom:40px}
 .x:hover{background:var(--ink);color:var(--white)}
 .panel-body{flex:1;overflow:auto;padding:24px}
 .panel-foot{border-top:2px solid var(--ink);padding:20px 24px;display:flex;flex-direction:column;gap:14px}
-.line{display:grid;grid-template-columns:64px 1fr auto;gap:16px;align-items:start;padding:16px 0;border-bottom:1px solid var(--stone)}
-.line .cover{padding:6px}
+.line{display:grid;grid-template-columns:64px 1fr auto;gap:14px 16px;align-items:start;padding:20px 0;border-bottom:1px solid var(--stone)}
+.line .cover{padding:6px;grid-row:span 2}
 .line .c-photo{padding:0}
 .line .cover .no,.line .cover .t{display:none}
 .line h4{font-size:16px;font-weight:600;line-height:1.25}
 .line .sub{font-family:var(--mono);font-size:12px;color:var(--grey);margin-top:4px}
-.line-actions{display:flex;gap:16px;flex-wrap:wrap}
+.line-actions{grid-column:2 / -1;display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+.btn-pay{height:48px;padding:0 20px;flex:1 1 200px;justify-content:space-between;font-size:16px}
+.btn-pay span:last-child{transition:transform .15s}
+.btn-pay:hover span:last-child{transform:translateX(4px)}
 .rm{background:none;border:0;padding:8px 0;font-family:var(--mono);font-size:12px;text-decoration:underline;text-underline-offset:3px;color:var(--grey);min-height:36px;display:inline-flex;align-items:center}
 .rm:hover{color:var(--accent)}
-.rm.pay{color:var(--ink)}
 .sum{display:flex;justify-content:space-between;align-items:baseline}
 .sum b{font-size:32px;font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .note{font-family:var(--mono);font-size:12px;color:var(--grey);line-height:1.5}
