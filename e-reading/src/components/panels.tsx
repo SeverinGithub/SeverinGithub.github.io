@@ -63,7 +63,7 @@ export function Panels() {
                 <div className="sub">EPUB + PDF</div>
                 <div className="line-actions">
                   <button className="rm" type="button" onClick={() => shop.remove(p.id)}>{t.remove}</button>
-                  {lines.length > 1 && p.planId ? (
+                  {p.planId ? (
                     <Link className="rm pay" to="/checkout/$planId" params={{ planId: p.planId }} onClick={close}>{t.pay} →</Link>
                   ) : null}
                 </div>
@@ -79,12 +79,7 @@ export function Panels() {
         </div>
         <div className="panel-foot">
           <div className="sum"><span className="meta">{t.sum}</span><b>{money(total, currency)}</b></div>
-          {lines.length === 1 && lines[0].planId ? (
-            <Link className="btn btn-accent" style={{ width: "100%" }} to="/checkout/$planId" params={{ planId: lines[0].planId }} onClick={close}>{t.checkout}</Link>
-          ) : (
-            <button className="btn btn-accent" type="button" style={{ width: "100%" }} disabled>{t.checkout}</button>
-          )}
-          <p className="note">{lines.length > 1 ? t.checkout_multi : t.checkout_note}</p>
+          <p className="note">{t.checkout_multi}</p>
         </div>
       </aside>
 
