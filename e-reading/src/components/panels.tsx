@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { Cover, categoryName } from "#/components/cover";
 import { Dot } from "#/components/dot";
 import { ExpressCheckout } from "#/components/express-checkout";
-import { PlanToggle, useCartTotals, useLinePrice } from "#/components/plan-toggle";
+import { CartSums, PlanToggle, useLinePrice } from "#/components/plan-toggle";
 import { useT } from "#/lib/i18n";
 import { useMoney, useShop } from "#/lib/store";
 import { useText } from "#/lib/product-text";
@@ -43,7 +43,6 @@ export function Panels() {
   const onKey = (e: React.KeyboardEvent) => { if (e.key === "Escape") close(); };
 
   const lines = shop.cart.map(shop.byId).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const totals = useCartTotals(lines);
   const linePrice = useLinePrice();
   const detail = shop.detailId ? shop.byId(shop.detailId) : undefined;
   const detailIndex = detail ? shop.products.indexOf(detail) : 0;
@@ -79,8 +78,7 @@ export function Panels() {
           )}
         </div>
         <div className="panel-foot">
-          <div className="sum"><span className="meta">{t.sum}</span><b>{money(totals.once, totals.currency)}</b></div>
-          {totals.sub ? <div className="sum sum-sub"><span className="meta">{t.plan_sub}</span><b>{money(totals.sub, totals.currency)} {t.per_month}</b></div> : null}
+          <CartSums lines={lines} />
           {lines.length ? (
             <Link className="btn btn-accent btn-checkout" to="/checkout/$planId" params={{ planId: "cart" }} onClick={close}>
               <span>{t.checkout}</span><span aria-hidden="true">→</span>

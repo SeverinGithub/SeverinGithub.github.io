@@ -41,3 +41,21 @@ export function useCartTotals(lines: Product[]) {
   }
   return { once, sub, currency: lines[0]?.currency ?? "EUR" };
 }
+
+/* Summenblock: einmalige Summe und/oder monatliche Abo-Summe, plus MwSt.-Hinweis (Whop rechnet MwSt. zusätzlich). */
+export function CartSums({ lines }: { lines: Product[] }) {
+  const t = useT();
+  const money = useMoney();
+  const { once, sub, currency } = useCartTotals(lines);
+  return (
+    <>
+      {once || !sub ? <div className="sum"><span className="meta">{t.sum}</span><b>{money(once, currency)}</b></div> : null}
+      {sub ? (
+        <div className={`sum${once ? " sum-sub" : ""}`}>
+          <span className="meta">{once ? t.plan_sub : t.sum}</span><b>{money(sub, currency)} {t.per_month}</b>
+        </div>
+      ) : null}
+      <p className="note">{t.vat_note}</p>
+    </>
+  );
+}

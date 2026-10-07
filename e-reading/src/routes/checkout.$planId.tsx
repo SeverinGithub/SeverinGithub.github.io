@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Cover } from "#/components/cover";
 import { Dot } from "#/components/dot";
 import { ElementsCheckout } from "#/components/elements-checkout";
-import { PlanToggle, useCartTotals, useLinePrice } from "#/components/plan-toggle";
+import { CartSums, PlanToggle, useLinePrice } from "#/components/plan-toggle";
 import { useT } from "#/lib/i18n";
 import { loadStoreAccountId } from "#/lib/server-fns";
 import { PENDING_KEY, useMoney, useShop } from "#/lib/store";
@@ -30,7 +30,6 @@ function CheckoutPage() {
   const product = isCart ? undefined : products.find((entry) => entry.planId === planId || entry.sub?.planId === planId);
   const lines = isCart ? cartLines : product ? [product] : [];
   const planIds = isCart ? cartLines.map((p) => shop.planOf(p)) : [planId];
-  const totals = useCartTotals(cartLines);
   const linePrice = useLinePrice();
   const isSub = Boolean(product?.sub && product.sub.planId === planId);
   const choose = (id: string) => { if (id !== planId) navigate({ to: "/checkout/$planId", params: { planId: id }, replace: true }); };
@@ -70,8 +69,7 @@ function CheckoutPage() {
             ))}
             {isCart && cartLines.length ? (
               <div style={{ paddingTop: 16, borderTop: "1px solid var(--ink)" }}>
-                {totals.once ? <div className="sum"><span className="meta">{t.sum}</span><b>{money(totals.once, totals.currency)}</b></div> : null}
-                {totals.sub ? <div className="sum sum-sub"><span className="meta">{t.plan_sub}</span><b>{money(totals.sub, totals.currency)} {t.per_month}</b></div> : null}
+                <CartSums lines={cartLines} />
               </div>
             ) : null}
           </div>

@@ -97,11 +97,11 @@ export function ShopProvider({ products, children }: { products: Product[]; chil
     remove: (id) => persist(cart.filter((x) => x !== id)),
     removeMany: (ids) => persist(cart.filter((x) => !ids.includes(x))),
     kindOf: (id) => (kinds[id] === "sub" && byId(id)?.sub ? "sub" : "once"),
-    setKind: (id, kind) => {
-      const next = { ...kinds, [id]: kind };
-      setKinds(next);
+    setKind: (id, kind) => setKinds((prev) => {
+      const next = { ...prev, [id]: kind };
       storage.set(KINDS_KEY, JSON.stringify(next));
-    },
+      return next;
+    }),
     planOf: (p) => (kinds[p.id] === "sub" && p.sub ? p.sub.planId : p.planId),
     panel,
     detailId,
