@@ -26,6 +26,10 @@ type ShopState = {
   add: (id: string) => void;
   remove: (id: string) => void;
   removeMany: (ids: string[]) => void;
+  /* Kaufart je Titel im Warenkorb: einmalig (Standard) oder Abo. */
+  kindOf: (id: string) => PlanKind;
+  setKind: (id: string, kind: PlanKind) => void;
+  planOf: (p: Product) => string;
   panel: Panel;
   detailId: string | null;
   openCart: () => void;
@@ -34,13 +38,16 @@ type ShopState = {
   toast: string;
 };
 
+export type PlanKind = "once" | "sub";
 const ShopContext = createContext<ShopState | null>(null);
 const CART_KEY = "cart3";
+const KINDS_KEY = "cart-kinds";
 
 export function ShopProvider({ products, children }: { products: Product[]; children: React.ReactNode }) {
   const { t, lang } = useLang();
   const [cart, setCart] = useState<string[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [kinds, setKinds] = useState<Record<string, PlanKind>>({});
   const [panel, setPanel] = useState<Panel>(null);
   const [detailId, setDetailId] = useState<string | null>(null);
   const [toastMsg, setToastMsg] = useState("");
@@ -53,6 +60,8 @@ export function ShopProvider({ products, children }: { products: Product[]; chil
     try {
       const raw = JSON.parse(storage.get(CART_KEY) || "[]");
       if (Array.isArray(raw)) setCart(raw.filter((id) => typeof id === "string" && byId(id)));
+      const k = JSON.parse(storage.get(KINDS_KEY) || "{}");
+      if (k && typeof k === "object") setKinds(k);
     } catch { /* ignore */ }
     setLoaded(true);
   }, [byId]);
@@ -87,6 +96,13 @@ export function ShopProvider({ products, children }: { products: Product[]; chil
     },
     remove: (id) => persist(cart.filter((x) => x !== id)),
     removeMany: (ids) => persist(cart.filter((x) => !ids.includes(x))),
+    kindOf: (id) => (kinds[id] === "sub" && byId(id)?.sub ? "sub" : "once"),
+    setKind: (id, kind) => {
+      const next = { ...kinds, [id]: kind };
+      setKinds(next);
+      storage.set(KINDS_KEY, JSON.stringify(next));
+    },
+    planOf: (p) => (kinds[p.id] === "sub" && p.sub ? p.sub.planId : p.planId),
     panel,
     detailId,
     openCart: () => { remember(); setPanel("cart"); },

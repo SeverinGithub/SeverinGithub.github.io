@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Cover } from "#/components/cover";
 import { Dot } from "#/components/dot";
 import { ElementsCheckout } from "#/components/elements-checkout";
+import { PlanToggle, useCartTotals, useLinePrice } from "#/components/plan-toggle";
 import { useT } from "#/lib/i18n";
 import { loadStoreAccountId } from "#/lib/server-fns";
 import { PENDING_KEY, useMoney, useShop } from "#/lib/store";
@@ -28,8 +29,9 @@ function CheckoutPage() {
   const cartLines = shop.cart.map(shop.byId).filter((p): p is NonNullable<typeof p> => Boolean(p?.planId));
   const product = isCart ? undefined : products.find((entry) => entry.planId === planId || entry.sub?.planId === planId);
   const lines = isCart ? cartLines : product ? [product] : [];
-  const planIds = isCart ? cartLines.map((p) => p.planId) : [planId];
-  const total = cartLines.reduce((sum, p) => sum + p.price, 0);
+  const planIds = isCart ? cartLines.map((p) => shop.planOf(p)) : [planId];
+  const totals = useCartTotals(cartLines);
+  const linePrice = useLinePrice();
   const isSub = Boolean(product?.sub && product.sub.planId === planId);
   const choose = (id: string) => { if (id !== planId) navigate({ to: "/checkout/$planId", params: { planId: id }, replace: true }); };
   const [ready, setReady] = useState(false);
@@ -61,13 +63,15 @@ function CheckoutPage() {
                 <Cover product={p} index={products.indexOf(p)} />
                 <div><h4>{tx(p).title}</h4><div className="sub">EPUB + PDF</div></div>
                 <div className="meta" style={{ color: "var(--ink)" }}>
-                  {isSub && p.sub ? `${money(p.sub.price, p.currency)} ${t.per_month}` : money(p.price, p.currency)}
+                  {isCart ? linePrice(p) : isSub && p.sub ? `${money(p.sub.price, p.currency)} ${t.per_month}` : money(p.price, p.currency)}
                 </div>
+                {isCart && p.sub ? <div className="line-actions"><PlanToggle product={p} /></div> : null}
               </div>
             ))}
-            {isCart && cartLines.length > 1 ? (
-              <div className="sum" style={{ paddingTop: 16, borderTop: "1px solid var(--ink)" }}>
-                <span className="meta">{t.sum}</span><b>{money(total, cartLines[0].currency)}</b>
+            {isCart && cartLines.length ? (
+              <div style={{ paddingTop: 16, borderTop: "1px solid var(--ink)" }}>
+                {totals.once ? <div className="sum"><span className="meta">{t.sum}</span><b>{money(totals.once, totals.currency)}</b></div> : null}
+                {totals.sub ? <div className="sum sum-sub"><span className="meta">{t.plan_sub}</span><b>{money(totals.sub, totals.currency)} {t.per_month}</b></div> : null}
               </div>
             ) : null}
           </div>

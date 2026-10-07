@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { Cover, categoryName } from "#/components/cover";
 import { Dot } from "#/components/dot";
 import { ExpressCheckout } from "#/components/express-checkout";
+import { PlanToggle, useCartTotals, useLinePrice } from "#/components/plan-toggle";
 import { useT } from "#/lib/i18n";
 import { useMoney, useShop } from "#/lib/store";
 import { useText } from "#/lib/product-text";
@@ -42,8 +43,8 @@ export function Panels() {
   const onKey = (e: React.KeyboardEvent) => { if (e.key === "Escape") close(); };
 
   const lines = shop.cart.map(shop.byId).filter((p): p is NonNullable<typeof p> => Boolean(p));
-  const currency = lines[0]?.currency ?? "USD";
-  const total = lines.reduce((s, p) => s + p.price, 0);
+  const totals = useCartTotals(lines);
+  const linePrice = useLinePrice();
   const detail = shop.detailId ? shop.byId(shop.detailId) : undefined;
   const detailIndex = detail ? shop.products.indexOf(detail) : 0;
 
@@ -64,8 +65,9 @@ export function Panels() {
                 <h4>{tx(p).title}</h4>
                 <div className="sub">EPUB + PDF</div>
               </div>
-              <div className="meta" style={{ color: "var(--ink)" }}>{money(p.price, p.currency)}</div>
+              <div className="meta" style={{ color: "var(--ink)" }}>{linePrice(p)}</div>
               <div className="line-actions">
+                <PlanToggle product={p} />
                 <button className="rm" type="button" onClick={() => shop.remove(p.id)}>{t.remove}</button>
               </div>
             </div>
@@ -77,9 +79,10 @@ export function Panels() {
           )}
         </div>
         <div className="panel-foot">
-          <div className="sum"><span className="meta">{t.sum}</span><b>{money(total, currency)}</b></div>
+          <div className="sum"><span className="meta">{t.sum}</span><b>{money(totals.once, totals.currency)}</b></div>
+          {totals.sub ? <div className="sum sum-sub"><span className="meta">{t.plan_sub}</span><b>{money(totals.sub, totals.currency)} {t.per_month}</b></div> : null}
           {lines.length ? (
-            <Link className="btn btn-accent btn-checkout" to="/checkout/$planId" params={{ planId: lines.length === 1 ? lines[0].planId : "cart" }} onClick={close}>
+            <Link className="btn btn-accent btn-checkout" to="/checkout/$planId" params={{ planId: "cart" }} onClick={close}>
               <span>{t.checkout}</span><span aria-hidden="true">→</span>
             </Link>
           ) : null}
