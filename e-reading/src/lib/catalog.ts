@@ -8,6 +8,8 @@ export type Product = {
   image: string;
   collection: string;
   planId: string;
+  /* Optionales Abo (Whop-Variante mit wiederkehrendem Preis). */
+  sub?: { planId: string; price: number; days: number };
 };
 
 /* Überkategorien. Zuordnung in Whop: Produkt → Labels → einen dieser Slugs eintragen (z. B. "stories").

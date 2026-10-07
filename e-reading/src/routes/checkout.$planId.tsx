@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 
 import { Cover } from "#/components/cover";
@@ -21,7 +21,10 @@ function CheckoutPage() {
   const tx = useText();
   const money = useMoney();
   const { products } = useShop();
-  const product = products.find((entry) => entry.planId === planId);
+  const navigate = useNavigate();
+  const product = products.find((entry) => entry.planId === planId || entry.sub?.planId === planId);
+  const isSub = Boolean(product?.sub && product.sub.planId === planId);
+  const choose = (id: string) => { if (id !== planId) navigate({ to: "/checkout/$planId", params: { planId: id }, replace: true }); };
   const [ready, setReady] = useState(false);
   const [origin, setOrigin] = useState("");
 
@@ -46,7 +49,19 @@ function CheckoutPage() {
             <div className="line" style={{ borderBottom: "1px solid var(--ink)" }}>
               <Cover product={product} index={products.indexOf(product)} />
               <div><h4>{tx(product).title}</h4><div className="sub">EPUB + PDF</div></div>
-              <div className="meta" style={{ color: "var(--ink)" }}>{money(product.price, product.currency)}</div>
+              <div className="meta" style={{ color: "var(--ink)" }}>
+                {isSub && product.sub ? `${money(product.sub.price, product.currency)} ${t.per_month}` : money(product.price, product.currency)}
+              </div>
+            </div>
+          ) : null}
+          {product?.sub ? (
+            <div className="plan-pick" role="group" aria-label={t.plan_label}>
+              <button type="button" aria-pressed={!isSub} onClick={() => choose(product.planId)}>
+                <span>{t.plan_once}</span><b>{money(product.price, product.currency)}</b>
+              </button>
+              <button type="button" aria-pressed={isSub} onClick={() => choose(product.sub!.planId)}>
+                <span>{t.plan_sub}</span><b>{money(product.sub.price, product.currency)} {t.per_month}</b>
+              </button>
             </div>
           ) : null}
         </div>

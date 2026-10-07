@@ -18,6 +18,8 @@ type RawPlan = {
   currency?: unknown;
   visibility?: unknown;
   plan_type?: unknown;
+  renewal_price?: unknown;
+  billing_period?: unknown;
   product?: { id?: unknown } | string | null;
 };
 type RawProduct = {
@@ -109,6 +111,14 @@ async function loadLabels(account: string | undefined): Promise<Map<string, stri
   }
 }
 
+function pickSubscription(row: RawProduct, plans: RawPlan[]): Product["sub"] {
+  const plan = plans.find((p) =>
+    productIdOf(p) === String(row.id) && (!p.visibility || p.visibility === "visible") &&
+    p.plan_type === "renewal" && moneyAmount(p.renewal_price) > 0 && typeof p.id === "string");
+  if (!plan) return undefined;
+  return { planId: String(plan.id), price: moneyAmount(plan.renewal_price), days: Number(plan.billing_period) || 30 };
+}
+
 function mapProduct(row: RawProduct, plans: RawPlan[]): Product | null {
   if (row.visibility && row.visibility !== "visible") return null;
   const title = typeof row.title === "string" ? row.title.trim() : "";
@@ -129,6 +139,7 @@ function mapProduct(row: RawProduct, plans: RawPlan[]): Product | null {
     image: productImage(row, metadata, handle, seed),
     collection: toCategory(labels.length ? labels : [seed?.collection ?? ""]),
     planId: String(plan.id),
+    sub: plan.plan_type === "renewal" ? undefined : pickSubscription(row, plans),
   };
 }
 

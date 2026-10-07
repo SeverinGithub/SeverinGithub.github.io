@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { useT } from "#/lib/i18n";
+import { useLang } from "#/lib/i18n";
 import { confirmCheckoutSession, createCheckoutSession } from "#/lib/server-fns";
 
 const ELEMENTS_SRC = "https://js.whop.cloud/elements/amber/elements.js";
@@ -43,15 +43,13 @@ function loadScript(src: string) {
 }
 
 export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheckoutProps) {
-  const t = useT();
+  const { t, lang } = useLang();
   const brandingRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLDivElement>(null);
-  const cardNumberRef = useRef<HTMLDivElement>(null);
-  const cardExpiryRef = useRef<HTMLDivElement>(null);
-  const cardCvcRef = useRef<HTMLDivElement>(null);
+  const paymentRef = useRef<HTMLDivElement>(null);
   const whopRef = useRef<any>(null);
   const paymentsRef = useRef<any>(null);
-  const cardFieldsRef = useRef<any>(null);
+  const paymentElementRef = useRef<any>(null);
   const brandingElementRef = useRef<any>(null);
   const emailElementRef = useRef<any>(null);
   const sessionRef = useRef<any>(null);
@@ -60,7 +58,7 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [emailValue, setEmailValue] = useState<EmailValue>({ email: "", complete: false });
-  const [cardComplete, setCardComplete] = useState(false);
+  const [methodComplete, setMethodComplete] = useState(false);
 
   useEffect(() => {
     let destroyed = false;
@@ -93,6 +91,7 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
           },
           returnUrl,
           appearance: { theme: { appearance: "light" } },
+          locale: lang,
         });
         paymentsRef.current = payments;
 
@@ -100,13 +99,14 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
         brandingElementRef.current = branding;
         branding.mount(brandingRef.current);
 
-        const cardFields = payments.create("cardFields", {
-          onChange: (payload: { complete?: boolean }) => setCardComplete(Boolean(payload.complete)),
+        // Zeigt alle in Whop freigeschalteten Zahlungsarten (Karte, PayPal, Apple Pay, …).
+        const payment = payments.create("payment", {
+          layout: "accordion",
+          onChange: (payload: { complete?: boolean }) => setMethodComplete(Boolean(payload.complete)),
+          onError: (event: { message?: string }) => setError(event.message ?? "Payment methods could not load."),
         });
-        cardFieldsRef.current = cardFields;
-        cardFields.create("cardNumber").mount(cardNumberRef.current);
-        cardFields.create("cardExpiry").mount(cardExpiryRef.current);
-        cardFields.create("cardCvc").mount(cardCvcRef.current);
+        paymentElementRef.current = payment;
+        payment.mount(paymentRef.current);
 
         const emailElement = payments.create("email", {
           onChange: (payload: EmailValue) => setEmailValue(payload),
@@ -124,22 +124,22 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
 
     return () => {
       destroyed = true;
-      cardFieldsRef.current?.destroy?.();
+      paymentElementRef.current?.destroy?.();
       brandingElementRef.current?.destroy?.();
       emailElementRef.current?.destroy?.();
       paymentsRef.current?.destroy?.();
-      cardFieldsRef.current = null;
+      paymentElementRef.current = null;
       brandingElementRef.current = null;
       emailElementRef.current = null;
       paymentsRef.current = null;
       sessionRef.current = null;
-      for (const slot of [cardNumberRef, cardExpiryRef, cardCvcRef, emailRef, brandingRef]) {
+      for (const slot of [paymentRef, emailRef, brandingRef]) {
         if (slot.current) slot.current.innerHTML = "";
       }
       setMounted(false);
-      setCardComplete(false);
+      setMethodComplete(false);
     };
-  }, [accountId, planId, returnUrl]);
+  }, [accountId, planId, returnUrl, lang]);
 
   async function onCompletePurchase() {
     const session = sessionRef.current;
@@ -183,18 +183,14 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
     }
   }
 
-  const readyToPay = mounted && emailValue.complete && cardComplete && !submitting;
+  const readyToPay = mounted && emailValue.complete && methodComplete && !submitting;
 
   return (
     <div className="elements">
       {error ? <p className="co-error">{error}</p> : null}
       {!mounted && !error ? <p className="co-loading">{t.co_loading}</p> : null}
       <div hidden={!mounted}>
-        <div className="el-slot" ref={cardNumberRef} />
-        <div className="el-pair">
-          <div className="el-slot" ref={cardExpiryRef} />
-          <div className="el-slot" ref={cardCvcRef} />
-        </div>
+        <div className="el-slot" ref={paymentRef} />
         <p className="meta el-label">{t.co_receipt}</p>
         <div className="el-slot" ref={emailRef} />
         <button

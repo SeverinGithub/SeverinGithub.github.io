@@ -267,3 +267,12 @@ footer.site-footer{margin-top:176px;padding-bottom:48px}
   nav ul{gap:4px 18px}
   .hide-s{display:none}
 }
+
+/* Kaufart (Einmalig / Abo) im Checkout */
+.plan-pick{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--ink)}
+.plan-pick button{all:unset;box-sizing:border-box;cursor:pointer;padding:14px 16px;display:flex;flex-direction:column;gap:4px;font-size:15px}
+.plan-pick button+button{border-left:1px solid var(--ink)}
+.plan-pick button b{font-weight:700;font-size:17px}
+.plan-pick button:hover:not([aria-pressed="true"]){background:var(--stone)}
+.plan-pick button[aria-pressed="true"]{background:var(--ink);color:var(--white)}
+.plan-pick button:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
