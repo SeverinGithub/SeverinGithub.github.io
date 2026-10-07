@@ -3,7 +3,7 @@ const { useState: useSs } = React;
 
 function standings(round) {
   const rows = round.players.map((p, i) => {
-    const t = totals(round.scores[p.id], round.pars);
+    const t = totals(round.scores[p.id], round.pars, p.handicap, round.holes);
     return { ...p, i, ...t };
   });
   // rank: stableford → higher better; else strokes → lower better

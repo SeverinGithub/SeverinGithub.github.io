@@ -30,6 +30,7 @@
      id           uuid pk default gen_random_uuid()
      round_id     uuid references rounds(id) on delete cascade
      name         text not null
+     handicap     int  default 54                -- playing handicap; drives Stableford
      seat         int                            -- order 0..n
 
    table scores
@@ -95,22 +96,37 @@ function buildPars(course, holes) {
   return out;
 }
 
-// ── Stableford (gross, no handicap) ──────────────────────────
+// ── Stableford (nett, mit optional handicap adjustment) ─────
 // 2 pts at par, +1 per stroke under, -1 per stroke over, floored at 0.
-function stableford(strokes, par) {
+// `extra` is the handicap-derived bonus stroke(s) for this hole (0-2 typ.).
+function stableford(strokes, par, extra = 0) {
   if (strokes == null) return 0;
-  return Math.max(0, 2 - (strokes - par));
+  return Math.max(0, 2 - (strokes - (par + extra)));
+}
+
+// Extra strokes on this hole from a player's playing handicap. We spread the
+// handicap evenly over the holes played and hand the remainder to the first
+// (hardest by convention, but we don't have SI data yet — so first index)
+// holes. Amateur-friendly approximation of the full CONGU/DGV distribution.
+function extraStrokesFor(handicap, holeIdx, totalHoles) {
+  const hcp = Math.max(0, Math.round(Number(handicap) || 0));
+  if (hcp <= 0) return 0;
+  const N = totalHoles || 18;
+  const base = Math.floor(hcp / N);
+  const remainder = hcp % N;
+  return base + (holeIdx < remainder ? 1 : 0);
 }
 
 // ── Per-player totals across played holes ────────────────────
-function totals(scores, pars) {
+function totals(scores, pars, handicap = 0, totalHoles = null) {
+  const N = totalHoles || pars.length;
   let strokes = 0, parPlayed = 0, stbl = 0, played = 0;
   for (let h = 0; h < pars.length; h++) {
     const s = scores[h];
     if (s == null) continue;
     strokes += s;
     parPlayed += pars[h];
-    stbl += stableford(s, pars[h]);
+    stbl += stableford(s, pars[h], extraStrokesFor(handicap, h, N));
     played += 1;
   }
   return { strokes, parPlayed, stbl, played, toPar: strokes - parPlayed };
@@ -372,7 +388,7 @@ function relTime(ts) {
 
 Object.assign(window, {
   // scoring + course
-  COURSES, PAR_TEMPLATE, buildPars, stableford, totals,
+  COURSES, PAR_TEMPLATE, buildPars, stableford, totals, extraStrokesFor,
   fmtToPar, scoreName, scoreTone,
   // storage layer + rounds
   storage,

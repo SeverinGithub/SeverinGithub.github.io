@@ -115,7 +115,7 @@ function HoleView({ round, h, par, setScore, setPar, setHole, isAdvanced, clubs,
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {round.players.map((p, i) => {
           const sc = round.scores[p.id];
-          const t = totals(sc, round.pars);
+          const t = totals(sc, round.pars, p.handicap, round.holes);
           const cur = sc[h];
           return (
             <div key={p.id} className="gg-pop" style={{
@@ -216,7 +216,7 @@ function CardView({ round, onPick }) {
           </div>
           <div style={{ flex: 1, display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
             {cols.map(p => {
-              const t = totals(round.scores[p.id], round.pars);
+              const t = totals(round.scores[p.id], round.pars, p.handicap, round.holes);
               return (
                 <div key={p.id} className="tnum" style={{ width: cellW, textAlign: 'center', fontWeight: 900, fontSize: 17 }}>
                   {t.strokes || '–'}

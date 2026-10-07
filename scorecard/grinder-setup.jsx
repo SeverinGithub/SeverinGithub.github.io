@@ -38,8 +38,12 @@ function haversine(lat1, lon1, lat2, lon2) {
 }
 
 /* ══════════════════════════ SETUP ══════════════════════════ */
+// Default playing handicap for a fresh player card — 54 is the CONGU/DGV
+// upper cap and matches "brand-new golfer" expectations.
+const DEFAULT_HCP = 54;
+
 function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers = 8 }) {
-  const [players, setPlayers] = useS(['Spieler 1']);
+  const [players, setPlayers] = useS([{ name: 'Spieler 1', handicap: DEFAULT_HCP }]);
   const [courseId, setCourseId] = useS(COURSES[0].id);
   const [custom, setCustom] = useS('');
   const [holes, setHoles] = useS(9);
@@ -65,11 +69,17 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
   const nearbyCourse = nearbyCourses.find(c => c.id === courseId);
   const course = staticCourse || nearbyCourse;
   const courseName = isCustom ? (custom.trim() || 'Eigener Platz') : (course ? course.name : COURSES[0].name);
-  const validNames = players.map(p => p.trim()).filter(Boolean);
-  const canStart = validNames.length > 0;
+  const validPlayers = players.filter(p => (p.name || '').trim());
+  const canStart = validPlayers.length > 0;
 
-  const setName = (i, v) => setPlayers(p => p.map((x, j) => j === i ? v : x));
-  const addPlayer = () => players.length < maxPlayers && setPlayers(p => [...p, `Spieler ${p.length + 1}`]);
+  const setName = (i, v) =>
+    setPlayers(p => p.map((x, j) => j === i ? { ...x, name: v } : x));
+  const setHandicap = (i, v) => {
+    const n = v === '' ? '' : Math.max(0, Math.min(54, Math.round(Number(v) || 0)));
+    setPlayers(p => p.map((x, j) => j === i ? { ...x, handicap: n } : x));
+  };
+  const addPlayer = () =>
+    players.length < maxPlayers && setPlayers(p => [...p, { name: `Spieler ${p.length + 1}`, handicap: DEFAULT_HCP }]);
   const rmPlayer = (i) => setPlayers(p => p.filter((_, j) => j !== i));
 
   const findNearby = () => {
@@ -109,10 +119,13 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
 
   const start = () => {
     if (!canStart) return;
-    const names = players.map(p => p.trim()).filter(Boolean);
     const resolvedCourse = isNearby ? nearbyCourse : (isCustom ? null : course);
     const pars = buildPars(resolvedCourse, holes);
-    const pl = names.map(n => ({ id: uid(), name: n }));
+    const pl = validPlayers.map(pl => ({
+      id: uid(),
+      name: pl.name.trim(),
+      handicap: Math.max(0, Math.min(54, Math.round(Number(pl.handicap) || 0))),
+    }));
     const scores = {};
     pl.forEach(p => { scores[p.id] = Array(holes).fill(null); });
     onStart({
@@ -151,21 +164,41 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
         {/* players */}
         <Label style={{ marginBottom: 10 }}>Wer spielt mit?</Label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
-          {players.map((name, i) => (
+          {players.map((p, i) => (
             <div key={i} style={{
-              display: 'flex', alignItems: 'center', gap: 12, background: 'var(--surface)',
+              display: 'flex', alignItems: 'center', gap: 10, background: 'var(--surface)',
               borderRadius: 16, padding: '8px 8px 8px 14px', boxShadow: 'var(--shadow-sm)',
             }}>
-              <Avatar name={name} i={i} />
-              <input value={name} onChange={e => setName(i, e.target.value)} placeholder={`Spieler ${i + 1}`}
+              <Avatar name={p.name} i={i} />
+              <input value={p.name} onChange={e => setName(i, e.target.value)} placeholder={`Spieler ${i + 1}`}
                 style={{
-                  flex: 1, border: 'none', background: 'transparent', outline: 'none',
+                  flex: 1, minWidth: 0, border: 'none', background: 'transparent', outline: 'none',
                   fontFamily: 'var(--font)', fontWeight: 700, fontSize: 16, color: 'var(--ink)',
                 }} />
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0,
+                background: 'var(--surface-2)', borderRadius: 10, padding: '4px 8px',
+              }}>
+                <span style={{
+                  fontSize: 10, fontWeight: 800, color: 'var(--ink-faint)',
+                  letterSpacing: '.08em', textTransform: 'uppercase',
+                }}>HCP</span>
+                <input type="number" inputMode="numeric" min={0} max={54} step={1}
+                  value={p.handicap}
+                  onChange={e => setHandicap(i, e.target.value)}
+                  onBlur={e => { if (e.target.value === '') setHandicap(i, DEFAULT_HCP); }}
+                  aria-label="Handicap"
+                  style={{
+                    width: 32, textAlign: 'right', border: 'none', background: 'transparent',
+                    outline: 'none', fontFamily: 'var(--font)', fontWeight: 800, fontSize: 14,
+                    color: 'var(--ink)', padding: 0, MozAppearance: 'textfield',
+                  }} />
+              </div>
               {players.length > 1 && (
                 <button onClick={() => rmPlayer(i)} style={{
                   width: 34, height: 34, borderRadius: '50%', border: 'none', cursor: 'pointer',
                   background: 'var(--surface-2)', color: 'var(--ink-faint)', display: 'grid', placeItems: 'center',
+                  flexShrink: 0,
                 }}><Icon name="x" size={16} sw={2.4} /></button>
               )}
             </div>

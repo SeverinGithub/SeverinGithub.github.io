@@ -1063,6 +1063,7 @@ Object.assign(window, {
      id           uuid pk default gen_random_uuid()
      round_id     uuid references rounds(id) on delete cascade
      name         text not null
+     handicap     int  default 54                -- playing handicap; drives Stableford
      seat         int                            -- order 0..n
 
    table scores
@@ -1128,22 +1129,37 @@ function buildPars(course, holes) {
   return out;
 }
 
-// ── Stableford (gross, no handicap) ──────────────────────────
+// ── Stableford (nett, mit optional handicap adjustment) ─────
 // 2 pts at par, +1 per stroke under, -1 per stroke over, floored at 0.
-function stableford(strokes, par) {
+// `extra` is the handicap-derived bonus stroke(s) for this hole (0-2 typ.).
+function stableford(strokes, par, extra = 0) {
   if (strokes == null) return 0;
-  return Math.max(0, 2 - (strokes - par));
+  return Math.max(0, 2 - (strokes - (par + extra)));
+}
+
+// Extra strokes on this hole from a player's playing handicap. We spread the
+// handicap evenly over the holes played and hand the remainder to the first
+// (hardest by convention, but we don't have SI data yet — so first index)
+// holes. Amateur-friendly approximation of the full CONGU/DGV distribution.
+function extraStrokesFor(handicap, holeIdx, totalHoles) {
+  const hcp = Math.max(0, Math.round(Number(handicap) || 0));
+  if (hcp <= 0) return 0;
+  const N = totalHoles || 18;
+  const base = Math.floor(hcp / N);
+  const remainder = hcp % N;
+  return base + (holeIdx < remainder ? 1 : 0);
 }
 
 // ── Per-player totals across played holes ────────────────────
-function totals(scores, pars) {
+function totals(scores, pars, handicap = 0, totalHoles = null) {
+  const N = totalHoles || pars.length;
   let strokes = 0, parPlayed = 0, stbl = 0, played = 0;
   for (let h = 0; h < pars.length; h++) {
     const s = scores[h];
     if (s == null) continue;
     strokes += s;
     parPlayed += pars[h];
-    stbl += stableford(s, pars[h]);
+    stbl += stableford(s, pars[h], extraStrokesFor(handicap, h, N));
     played += 1;
   }
   return { strokes, parPlayed, stbl, played, toPar: strokes - parPlayed };
@@ -1405,7 +1421,7 @@ function relTime(ts) {
 
 Object.assign(window, {
   // scoring + course
-  COURSES, PAR_TEMPLATE, buildPars, stableford, totals,
+  COURSES, PAR_TEMPLATE, buildPars, stableford, totals, extraStrokesFor,
   fmtToPar, scoreName, scoreTone,
   // storage layer + rounds
   storage,
@@ -1650,8 +1666,12 @@ function haversine(lat1, lon1, lat2, lon2) {
 }
 
 /* ══════════════════════════ SETUP ══════════════════════════ */
+// Default playing handicap for a fresh player card — 54 is the CONGU/DGV
+// upper cap and matches "brand-new golfer" expectations.
+const DEFAULT_HCP = 54;
+
 function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers = 8 }) {
-  const [players, setPlayers] = useS(['Spieler 1']);
+  const [players, setPlayers] = useS([{ name: 'Spieler 1', handicap: DEFAULT_HCP }]);
   const [courseId, setCourseId] = useS(COURSES[0].id);
   const [custom, setCustom] = useS('');
   const [holes, setHoles] = useS(9);
@@ -1677,11 +1697,17 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
   const nearbyCourse = nearbyCourses.find(c => c.id === courseId);
   const course = staticCourse || nearbyCourse;
   const courseName = isCustom ? (custom.trim() || 'Eigener Platz') : (course ? course.name : COURSES[0].name);
-  const validNames = players.map(p => p.trim()).filter(Boolean);
-  const canStart = validNames.length > 0;
+  const validPlayers = players.filter(p => (p.name || '').trim());
+  const canStart = validPlayers.length > 0;
 
-  const setName = (i, v) => setPlayers(p => p.map((x, j) => j === i ? v : x));
-  const addPlayer = () => players.length < maxPlayers && setPlayers(p => [...p, `Spieler ${p.length + 1}`]);
+  const setName = (i, v) =>
+    setPlayers(p => p.map((x, j) => j === i ? { ...x, name: v } : x));
+  const setHandicap = (i, v) => {
+    const n = v === '' ? '' : Math.max(0, Math.min(54, Math.round(Number(v) || 0)));
+    setPlayers(p => p.map((x, j) => j === i ? { ...x, handicap: n } : x));
+  };
+  const addPlayer = () =>
+    players.length < maxPlayers && setPlayers(p => [...p, { name: `Spieler ${p.length + 1}`, handicap: DEFAULT_HCP }]);
   const rmPlayer = (i) => setPlayers(p => p.filter((_, j) => j !== i));
 
   const findNearby = () => {
@@ -1721,10 +1747,13 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
 
   const start = () => {
     if (!canStart) return;
-    const names = players.map(p => p.trim()).filter(Boolean);
     const resolvedCourse = isNearby ? nearbyCourse : (isCustom ? null : course);
     const pars = buildPars(resolvedCourse, holes);
-    const pl = names.map(n => ({ id: uid(), name: n }));
+    const pl = validPlayers.map(pl => ({
+      id: uid(),
+      name: pl.name.trim(),
+      handicap: Math.max(0, Math.min(54, Math.round(Number(pl.handicap) || 0))),
+    }));
     const scores = {};
     pl.forEach(p => { scores[p.id] = Array(holes).fill(null); });
     onStart({
@@ -1761,21 +1790,41 @@ function SetupScreen({ onStart, onHistory, onBag, hasHistory, hasBag, maxPlayers
         {/* players */}
         <Label style={{ marginBottom: 10 }}>Wer spielt mit?</Label>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 12 }}>
-          {players.map((name, i) => (
+          {players.map((p, i) => (
             <div key={i} style={{
-              display: 'flex', alignItems: 'center', gap: 12, background: 'var(--surface)',
+              display: 'flex', alignItems: 'center', gap: 10, background: 'var(--surface)',
               borderRadius: 16, padding: '8px 8px 8px 14px', boxShadow: 'var(--shadow-sm)',
             }}>
-              <Avatar name={name} i={i} />
-              <input value={name} onChange={e => setName(i, e.target.value)} placeholder={`Spieler ${i + 1}`}
+              <Avatar name={p.name} i={i} />
+              <input value={p.name} onChange={e => setName(i, e.target.value)} placeholder={`Spieler ${i + 1}`}
                 style={{
-                  flex: 1, border: 'none', background: 'transparent', outline: 'none',
+                  flex: 1, minWidth: 0, border: 'none', background: 'transparent', outline: 'none',
                   fontFamily: 'var(--font)', fontWeight: 700, fontSize: 16, color: 'var(--ink)',
                 }} />
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: 4, flexShrink: 0,
+                background: 'var(--surface-2)', borderRadius: 10, padding: '4px 8px',
+              }}>
+                <span style={{
+                  fontSize: 10, fontWeight: 800, color: 'var(--ink-faint)',
+                  letterSpacing: '.08em', textTransform: 'uppercase',
+                }}>HCP</span>
+                <input type="number" inputMode="numeric" min={0} max={54} step={1}
+                  value={p.handicap}
+                  onChange={e => setHandicap(i, e.target.value)}
+                  onBlur={e => { if (e.target.value === '') setHandicap(i, DEFAULT_HCP); }}
+                  aria-label="Handicap"
+                  style={{
+                    width: 32, textAlign: 'right', border: 'none', background: 'transparent',
+                    outline: 'none', fontFamily: 'var(--font)', fontWeight: 800, fontSize: 14,
+                    color: 'var(--ink)', padding: 0, MozAppearance: 'textfield',
+                  }} />
+              </div>
               {players.length > 1 && (
                 <button onClick={() => rmPlayer(i)} style={{
                   width: 34, height: 34, borderRadius: '50%', border: 'none', cursor: 'pointer',
                   background: 'var(--surface-2)', color: 'var(--ink-faint)', display: 'grid', placeItems: 'center',
+                  flexShrink: 0,
                 }}><Icon name="x" size={16} sw={2.4} /></button>
               )}
             </div>
@@ -2093,7 +2142,7 @@ function HoleView({ round, h, par, setScore, setPar, setHole, isAdvanced, clubs,
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {round.players.map((p, i) => {
           const sc = round.scores[p.id];
-          const t = totals(sc, round.pars);
+          const t = totals(sc, round.pars, p.handicap, round.holes);
           const cur = sc[h];
           return (
             <div key={p.id} className="gg-pop" style={{
@@ -2194,7 +2243,7 @@ function CardView({ round, onPick }) {
           </div>
           <div style={{ flex: 1, display: 'flex', gap: 4, justifyContent: 'flex-end' }}>
             {cols.map(p => {
-              const t = totals(round.scores[p.id], round.pars);
+              const t = totals(round.scores[p.id], round.pars, p.handicap, round.holes);
               return (
                 <div key={p.id} className="tnum" style={{ width: cellW, textAlign: 'center', fontWeight: 900, fontSize: 17 }}>
                   {t.strokes || '–'}
@@ -2220,7 +2269,7 @@ const { useState: useSs } = React;
 
 function standings(round) {
   const rows = round.players.map((p, i) => {
-    const t = totals(round.scores[p.id], round.pars);
+    const t = totals(round.scores[p.id], round.pars, p.handicap, round.holes);
     return { ...p, i, ...t };
   });
   // rank: stableford → higher better; else strokes → lower better
