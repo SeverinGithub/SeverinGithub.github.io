@@ -1,17 +1,20 @@
 import { Link } from "@tanstack/react-router";
+
+import { useT } from "#/lib/i18n";
 import { useBrand } from "#/lib/store";
 
 export function SiteFooter() {
   const brand = useBrand();
+  const t = useT();
   return (
-    <footer className="border-t border-[#1a1916]/15 px-4 py-10 md:px-10">
-      <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
-        <p className="text-2xl tracking-tight">{brand.title}</p>
-        <nav className="flex flex-wrap gap-6 text-sm">
-          <Link to="/shop">Shop</Link>
-          <Link to="/about">About</Link>
-        </nav>
-        <p className="text-xs opacity-60">© {new Date().getFullYear()}, {brand.title}</p>
+    <footer className="wrap site-footer">
+      <div className="foot meta">
+        <span>© {new Date().getFullYear()} {brand.title}</span>
+        <ul>
+          <li><Link to="/" hash="katalog">{t.nav_catalog}</Link></li>
+          <li><Link to="/about">{t.nav_about}</Link></li>
+          <li><Link to="/" hash="faq">{t.nav_faq}</Link></li>
+        </ul>
       </div>
     </footer>
   );

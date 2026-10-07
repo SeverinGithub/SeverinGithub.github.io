@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
+import { useT } from "#/lib/i18n";
 import { confirmCheckoutSession, createCheckoutSession } from "#/lib/server-fns";
 
 const ELEMENTS_SRC = "https://js.whop.cloud/elements/amber/elements.js";
@@ -42,6 +43,7 @@ function loadScript(src: string) {
 }
 
 export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheckoutProps) {
+  const t = useT();
   const brandingRef = useRef<HTMLDivElement>(null);
   const emailRef = useRef<HTMLDivElement>(null);
   const cardNumberRef = useRef<HTMLDivElement>(null);
@@ -184,26 +186,27 @@ export function ElementsCheckout({ planId, accountId, returnUrl }: ElementsCheck
   const readyToPay = mounted && emailValue.complete && cardComplete && !submitting;
 
   return (
-    <div>
-      {error ? <p className="mb-4 text-sm text-red-700">{error}</p> : null}
-      {!mounted && !error ? <p className="py-8 text-center text-sm text-neutral-500">Loading checkout…</p> : null}
+    <div className="elements">
+      {error ? <p className="co-error">{error}</p> : null}
+      {!mounted && !error ? <p className="co-loading">{t.co_loading}</p> : null}
       <div hidden={!mounted}>
-        <div className="min-h-12" ref={cardNumberRef} />
-        <div className="mt-3 grid grid-cols-2 gap-3">
-          <div className="min-h-12" ref={cardExpiryRef} />
-          <div className="min-h-12" ref={cardCvcRef} />
+        <div className="el-slot" ref={cardNumberRef} />
+        <div className="el-pair">
+          <div className="el-slot" ref={cardExpiryRef} />
+          <div className="el-slot" ref={cardCvcRef} />
         </div>
-        <p className="mt-6 mb-2 text-xs uppercase tracking-[0.16em] text-[#1a1916]/50">Receipt</p>
-        <div className="min-h-14" ref={emailRef} />
+        <p className="meta el-label">{t.co_receipt}</p>
+        <div className="el-slot" ref={emailRef} />
         <button
           type="button"
-          className="mt-6 w-full bg-black py-3 text-sm text-white disabled:opacity-40"
+          className="btn btn-accent"
+          style={{ width: "100%", marginTop: 24 }}
           disabled={!readyToPay}
           onClick={onCompletePurchase}
         >
-          {submitting ? "Working…" : "Pay now"}
+          {submitting ? t.co_working : t.co_pay}
         </button>
-        <div className="mt-4 min-h-5" ref={brandingRef} />
+        <div className="el-brand" ref={brandingRef} />
       </div>
     </div>
   );

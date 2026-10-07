@@ -19,7 +19,7 @@ export function ExpressCheckout({ planId, theme }: ExpressCheckoutProps) {
   if (!returnUrl || hidden) return null;
 
   return (
-    <div className="mt-3 w-full">
+    <div className="express">
       <WhopExpressCheckoutButton
         planId={planId}
         theme={theme}

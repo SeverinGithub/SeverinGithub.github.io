@@ -1,22 +1,28 @@
-import { useBrand } from "#/lib/store";
 import { createFileRoute } from "@tanstack/react-router";
 
+import { Dot } from "#/components/dot";
+import { useT } from "#/lib/i18n";
 
 export const Route = createFileRoute("/about")({
   component: AboutPage,
 });
 
 function AboutPage() {
-  const brand = useBrand();
+  const t = useT();
   return (
-    <div>
-      <img src="/hero.jpg" alt="" className="max-h-[60vh] w-full object-cover" />
-      <div className="mx-auto max-w-2xl px-4 py-16">
-        <h1 className="text-4xl">About {brand.title}</h1>
-        <p className="mt-6 text-[#1a1916]/65">
-          A press for books, magazines, and printed matter.
-        </p>
+    <section className="wrap page" aria-labelledby="about-title">
+      <div className="sec-head" style={{ paddingTop: 0, marginBottom: 28 }}>
+        <span className="meta">{t.about_k}</span>
       </div>
-    </div>
+      <div className="news" style={{ paddingTop: 0 }}>
+        <h1 id="about-title" className="big-h">{t.about_h}<Dot /></h1>
+        <div className="done-side"><p>{t.about_p}</p></div>
+      </div>
+      <ul className="principles section-gap">
+        <li><span className="meta">A</span><h3>{t.p1h}<Dot /></h3><p>{t.p1p}</p></li>
+        <li><span className="meta">B</span><h3>{t.p2h}<Dot /></h3><p>{t.p2p}</p></li>
+        <li><span className="meta">C</span><h3>{t.p3h}<Dot /></h3><p>{t.p3p}</p></li>
+      </ul>
+    </section>
   );
 }
