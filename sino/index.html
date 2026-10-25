@@ -89,13 +89,6 @@
     .top nav { display: flex; gap: 28px; }
     .top nav a { text-decoration: none; opacity: 0.75; transition: opacity .2s; }
     .top nav a:hover { opacity: 1; }
-    .top .lang { justify-self: end; display: flex; gap: 10px; }
-    .top .lang button {
-      background: none; border: 0; color: inherit; cursor: pointer;
-      font: inherit; letter-spacing: inherit; text-transform: inherit;
-      opacity: 0.45; padding: 4px 0;
-    }
-    .top .lang button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: 4px; }
 
     /* ── Hero ─────────────────────────────── */
     .hero {
@@ -474,10 +467,6 @@
       <a href="#about" data-i18n="nav-about">Über</a>
       <a href="#contact" data-i18n="nav-contact">Booking</a>
     </nav>
-    <div class="lang">
-      <button type="button" data-lang="de" aria-pressed="true">DE</button>
-      <button type="button" data-lang="en" aria-pressed="false">EN</button>
-    </div>
   </header>
 
   <main id="top">
@@ -739,22 +728,12 @@
         const k = el.dataset.i18n;
         if (t[k] !== undefined) el.textContent = t[k];
       });
-      document.querySelectorAll(".lang button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.lang === l));
       splitHeads();
       renderSets();
       renderGrid();
       renderReach();
-      try { localStorage.setItem("sino-lang", l); } catch (e) {}
     }
-    document.querySelectorAll(".lang button").forEach((b) => b.addEventListener("click", () => setLang(b.dataset.lang)));
-
-    let initial = "de";
-    try {
-      const saved = localStorage.getItem("sino-lang");
-      if (saved === "de" || saved === "en") initial = saved;
-      else if ((navigator.language || "").toLowerCase().startsWith("en")) initial = "en";
-    } catch (e) {}
-    setLang(initial);
+    setLang("de");
     $("heroName").style.setProperty("--d", ".15s");
     play($("heroName"));
     observe();
