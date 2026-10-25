@@ -127,20 +127,6 @@
         repeating-linear-gradient(90deg, transparent 0 calc(25% - 1px), var(--line) calc(25% - 1px) 25%),
         var(--ink);
     }
-    .hero-meta {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: var(--gutter);
-      padding: 0 var(--gutter) 14px;
-      color: var(--paper);
-    }
-    .hero-meta span:last-child { text-align: right; }
-    .status::before {
-      content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
-      background: var(--accent); margin-right: 8px; vertical-align: 1px;
-      animation: blink 1.6s steps(2, start) infinite;
-    }
-    @keyframes blink { to { visibility: hidden; } }
     .hero h1 {
       font-weight: 900;
       font-stretch: 125%;
@@ -201,7 +187,7 @@
     .sec-head .mono { color: var(--mute); }
     .sec-head .mono b { color: var(--accent); font-weight: 500; }
     .sec-head h2 {
-      grid-column: 2 / -1;
+      grid-column: 1 / -1;
       font-weight: 800;
       font-stretch: 62%;
       font-size: clamp(44px, 8.5vw, 132px);
@@ -286,13 +272,6 @@
       transition: transform 1.2s cubic-bezier(.2,.8,.1,1);
     }
     .tile:hover img, .tile:focus-visible img { transform: scale(1.06); }
-    .tile .num, .tile .cap {
-      position: absolute; left: 12px; color: #fff;
-      mix-blend-mode: difference;
-    }
-    .tile .num { top: 12px; }
-    .tile .cap { bottom: 12px; right: 12px; opacity: 0; transform: translateY(6px); transition: .35s; }
-    .tile:hover .cap, .tile:focus-visible .cap { opacity: 1; transform: none; }
     .tile:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
     .tile.empty {
       cursor: default;
@@ -303,7 +282,6 @@
       color: var(--mute);
       border: 1px dashed var(--line);
     }
-    .tile.empty .num { color: var(--mute); mix-blend-mode: normal; }
 
     /* ── About ────────────────────────────── */
     .about-body {
@@ -352,7 +330,6 @@
       line-height: 1.15;
       padding: 28px 0 40px;
       max-width: 22ch;
-      margin-left: 25%;
     }
     .reach {
       display: grid;
@@ -392,8 +369,6 @@
     .card:hover::before, .card:focus-visible::before { transform: none; }
     .card:hover, .card:focus-visible { color: var(--ink); outline: none; }
     .card-top { display: flex; justify-content: space-between; align-items: flex-start; }
-    .card-top .mono { color: var(--mute); transition: color .3s; }
-    .card:hover .card-top .mono, .card:focus-visible .card-top .mono { color: var(--ink); }
     .card svg {
       width: clamp(44px, 4.6vw, 68px); height: auto;
       transition: transform .5s cubic-bezier(.2,.8,.1,1);
@@ -414,11 +389,8 @@
       letter-spacing: -0.01em;
       overflow-wrap: anywhere;
     }
-    .card-sub { color: var(--mute); transition: color .3s; }
-    .card:hover .card-sub, .card:focus-visible .card-sub { color: var(--ink); }
     .card.copied::before { transform: none; }
     .card.copied { color: var(--ink); }
-    .card.copied .card-sub, .card.copied .card-top .mono { color: var(--ink); }
 
     /* ── Footer ───────────────────────────── */
     footer {
@@ -461,9 +433,6 @@
     @media (max-width: 760px) {
       .top { grid-template-columns: 1fr auto; }
       .top nav { display: none; }
-      .hero-meta { display: flex; flex-wrap: wrap; justify-content: space-between; row-gap: 6px; }
-      .hero-meta span:nth-child(3) { display: none; }
-      .hero-meta span:nth-child(2) { order: 3; width: 100%; }
       .lb-nav-label { display: none; }
       .sec-head { grid-template-columns: 1fr; gap: 14px; }
       .sec-head h2 { grid-column: auto; }
@@ -481,11 +450,10 @@
       .card:last-child { border-bottom: 0; }
       .card-top { display: contents; }
       .card svg { grid-row: 1 / span 2; align-self: center; width: 44px; }
-      .card-top .mono { grid-column: 2; grid-row: 1; }
       .card-arrow { position: absolute; right: var(--gutter); top: 50%; transform: translateY(-50%); }
       .card:hover .card-arrow { transform: translateY(-50%); }
       .card-handle { grid-column: 2; font-size: 24px; padding-right: 32px; }
-      .card-sub { display: none; }
+      .card-handle { grid-row: 1 / span 2; align-self: center; }
       footer { grid-template-columns: 1fr 1fr; row-gap: 16px; }
       footer .links { grid-column: 1 / -1; grid-row: 1; }
     }
@@ -514,12 +482,6 @@
 
   <main id="top">
     <div class="hero" id="hero">
-      <div class="hero-meta mono">
-        <span class="status" data-i18n="status">Booking offen</span>
-        <span data-i18n="genres">House &amp; christliche Musik</span>
-        <span data-i18n="intro">Für den Tanz und für die Stille.</span>
-        <span data-i18n="role">DJ / Producer</span>
-      </div>
       <div class="hero-clip"><h1 id="heroName" aria-label="Sino">Sino</h1></div>
     </div>
 
@@ -527,7 +489,6 @@
 
     <section class="sets" id="sets">
       <div class="sec-head rv">
-        <span class="mono"><b>(01)</b> <span data-i18n="sets-label">Sets</span></span>
         <h2 data-i18n="sets-title">Wo ich gespielt habe</h2>
       </div>
       <ol id="setList"></ol>
@@ -535,7 +496,6 @@
 
     <section class="photos" id="photos">
       <div class="sec-head rv">
-        <span class="mono"><b>(02)</b> <span data-i18n="photos-label">Bilder</span> — <span id="photoCount">0</span></span>
         <h2 data-i18n="photos-title">Aus den Sets</h2>
       </div>
       <div class="grid" id="grid"></div>
@@ -543,7 +503,6 @@
 
     <section class="about" id="about">
       <div class="sec-head rv">
-        <span class="mono"><b>(03)</b> <span data-i18n="about-label">Über</span></span>
         <h2 data-site="name">Sino</h2>
       </div>
       <div class="about-body">
@@ -557,7 +516,6 @@
 
     <section class="contact" id="contact">
       <div class="sec-head rv">
-        <span class="mono"><b>(04)</b> <span data-i18n="contact-label">Booking &amp; Kontakt</span></span>
         <h2 data-i18n="nav-contact">Booking</h2>
       </div>
       <p class="contact-title rv" data-i18n="contact-title"></p>
@@ -573,13 +531,13 @@
 
   <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto">
     <div class="lb-bar mono">
-      <span id="lbCount"></span>
+      <span></span>
       <button type="button" id="lbClose" data-i18n="close">Schließen</button>
     </div>
     <div class="lb-stage"><img id="lbImg" alt=""></div>
     <div class="lb-bar">
       <button type="button" id="lbPrev">← <span class="lb-nav-label" data-i18n="prev">Vorheriges Bild</span></button>
-      <span class="mono" id="lbCap"></span>
+      <span></span>
       <button type="button" id="lbNext"><span class="lb-nav-label" data-i18n="next">Nächstes Bild</span> →</button>
     </div>
   </div>
@@ -649,7 +607,7 @@
         const d = s.date ? new Date(s.date + "T12:00:00") : null;
         const date = !d ? "" : isNaN(d) ? esc(s.date) : esc(fmt.format(d).replace(/\./g, ""));
         const badge = s.upcoming ? `<span class="badge mono">${esc(S.text[lang].upcoming)}</span>` : "";
-        const link = s.link ? `<a class="set-link mono" href="${esc(s.link)}" target="_blank" rel="noopener">${esc(S.text[lang].listen)} ↗</a>` : `<span class="mono set-link" style="color:var(--mute)">${pad(S.sets.length - i)}</span>`;
+        const link = s.link ? `<a class="set-link mono" href="${esc(s.link)}" target="_blank" rel="noopener">${esc(S.text[lang].listen)} ↗</a>` : "";
         const promo = s.promo && s.promo.url ? `<a class="promo mono" href="${esc(s.promo.url)}" target="_blank" rel="noopener">${esc(s.promo.label)} — ${esc(S.text[lang]["promo-cta"])} ↗</a>` : "";
         return `<li class="set rv">
           <span class="set-date mono">${date}</span>
@@ -663,19 +621,16 @@
 
     // Bildergalerie
     function renderGrid() {
-      $("photoCount").textContent = pad(G.length);
       if (!G.length) {
         const sizes = ["big", "", "tall", "", "wide", "", "", "wide"];
         $("grid").innerHTML = sizes.map((s, i) =>
-          `<div class="tile empty ${s}"><span class="num mono">${pad(i + 1)}</span><span class="mono" data-i18n="empty">${esc(S.text[lang].empty)}</span></div>`
+          `<div class="tile empty ${s}"><span class="mono" data-i18n="empty">${esc(S.text[lang].empty)}</span></div>`
         ).join("");
         return;
       }
       $("grid").innerHTML = G.map((p, i) =>
         `<button type="button" class="tile rv ${esc(p.size)}" data-i="${i}" aria-label="${esc(p.caption || "Foto " + (i + 1))}">
           <img src="${src(p.file)}" alt="${esc(p.caption)}" loading="lazy" decoding="async"${p.pos ? ` style="object-position:${esc(p.pos)}"` : ""}>
-          <span class="num mono">${pad(i + 1)}</span>
-          ${p.caption ? `<span class="cap mono">${esc(p.caption)}</span>` : ""}
         </button>`
       ).join("");
       $("grid").querySelectorAll(".tile").forEach((t) => t.addEventListener("click", () => openLb(+t.dataset.i)));
@@ -706,16 +661,14 @@
       const t = S.text[lang];
       const cards = socials.map(([k, u]) =>
         `<a class="card" href="${esc(u)}" target="_blank" rel="noopener">
-          <span class="card-top">${ICONS[k] || ""}<span class="mono">${esc(NAMES[k] || k)}</span></span>
+          <span class="card-top">${ICONS[k] || ""}</span>
           <span class="card-handle">${esc(handleOf(k, u))}</span>
-          <span class="card-sub mono">${esc(k === "instagram" ? t.follow : t.listen)}</span>
           <span class="card-arrow" aria-hidden="true">↗</span>
         </a>`);
       cards.push(
-        `<button type="button" class="card" id="mailCard">
-          <span class="card-top">${ICONS.mail}<span class="mono">E-Mail</span></span>
-          <span class="card-handle">${esc(S.email)}</span>
-          <span class="card-sub mono" id="mailSub">${esc(t.copy)}</span>
+        `<button type="button" class="card" id="mailCard" aria-label="${esc(t.copy)}: ${esc(S.email)}">
+          <span class="card-top">${ICONS.mail}</span>
+          <span class="card-handle" id="mailHandle">${esc(S.email)}</span>
           <span class="card-arrow" aria-hidden="true">⧉</span>
         </button>`);
       $("reach").innerHTML = cards.join("");
@@ -732,11 +685,11 @@
         return;
       }
       card.classList.add("copied");
-      $("mailSub").textContent = S.text[lang].copied;
+      $("mailHandle").textContent = S.text[lang].copied;
       clearTimeout(copyTimer);
       copyTimer = setTimeout(() => {
         card.classList.remove("copied");
-        $("mailSub").textContent = S.text[lang].copy;
+        $("mailHandle").textContent = S.email;
       }, 2200);
     }
 
@@ -751,8 +704,6 @@
       const p = G[cur];
       $("lbImg").src = src(p.file);
       $("lbImg").alt = p.caption || "";
-      $("lbCap").textContent = p.caption || "";
-      $("lbCount").textContent = `${pad(cur + 1)} / ${pad(G.length)}`;
     }
     function openLb(i) { cur = i; showLb(); $("lb").classList.add("open"); document.body.style.overflow = "hidden"; $("lbClose").focus(); }
     function closeLb() { $("lb").classList.remove("open"); document.body.style.overflow = ""; const t = document.querySelector(`.tile[data-i="${cur}"]`); t && t.focus(); }
