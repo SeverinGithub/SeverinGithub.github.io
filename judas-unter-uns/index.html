@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0f1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); box-sizing: border-box; }
+body { margin: 0; }
+img { max-width: 100%; }
+[hidden] { display: none !important; }
+</style>
+<title>Judas unter uns</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap">
+<style>
+/* Layout: eine Spalte wie ein Handy-Gesangbuch; Nachtblau-Gewölbe, Blattgold für Rollen, Pergament für die aufgedeckte Karte. Bewusst nur ein (Nacht-)Thema. */
+:root {
+  --night: #0c0f1e;
+  --vault: #161b33;
+  --vault-2: #1f2545;
+  --line: #2e3560;
+  --gold: #d6ad55;
+  --gold-soft: #a8843d;
+  --parch: #f1e6cc;
+  --parch-ink: #2a2116;
+  --muted: #9a98b4;
+  --ember: #d0624a;
+  --olive: #9db577;
+  --display: "Cinzel", "Trajan Pro", Georgia, serif;
+  --body: "EB Garamond", Garamond, "Times New Roman", serif;
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background-color: var(--night);
+  background-image:
+    radial-gradient(1px 1px at 12% 18%, rgba(241,230,204,.5) 50%, transparent 51%),
+    radial-gradient(1px 1px at 78% 9%, rgba(241,230,204,.4) 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 55% 26%, rgba(241,230,204,.35) 50%, transparent 51%),
+    radial-gradient(1px 1px at 90% 40%, rgba(241,230,204,.3) 50%, transparent 51%),
+    radial-gradient(1px 1px at 30% 6%, rgba(241,230,204,.45) 50%, transparent 51%),
+    radial-gradient(120% 60% at 50% 0%, #1b2146 0%, transparent 70%);
+  background-attachment: fixed;
+  color: var(--parch);
+  font-family: var(--body);
+  font-size: 18px;
+  line-height: 1.45;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+#app {
+  max-width: 520px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 28px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+h1, h2, h3 { font-family: var(--display); font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: .04em; }
+h1 { font-size: 2.1rem; line-height: 1.1; color: var(--gold); }
+h2 { font-size: 1.35rem; color: var(--gold); }
+h3 { font-size: 1rem; }
+p { margin: 0; }
+.eyebrow { font-family: var(--display); font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.lede { color: var(--muted); font-size: 1.05rem; }
+.stack { display: flex; flex-direction: column; gap: 12px; }
+.row { display: flex; align-items: center; gap: 12px; }
+.spacer { flex: 1; }
+
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 54px; padding: 12px 18px; border-radius: 14px;
+  border: 1px solid var(--gold); background: var(--gold); color: var(--night);
+  font-family: var(--display); font-weight: 700; font-size: 1rem; letter-spacing: .06em;
+}
+.btn:disabled { opacity: .35; cursor: default; }
+.btn.ghost { background: transparent; color: var(--gold); }
+.btn.quiet { background: transparent; border-color: var(--line); color: var(--muted); font-size: .85rem; min-height: 44px; }
+.btn.danger { background: transparent; border-color: var(--ember); color: var(--ember); font-size: .85rem; min-height: 44px; }
+.chip-btn { border: 1px solid var(--line); background: var(--vault); border-radius: 999px; padding: 6px 12px; font-family: var(--display); font-size: .72rem; letter-spacing: .1em; color: var(--muted); }
+
+.panel { background: var(--vault); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+
+/* Stepper */
+.stepper { display: flex; align-items: center; gap: 4px; }
+.stepper button { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--vault-2); font-size: 1.3rem; line-height: 1; color: var(--gold); }
+.stepper button:disabled { opacity: .3; cursor: default; }
+.stepper output { min-width: 2ch; text-align: center; font-family: var(--display); font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+
+.names { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.names label { display: flex; align-items: center; gap: 8px; background: var(--vault-2); border: 1px solid var(--line); border-radius: 12px; padding: 0 10px; min-width: 0; }
+.names span { font-family: var(--display); font-size: .7rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.names input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--parch); font: inherit; font-size: 1rem; padding: 10px 0; }
+.names input:focus-visible { outline: none; }
+.names label:focus-within { border-color: var(--gold); }
+
+.role-row { display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+.role-row:first-of-type { border-top: 0; }
+.role-row .ico { width: 44px; height: 44px; color: var(--gold); }
+.role-row .meta { min-width: 0; }
+.role-row .meta b { font-family: var(--display); font-weight: 700; font-size: .98rem; letter-spacing: .04em; display: block; }
+.role-row .meta small { color: var(--muted); font-size: .92rem; display: block; line-height: 1.3; }
+.role-row .meta .rdesc-s { font-size: .98rem; line-height: 1.35; margin-top: 4px; }
+.role-row { align-items: start; }
+.ico svg { width: 100%; height: 100%; display: block; }
+.team-v { color: var(--ember); }
+.team-g { color: var(--olive); }
+
+.warn { color: var(--ember); font-size: .98rem; }
+.sticky-foot { position: sticky; bottom: 0; padding-block: 12px calc(8px + env(safe-area-inset-bottom, 0px)); background: linear-gradient(transparent, var(--night) 30%); display: flex; flex-direction: column; gap: 8px; }
+
+/* ---------- Kartenausgabe ---------- */
+.deal { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 14px; text-align: center; }
+.deal .who { font-family: var(--display); font-size: clamp(1.8rem, 9vw, 2.6rem); color: var(--parch); line-height: 1.05; overflow-wrap: anywhere; }
+.stage { position: relative; width: min(100%, 300px, calc(54dvh * .714)); aspect-ratio: 5 / 7; max-width: 100%; margin-top: 6px; perspective: 900px; }
+.face, .cover { position: absolute; inset: 0; border-radius: 20px; }
+.face {
+  inset: 4px; visibility: hidden;
+  background: var(--parch); color: var(--parch-ink);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  padding: 18px 16px; box-sizing: border-box; text-align: center;
+  box-shadow: inset 0 0 0 2px var(--gold-soft), inset 0 0 0 7px var(--parch), inset 0 0 0 8px var(--gold-soft);
+}
+.face.on { visibility: visible; }
+.face .team { font-family: var(--display); font-size: .66rem; letter-spacing: .2em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1px solid currentColor; }
+.face .team.v { color: #8e2f1c; }
+.face .team.g { color: #4d6630; }
+.face .ico { width: 30%; aspect-ratio: 1; color: #8a6420; margin-block: 4px; }
+.face .rname { font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 8vw, 2.1rem); line-height: 1; letter-spacing: .05em; }
+.face .rsub { font-style: italic; font-size: 1.05rem; color: #5b4a33; }
+.face .rdesc { font-size: .98rem; line-height: 1.3; max-width: 30ch; }
+.face .rref { font-family: var(--display); font-size: .68rem; letter-spacing: .12em; color: #7d6a4b; margin-top: 2px; }
+.face .partners { font-size: .95rem; font-weight: 600; color: #8e2f1c; }
+
+.cover {
+  z-index: 2; touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab;
+  background:
+    repeating-linear-gradient(45deg, rgba(214,173,85,.06) 0 2px, transparent 2px 12px),
+    repeating-linear-gradient(-45deg, rgba(214,173,85,.06) 0 2px, transparent 2px 12px),
+    linear-gradient(160deg, #232a55, #121633 70%);
+  box-shadow: 0 18px 40px rgba(0,0,0,.55), inset 0 0 0 2px var(--gold), inset 0 0 0 9px #161b3a, inset 0 0 0 10px var(--gold-soft);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  color: var(--gold); transform-origin: 50% 100%;
+  will-change: transform;
+}
+.cover:active { cursor: grabbing; }
+.cover:focus-visible { outline: 2px solid var(--parch); outline-offset: 4px; }
+.cover .emblem { width: 42%; aspect-ratio: 1; }
+.cover .emblem svg { width: 100%; height: 100%; }
+.cover .swipe { font-family: var(--display); font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.chev { width: 22px; height: 22px; animation: rise 1.8s ease-in-out infinite; }
+.chev:nth-child(2) { animation-delay: .15s; opacity: .6; margin-top: -14px; }
+@keyframes rise { 0%, 100% { transform: translateY(4px); opacity: .3; } 50% { transform: translateY(-4px); opacity: 1; } }
+.deal-hint { color: var(--muted); font-size: 1rem; min-height: 1.5em; }
+.deal-foot { width: 100%; margin-top: auto; display: flex; flex-direction: column; gap: 8px; padding-bottom: env(safe-area-inset-bottom, 0px); }
+.progress { display: flex; gap: 4px; justify-content: center; flex-wrap: wrap; }
+.progress i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.progress i.done { background: var(--gold-soft); }
+.progress i.now { background: var(--gold); box-shadow: 0 0 0 3px rgba(214,173,85,.25); }
+
+/* ---------- Erzähler ---------- */
+.nar-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.nar-head .eyebrow { flex: 1; }
+.lectern { background: linear-gradient(180deg, var(--vault-2), var(--vault)); border: 1px solid var(--line); border-left: 3px solid var(--gold-soft); border-radius: 6px 16px 16px 6px; padding: 16px 16px 12px; }
+.lectern p { font-style: italic; font-size: 1.12rem; line-height: 1.5; }
+.lectern p + p { margin-top: 8px; }
+.lectern .read { margin-top: 10px; }
+.note { color: var(--muted); font-size: .98rem; }
+.note b { color: var(--parch); font-weight: 600; }
+.picks { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.pick { text-align: left; border: 1px solid var(--line); background: var(--vault); border-radius: 12px; padding: 10px 12px; min-height: 56px; display: flex; flex-direction: column; justify-content: center; gap: 2px; min-width: 0; }
+.pick b { font-weight: 600; font-size: 1.05rem; overflow-wrap: anywhere; }
+.pick small { font-family: var(--display); font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.pick.sel { border-color: var(--gold); background: rgba(214,173,85,.16); box-shadow: inset 0 0 0 1px var(--gold); }
+.pick:disabled { opacity: .35; cursor: default; }
+.toggle { display: flex; align-items: center; gap: 12px; border: 1px solid var(--line); background: var(--vault); border-radius: 14px; padding: 12px 14px; text-align: left; width: 100%; }
+.toggle .box { width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--gold-soft); flex: none; display: grid; place-items: center; color: var(--night); }
+.toggle.on .box { background: var(--gold); border-color: var(--gold); }
+.toggle.on { border-color: var(--gold); }
+.reveal-big { text-align: center; padding: 22px 16px; background: var(--parch); color: var(--parch-ink); border-radius: 18px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.reveal-big .ico { width: 84px; height: 84px; color: #8a6420; }
+.reveal-big .rname { font-family: var(--display); font-weight: 700; font-size: 1.9rem; }
+
+.deaths { display: flex; flex-direction: column; gap: 10px; }
+.death { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; background: var(--vault); border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.death .ico { width: 44px; height: 44px; color: var(--gold); }
+.death b { font-size: 1.15rem; font-weight: 600; }
+.death small { display: block; color: var(--muted); font-size: .95rem; line-height: 1.3; }
+.death .rl { font-family: var(--display); font-size: .78rem; letter-spacing: .08em; }
+.calm { text-align: center; padding: 24px 12px; color: var(--muted); font-style: italic; }
+
+.roster { display: flex; flex-direction: column; }
+.roster .r { display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 9px 0; border-top: 1px solid var(--line); align-items: baseline; }
+.roster .r:first-child { border-top: 0; }
+.roster .r.dead { opacity: .45; text-decoration: line-through; text-decoration-color: var(--ember); }
+.roster .r span:last-child { font-family: var(--display); font-size: .8rem; letter-spacing: .06em; text-align: right; }
+.sheet-wrap { position: fixed; inset: 0; z-index: 20; background: rgba(5,6,14,.7); display: flex; align-items: flex-end; justify-content: center; }
+.sheet { background: var(--night); border: 1px solid var(--line); border-bottom: 0; border-radius: 22px 22px 0 0; width: 100%; max-width: 520px; max-height: 82%; overflow: auto; box-sizing: border-box; padding: 18px max(16px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 14px; }
+
+.end-hero { text-align: center; padding-block: 18px 6px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.end-hero .ico { width: 96px; height: 96px; color: var(--gold); }
+.hero { display: flex; flex-direction: column; gap: 10px; padding-top: 12px; }
+.hero .ico { width: 56px; height: 56px; color: var(--gold); }
+.howto { color: var(--muted); font-size: 1rem; }
+.howto li + li { margin-top: 4px; }
+.howto ol { margin: 6px 0 0; padding-left: 1.3em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .chev { animation: none; }
+  .cover { transition: none !important; }
+}
+</style>
+
+</head>
+<body>
+<main id="app" aria-live="polite"></main>
+
+<script>
+(function () {
+'use strict';
+
+/* ---------- Symbole ---------- */
+const I = {
+  judas: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M24 22c-7 6-11 13-11 21 0 9 8 13 19 13s19-4 19-13c0-8-4-15-11-21"/><path d="M24 14l4 7h8l4-7"/><path d="M23 22h18"/><circle cx="32" cy="41" r="7"/><path d="M32 37v8"/><circle cx="51" cy="14" r="4"/><circle cx="12" cy="18" r="3"/></svg>',
+  juenger: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 20c14 22 34 26 52 12C40 18 20 22 6 44"/><circle cx="44" cy="30" r="1.6" fill="currentColor"/></svg>',
+  daniel: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34c8-11 17-17 26-17s18 6 26 17c-8 11-17 17-26 17S14 45 6 34z"/><circle cx="32" cy="34" r="8"/><circle cx="32" cy="34" r="2.6" fill="currentColor"/><path d="M32 6v6M18 9l3 5M46 9l-3 5"/></svg>',
+  elia: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 6c5 11 14 16 14 29a14 14 0 0 1-28 0c0-8 4-12 8-16 0 6 2 10 6 10 0-8-5-13 0-23z"/><path d="M26 58h12"/></svg>',
+  simson: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 12h16M13 12v40M23 12v40M8 52h20"/><path d="M38 18l14-4M41 17l3 14M50 15l1 9M43 36l1 16M52 32l1 20M38 52h18"/><path d="M44 31l6 3"/></svg>',
+  michael: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 8v38M26 44h12M32 46v10"/><path d="M28 20C18 14 8 18 5 30c6-2 12-2 18 2-4 4-6 8-6 14 4-6 8-8 11-10"/><path d="M36 20c10-6 20-2 23 10-6-2-12-2-18 2 4 4 6 8 6 14-4-6-8-8-11-10"/></svg>',
+  elieser: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="38" r="12"/><circle cx="40" cy="38" r="12"/><path d="M27 18l5-8 5 8z"/></svg>',
+  zachaeus: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 58V32M32 42l-8-6M32 38l9-8"/><path d="M32 6C20 6 12 14 12 22c0 7 6 11 12 11h16c6 0 12-4 12-11 0-8-8-16-20-16z"/><circle cx="40" cy="19" r="3"/></svg>',
+  methusalem: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 8h30M17 56h30M22 8c0 14 10 18 10 24S22 42 22 56M42 8c0 14-10 18-10 24s10 10 10 24"/><path d="M27 52h10l-5-6z" fill="currentColor"/></svg>',
+  emblem: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="32" cy="32" r="28"/><circle cx="32" cy="32" r="23" stroke-dasharray="1.5 4"/><path d="M32 12v40M21 24h22"/></svg>',
+  chev: '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 15l7-7 7 7"/></svg>',
+  check: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>'
+};
+
+/* ---------- Rollen ---------- */
+const ROLES = {
+  judas:      { name: 'Judas',      sub: 'Der Verräter',     team: 'v', ref: 'Mt 26,15', max: 6,
+                desc: 'Ihr erwacht jede Nacht gemeinsam und wählt einen Menschen, den ihr verratet. Am Tag spielt ihr die Unschuldigen.' },
+  daniel:     { name: 'Daniel',     sub: 'Der Seher',        team: 'g', ref: 'Dan 2,19',
+                desc: 'Jede Nacht offenbart dir Gott die wahre Rolle eines Mitspielers.' },
+  elia:       { name: 'Elia',       sub: 'Der Prophet',      team: 'g', ref: '1 Kön 17,22 · 2 Kön 1,10',
+                desc: 'Einmal im Spiel holst du ein Opfer der Nacht ins Leben zurück. Einmal lässt du Feuer vom Himmel fallen.' },
+  michael:    { name: 'Michael',    sub: 'Der Erzengel',     team: 'g', ref: 'Dan 12,1',
+                desc: 'Jede Nacht breitest du deine Flügel über einen Menschen und schützt ihn vor Judas. Nie zweimal nacheinander denselben.' },
+  simson:     { name: 'Simson',     sub: 'Der Starke',       team: 'g', ref: 'Ri 16,30',
+                desc: 'Wenn du stirbst, reißt du die Säulen ein und nimmst einen Menschen deiner Wahl mit in den Tod.' },
+  elieser:    { name: 'Eliëser',    sub: 'Der Brautwerber',  team: 'g', ref: '1 Mo 24',
+                desc: 'In der ersten Nacht machst du zwei Menschen zum Liebespaar. Stirbt einer, stirbt der andere aus Kummer.' },
+  zachaeus:   { name: 'Zachäus',    sub: 'Der Neugierige',   team: 'g', ref: 'Lk 19,4',
+                desc: 'Wenn Judas nachts erwacht, darfst du heimlich blinzeln. Lass dich nicht erwischen.' },
+  methusalem: { name: 'Methusalem', sub: 'Der Älteste',      team: 'g', ref: '1 Mo 5,27',
+                desc: 'Dein Leben ist lang: Den ersten Verrat in der Nacht überlebst du.' },
+  juenger:    { name: 'Jünger',     sub: 'Teil der Gemeinde', team: 'g', ref: 'Mt 4,19',
+                desc: 'Du hast keine besondere Gabe. Findet gemeinsam heraus, wer Judas ist, und schickt ihn fort.' }
+};
+const SPECIALS = ['daniel', 'elia', 'michael', 'simson', 'elieser', 'zachaeus', 'methusalem'];
+const CAUSE = {
+  judas: 'wurde in der Nacht verraten',
+  feuer: 'wurde vom Feuer vom Himmel getroffen',
+  kummer: 'starb aus Liebeskummer',
+  abstimmung: 'wurde von der Gemeinde fortgeschickt',
+  simson: 'wurde unter Simsons Säulen begraben'
+};
+const DEFAULT_NAMES = Array.from({ length: 20 }, (_, i) => `Spieler ${i + 1}`);
+const MIN = 4, MAX = 20;
+
+function suggest(n) {
+  return {
+    judas: n <= 6 ? 1 : n <= 11 ? 2 : n <= 16 ? 3 : 4,
+    daniel: 1, elia: n >= 6 ? 1 : 0, simson: n >= 7 ? 1 : 0, michael: n >= 8 ? 1 : 0,
+    elieser: n >= 10 ? 1 : 0, zachaeus: n >= 11 ? 1 : 0, methusalem: n >= 12 ? 1 : 0
+  };
+}
+
+/* ---------- Zustand ---------- */
+const KEY = 'judas-unter-uns-v2';
+let S = load() || { setup: { names: DEFAULT_NAMES.slice(0, 10), counts: suggest(10) }, game: null };
+let ui = { sel: [], confirmEnd: false, roster: false, daniel: false };
+
+function load() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return null; } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {} }
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const G = () => S.game;
+const P = i => G().players[i];
+const alive = () => G().players.map((p, i) => i).filter(i => P(i).alive);
+const nameOf = i => esc(P(i).name);
+const ico = (k, cls = 'ico') => `<span class="${cls}" aria-hidden="true">${I[k]}</span>`;
+
+function specialTotal(c) { return Object.values(c).reduce((a, b) => a + b, 0); }
+
+/* ---------- Spiellogik ---------- */
+function startGame() {
+  const names = S.setup.names.map((n, i) => n.trim() || `Spieler ${i + 1}`);
+  const c = S.setup.counts;
+  const deck = [];
+  for (const k in c) for (let j = 0; j < c[k]; j++) deck.push(k);
+  while (deck.length < names.length) deck.push('juenger');
+  for (let i = deck.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [deck[i], deck[j]] = [deck[j], deck[i]]; }
+  S.game = {
+    players: names.map((name, i) => ({ name, role: deck[i], alive: true })),
+    phase: 'deal', idx: 0, seen: false, nightNo: 0, night: null,
+    lovers: [], heal: true, fire: true, lastProtect: null, methusalemHit: false,
+    simsonPending: [], announce: null, resumeNext: null, winner: null
+  };
+  wakeLock();
+}
+
+function kill(ids, cause) {
+  const g = G(), out = [], q = ids.map(id => ({ id, cause }));
+  while (q.length) {
+    const d = q.shift(), p = P(d.id);
+    if (!p.alive) continue;
+    p.alive = false; out.push(d);
+    if (g.lovers.includes(d.id)) {
+      const o = g.lovers.find(x => x !== d.id);
+      if (P(o).alive) q.push({ id: o, cause: 'kummer' });
+    }
+    if (p.role === 'simson') g.simsonPending.push(d.id);
+  }
+  return out;
+}
+
+function winner() {
+  const g = G(), a = alive();
+  if (!a.length) return 'none';
+  if (g.lovers.length === 2 && a.length === 2 && g.lovers.every(i => P(i).alive) &&
+      ROLES[P(g.lovers[0]).role].team !== ROLES[P(g.lovers[1]).role].team) return 'lovers';
+  const j = a.filter(i => P(i).role === 'judas').length;
+  if (j === 0) return 'g';
+  if (j >= a.length - j) return 'v';
+  return null;
+}
+
+const has = r => alive().some(i => P(i).role === r);
+const holders = r => G().players.map((p, i) => i).filter(i => P(i).role === r);
+
+function startNight() {
+  const g = G();
+  g.nightNo++;
+  const steps = ['dusk'];
+  if (g.nightNo === 1 && has('elieser')) steps.push('elieser', 'lovers');
+  if (has('michael')) steps.push('michael');
+  if (has('daniel')) steps.push('daniel');
+  steps.push('judas');
+  if (has('elia') && (g.heal || g.fire)) steps.push('elia');
+  steps.push('dawn');
+  g.night = { steps, i: 0, victim: null, protect: null, healed: false, fire: null, seer: null };
+  g.phase = 'night';
+  ui.sel = []; ui.daniel = false;
+}
+
+function morning() {
+  const g = G(), n = g.night, ids = [];
+  if (n.victim != null && n.victim !== n.protect && !n.healed) {
+    if (P(n.victim).role === 'methusalem' && !g.methusalemHit) g.methusalemHit = true;
+    else ids.push(n.victim);
+  }
+  const deaths = kill(ids, 'judas');
+  if (n.fire != null) deaths.push(...kill([n.fire], 'feuer'));
+  if (n.protect != null) g.lastProtect = n.protect;
+  g.announce = { title: 'Der Morgen bricht an', lead: 'Alle öffnen die Augen.', deaths, next: 'day', calm: 'In dieser Nacht ist niemand gestorben.' };
+  g.phase = 'announce';
+}
+
+function afterAnnounce() {
+  const g = G(), next = g.announce.next;
+  if (g.simsonPending.length) {
+    g.simsonFrom = g.simsonPending.shift();
+    g.resumeNext = next; g.phase = 'simson'; ui.sel = [];
+    return;
+  }
+  const w = winner();
+  if (w) { g.winner = w; g.phase = 'end'; return; }
+  if (next === 'day') { g.phase = 'day'; ui.sel = []; } else startNight();
+}
+
+/* ---------- Bildschirme ---------- */
+function render() {
+  const g = G();
+  let html;
+  if (!g) html = vSetup();
+  else html = ({ deal: vDeal, dealt: vDealt, overview: vOverview, night: vNight, announce: vAnnounce, simson: vSimson, day: vDay, end: vEnd })[g.phase]();
+  if (g && g.phase !== 'deal' && g.phase !== 'dealt' && ui.roster) html += vRoster();
+  app.innerHTML = html;
+  if (g && g.phase === 'deal') bindCard();
+  save();
+}
+
+function vSetup() {
+  const s = S.setup, n = s.names.length, c = s.counts;
+  const total = specialTotal(c), juenger = n - total;
+  const over = juenger < 0, tooManyJudas = c.judas >= n - c.judas;
+  const roleRow = (k, val, minV, maxV) => `
+    <div class="role-row">
+      ${ico(k)}
+      <div class="meta"><b class="${ROLES[k].team === 'v' ? 'team-v' : ''}">${ROLES[k].name}</b><small>${ROLES[k].sub} · ${ROLES[k].ref}</small><p class="rdesc-s">${ROLES[k].desc}</p></div>
+      <div class="stepper">
+        <button data-a="role-" data-k="${k}" ${val <= minV ? 'disabled' : ''} aria-label="${ROLES[k].name} weniger">−</button>
+        <output>${val}</output>
+        <button data-a="role+" data-k="${k}" ${val >= maxV || juenger <= 0 ? 'disabled' : ''} aria-label="${ROLES[k].name} mehr">+</button>
+      </div>
+    </div>`;
+  return `
+  <header class="hero">
+    ${ico('emblem')}
+    <h1>Judas unter uns</h1>
+    <p class="lede">Werwolf mit biblischen Rollen. Ein Handy geht reihum, jeder sieht heimlich seine Karte, danach führt der Erzähler durch die Nächte.</p>
+  </header>
+
+  <section class="panel stack" aria-labelledby="h-sp">
+    <div class="section-head">
+      <h2 id="h-sp">Spieler</h2>
+      <div class="stepper">
+        <button data-a="n-" ${n <= MIN ? 'disabled' : ''} aria-label="Ein Spieler weniger">−</button>
+        <output>${n}</output>
+        <button data-a="n+" ${n >= MAX ? 'disabled' : ''} aria-label="Ein Spieler mehr">+</button>
+      </div>
+    </div>
+    <p class="note">Ihr seid Spieler 1 bis ${n}, der Reihe nach so, wie ihr sitzt. Der Erzähler spielt nicht mit und zählt nicht dazu.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-ro">
+    <div class="section-head"><h2 id="h-ro">Rollen</h2><button class="chip-btn" data-a="suggest">Vorschlag</button></div>
+    ${roleRow('judas', c.judas, 1, ROLES.judas.max)}
+    ${SPECIALS.map(k => roleRow(k, c[k], 0, 1)).join('')}
+    <div class="role-row">
+      ${ico('juenger')}
+      <div class="meta"><b>Jünger</b><small>Füllen die übrigen Plätze · Mt 4,19</small><p class="rdesc-s">${ROLES.juenger.desc}</p></div>
+      <div class="stepper"><output>${Math.max(0, juenger)}</output></div>
+    </div>
+  </section>
+
+  <section class="howto">
+    <h3 class="eyebrow">So läuft es ab</h3>
+    <ol>
+      <li>Jeder bekommt das Handy, wischt die Karte nach oben und sieht seine Rolle. Loslassen, und die Karte ist wieder zu.</li>
+      <li>Danach geht das Handy an den Erzähler. Die App sagt ihm, was er vorlesen soll, und rechnet aus, wer stirbt.</li>
+      <li>Die Gemeinde gewinnt, wenn jeder Judas fortgeschickt ist. Judas gewinnt, sobald er nicht mehr in der Minderheit ist.</li>
+    </ol>
+  </section>
+
+  <div class="sticky-foot">
+    ${over ? `<p class="warn">Es sind ${total} Sonderrollen für ${n} Spieler. Nimm Rollen heraus oder füge Spieler hinzu.</p>` : tooManyJudas ? `<p class="warn">Zu viele Judas: Sie hätten schon gewonnen.</p>` : ''}
+    <button class="btn" data-a="start" ${over || tooManyJudas ? 'disabled' : ''}>Karten mischen und austeilen</button>
+  </div>`;
+}
+
+function faceHTML(i) {
+  const p = P(i), r = ROLES[p.role], g = G();
+  let extra = '';
+  if (p.role === 'judas') {
+    const others = holders('judas').filter(x => x !== i).map(nameOf);
+    extra = others.length ? `<p class="partners">Mit dir: ${others.join(', ')}</p>` : '';
+  }
+  return `
+    <span class="team ${r.team}">${r.team === 'v' ? 'Die Verräter' : 'Die Gemeinde'}</span>
+    ${ico(p.role)}
+    <div class="rname">${r.name}</div>
+    <div class="rsub">${r.sub}</div>
+    <p class="rdesc">${r.desc}</p>
+    ${extra}
+    <div class="rref">${r.ref}</div>`;
+}
+
+function vDeal() {
+  const g = G(), n = g.players.length, i = g.idx, last = i === n - 1;
+  const nextName = last ? '' : nameOf(i + 1);
+  return `
+  <div class="deal">
+    <div class="progress" aria-label="Karte ${i + 1} von ${n}">${g.players.map((_, k) => `<i class="${k < i ? 'done' : k === i ? 'now' : ''}"></i>`).join('')}</div>
+    <div class="eyebrow">Diese Karte gehört</div>
+    <div class="who">${nameOf(i)}</div>
+    <div class="stage" id="stage">
+      <div class="face" id="face">${faceHTML(i)}</div>
+      <div class="cover" id="cover" tabindex="0" role="button" aria-label="Karte nach oben wischen oder Leertaste gedrückt halten, um die Rolle zu sehen">
+        <div class="emblem">${I.emblem}</div>
+        <div class="swipe">${I.chev}${I.chev}<span>Nach oben wischen</span></div>
+      </div>
+    </div>
+    <p class="deal-hint" id="hint">${g.seen ? 'Gesehen. Merk dir deine Rolle.' : 'Halte die Karte fest und schiebe sie nach oben. Niemand darf zusehen.'}</p>
+    <div class="deal-foot">
+      <button class="btn" id="nextBtn" data-a="nextPlayer" ${g.seen ? '' : 'disabled'}>${last ? 'Fertig: Handy zum Erzähler' : `Weiter, Handy an ${nextName}`}</button>
+      <button class="btn quiet" data-a="abort">Zurück zur Aufstellung</button>
+    </div>
+  </div>`;
+}
+
+function bindCard() {
+  const cover = document.getElementById('cover'), face = document.getElementById('face'), stage = document.getElementById('stage');
+  let startY = 0, dy = 0, drag = false, hideT;
+  const H = () => stage.getBoundingClientRect().height;
+  const set = (v, anim) => {
+    cover.style.transition = anim ? 'transform .45s cubic-bezier(.3,1.4,.5,1)' : 'none';
+    const h = H(), t = Math.max(-h * 1.02, Math.min(0, v));
+    const tilt = Math.min(10, (-t / h) * 14);
+    cover.style.transform = t ? `translateY(${t}px) rotateX(${tilt}deg)` : '';
+  };
+  const show = () => { clearTimeout(hideT); face.classList.add('on'); };
+  const close = () => { set(0, true); hideT = setTimeout(() => face.classList.remove('on'), 460); };
+  const markSeen = () => {
+    const g = G();
+    if (g.seen) return;
+    g.seen = true; save();
+    try { navigator.vibrate && navigator.vibrate(18); } catch (e) {}
+    document.getElementById('nextBtn').disabled = false;
+    document.getElementById('hint').textContent = 'Gesehen. Lass los, dann ist die Karte wieder zu.';
+  };
+  cover.addEventListener('pointerdown', e => {
+    drag = true; startY = e.clientY; dy = 0; show();
+    try { cover.setPointerCapture(e.pointerId); } catch (_) {}
+    set(0, false);
+  });
+  cover.addEventListener('pointermove', e => {
+    if (!drag) return;
+    dy = e.clientY - startY; set(dy, false);
+    if (-dy > H() * 0.45) markSeen();
+  });
+  const end = () => { if (!drag) return; drag = false; close(); };
+  cover.addEventListener('pointerup', end);
+  cover.addEventListener('pointercancel', end);
+  cover.addEventListener('lostpointercapture', end);
+  cover.addEventListener('keydown', e => {
+    if ((e.key === ' ' || e.key === 'Enter') && !e.repeat) { e.preventDefault(); show(); set(-H() * 1.02, true); markSeen(); }
+  });
+  cover.addEventListener('keyup', e => { if (e.key === ' ' || e.key === 'Enter') close(); });
+  cover.addEventListener('blur', () => { if (!drag) close(); });
+}
+
+function vDealt() {
+  return `
+  <div class="stack" style="flex:1;justify-content:center;text-align:center;align-items:center">
+    ${ico('emblem')}
+    <h1>Alle Karten sind verteilt</h1>
+    <p class="lede">Gib das Handy jetzt dem Erzähler. Nur er darf ab hier auf den Bildschirm schauen.</p>
+  </div>
+  <div class="stack">
+    <button class="btn" data-a="toOverview">Ich bin der Erzähler</button>
+    <button class="btn quiet" data-a="redeal">Neu mischen und noch einmal austeilen</button>
+  </div>`;
+}
+
+function narHead(label) {
+  return `
+  <div class="nar-head">
+    <span class="eyebrow">${label}</span>
+    <button class="chip-btn" data-a="roster">Rollen</button>
+    <button class="chip-btn" data-a="end">${ui.confirmEnd ? 'Wirklich beenden?' : 'Beenden'}</button>
+  </div>`;
+}
+
+function rosterHTML(showDead) {
+  return `<div class="roster">${G().players.map(p => `
+    <div class="r ${showDead && !p.alive ? 'dead' : ''}"><span>${esc(p.name)}</span><span class="${ROLES[p.role].team === 'v' ? 'team-v' : ''}">${ROLES[p.role].name}</span></div>`).join('')}</div>`;
+}
+
+function vRoster() {
+  return `<div class="sheet-wrap" data-a="roster"><div class="sheet" role="dialog" aria-label="Rollenübersicht" data-stop="1">
+    <div class="section-head"><h2>Wer ist wer</h2><button class="chip-btn" data-a="roster">Schließen</button></div>
+    <p class="note">Nur für den Erzähler.</p>
+    ${rosterHTML(true)}
+    ${G().lovers.length ? `<p class="note">Liebespaar: <b>${G().lovers.map(nameOf).join(' & ')}</b></p>` : ''}
+  </div></div>`;
+}
+
+function vOverview() {
+  return `
+  ${narHead('Erzähler')}
+  <h1>Die Aufstellung</h1>
+  <p class="lede">Präg dir ein, wer wer ist. Du kannst die Liste jederzeit oben unter „Rollen“ öffnen.</p>
+  <section class="panel">${rosterHTML(false)}</section>
+  <div class="sticky-foot"><button class="btn" data-a="firstNight">Die erste Nacht beginnt</button></div>`;
+}
+
+function lectern(paras, extra = '') {
+  const text = paras.join(' ');
+  return `<div class="lectern">${paras.map(p => `<p>${p}</p>`).join('')}
+    <button class="chip-btn read" data-a="speak" data-t="${esc(text.replace(/<[^>]+>/g, ''))}">Vorlesen lassen</button>${extra}</div>`;
+}
+
+function picks(cands, { disabled = [], tag = true } = {}) {
+  return `<div class="picks">${cands.map(i => `
+    <button class="pick ${ui.sel.includes(i) ? 'sel' : ''}" data-a="pick" data-id="${i}" ${disabled.includes(i) ? 'disabled' : ''} aria-pressed="${ui.sel.includes(i)}">
+      <b>${nameOf(i)}</b>${tag ? `<small>${ROLES[P(i).role].name}</small>` : ''}
+    </button>`).join('')}</div>`;
+}
+
+function vNight() {
+  const g = G(), n = g.night, step = n.steps[n.i];
+  const head = narHead(`Nacht ${g.nightNo} · Erzähler`);
+  const a = alive();
+  const names = r => holders(r).filter(i => P(i).alive).map(nameOf).join(', ');
+  switch (step) {
+    case 'dusk': return `${head}
+      <h1>Es wird Nacht</h1>
+      ${lectern(['Es wird Nacht über Jerusalem.', 'Alle schließen die Augen und senken den Kopf.'])}
+      <div class="sticky-foot"><button class="btn" data-a="stepNext">Alle haben die Augen zu</button></div>`;
+    case 'elieser': return `${head}
+      <div class="row">${ico('elieser')}<h1>Eliëser</h1></div>
+      ${lectern(['Eliëser, der Brautwerber, erwacht.', 'Zeige auf zwei Menschen, die sich in dieser Nacht ineinander verlieben.'])}
+      <p class="note">Eliëser ist <b>${names('elieser')}</b>. Tippe die beiden an, auf die gezeigt wird.</p>
+      ${picks(a)}
+      <div class="sticky-foot"><button class="btn" data-a="confirmLovers" ${ui.sel.length === 2 ? '' : 'disabled'}>Diese zwei verbinden</button></div>`;
+    case 'lovers': return `${head}
+      <h1>Das Liebespaar</h1>
+      ${lectern(['Eliëser schläft wieder ein.', 'Ich berühre jetzt die beiden Verliebten an der Schulter. Öffnet die Augen und seht euch an. Ihr gehört zusammen, im Leben und im Tod.', 'Schließt die Augen wieder.'])}
+      <p class="note">Tippe <b>${g.lovers.map(nameOf).join('</b> und <b>')}</b> an die Schulter.</p>
+      <div class="sticky-foot"><button class="btn" data-a="stepNext">Weiter</button></div>`;
+    case 'michael': return `${head}
+      <div class="row">${ico('michael')}<h1>Michael</h1></div>
+      ${lectern(['Der Erzengel Michael erwacht.', 'Zeige auf den Menschen, über den du heute Nacht deine Flügel breitest.'])}
+      <p class="note">Michael ist <b>${names('michael')}</b>.${g.lastProtect != null ? ` Letzte Nacht geschützt: <b>${nameOf(g.lastProtect)}</b>, heute nicht erlaubt.` : ''}</p>
+      ${picks(a, { disabled: g.lastProtect != null ? [g.lastProtect] : [] })}
+      <div class="sticky-foot"><button class="btn" data-a="confirmProtect" ${ui.sel.length === 1 ? '' : 'disabled'}>Michael schläft wieder ein</button></div>`;
+    case 'daniel':
+      if (ui.daniel) {
+        const t = n.seer, r = ROLES[P(t).role];
+        return `${head}
+        <p class="eyebrow">Zeige Daniel den Bildschirm</p>
+        <div class="reveal-big">${ico(P(t).role)}<div class="eyebrow" style="color:#5b4a33">${nameOf(t)} ist</div><div class="rname">${r.name}</div><div>${r.sub}</div></div>
+        ${lectern(['Daniel schläft wieder ein.'])}
+        <div class="sticky-foot"><button class="btn" data-a="stepNext">Weiter</button></div>`;
+      }
+      return `${head}
+      <div class="row">${ico('daniel')}<h1>Daniel</h1></div>
+      ${lectern(['Daniel, der Seher, erwacht.', 'Zeige auf einen Menschen, dessen Herz dir offenbart werden soll.'])}
+      <p class="note">Daniel ist <b>${names('daniel')}</b>. Danach zeigst du ihm das Ergebnis auf dem Bildschirm.</p>
+      ${picks(a.filter(i => P(i).role !== 'daniel'))}
+      <div class="sticky-foot"><button class="btn" data-a="confirmSeer" ${ui.sel.length === 1 ? '' : 'disabled'}>Rolle offenbaren</button></div>`;
+    case 'judas': return `${head}
+      <div class="row">${ico('judas')}<h1>Judas</h1></div>
+      ${lectern(['Judas erwacht. Ihr erkennt einander.', 'Einigt euch schweigend, wen ihr heute Nacht verratet.'])}
+      <p class="note">Judas: <b>${names('judas')}</b>.${has('zachaeus') ? ` Zachäus (<b>${names('zachaeus')}</b>) darf jetzt heimlich blinzeln.` : ''}</p>
+      ${picks(a.filter(i => P(i).role !== 'judas'))}
+      <div class="sticky-foot"><button class="btn" data-a="confirmVictim" ${ui.sel.length === 1 ? '' : 'disabled'}>Judas schläft wieder ein</button></div>`;
+    case 'elia': {
+      const v = n.victim;
+      const canHeal = g.heal && v != null;
+      return `${head}
+      <div class="row">${ico('elia')}<h1>Elia</h1></div>
+      ${lectern(['Elia, der Prophet, erwacht.', 'Heute Nacht wurde dieser Mensch verraten. Willst du ihm Lebenswasser geben?', 'Und willst du Feuer vom Himmel auf jemanden fallen lassen?'])}
+      <p class="note">Elia ist <b>${names('elia')}</b>. Zeige stumm auf <b>${v != null ? nameOf(v) : 'niemanden'}</b>.</p>
+      ${canHeal ? `<button class="toggle ${n.healed ? 'on' : ''}" data-a="toggleHeal" aria-pressed="${n.healed}"><span class="box">${n.healed ? I.check : ''}</span><span><b>Lebenswasser für ${nameOf(v)}</b><br><span class="note">Nur einmal im Spiel</span></span></button>` : `<p class="note">Das Lebenswasser ist ${g.heal ? 'heute nicht nötig' : 'schon verbraucht'}.</p>`}
+      ${g.fire ? `<h3 class="eyebrow">Feuer vom Himmel (einmal im Spiel, optional)</h3>${picks(a)}` : `<p class="note">Das Feuer ist schon verbraucht.</p>`}
+      <div class="sticky-foot"><button class="btn" data-a="confirmElia">${ui.sel.length ? `Feuer auf ${nameOf(ui.sel[0])}, Elia schläft` : 'Elia schläft wieder ein'}</button></div>`;
+    }
+    case 'dawn': return `${head}
+      <h1>Die Nacht ist vorüber</h1>
+      <p class="lede">Alle Rollen haben gehandelt. Gleich erfährt die Gemeinde, was geschehen ist.</p>
+      <div class="sticky-foot"><button class="btn" data-a="dawn">Den Morgen anbrechen lassen</button></div>`;
+  }
+}
+
+function deathList(d) {
+  if (!d.length) return '';
+  return `<div class="deaths">${d.map(x => {
+    const p = P(x.id), r = ROLES[p.role];
+    return `<div class="death">${ico(p.role)}<div><b>${esc(p.name)}</b> <small>${CAUSE[x.cause]}.</small><small class="rl ${r.team === 'v' ? 'team-v' : 'team-g'}">War ${r.name}, ${r.sub}</small></div></div>`;
+  }).join('')}</div>`;
+}
+
+function vAnnounce() {
+  const a = G().announce;
+  const paras = [a.lead].concat(a.deaths.length
+    ? a.deaths.map(d => `${esc(P(d.id).name)} ${CAUSE[d.cause]}. ${esc(P(d.id).name)} war ${ROLES[P(d.id).role].name}.`)
+    : [a.calm]);
+  return `${narHead(G().nightNo ? `Tag ${G().nightNo} · Erzähler` : 'Erzähler')}
+    <h1>${a.title}</h1>
+    ${lectern(paras)}
+    ${a.deaths.length ? deathList(a.deaths) : `<p class="calm">${a.calm}</p>`}
+    <div class="sticky-foot"><button class="btn" data-a="afterAnnounce">Weiter</button></div>`;
+}
+
+function vSimson() {
+  const g = G(), s = g.simsonFrom;
+  return `${narHead('Erzähler')}
+    <div class="row">${ico('simson')}<h1>Simson</h1></div>
+    ${lectern([`${esc(P(s).name)} war Simson.`, 'Mit letzter Kraft reißt er die Säulen ein. Wen nimmt er mit in den Tod?'])}
+    ${picks(alive())}
+    <div class="sticky-foot"><button class="btn" data-a="confirmSimson" ${ui.sel.length === 1 ? '' : 'disabled'}>Die Säulen stürzen</button></div>`;
+}
+
+function vDay() {
+  const g = G();
+  return `${narHead(`Tag ${g.nightNo} · Erzähler`)}
+    <h1>Die Gemeinde berät</h1>
+    ${lectern(['Wer von euch ist Judas?', 'Sprecht miteinander und stimmt ab, wen ihr aus der Gemeinde fortschickt.'])}
+    <p class="note">Noch ${alive().length} am Leben. Tippe an, wer die meisten Stimmen bekommt.</p>
+    ${picks(alive())}
+    <div class="sticky-foot">
+      <button class="btn" data-a="confirmVote" ${ui.sel.length === 1 ? '' : 'disabled'}>${ui.sel.length ? `${nameOf(ui.sel[0])} fortschicken` : 'Fortschicken'}</button>
+      <button class="btn quiet" data-a="noVote">Keine Einigung, niemand geht</button>
+    </div>`;
+}
+
+function vEnd() {
+  const g = G(), w = g.winner;
+  const T = {
+    g: ['juenger', 'Die Gemeinde siegt', 'Jeder Judas wurde entlarvt. Friede sei mit euch.'],
+    v: ['judas', 'Judas siegt', 'Die Verräter sind nicht mehr in der Minderheit. Die dreißig Silberlinge haben sich gelohnt.'],
+    lovers: ['elieser', 'Das Liebespaar siegt', `${g.lovers.map(nameOf).join(' und ')} bleiben allein zurück. Die Liebe hat alles überdauert.`],
+    none: ['emblem', 'Niemand überlebt', 'Am Ende ist keiner mehr übrig.']
+  }[w];
+  return `
+    <div class="end-hero">${ico(T[0])}<h1>${T[1]}</h1><p class="lede">${T[2]}</p></div>
+    <section class="panel"><h3 class="eyebrow" style="margin-bottom:6px">Alle Rollen</h3>${rosterHTML(true)}</section>
+    <div class="sticky-foot">
+      <button class="btn" data-a="again">Neue Runde mit denselben Spielern</button>
+      <button class="btn quiet" data-a="toSetup">Spieler und Rollen ändern</button>
+    </div>`;
+}
+
+/* ---------- Eingaben ---------- */
+function speak(t) {
+  try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(t); u.lang = 'de-DE'; u.rate = .9; speechSynthesis.speak(u); } catch (e) {}
+}
+let lock = null;
+async function wakeLock() { try { if (navigator.wakeLock && !lock) { lock = await navigator.wakeLock.request('screen'); lock.addEventListener('release', () => { lock = null; }); } } catch (e) {} }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && S.game) wakeLock(); });
+
+app.addEventListener('input', e => {
+  const i = e.target.dataset.i;
+  if (i != null) { S.setup.names[+i] = e.target.value; save(); }
+});
+
+app.addEventListener('click', e => {
+  const el = e.target.closest('[data-a]');
+  if (!el) return;
+  if (el.classList.contains('sheet-wrap') && e.target.closest('[data-stop]')) return;
+  const a = el.dataset.a, g = G();
+  if (a !== 'end') ui.confirmEnd = false;
+  const s = S.setup;
+  switch (a) {
+    case 'n+': case 'n-': {
+      const n = s.names.length + (a === 'n+' ? 1 : -1);
+      if (n < MIN || n > MAX) return;
+      if (a === 'n+') s.names.push(DEFAULT_NAMES[n - 1] || `Spieler ${n}`); else s.names.pop();
+      s.counts = suggest(n); break;
+    }
+    case 'role+': s.counts[el.dataset.k]++; break;
+    case 'role-': s.counts[el.dataset.k]--; break;
+    case 'suggest': s.counts = suggest(s.names.length); break;
+    case 'start': startGame(); scrollTo(0, 0); break;
+    case 'abort': case 'toSetup': S.game = null; ui = { sel: [], confirmEnd: false, roster: false, daniel: false }; break;
+    case 'again': startGame(); break;
+    case 'nextPlayer':
+      if (g.idx < g.players.length - 1) { g.idx++; g.seen = false; } else g.phase = 'dealt';
+      break;
+    case 'redeal': startGame(); break;
+    case 'toOverview': g.phase = 'overview'; break;
+    case 'firstNight': startNight(); break;
+    case 'roster': ui.roster = !ui.roster; break;
+    case 'end':
+      if (!ui.confirmEnd) { ui.confirmEnd = true; break; }
+      S.game = null; ui = { sel: [], confirmEnd: false, roster: false, daniel: false }; break;
+    case 'speak': speak(el.dataset.t); return;
+    case 'pick': {
+      const id = +el.dataset.id, step = g.phase === 'night' ? g.night.steps[g.night.i] : g.phase;
+      const max = step === 'elieser' ? 2 : 1;
+      if (ui.sel.includes(id)) ui.sel = ui.sel.filter(x => x !== id);
+      else ui.sel = max === 1 ? [id] : ui.sel.concat(id).slice(-max);
+      break;
+    }
+    case 'stepNext': g.night.i++; ui.sel = []; ui.daniel = false; break;
+    case 'confirmLovers': g.lovers = ui.sel.slice(); g.night.i++; ui.sel = []; break;
+    case 'confirmProtect': g.night.protect = ui.sel[0]; g.night.i++; ui.sel = []; break;
+    case 'confirmSeer': g.night.seer = ui.sel[0]; ui.daniel = true; ui.sel = []; break;
+    case 'confirmVictim': g.night.victim = ui.sel[0]; g.night.i++; ui.sel = []; break;
+    case 'toggleHeal': g.night.healed = !g.night.healed; break;
+    case 'confirmElia':
+      if (g.night.healed) g.heal = false;
+      if (ui.sel.length) { g.night.fire = ui.sel[0]; g.fire = false; }
+      g.night.i++; ui.sel = []; break;
+    case 'dawn': morning(); break;
+    case 'afterAnnounce': afterAnnounce(); break;
+    case 'confirmSimson': {
+      const d = kill([ui.sel[0]], 'simson');
+      g.announce = { title: 'Die Säulen stürzen', lead: 'Simsons Haus bricht über ihm zusammen.', deaths: d, next: g.resumeNext, calm: '' };
+      g.phase = 'announce'; ui.sel = []; break;
+    }
+    case 'confirmVote': {
+      const d = kill([ui.sel[0]], 'abstimmung');
+      g.announce = { title: 'Das Urteil der Gemeinde', lead: 'Die Gemeinde hat entschieden.', deaths: d, next: 'night', calm: '' };
+      g.phase = 'announce'; ui.sel = []; break;
+    }
+    case 'noVote':
+      g.announce = { title: 'Keine Einigung', lead: 'Die Gemeinde ist sich nicht einig.', deaths: [], next: 'night', calm: 'Heute wird niemand fortgeschickt.' };
+      g.phase = 'announce'; ui.sel = []; break;
+  }
+  const keepScroll = ['pick', 'toggleHeal', 'roster', 'end', 'role+', 'role-', 'n+', 'n-', 'suggest'].includes(a);
+  render();
+  if (!keepScroll) scrollTo(0, 0);
+});
+
+render();
+if (S.game) wakeLock();
+})();
+</script>
+</body>
+</html>
