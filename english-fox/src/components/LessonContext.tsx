@@ -96,6 +96,7 @@ export function LineFeedback({ id, r }: { id: string; r: FieldResult }) {
     <div className="fb">
       <span className="v-icon">{ICON[r.verdict]}</span>
       <div>
+        {r.verdict === 'empty' && <div className="fb-yours">Nicht beantwortet</div>}
         {r.transcription && r.verdict !== 'correct' && r.transcription !== '—' && <div className="fb-yours">Du: „{r.transcription}“</div>}
         {r.verdict === 'correct' && r.transcription !== '—' && <div className="fb-yours">Gelesen: „{r.transcription}“</div>}
         {r.verdict !== 'correct' && r.corrected && <div className="fb-fix">{r.verdict === 'self_check' ? 'Beispiel: ' : 'Richtig: '}{r.corrected}</div>}

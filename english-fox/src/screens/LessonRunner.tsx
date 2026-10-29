@@ -60,16 +60,11 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
   const complete = ex?.type === 'picture' ? allFields.some(({ item, f }) => isAnswered(ex, item, f, answers)) : allFields.every(({ item, f }) => isAnswered(ex, item, f, answers))
   const openRatings = checked[ex?.id] && allFields.some(({ f }) => results[f.id]?.verdict === 'self_check')
 
-  const submit = async (skip = false) => {
+  const anyAnswered = allFields.some(({ item, f }) => f.kind !== 'tokens' && isAnswered(ex, item, f, answers))
+
+  // Graded the same way whether everything is filled in or not: empty fields count as wrong and show the solution.
+  const submit = async () => {
     setError('')
-    if (skip) {
-      const r: Results = {}
-      for (const { f } of allFields) r[f.id] = { verdict: 'empty', score: 0, tags: [] }
-      setResults((x) => ({ ...x, ...r }))
-      setChecked((c) => ({ ...c, [ex.id]: true }))
-      setPhase('feedback')
-      return
-    }
     const { results: local, ink } = evaluateLocal(lesson, ex, answers, sol)
     let merged = local
     if (ink.length) {
@@ -208,7 +203,11 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
         {phase === 'intro' && <button className="btn btn-primary" onClick={() => setPhase('exercise')}>Los geht's</button>}
         {phase === 'exercise' && (
           <>
-            <button className="btn btn-ghost" onClick={() => submit(true)}>Überspringen</button>
+            {!complete && (
+              <button className="btn btn-ghost" onClick={() => submit()} title="Ausgefülltes wird korrigiert, leere Felder zählen als falsch und zeigen die Lösung.">
+                {anyAnswered ? 'Rest überspringen' : 'Überspringen'}
+              </button>
+            )}
             <button className="btn btn-primary" disabled={!complete} onClick={() => submit()}>Abgeben</button>
           </>
         )}
