@@ -1,0 +1,56 @@
+{
+  "id": "L07", "slug": "simple-past", "title": "Simple past", "unit": 3, "order": 7,
+  "merkbox": {
+    "usage": "abgeschlossene Handlungen in der Vergangenheit",
+    "be": "was / were",
+    "positive": "verb-ed / irregular verb",
+    "negative": "didn't + verb",
+    "question": "(question word +) Did … + verb",
+    "signal_words": ["last year", "ago", "yesterday", "in 1982"]
+  },
+  "exercises": [
+    { "id": "L07-E1", "type": "table", "title": "Regular or irregular verb (2nd form)?", "columns": ["2nd form"], "irregularLink": true, "items": [
+      { "id": "L07-E1-1", "prompt": "pay" }, { "id": "L07-E1-2", "prompt": "turn" }, { "id": "L07-E1-3", "prompt": "pass" }, { "id": "L07-E1-4", "prompt": "take" },
+      { "id": "L07-E1-5", "prompt": "cut" }, { "id": "L07-E1-6", "prompt": "keep" }, { "id": "L07-E1-7", "prompt": "stand" }, { "id": "L07-E1-8", "prompt": "sit" },
+      { "id": "L07-E1-9", "prompt": "buy" }, { "id": "L07-E1-10", "prompt": "look" }, { "id": "L07-E1-11", "prompt": "throw" }, { "id": "L07-E1-12", "prompt": "watch" },
+      { "id": "L07-E1-13", "prompt": "read" }, { "id": "L07-E1-14", "prompt": "meet" }, { "id": "L07-E1-15", "prompt": "know" }, { "id": "L07-E1-16", "prompt": "become" },
+      { "id": "L07-E1-17", "prompt": "try" }, { "id": "L07-E1-18", "prompt": "want" }, { "id": "L07-E1-19", "prompt": "shake" }, { "id": "L07-E1-20", "prompt": "drink" },
+      { "id": "L07-E1-21", "prompt": "eat" }, { "id": "L07-E1-22", "prompt": "decide" }, { "id": "L07-E1-23", "prompt": "teach" }, { "id": "L07-E1-24", "prompt": "win" },
+      { "id": "L07-E1-25", "prompt": "leave" }, { "id": "L07-E1-26", "prompt": "push" }
+    ]},
+    { "id": "L07-E2", "type": "multiple_choice", "title": "Highlight the correct possibility, please.", "items": [
+      { "id": "L07-E2-1", "text": "We ___ loudly.", "options": ["don't laugh", "laughed", "laught", "didn't laughed"] },
+      { "id": "L07-E2-2", "text": "Paul and Anna ___ their parents.", "options": ["didn't help", "hope", "didn't helped"] },
+      { "id": "L07-E2-3", "text": "I ___ an old farm last week.", "options": ["didn't visited", "visit", "visited", "vought"] },
+      { "id": "L07-E2-4", "text": "___ you ___ your friend?", "options": ["Do/phoned", "Did/phoned", "Did/phone"] },
+      { "id": "L07-E2-5", "text": "Paula ___ in the kitchen.", "options": ["did", "were", "was", "be", "had", "wasn't"] },
+      { "id": "L07-E2-6", "text": "My grandparents ___ their keys.", "options": ["loosed", "loss", "lost", "were"] },
+      { "id": "L07-E2-7", "text": "___ the students ___ questions?", "options": ["Did/asked", "Did/ask", "Asked"] },
+      { "id": "L07-E2-8", "text": "My cousin Ben ___ a party.", "options": ["planed", "planned", "plought", "did plan"] }
+    ]},
+    { "id": "L07-E3", "type": "gap_fill", "signal": true, "wordbox": ["invite", "happen", "not forget", "spend", "sell", "deliver", "wash", "phone", "teach"], "title": "Fill in a word from the box and circle signal words.", "items": [
+      { "id": "L07-E3-1", "text": "Tim {} his homework." },
+      { "id": "L07-E3-2", "text": "Something strange {} yesterday." },
+      { "id": "L07-E3-3", "text": "{} Mum {} her car last week?" },
+      { "id": "L07-E3-4", "text": "Ann {} Sue last month." },
+      { "id": "L07-E3-5", "text": "Collin {} me to his party 2 days ago." },
+      { "id": "L07-E3-6", "text": "The paper boy {} the newspaper." },
+      { "id": "L07-E3-7", "text": "{} our teacher {} his old car?" },
+      { "id": "L07-E3-8", "text": "Ms Potter {} English in 2010." },
+      { "id": "L07-E3-9", "text": "You {} too much money on sweets yesterday." }
+    ]},
+    { "id": "L07-E4", "type": "gap_fill", "title": "Fill in the correct forms of be:", "items": [
+      { "id": "L07-E4-1", "text": "I {} very happy, when I saw my new car." },
+      { "id": "L07-E4-2", "text": "Peter and Cloe {} in front of the supermarket." },
+      { "id": "L07-E4-3", "text": "We {} really sad, when our dog died." },
+      { "id": "L07-E4-4", "text": "Kevin {} in the garage and his ssiblings {} in the garden." },
+      { "id": "L07-E4-5", "text": "The student {} late for school." },
+      { "id": "L07-E4-6", "text": "She {} (not) at home, because the girl {} in the cinema." },
+      { "id": "L07-E4-7", "text": "My grandparents {} (not) in the museum." },
+      { "id": "L07-E4-8", "text": "You {} really nice." },
+      { "id": "L07-E4-9", "text": "The two girls over there {} Carol's friends." },
+      { "id": "L07-E4-10", "text": "{} you at home yesterday?" },
+      { "id": "L07-E4-11", "text": "The dog {} (not) outside because it {} raining." }
+    ]}
+  ]
+}

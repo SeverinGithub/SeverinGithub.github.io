@@ -1,0 +1,194 @@
+{
+ "id": "L13",
+ "slug": "present-perfect-vs-present-perfect-progressive",
+ "title": "Present perfect – present perfect progressive",
+ "unit": 5,
+ "order": 14,
+ "merkbox": {
+  "usage": "Present perfect: Ergebnis wird betont  ·  Present perfect progressive: Dauer wird betont",
+  "positive": "have/has + 3rd form  ·  have/has + been + verb+ing",
+  "negative": "haven't/hasn't + 3rd form  ·  haven't/hasn't + been + verb+ing",
+  "question": "Have/Has … + 3rd form?  ·  Have/Has … + been + verb+ing?",
+  "signal_words": [
+   "just",
+   "already",
+   "yet",
+   "never",
+   "ever",
+   "all day (long)",
+   "the whole day",
+   "how long",
+   "since",
+   "for"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "L13-E1",
+   "type": "write",
+   "title": "Make a sentence and fill in a suitable signal word.",
+   "fields": [
+    "present perfect",
+    "present perfect progressive"
+   ],
+   "items": [
+    {
+     "id": "L13-E1-1",
+     "prompt": "He (do) his homework."
+    },
+    {
+     "id": "L13-E1-2",
+     "prompt": "Susan (talk) to Harry."
+    },
+    {
+     "id": "L13-E1-3",
+     "prompt": "I (wait) for the bus."
+    },
+    {
+     "id": "L13-E1-4",
+     "prompt": "Mr Potter (teach) in this school since 2020."
+    },
+    {
+     "id": "L13-E1-5",
+     "prompt": "Damian (work) in this company for 5 years."
+    }
+   ]
+  },
+  {
+   "id": "L13-E2",
+   "type": "gap_fill",
+   "title": "Present perfect or present perfect progressive?",
+   "items": [
+    {
+     "id": "L13-E2-1",
+     "text": "It {} (rain) the whole day."
+    },
+    {
+     "id": "L13-E2-2",
+     "text": "Sandra {} (break) her arm badly."
+    },
+    {
+     "id": "L13-E2-3",
+     "text": "Linda {} (not/talk) to her boyfriend yet."
+    },
+    {
+     "id": "L13-E2-4",
+     "text": "Her mobile {} (ring) for hours now! That's annoying!"
+    },
+    {
+     "id": "L13-E2-5",
+     "text": "The students {} (do) Mathematics for 2 hours."
+    },
+    {
+     "id": "L13-E2-6",
+     "text": "I {} (welcome) all my guets."
+    },
+    {
+     "id": "L13-E2-7",
+     "text": "The police {} (chase) the thief."
+    },
+    {
+     "id": "L13-E2-8",
+     "text": "She {} just {} (buy) a new jacket."
+    },
+    {
+     "id": "L13-E2-9",
+     "text": "What {} you {} (do) while we were shopping?"
+    },
+    {
+     "id": "L13-E2-10",
+     "text": "I {} (cook) all the morning."
+    },
+    {
+     "id": "L13-E2-11",
+     "text": "The kids {} (do) all their chores. Now they play in the garden."
+    },
+    {
+     "id": "L13-E2-12",
+     "text": "I {} (just/come) home from work."
+    },
+    {
+     "id": "L13-E2-13",
+     "text": "He {} (not/be) at home for two hours."
+    },
+    {
+     "id": "L13-E2-14",
+     "text": "Paula looks terrible. She {} (cry) the whole night."
+    },
+    {
+     "id": "L13-E2-15",
+     "text": "Dad {} (sleep) on the sofa the whole night."
+    }
+   ]
+  },
+  {
+   "id": "L13-E3",
+   "type": "write",
+   "title": "Rewrite the sentences (present perfect <-> present perfect progressive).",
+   "items": [
+    {
+     "id": "L13-E3-1",
+     "prompt": "They have lived in Italy since 2019."
+    },
+    {
+     "id": "L13-E3-2",
+     "prompt": "I have been writing an English test."
+    },
+    {
+     "id": "L13-E3-3",
+     "prompt": "Paul has been playing the guitar."
+    },
+    {
+     "id": "L13-E3-4",
+     "prompt": "They haven't listened to music."
+    },
+    {
+     "id": "L13-E3-5",
+     "prompt": "The mechanic has repaired 3 cars."
+    },
+    {
+     "id": "L13-E3-6",
+     "prompt": "Has Jim walked in the park?"
+    }
+   ]
+  },
+  {
+   "id": "L13-E4",
+   "type": "gap_fill",
+   "cards": true,
+   "title": "Present perfect or present perfect progressive?",
+   "items": [
+    {
+     "id": "L13-E4-1",
+     "context": "write",
+     "text": "I {} ten letters. Could you take them to the post office, please?"
+    },
+    {
+     "id": "L13-E4-2",
+     "context": "write",
+     "text": "I {} invitations to my birthda party for two hours now and I'm still not done."
+    },
+    {
+     "id": "L13-E4-3",
+     "context": "work",
+     "text": "Sue {} (work) as a shop assisstant for 15 years now. She will soon get salary increase."
+    },
+    {
+     "id": "L13-E4-4",
+     "context": "work",
+     "text": "Kevin {} as a shop assisstant in his summer vacation."
+    },
+    {
+     "id": "L13-E4-5",
+     "context": "take",
+     "text": "I {} music lessons for several years."
+    },
+    {
+     "id": "L13-E4-6",
+     "context": "take",
+     "text": "I'm back! I {} just {} the dog for a walk."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,46 @@
+{
+  "L01-E1-1.g0": { "a": ["Does"] }, "L01-E1-1.g1": { "a": ["go"] },
+  "L01-E1-2.g0": { "a": ["don't like"] },
+  "L01-E1-3.g0": { "a": ["Do"] }, "L01-E1-3.g1": { "a": ["have"] },
+  "L01-E1-4.g0": { "a": ["draws"] },
+  "L01-E1-5.g0": { "a": ["don't meet"] },
+  "L01-E1-6.g0": { "a": ["has"] },
+  "L01-E1-7.g0": { "a": ["play"] },
+  "L01-E1-8.g0": { "a": ["swim"] },
+  "L01-E1-9.g0": { "a": ["brushes"] },
+  "L01-E1-10.g0": { "a": ["Do"] }, "L01-E1-10.g1": { "a": ["meet"] },
+  "L01-E1-11.g0": { "a": ["don't read"] },
+
+  "L01-E2-1.f0": { "a": ["Lucy {adv} wears trousers", "Lucy wears trousers {time}"], "r": "Subjekt Lucy, 3. Person -s (wears), ein Signalwort des Simple present." },
+  "L01-E2-2.f0": { "a": ["We {adv} go shopping", "We go shopping {time}"], "r": "Subjekt we, Grundform go, ein Signalwort." },
+  "L01-E2-3.f0": { "a": ["The cat {adv} catches mice", "The cat catches mice {time}"], "r": "the cat = 3. Person: catches (-es), ein Signalwort." },
+  "L01-E2-4.f0": { "a": ["They are {adv} in the kitchen", "They are in the kitchen {time}"], "r": "they → are, Signalwort nach are oder am Satzende." },
+  "L01-E2-5.f0": { "a": ["Ben and Anna {adv} eat (a pancake|pancakes)", "Ben and Anna eat (a pancake|pancakes) {time}"], "r": "Plural: eat ohne -s, ein Signalwort." },
+  "L01-E2-6.f0": { "a": ["I {adv} tidy up my room", "I tidy up my room {time}", "I {adv} tidy my room up", "I tidy my room up {time}"], "r": "I → tidy (ohne -ies), ein Signalwort." },
+  "L01-E2-7.f0": { "a": ["She {adv} forgets (the|her) homework", "She forgets (the|her) homework {time}"], "r": "she → forgets, ein Signalwort." },
+
+  "L01-E3-1.mc": { "c": 1 }, "L01-E3-2.mc": { "c": 0 }, "L01-E3-3.mc": { "c": 1 }, "L01-E3-4.mc": { "c": 0 }, "L01-E3-5.mc": { "c": 0 },
+
+  "L01-E4-1.w": { "w": ["don't"] }, "L01-E4-1.s": { "a": ["Paul doesn't help at home"] },
+  "L01-E4-2.w": { "w": ["haves"] }, "L01-E4-2.s": { "a": ["Ben has a cat"] },
+  "L01-E4-3.w": { "w": ["likes"] }, "L01-E4-3.s": { "a": ["Do you like me"] },
+  "L01-E4-4.w": { "w": ["work", "always"] }, "L01-E4-4.s": { "a": ["We always work hard"] },
+  "L01-E4-5.w": { "w": ["be"] }, "L01-E4-5.s": { "a": ["The girls are happy"] },
+  "L01-E4-6.w": { "w": ["plays"] }, "L01-E4-6.s": { "a": ["Sally doesn't play cards"] },
+  "L01-E4-7.w": { "w": ["don't", "the"] }, "L01-E4-7.s": { "a": ["I don't do the homework", "I do the homework"], "r": "Nach don't fehlt das Verb (do)." },
+  "L01-E4-8.w": { "w": ["goes", "watchs"] }, "L01-E4-8.s": { "a": ["Kim, Jamie and Collin go to the cinema and watch a film there"], "r": "Zwei Fehler: Plural-Subjekt → go und watch ohne -s." },
+
+  "L01-E5-1.f0": { "a": ["Where does the bird sit"] },
+  "L01-E5-2.f0": { "a": ["What do you ride", "What do I ride"] },
+  "L01-E5-3.f0": { "a": ["When do they come home", "What time do they come home"] },
+  "L01-E5-4.f0": { "a": ["When does the farmer feed the cows"] },
+  "L01-E5-5.f0": { "a": ["Why does she make dinner"] },
+  "L01-E5-6.f0": { "a": ["What do (we|you) donate"] },
+  "L01-E5-7.f0": { "a": ["How often do (our|your|the) teachers drink coffee"] },
+  "L01-E5-8.f0": { "a": ["How do (you|I) get to school"] },
+
+  "L01-E6-1.c0": { "a": ["swims"] }, "L01-E6-2.c0": { "a": ["brushes"] }, "L01-E6-3.c0": { "a": ["passes"] }, "L01-E6-4.c0": { "a": ["watches"] },
+  "L01-E6-5.c0": { "a": ["goes"] }, "L01-E6-6.c0": { "a": ["does"] }, "L01-E6-7.c0": { "a": ["plays"] }, "L01-E6-8.c0": { "a": ["helps"] },
+  "L01-E6-9.c0": { "a": ["gives"] }, "L01-E6-10.c0": { "a": ["has"] }, "L01-E6-11.c0": { "a": ["matches"] }, "L01-E6-12.c0": { "a": ["teaches"] },
+  "L01-E6-13.c0": { "a": ["flies"] }, "L01-E6-14.c0": { "a": ["tries"] }, "L01-E6-15.c0": { "a": ["gives"] }, "L01-E6-16.c0": { "a": ["kisses"] }
+}

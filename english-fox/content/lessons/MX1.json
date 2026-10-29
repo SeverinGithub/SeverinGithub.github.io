@@ -1,0 +1,97 @@
+{
+ "id": "MX1",
+ "slug": "mixed-tenses-a",
+ "title": "Mixed tenses A",
+ "unit": 4,
+ "order": 12,
+ "kind": "mixed",
+ "merkbox": {
+  "usage": "Erkenne die Zeitform des Satzes und schreibe denselben Satz in allen anderen Zeitformen. Leere Spaltenköpfe: wähle die passende Zeitform (Zusatzpunkt).",
+  "positive": "gleiches Subjekt, gleiches Verb",
+  "negative": "Verneinung bleibt Verneinung",
+  "question": "Frage bleibt Frage",
+  "signal_words": [
+   "Letzte Zeile: passende Signalwörter für jede Zeitform"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "MX1-E1",
+   "type": "grid",
+   "title": "Mixed tenses",
+   "tenses": [
+    "present perfect",
+    "past progressive",
+    "simple past",
+    "present progressive",
+    "simple present",
+    "will future",
+    "going to future"
+   ],
+   "columns": [
+    {
+     "tense": 0
+    },
+    {
+     "tense": 1,
+     "label": "past progressive"
+    },
+    {
+     "tense": 2
+    },
+    {
+     "tense": 3
+    },
+    {
+     "tense": 4
+    },
+    {
+     "tense": 5,
+     "label": "will future"
+    },
+    {
+     "tense": 6
+    }
+   ],
+   "items": [
+    {
+     "id": "MX1-R1",
+     "given": {
+      "0": "Sue has done her homework."
+     }
+    },
+    {
+     "id": "MX1-R2",
+     "given": {
+      "4": "Tom reads a book."
+     }
+    },
+    {
+     "id": "MX1-R3",
+     "given": {
+      "2": "My parents didn't watch TV."
+     }
+    },
+    {
+     "id": "MX1-R4",
+     "given": {
+      "5": "Will we write a test?"
+     }
+    },
+    {
+     "id": "MX1-R5",
+     "given": {
+      "3": "I'm riding my bike."
+     }
+    },
+    {
+     "id": "MX1-R6",
+     "signal": true,
+     "given": {
+      "6": "I'm sure … tomorrow, in 2050"
+     }
+    }
+   ]
+  }
+ ]
+}

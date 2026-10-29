@@ -1,0 +1,271 @@
+{
+ "id": "L10",
+ "slug": "present-perfect",
+ "title": "Present perfect",
+ "unit": 4,
+ "order": 10,
+ "merkbox": {
+  "usage": "Handlung in der Vergangenheit, die bis heute andauert / Einfluss hat · Handlung, die gerade abgeschlossen wurde",
+  "be": "have/has been",
+  "positive": "have/has + 3rd verb form",
+  "negative": "haven't/hasn't + 3rd verb form",
+  "question": "(question word +) Have/Has … + 3rd verb form",
+  "signal_words": [
+   "since",
+   "for",
+   "just",
+   "already",
+   "ever",
+   "never",
+   "yet",
+   "recently",
+   "so far"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "L10-E1",
+   "type": "write",
+   "title": "Make sentences. Ask for the underlined part if possible.",
+   "items": [
+    {
+     "id": "L10-E1-1",
+     "prompt": "Judith – already – wash – the car",
+     "fields": [
+      "+",
+      "−"
+     ]
+    },
+    {
+     "id": "L10-E1-2",
+     "prompt": "I – be – to Spain – [[many times in my life]]",
+     "fields": [
+      "+",
+      "?"
+     ]
+    },
+    {
+     "id": "L10-E1-3",
+     "prompt": "[[Ann]] – study – for many hours – in her room",
+     "fields": [
+      "?",
+      "−"
+     ]
+    },
+    {
+     "id": "L10-E1-4",
+     "prompt": "The students – just – finish – their tests",
+     "fields": [
+      "+",
+      "?"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "L10-E2",
+   "type": "gap_fill",
+   "title": "Fill in the verb and the signal word.",
+   "items": [
+    {
+     "id": "L10-E2-1",
+     "text": "Our cat {} a mouse. (catch, just)"
+    },
+    {
+     "id": "L10-E2-2",
+     "text": "My friend Sue {} the wedding dress. (wear, already)"
+    },
+    {
+     "id": "L10-E2-3",
+     "text": "I {} so happy. (feel, never)"
+    },
+    {
+     "id": "L10-E2-4",
+     "text": "The Millers {} in London {} 1995. (live)"
+    },
+    {
+     "id": "L10-E2-5",
+     "text": "Dad {} the perfect job {}. (not/find)"
+    },
+    {
+     "id": "L10-E2-6",
+     "text": "Peter {} me some chocolate {}. (buy)"
+    },
+    {
+     "id": "L10-E2-7",
+     "text": "John {} the bus {} years now. (not/miss)"
+    },
+    {
+     "id": "L10-E2-8",
+     "text": "I {} her so {}. (not/meet)"
+    },
+    {
+     "id": "L10-E2-9",
+     "text": "{} you {} your homework? (do, already)"
+    }
+   ]
+  },
+  {
+   "id": "L10-E3",
+   "type": "error_correction",
+   "title": "Find the mistakes and correct.",
+   "items": [
+    {
+     "id": "L10-E3-1",
+     "text": "Peter have just hurt his toe."
+    },
+    {
+     "id": "L10-E3-2",
+     "text": "Kim and Ann never have visited a museum."
+    },
+    {
+     "id": "L10-E3-3",
+     "text": "We have heared this song 10 times so far."
+    },
+    {
+     "id": "L10-E3-4",
+     "text": "Mr Potter has worked as a teacher since 2 years."
+    },
+    {
+     "id": "L10-E3-5",
+     "text": "We are too late. The bus have already left."
+    },
+    {
+     "id": "L10-E3-6",
+     "text": "I havent watered the plants yet."
+    },
+    {
+     "id": "L10-E3-7",
+     "text": "Have you ever test this drink?"
+    },
+    {
+     "id": "L10-E3-8",
+     "text": "You haven't met your friend since years."
+    },
+    {
+     "id": "L10-E3-9",
+     "text": "Yeah! I has just won the first prize in a competition."
+    },
+    {
+     "id": "L10-E3-10",
+     "text": "He have just don the washing up."
+    }
+   ]
+  },
+  {
+   "id": "L10-E4",
+   "type": "table",
+   "title": "Fill in the 3rd verb form.",
+   "columns": [
+    "3rd form"
+   ],
+   "irregularLink": true,
+   "items": [
+    {
+     "id": "L10-E4-1",
+     "prompt": "pay"
+    },
+    {
+     "id": "L10-E4-2",
+     "prompt": "turn"
+    },
+    {
+     "id": "L10-E4-3",
+     "prompt": "pass"
+    },
+    {
+     "id": "L10-E4-4",
+     "prompt": "take"
+    },
+    {
+     "id": "L10-E4-5",
+     "prompt": "cut"
+    },
+    {
+     "id": "L10-E4-6",
+     "prompt": "keep"
+    },
+    {
+     "id": "L10-E4-7",
+     "prompt": "stand"
+    },
+    {
+     "id": "L10-E4-8",
+     "prompt": "sit"
+    },
+    {
+     "id": "L10-E4-9",
+     "prompt": "buy"
+    },
+    {
+     "id": "L10-E4-10",
+     "prompt": "look"
+    },
+    {
+     "id": "L10-E4-11",
+     "prompt": "throw"
+    },
+    {
+     "id": "L10-E4-12",
+     "prompt": "watch"
+    },
+    {
+     "id": "L10-E4-13",
+     "prompt": "read"
+    },
+    {
+     "id": "L10-E4-14",
+     "prompt": "meet"
+    },
+    {
+     "id": "L10-E4-15",
+     "prompt": "know"
+    },
+    {
+     "id": "L10-E4-16",
+     "prompt": "become"
+    },
+    {
+     "id": "L10-E4-17",
+     "prompt": "try"
+    },
+    {
+     "id": "L10-E4-18",
+     "prompt": "want"
+    },
+    {
+     "id": "L10-E4-19",
+     "prompt": "shake"
+    },
+    {
+     "id": "L10-E4-20",
+     "prompt": "drink"
+    },
+    {
+     "id": "L10-E4-21",
+     "prompt": "eat"
+    },
+    {
+     "id": "L10-E4-22",
+     "prompt": "decide"
+    },
+    {
+     "id": "L10-E4-23",
+     "prompt": "teach"
+    },
+    {
+     "id": "L10-E4-24",
+     "prompt": "win"
+    },
+    {
+     "id": "L10-E4-25",
+     "prompt": "leave"
+    },
+    {
+     "id": "L10-E4-26",
+     "prompt": "push"
+    }
+   ]
+  }
+ ]
+}

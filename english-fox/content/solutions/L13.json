@@ -1,0 +1,218 @@
+{
+ "L13-E1-1.f0": {
+  "a": [
+   "{pre}He has (just |already )?done his homework{rest}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, …) – Ergebnis."
+ },
+ "L13-E1-1.f1": {
+  "a": [
+   "{pre}He has been doing his homework{rest}"
+  ],
+  "r": "have/has + been + verb+ing + Signalwort (all day, for, since …) – Dauer."
+ },
+ "L13-E1-2.f0": {
+  "a": [
+   "{pre}Susan has (just |already )?talked to Harry{rest}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, …) – Ergebnis."
+ },
+ "L13-E1-2.f1": {
+  "a": [
+   "{pre}Susan has been talking to Harry{rest}"
+  ],
+  "r": "have/has + been + verb+ing + Signalwort (all day, for, since …) – Dauer."
+ },
+ "L13-E1-3.f0": {
+  "a": [
+   "{pre}I have (just |already )?waited for the bus{rest}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, …) – Ergebnis."
+ },
+ "L13-E1-3.f1": {
+  "a": [
+   "{pre}I have been waiting for the bus{rest}"
+  ],
+  "r": "have/has + been + verb+ing + Signalwort (all day, for, since …) – Dauer."
+ },
+ "L13-E1-4.f0": {
+  "a": [
+   "{pre}Mr Potter has taught in this school since 2020{rest}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, …) – Ergebnis."
+ },
+ "L13-E1-4.f1": {
+  "a": [
+   "{pre}Mr Potter has been teaching in this school since 2020{rest}"
+  ],
+  "r": "have/has + been + verb+ing + Signalwort (all day, for, since …) – Dauer."
+ },
+ "L13-E1-5.f0": {
+  "a": [
+   "{pre}Damian has worked in this company for (5|five) years{rest}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, …) – Ergebnis."
+ },
+ "L13-E1-5.f1": {
+  "a": [
+   "{pre}Damian has been working in this company for (5|five) years{rest}"
+  ],
+  "r": "have/has + been + verb+ing + Signalwort (all day, for, since …) – Dauer."
+ },
+ "L13-E2-1.g0": {
+  "a": [
+   "has been raining"
+  ]
+ },
+ "L13-E2-2.g0": {
+  "a": [
+   "has broken"
+  ]
+ },
+ "L13-E2-3.g0": {
+  "a": [
+   "hasn't talked"
+  ]
+ },
+ "L13-E2-4.g0": {
+  "a": [
+   "has been ringing"
+  ]
+ },
+ "L13-E2-5.g0": {
+  "a": [
+   "have been doing"
+  ]
+ },
+ "L13-E2-6.g0": {
+  "a": [
+   "have welcomed"
+  ]
+ },
+ "L13-E2-7.g0": {
+  "a": [
+   "have been chasing",
+   "have chased"
+  ]
+ },
+ "L13-E2-8.g0": {
+  "a": [
+   "has"
+  ]
+ },
+ "L13-E2-8.g1": {
+  "a": [
+   "bought"
+  ]
+ },
+ "L13-E2-9.g0": {
+  "a": [
+   "have"
+  ]
+ },
+ "L13-E2-9.g1": {
+  "a": [
+   "been doing"
+  ]
+ },
+ "L13-E2-10.g0": {
+  "a": [
+   "have been cooking"
+  ]
+ },
+ "L13-E2-11.g0": {
+  "a": [
+   "have done"
+  ]
+ },
+ "L13-E2-12.g0": {
+  "a": [
+   "have just come"
+  ]
+ },
+ "L13-E2-13.g0": {
+  "a": [
+   "hasn't been"
+  ]
+ },
+ "L13-E2-14.g0": {
+  "a": [
+   "has been crying"
+  ]
+ },
+ "L13-E2-15.g0": {
+  "a": [
+   "has been sleeping",
+   "has slept"
+  ]
+ },
+ "L13-E3-1.f0": {
+  "a": [
+   "They have been living in Italy since 2019"
+  ]
+ },
+ "L13-E3-2.f0": {
+  "a": [
+   "I have written an English test"
+  ]
+ },
+ "L13-E3-3.f0": {
+  "a": [
+   "Paul has played the guitar"
+  ]
+ },
+ "L13-E3-4.f0": {
+  "a": [
+   "They haven't been listening to music"
+  ]
+ },
+ "L13-E3-5.f0": {
+  "a": [
+   "The mechanic has been repairing ((3|three) )?cars"
+  ],
+  "r": "Mit Mengenangabe klingt progressive ungewöhnlich – siehe REVIEW_NEEDED."
+ },
+ "L13-E3-6.f0": {
+  "a": [
+   "Has Jim been walking in the park"
+  ]
+ },
+ "L13-E4-1.g0": {
+  "a": [
+   "have written"
+  ]
+ },
+ "L13-E4-2.g0": {
+  "a": [
+   "have been writing"
+  ]
+ },
+ "L13-E4-3.g0": {
+  "a": [
+   "has been working",
+   "has worked"
+  ]
+ },
+ "L13-E4-4.g0": {
+  "a": [
+   "has worked",
+   "worked"
+  ]
+ },
+ "L13-E4-5.g0": {
+  "a": [
+   "have been taking",
+   "have taken"
+  ]
+ },
+ "L13-E4-6.g0": {
+  "a": [
+   "have"
+  ]
+ },
+ "L13-E4-6.g1": {
+  "a": [
+   "taken"
+  ]
+ }
+}

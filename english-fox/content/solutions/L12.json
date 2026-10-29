@@ -1,0 +1,160 @@
+{
+ "L12-E1-1.mc": {
+  "c": 1
+ },
+ "L12-E1-2.mc": {
+  "c": 3
+ },
+ "L12-E1-3.mc": {
+  "c": 3
+ },
+ "L12-E1-4.mc": {
+  "c": 0
+ },
+ "L12-E1-5.mc": {
+  "c": 2
+ },
+ "L12-E1-6.mc": {
+  "c": 3
+ },
+ "L12-E2-1.f0": {
+  "a": [
+   "How long have you been watching TV"
+  ]
+ },
+ "L12-E2-2.f0": {
+  "a": [
+   "Has Peter been playing (the )?guitar{rest}",
+   "How long has Peter been playing (the )?guitar"
+  ]
+ },
+ "L12-E2-3.f0": {
+  "a": [
+   "Have we been chatting with friends",
+   "How long have we been chatting with friends"
+  ]
+ },
+ "L12-E3-1.wo": {
+  "a": [
+   "I have been lying in the sun the whole day",
+   "The whole day I have been lying in the sun",
+   "I have been lying the whole day in the sun"
+  ]
+ },
+ "L12-E3-2.wo": {
+  "a": [
+   "Peter has been studying at school all day long",
+   "Peter has been studying all day long at school",
+   "All day long Peter has been studying at school"
+  ]
+ },
+ "L12-E3-3.wo": {
+  "a": [
+   "I'm tired because my dog has been barking all night"
+  ]
+ },
+ "L12-E3-4.wo": {
+  "a": [
+   "The fire has been burning for two hours"
+  ]
+ },
+ "L12-E3-5.wo": {
+  "a": [
+   "They have been travelling around Europe for 8 weeks",
+   "For 8 weeks they have been travelling around Europe"
+  ]
+ },
+ "L12-E4-1.w": {
+  "w": [
+   "takeing"
+  ]
+ },
+ "L12-E4-1.s": {
+  "a": [
+   "I have been taking photos since I was (10|ten)"
+  ]
+ },
+ "L12-E4-2.w": {
+  "w": [
+   "has"
+  ]
+ },
+ "L12-E4-2.s": {
+  "a": [
+   "How long have you been crying"
+  ]
+ },
+ "L12-E4-3.w": {
+  "w": [
+   "played"
+  ]
+ },
+ "L12-E4-3.s": {
+  "a": [
+   "They have been playing cards for (2|two) hours( now)?"
+  ]
+ },
+ "L12-E4-4.w": {
+  "w": [
+   "be"
+  ]
+ },
+ "L12-E4-4.s": {
+  "a": [
+   "Kevin has been reading that book the whole day"
+  ]
+ },
+ "L12-E4-5.w": {
+  "w": [
+   "hasen't"
+  ]
+ },
+ "L12-E4-5.s": {
+  "a": [
+   "Jim hasn't been washing the car"
+  ]
+ },
+ "L12-E4-6.w": {
+  "w": [
+   "were"
+  ]
+ },
+ "L12-E4-6.s": {
+  "a": [
+   "Mum has been cleaning my room",
+   "Mum was cleaning my room"
+  ]
+ },
+ "L12-E4-7.w": {
+  "w": [
+   "hasn't",
+   "liing"
+  ]
+ },
+ "L12-E4-7.s": {
+  "a": [
+   "The rabbits haven't been lying on the sofa the whole day"
+  ],
+  "r": "Zwei Fehler: haven't (Plural) und lying."
+ },
+ "L12-E4-8.w": {
+  "w": [
+   "drunk"
+  ]
+ },
+ "L12-E4-8.s": {
+  "a": [
+   "They have been drinking tea"
+  ]
+ },
+ "L12-E4-9.w": {
+  "w": [
+   "something"
+  ]
+ },
+ "L12-E4-9.s": {
+  "a": [
+   "I haven't been doing anything"
+  ]
+ }
+}

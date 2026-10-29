@@ -1,0 +1,25 @@
+{
+  "L05-E1-1.f0": { "a": ["Ben is going to tidy up his room", "Ben is going to tidy his room up", "He is going to tidy up his room"] },
+  "L05-E1-1.f1": { "a": ["Ben isn't going to clean the hamster cage again", "He isn't going to clean the hamster cage again"] },
+  "L05-E1-2.f0": { "a": ["Ann is going to have (a )?tennis match", "She is going to have (a )?tennis match"] },
+  "L05-E1-2.f1": { "a": ["Ann isn't going to listen to music all the time", "She isn't going to listen to music all the time"] },
+  "L05-E1-3.f0": { "a": ["I am going to prepare the party"] },
+  "L05-E1-3.f1": { "a": ["I am not going to invite Peter Parker"] },
+  "L05-E1-4.f0": { "a": ["We are going to enjoy our weekend"] },
+  "L05-E1-4.f1": { "a": ["We aren't going to think of our parents"] },
+
+  "L05-E2-1.g0": { "a": ["am going to visit"] },
+  "L05-E2-2.g0": { "a": ["Is"] }, "L05-E2-2.g1": { "a": ["going to work"] },
+  "L05-E2-3.g0": { "a": ["is going to eat"] },
+  "L05-E2-4.g0": { "a": ["am not going to swim"] },
+  "L05-E2-5.g0": { "a": ["Is"] }, "L05-E2-5.g1": { "a": ["going to make"] },
+  "L05-E2-6.g0": { "a": ["aren't going to come"] }, "L05-E2-6.g1": { "a": ["are going to watch"] },
+  "L05-E2-7.g0": { "a": ["are going to hike"] },
+  "L05-E2-8.g0": { "a": ["Are"] }, "L05-E2-8.g1": { "a": ["going to plan"] },
+  "L05-E2-9.g0": { "a": ["is going to enjoy"], "r": "everybody ist Singular → is." },
+
+  "L05-E3-1.f0": { "a": ["(I am|We are) going to invite (my|our) friends"] },
+  "L05-E3-2.f0": { "a": ["(The guests|They) are going to come at 8 p ?m", "(The guests|They) are going to come at 8", "(The guests|They) are going to come at 8 o'clock"] },
+  "L05-E3-3.f0": { "a": ["(The party|It) is going to take place in (the|our|my) garden"] },
+  "L05-E3-4.f0": { "a": ["(I am|We are) going to dance (and|,) have fun (and|but) (I am|we are|I'm) not going to do (my|our|any)? ?homework", "(I am|We are) going to dance and have fun"], "r": "Zwei Teile: positiv (dance, have fun) und negativ (not going to do homework)." }
+}

@@ -1,0 +1,359 @@
+{
+ "L10-E1-1.f0": {
+  "a": [
+   "Judith has already washed the car"
+  ]
+ },
+ "L10-E1-1.f1": {
+  "a": [
+   "Judith hasn't washed the car yet",
+   "Judith hasn't washed the car"
+  ]
+ },
+ "L10-E1-2.f0": {
+  "a": [
+   "I have been to Spain many times in my life"
+  ]
+ },
+ "L10-E1-2.f1": {
+  "a": [
+   "How (often|many times) have you been to Spain( in your life)?"
+  ]
+ },
+ "L10-E1-3.f0": {
+  "a": [
+   "Who has studied for many hours in her room"
+  ]
+ },
+ "L10-E1-3.f1": {
+  "a": [
+   "Ann hasn't studied for many hours in her room"
+  ]
+ },
+ "L10-E1-4.f0": {
+  "a": [
+   "The students have just finished their tests"
+  ]
+ },
+ "L10-E1-4.f1": {
+  "a": [
+   "Have the students just finished their tests",
+   "What have the students just finished"
+  ]
+ },
+ "L10-E2-1.g0": {
+  "a": [
+   "has just caught"
+  ]
+ },
+ "L10-E2-2.g0": {
+  "a": [
+   "has already worn"
+  ]
+ },
+ "L10-E2-3.g0": {
+  "a": [
+   "have never felt"
+  ]
+ },
+ "L10-E2-4.g0": {
+  "a": [
+   "have lived"
+  ]
+ },
+ "L10-E2-4.g1": {
+  "a": [
+   "since"
+  ]
+ },
+ "L10-E2-5.g0": {
+  "a": [
+   "hasn't found"
+  ]
+ },
+ "L10-E2-5.g1": {
+  "a": [
+   "yet"
+  ]
+ },
+ "L10-E2-6.g0": {
+  "a": [
+   "has bought"
+  ]
+ },
+ "L10-E2-6.g1": {
+  "a": [
+   "recently",
+   "so far",
+   "already",
+   "today"
+  ],
+  "r": "Signalwort frei wählbar (z. B. recently)."
+ },
+ "L10-E2-7.g0": {
+  "a": [
+   "hasn't missed"
+  ]
+ },
+ "L10-E2-7.g1": {
+  "a": [
+   "for"
+  ]
+ },
+ "L10-E2-8.g0": {
+  "a": [
+   "haven't met"
+  ]
+ },
+ "L10-E2-8.g1": {
+  "a": [
+   "far"
+  ]
+ },
+ "L10-E2-9.g0": {
+  "a": [
+   "Have"
+  ]
+ },
+ "L10-E2-9.g1": {
+  "a": [
+   "already done"
+  ]
+ },
+ "L10-E3-1.w": {
+  "w": [
+   "have"
+  ]
+ },
+ "L10-E3-1.s": {
+  "a": [
+   "Peter has just hurt his toe"
+  ]
+ },
+ "L10-E3-2.w": {
+  "w": [
+   "never",
+   "have"
+  ]
+ },
+ "L10-E3-2.s": {
+  "a": [
+   "Kim and Ann have never visited a museum"
+  ]
+ },
+ "L10-E3-3.w": {
+  "w": [
+   "heared"
+  ]
+ },
+ "L10-E3-3.s": {
+  "a": [
+   "We have heard this song (10|ten) times so far"
+  ]
+ },
+ "L10-E3-4.w": {
+  "w": [
+   "since"
+  ]
+ },
+ "L10-E3-4.s": {
+  "a": [
+   "Mr Potter has worked as a teacher for (2|two) years"
+  ]
+ },
+ "L10-E3-5.w": {
+  "w": [
+   "have"
+  ]
+ },
+ "L10-E3-5.s": {
+  "a": [
+   "We are too late( ,)? The bus has already left",
+   "The bus has already left"
+  ]
+ },
+ "L10-E3-6.w": {
+  "w": [
+   "havent"
+  ]
+ },
+ "L10-E3-6.s": {
+  "a": [
+   "I haven't watered the plants yet"
+  ]
+ },
+ "L10-E3-7.w": {
+  "w": [
+   "test"
+  ]
+ },
+ "L10-E3-7.s": {
+  "a": [
+   "Have you ever tested this drink",
+   "Have you ever tasted this drink"
+  ]
+ },
+ "L10-E3-8.w": {
+  "w": [
+   "since"
+  ]
+ },
+ "L10-E3-8.s": {
+  "a": [
+   "You haven't met your friend for years"
+  ]
+ },
+ "L10-E3-9.w": {
+  "w": [
+   "has"
+  ]
+ },
+ "L10-E3-9.s": {
+  "a": [
+   "(Yeah )?I have just won the first prize in a competition"
+  ]
+ },
+ "L10-E3-10.w": {
+  "w": [
+   "have",
+   "don"
+  ]
+ },
+ "L10-E3-10.s": {
+  "a": [
+   "He has just done the washing up",
+   "He has just done the washing-up"
+  ],
+  "r": "Zwei Fehler: has (he) und done."
+ },
+ "L10-E4-1.c0": {
+  "a": [
+   "paid"
+  ]
+ },
+ "L10-E4-2.c0": {
+  "a": [
+   "turned"
+  ]
+ },
+ "L10-E4-3.c0": {
+  "a": [
+   "passed"
+  ]
+ },
+ "L10-E4-4.c0": {
+  "a": [
+   "taken"
+  ]
+ },
+ "L10-E4-5.c0": {
+  "a": [
+   "cut"
+  ]
+ },
+ "L10-E4-6.c0": {
+  "a": [
+   "kept"
+  ]
+ },
+ "L10-E4-7.c0": {
+  "a": [
+   "stood"
+  ]
+ },
+ "L10-E4-8.c0": {
+  "a": [
+   "sat"
+  ]
+ },
+ "L10-E4-9.c0": {
+  "a": [
+   "bought"
+  ]
+ },
+ "L10-E4-10.c0": {
+  "a": [
+   "looked"
+  ]
+ },
+ "L10-E4-11.c0": {
+  "a": [
+   "thrown"
+  ]
+ },
+ "L10-E4-12.c0": {
+  "a": [
+   "watched"
+  ]
+ },
+ "L10-E4-13.c0": {
+  "a": [
+   "read"
+  ]
+ },
+ "L10-E4-14.c0": {
+  "a": [
+   "met"
+  ]
+ },
+ "L10-E4-15.c0": {
+  "a": [
+   "known"
+  ]
+ },
+ "L10-E4-16.c0": {
+  "a": [
+   "become"
+  ]
+ },
+ "L10-E4-17.c0": {
+  "a": [
+   "tried"
+  ]
+ },
+ "L10-E4-18.c0": {
+  "a": [
+   "wanted"
+  ]
+ },
+ "L10-E4-19.c0": {
+  "a": [
+   "shaken"
+  ]
+ },
+ "L10-E4-20.c0": {
+  "a": [
+   "drunk"
+  ]
+ },
+ "L10-E4-21.c0": {
+  "a": [
+   "eaten"
+  ]
+ },
+ "L10-E4-22.c0": {
+  "a": [
+   "decided"
+  ]
+ },
+ "L10-E4-23.c0": {
+  "a": [
+   "taught"
+  ]
+ },
+ "L10-E4-24.c0": {
+  "a": [
+   "won"
+  ]
+ },
+ "L10-E4-25.c0": {
+  "a": [
+   "left"
+  ]
+ },
+ "L10-E4-26.c0": {
+  "a": [
+   "pushed"
+  ]
+ }
+}

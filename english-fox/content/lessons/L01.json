@@ -1,0 +1,68 @@
+{
+  "id": "L01", "slug": "simple-present", "title": "Simple present", "unit": 1, "order": 1,
+  "merkbox": {
+    "usage": "Handlungen passieren regelmäßig oder nie / Fakten",
+    "be": "am / is / are",
+    "positive": "he, she, it – S must fit!",
+    "negative": "don't / doesn't + verb",
+    "question": "(question word +) Do/Does … + verb",
+    "signal_words": ["always", "often", "usually", "regularly", "sometimes", "seldom", "never", "once/twice", "every", "on Saturdays"]
+  },
+  "exercises": [
+    { "id": "L01-E1", "type": "gap_fill", "title": "Fill in the gaps, please.", "items": [
+      { "id": "L01-E1-1", "text": "{} Sandra {} (go) to the park?" },
+      { "id": "L01-E1-2", "text": "I {} (not/like) pizza." },
+      { "id": "L01-E1-3", "text": "{} we {} (have) breakfast?" },
+      { "id": "L01-E1-4", "text": "My friend Mary {} (draw) nice pictures." },
+      { "id": "L01-E1-5", "text": "You {} (not/meet) your classmates." },
+      { "id": "L01-E1-6", "text": "Peter {} (have) a shower." },
+      { "id": "L01-E1-7", "text": "The girls {} (play) football well." },
+      { "id": "L01-E1-8", "text": "Linda and Pete {} (swim) in a lake." },
+      { "id": "L01-E1-9", "text": "She {} (brush) her teeth." },
+      { "id": "L01-E1-10", "text": "{} they {} (meet) every day?" },
+      { "id": "L01-E1-11", "text": "The students {} (not/read) books." }
+    ]},
+    { "id": "L01-E2", "type": "write", "title": "Use the subject in brackets for the sentence and add a signal word.", "items": [
+      { "id": "L01-E2-1", "prompt": "I wear trousers. (Lucy)" },
+      { "id": "L01-E2-2", "prompt": "Ben goes shopping. (we)" },
+      { "id": "L01-E2-3", "prompt": "The cats catch mice. (the cat)" },
+      { "id": "L01-E2-4", "prompt": "Grandma is in the kitchen. (they)" },
+      { "id": "L01-E2-5", "prompt": "Ben eats a pancake. (Ben and Anna)" },
+      { "id": "L01-E2-6", "prompt": "Mum tidies up my room. (I)" },
+      { "id": "L01-E2-7", "prompt": "We forget the homework. (she)" }
+    ]},
+    { "id": "L01-E3", "type": "multiple_choice", "title": "Circle the correct one.", "items": [
+      { "id": "L01-E3-1", "text": "The elephant ___ nuts.", "options": ["don't eat", "doesn't eat"] },
+      { "id": "L01-E3-2", "text": "They ___ the plants.", "options": ["don't water", "doesn't water"] },
+      { "id": "L01-E3-3", "text": "Kim ___ up well.", "options": ["don't get", "doesn't get"] },
+      { "id": "L01-E3-4", "text": "We ___ in a village.", "options": ["don't live", "doesn't live"] },
+      { "id": "L01-E3-5", "text": "I ___ after my brother.", "options": ["don't look", "doesn't look"] }
+    ]},
+    { "id": "L01-E4", "type": "error_correction", "title": "Find the mistakes and correct.", "items": [
+      { "id": "L01-E4-1", "text": "Paul don't help at home." },
+      { "id": "L01-E4-2", "text": "Ben haves a cat." },
+      { "id": "L01-E4-3", "text": "Do you likes me?" },
+      { "id": "L01-E4-4", "text": "We work always hard." },
+      { "id": "L01-E4-5", "text": "The girls be happy." },
+      { "id": "L01-E4-6", "text": "Sally doesn't plays cards." },
+      { "id": "L01-E4-7", "text": "I don't the homework." },
+      { "id": "L01-E4-8", "text": "Kim, Jamie and Collin goes to the cinema and watchs a film there." }
+    ]},
+    { "id": "L01-E5", "type": "write", "title": "Write questions to the underlined words.", "items": [
+      { "id": "L01-E5-1", "prompt": "The bird sits [[in the tree]]." },
+      { "id": "L01-E5-2", "prompt": "I ride [[my bike]]." },
+      { "id": "L01-E5-3", "prompt": "They come home [[at 10 o'clock]]." },
+      { "id": "L01-E5-4", "prompt": "The farmer feeds the cows [[in the morning]]." },
+      { "id": "L01-E5-5", "prompt": "She makes dinner [[because she is hungry]]." },
+      { "id": "L01-E5-6", "prompt": "We donate [[a present]]." },
+      { "id": "L01-E5-7", "prompt": "Our teachers drink coffee [[twice a day]]." },
+      { "id": "L01-E5-8", "prompt": "I get to school [[by bus]]." }
+    ]},
+    { "id": "L01-E6", "type": "table", "title": "Add -s, -es, or -ies to the verbs, please.", "columns": [""], "items": [
+      { "id": "L01-E6-1", "prompt": "swim" }, { "id": "L01-E6-2", "prompt": "brush" }, { "id": "L01-E6-3", "prompt": "pass" }, { "id": "L01-E6-4", "prompt": "watch" },
+      { "id": "L01-E6-5", "prompt": "go" }, { "id": "L01-E6-6", "prompt": "do" }, { "id": "L01-E6-7", "prompt": "play" }, { "id": "L01-E6-8", "prompt": "help" },
+      { "id": "L01-E6-9", "prompt": "give" }, { "id": "L01-E6-10", "prompt": "have" }, { "id": "L01-E6-11", "prompt": "match" }, { "id": "L01-E6-12", "prompt": "teach" },
+      { "id": "L01-E6-13", "prompt": "fly" }, { "id": "L01-E6-14", "prompt": "try" }, { "id": "L01-E6-15", "prompt": "give" }, { "id": "L01-E6-16", "prompt": "kiss" }
+    ]}
+  ]
+}

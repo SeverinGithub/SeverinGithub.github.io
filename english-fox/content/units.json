@@ -1,0 +1,7 @@
+[
+  { "id": 1, "title": "Present", "color": "#ff7a1a" },
+  { "id": 2, "title": "Future", "color": "#2b9bf4" },
+  { "id": 3, "title": "Past", "color": "#8a5cf6" },
+  { "id": 4, "title": "Perfect", "color": "#16a36a" },
+  { "id": 5, "title": "Advanced", "color": "#e5394d" }
+]

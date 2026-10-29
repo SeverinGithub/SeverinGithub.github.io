@@ -1,0 +1,108 @@
+{
+ "id": "MX2",
+ "slug": "mixed-tenses-b",
+ "title": "Mixed tenses B",
+ "unit": 5,
+ "order": 17,
+ "kind": "mixed",
+ "merkbox": {
+  "usage": "Erkenne die Zeitform des Satzes und schreibe denselben Satz in allen anderen Zeitformen. Leere Spaltenköpfe: wähle die passende Zeitform (Zusatzpunkt).",
+  "positive": "gleiches Subjekt, gleiches Verb",
+  "negative": "Verneinung bleibt Verneinung",
+  "question": "Frage bleibt Frage",
+  "signal_words": [
+   "Letzte Zeile: passende Signalwörter für jede Zeitform"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "MX2-E1",
+   "type": "grid",
+   "title": "Mixed tenses",
+   "tenses": [
+    "past perfect",
+    "present perfect progressive",
+    "present perfect",
+    "past progressive",
+    "simple past",
+    "present progressive",
+    "simple present",
+    "will future",
+    "going to future"
+   ],
+   "columns": [
+    {
+     "tense": 0
+    },
+    {
+     "tense": 1,
+     "label": "present perfect progressive"
+    },
+    {
+     "tense": 2
+    },
+    {
+     "tense": 3,
+     "label": "past progressive"
+    },
+    {
+     "tense": 4,
+     "label": "simple past"
+    },
+    {
+     "options": [
+      5,
+      7
+     ]
+    },
+    {
+     "tense": 6,
+     "label": "simple present"
+    },
+    {
+     "options": [
+      5,
+      7
+     ]
+    },
+    {
+     "tense": 8,
+     "label": "going to future"
+    }
+   ],
+   "items": [
+    {
+     "id": "MX2-R1",
+     "given": {
+      "0": "Tim had eaten an apple."
+     }
+    },
+    {
+     "id": "MX2-R2",
+     "given": {
+      "1": "They have been drinking."
+     }
+    },
+    {
+     "id": "MX2-R3",
+     "given": {
+      "2": "I haven't sat on the sofa."
+     }
+    },
+    {
+     "id": "MX2-R4",
+     "given": {
+      "3": "Were we singing?"
+     }
+    },
+    {
+     "id": "MX2-R5",
+     "signal": true,
+     "given": {
+      "4": "yesterday, ago, last, in …"
+     }
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,143 @@
+{
+ "id": "L15",
+ "slug": "past-perfect-vs-simple-past",
+ "title": "Past perfect – simple past",
+ "unit": 5,
+ "order": 16,
+ "merkbox": {
+  "usage": "Past perfect: Was war zuerst? · Simple past: Was passierte danach?",
+  "positive": "had + 3rd form  ·  verb-ed / 2nd form",
+  "negative": "hadn't + 3rd form  ·  didn't + verb",
+  "question": "Had … + 3rd form?  ·  Did … + verb?",
+  "signal_words": [
+   "after (+ past perfect)",
+   "when … already (+ past perfect)",
+   "before (+ simple past)"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "L15-E1",
+   "type": "write",
+   "title": "Make a sentence and fill in a suitable signal word.",
+   "fields": [
+    "past perfect",
+    "simple past"
+   ],
+   "items": [
+    {
+     "id": "L15-E1-1",
+     "prompt": "He (do) his homework."
+    },
+    {
+     "id": "L15-E1-2",
+     "prompt": "Susan (talk) to Harry."
+    }
+   ]
+  },
+  {
+   "id": "L15-E2",
+   "type": "gap_fill",
+   "timeline": [
+    "shower",
+    "school",
+    "guitar",
+    "pizza",
+    "tv"
+   ],
+   "title": "Look at Josh's day. What had he done?",
+   "items": [
+    {
+     "id": "L15-E2-1",
+     "text": "Before Josh {} the guitar he {}."
+    },
+    {
+     "id": "L15-E2-2",
+     "text": "Before the boy {} TV {}."
+    },
+    {
+     "id": "L15-E2-3",
+     "text": "Before {}."
+    },
+    {
+     "id": "L15-E2-4",
+     "text": "After Josh {} he {} to school."
+    },
+    {
+     "id": "L15-E2-5",
+     "text": "After {} Josh {} pizza."
+    },
+    {
+     "id": "L15-E2-6",
+     "text": "After {}."
+    },
+    {
+     "id": "L15-E2-7",
+     "text": "When Josh {} guitar lessons he {} already {} at school."
+    },
+    {
+     "id": "L15-E2-8",
+     "text": "When he {} pizza he {} already {} guitar lessons."
+    },
+    {
+     "id": "L15-E2-9",
+     "text": "When {}."
+    }
+   ]
+  },
+  {
+   "id": "L15-E3",
+   "type": "gap_fill",
+   "title": "Fill in the simple past and the past perfect.",
+   "items": [
+    {
+     "id": "L15-E3-1",
+     "text": "The car {} (be) working because Dad {} (lose) his keys."
+    },
+    {
+     "id": "L15-E3-2",
+     "text": "Paul {} (not/have) money for ice-cream because he {} (forget) to ask his mother."
+    },
+    {
+     "id": "L15-E3-3",
+     "text": "After her cat {} (die) last Friday Ann {} (be) very sad."
+    },
+    {
+     "id": "L15-E3-4",
+     "text": "I {} (not/want) to see the film because I {} (already/see) it."
+    },
+    {
+     "id": "L15-E3-5",
+     "text": "Linda {} (ran) away after she {} (see) the spider."
+    }
+   ]
+  },
+  {
+   "id": "L15-E4",
+   "type": "write",
+   "title": "Connect the 2 sentences using the words in brackets.",
+   "items": [
+    {
+     "id": "L15-E4-1",
+     "prompt": "The robber broke into the house. Later he escaped through the window. (before)"
+    },
+    {
+     "id": "L15-E4-2",
+     "prompt": "Ann took a bath. She worked hard all day. (because)"
+    },
+    {
+     "id": "L15-E4-3",
+     "prompt": "The waitress served the food. The guests left the restaurant. (when …already)"
+    },
+    {
+     "id": "L15-E4-4",
+     "prompt": "I wrote a nice story. My teacher corrected it. (after)"
+    },
+    {
+     "id": "L15-E4-5",
+     "prompt": "I sent Mr Potter an e-mail. But he didn't aswer it. (which)"
+    }
+   ]
+  }
+ ]
+}

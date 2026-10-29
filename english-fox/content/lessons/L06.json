@@ -1,0 +1,39 @@
+{
+  "id": "L06", "slug": "will-vs-going-to", "title": "Will future – going to future", "unit": 2, "order": 6,
+  "merkbox": {
+    "usage": "will: Vermutungen, Vorhersagen, Träume, spontane Entscheidungen  ·  going to: geplante, sichere Handlungen",
+    "positive": "will + verb  ·  am/is/are + going to + verb",
+    "negative": "won't + verb  ·  am not/isn't/aren't + going to + verb",
+    "question": "Will … + verb?  ·  Am/Is/Are … going to + verb?",
+    "signal_words": ["probably", "I think", "I suppose", "I guess", "tomorrow", "next week", "in 2050"]
+  },
+  "exercises": [
+    { "id": "L06-E1", "type": "write", "title": "Make a sentence.", "fields": ["will future", "going to future"], "items": [
+      { "id": "L06-E1-1", "prompt": "He (buy) some lemonade." },
+      { "id": "L06-E1-2", "prompt": "Susan and Harry (talk) about their problems." },
+      { "id": "L06-E1-3", "prompt": "I (feed) the ducks." },
+      { "id": "L06-E1-4", "prompt": "The animals (be) in the cage." },
+      { "id": "L06-E1-5", "prompt": "Damian (listen) to the teacher." }
+    ]},
+    { "id": "L06-E2", "type": "gap_fill", "cards": true, "title": "will or going to? Fill in the right form.", "items": [
+      { "id": "L06-E2-1", "text": "Look! The sun is shining. I {} (go) to the lake today." },
+      { "id": "L06-E2-2", "text": "I think this girl {} (be) a star in the next few years." },
+      { "id": "L06-E2-3", "text": "{} you {} (book) our campsite tomorrow?" },
+      { "id": "L06-E2-4", "text": "Mum, there's nothing in the fridge. We {} (do) the shopping later." },
+      { "id": "L06-E2-5", "text": "After school Pia {} (work) as a nurse." },
+      { "id": "L06-E2-6", "text": "We {} (fly) to the USA this summer." },
+      { "id": "L06-E2-7", "text": "They {} (go) to the cinema tomorrow. They've already bought tickets." },
+      { "id": "L06-E2-8", "text": "These trousers look beautiful! But I think they {} (be) very expensive." },
+      { "id": "L06-E2-9", "text": "Kate is very hungry. Her mother {} (make) her something to eat." },
+      { "id": "L06-E2-10", "text": "The students have to learn. They {} (not meet) friends." },
+      { "id": "L06-E2-11", "text": "In 2050 I suppose we {} (spend) our holidays on the moon." },
+      { "id": "L06-E2-12", "text": "Peter {} (have) a party on Friday. He invited some friends." },
+      { "id": "L06-E2-13", "text": "The train {} probably {} (arrive) at half past 10." },
+      { "id": "L06-E2-14", "text": "In the future life {} (be) completely different." },
+      { "id": "L06-E2-15", "text": "My grandma {} (be) 80 this summer." },
+      { "id": "L06-E2-16", "text": "Oh, no it's late! We {} (miss) the train." },
+      { "id": "L06-E2-17", "text": "Ms Potter {} (see) the doctor next Monday." },
+      { "id": "L06-E2-18", "text": "Tim {} (not/play) football the next weeks, because he broke his leg." }
+    ]}
+  ]
+}

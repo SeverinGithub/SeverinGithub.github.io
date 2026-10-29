@@ -1,0 +1,14 @@
+{
+  "L08-E1.l": { "open": true, "a": ["re:\\b(was|were) [a-z]+ing\\b"], "r": "Satz im past progressive (was/were + verb+ing), der zu etwas auf dem Bild passt.", "scene": "park",
+    "examples": ["A woman was walking her dog.", "A man was riding a bike.", "Two children were playing with a ball.", "A girl was reading a book on a bench.", "Ducks were swimming in the pond."] },
+
+  "L08-E2-1.c0": { "a": ["was lying"] }, "L08-E2-2.c0": { "a": ["was travelling", "was traveling"] }, "L08-E2-3.c0": { "a": ["were running"] }, "L08-E2-4.c0": { "a": ["was taking"] },
+  "L08-E2-5.c0": { "a": ["was cutting"] }, "L08-E2-6.c0": { "a": ["was giving"] }, "L08-E2-7.c0": { "a": ["was living"] }, "L08-E2-8.c0": { "a": ["was sitting"] },
+  "L08-E2-9.c0": { "a": ["was studying"] }, "L08-E2-10.c0": { "a": ["was swimming"] }, "L08-E2-11.c0": { "a": ["were writing"] }, "L08-E2-12.c0": { "a": ["was getting"] },
+  "L08-E2-13.c0": { "a": ["were playing"] }, "L08-E2-14.c0": { "a": ["was shining"] }, "L08-E2-15.c0": { "a": ["were having"] }, "L08-E2-16.c0": { "a": ["was shaking"] },
+
+  "L08-E3-1.g0": { "a": ["was swimming"] }, "L08-E3-1.g1": { "a": ["was drinking"] },
+  "L08-E3-2.g0": { "a": ["was having"] }, "L08-E3-2.g1": { "a": ["were watching"] },
+  "L08-E3-3.g0": { "a": ["were listening"] }, "L08-E3-3.g1": { "a": ["was texting"] },
+  "L08-E3-4.g0": { "a": ["was playing"] }, "L08-E3-4.g1": { "a": ["was phoning"] }, "L08-E3-4.g2": { "a": ["was brushing"] }
+}

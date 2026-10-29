@@ -1,0 +1,187 @@
+{
+ "id": "L14",
+ "slug": "past-perfect",
+ "title": "Past perfect",
+ "unit": 5,
+ "order": 15,
+ "merkbox": {
+  "usage": "abgeschlossene Handlung, die vor einer anderen Handlung in der Vergangenheit stattgefunden hatte",
+  "be": "had been",
+  "positive": "had + 3rd verb form",
+  "negative": "hadn't + 3rd verb form",
+  "question": "(question word +) Had … + 3rd verb form",
+  "signal_words": [
+   "after (+ past perfect)",
+   "when … already (+ past perfect)",
+   "before (+ simple past)"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "L14-E1",
+   "type": "gap_fill",
+   "title": "Fill in the gaps, please.",
+   "items": [
+    {
+     "id": "L14-E1-1",
+     "text": "The girl {} (play) football."
+    },
+    {
+     "id": "L14-E1-2",
+     "text": "Kevin {} (not/fall) asleep before 12 o'clock."
+    },
+    {
+     "id": "L14-E1-3",
+     "text": "The teacher {} (come) late to school."
+    },
+    {
+     "id": "L14-E1-4",
+     "text": "{} Susan {} (eat) my sweets?"
+    },
+    {
+     "id": "L14-E1-5",
+     "text": "Why {} the baby {} (cry) all night?"
+    },
+    {
+     "id": "L14-E1-6",
+     "text": "He {} (not/speak) with his friends."
+    },
+    {
+     "id": "L14-E1-7",
+     "text": "The dog {} (be) in the garden."
+    },
+    {
+     "id": "L14-E1-8",
+     "text": "We {} (not/watch) the film."
+    }
+   ]
+  },
+  {
+   "id": "L14-E2",
+   "type": "write",
+   "title": "Rewrite the sentences using the past perfect, please.",
+   "items": [
+    {
+     "id": "L14-E2-1",
+     "prompt": "Lucy wore a dress."
+    },
+    {
+     "id": "L14-E2-2",
+     "prompt": "Ben will go shopping"
+    },
+    {
+     "id": "L14-E2-3",
+     "prompt": "The cats is going to catch mice."
+    },
+    {
+     "id": "L14-E2-4",
+     "prompt": "Grandma is in the kitchen."
+    },
+    {
+     "id": "L14-E2-5",
+     "prompt": "Ben eats a pancake."
+    },
+    {
+     "id": "L14-E2-6",
+     "prompt": "Mum isn't tidying up my room."
+    },
+    {
+     "id": "L14-E2-7",
+     "prompt": "We don't forget the homework."
+    },
+    {
+     "id": "L14-E2-8",
+     "prompt": "Did you leave the house early today?"
+    },
+    {
+     "id": "L14-E2-9",
+     "prompt": "Ben has called the police."
+    },
+    {
+     "id": "L14-E2-10",
+     "prompt": "The student is reading a book."
+    },
+    {
+     "id": "L14-E2-11",
+     "prompt": "Will you invite me to your party?"
+    }
+   ]
+  },
+  {
+   "id": "L14-E3",
+   "type": "error_correction",
+   "noError": true,
+   "title": "Find the mistakes and correct.",
+   "items": [
+    {
+     "id": "L14-E3-1",
+     "text": "My daughter had help me at home."
+    },
+    {
+     "id": "L14-E3-2",
+     "text": "We had a cat."
+    },
+    {
+     "id": "L14-E3-3",
+     "text": "Have you lived in England?"
+    },
+    {
+     "id": "L14-E3-4",
+     "text": "We had worked always hard."
+    },
+    {
+     "id": "L14-E3-5",
+     "text": "The girls had be happy."
+    },
+    {
+     "id": "L14-E3-6",
+     "text": "Sally hadnt played cards well."
+    },
+    {
+     "id": "L14-E3-7",
+     "text": "Had Ben do his homework?"
+    },
+    {
+     "id": "L14-E3-8",
+     "text": "Kim, Jamie and Collin went to the cinema."
+    },
+    {
+     "id": "L14-E3-9",
+     "text": "The traffic light had turnt red."
+    },
+    {
+     "id": "L14-E3-10",
+     "text": "The plane hads finally arrived at the airport."
+    }
+   ]
+  },
+  {
+   "id": "L14-E4",
+   "type": "write",
+   "inline": true,
+   "title": "Finish the sentences using the past perfect, please.",
+   "items": [
+    {
+     "id": "L14-E4-1",
+     "prompt": "They allowed to play PC games after"
+    },
+    {
+     "id": "L14-E4-2",
+     "prompt": "She didn't pass the exam because"
+    },
+    {
+     "id": "L14-E4-3",
+     "prompt": "Before Linda broke her arm she"
+    },
+    {
+     "id": "L14-E4-4",
+     "prompt": "Clara cried because she"
+    },
+    {
+     "id": "L14-E4-5",
+     "prompt": "Dad asked for a cup of coffee after"
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,251 @@
+{
+ "MX1-R1.t0": {
+  "a": [
+   "Sue has done her homework"
+  ]
+ },
+ "MX1-R1.t1": {
+  "a": [
+   "Sue was doing her homework"
+  ]
+ },
+ "MX1-R1.t2": {
+  "a": [
+   "Sue did her homework"
+  ]
+ },
+ "MX1-R1.t3": {
+  "a": [
+   "Sue is doing her homework"
+  ]
+ },
+ "MX1-R1.t4": {
+  "a": [
+   "Sue does her homework"
+  ]
+ },
+ "MX1-R1.t5": {
+  "a": [
+   "Sue will do her homework"
+  ]
+ },
+ "MX1-R1.t6": {
+  "a": [
+   "Sue is going to do her homework"
+  ]
+ },
+ "MX1-R2.t0": {
+  "a": [
+   "Tom has read a book"
+  ]
+ },
+ "MX1-R2.t1": {
+  "a": [
+   "Tom was reading a book"
+  ]
+ },
+ "MX1-R2.t2": {
+  "a": [
+   "Tom read a book"
+  ]
+ },
+ "MX1-R2.t3": {
+  "a": [
+   "Tom is reading a book"
+  ]
+ },
+ "MX1-R2.t4": {
+  "a": [
+   "Tom reads a book"
+  ]
+ },
+ "MX1-R2.t5": {
+  "a": [
+   "Tom will read a book"
+  ]
+ },
+ "MX1-R2.t6": {
+  "a": [
+   "Tom is going to read a book"
+  ]
+ },
+ "MX1-R3.t0": {
+  "a": [
+   "My parents haven't watched TV"
+  ]
+ },
+ "MX1-R3.t1": {
+  "a": [
+   "My parents weren't watching TV"
+  ]
+ },
+ "MX1-R3.t2": {
+  "a": [
+   "My parents didn't watch TV"
+  ]
+ },
+ "MX1-R3.t3": {
+  "a": [
+   "My parents aren't watching TV"
+  ]
+ },
+ "MX1-R3.t4": {
+  "a": [
+   "My parents don't watch TV"
+  ]
+ },
+ "MX1-R3.t5": {
+  "a": [
+   "My parents won't watch TV"
+  ]
+ },
+ "MX1-R3.t6": {
+  "a": [
+   "My parents aren't going to watch TV"
+  ]
+ },
+ "MX1-R4.t0": {
+  "a": [
+   "Have we written a test"
+  ]
+ },
+ "MX1-R4.t1": {
+  "a": [
+   "Were we writing a test"
+  ]
+ },
+ "MX1-R4.t2": {
+  "a": [
+   "Did we write a test"
+  ]
+ },
+ "MX1-R4.t3": {
+  "a": [
+   "Are we writing a test"
+  ]
+ },
+ "MX1-R4.t4": {
+  "a": [
+   "Do we write a test"
+  ]
+ },
+ "MX1-R4.t5": {
+  "a": [
+   "Will we write a test"
+  ]
+ },
+ "MX1-R4.t6": {
+  "a": [
+   "Are we going to write a test"
+  ]
+ },
+ "MX1-R5.t0": {
+  "a": [
+   "I have ridden my bike"
+  ]
+ },
+ "MX1-R5.t1": {
+  "a": [
+   "I was riding my bike"
+  ]
+ },
+ "MX1-R5.t2": {
+  "a": [
+   "I rode my bike"
+  ]
+ },
+ "MX1-R5.t3": {
+  "a": [
+   "I am riding my bike"
+  ]
+ },
+ "MX1-R5.t4": {
+  "a": [
+   "I ride my bike"
+  ]
+ },
+ "MX1-R5.t5": {
+  "a": [
+   "I will ride my bike"
+  ]
+ },
+ "MX1-R5.t6": {
+  "a": [
+   "I am going to ride my bike"
+  ]
+ },
+ "MX1-R6.t0": {
+  "open": true,
+  "a": [
+   "re:\\b(since|for|just|already|ever|never|yet|recently|so far)\\b"
+  ],
+  "r": "Ein typisches Signalwort für present perfect."
+ },
+ "MX1-R6.t1": {
+  "open": true,
+  "a": [
+   "re:\\b(while|when)\\b"
+  ],
+  "r": "Ein typisches Signalwort für past progressive."
+ },
+ "MX1-R6.t2": {
+  "open": true,
+  "a": [
+   "re:\\b(yesterday|last|ago|in \\d{4})\\b"
+  ],
+  "r": "Ein typisches Signalwort für simple past."
+ },
+ "MX1-R6.t3": {
+  "open": true,
+  "a": [
+   "re:\\b(now|at the moment|look|listen|at present|right now)\\b"
+  ],
+  "r": "Ein typisches Signalwort für present progressive."
+ },
+ "MX1-R6.t4": {
+  "open": true,
+  "a": [
+   "re:\\b(always|often|usually|regularly|sometimes|seldom|never|every|once|twice|on [a-z]+days)\\b"
+  ],
+  "r": "Ein typisches Signalwort für simple present."
+ },
+ "MX1-R6.t5": {
+  "open": true,
+  "a": [
+   "re:\\b(tomorrow|next|soon|probably|i think|i suppose|i guess|in \\d{4})\\b"
+  ],
+  "r": "Ein typisches Signalwort für will future."
+ },
+ "MX1-R6.t6": {
+  "open": true,
+  "a": [
+   "re:\\b(tomorrow|next|in \\d{4}|i'm sure|i am sure)\\b"
+  ],
+  "r": "Ein typisches Signalwort für going to future."
+ },
+ "MX1-E1.h0": {
+  "c": [
+   0
+  ]
+ },
+ "MX1-E1.h2": {
+  "c": [
+   2
+  ]
+ },
+ "MX1-E1.h3": {
+  "c": [
+   3
+  ]
+ },
+ "MX1-E1.h4": {
+  "c": [
+   4
+  ]
+ },
+ "MX1-E1.h6": {
+  "c": [
+   6
+  ]
+ }
+}

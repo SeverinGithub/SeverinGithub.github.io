@@ -1,0 +1,19 @@
+{
+  "L09-E1-1.f0": { "a": ["{pre}He did his homework{rest}"] }, "L09-E1-1.f1": { "a": ["{pre}He was doing his homework{rest}"] },
+  "L09-E1-2.f0": { "a": ["{pre}Susan talked to Harry{rest}"] }, "L09-E1-2.f1": { "a": ["{pre}Susan was talking to Harry{rest}"] },
+  "L09-E1-3.f0": { "a": ["{pre}I fed the ducks{rest}"] }, "L09-E1-3.f1": { "a": ["{pre}I was feeding the ducks{rest}"] },
+  "L09-E1-4.f0": { "a": ["{pre}The animals ran around{rest}"] }, "L09-E1-4.f1": { "a": ["{pre}The animals were running around{rest}"] },
+  "L09-E1-5.f0": { "a": ["{pre}Damian listened to music{rest}"] }, "L09-E1-5.f1": { "a": ["{pre}Damian was listening to music{rest}"] },
+
+  "L09-E2-1.g0": { "a": ["was riding"] }, "L09-E2-1.g1": { "a": ["fell"] },
+  "L09-E2-2.g0": { "a": ["was brushing"] }, "L09-E2-2.g1": { "a": ["came"] },
+  "L09-E2-3.g0": { "a": ["was raining"] }, "L09-E2-3.g1": { "a": ["left"] },
+  "L09-E2-4.g0": { "a": ["ran"] }, "L09-E2-4.g1": { "a": ["was eating"] },
+  "L09-E2-5.g0": { "a": ["threw"] }, "L09-E2-5.g1": { "a": ["was playing"] },
+  "L09-E2-6.g0": { "a": ["were"] }, "L09-E2-6.g1": { "a": ["doing"] }, "L09-E2-6.g2": { "a": ["called"] },
+  "L09-E2-7.g0": { "a": ["didn't phone"] }, "L09-E2-7.g1": { "a": ["was helping"] },
+  "L09-E2-8.g0": { "a": ["were building"] }, "L09-E2-8.g1": { "a": ["started"] },
+  "L09-E2-9.g0": { "a": ["heard"] }, "L09-E2-9.g1": { "a": ["was reading"] },
+  "L09-E2-10.g0": { "a": ["were writing"] }, "L09-E2-10.g1": { "a": ["came"] },
+  "L09-E2-11.g0": { "a": ["didn't want"] }, "L09-E2-11.g1": { "a": ["was snowing"] }
+}

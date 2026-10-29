@@ -1,0 +1,32 @@
+{
+  "id": "L09", "slug": "simple-past-vs-past-progressive", "title": "Simple past – past progressive", "unit": 3, "order": 9,
+  "merkbox": {
+    "usage": "Handlung in der Vergangenheit, die andauerte (past progressive) und von einer anderen Handlung unterbrochen wurde (simple past)",
+    "positive": "simple past: Handlung wird betont  ·  past progressive: Verlauf wird betont",
+    "negative": "didn't + verb  ·  wasn't/weren't + verb+ing",
+    "question": "Did … + verb?  ·  Was/Were … + verb+ing?",
+    "signal_words": ["when (+ simple past)", "while (+ past progressive)"]
+  },
+  "exercises": [
+    { "id": "L09-E1", "type": "write", "title": "Make a sentence.", "fields": ["simple past", "past progressive"], "items": [
+      { "id": "L09-E1-1", "prompt": "He (do) his homework." },
+      { "id": "L09-E1-2", "prompt": "Susan (talk) to Harry." },
+      { "id": "L09-E1-3", "prompt": "I (feed) the ducks." },
+      { "id": "L09-E1-4", "prompt": "The animals (run) around." },
+      { "id": "L09-E1-5", "prompt": "Damian (listen) to music." }
+    ]},
+    { "id": "L09-E2", "type": "gap_fill", "title": "Simple past or past progressive? Fill in.", "items": [
+      { "id": "L09-E2-1", "text": "Jim {} (ride) a horse when he suddenly {} (fall) down." },
+      { "id": "L09-E2-2", "text": "I {} (brush) my teeth when my brother {} (come) into the room." },
+      { "id": "L09-E2-3", "text": "It {} (rain) when I {} (leave) the house." },
+      { "id": "L09-E2-4", "text": "When Lisa's dog {} (run) away, she {} (eat) a salad." },
+      { "id": "L09-E2-5", "text": "When someone {} (throw) a stone through the window, I {} (play) the piano." },
+      { "id": "L09-E2-6", "text": "What {} you {} (do) when I {} (call) you?" },
+      { "id": "L09-E2-7", "text": "I {} (not phone) my boyfriend because I {} (help) mum in the garden." },
+      { "id": "L09-E2-8", "text": "The children {} (build) a sand castel when it suddenly {} (start) to rain." },
+      { "id": "L09-E2-9", "text": "When Tom {} (hear) a noise, he {} (read) a comic." },
+      { "id": "L09-E2-10", "text": "The girls {} (write) text messages, when the teacher {} (come) in." },
+      { "id": "L09-E2-11", "text": "My grandparents {} (not/want) to go out because it {} (snow)." }
+    ]}
+  ]
+}

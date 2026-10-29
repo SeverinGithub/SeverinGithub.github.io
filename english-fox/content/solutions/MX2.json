@@ -1,0 +1,267 @@
+{
+ "MX2-R1.t0": {
+  "a": [
+   "Tim had eaten an apple"
+  ]
+ },
+ "MX2-R1.t1": {
+  "a": [
+   "Tim has been eating an apple"
+  ]
+ },
+ "MX2-R1.t2": {
+  "a": [
+   "Tim has eaten an apple"
+  ]
+ },
+ "MX2-R1.t3": {
+  "a": [
+   "Tim was eating an apple"
+  ]
+ },
+ "MX2-R1.t4": {
+  "a": [
+   "Tim ate an apple"
+  ]
+ },
+ "MX2-R1.t5": {
+  "a": [
+   "Tim is eating an apple"
+  ]
+ },
+ "MX2-R1.t6": {
+  "a": [
+   "Tim eats an apple"
+  ]
+ },
+ "MX2-R1.t7": {
+  "a": [
+   "Tim will eat an apple"
+  ]
+ },
+ "MX2-R1.t8": {
+  "a": [
+   "Tim is going to eat an apple"
+  ]
+ },
+ "MX2-R2.t0": {
+  "a": [
+   "They had drunk"
+  ]
+ },
+ "MX2-R2.t1": {
+  "a": [
+   "They have been drinking"
+  ]
+ },
+ "MX2-R2.t2": {
+  "a": [
+   "They have drunk"
+  ]
+ },
+ "MX2-R2.t3": {
+  "a": [
+   "They were drinking"
+  ]
+ },
+ "MX2-R2.t4": {
+  "a": [
+   "They drank"
+  ]
+ },
+ "MX2-R2.t5": {
+  "a": [
+   "They are drinking"
+  ]
+ },
+ "MX2-R2.t6": {
+  "a": [
+   "They drink"
+  ]
+ },
+ "MX2-R2.t7": {
+  "a": [
+   "They will drink"
+  ]
+ },
+ "MX2-R2.t8": {
+  "a": [
+   "They are going to drink"
+  ]
+ },
+ "MX2-R3.t0": {
+  "a": [
+   "I hadn't sat on the sofa"
+  ]
+ },
+ "MX2-R3.t1": {
+  "a": [
+   "I haven't been sitting on the sofa"
+  ]
+ },
+ "MX2-R3.t2": {
+  "a": [
+   "I haven't sat on the sofa"
+  ]
+ },
+ "MX2-R3.t3": {
+  "a": [
+   "I wasn't sitting on the sofa"
+  ]
+ },
+ "MX2-R3.t4": {
+  "a": [
+   "I didn't sit on the sofa"
+  ]
+ },
+ "MX2-R3.t5": {
+  "a": [
+   "I am not sitting on the sofa"
+  ]
+ },
+ "MX2-R3.t6": {
+  "a": [
+   "I don't sit on the sofa"
+  ]
+ },
+ "MX2-R3.t7": {
+  "a": [
+   "I won't sit on the sofa"
+  ]
+ },
+ "MX2-R3.t8": {
+  "a": [
+   "I am not going to sit on the sofa"
+  ]
+ },
+ "MX2-R4.t0": {
+  "a": [
+   "Had we sung"
+  ]
+ },
+ "MX2-R4.t1": {
+  "a": [
+   "Have we been singing"
+  ]
+ },
+ "MX2-R4.t2": {
+  "a": [
+   "Have we sung"
+  ]
+ },
+ "MX2-R4.t3": {
+  "a": [
+   "Were we singing"
+  ]
+ },
+ "MX2-R4.t4": {
+  "a": [
+   "Did we sing"
+  ]
+ },
+ "MX2-R4.t5": {
+  "a": [
+   "Are we singing"
+  ]
+ },
+ "MX2-R4.t6": {
+  "a": [
+   "Do we sing"
+  ]
+ },
+ "MX2-R4.t7": {
+  "a": [
+   "Will we sing"
+  ]
+ },
+ "MX2-R4.t8": {
+  "a": [
+   "Are we going to sing"
+  ]
+ },
+ "MX2-R5.t0": {
+  "open": true,
+  "a": [
+   "re:\\b(after|before|already|when|by the time)\\b"
+  ],
+  "r": "Ein typisches Signalwort für past perfect."
+ },
+ "MX2-R5.t1": {
+  "open": true,
+  "a": [
+   "re:\\b(all day|all day long|the whole|how long|since|for)\\b"
+  ],
+  "r": "Ein typisches Signalwort für present perfect progressive."
+ },
+ "MX2-R5.t2": {
+  "open": true,
+  "a": [
+   "re:\\b(since|for|just|already|ever|never|yet|recently|so far)\\b"
+  ],
+  "r": "Ein typisches Signalwort für present perfect."
+ },
+ "MX2-R5.t3": {
+  "open": true,
+  "a": [
+   "re:\\b(while|when)\\b"
+  ],
+  "r": "Ein typisches Signalwort für past progressive."
+ },
+ "MX2-R5.t4": {
+  "open": true,
+  "a": [
+   "re:\\b(yesterday|last|ago|in \\d{4})\\b"
+  ],
+  "r": "Ein typisches Signalwort für simple past."
+ },
+ "MX2-R5.t5": {
+  "open": true,
+  "a": [
+   "re:\\b(now|at the moment|look|listen|at present|right now)\\b"
+  ],
+  "r": "Ein typisches Signalwort für present progressive."
+ },
+ "MX2-R5.t6": {
+  "open": true,
+  "a": [
+   "re:\\b(always|often|usually|regularly|sometimes|seldom|never|every|once|twice|on [a-z]+days)\\b"
+  ],
+  "r": "Ein typisches Signalwort für simple present."
+ },
+ "MX2-R5.t7": {
+  "open": true,
+  "a": [
+   "re:\\b(tomorrow|next|soon|probably|i think|i suppose|i guess|in \\d{4})\\b"
+  ],
+  "r": "Ein typisches Signalwort für will future."
+ },
+ "MX2-R5.t8": {
+  "open": true,
+  "a": [
+   "re:\\b(tomorrow|next|in \\d{4}|i'm sure|i am sure)\\b"
+  ],
+  "r": "Ein typisches Signalwort für going to future."
+ },
+ "MX2-E1.h0": {
+  "c": [
+   0
+  ]
+ },
+ "MX2-E1.h2": {
+  "c": [
+   2
+  ]
+ },
+ "MX2-E1.h5": {
+  "c": [
+   5,
+   7
+  ]
+ },
+ "MX2-E1.h7": {
+  "c": [
+   5,
+   7
+  ]
+ }
+}

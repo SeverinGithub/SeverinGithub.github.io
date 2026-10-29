@@ -1,0 +1,26 @@
+{
+  "L06-E1-1.f0": { "a": ["{pre}He will buy some lemonade{rest}"] }, "L06-E1-1.f1": { "a": ["{pre}He is going to buy some lemonade{rest}"] },
+  "L06-E1-2.f0": { "a": ["{pre}Susan and Harry will talk about their problems{rest}"] }, "L06-E1-2.f1": { "a": ["{pre}Susan and Harry are going to talk about their problems{rest}"] },
+  "L06-E1-3.f0": { "a": ["{pre}I will feed the ducks{rest}"] }, "L06-E1-3.f1": { "a": ["{pre}I am going to feed the ducks{rest}"] },
+  "L06-E1-4.f0": { "a": ["{pre}The animals will be in the cage{rest}"] }, "L06-E1-4.f1": { "a": ["{pre}The animals are going to be in the cage{rest}"] },
+  "L06-E1-5.f0": { "a": ["{pre}Damian will listen to the teacher{rest}"] }, "L06-E1-5.f1": { "a": ["{pre}Damian is going to listen to the teacher{rest}"] },
+
+  "L06-E2-1.g0": { "a": ["am going to go"] },
+  "L06-E2-2.g0": { "a": ["will be"] },
+  "L06-E2-3.g0": { "a": ["Will", "Are"] }, "L06-E2-3.g1": { "a": ["book", "going to book"], "r": "Will … book? oder Are … going to book? (ohne Kontext beides möglich)" },
+  "L06-E2-4.g0": { "a": ["are going to do", "will do"] },
+  "L06-E2-5.g0": { "a": ["is going to work", "will work"] },
+  "L06-E2-6.g0": { "a": ["are going to fly"] },
+  "L06-E2-7.g0": { "a": ["are going to go"] },
+  "L06-E2-8.g0": { "a": ["will be"] },
+  "L06-E2-9.g0": { "a": ["is going to make", "will make"] },
+  "L06-E2-10.g0": { "a": ["aren't going to meet", "won't meet"] },
+  "L06-E2-11.g0": { "a": ["will spend"] },
+  "L06-E2-12.g0": { "a": ["is going to have"] },
+  "L06-E2-13.g0": { "a": ["will"] }, "L06-E2-13.g1": { "a": ["arrive"] },
+  "L06-E2-14.g0": { "a": ["will be"] },
+  "L06-E2-15.g0": { "a": ["will be", "is going to be"] },
+  "L06-E2-16.g0": { "a": ["are going to miss"] },
+  "L06-E2-17.g0": { "a": ["is going to see"] },
+  "L06-E2-18.g0": { "a": ["isn't going to play", "won't play"] }
+}

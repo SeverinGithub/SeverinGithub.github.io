@@ -1,0 +1,166 @@
+{
+ "L02-E1-1.g0": {
+  "a": [
+   "is going"
+  ]
+ },
+ "L02-E1-2.g0": {
+  "a": [
+   "am not eating",
+   "'m not eating"
+  ]
+ },
+ "L02-E1-3.g0": {
+  "a": [
+   "are having"
+  ]
+ },
+ "L02-E1-4.g0": {
+  "a": [
+   "is drawing"
+  ]
+ },
+ "L02-E1-5.g0": {
+  "a": [
+   "are talking"
+  ]
+ },
+ "L02-E1-6.g0": {
+  "a": [
+   "is having"
+  ]
+ },
+ "L02-E1-7.g0": {
+  "a": [
+   "aren't playing"
+  ]
+ },
+ "L02-E1-8.g0": {
+  "a": [
+   "Are"
+  ]
+ },
+ "L02-E1-8.g1": {
+  "a": [
+   "swimming"
+  ]
+ },
+ "L02-E1-9.g0": {
+  "a": [
+   "isn't brushing"
+  ]
+ },
+ "L02-E1-10.g0": {
+  "a": [
+   "is knocking"
+  ]
+ },
+ "L02-E1-11.g0": {
+  "a": [
+   "Are"
+  ]
+ },
+ "L02-E1-11.g1": {
+  "a": [
+   "reading"
+  ]
+ },
+ "L02-E2-1.f0": {
+  "a": [
+   "I am wearing trousers"
+  ]
+ },
+ "L02-E2-2.f0": {
+  "a": [
+   "Ben isn't going shopping"
+  ]
+ },
+ "L02-E2-3.f0": {
+  "a": [
+   "Are the cats catching mice"
+  ]
+ },
+ "L02-E2-4.f0": {
+  "a": [
+   "Grandma is (being )?in the kitchen",
+   "Grandma is in the kitchen"
+  ],
+  "r": "be wird im progressive selten verwendet – 'Grandma is in the kitchen.' bleibt korrekt. Mehrdeutig, siehe REVIEW_NEEDED."
+ },
+ "L02-E2-5.f0": {
+  "a": [
+   "The boys aren't eating the pancakes"
+  ]
+ },
+ "L02-E2-6.f0": {
+  "a": [
+   "I am tidying up my room",
+   "I am tidying my room up"
+  ]
+ },
+ "L02-E2-7.f0": {
+  "a": [
+   "Are we doing our homework"
+  ]
+ },
+ "L02-E3.l": {
+  "open": true,
+  "r": "Satz im present progressive (am/is/are + verb+ing), der zu etwas auf dem Bild passt.",
+  "scene": "park",
+  "examples": [
+   "A woman is walking her dog.",
+   "A man is riding a bike.",
+   "Two children are playing with a ball.",
+   "A girl is reading a book on a bench.",
+   "Ducks are swimming in the pond.",
+   "A man is jogging.",
+   "A family is having a picnic.",
+   "A boy is flying a kite.",
+   "An old man is feeding the birds."
+  ],
+  "a": [
+   "re:\\b(am|is|are) [a-z]+ing\\b"
+  ]
+ },
+ "L02-E4-1.c0": {
+  "a": [
+   "swimming"
+  ]
+ },
+ "L02-E4-2.c0": {
+  "a": [
+   "writing"
+  ]
+ },
+ "L02-E4-3.c0": {
+  "a": [
+   "travelling",
+   "traveling"
+  ]
+ },
+ "L02-E4-4.c0": {
+  "a": [
+   "taking"
+  ]
+ },
+ "L02-E4-5.c0": {
+  "a": [
+   "getting"
+  ]
+ },
+ "L02-E4-6.c0": {
+  "a": [
+   "sitting"
+  ]
+ },
+ "L02-E4-7.c0": {
+  "a": [
+   "trying"
+  ]
+ },
+ "L02-E4-8.c0": {
+  "a": [
+   "putting"
+  ]
+ }
+}

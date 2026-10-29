@@ -1,0 +1,42 @@
+{
+  "id": "L02", "slug": "present-progressive", "title": "Present progressive", "unit": 1, "order": 2,
+  "merkbox": {
+    "usage": "Handlungen, die jetzt / gerade / im Moment passieren",
+    "be": "gibt es zwar, wird aber nicht oft verwendet",
+    "positive": "am / is / are + verb+ing",
+    "negative": "am not / isn't / aren't + verb+ing",
+    "question": "(question word +) Am/Is/Are + verb+ing",
+    "signal_words": ["now", "at the moment", "Look!", "Listen!", "this"],
+    "notes": ["forget, hate, like, love, know, see, understand, remember, want, wish, … haben keine progressive-Form!", "Bildbeschreibungen sind immer im present progressive!"]
+  },
+  "exercises": [
+    { "id": "L02-E1", "type": "gap_fill", "title": "Fill in the gaps, please.", "items": [
+      { "id": "L02-E1-1", "text": "Sandra {} (go) to the park." },
+      { "id": "L02-E1-2", "text": "I {} (not/eat) pizza." },
+      { "id": "L02-E1-3", "text": "We {} (have) breakfast." },
+      { "id": "L02-E1-4", "text": "My friend Mary {} (draw) nice pictures." },
+      { "id": "L02-E1-5", "text": "You {} (talk) to your classmates." },
+      { "id": "L02-E1-6", "text": "Peter {} (have) a shower." },
+      { "id": "L02-E1-7", "text": "The girls {} (not/play) football." },
+      { "id": "L02-E1-8", "text": "{} Sue and Pete {} (swim) in a lake?" },
+      { "id": "L02-E1-9", "text": "She {} (not/brush) her teeth." },
+      { "id": "L02-E1-10", "text": "Someone {} (knock) at the door." },
+      { "id": "L02-E1-11", "text": "{} the students {} (read) books?" }
+    ]},
+    { "id": "L02-E2", "type": "write", "title": "Rewrite the sentences in the present progressive form, please.", "items": [
+      { "id": "L02-E2-1", "prompt": "I wear trousers." },
+      { "id": "L02-E2-2", "prompt": "Ben doesn't go shopping." },
+      { "id": "L02-E2-3", "prompt": "Do the cats catch mice?" },
+      { "id": "L02-E2-4", "prompt": "Grandma is in the kitchen." },
+      { "id": "L02-E2-5", "prompt": "The boys don't eat the pancakes." },
+      { "id": "L02-E2-6", "prompt": "I tidy up my room." },
+      { "id": "L02-E2-7", "prompt": "Do we do our homework?" }
+    ]},
+    { "id": "L02-E3", "type": "picture", "title": "What are the people doing?", "image": "park", "lines": 9,
+      "hint": "Bildbeschreibungen sind immer im present progressive!" },
+    { "id": "L02-E4", "type": "table", "title": "What's the -ing form of the verbs?", "columns": [""], "items": [
+      { "id": "L02-E4-1", "prompt": "swim" }, { "id": "L02-E4-2", "prompt": "write" }, { "id": "L02-E4-3", "prompt": "travel" }, { "id": "L02-E4-4", "prompt": "take" },
+      { "id": "L02-E4-5", "prompt": "get" }, { "id": "L02-E4-6", "prompt": "sit" }, { "id": "L02-E4-7", "prompt": "try" }, { "id": "L02-E4-8", "prompt": "put" }
+    ]}
+  ]
+}

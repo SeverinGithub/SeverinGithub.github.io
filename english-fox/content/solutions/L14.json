@@ -1,0 +1,264 @@
+{
+ "L14-E1-1.g0": {
+  "a": [
+   "had played"
+  ]
+ },
+ "L14-E1-2.g0": {
+  "a": [
+   "hadn't fallen"
+  ]
+ },
+ "L14-E1-3.g0": {
+  "a": [
+   "had come"
+  ]
+ },
+ "L14-E1-4.g0": {
+  "a": [
+   "Had"
+  ]
+ },
+ "L14-E1-4.g1": {
+  "a": [
+   "eaten"
+  ]
+ },
+ "L14-E1-5.g0": {
+  "a": [
+   "had"
+  ]
+ },
+ "L14-E1-5.g1": {
+  "a": [
+   "cried"
+  ]
+ },
+ "L14-E1-6.g0": {
+  "a": [
+   "hadn't spoken"
+  ]
+ },
+ "L14-E1-7.g0": {
+  "a": [
+   "had been"
+  ]
+ },
+ "L14-E1-8.g0": {
+  "a": [
+   "hadn't watched"
+  ]
+ },
+ "L14-E2-1.f0": {
+  "a": [
+   "Lucy had worn a dress"
+  ]
+ },
+ "L14-E2-2.f0": {
+  "a": [
+   "Ben had gone shopping"
+  ]
+ },
+ "L14-E2-3.f0": {
+  "a": [
+   "The cats had caught mice"
+  ]
+ },
+ "L14-E2-4.f0": {
+  "a": [
+   "Grandma had been in the kitchen"
+  ]
+ },
+ "L14-E2-5.f0": {
+  "a": [
+   "Ben had eaten a pancake"
+  ]
+ },
+ "L14-E2-6.f0": {
+  "a": [
+   "Mum hadn't tidied (up my room|my room up)"
+  ]
+ },
+ "L14-E2-7.f0": {
+  "a": [
+   "We hadn't forgotten the homework"
+  ]
+ },
+ "L14-E2-8.f0": {
+  "a": [
+   "Had you left the house early( today)?"
+  ]
+ },
+ "L14-E2-9.f0": {
+  "a": [
+   "Ben had called the police"
+  ]
+ },
+ "L14-E2-10.f0": {
+  "a": [
+   "The student had read a book"
+  ]
+ },
+ "L14-E2-11.f0": {
+  "a": [
+   "Had you invited me to your party"
+  ]
+ },
+ "L14-E3-1.w": {
+  "w": [
+   "help"
+  ]
+ },
+ "L14-E3-1.s": {
+  "a": [
+   "My daughter had helped me at home"
+  ]
+ },
+ "L14-E3-2.w": {
+  "w": [
+   "-",
+   "had"
+  ]
+ },
+ "L14-E3-2.s": {
+  "a": [
+   "We had a cat",
+   "We had had a cat"
+  ]
+ },
+ "L14-E3-3.w": {
+  "w": [
+   "have",
+   "-"
+  ]
+ },
+ "L14-E3-3.s": {
+  "a": [
+   "Had you lived in England",
+   "Have you lived in England"
+  ]
+ },
+ "L14-E3-4.w": {
+  "w": [
+   "worked",
+   "always"
+  ]
+ },
+ "L14-E3-4.s": {
+  "a": [
+   "We had always worked hard"
+  ]
+ },
+ "L14-E3-5.w": {
+  "w": [
+   "be"
+  ]
+ },
+ "L14-E3-5.s": {
+  "a": [
+   "The girls had been happy"
+  ]
+ },
+ "L14-E3-6.w": {
+  "w": [
+   "hadnt"
+  ]
+ },
+ "L14-E3-6.s": {
+  "a": [
+   "Sally hadn't played cards well"
+  ]
+ },
+ "L14-E3-7.w": {
+  "w": [
+   "do"
+  ]
+ },
+ "L14-E3-7.s": {
+  "a": [
+   "Had Ben done his homework"
+  ]
+ },
+ "L14-E3-8.w": {
+  "w": [
+   "-",
+   "went"
+  ]
+ },
+ "L14-E3-8.s": {
+  "a": [
+   "Kim, Jamie and Collin went to the cinema",
+   "Kim, Jamie and Collin had gone to the cinema"
+  ]
+ },
+ "L14-E3-9.w": {
+  "w": [
+   "turnt"
+  ]
+ },
+ "L14-E3-9.s": {
+  "a": [
+   "The traffic light had turned red"
+  ]
+ },
+ "L14-E3-10.w": {
+  "w": [
+   "hads"
+  ]
+ },
+ "L14-E3-10.s": {
+  "a": [
+   "The plane had finally arrived at the airport"
+  ]
+ },
+ "L14-E4-1.f0": {
+  "open": true,
+  "a": [
+   "re:\\b(had|hadn't)( not| never| already| just)? [a-z]+"
+  ],
+  "r": "Satzende im past perfect (had + 3rd form), inhaltlich passend.",
+  "examples": [
+   "they had done their homework"
+  ]
+ },
+ "L14-E4-2.f0": {
+  "open": true,
+  "a": [
+   "re:\\b(had|hadn't)( not| never| already| just)? [a-z]+"
+  ],
+  "r": "Satzende im past perfect (had + 3rd form), inhaltlich passend.",
+  "examples": [
+   "she hadn't studied enough"
+  ]
+ },
+ "L14-E4-3.f0": {
+  "open": true,
+  "a": [
+   "re:\\b(had|hadn't)( not| never| already| just)? [a-z]+"
+  ],
+  "r": "Satzende im past perfect (had + 3rd form), inhaltlich passend.",
+  "examples": [
+   "she had never broken a bone"
+  ]
+ },
+ "L14-E4-4.f0": {
+  "open": true,
+  "a": [
+   "re:\\b(had|hadn't)( not| never| already| just)? [a-z]+"
+  ],
+  "r": "Satzende im past perfect (had + 3rd form), inhaltlich passend.",
+  "examples": [
+   "she had lost her dog"
+  ]
+ },
+ "L14-E4-5.f0": {
+  "open": true,
+  "a": [
+   "re:\\b(had|hadn't)( not| never| already| just)? [a-z]+"
+  ],
+  "r": "Satzende im past perfect (had + 3rd form), inhaltlich passend.",
+  "examples": [
+   "he had finished his work"
+  ]
+ }
+}

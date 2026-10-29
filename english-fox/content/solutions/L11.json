@@ -1,0 +1,232 @@
+{
+ "L11-E1-1.f0": {
+  "a": [
+   "He did his homework {past}",
+   "{pastf} He did his homework"
+  ],
+  "r": "Simple past + Signalwort der Vergangenheit (yesterday, last …, … ago)."
+ },
+ "L11-E1-1.f1": {
+  "a": [
+   "He has {ppadv} done his homework",
+   "He has done his homework {pptime}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, never, yet, since, for …)."
+ },
+ "L11-E1-2.f0": {
+  "a": [
+   "Susan talked to Harry {past}",
+   "{pastf} Susan talked to Harry"
+  ],
+  "r": "Simple past + Signalwort der Vergangenheit (yesterday, last …, … ago)."
+ },
+ "L11-E1-2.f1": {
+  "a": [
+   "Susan has {ppadv} talked to Harry",
+   "Susan has talked to Harry {pptime}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, never, yet, since, for …)."
+ },
+ "L11-E1-3.f0": {
+  "a": [
+   "I fed the ducks {past}",
+   "{pastf} I fed the ducks"
+  ],
+  "r": "Simple past + Signalwort der Vergangenheit (yesterday, last …, … ago)."
+ },
+ "L11-E1-3.f1": {
+  "a": [
+   "I have {ppadv} fed the ducks",
+   "I have fed the ducks {pptime}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, never, yet, since, for …)."
+ },
+ "L11-E1-4.f0": {
+  "a": [
+   "The animals were hungry {past}",
+   "{pastf} The animals were hungry"
+  ],
+  "r": "Simple past + Signalwort der Vergangenheit (yesterday, last …, … ago)."
+ },
+ "L11-E1-4.f1": {
+  "a": [
+   "The animals have {ppadv} been hungry",
+   "The animals have been hungry {pptime}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, never, yet, since, for …)."
+ },
+ "L11-E1-5.f0": {
+  "a": [
+   "Damian listened to music {past}",
+   "{pastf} Damian listened to music"
+  ],
+  "r": "Simple past + Signalwort der Vergangenheit (yesterday, last …, … ago)."
+ },
+ "L11-E1-5.f1": {
+  "a": [
+   "Damian has {ppadv} listened to music",
+   "Damian has listened to music {pptime}"
+  ],
+  "r": "have/has + 3rd form + Signalwort (just, already, never, yet, since, for …)."
+ },
+ "L11-E2-1.g0": {
+  "a": [
+   "yesterday"
+  ]
+ },
+ "L11-E2-2.g0": {
+  "a": [
+   "was"
+  ]
+ },
+ "L11-E2-2.g1": {
+  "a": [
+   "has lived"
+  ]
+ },
+ "L11-E2-3.g0": {
+  "a": [
+   "just",
+   "already"
+  ]
+ },
+ "L11-E2-4.g0": {
+  "a": [
+   "didn't see"
+  ]
+ },
+ "L11-E2-5.g0": {
+  "a": [
+   "since"
+  ]
+ },
+ "L11-E2-6.g0": {
+  "a": [
+   "so far"
+  ]
+ },
+ "L11-E2-7.g0": {
+  "a": [
+   "Last"
+  ]
+ },
+ "L11-E2-8.g0": {
+  "a": [
+   "hasn't been"
+  ]
+ },
+ "L11-E2-9.g0": {
+  "a": [
+   "already"
+  ]
+ },
+ "L11-E2-10.g0": {
+  "a": [
+   "has"
+  ]
+ },
+ "L11-E2-10.g1": {
+  "a": [
+   "come"
+  ]
+ },
+ "L11-E2-11.g0": {
+  "a": [
+   "broke"
+  ]
+ },
+ "L11-E2-11.g1": {
+  "a": [
+   "were"
+  ]
+ },
+ "L11-E2-12.g0": {
+  "a": [
+   "yet"
+  ]
+ },
+ "L11-E2-13.g0": {
+  "a": [
+   "ago"
+  ]
+ },
+ "L11-E2-14.g0": {
+  "a": [
+   "go"
+  ]
+ },
+ "L11-E2-15.g0": {
+  "a": [
+   "gave"
+  ]
+ },
+ "L11-E3-1.f0": {
+  "a": [
+   "Mum hasn't baked a cake yet"
+  ]
+ },
+ "L11-E3-2.f0": {
+  "a": [
+   "I wrote an English test (2|two) days ago"
+  ]
+ },
+ "L11-E3-3.f0": {
+  "a": [
+   "Paul hasn't played tennis for (1|one|a) year( now)?"
+  ]
+ },
+ "L11-E3-4.f0": {
+  "a": [
+   "Did you build a sandcastle last year",
+   "Did you build a sand castle last year"
+  ]
+ },
+ "L11-E3-5.f0": {
+  "a": [
+   "Mary has just prepared the table"
+  ]
+ },
+ "L11-E3-6.f0": {
+  "a": [
+   "Did Jim go to the park by bike yesterday"
+  ]
+ },
+ "L11-E4-1.mc": {
+  "c": [
+   1
+  ]
+ },
+ "L11-E4-2.mc": {
+  "c": 2
+ },
+ "L11-E4-3.mc": {
+  "c": 0
+ },
+ "L11-E4-4.mc": {
+  "c": 1
+ },
+ "L11-E4-5.mc": {
+  "c": 0
+ },
+ "L11-E4-6.mc": {
+  "c": 2
+ },
+ "L11-E4-7.mc": {
+  "c": [
+   0,
+   1
+  ]
+ },
+ "L11-E4-8.mc": {
+  "c": 1
+ },
+ "L11-E4-9.mc": {
+  "c": 0
+ },
+ "L11-E4-10.mc": {
+  "c": 0
+ },
+ "L11-E4-11.mc": {
+  "c": 1
+ }
+}

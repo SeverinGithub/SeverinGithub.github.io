@@ -1,0 +1,36 @@
+{
+  "id": "L05", "slug": "going-to-future", "title": "Going to future", "unit": 2, "order": 5,
+  "merkbox": {
+    "usage": "geplante, sichere Handlungen in der (nahen) Zukunft",
+    "be": "am/is/are going to be",
+    "positive": "am/is/are + going to + verb",
+    "negative": "am not/isn't/aren't + going to + verb",
+    "question": "(question word +) Am/Is/Are + … + going to + verb",
+    "signal_words": ["tomorrow", "next week", "in 2050"]
+  },
+  "exercises": [
+    { "id": "L05-E1", "type": "write", "title": "Your parents are going to spend their weekend in a hotel. You and your siblings stay at home. Here are your plans.", "fields": ["✓", "✗"], "items": [
+      { "id": "L05-E1-1", "prompt": "Ben: ✓ tidy up his room · ✗ clean the hamster cage again" },
+      { "id": "L05-E1-2", "prompt": "Ann: ✓ have tennis match · ✗ listen to music all the time" },
+      { "id": "L05-E1-3", "prompt": "I: ✓ prepare the party · ✗ invite Peter Parker" },
+      { "id": "L05-E1-4", "prompt": "we: ✓ enjoy our weekend · ✗ think of our parents" }
+    ]},
+    { "id": "L05-E2", "type": "gap_fill", "title": "Fill in the blanks, please.", "items": [
+      { "id": "L05-E2-1", "text": "I {} (visit) my grandparents at the weekend." },
+      { "id": "L05-E2-2", "text": "{} Ben {} (work) for the English test?" },
+      { "id": "L05-E2-3", "text": "Ann is sure that she {} (eat) sweets all the time." },
+      { "id": "L05-E2-4", "text": "I {} (not/swim) at the club on Saturday evening." },
+      { "id": "L05-E2-5", "text": "{} Ann {} (make) a cake for the party?" },
+      { "id": "L05-E2-6", "text": "Ben and Ann {} (not/come) to my party, they {} (watch) TV." },
+      { "id": "L05-E2-7", "text": "Our parents {} (hike) in the mountains." },
+      { "id": "L05-E2-8", "text": "{} they {} (plan) to come home earlier?" },
+      { "id": "L05-E2-9", "text": "Nevertheless everybody {} (enjoy) the weekend." }
+    ]},
+    { "id": "L05-E3", "type": "write", "title": "Answer the questions.", "items": [
+      { "id": "L05-E3-1", "prompt": "Who are you going to invite? (my friends)" },
+      { "id": "L05-E3-2", "prompt": "When are the guests going to come? (8 p.m.)" },
+      { "id": "L05-E3-3", "prompt": "Where is the party going to take place? (garden)" },
+      { "id": "L05-E3-4", "prompt": "What are you going to do at the party? (dance, have fun, not do homework)", "lines": 2 }
+    ]}
+  ]
+}

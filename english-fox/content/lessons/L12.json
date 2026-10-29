@@ -1,0 +1,230 @@
+{
+ "id": "L12",
+ "slug": "present-perfect-progressive",
+ "title": "Present perfect progressive",
+ "unit": 5,
+ "order": 13,
+ "merkbox": {
+  "usage": "anhaltende Handlungen, die in der Vergangenheit begonnen haben und noch nicht beendet sind. Die Dauer wird betont.",
+  "be": "–",
+  "positive": "have/has + been + verb+ing",
+  "negative": "haven't/hasn't + been + verb+ing",
+  "question": "(question word +) Have/Has … + been + verb+ing",
+  "signal_words": [
+   "all day (long)",
+   "the whole day/week/year",
+   "how long",
+   "since",
+   "for"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "L12-E1",
+   "type": "multiple_choice",
+   "title": "Multiple choice. Highlight the correct one.",
+   "items": [
+    {
+     "id": "L12-E1-1",
+     "text": "The kids ___ in the garden for hours.",
+     "options": [
+      "has been play",
+      "have been playing",
+      "have played",
+      "have being playing"
+     ]
+    },
+    {
+     "id": "L12-E1-2",
+     "text": "She ___ French all day long.",
+     "options": [
+      "has learned",
+      "have been learning",
+      "has being learning",
+      "has been learning"
+     ]
+    },
+    {
+     "id": "L12-E1-3",
+     "text": "Unfortunately my father ___ for years.",
+     "options": [
+      "has been smoked",
+      "have been smoking",
+      "has smoked",
+      "has been smoking"
+     ]
+    },
+    {
+     "id": "L12-E1-4",
+     "text": "How long ___ you ___ for us?",
+     "options": [
+      "have / been waiting",
+      "– / been waiting",
+      "have / being waited",
+      "has / being waiting"
+     ]
+    },
+    {
+     "id": "L12-E1-5",
+     "text": "It ___ for 5 days now.",
+     "options": [
+      "have rained",
+      "have been raining",
+      "has been raining",
+      "haven't been raining"
+     ]
+    },
+    {
+     "id": "L12-E1-6",
+     "text": "I ___ all day long.",
+     "options": [
+      "have be work",
+      "have been worked",
+      "has been working",
+      "have been working"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "L12-E2",
+   "type": "write",
+   "title": "Make questions.",
+   "items": [
+    {
+     "id": "L12-E2-1",
+     "prompt": "how long / you / watch / TV ?"
+    },
+    {
+     "id": "L12-E2-2",
+     "prompt": "Peter / play / guitar ?"
+    },
+    {
+     "id": "L12-E2-3",
+     "prompt": "We / chat / with friends ?"
+    }
+   ]
+  },
+  {
+   "id": "L12-E3",
+   "type": "word_order",
+   "title": "Find the correct word order.",
+   "items": [
+    {
+     "id": "L12-E3-1",
+     "words": [
+      "have",
+      "lying",
+      "the",
+      "sun",
+      "the",
+      "I",
+      "been",
+      "whole",
+      "day",
+      "in"
+     ]
+    },
+    {
+     "id": "L12-E3-2",
+     "words": [
+      "Peter",
+      "at",
+      "all",
+      "long",
+      "day",
+      "school",
+      "been",
+      "has",
+      "studying"
+     ]
+    },
+    {
+     "id": "L12-E3-3",
+     "words": [
+      "dog",
+      "I'm",
+      "barking",
+      "tired",
+      "because",
+      "my",
+      "been",
+      "all",
+      "has",
+      "night"
+     ]
+    },
+    {
+     "id": "L12-E3-4",
+     "words": [
+      "fire",
+      "two",
+      "has",
+      "burning",
+      "for",
+      "been",
+      "hours",
+      "The"
+     ]
+    },
+    {
+     "id": "L12-E3-5",
+     "words": [
+      "have",
+      "been",
+      "Europe",
+      "travelling",
+      "They",
+      "for",
+      "around",
+      "8",
+      "weeks"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "L12-E4",
+   "type": "error_correction",
+   "title": "Correct the mistakes.",
+   "items": [
+    {
+     "id": "L12-E4-1",
+     "text": "I have been takeing photos since I was 10."
+    },
+    {
+     "id": "L12-E4-2",
+     "text": "How long has you been crying?"
+    },
+    {
+     "id": "L12-E4-3",
+     "text": "They have been played cards for 2 hours now."
+    },
+    {
+     "id": "L12-E4-4",
+     "text": "Kevin has be reading that book the whole day."
+    },
+    {
+     "id": "L12-E4-5",
+     "text": "Jim hasen't been washing the car."
+    },
+    {
+     "id": "L12-E4-6",
+     "text": "Mum were cleaning my room."
+    },
+    {
+     "id": "L12-E4-7",
+     "text": "The rabbits hasn't been liing on the sofa the whole day."
+    },
+    {
+     "id": "L12-E4-8",
+     "text": "They have been drunk tea."
+    },
+    {
+     "id": "L12-E4-9",
+     "text": "I haven't been doing something."
+    }
+   ]
+  }
+ ]
+}

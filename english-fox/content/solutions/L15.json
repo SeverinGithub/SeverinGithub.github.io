@@ -1,0 +1,216 @@
+{
+ "L15-E1-1.f0": {
+  "a": [
+   "{pre}He had (already |just )?done his homework{rest}"
+  ]
+ },
+ "L15-E1-1.f1": {
+  "a": [
+   "{pre}He did his homework{rest}"
+  ]
+ },
+ "L15-E1-2.f0": {
+  "a": [
+   "{pre}Susan had (already |just )?talked to Harry{rest}"
+  ]
+ },
+ "L15-E1-2.f1": {
+  "a": [
+   "{pre}Susan talked to Harry{rest}"
+  ]
+ },
+ "L15-E2-1.g0": {
+  "a": [
+   "played"
+  ]
+ },
+ "L15-E2-1.g1": {
+  "a": [
+   "had (already )?((taken|had) a shower|showered|(gone|been) to school|been at school|played the guitar|(had|taken) guitar lessons|eaten (a )?pizza|had (a )?pizza)( and had ((taken|had) a shower|showered|(gone|been) to school|been at school|played the guitar|(had|taken) guitar lessons|eaten (a )?pizza|had (a )?pizza))?"
+  ],
+  "r": "Etwas, das VOR der Gitarre passierte (Dusche, Schule), im past perfect."
+ },
+ "L15-E2-2.g0": {
+  "a": [
+   "watched"
+  ]
+ },
+ "L15-E2-2.g1": {
+  "a": [
+   "he had (already )?((taken|had) a shower|showered|(gone|been) to school|been at school|played the guitar|(had|taken) guitar lessons|eaten (a )?pizza|had (a )?pizza)"
+  ],
+  "r": "z. B. 'he had eaten pizza'."
+ },
+ "L15-E2-3.g0": {
+  "open": true,
+  "a": [
+   "re:\\b(had) (already )?[a-z]+"
+  ],
+  "r": "Eigener Satz: Before + simple past, … had + 3rd form – passend zur Zeitleiste.",
+  "examples": [
+   "Before Josh went to school he had taken a shower."
+  ]
+ },
+ "L15-E2-4.g0": {
+  "a": [
+   "had (taken|had) a shower",
+   "had showered"
+  ]
+ },
+ "L15-E2-4.g1": {
+  "a": [
+   "went"
+  ]
+ },
+ "L15-E2-5.g0": {
+  "a": [
+   "he had played the guitar",
+   "he had had guitar lessons",
+   "he had been at school",
+   "he had gone to school",
+   "he had taken a shower"
+  ]
+ },
+ "L15-E2-5.g1": {
+  "a": [
+   "ate",
+   "had"
+  ]
+ },
+ "L15-E2-6.g0": {
+  "open": true,
+  "a": [
+   "re:\\b(had) (already )?[a-z]+"
+  ],
+  "r": "Eigener Satz: After + past perfect, … simple past.",
+  "examples": [
+   "After Josh had eaten pizza he watched TV."
+  ]
+ },
+ "L15-E2-7.g0": {
+  "a": [
+   "had",
+   "took"
+  ]
+ },
+ "L15-E2-7.g1": {
+  "a": [
+   "had"
+  ]
+ },
+ "L15-E2-7.g2": {
+  "a": [
+   "been"
+  ]
+ },
+ "L15-E2-8.g0": {
+  "a": [
+   "ate",
+   "had"
+  ]
+ },
+ "L15-E2-8.g1": {
+  "a": [
+   "had"
+  ]
+ },
+ "L15-E2-8.g2": {
+  "a": [
+   "had",
+   "taken"
+  ]
+ },
+ "L15-E2-9.g0": {
+  "open": true,
+  "a": [
+   "re:\\balready [a-z]+"
+  ],
+  "r": "Eigener Satz: When + simple past, … had already + 3rd form.",
+  "examples": [
+   "When Josh watched TV he had already eaten pizza."
+  ]
+ },
+ "L15-E3-1.g0": {
+  "a": [
+   "wasn't",
+   "was"
+  ]
+ },
+ "L15-E3-1.g1": {
+  "a": [
+   "had lost"
+  ]
+ },
+ "L15-E3-2.g0": {
+  "a": [
+   "didn't have"
+  ]
+ },
+ "L15-E3-2.g1": {
+  "a": [
+   "had forgotten"
+  ]
+ },
+ "L15-E3-3.g0": {
+  "a": [
+   "had died"
+  ]
+ },
+ "L15-E3-3.g1": {
+  "a": [
+   "was"
+  ]
+ },
+ "L15-E3-4.g0": {
+  "a": [
+   "didn't want"
+  ]
+ },
+ "L15-E3-4.g1": {
+  "a": [
+   "had already seen"
+  ]
+ },
+ "L15-E3-5.g0": {
+  "a": [
+   "ran"
+  ]
+ },
+ "L15-E3-5.g1": {
+  "a": [
+   "had seen"
+  ]
+ },
+ "L15-E4-1.f0": {
+  "a": [
+   "The robber had broken into the house before he escaped through the window",
+   "Before the robber escaped through the window,? he had broken into the house",
+   "Before he escaped through the window,? the robber had broken into the house"
+  ]
+ },
+ "L15-E4-2.f0": {
+  "a": [
+   "Ann took a bath because she had worked hard all day",
+   "Because she had worked hard all day,? Ann took a bath"
+  ]
+ },
+ "L15-E4-3.f0": {
+  "a": [
+   "When the waitress served the food,? the guests had already left the restaurant"
+  ],
+  "r": "Logik: Die Gäste waren schon weg (past perfect), als das Essen kam."
+ },
+ "L15-E4-4.f0": {
+  "a": [
+   "After I had written a nice story,? my teacher corrected it",
+   "My teacher corrected (it|the story|my story) after I had written (it|a nice story)"
+  ]
+ },
+ "L15-E4-5.f0": {
+  "a": [
+   "Mr Potter didn't answer the e-?mail which I had sent him",
+   "He didn't answer the e-?mail which I had sent (him|Mr Potter)",
+   "I had sent Mr Potter an e-?mail which he didn't answer"
+  ]
+ }
+}

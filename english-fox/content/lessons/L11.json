@@ -1,0 +1,292 @@
+{
+ "id": "L11",
+ "slug": "simple-past-vs-present-perfect",
+ "title": "Simple past – present perfect",
+ "unit": 4,
+ "order": 11,
+ "merkbox": {
+  "usage": "Simple past: Handlung abgeschlossen  ·  Present perfect: vergangene Handlung mit Einfluss bis heute",
+  "positive": "verb-ed / 2nd form  ·  have/has + 3rd form",
+  "negative": "didn't + verb  ·  haven't/hasn't + 3rd form",
+  "question": "Did … + verb?  ·  Have/Has … + 3rd form?",
+  "signal_words": [
+   "yesterday",
+   "last …",
+   "… ago",
+   "in 2010",
+   "just",
+   "already",
+   "ever",
+   "never",
+   "yet",
+   "since",
+   "for",
+   "so far"
+  ]
+ },
+ "exercises": [
+  {
+   "id": "L11-E1",
+   "type": "write",
+   "title": "Make a sentence and fill in a suitable signal word.",
+   "fields": [
+    "simple past",
+    "present perfect"
+   ],
+   "items": [
+    {
+     "id": "L11-E1-1",
+     "prompt": "He (do) his homework."
+    },
+    {
+     "id": "L11-E1-2",
+     "prompt": "Susan (talk) to Harry."
+    },
+    {
+     "id": "L11-E1-3",
+     "prompt": "I (feed) the ducks."
+    },
+    {
+     "id": "L11-E1-4",
+     "prompt": "The animals (be) hungry."
+    },
+    {
+     "id": "L11-E1-5",
+     "prompt": "Damian (listen) to music."
+    }
+   ]
+  },
+  {
+   "id": "L11-E2",
+   "type": "gap_fill",
+   "title": "Fill in the blanks with the given words.",
+   "wordbox": [
+    "yesterday",
+    "already",
+    "yet",
+    "since",
+    "for",
+    "just",
+    "was",
+    "were",
+    "arrived",
+    "has lived",
+    "lived",
+    "didn't see",
+    "didn't saw",
+    "so far",
+    "hasn't been",
+    "wasn't",
+    "has",
+    "come",
+    "came",
+    "broke",
+    "ago",
+    "go",
+    "went",
+    "gone",
+    "gave",
+    "last"
+   ],
+   "items": [
+    {
+     "id": "L11-E2-1",
+     "text": "I lost my key {}."
+    },
+    {
+     "id": "L11-E2-2",
+     "text": "Julie {} born in Canada, but she {} in England for 3 years."
+    },
+    {
+     "id": "L11-E2-3",
+     "text": "Mum has {} cleaned the car. It looks new again."
+    },
+    {
+     "id": "L11-E2-4",
+     "text": "Josh {} the new film yesterday."
+    },
+    {
+     "id": "L11-E2-5",
+     "text": "It hasn't rained {} last month."
+    },
+    {
+     "id": "L11-E2-6",
+     "text": "The student has written 10 sentences {}."
+    },
+    {
+     "id": "L11-E2-7",
+     "text": "{} year Zoe rode a horse."
+    },
+    {
+     "id": "L11-E2-8",
+     "text": "There {} a storm here since 2002."
+    },
+    {
+     "id": "L11-E2-9",
+     "text": "Have you {} washed the dishes?"
+    },
+    {
+     "id": "L11-E2-10",
+     "text": "Sandra {} just {} home from the party."
+    },
+    {
+     "id": "L11-E2-11",
+     "text": "Our car {} down when we {} in Italy."
+    },
+    {
+     "id": "L11-E2-12",
+     "text": "Ben hasn't spoken in front of the class {}."
+    },
+    {
+     "id": "L11-E2-13",
+     "text": "Two years {} my parents bought this nice house."
+    },
+    {
+     "id": "L11-E2-14",
+     "text": "The students didn't {} to school on Tuesday."
+    },
+    {
+     "id": "L11-E2-15",
+     "text": "She {} him her phone number last month."
+    }
+   ]
+  },
+  {
+   "id": "L11-E3",
+   "type": "write",
+   "title": "Rewrite the sentences.",
+   "items": [
+    {
+     "id": "L11-E3-1",
+     "prompt": "Mum didn't bake a cake yesterday. (yet)"
+    },
+    {
+     "id": "L11-E3-2",
+     "prompt": "I have just written an English test. (2 days ago)"
+    },
+    {
+     "id": "L11-E3-3",
+     "prompt": "Paul didn't play tennis last year. (for 1 year now)"
+    },
+    {
+     "id": "L11-E3-4",
+     "prompt": "Have you ever built a sandcastle? (last year)"
+    },
+    {
+     "id": "L11-E3-5",
+     "prompt": "Mary prepared the table an hour ago. (just)"
+    },
+    {
+     "id": "L11-E3-6",
+     "prompt": "Has Jim already gone to the park by bike? (yesterday)"
+    }
+   ]
+  },
+  {
+   "id": "L11-E4",
+   "type": "multiple_choice",
+   "title": "Highlight the correct possibility.",
+   "items": [
+    {
+     "id": "L11-E4-1",
+     "text": "My family ___ in Italy for 2 years.",
+     "options": [
+      "lived",
+      "has lived",
+      "have lived"
+     ]
+    },
+    {
+     "id": "L11-E4-2",
+     "text": "Yesterday Dad ___ the newspaper.",
+     "options": [
+      "has read",
+      "has readed",
+      "read"
+     ]
+    },
+    {
+     "id": "L11-E4-3",
+     "text": "I ___ Sushi.",
+     "options": [
+      "have never eaten",
+      "never have eaten",
+      "ate"
+     ]
+    },
+    {
+     "id": "L11-E4-4",
+     "text": "Have you ___ been to Turkey?",
+     "options": [
+      "yet",
+      "ever",
+      "since"
+     ]
+    },
+    {
+     "id": "L11-E4-5",
+     "text": "Last year we ___ to Bristol.",
+     "options": [
+      "moved",
+      "have moved",
+      "didn't moved"
+     ]
+    },
+    {
+     "id": "L11-E4-6",
+     "text": "She ___ the guitar for 10 years.",
+     "options": [
+      "played",
+      "plays",
+      "has played"
+     ]
+    },
+    {
+     "id": "L11-E4-7",
+     "text": "This car ___ into the green car.",
+     "options": [
+      "has just crashed",
+      "crashed",
+      "has crashing"
+     ]
+    },
+    {
+     "id": "L11-E4-8",
+     "text": "Last summer they ___ on holiday in Italy.",
+     "options": [
+      "have been",
+      "were",
+      "was"
+     ]
+    },
+    {
+     "id": "L11-E4-9",
+     "text": "Linda ___ to me 1 hour ago.",
+     "options": [
+      "didn't talk",
+      "haven't talked",
+      "has talked"
+     ]
+    },
+    {
+     "id": "L11-E4-10",
+     "text": "Grandpa ___ his friends yeasterday.",
+     "options": [
+      "met",
+      "meeted",
+      "has met"
+     ]
+    },
+    {
+     "id": "L11-E4-11",
+     "text": "The hairdresser ___ my hair yet.",
+     "options": [
+      "didn't cut",
+      "hasn't cut",
+      "cut"
+     ]
+    }
+   ]
+  }
+ ]
+}

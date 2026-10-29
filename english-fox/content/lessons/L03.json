@@ -1,0 +1,55 @@
+{
+  "id": "L03", "slug": "simple-present-vs-present-progressive", "title": "Simple present – present progressive", "unit": 1, "order": 3,
+  "merkbox": {
+    "usage": "Simple present: regelmäßig / nie / Fakten  ·  Present progressive: jetzt / gerade / im Moment",
+    "positive": "he/she/it + verb-s  ·  am/is/are + verb+ing",
+    "negative": "don't/doesn't + verb  ·  am not/isn't/aren't + verb+ing",
+    "question": "Do/Does … + verb  ·  Am/Is/Are … + verb+ing",
+    "signal_words": ["always", "often", "usually", "never", "every …", "now", "at the moment", "Look!", "Listen!"]
+  },
+  "exercises": [
+    { "id": "L03-E1", "type": "write", "title": "Make a sentence and add a signal word.", "fields": ["simple present", "present progressive"], "items": [
+      { "id": "L03-E1-1", "prompt": "My neighbour's dogs (bark)." },
+      { "id": "L03-E1-2", "prompt": "The brown dog (run) towards me." },
+      { "id": "L03-E1-3", "prompt": "I (feed) them." },
+      { "id": "L03-E1-4", "prompt": "The animals (wag) their tails." },
+      { "id": "L03-E1-5", "prompt": "I (take) them for a walk." }
+    ]},
+    { "id": "L03-E2", "type": "multiple_choice", "title": "Which is the correct signal word?", "items": [
+      { "id": "L03-E2-1", "text": "Ben ___ dances with his girlfriend.", "options": ["always", "at the moment", "every"] },
+      { "id": "L03-E2-2", "text": "___ Someone is knocking at the door.", "options": ["once", "Listen!", "regularly"] },
+      { "id": "L03-E2-3", "text": "Michael is sleeping ___.", "options": ["every day", "now", "Look!"] },
+      { "id": "L03-E2-4", "text": "Do you ___ swim in the pool?", "options": ["twice a week", "now", "usually"] }
+    ]},
+    { "id": "L03-E3", "type": "table", "title": "Write the -ing and -s form of the verbs.", "columns": ["-ing", "-s/-es/-ies"], "items": [
+      { "id": "L03-E3-1", "prompt": "cut" }, { "id": "L03-E3-2", "prompt": "do" }, { "id": "L03-E3-3", "prompt": "have" }, { "id": "L03-E3-4", "prompt": "go" },
+      { "id": "L03-E3-5", "prompt": "take" }, { "id": "L03-E3-6", "prompt": "run" }, { "id": "L03-E3-7", "prompt": "try" }
+    ]},
+    { "id": "L03-E4", "type": "gap_fill", "signal": true, "title": "Complete the sentences with the right form of the verb. Highlight the signal word, please.", "items": [
+      { "id": "L03-E4-1", "text": "My parents {} (visit) my grandma every weekend." },
+      { "id": "L03-E4-2", "text": "The sun {} (not shine) now." },
+      { "id": "L03-E4-3", "text": "Every weekend my family {} (get) up at 10 o'clock." },
+      { "id": "L03-E4-4", "text": "Jake never {} (write) tests at school." },
+      { "id": "L03-E4-5", "text": "{} you {} (like) spicy crisps?" },
+      { "id": "L03-E4-6", "text": "Look! The cat {} (chase) the mouse." },
+      { "id": "L03-E4-7", "text": "Once a week my brother and I {} (wash) the dishes." },
+      { "id": "L03-E4-8", "text": "Listen! Dad {} (come) home." },
+      { "id": "L03-E4-9", "text": "John usually {} (read) in the evening, but now he {} (watch) a crime series." },
+      { "id": "L03-E4-10", "text": "The students {} (not listen) to the teacher at the moment." },
+      { "id": "L03-E4-11", "text": "Our dog seldom {} (lie) on our sofa." },
+      { "id": "L03-E4-12", "text": "Sorry, I {} (not understand) the question." },
+      { "id": "L03-E4-13", "text": "We {} (be) in the garten and we {} (have) a barbecue now." },
+      { "id": "L03-E4-14", "text": "{} Sue {} (chat) with her friend at the moment?" },
+      { "id": "L03-E4-15", "text": "What {} you {} (do) in our house?" },
+      { "id": "L03-E4-16", "text": "My sisters {} (not like) vegetables, but they {} (eat) fruits." },
+      { "id": "L03-E4-17", "text": "In England you normally {} (wear) school uniforms." }
+    ]},
+    { "id": "L03-E5", "type": "error_correction", "title": "Correct the sentences.", "items": [
+      { "id": "L03-E5-1", "text": "At the moment I doing my homework." },
+      { "id": "L03-E5-2", "text": "I play often the guitar." },
+      { "id": "L03-E5-3", "text": "We doesn't drink alcohol." },
+      { "id": "L03-E5-4", "text": "Paul isn't liking Math." },
+      { "id": "L03-E5-5", "text": "They be in the disco." }
+    ]}
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "id": "L04", "slug": "will-future", "title": "Will future", "unit": 2, "order": 4,
+  "merkbox": {
+    "usage": "Handlungen in der Zukunft, Vermutungen, Vorhersagen, Träume",
+    "be": "will be",
+    "positive": "will + verb",
+    "negative": "won't + verb",
+    "question": "(question word +) Will … + verb",
+    "signal_words": ["tomorrow", "next week", "soon", "probably", "I think", "I suppose", "I guess"],
+    "notes": ["will = werden · want to = wollen"]
+  },
+  "exercises": [
+    { "id": "L04-E1", "type": "write", "title": "Translate the following sentences, please.", "hint": "will = werden · want to = wollen", "items": [
+      { "id": "L04-E1-1", "prompt": "Kevin wird auf den Baum klettern." },
+      { "id": "L04-E1-2", "prompt": "Kevin will auf den Baum klettern." },
+      { "id": "L04-E1-3", "prompt": "Die Kinder werden einen Eistee trinken." },
+      { "id": "L04-E1-4", "prompt": "Die Kinder wollen einen Eistee trinken." }
+    ]},
+    { "id": "L04-E2", "type": "error_correction", "noError": true, "title": "Find and correct mistakes, if possible.", "items": [
+      { "id": "L04-E2-1", "text": "I'll have a word with you." },
+      { "id": "L04-E2-2", "text": "We wont spend money on trash." },
+      { "id": "L04-E2-3", "text": "Will Julie arrives in London at 10 o'clock?" },
+      { "id": "L04-E2-4", "text": "Our team wills win the match." },
+      { "id": "L04-E2-5", "text": "I will am 16 next month." },
+      { "id": "L04-E2-6", "text": "She won't worry about the weather yesterday." },
+      { "id": "L04-E2-7", "text": "The thief will tell the police the truth." },
+      { "id": "L04-E2-8", "text": "Cara won't wear sneakers at the party." },
+      { "id": "L04-E2-9", "text": "My parents not will sign the test." },
+      { "id": "L04-E2-10", "text": "Wil Willy sent an e-mail?" },
+      { "id": "L04-E2-11", "text": "Little John will build a sand castle at the beach." }
+    ]},
+    { "id": "L04-E3", "type": "write", "title": "Put the following sentences into their positive, negative and question forms, please. (Ask for the underlined part, if possible.)", "items": [
+      { "id": "L04-E3-1", "prompt": "I will buy a new dress tomorrow.", "fields": ["−", "?"] },
+      { "id": "L04-E3-2", "prompt": "Harry won't help Mum [[in the garden]].", "fields": ["+", "?"] },
+      { "id": "L04-E3-3", "prompt": "Will we work hard this year?", "fields": ["−", "+"] },
+      { "id": "L04-E3-4", "prompt": "I will pass [[the exam]].", "fields": ["−", "?"] },
+      { "id": "L04-E3-5", "prompt": "Sarah and Dave won't come home late.", "fields": ["+", "?"] },
+      { "id": "L04-E3-6", "prompt": "My parents will go to bed [[because they are tired]].", "fields": ["−", "?"] },
+      { "id": "L04-E3-7", "prompt": "Will the sun shine tomorrow?", "fields": ["+", "−"] }
+    ]},
+    { "id": "L04-E4", "type": "write", "inline": true, "title": "What will happen when you finish school?", "hint": "Schreib eigene Ideen – bewertet wird nur die Grammatik.", "items": [
+      { "id": "L04-E4-1", "prompt": "I" },
+      { "id": "L04-E4-2", "prompt": "My teachers" },
+      { "id": "L04-E4-3", "prompt": "My classmates" },
+      { "id": "L04-E4-4", "prompt": "My family" },
+      { "id": "L04-E4-5", "prompt": "The world" }
+    ]}
+  ]
+}

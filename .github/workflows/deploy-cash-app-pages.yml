@@ -30,6 +30,7 @@ jobs:
             cash-app/package-lock.json
             closet/package-lock.json
             soundos/package-lock.json
+            english-fox/package-lock.json
 
       - name: Install cash-app dependencies
         run: npm ci
@@ -55,6 +56,18 @@ jobs:
         run: npm run build
         working-directory: soundos
 
+      - name: Install english-fox dependencies
+        run: npm ci
+        working-directory: english-fox
+
+      - name: Test english-fox
+        run: npm test
+        working-directory: english-fox
+
+      - name: Build english-fox
+        run: npm run build
+        working-directory: english-fox
+
       - name: Prepare Pages artifact
         run: |
           rm -rf .site
@@ -69,6 +82,9 @@ jobs:
           rm -rf .site/soundos
           mkdir -p .site/soundos
           cp -R soundos/dist/. .site/soundos/
+          rm -rf .site/english-fox
+          mkdir -p .site/english-fox
+          cp -R english-fox/dist/. .site/english-fox/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

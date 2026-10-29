@@ -1,0 +1,26 @@
+{
+  "id": "L08", "slug": "past-progressive", "title": "Past progressive", "unit": 3, "order": 8,
+  "merkbox": {
+    "usage": "Handlungen in der Vergangenheit, die andauerten und keinen Einfluss aufeinander haben",
+    "be": "–",
+    "positive": "was/were + verb+ing",
+    "negative": "wasn't/weren't + verb+ing",
+    "question": "(question word +) Was/Were … + verb+ing",
+    "signal_words": ["while"]
+  },
+  "exercises": [
+    { "id": "L08-E1", "type": "picture", "title": "What were the people doing yesterday?", "image": "park", "lines": 9 },
+    { "id": "L08-E2", "type": "table", "title": "Fill in. Pay attention to the spelling.", "columns": ["past progressive"], "items": [
+      { "id": "L08-E2-1", "prompt": "Sue (lie)" }, { "id": "L08-E2-2", "prompt": "I (travel)" }, { "id": "L08-E2-3", "prompt": "You (run)" }, { "id": "L08-E2-4", "prompt": "Ben (take)" },
+      { "id": "L08-E2-5", "prompt": "Dad (cut)" }, { "id": "L08-E2-6", "prompt": "The singer (give)" }, { "id": "L08-E2-7", "prompt": "She (live)" }, { "id": "L08-E2-8", "prompt": "Our dog (sit)" },
+      { "id": "L08-E2-9", "prompt": "The student (study)" }, { "id": "L08-E2-10", "prompt": "The boy (swim)" }, { "id": "L08-E2-11", "prompt": "Paul and I (write)" }, { "id": "L08-E2-12", "prompt": "It (get)" },
+      { "id": "L08-E2-13", "prompt": "We (play)" }, { "id": "L08-E2-14", "prompt": "The sun (shine)" }, { "id": "L08-E2-15", "prompt": "They (have)" }, { "id": "L08-E2-16", "prompt": "The waiter (shake)" }
+    ]},
+    { "id": "L08-E3", "type": "gap_fill", "cards": true, "title": "Fill in the past progressive.", "items": [
+      { "id": "L08-E3-1", "text": "Mum {} (swim) in the sea while Dad {} (drink) a beer." },
+      { "id": "L08-E3-2", "text": "I {} (have) a shower while my siblings {} (watch) TV." },
+      { "id": "L08-E3-3", "text": "The students {} (listen) to the teacher while Ben {} (text) messages to his friend." },
+      { "id": "L08-E3-4", "text": "While Linda {} (play) the piano, Carol {} (phone) her friend, Tim {} (brush) his teeth." }
+    ]}
+  ]
+}
