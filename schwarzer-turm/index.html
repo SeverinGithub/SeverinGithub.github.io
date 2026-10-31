@@ -294,6 +294,14 @@ body.touch #target{top:calc(6px + env(safe-area-inset-top,0px))}
 #dialog .qcard{background:rgba(0,0,0,.32);border:1px solid #5a4a2e;padding:8px 10px;margin:6px 0}#dialog .qcard small{color:var(--paper-dim);font-size:12px}#dialog .qcard b{display:block;font-family:var(--f-sc);font-weight:400;font-size:18px;color:#ffd88a;margin:2px 0}#dialog .qcard p{margin:2px 0 6px;color:var(--paper)}
 #dialog .qbar{height:6px;background:#1a140e;border:1px solid #3a2e1e;margin:4px 0;position:static}#dialog .qbar i{display:block;height:100%;background:linear-gradient(90deg,#a8741a,#ffd88a)}
 #dialog .ridebar,.ridebar{display:flex;justify-content:center;margin:4px 0 2px}.ridebar button{min-width:150px}.ridebar small{color:var(--paper-dim);font-size:11px;margin-left:4px}
+#mpbadge{position:fixed;top:6px;left:50%;transform:translateX(-50%);z-index:30;pointer-events:none;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  font:13px var(--f-sc);color:#9ad0ff;background:rgba(6,8,14,.62);border:1px solid rgba(154,208,255,.28);padding:2px 10px;letter-spacing:.04em}
+#mpbadge b{font-weight:400;color:#cfe8ff}#mpbadge .mpp{color:#e8dcc0;margin-left:10px}
+.mpcodebig{font:44px var(--f-sc);letter-spacing:.35em;text-align:center;color:#ffd88a;margin:2px 0 4px;padding-left:.35em}
+.mpin{width:100%;box-sizing:border-box;font:34px var(--f-sc);text-align:center;letter-spacing:.4em;padding:6px 0 6px .4em;background:#14110d;color:#ffd88a;border:1px solid #6a5634;margin:4px 0 8px}
+.mpname input{flex:1;min-width:0;font:inherit;font-size:17px;background:#14110d;color:#ece4cf;border:1px solid #5a4a30;padding:4px 8px}
+.mplist{margin:4px 0 10px;text-align:center;color:#e8dcc0;font-size:15px}.mplist .dim{color:#8a8070}.mperr{color:#ff8a6a!important;text-align:center}
+@media (max-width:600px){#mpbadge{font-size:11px;top:4px}}
 </style>
 </head>
 <body>
@@ -1312,7 +1320,7 @@ function update(dt){
   for(const gi of m.items)gi.t+=dt;
   if(G.clickFx){G.clickFx.t-=dt;if(G.clickFx.t<=0)G.clickFx=null}
   if(m.world){owTick();if(G.state==='play')G.mlvl=Math.max(1,lvlAt(P.x,P.y))}
-  questTick(dt);updExt(dt);updAllies(dt);updWorld(dt);updEnd(dt);updTraps(dt);updComfort(dt);storyTick(dt);updMusicLayers();updDeaths(dt);updForge(dt);updTouch(dt);npcTick(dt);rgTick(dt);
+  questTick(dt);updExt(dt);updAllies(dt);updWorld(dt);updEnd(dt);updTraps(dt);updComfort(dt);storyTick(dt);updMusicLayers();updDeaths(dt);updForge(dt);updTouch(dt);npcTick(dt);rgTick(dt);mpTick(dt);
   // walking away from a bonfire, trader or stash shuts every window at once
   if(G.openAt&&hyp(P.x-G.openAt.x,P.y-G.openAt.y)>.6){G.openAt=null;closeDialog();for(const p of['pShop','pStash','pInv','pChar','pSkill','pColl'])$(p).hidden=true;hideTip()}
   if(G.statueT>0)G.statueT-=dt;ambient(dt);updateFx(dt);
@@ -1411,7 +1419,7 @@ function render(){
   if(m.blocks)for(const b of m.blocks)if(b.i>=i0-2&&b.i<=i1+2&&b.j>=j0-2&&b.j<=j1+2)dl.push({d:b.i+b.j+(b.big?2:1),k:'blk',b});
   if(G.glutmal&&G.glutmal.floor===G.floor)dl.push({d:G.glutmal.x+G.glutmal.y,k:'glutmal'});
   for(const e of m.enemies)if(!e.dead||e.dieT<24)dl.push({d:e.x+e.y-(e.dead?.6:0),k:'en',e});
-  dl.push({d:P.x+P.y,k:'pl'});for(const a of G.allies||[])dl.push({d:a.x+a.y-(a.dead?.6:0),k:'al',a});for(const p of G.aproj||[])dl.push({d:p.x+p.y,k:'pr',p});
+  dl.push({d:P.x+P.y,k:'pl'});for(const r of mpVis())dl.push({d:r.x+r.y,k:'mp',r});for(const a of G.allies||[])dl.push({d:a.x+a.y-(a.dead?.6:0),k:'al',a});for(const p of G.aproj||[])dl.push({d:p.x+p.y,k:'pr',p});
   for(const p of G.proj)dl.push({d:p.x+p.y,k:'pr',p});
   dl.sort((a,b)=>a.d-b.d);
   const pd=P.x+P.y,[psx,psy]=iso(P.x,P.y);
@@ -1425,7 +1433,7 @@ function render(){
     else if(x.k==='blk'){const b=x.b,L=SPR.prop[b.k],c=L[b.v%L.length],[sx,sy]=iso(b.i+(b.big?1:.5),b.j+(b.big?1:.5));if(sx>-120&&sx<W+120&&sy>-170&&sy<H+80){const near=(b.k==='menhir'||b.k==='tree'||b.big)&&x.d>pd+.5&&Math.abs(sx-psx)<40&&sy-psy<60&&sy-psy>-10;if(near)ctx.globalAlpha=.4;ctx.drawImage(c,sx-c.ax,sy-c.ay);ctx.globalAlpha=1}}
     else if(x.k==='glutmal')drawGlutmal();
     else if(x.k==='en')drawEnemy(x.e);
-    else if(x.k==='pl')drawPlayer();
+    else if(x.k==='pl')drawPlayer();else if(x.k==='mp')mpDraw(x.r);
     else if(x.k==='al')drawAlly(x.a);
     else if(x.k==='pr')drawProj(x.p)}
   drawFxWorld();
@@ -1983,7 +1991,7 @@ function drawMinimap(){
   if(m.world)for(const k in G.owFires){const f=G.owFires[k];if(Math.abs(f.x-P.x)<R&&Math.abs(f.y-P.y)<R)pt(f.x,f.y,'#ffb347',3.4)}
   for(const e of m.enemies)if(!e.dead&&e.aggro)pt(e.x,e.y,e.boss?'#ff8a2a':'#c42a1c',e.boss?4:1.6);
   if(m.world&&G.qtgt&&Math.abs(G.qtgt.x-P.x)<R&&Math.abs(G.qtgt.y-P.y)<R){const[a,b]=X(G.qtgt.x,G.qtgt.y);ctx.strokeStyle='#ffd88a';ctx.lineWidth=2;ctx.beginPath();ctx.arc(a,b,5+Math.sin(G.t*5),0,7);ctx.stroke()}
-  pt(P.x,P.y,'#ffffff',3.2);ctx.restore()}
+  for(const r of mpVis())if(Math.abs(r.x-P.x)<R&&Math.abs(r.y-P.y)<R)pt(r.x,r.y,'#6ad0ff',3.2);pt(P.x,P.y,'#ffffff',3.2);ctx.restore()}
 
 /* ---------- pixel art ---------- */
 // 16x16 role buffers → 18x18 sprites with auto outline. Roles: mat 0..3 × shade 0..3, 16 = black, 17 = gem dark, 18 = gem mid, 19 = gem hi
@@ -2432,7 +2440,7 @@ function updHUD(){const d=P.d;
   if(boss){$('bossbar').hidden=false;setT('bName',boss.name);setW('bHp',(boss.hp/boss.max*100).toFixed(1)+'%')}else $('bossbar').hidden=true}
 
 /* ---------- save ---------- */
-const SAVEKEY='schwarzer-turm-v1';
+const SAVEKEY='schwarzer-turm-v1'+((s=>s?'-'+s:'')((new URLSearchParams(location.search).get('slot')||'').replace(/\W/g,'').slice(0,8)));
 function saveData(){if(!P||G.state==='title')return null;const p={};for(const k of['lvl','xp','stats','pts','spts','sk','sel','eq','inv','stash','found','glut','flaskMax','flasks','flaskPow','tree','tbonus','qi','qc','qb','cls','merc','ash','bounty','diff','diffMax','riftMax','recs','playT','tales'])p[k]=P[k];if(G.hand)p.hand=G.hand;
   return{p,g:{seed:G.seed,lit:G.lit,bossDead:G.bossDead,glutmal:G.glutmal,maxFloor:G.maxFloor,respawnFloor:G.respawnFloor,bossSeen:G.bossSeen,owFires:G.owFires,owClear:[...G.owClear],owRespawn:G.owRespawn,owSeen:[...G.owSeen],owBoss:G.owBoss,dayT:G.dayT||0,dstore:G.dstore||null},uid:UID}}
 function save(){try{const d=saveData();if(d)localStorage.setItem(SAVEKEY,JSON.stringify(d))}catch(e){}}
@@ -4685,6 +4693,150 @@ const _drawObjRG=drawObj;drawObj=function(o){if(o.type==='rghut'||o.type==='rgcg
     ctx.fillStyle='#1a1614';for(let k=0;k<4;k++)ctx.fillRect(sx-5,sy-26+k*5,10,1.4);ctx.fillStyle='#ff9a3a';ctx.fillRect(sx-4,sy-8,8,1.5);ctx.beginPath();ctx.moveTo(sx-6,sy-7);ctx.lineTo(sx-3,sy-10);ctx.lineTo(sx-3,sy-4);ctx.fill();
     if(G.state==='play'&&hoverObj()===o)label(sx,sy-46,o.name,'#ffd88a');return}return _drawObjRG(o)};
 const _saveDataRG=saveData;saveData=function(){const d=_saveDataRG();if(d)for(const k of['rgMap','rgSeen','rgHut','mountSlot','ride','rodeOnce','rideTip'])d.p[k]=P[k];return d};
+
+/* ---------- online: one player hosts a world, friends join it with a four-digit code ----------
+   Browsers talk directly over WebRTC; the free PeerJS broker only introduces them. The host's world seed
+   is sent to every guest, so islands, tower floors and the dead lands are the same for everyone.
+   For now everyone runs their own monsters; you see each other, where the others are, and can travel to them. */
+const NET={role:null,code:null,peer:null,host:null,conns:new Map(),others:new Map(),me:'h',n:0,st:'',err:'',lookH:'',lookT:0,hudT:0,goTo:0};
+const MPPRE='schwarzer-turm-mp-',MPMAX=3;
+const mpEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
+const MPICE={debug:0,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]}};
+function mpLib(){return window.Peer?Promise.resolve():new Promise((ok,no)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js';s.onload=ok;s.onerror=()=>no(new Error('lib'));document.head.appendChild(s)})}
+function mpName(){return(CFG.mpName||'').trim().slice(0,14)||myCls().n||'Wanderer'}
+const mpOn=()=>NET.role==='host'||NET.role==='guest';
+function mpErr(er){const t=er&&er.type;return t==='network'||t==='server-error'||t==='socket-error'||t==='socket-closed'?'Keine Verbindung zum Online-Dienst.':t==='browser-incompatible'?'Dieser Browser kann kein Online-Spiel.':t==='peer-unavailable'?'Kein Spiel mit diesem Code gefunden.':'Verbindung fehlgeschlagen.'}
+function mpFail(msg){mpStop(true);NET.err=msg;NET.st='';mpMenu()}
+
+// hosting: claim a free four-digit code on the broker and wait for friends
+async function mpHost(){if(mpOn())return;mpStop(true);NET.err='';NET.st='Spiel wird eröffnet …';NET.role='opening';mpMenu();
+  try{await mpLib()}catch(e){return mpFail('Der Online-Dienst ist gerade nicht erreichbar.')}
+  let tries=0;const go=()=>{const code=String(1000+Math.floor(Math.random()*9000)),p=new Peer(MPPRE+code,MPICE);NET.peer=p;
+    p.on('open',()=>{NET.role='host';NET.code=code;NET.me='h';NET.st='';log('Online: dein Spiel-Code ist '+code,'#9ad0ff');mpMenu();mpHud(1)});
+    p.on('connection',c=>mpAccept(c));
+    p.on('disconnected',()=>{if(NET.role==='host'&&!p.destroyed)setTimeout(()=>{try{p.reconnect()}catch(e){}},1500)});
+    p.on('error',er=>{if(er.type==='unavailable-id'&&tries++<8){p.destroy();go()}else if(NET.role!=='host')mpFail(mpErr(er));else if(er.type!=='peer-unavailable')log('Online: '+mpErr(er),'#ff8a6a')})};go()}
+function mpAccept(c){const id='g'+(++NET.n);c.mpId=id;
+  c.on('open',()=>{if(NET.conns.size>=MPMAX){c.send({t:'full'});setTimeout(()=>c.close(),400);return}
+    NET.conns.set(id,c);c.send({t:'w',seed:G.seed,id,code:NET.code,host:mpName()});c.send(mpLook());for(const r of NET.others.values())if(r.look)c.send(Object.assign({},r.look,{id:r.id}))});
+  c.on('data',d=>mpRecv(d,c));c.on('close',()=>mpDrop(id));c.on('error',()=>mpDrop(id))}
+function mpDrop(id){const had=NET.conns.delete(id),r=NET.others.get(id);NET.others.delete(id);if(r)log(r.nm+' hat das Spiel verlassen.','#a39b88');if(had)for(const c of NET.conns.values())if(c.open)c.send({t:'gone',id});mpMenu();mpHud(1)}
+
+// joining: ask the broker for the host's code, then talk to the host directly
+async function mpJoin(code){code=String(code||'').replace(/\D/g,'');if(code.length!==4){NET.err='Der Code hat vier Ziffern.';mpMenu();return}
+  mpStop(true);NET.err='';NET.st='Suche Spiel '+code+' …';NET.role='joining';mpMenu();
+  try{await mpLib()}catch(e){return mpFail('Der Online-Dienst ist gerade nicht erreichbar.')}
+  const p=new Peer(MPICE);NET.peer=p;let ok=false;
+  p.on('open',()=>{const c=p.connect(MPPRE+code,{reliable:true});NET.host=c;
+    const to=setTimeout(()=>{if(!ok)mpFail('Keine Antwort. Stimmt der Code, und ist der Host noch online?')},15000);
+    c.on('open',()=>{ok=true;clearTimeout(to);c.send({t:'hi',nm:mpName()})});
+    c.on('data',d=>mpRecv(d,c));
+    c.on('close',()=>{if(NET.role==='guest'){log('Die Verbindung zum Host ist abgerissen.','#ff8a6a');banner('OFFLINE','Zurück in deiner eigenen Welt','',2200);mpStop()}})});
+  p.on('error',er=>{if(NET.role==='joining')mpFail(mpErr(er));else if(NET.role==='guest'&&er.type!=='peer-unavailable')log('Online: '+mpErr(er),'#ff8a6a')})}
+
+function mpStop(quiet){const was=NET.role;
+  try{if(NET.role==='host')for(const c of NET.conns.values())if(c.open)c.send({t:'bye'});if(NET.host&&NET.host.open)NET.host.send({t:'bye'})}catch(e){}
+  try{NET.peer&&NET.peer.destroy()}catch(e){}
+  NET.peer=null;NET.host=null;NET.joinView=0;NET.conns.clear();NET.others.clear();NET.role=null;NET.code=null;NET.st='';NET.goTo=0;
+  if(was==='guest')mpLeaveWorld();if(!quiet&&was)log('Online beendet.','#a39b88');mpMenu();mpHud(1)}
+addEventListener('pagehide',()=>{try{NET.peer&&NET.peer.destroy()}catch(e){}});
+
+// a guest plays in the host's world while connected; their own islands wait in the save
+const MPW=['owFires','owSeen','owClear','owRespawn'];
+function mpWorldPack(){return{owFires:G.owFires||{},owSeen:[...(G.owSeen||[])],owClear:[...(G.owClear||[])],owRespawn:G.owRespawn||null}}
+function mpWorldUnpack(w){w=w||{};G.owFires=w.owFires||{};G.owSeen=new Set(w.owSeen||[]);G.owClear=new Set(w.owClear||[]);G.owRespawn=w.owRespawn||null}
+function mpEnterWorld(seed){if(G.mpOwn&&G.seed===seed)return;if(!G.mpOwn&&G.seed===seed){G.mpOwn={seed,same:1,...mpWorldPack()};return}
+  if(!G.mpOwn)G.mpOwn={seed:G.seed,...mpWorldPack()};else{G.mpw=G.mpw||{};G.mpw[G.seed]=mpWorldPack()}
+  G.seed=seed;mpWorldUnpack((G.mpw||{})[seed]);G.maps={};G.owAt=null;if(G.state==='play'||G.state==='paused')enterFloor(0)}
+function mpLeaveWorld(){const o=G.mpOwn;if(!o)return;G.mpOwn=null;if(o.same)return;G.mpw=G.mpw||{};G.mpw[G.seed]=mpWorldPack();
+  G.seed=o.seed;mpWorldUnpack(o);G.maps={};G.owAt=null;if(G.state==='play'||G.state==='paused'){enterFloor(0);banner('DER HÜGEL','Zurück in deiner eigenen Welt','',2200)}}
+const _saveDataMP=saveData;saveData=function(){const d=_saveDataMP();if(!d)return d;const o=G.mpOwn;
+  if(o&&!o.same){const w=mpWorldPack();d.g.mpw=Object.assign({},G.mpw||{},{[G.seed]:w});d.g.seed=o.seed;d.g.owFires=o.owFires;d.g.owSeen=o.owSeen;d.g.owClear=o.owClear;d.g.owRespawn=o.owRespawn}
+  else if(G.mpw)d.g.mpw=G.mpw;return d};
+
+// messages: w welcome, s state, l look, gone, bye, full
+function mpRecv(d,c){if(!d||!d.t)return;
+  if(d.t==='w'){if(NET.role!=='joining')return;NET.role='guest';NET.code=d.code;NET.me=d.id;NET.st='';NET.hostName=d.host;mpEnterWorld(d.seed);NET.goTo=1;
+    log('Verbunden: du bist in der Welt von '+d.host+'.','#9ad0ff');banner('ONLINE','In der Welt von '+d.host,'boss',2600);sample&&sample('portal',.5,{rate:1.2});closeMenu();mpHud(1);c.send(mpLook());return}
+  if(d.t==='full'){mpFail('Dieses Spiel ist schon voll.');return}
+  if(d.t==='bye'){if(NET.role==='guest'&&c===NET.host){log(NET.hostName+' hat das Spiel beendet.','#ff8a6a');banner('OFFLINE','Der Host hat das Spiel beendet','',2400);mpStop(true)}else if(c.mpId)mpDrop(c.mpId);return}
+  if(d.t==='gone'){const r=NET.others.get(d.id);if(r)log(r.nm+' hat das Spiel verlassen.','#a39b88');NET.others.delete(d.id);mpHud(1);return}
+  if(d.t==='hi'){return}
+  if(d.t==='s'||d.t==='l'){const id=NET.role==='host'?c.mpId:d.id;if(!id||id===NET.me)return;
+    let r=NET.others.get(id);if(!r){r=mpRemote(id);NET.others.set(id,r)}
+    if(d.t==='s')mpState(r,d);else{r.look=d;r.cls=d.cls||'wanderer';r.eq=d.eq||{};r.d.okS=new Set(Object.values(r.eq).filter(Boolean));if(d.nm)r.nm=d.nm;
+      if(!r.hello){r.hello=1;log(r.nm+(NET.role==='host'?' ist deinem Spiel beigetreten.':' ist online.'),'#9ad0ff');if(NET.role==='host')banner(r.nm.toUpperCase(),'ist deinem Spiel beigetreten','',2200);mpMenu()}}
+    if(NET.role==='host'){d.id=id;for(const[k,cc]of NET.conns)if(k!==id&&cc.open)cc.send(d)}}}
+function mpRemote(id){return{id,nm:'Mitspieler',x:0,y:0,tx:0,ty:0,face:0,floor:null,anim:0,atkT:0,atkDur:.4,eq:{},d:{okS:new Set()},cls:'wanderer',ghosts:[],trail:[],hurt:0,moving:false,dead:false,roll:0,whirl:0,ward:0,leap:null,ride:false,hs:rgHS(),lvl:1,hp:1,hm:1,seen:0,fresh:1}}
+function mpState(r,d){const far=r.fresh||r.floor!==d.fl||Math.hypot(d.x-r.x,d.y-r.y)>8;r.tx=d.x;r.ty=d.y;if(far){r.x=d.x;r.y=d.y;r.hs=rgHS()}r.fresh=0;
+  r.face=d.f;r.floor=d.fl;r.moving=!!d.mv;r.ride=!!d.r;r.dead=!!d.dd;r.roll=d.ro||0;r.lvl=d.lv;r.hp=d.hp;r.hm=d.hm;if(d.nm)r.nm=d.nm;r.seen=performance.now();
+  if(d.a>0){r.atkDur=d.ad||.4;const t=(1-d.a)*r.atkDur;if(!(r.atkT>0)||Math.abs(r.atkT-t)>.15)r.atkT=t}
+  if(NET.goTo&&NET.role==='guest'&&r.id==='h'){NET.goTo=0;if(typeof d.fl==='number'&&d.fl===0&&G.floor===0)mpTravel('h',1);else if(typeof d.fl==='number')log(r.nm+' ist im Turm, '+floorTitle(d.fl)+'. Am Leuchtfeuer kannst du zu '+r.nm+' reisen.','#9ad0ff')}}
+function mpLook(){const eq={};for(const k of['weapon','offhand','helm','armor','gloves','boots','belt','mount']){const it=P&&P.eq[k];if(it&&(k==='mount'||P.d.okS.has(it)))eq[k]=it}return{t:'l',id:NET.me,cls:P?P.cls:'wanderer',nm:mpName(),eq}}
+function mpSend(o){if(NET.role==='host'){for(const c of NET.conns.values())if(c.open)c.send(o)}else if(NET.role==='guest'&&NET.host&&NET.host.open)NET.host.send(o)}
+setInterval(()=>{if(!mpOn()||!P||G.state==='title')return;
+  mpSend({t:'s',id:NET.me,x:+P.x.toFixed(2),y:+P.y.toFixed(2),f:+(P.face||0).toFixed(2),fl:G.floor,hp:Math.round(P.hp),hm:Math.round(P.d.life),lv:P.lvl,mv:P.moving?1:0,
+    a:P.atkT>0?+(1-P.atkT/P.atkDur).toFixed(2):0,ad:P.atkDur||.4,r:riding()?1:0,dd:P.dead?1:0,ro:P.roll>0?+P.roll.toFixed(2):0,nm:mpName()});
+  const now=performance.now(),L=mpLook(),h=JSON.stringify(L.eq).length+'|'+Object.values(L.eq).map(i=>i.id).join(',')+L.cls+L.nm;if(h!==NET.lookH||now-NET.lookT>6000){NET.lookH=h;NET.lookT=now;mpSend(L)}},80);
+
+// the others: glide toward their last known spot, keep their own walk cycle, swing and horse
+function mpTick(dt){if(!NET.others.size){mpHud();return}const now=performance.now();
+  for(const r of NET.others.values()){const k=Math.min(1,dt*12);r.x+=(r.tx-r.x)*k;r.y+=(r.ty-r.y)*k;if(r.moving)r.anim+=dt;if(r.atkT>0)r.atkT=Math.max(0,r.atkT-dt);r.trail.length=0;r.stale=now-r.seen>6000}
+  mpHud()}
+function mpVis(){if(!NET.others.size||typeof G.floor!=='number')return[];const out=[];for(const r of NET.others.values())if(!r.stale&&r.floor===G.floor&&Math.abs(r.x-P.x)<30&&Math.abs(r.y-P.y)<30)out.push(r);return out}
+function mpDraw(r){const P0=P,H0=G.rgHS;P=r;G.rgHS=r.hs;try{drawPlayer()}catch(e){}finally{P=P0;G.rgHS=H0}
+  const[sx,sy]=iso(r.x,r.y),top=sy-(r.ride?84:60);label(sx,top,r.nm+' · Stufe '+r.lvl,'#9ad0ff');
+  const w=34,f=Math.max(0,Math.min(1,r.hp/Math.max(1,r.hm)));ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillRect(sx-w/2-1,top+8,w+2,4);ctx.fillStyle=f>.35?'#c42a1c':'#ff5a2a';ctx.fillRect(sx-w/2,top+9,w*f,2)}
+
+// where the others are: a small line at the top of the screen
+function mpWhere(r){if(r.stale)return'keine Antwort';if(r.floor==null)return'…';if(r.dead)return'gefallen';
+  if(r.floor===G.floor&&typeof r.floor==='number'){const d=Math.round(Math.hypot(r.x-P.x,r.y-P.y));return d<14?'bei dir':d+' Schritte'}return floorTitle(r.floor)}
+function mpHud(force){const now=performance.now();if(!force&&now-NET.hudT<400)return;NET.hudT=now;let b=$('mpbadge');
+  if(!mpOn()||G.state==='title'){if(b)b.hidden=true;return}
+  if(!b){b=document.createElement('div');b.id='mpbadge';document.body.appendChild(b)}b.hidden=false;
+  const parts=[...NET.others.values()].filter(r=>r.hello||r.seen).map(r=>`<span class="mpp">${mpEsc(r.nm)} · ${r.lvl} · ${mpWhere(r)}</span>`);
+  b.innerHTML=(NET.role==='host'?`<b>Spiel-Code ${NET.code}</b>`:`<b>Online · ${NET.code}</b>`)+(parts.length?' '+parts.join(' '):NET.role==='host'?' <span class="mpp">wartet auf Mitspieler</span>':'')}
+
+// travel to someone from a beacon
+function mpTravel(id,quiet){const r=NET.others.get(id);if(!r||r.floor==null)return;closeDialog();
+  if(typeof r.floor!=='number'){log(r.nm+' ist in einem Turm-Riss. Dorthin führt kein Weg.','#a39b88');return}
+  if(G.floor!==r.floor)enterFloor(r.floor);const[x,y]=nearWalk(r.tx+1,r.ty+.6);P.x=x;P.y=y;P.path=[];camX=x;camY=y;if(G.map.world){G.map.ac=null;owRestart()}
+  if(!quiet){sample('portal',.6,{rate:1});banner('ZU '+r.nm.toUpperCase(),floorTitle(r.floor),'',1600)}}
+const _openShrineMP=openShrine;openShrine=function(o){_openShrineMP(o);if(!NET.others.size)return;const d=$('dialog');
+  const bs=[...NET.others.values()].filter(r=>!r.stale&&r.floor!=null).map(r=>`<button data-mptravel="${r.id}">Zu ${mpEsc(r.nm)} <small>${mpEsc(mpWhere(r))}</small></button>`).join('');if(!bs)return;
+  const box=document.createElement('div');box.innerHTML='<h3 style="font-family:var(--f-sc);font-weight:400;margin:0;color:#9ad0ff">Mitspieler</h3><div class="travel">'+bs+'</div>';
+  const close=d.querySelector('[data-close]');d.insertBefore(box,close)};
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-mptravel],[data-mp]');if(!t)return;
+  if(t.dataset.mptravel){mpTravel(t.dataset.mptravel);return}
+  const a=t.dataset.mp;if(a==='menu'){menuView='online';mpMenu()}else if(a==='host')mpHost();else if(a==='join'){NET.joinView=1;NET.err='';mpMenu();setTimeout(()=>{const i=$('mpcode');i&&i.focus()},30)}
+  else if(a==='go'){const i=$('mpcode');mpJoin(i&&i.value)}else if(a==='stop'){mpStop()}else if(a==='cancel'){NET.joinView=0;if(NET.role==='joining'||NET.role==='opening')mpStop(true);NET.err='';mpMenu()}});
+
+// the menu: Einstellungen → Online-Hosting
+const _showMenuMP=showMenu;showMenu=function(v,msg){_showMenuMP(v,msg);if(v!=='settings')return;const b=$('mbox'),back=b.querySelector('[data-m="back"]');if(!back)return;
+  const h=document.createElement('div');h.innerHTML=`<h3>Online</h3><button class="mbtn" data-mp="menu">Online-Hosting${mpOn()?' <small>'+(NET.role==='host'?'Code '+NET.code:'verbunden')+'</small>':''}</button>`;b.insertBefore(h,back)};
+function mpMenu(){if(menuView!=='online')return;const b=$('mbox');if(!b)return;const ing=G.state==='play'||G.state==='paused';
+  let h='<h2>Online-Hosting</h2>';
+  if(!ing)h+='<p class="hint" style="text-align:center">Starte oder lade zuerst ein Spiel. Dann kannst du es hier hosten oder einem anderen beitreten.</p>';
+  else if(NET.role==='host'){const ps=[...NET.others.values()].filter(r=>r.hello);h+=`<p class="hint" style="text-align:center;margin:0">Dein Spiel-Code</p><div class="mpcodebig">${NET.code}</div>
+      <p class="hint" style="text-align:center">Dein Mitspieler öffnet Einstellungen → Online-Hosting → Online beitreten und gibt diesen Code ein.</p>
+      <div class="mplist">${ps.length?ps.map(r=>`<div>${mpEsc(r.nm)} · Stufe ${r.lvl} · ${mpEsc(mpWhere(r))}</div>`).join(''):'<div class="dim">Noch niemand da …</div>'}</div>
+      <button class="mbtn" data-mp="stop">Online beenden</button>`}
+  else if(NET.role==='guest')h+=`<p class="hint" style="text-align:center">Du spielst in der Welt von <b>${mpEsc(NET.hostName||'?')}</b> · Code ${NET.code}</p>
+      <div class="mplist">${[...NET.others.values()].map(r=>`<div>${mpEsc(r.nm)} · Stufe ${r.lvl} · ${mpEsc(mpWhere(r))}</div>`).join('')}</div>
+      <button class="mbtn" data-mp="stop">Verbindung trennen</button>`;
+  else if(NET.role==='opening'||NET.role==='joining')h+=`<p class="hint" style="text-align:center">${mpEsc(NET.st)}</p><button class="mbtn" data-mp="cancel">Abbrechen</button>`;
+  else if(NET.joinView)h+=`<p class="hint" style="text-align:center;margin:0">Spiel-Code des Hosts</p><input id="mpcode" class="mpin" inputmode="numeric" pattern="[0-9]*" maxlength="4" autocomplete="off" placeholder="0000">
+      <button class="mbtn" data-mp="go">Beitreten</button><button class="mbtn" data-mp="cancel">Zurück</button>`;
+  else h+=`<label class="mrow mpname"><span>Dein Name</span><input id="mpname" maxlength="14" value="${mpEsc(CFG.mpName||'')}" placeholder="${mpEsc(myCls().n)}"></label>
+      <button class="mbtn" data-mp="host">Spiel hosten <small>andere treten deiner Welt bei</small></button><button class="mbtn" data-mp="join">Online beitreten <small>mit dem Code eines Freundes</small></button>
+      <p class="hint" style="text-align:center;font-size:13px">Ihr spielt auf verschiedenen Geräten in derselben Welt. Jeder behält seinen Charakter. Monster, Beute und Erfahrung laufen vorerst noch getrennt.</p>`;
+  if(NET.err)h+=`<div class="msg mperr" role="status">${mpEsc(NET.err)}</div>`;
+  if(!(NET.joinView&&!mpOn()&&NET.role!=='joining'))h+='<button class="mbtn" data-m="settings">Zurück</button>';b.innerHTML=h;
+  const i=$('mpcode');if(i)i.addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter')mpJoin(i.value)});
+  const n=$('mpname');if(n){n.addEventListener('keydown',e=>e.stopPropagation());n.addEventListener('input',()=>{CFG.mpName=n.value.slice(0,14);saveCfg()})}}
+// leaving the game ends the session first, so the guest's own world is what gets saved
+const _toTitleMP=toTitle;toTitle=function(){if(mpOn())mpStop(true);_toTitleMP()};
+const _startNewMP=startNew;startNew=function(c){if(mpOn()||NET.role)mpStop(true);G.mpOwn=null;G.mpw=null;_startNewMP(c)};
 
 expandItems();buildPalette();buildUI();initGL();buildSprites();buildEnvSprites();buildGrain();
 // title backdrop: the hill, idle
