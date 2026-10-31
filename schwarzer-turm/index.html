@@ -302,6 +302,7 @@ body.touch #target{top:calc(6px + env(safe-area-inset-top,0px))}
 .mpname input{flex:1;min-width:0;font:inherit;font-size:17px;background:#14110d;color:#ece4cf;border:1px solid #5a4a30;padding:4px 8px}
 .mplist{margin:4px 0 10px;text-align:center;color:#e8dcc0;font-size:15px}.mplist .dim{color:#8a8070}.mperr{color:#ff8a6a!important;text-align:center}
 @media (max-width:600px){#mpbadge{font-size:11px;top:4px}}
+.c-junk{color:#9a9282}.iitem.r-junk{background:rgba(90,84,72,.18)}
 </style>
 </head>
 <body>
@@ -709,8 +710,8 @@ const xpNext=l=>Math.floor(80*Math.pow(l,1.75));
 function rollRarity(ilvl,mf,boost){const f=1+mf/100;const u=(0.012+boost*0.04)*f,r=u+(0.07+boost*0.2)*f,m=r+0.3+boost*0.3;const x=R();return x<u?'unique':x<r?'rare':x<m?'magic':'normal'}
 function makeItem(ilvl,o={}){
   ilvl=Math.max(1,ilvl);let rar=o.rarity||rollRarity(ilvl,o.mf||0,o.boost||0);let slot=o.slot,uq=null,b;
-  if(rar==='unique'){const c=UNIQ.filter(u=>u.lvl<=ilvl+3&&(!slot||BASE[u.b].slot===slot));if(c.length)uq=pick(c);else rar='rare'}
-  if(uq)b=BASE[uq.b];else{slot=slot||wpick(SLOTW);const c=Object.values(BASE).filter(x=>x.slot===slot&&x.lvl<=ilvl).sort((a,b)=>a.lvl-b.lvl),top=c.filter(x=>x.lvl>=ilvl-14);b=pick(top.length>=3?top:c.slice(-4))}
+  if(rar==='unique'){const c=UNIQ.filter(u=>u.lvl<=ilvl+3&&(!slot||BASE[u.b].slot===slot)&&(slot||jewelOK()||!/^(ring|amulet)$/.test(BASE[u.b].slot)));if(c.length)uq=pick(c);else rar='rare'}
+  if(uq)b=BASE[uq.b];else{slot=slot||wpick(jewelOK()?SLOTW:SLOTW.filter(s=>s[0]!=='ring'&&s[0]!=='amulet'));const cap=ilvl*.75+1,c=Object.values(BASE).filter(x=>x.slot===slot&&x.lvl<=cap).sort((a,b)=>a.lvl-b.lvl),win=c.filter(x=>x.lvl>=cap-20),pool=win.length>=3?win:c;b=pool[Math.floor(Math.pow(R(),2.2)*pool.length)]||c[0]}
   const it={id:UID++,b:b.n,slot:b.slot,cls:b.cls,rar,ilvl,mods:{},req:{lvl:b.lvl,str:b.str,dex:b.dex}};
   if(b.dmg){it.dmg=b.dmg.slice();it.speed=b.speed;it.twoH=b.twoH}
   if(b.def)it.def=Math.round(b.def*rnd(.9,1.15));
@@ -1149,15 +1150,17 @@ function killEnemy(e,a){
     if(g.k==='blood')decal(g===GORE.ichor?'ichor':'blood',e.x+Math.cos(e.fallA)*.3,e.y+Math.sin(e.fallA)*.3,sc*(e.boss?1.8:1),60);if(g.k==='rock')smoke(e.x,e.y,9,'rgba(90,78,62,',8,.5);if(g.k==='mote'){flash(e.x,e.y,1,34,'190,220,255',.4);for(let k=0;k<20;k++)fxp({k:'mote',x:e.x+rnd(-.3,.3),y:e.y+rnd(-.3,.3),z:rnd(.2,1.2),vz:rnd(.8,2),life:rnd(.6,1.2),col:pick(GORE.mote.cols),s:rnd(1,2),g:-.5})}
     hitstop(e.boss?.45:.06);if(e.boss){boom(e.x,e.y,2.4,'fire');shock(e.x,e.y,5,'255,220,160',.9,5);addLight(e.x,e.y,420,1,1.2)}}
   const xp=Math.round(e.xp);gainXp(xp);
-  const gl=Math.round((3+G.mlvl*1.6)*rnd(.8,1.25)*(e.rank==='boss'?25:e.rank==='unique'?6:e.rank==='champ'?2.5:1)*(1+(P.d.glutf||0)/100));
+  const gl=Math.round((3+(e.ml||G.mlvl)*1.6)*rnd(.8,1.25)*(e.rank==='boss'?25:e.rank==='unique'?6:e.rank==='champ'?2.5:1)*(1+(P.d.glutf||0)/100));
   P.glut+=gl;ftext(e.x,e.y-.3,'+'+gl+' Glut','#ff9a3a');
   if(e.aff.includes('feuer'))G.tele.push({shape:'circle',x:e.x,y:e.y,r:1.8,t:0,dur:.6,dmg:e.dmg[1]*1.2,elem:'fire',owner:null});
-  const ilvl=G.mlvl+(e.rank==='boss'?6:e.rank==='unique'?4:e.rank==='champ'?2:0),mf=P.d.mf;
-  let n=0,boost=0;
-  if(e.rank==='boss'){n=rint(4,6);boost=1}else if(e.rank==='unique'){n=rint(2,3);boost=.5}else if(e.rank==='champ'){n=Math.random()<.65?1:0;boost=.25}else n=Math.random()<.17?1:0;
-  if(e.arena)n=0; // the statue's summons give glut and xp, never loot
-  for(let k=0;k<n;k++)dropItem(makeItem(ilvl,{mf,boost,rarity:e.rank==='boss'&&k<2?(Math.random()<.35?'unique':'rare'):undefined}),e.x,e.y);
-  if(!e.arena&&Math.random()<(e.rank==='normal'?.1:.5))dropItem(makePotion(Math.random()<.65?'life':'mana',G.floor),e.x,e.y);
+  const eml=e.ml||G.mlvl,ilvl=eml+(e.rank==='boss'?3:e.rank==='unique'?2:e.rank==='champ'?1:0),mf=P.d.mf;
+  let n=0,boost=0,nj=0;
+  if(e.rank==='boss'){n=2;boost=.6;nj=rint(3,5)}else if(e.rank==='unique'){n=rint(1,2);boost=.3;nj=rint(2,3)}else if(e.rank==='champ'){n=Math.random()<.3?1:0;boost=.12;nj=rint(1,2)}else{n=Math.random()<.045?1:0;nj=Math.random()<.42?1:0}
+  if(e.arena)n=nj=0; // the statue's summons give glut and xp, never loot
+  for(let k=0;k<n;k++)dropItem(makeItem(ilvl,{mf,boost,rarity:e.rank==='boss'&&k<1?(Math.random()<.06?'unique':Math.random()<.4?'rare':'magic'):undefined}),e.x,e.y);
+  for(let k=0;k<nj;k++)dropItem(junkFor(e),e.x,e.y);
+  if(!e.arena&&Math.random()<1e-4){dropItem(makeItem(ilvl+22,{rarity:'unique',mf}),e.x,e.y);banner('EIN WUNDER','Das Schicksal lächelt dir zu','boss',3600)}
+  if(!e.arena&&Math.random()<(e.rank==='normal'?.06:.35))dropItem(makePotion(Math.random()<.65?'life':'mana',G.floor),e.x,e.y);
   if(e.ck&&G.map.world&&!G.map.enemies.some(o=>o.ck===e.ck&&!o.dead)){G.owClear.add(e.ck);log('Gebiet befreit. Es bleibt ruhig, bis du an einem Leuchtfeuer rastest.','#a39b88')}
   if(e.wb){if(!G.owBoss[e.wb]){G.owBoss[e.wb]=1;P.tbonus=(P.tbonus||0)+2;log('+2 Talentpunkte (P)','#e8c878')}banner('FEIND BEZWUNGEN',e.name,'boss',4200);sfx('unique');G.shake=14;save();return}
   if(e.boss&&!G.bossDead[G.floor]){P.tbonus=(P.tbonus||0)+2;log('+2 Talentpunkte (P)','#e8c878')}
@@ -1210,7 +1213,7 @@ function interact(o){
   else if(o.type==='merchant'){openShop(o)}
   else if(o.type==='stash'){sample('chest',.6)||sfx('pick');openStash()}
   else if(o.type==='colossus')summonArena(o)
-  else if(o.type==='chest'&&!o.open){o.open=true;qInc('chest');sample('chest',.75)||sfx('boom');const n=rint(1,3);for(let k=0;k<n;k++)dropItem(makeItem(G.mlvl+1,{mf:P.d.mf,boost:.15}),o.x,o.y);if(Math.random()<.6)dropItem(makePotion('life',G.floor),o.x,o.y);if(Math.random()<.14)dropItem(makeRune(pickRune(G.mlvl)),o.x,o.y);const gl=rint(10,25)*G.mlvl;P.glut+=gl;ftext(o.x,o.y,'+'+gl+' Glut','#ff9a3a')}
+  else if(o.type==='chest'&&!o.open){o.open=true;qInc('chest');sample('chest',.75)||sfx('boom');const cl=mlNow(),n=rint(1,3);for(let k=0;k<n;k++)dropItem(junkFor(null,cl),o.x,o.y);if(Math.random()<.18)dropItem(makeItem(cl,{mf:P.d.mf}),o.x,o.y);if(Math.random()<.25)dropItem(makePotion('life',G.floor),o.x,o.y);if(runeOK()&&Math.random()<.03)dropItem(makeRune(pickRune(cl)),o.x,o.y);const gl=rint(3,8)*cl;P.glut+=gl;ftext(o.x,o.y,'+'+gl+' Glut','#ff9a3a')}
 }
 function pickup(gi){
   const m=G.map,idx=m.items.indexOf(gi);if(idx<0)return;
@@ -2377,7 +2380,7 @@ document.addEventListener('click',e=>{
     if(k==='life'||k==='mana'){if(!invAdd(makePotion(k,Math.max(1,G.maxFloor)))){log('Das Inventar ist voll.','#ff5a4a');return}}
     if(k==='flask'){P.flaskMax++;P.flasks++}if(k==='pow')P.flaskPow++;P.glut-=c;qInc('buy');sfx('gold');updatePanels();return}
   if(t.dataset.gamble){const c=+t.dataset.cost;if(P.glut<c){log('Nicht genug Glut.','#ff5a4a');return}
-    const r=Math.random(),rar=r<.04?'unique':r<.22?'rare':'magic';const it=makeItem(P.lvl+rint(0,3),{slot:t.dataset.gamble,rarity:rar});if(!invAdd(it)){log('Kein Platz im Inventar für diesen Gegenstand.','#ff5a4a');return}P.glut-=c;qInc('buy');discover(it);sfx(it.rar==='unique'?'unique':'gold');log('Erwürfelt: '+it.name,RCOL[it.rar]);updatePanels();return}
+    const r=Math.random(),rar=r<.008?'unique':r<.07?'rare':'magic';const it=makeItem(P.lvl+rint(0,3),{slot:t.dataset.gamble,rarity:rar});if(!invAdd(it)){log('Kein Platz im Inventar für diesen Gegenstand.','#ff5a4a');return}P.glut-=c;qInc('buy');discover(it);sfx(it.rar==='unique'?'unique':'gold');log('Erwürfelt: '+it.name,RCOL[it.rar]);updatePanels();return}
   if(t.dataset.eq){eqClick(t.dataset.eq);return}});
 document.addEventListener('contextmenu',e=>{const st=e.target.closest('[data-st]');if(st&&!G.hand){e.preventDefault();stToInv(P.stash[+st.dataset.st]);return}const t=e.target.closest('[data-inv]'),q=e.target.closest('[data-eq]');if(t&&!G.hand){e.preventDefault();invClick(P.inv[+t.dataset.inv],false)}else if(q&&!G.hand){e.preventDefault();unequip(q.dataset.eq)}else if(e.target.closest('.panel'))e.preventDefault()});
 function invClick(it,shift){if(!it)return;
@@ -2542,7 +2545,7 @@ function owRestart(){const m=G.map;if(!m||!m.world)return;m.enemies=m.enemies.fi
 function nearWalk(x,y){for(let r=0;r<6;r+=.5)for(let a=0;a<6.28;a+=.5){const nx=x+Math.cos(a)*r,ny=y+Math.sin(a)*r;if(free(nx,ny,.3))return[nx,ny]}return[x,y]}
 function owTravel(key){const f=key==='home'?null:G.owFires[key];closeDialog();if(G.floor!==0)enterFloor(0);const m=G.map;
   if(f){const[x,y]=nearWalk(f.x+1,f.y+1);P.x=x;P.y=y}else{P.x=m.start.x;P.y=m.start.y}P.path=[];camX=P.x;camY=P.y;owRestart();sample('portal',.6,{rate:1});banner(f?f.name:'Der Hügel','',undefined,1800)}
-function stockFor(o){if(o.stock)return o.stock;const lv=Math.max(1,o.lvl||P.lvl),R0=R;R=mulberry(Math.floor(Math.random()*1e9));o.stock=[];for(let k=0;k<7;k++)o.stock.push(makeItem(lv+rint(0,3),{boost:.35,rarity:Math.random()<.12?'rare':Math.random()<.6?'magic':'normal'}));R=R0;return o.stock}
+function stockFor(o){if(o.stock)return o.stock;const lv=Math.max(1,o.lvl||P.lvl),R0=R;R=mulberry(Math.floor(Math.random()*1e9));o.stock=[];for(let k=0;k<6;k++)o.stock.push(makeItem(lv,{rarity:Math.random()<.03?'rare':Math.random()<.3?'magic':'normal'}));R=R0;return o.stock}
 
 /* ---------- overworld bosses: eight lords, each ruling one island further out ---------- */
 const WB=[
@@ -2836,7 +2839,7 @@ RUNES.forEach(r=>PXS['Rune:'+r.k]=[()=>wRune(r.g),'stone','stone','stone',r.gem]
 function makeRune(k){const r=RBY[k];return{id:UID++,slot:'rune',cls:'rune',b:'Rune',rune:k,rar:'rune',name:r.n+'-Rune',ilvl:r.l,mods:{},req:{lvl:r.l,str:0,dex:0}}}
 // low runes are common, every step up is rarer; bosses roll as if deeper
 function pickRune(lv,boss){const ok=RUNES.filter(r=>r.l<=lv+(boss?5:0));const ws=ok.map(r=>Math.pow(.6,r.i*(boss?.7:1)));let x=Math.random()*ws.reduce((a,b)=>a+b,0);for(let i=0;i<ok.length;i++){x-=ws[i];if(x<=0)return ok[i].k}return ok[0].k}
-function runeDrop(e){const ch=e.wb?2:e.rank==='boss'?1:e.rank==='unique'?.3:e.rank==='champ'?.12:.035;let n=Math.floor(ch)+(Math.random()<ch%1?1:0);
+function runeDrop(e){if(!runeOK())return;const ch=e.wb?1:e.rank==='boss'?1:e.rank==='unique'?.12:e.rank==='champ'?.035:.006;let n=Math.floor(ch)+(Math.random()<ch%1?1:0);
   if(G.night)n+=Math.random()<.04?1:0;for(let k=0;k<n;k++)dropItem(makeRune(pickRune(G.mlvl,e.boss||e.wb)),e.x,e.y)}
 function rollSockets(it){if(!SOCK[it.slot]||it.rar==='unique'||it.slot==='rune')return it;const ch={normal:.28,magic:.14,rare:.07}[it.rar]||0;if(Math.random()>=ch)return it;
   const mx=maxSoc(it);it.soc=it.rar==='normal'?rint(1,mx):it.rar==='magic'?rint(1,Math.min(2,mx)):1;it.runes=[];return it}
@@ -3061,7 +3064,7 @@ function evSpot(r0,r1){for(let k=0;k<30;k++){const a=Math.random()*7,r=rnd(r0,r1
 function evVid(){const ok=VARS.filter(v=>v[10]<=Math.max(1,G.mlvl)&&v[1]!=='golem');return pick(ok.length?ok:VARS)[0]}
 function worldEvents(dt){const cx=Math.floor(P.x/CH),cy=Math.floor(P.y/CH),I=islandOf(cx,cy);
   for(const e of G.map.enemies)if(e.ev&&!e.dead&&hyp(e.x-P.x,e.y-P.y)>45)e.dead=true,e.dieT=99;
-  if(G.ev&&G.ev.k==='merchant'){const v=G.ev;if(!G.map.objs.includes(v.o)){G.ev=null}else if(v.foes.every(e=>e.dead)){G.ev=null;v.o.quote='„Ich steh tief in deiner Schuld, Wanderer.“';const it=makeItem(G.mlvl+3,{rarity:Math.random()<.2?'unique':'rare',mf:P.d.mf});dropItem(it,v.o.x+.6,v.o.y+.6);const gl=30*G.mlvl;P.glut+=gl;ftext(v.o.x,v.o.y,'+'+gl+' Glut','#ff9a3a');qInc('rescue');log(`${v.o.name} ist gerettet und schenkt dir ${it.name}.`,'#e8d8b0');sfx('gold')}}
+  if(G.ev&&G.ev.k==='merchant'){const v=G.ev;if(!G.map.objs.includes(v.o)){G.ev=null}else if(v.foes.every(e=>e.dead)){G.ev=null;v.o.quote='„Ich steh tief in deiner Schuld, Wanderer.“';const it=makeItem(G.mlvl+1,{rarity:Math.random()<.02?'unique':Math.random()<.25?'rare':'magic',mf:P.d.mf});dropItem(it,v.o.x+.6,v.o.y+.6);const gl=30*G.mlvl;P.glut+=gl;ftext(v.o.x,v.o.y,'+'+gl+' Glut','#ff9a3a');qInc('rescue');log(`${v.o.name} ist gerettet und schenkt dir ${it.name}.`,'#e8d8b0');sfx('gold')}}
   if(!I||I.kind==='home'||I.kind==='boss')return;
   const busy=G.map.enemies.some(e=>!e.dead&&e.aggro&&hyp(e.x-P.x,e.y-P.y)<11);if(busy||G.ev)return;
   G.evT=(G.evT??rnd(70,110))-dt;if(G.evT>0)return;G.evT=rnd(100,170);
@@ -3082,7 +3085,7 @@ const _updEnemyN=updEnemy;updEnemy=function(e,dt){if(!e.thief||e.dead)return _up
   const ox=e.x,oy=e.y;moveEnt(e,Math.cos(a)*sp*dt,Math.sin(a)*sp*dt);if(hyp(e.x-ox,e.y-oy)<sp*dt*.3){const b=a+(Math.random()<.5?1.6:-1.6);moveEnt(e,Math.cos(b)*sp*dt,Math.sin(b)*sp*dt)}
   e.face=a;e.anim+=dt*sp*.6;if(Math.random()<dt*14)fxp({k:'ember',x:e.x,y:e.y,z:.5,vx:rnd(-.5,.5),vy:rnd(-.5,.5),vz:rnd(.3,1),life:.6,col:pick(['#ffc070','#ff9a30']),s:rnd(1,2),g:-1})};
 const _killEnemyN=killEnemy;killEnemy=function(e,a){_killEnemyN(e,a);if(e.rank==='unique')qInc('uniq');if(e.rank==='champ')qInc('champ');
-  if(e.thief){const gl=45*Math.max(1,G.mlvl);P.glut+=gl;ftext(e.x,e.y-.5,'+'+gl+' Glut','#ff9a3a');for(let k=0;k<2;k++)dropItem(makeItem(G.mlvl+3,{mf:P.d.mf,boost:.6}),e.x,e.y);dropItem(makeRune(pickRune(G.mlvl,true)),e.x,e.y);banner('GLUTDIEB GESTELLT','Seine Beute gehört dir','',2400);qInc('thief')}};
+  if(e.thief){const gl=45*Math.max(1,G.mlvl);P.glut+=gl;ftext(e.x,e.y-.5,'+'+gl+' Glut','#ff9a3a');dropItem(makeItem(G.mlvl+1,{mf:P.d.mf,boost:.3}),e.x,e.y);for(let k=0;k<3;k++)dropItem(junkFor(e),e.x,e.y);if(runeOK())dropItem(makeRune(pickRune(G.mlvl,true)),e.x,e.y);banner('GLUTDIEB GESTELLT','Seine Beute gehört dir','',2400);qInc('thief')}};
 
 // bounties from the traders: one at a time, paid out on the spot
 const BFAM={skel:'Knochenwichte',ghoul:'Grabschänder',spider:'Spinnen',archer:'Knochenschützen',cult:'Aschekultisten',wraith:'Klageseelen',golem:'Steinkolosse',scorp:'Skorpione'};
@@ -3096,7 +3099,7 @@ function makeBounty(seed){const r=mulberry(seed),pk=a=>a[Math.floor(r()*a.length
 function bountyOffers(o){if(!o.bo||o.boL!==P.lvl){o.boL=P.lvl;const s=Math.floor(Math.random()*1e9);o.bo=[makeBounty(s),makeBounty(s+77)]}return o.bo}
 const bProg=b=>Math.min(b.n,qCnt(b.key)-b.base);
 function bountyTick(){const b=P.bounty;if(!b)return;const t=`Kopfgeld: ${b.t} · ${bProg(b)}/${b.n}`,el=$('btrack');if(el&&el.dataset.t!==t){el.dataset.t=t;el.textContent=t}
-  if(bProg(b)>=b.n){P.bounty=null;P.glut+=b.glut;const it=makeItem(Math.max(G.mlvl,P.lvl)+2,{rarity:'rare',mf:P.d.mf});if(!invAdd(it))dropItem(it,P.x,P.y);if(b.rune){const r=makeRune(pickRune(Math.max(G.mlvl,P.lvl)));if(!invAdd(r))dropItem(r,P.x,P.y)}
+  if(bProg(b)>=b.n){P.bounty=null;P.glut+=b.glut;const it=makeItem(Math.max(G.mlvl,P.lvl),{rarity:Math.random()<.2?'rare':'magic',mf:P.d.mf});if(!invAdd(it))dropItem(it,P.x,P.y);if(b.rune&&runeOK()){const r=makeRune(pickRune(Math.max(G.mlvl,P.lvl)));if(!invAdd(r))dropItem(r,P.x,P.y)}
     qInc('bounty');banner('KOPFGELD ERFÜLLT',`+${b.glut} Glut · ${it.name}${b.rune?' · eine Rune':''}`,'',3200);sfx('gold');log('Kopfgeld kassiert: '+b.t,'#ffd88a');if(el){el.dataset.t='';el.textContent=''}updatePanels()}}
 function shopBountyHTML(){const o=G.shop||{},b=P.bounty;let h='<h3>Kopfgeld</h3>';
   if(b)return h+`<div class="shoprow"><span>${b.t} · ${bProg(b)}/${b.n}</span><span class="c">${b.glut}</span><button data-bounty="drop" data-cost="0">Aufgeben</button></div><p class="hint">Wird sofort ausgezahlt, sobald es erfüllt ist. Dazu ein seltener Gegenstand${b.rune?' und eine Rune':''}.</p>`;
@@ -4837,6 +4840,85 @@ function mpMenu(){if(menuView!=='online')return;const b=$('mbox');if(!b)return;c
 // leaving the game ends the session first, so the guest's own world is what gets saved
 const _toTitleMP=toTitle;toTitle=function(){if(mpOn())mpStop(true);_toTitleMP()};
 const _startNewMP=startNew;startNew=function(c){if(mpOn()||NET.role)mpStop(true);G.mpOwn=null;G.mpw=null;_startNewMP(c)};
+
+/* ---------- loot economy: gear comes slowly, junk fills the bags ---------- */
+// fallen guardians, tower keepers and island lords alike, open the way to jewels and runes
+const bossCount=()=>Object.keys(G.bossDead||{}).filter(k=>k!=='rift'&&G.bossDead[k]).length+Object.keys(G.owBoss||{}).filter(k=>G.owBoss[k]).length;
+const jewelOK=()=>bossCount()>=2,runeOK=()=>bossCount()>=3;
+// plain gear is the rule; magic is a find, rare a story, unique a legend. Nothing above plain in the first steps
+rollRarity=function(ilvl,mf,boost){const f=1+mf/100,x=R(),u=ilvl<12?0:(.0005+boost*.01)*f,r=u+(ilvl<8?0:(.005+boost*.06)*f),m=r+(ilvl<3?.015:.07+boost*.2)*Math.min(f,2.5);return x<u?'unique':x<r?'rare':x<m?'magic':'normal'};
+// foes are as strong as their place, and never much weaker than the one who comes for them
+function mlNow(){let b=G.mlvl;const f=G.floor;if(typeof f==='number'&&f>0&&G.map&&G.maps[f]===G.map)b=1+(f-1)*2;return Math.max(1,Math.round(b),P?P.lvl-1:1)}
+const mlWrap=fn=>function(...a){const pm=G.mlvl,ml=mlNow();G.mlvl=ml;try{const e=fn.apply(this,a);if(e)e.ml=ml;return e}finally{G.mlvl=pm}};
+makeEnemy=mlWrap(makeEnemy);makeBoss=mlWrap(makeBoss);makeWBoss=mlWrap(makeWBoss);
+// a floor left behind by a hero who has since grown wakes up anew
+const _enterFloorL=enterFloor;enterFloor=function(f){const tw=typeof f==='number'&&f>0;if(tw&&P&&G.maps[f]&&(G.maps[f].pl||0)<P.lvl-3)delete G.maps[f];_enterFloorL(f);if(tw&&G.map&&!G.map.pl)G.map.pl=P.lvl};
+
+// junk: stackable, worth a few glut, and what most foes really carry
+const JMAX=20;
+const JUNK={
+  holz:{n:'Morsches Holz',v:1,d:'Taugt nicht einmal zum Feuer.'},knochen:{n:'Knochen',v:1,d:'Abgenagt. Von wem, will man nicht wissen.'},
+  schaedel:{n:'Schädelsplitter',v:2,d:'Ein Stück von jemandem, der hier nicht mehr wohnt.'},klinge:{n:'Zerbrochene Klinge',v:4,d:'Der bessere Teil fehlt.'},
+  nagel:{n:'Rostige Nägel',v:1,d:'Aus einem Sarg gezogen.'},fleisch:{n:'Verrottetes Fleisch',v:1,d:'Riecht so, wie es aussieht.'},
+  auge:{n:'Spinnenauge',v:3,d:'Es sieht dich noch an.'},seide:{n:'Spinnenseide',v:2,d:'Klebt an allem, nur nicht an Glück.'},
+  zahn:{n:'Fauler Zahn',v:2,d:'Schwarz bis zur Wurzel.'},fetzen:{n:'Stofffetzen',v:1,d:'Einmal war das ein Gewand.'},
+  feder:{n:'Krähenfeder',v:1,d:'Die Krähen waren zuerst hier.'},fluegel:{n:'Fledermausflügel',v:2,d:'Ledrig und kalt.'},
+  kerze:{n:'Kerzenstummel',v:1,d:'Brannte für ein Gebet, das niemand hörte.'},scherbe:{n:'Tonscherbe',v:1,d:'Ein Krug, der zu oft fiel.'},
+  asche:{n:'Grabstaub',v:2,d:'Ein Beutel voll von dem, was übrig bleibt.'},pilz:{n:'Modriger Pilz',v:1,d:'Wächst, wo Licht nie hinkommt.'},
+  schuppe:{n:'Panzerschuppe',v:2,d:'Hart wie Horn, dünn wie Papier.'},stachel:{n:'Giftstachel',v:3,d:'Trocken. Meistens.'},
+  brocken:{n:'Steinbrocken',v:1,d:'Schwer und völlig wertlos.'},stein:{n:'Zeichenloser Stein',v:2,d:'Glatt wie eine Rune, doch ohne Zeichen.'},
+  schleim:{n:'Schleimklumpen',v:1,d:'Zuckt noch ein wenig.'}};
+const JFAM={skel:['knochen','knochen','schaedel','klinge','nagel'],archer:['knochen','schaedel','feder','nagel'],ghoul:['fleisch','fleisch','zahn','fetzen'],
+  spider:['auge','auge','seide'],cult:['kerze','fetzen','asche'],wraith:['asche','fetzen','kerze'],golem:['brocken','brocken','scherbe'],scorp:['schuppe','stachel'],
+  x:['holz','holz','nagel','scherbe','pilz','feder','fetzen','fluegel','schleim','knochen']};
+function makeJunk(k,lv){const j=JUNK[k]||JUNK.holz;lv=Math.max(1,lv||1);return{id:UID++,b:'Junk:'+k,jk:k,slot:'junk',cls:'junk',rar:'junk',name:j.n,ilvl:lv,v:Math.max(1,Math.round(j.v*(1+lv*.06))),n:1,mods:{},req:{lvl:1,str:0,dex:0}}}
+function junkFor(e,lv){const f=e&&(JFAM[e.type]||JFAM[e.look]);return makeJunk(pick(f&&Math.random()<.7?f:JFAM.x),lv||(e&&e.ml)||mlNow())}
+
+// pixel shapes for the junk, in the same 16x16 role language as the gear
+const jl=(m,l)=>m*4+(l>.45?3:l>.05?2:l>-.4?1:0);
+const jE=(x,y,cx,cy,rx,ry)=>{const dx=(x-cx)/rx,dy=(y-cy)/ry;return dx*dx+dy*dy<=1?-(dx+dy)*.7+.15:null};
+const jSeg=(x,y,ax,ay,bx,by)=>{const vx=bx-ax,vy=by-ay,t=clamp(((x-ax)*vx+(y-ay)*vy)/(vx*vx+vy*vy),0,1);return Math.hypot(x-ax-vx*t,y-ay-vy*t)};
+const JPX={
+  holz:[()=>pdiag((a,p)=>{if(a<-10||a>10||Math.abs(p)>2.6)return -1;if(a>=9)return Math.abs(p)<1.5?7:5;return jl(0,-p/3+((a*7+p*3)%5===0?-.6:0))}),'wood','bone','wood','ruby'],
+  knochen:[()=>pdiag((a,p)=>{const e=Math.abs(a);if(e<=7&&Math.abs(p)<=1)return jl(0,-p/2);if(e>7&&e<=11&&Math.abs(p)<=3&&!(e>=10&&Math.abs(p)<=1))return jl(0,-p/3+.25);return -1}),'bone','bone','bone','ruby'],
+  schaedel:[()=>pfill((x,y)=>{const l=jE(x,y,7.5,7.5,6,5.4);if(l==null||x+y>17+(x*5%3))return -1;if(Math.hypot(x-6,y-8)<1.7)return 16;if(y===11&&x%2)return 16;return jl(0,l)}),'bone','bone','bone','ruby'],
+  klinge:[()=>wBlade({tip:4,g:-3,hw:2,gw:3,grip:-8,taper:1,serr:1}),'iron','bronze','leather','ruby'],
+  nagel:[()=>pfill((x,y)=>{for(const[nx,ny,h]of[[4,3,9],[8,5,9],[12,2,10]]){if(y===ny&&Math.abs(x-nx)<=1)return x<nx?3:x>nx?1:2;if(x===nx&&y>ny&&y<=ny+h)return y>ny+h-2?0:(y%3?2:1)}return -1}),'iron','iron','iron','ruby'],
+  fleisch:[()=>pfill((x,y)=>{if(x>=10&&x<=14&&y>=2&&y<=7&&Math.abs((x-10)+(y-7))<=1.2)return x+y<14?7:5;const l=jE(x,y,7.5,9.5,6.5,4.6);if(l==null)return -1;if((x*7+y*11)%13===0)return 9;return jl(0,l+((x+y)%4===0?-.3:0))}),'blood','bone','moss','ruby'],
+  auge:[()=>pfill((x,y)=>{for(const[cx,cy,r]of[[5,6,3.2],[11,7,2.7],[8,11.5,2.4]]){const d=Math.hypot(x-cx,y-cy);if(d<=r){if(d<r*.35)return 16;if(Math.hypot(x-cx+r*.45,y-cy+r*.45)<r*.3)return 19;return x-cx+y-cy<0?18:17}}return jE(x,y,8,9,7,5.5)!=null?1:-1}),'dark','dark','dark','ruby'],
+  seide:[()=>pfill((x,y)=>{if(x===12&&y<6)return 1;const l=jE(x,y,7.5,9,5.6,5.2);if(l==null)return -1;return jl(0,l+((x+2*y)%4===0?.5:(x-y)%5===0?-.5:0))}),'moon','moon','moon','ruby'],
+  zahn:[()=>pfill((x,y)=>{const l=jE(x,y,7.5,6,4.5,3.8);if(l!=null)return Math.hypot(x-9,y-5)<1.1?4:jl(0,l);for(const rx of[5.5,9.5]){const w=1.6-(y-8)*.22;if(y>=8&&y<=14&&Math.abs(x-rx)<=w)return jl(0,(rx-x)/2-.1)}return -1}),'bone','leather','bone','ruby'],
+  fetzen:[()=>pfill((x,y)=>{if(Math.abs(x-7.5)>6.5-(y%3===0?1:0)||y<2+(x*7%3)||y>13-(x*5%4))return -1;return jl(0,Math.sin(x*.9)*.6-(y-8)*.05)}),'cloth','cloth','cloth','ruby'],
+  feder:[()=>pdiag((a,p)=>{if(Math.abs(a)<=11&&Math.abs(p)<=1)return 6;if(a>-6&&a<=11){const w=3.4-Math.max(0,a-6)*.5;if(Math.abs(p)<=w&&(a-p+60)%6!==0)return jl(0,-p/3)}return -1}),'dark','bone','dark','ruby'],
+  fluegel:[()=>pfill((x,y)=>{for(const[bx,by]of[[14,3],[11,10],[6,12]])if(jSeg(x,y,2,3,bx,by)<.7)return 6;if(x<2||x>14||y<3)return -1;const bot=12-Math.abs(x-8)*.55-((x%4)<2?0:1);if(y>bot)return -1;return jl(0,-(x-8)/10-(y-6)/6)}),'leather','bone','leather','ruby'],
+  kerze:[()=>pfill((x,y)=>{if(x===7&&y>=3&&y<=5)return 16;if(x>=5&&x<=9&&y>=6&&y<=12)return jl(0,(7-x)/2.5+(y===6?.4:0));if((x===4||x===10)&&y>=7&&y<=7+(x%3))return 1;const l=jE(x,y,7.5,13,4.5,1.6);return l!=null?1:-1}),'bone','bone','bone','ember'],
+  scherbe:[()=>pfill((x,y)=>{const a=(9-2)*(y-12)-(2-12)*(x-2),b=(13-9)*(y-2)-(13-2)*(x-9),c=(2-13)*(y-13)-(12-13)*(x-13);if(!(a<=0&&b<=0&&c<=0)&&!(a>=0&&b>=0&&c>=0))return -1;if(y===8||y===9&&x%2)return 5;return jl(0,-(x+y-14)/9)}),'bronze','dark','bronze','ruby'],
+  asche:[()=>pfill((x,y)=>{if(y<=3&&(x*3+y*5)%4===0&&Math.abs(x-7.5)<4)return 9;if(y>=4&&y<=6&&x>=6&&x<=9)return y===5?6:jl(0,(7.5-x)/2);const l=jE(x,y,7.5,10.5,5.2,4.5);return l!=null?jl(0,l):-1}),'leather','bone','stone','ruby'],
+  pilz:[()=>pfill((x,y)=>{const l=jE(x,y,7.5,6.5,6.2,3.8);if(l!=null&&y<=7)return(x*3+y*5)%7===0?7:jl(0,l);if(x>=6&&x<=9&&y>=7&&y<=13)return jl(1,(7.5-x)/2);return -1}),'blood','bone','bone','ruby'],
+  schuppe:[()=>pfill((x,y)=>{if(y<2||y>14)return -1;const w=5.5-Math.max(0,y-8)*.85;if(Math.abs(x-7.5)>w)return -1;if((y-2)%4===0&&Math.abs(x-7.5)<w-.5)return 1;return jl(0,-(x-7.5)/5-(y-7)/10)}),'venom','venom','venom','ruby'],
+  stachel:[()=>pfill((x,y)=>{if(jSeg(x,y,12,6,14,9)<.8)return 5;const d=Math.min(jSeg(x,y,3,13,5,8),jSeg(x,y,5,8,8,4),jSeg(x,y,8,4,12,4),jSeg(x,y,12,4,12,6)),w=1.9-(x>9?.6:0);return d<w?jl(0,-d+.3-(x-6)/12):-1}),'bronze','dark','bronze','ruby'],
+  brocken:[()=>pfill((x,y)=>{const l=jE(x,y,8,9,6.5,5.2);if(l==null||x+y<7||y>13)return -1;return x<y-1?1:x+y<14?3:2}),'stone','stone','stone','ruby'],
+  stein:[()=>pfill((x,y)=>{const l=jE(x,y,7.5,9,5.8,4.4);return l==null?-1:jl(0,l)}),'stone','stone','stone','ruby'],
+  schleim:[()=>pfill((x,y)=>{const l=jE(x,y,7.5,10,5,4.2);if(l!=null)return Math.hypot(x-5.5,y-8.5)<1.2?3:jl(0,l);if(y>=2&&y<7&&Math.abs(x-7.5)<=(y-2)*.7)return jl(0,(7.5-x)/2+.2);return -1}),'venom','venom','venom','ruby']};
+for(const k in JPX)PXS['Junk:'+k]=JPX[k];
+RCOL.junk='#9a9282';
+
+// stacks, prices, tips and the shop's junk counter
+const _invAddL=invAdd;invAdd=function(it){if(it&&it.slot==='junk'){let left=it.n||1;for(const s of P.inv)if(left>0&&s.slot==='junk'&&s.jk===it.jk&&s.n<JMAX){const t=Math.min(JMAX-s.n,left);s.v=Math.round((s.v*s.n+it.v*t)/(s.n+t));s.n+=t;left-=t}if(!left)return true;it.n=left}return _invAddL(it)};
+const _itemValueL=itemValue;itemValue=function(it){return it&&it.slot==='junk'?it.v*(it.n||1):_itemValueL(it)};
+const _invClickL=invClick;invClick=function(it,shift){if(it&&it.slot==='junk'&&!shift&&$('pShop').hidden){hideTip();return}return _invClickL(it,shift)};
+const _discoverL=discover;discover=function(it){if(it&&it.slot==='junk')return;return _discoverL(it)};
+const _tipL=itemTipHTML;itemTipHTML=function(it,c){if(!it||it.slot!=='junk')return _tipL(it,c);
+  return`${invImg(it)}<div class="nm c-junk">${it.name}</div><div class="base">Ramsch${it.n>1?' · Stapel: '+it.n+' / '+JMAX:''}</div><div class="base"><i>${JUNK[it.jk].d}</i></div><div class="base" style="margin-top:4px">Wert: ${it.v} Glut pro Stück${it.n>1?' · '+it.v*it.n+' zusammen':''}</div>${c&&c!=='equipped'?'<div class="act">'+c+'</div>':''}`};
+const _buildShopL=buildShop;buildShop=function(){_buildShopL();const el=$('pShop');
+  if(!jewelOK())el.querySelectorAll('[data-gamble="ring"],[data-gamble="amulet"]').forEach(b=>{b.disabled=true;b.title='Erst nach dem zweiten Hüter'});
+  const j=P.inv.filter(it=>it.slot==='junk'),n=j.reduce((a,it)=>a+it.n,0),v=j.reduce((a,it)=>a+sellP(it),0);
+  if(n)el.insertAdjacentHTML('beforeend',`<div class="shoprow"><span class="c-junk">Allen Ramsch verkaufen (${n} Stück)</span><span class="c">${v}</span><button data-selljunk>Verkaufen</button></div>`)};
+document.addEventListener('click',e=>{if(!P||!(e.target.closest&&e.target.closest('[data-selljunk]')))return;let v=0,n=0;
+  for(const it of P.inv.filter(it=>it.slot==='junk')){v+=sellP(it);n+=it.n;invDel(it)}if(!n)return;P.glut+=v;qInc('sell');sfx('gold');log(`${n} Stück Ramsch für ${v} Glut verkauft.`,'#ff9a3a');hideTip();updatePanels()});
+// runes: Odalinde keeps her pouch shut until three guardians have fallen
+const _shopRuneL=shopRuneHTML;shopRuneHTML=function(){const h=_shopRuneL();return runeOK()?h:h.replace(/<div class="shoprow"><span class="c-rune">[\s\S]*?<\/div>/,'<p class="hint">„Runen? Erst wenn drei Hüter gefallen sind, Wanderer.“</p>')};
+const _makeRuneL=makeRune;makeRune=function(k){return runeOK()?_makeRuneL(k):makeJunk('stein',mlNow())};
 
 expandItems();buildPalette();buildUI();initGL();buildSprites();buildEnvSprites();buildGrain();
 // title backdrop: the hill, idle
