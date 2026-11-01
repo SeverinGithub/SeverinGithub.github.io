@@ -2576,10 +2576,12 @@ function owContent(m,cx,cy){const c={objs:[],props:[],deco:[],blocks:[],crit:[],
 function owSpawn(m,key){const c=m.cdata.get(key);if(!c)return;const prev=G.mlvl;G.mlvl=c.lvl;
   if(c.boss!=null&&!G.owBoss[WB[c.boss].id]){const p=wbPos(WB[c.boss]),e=makeWBoss(c.boss,p.x,p.y);e.ck=key;m.enemies.push(e)}
   if(c.spawn.length&&!G.owClear.has(key)){const pack=[];for(const s of c.spawn){if(!free(s.x,s.y,.35))continue;const e=makeEnemy(s.vid,s.x,s.y,s.rank);e.ck=key;e.pack=pack;pack.push(e);m.enemies.push(e)}}G.mlvl=prev}
-function owTick(){const m=G.map;if(!m||!m.world)return;const cx=Math.floor(P.x/CH),cy=Math.floor(P.y/CH),k=cx+','+cy;if(m.ac===k)return;m.ac=k;
-  {const I=islandOf(cx,cy),nm=!I||I.kind==='home'?'Der Hügel':I.kind==='boss'?'Revier: '+WB[I.wb].n:({wild:'Wilde Insel',forest:'Waldinsel',village:'Brennendes Dorf',ruins:'Ruinen',grave:'Gräberinsel',camp:'Lager',rock:'Felsinsel'})[I.kind]+' · Stufe '+lvlAt(I.x,I.y);$('floorName').textContent=nm;if(I&&I.kind!=='home'&&!G.owSeen.has(k)){G.owSeen.add(k);if(I.kind==='boss'&&!G.owBoss[WB[I.wb].id])log('Du betrittst das Revier von '+WB[I.wb].n+'.','#ff8a6a')}}
-  for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++)owIsland(m,cx+dx,cy+dy);
-  const want=new Set();for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const a=cx+dx,b=cy+dy;owBridge(m,a,b,a+1,b);owBridge(m,a,b,a,b+1);owBridge(m,a-1,b,a,b);owBridge(m,a,b-1,a,b);want.add(a+','+b)}
+// the islands stay awake around every hero who needs them; online, the host keeps the friends' corners alive too
+let owCentres=(cx,cy)=>[[cx,cy]];
+function owTick(){const m=G.map;if(!m||!m.world)return;const cx=Math.floor(P.x/CH),cy=Math.floor(P.y/CH),k=cx+','+cy,cs=owCentres(cx,cy),sig=cs.join('|');if(m.ac===sig)return;const mine=!m.ac||m.ac.split('|')[0]!==k;m.ac=sig;
+  if(mine){const I=islandOf(cx,cy),nm=!I||I.kind==='home'?'Der Hügel':I.kind==='boss'?'Revier: '+WB[I.wb].n:({wild:'Wilde Insel',forest:'Waldinsel',village:'Brennendes Dorf',ruins:'Ruinen',grave:'Gräberinsel',camp:'Lager',rock:'Felsinsel'})[I.kind]+' · Stufe '+lvlAt(I.x,I.y);$('floorName').textContent=nm;if(I&&I.kind!=='home'&&!G.owSeen.has(k)){G.owSeen.add(k);if(I.kind==='boss'&&!G.owBoss[WB[I.wb].id])log('Du betrittst das Revier von '+WB[I.wb].n+'.','#ff8a6a')}}
+  for(const[ox,oy]of cs)for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++)owIsland(m,ox+dx,oy+dy);
+  const want=new Set();for(const[ox,oy]of cs)for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const a=ox+dx,b=oy+dy;owBridge(m,a,b,a+1,b);owBridge(m,a,b,a,b+1);owBridge(m,a-1,b,a,b);owBridge(m,a,b-1,a,b);want.add(a+','+b)}
   for(const key of want)if(!m.cdata.has(key)){const[a,b]=key.split(',').map(Number);m.cdata.set(key,owContent(m,a,b))}
   for(const key of m.active)if(!want.has(key))m.enemies=m.enemies.filter(e=>e.ck!==key);
   for(const key of want)if(!m.active.has(key))owSpawn(m,key);
@@ -4746,11 +4748,12 @@ const _saveDataRG=saveData;saveData=function(){const d=_saveDataRG();if(d)for(co
    Browsers talk directly over WebRTC; the free PeerJS broker only introduces them. The host's world seed
    is sent to every guest, so islands, tower floors and the dead lands are the same for everyone.
    Two channels per friend: a reliable one for events, an unordered one for the 30 Hz movement stream.
-   Near the host, the host's machine runs the monsters for everyone: guests see mirrors, their blows travel
-   to the host, every death is felt by all, and each player rolls their own loot and experience. */
+   Wherever the host is, the host's machine runs every monster of that floor for everyone: guests see mirrors, their
+   blows travel to the host, every death is felt by all, and each player rolls their own loot and experience.
+   Every stream carries its sender's clock and is replayed a tenth of a second late, so nothing jumps or runs backwards. */
 const NET={role:null,code:null,peer:null,host:null,hostU:null,conns:new Map(),others:new Map(),me:'h',n:0,st:'',err:'',lookH:'',lookT:0,hudT:0,goTo:0,
-  nid:0,mir:new Map(),sync:false,syncT:0,syncMap:null,bfSig:'',bfT:0,sx:0,sy:0,st0:0,snapT:0};
-const MPPRE='schwarzer-turm-mp-',MPMAX=3,MPSYNC=38,MPUNSYNC=50,MPSEE=34,MPDOWN=15,MPREV=2.4;
+  nid:0,mir:new Map(),sync:false,syncT:0,syncMap:null,hc:{},lastSnap:0,ask:{},hitBy:null,bfSig:'',bfT:0,sx:0,sy:0,st0:0,snapT:0};
+const MPPRE='schwarzer-turm-mp-',MPMAX=3,MPSEE=40,MPLAG=100,MPDOWN=15,MPREV=2.4;
 G.vproj=[];G.vzones=[];
 const mpEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c]);
 const MPICE={debug:0,config:{iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]}};
@@ -4803,6 +4806,18 @@ addEventListener('pagehide',()=>{try{NET.peer&&NET.peer.destroy()}catch(e){}});
 function mpTo(c,o,fast){if(!c)return;if(fast&&c.fast&&c.fast.open)c.fast.send(o);else if(c.open)c.send(o)}
 function mpSend(o,fast){if(NET.role==='host'){for(const c of NET.conns.values())mpTo(c,o,fast)}else if(NET.role==='guest'){if(fast&&NET.hostU&&NET.hostU.open)NET.hostU.send(o);else if(NET.host&&NET.host.open)NET.host.send(o)}}
 const mpConnOf=id=>NET.conns.get(id);
+// clocks: the smallest gap between sending and arriving is the path itself; anything above it is a late packet
+function mpClock(o,ts){const v=performance.now()-ts;if(o.off==null||v<o.off)o.off=v;else o.off+=(v-o.off)*.02}
+const mpNow=o=>performance.now()-(o.off||0);
+function mpPush(b,q){if(b.length&&q.t<=b[b.length-1].t)return;b.push(q);if(b.length>14)b.shift()}
+// a stream replayed late: between the two samples around that moment, a little beyond the last when one is missing
+function mpAt(b,t){const n=b.length;if(!n)return null;if(n===1||t<=b[0].t)return b[0];
+  for(let i=n-1;i>0;i--){const a=b[i-1],c=b[i];if(t>=a.t){if(hyp(c.x-a.x,c.y-a.y)>5)return t<c.t?a:c;
+    if(t<=c.t){const k=(t-a.t)/Math.max(1,c.t-a.t);return{x:a.x+(c.x-a.x)*k,y:a.y+(c.y-a.y)*k}}
+    const k=Math.min(t-c.t,120)/Math.max(1,c.t-a.t),x=c.x+(c.x-a.x)*k,y=c.y+(c.y-a.y)*k;return walkable(x,y)?{x,y}:c}}return b[0]}
+// where a friend stands right now on their own screen: the newest sample, carried forward by the time it travelled
+function mpLatest(r){const b=r.buf||[],n=b.length;if(!n)return[r.tx,r.ty];const c=b[n-1];if(n<2)return[c.x,c.y];const a=b[n-2];if(hyp(c.x-a.x,c.y-a.y)>3)return[c.x,c.y];
+  const k=Math.min(150,Math.max(0,mpNow(r)-c.t))/Math.max(1,c.t-a.t),x=c.x+(c.x-a.x)*k,y=c.y+(c.y-a.y)*k;return walkable(x,y)?[x,y]:[c.x,c.y]}
 
 // a guest plays in the host's world while connected; their own islands wait in the save
 function mpWorldPack(){return{owFires:G.owFires||{},owSeen:[...(G.owSeen||[])],owClear:[...(G.owClear||[])],owRespawn:G.owRespawn||null}}
@@ -4826,10 +4841,12 @@ function mpRecv(d,c){if(!d||!d.t)return;
   if(d.t==='gone'){const r=NET.others.get(d.id);if(r)log(r.nm+' hat das Spiel verlassen.','#a39b88');NET.others.delete(d.id);mpHud(1);return}
   if(d.t==='hi')return;
   if(NET.role==='guest'){
-    if(d.t==='e'){mpSnap(d);return}if(d.t==='es'){mpSpawnMirrors(d);return}if(d.t==='ed'){mpMirrorDies(d);return}if(d.t==='eo'){if(NET.sync)mpUnsync();return}
+    if(d.t==='e'){mpSnap(d);return}if(d.t==='es'){mpSpawnMirrors(d);return}if(d.t==='ex'){mpMirGone(d);return}if(d.t==='ed'){mpMirrorDies(d);return}if(d.t==='eo'){if(NET.sync)mpUnsync();return}
     if(d.t==='tl'){mpEnemyTeles(d);return}if(d.t==='pj'){mpEnemyShots(d);return}
-    if(d.t==='hu'){if(P&&!P.dead){const src=d.n!=null?NET.mir.get(d.n):d.sx!=null?{x:d.sx,y:d.sy}:null;hurtPlayer(d.d,d.el||null,src)}return}}
+    // a blow lands when its swing shows here, since monsters are replayed a tenth of a second late
+    if(d.t==='hu'){setTimeout(()=>{if(P&&!P.dead&&mpOn()){const src=d.n!=null?NET.mir.get(d.n):d.sx!=null?{x:d.sx,y:d.sy}:null;hurtPlayer(d.d,d.el||null,src)}},MPLAG);return}}
   if(NET.role==='host'&&d.t==='h'){mpGuestHit(d,c);return}
+  if(NET.role==='host'&&d.t==='rq'){if(c.known)for(const n of d.l||[])c.known.delete(n);return}
   const id=NET.role==='host'?c.mpId:d.id;if(!id||id===NET.me)return;
   if(NET.role==='host'&&MPRELAY.has(d.t)){d.id=id;for(const[k,cc]of NET.conns)if(k!==id)mpTo(cc,d,d.t==='s')}
   if(d.t==='bf'){mpBeacons(d,id);return}
@@ -4839,8 +4856,9 @@ function mpRecv(d,c){if(!d||!d.t)return;
   else if(d.t==='k')mpCastFx(r,d);
   else if(d.t==='l'){r.look=d;r.cls=d.cls||'wanderer';r.eq=d.eq||{};r.d.okS=new Set(Object.values(r.eq).filter(Boolean));if(d.nm)r.nm=d.nm;
     if(!r.hello){r.hello=1;log(r.nm+(NET.role==='host'?' ist deinem Spiel beigetreten.':' ist online.'),'#9ad0ff');if(NET.role==='host')banner(r.nm.toUpperCase(),'ist deinem Spiel beigetreten','',2200);mpMenu()}}}
-function mpRemote(id){return{id,nm:'Mitspieler',x:0,y:0,tx:0,ty:0,vx:0,vy:0,face:0,floor:null,anim:0,atkT:0,atkDur:.4,eq:{},d:{okS:new Set()},cls:'wanderer',ghosts:[],trail:[],hurt:0,moving:false,dead:false,down:0,rv:0,roll:0,whirl:0,ward:0,leap:null,ride:false,hs:rgHS(),lvl:1,hp:1,hm:1,seen:0,fresh:1}}
-function mpState(r,d){const far=r.fresh||r.floor!==d.fl||Math.hypot(d.x-r.tx,d.y-r.ty)>6;r.tx=d.x;r.ty=d.y;r.vx=d.vx||0;r.vy=d.vy||0;r.at=performance.now();if(far){r.x=d.x;r.y=d.y;r.hs=rgHS()}r.fresh=0;
+function mpRemote(id){return{id,nm:'Mitspieler',x:0,y:0,tx:0,ty:0,vx:0,vy:0,face:0,floor:null,anim:0,atkT:0,atkDur:.4,eq:{},d:{okS:new Set()},cls:'wanderer',ghosts:[],trail:[],buf:[],hurt:0,moving:false,dead:false,down:0,rv:0,roll:0,whirl:0,ward:0,leap:null,ride:false,hs:rgHS(),lvl:1,hp:1,hm:1,seen:0,fresh:1}}
+function mpState(r,d){const ts=d.ts!=null?d.ts:performance.now();if(r.lts!=null&&ts<=r.lts)return;r.lts=ts;mpClock(r,ts);
+  const far=r.fresh||r.floor!==d.fl;if(far){r.buf=[];r.x=d.x;r.y=d.y;r.hs=rgHS()}mpPush(r.buf,{t:ts,x:d.x,y:d.y});r.tx=d.x;r.ty=d.y;r.at=performance.now();r.fresh=0;
   r.face=d.f;r.floor=d.fl;r.moving=!!d.mv;r.ride=!!d.r;r.dead=!!d.dd;r.down=performance.now()<r.rvCool?0:d.dn||0;if(r.down===0&&performance.now()<r.rvCool)r.dead=false;r.roll=d.ro||0;r.lvl=d.lv;r.hp=d.hp;r.hm=d.hm;r.rvi=d.rvi||null;r.rvp=d.rvp||0;if(d.nm)r.nm=d.nm;r.seen=performance.now();
   if(d.a>0){r.atkDur=d.ad||.4;const t=(1-d.a)*r.atkDur;if(!(r.atkT>0)||Math.abs(r.atkT-t)>.15)r.atkT=t}
   if(NET.goTo&&NET.role==='guest'&&r.id==='h'){NET.goTo=0;if(typeof d.fl==='number'&&d.fl===0&&G.floor===0)mpTravel('h',1);else if(typeof d.fl==='number')log(r.nm+' ist im Turm, '+floorTitle(d.fl)+'. Am Leuchtfeuer kannst du zu '+r.nm+' reisen.','#9ad0ff')}}
@@ -4848,22 +4866,27 @@ function mpLook(){const eq={};for(const k of['weapon','offhand','helm','armor','
 
 // the movement stream: 30 times a second, with a velocity so the others can look a little ahead
 setInterval(()=>{if(!mpOn()||!P||G.state==='title'||!P.d)return;const now=performance.now(),dt=Math.max(.016,(now-(NET.st0||now-33))/1000);
-  const vx=(P.x-NET.sx)/dt,vy=(P.y-NET.sy)/dt,sv=Math.hypot(vx,vy)<14;NET.sx=P.x;NET.sy=P.y;NET.st0=now;
+  NET.st0=now;
   let rvi=null,rvp=0;for(const r of NET.others.values())if(r.rv>0){rvi=r.id;rvp=+(r.rv/MPREV).toFixed(2)}
-  mpSend({t:'s',id:NET.me,x:+P.x.toFixed(2),y:+P.y.toFixed(2),vx:sv?+vx.toFixed(2):0,vy:sv?+vy.toFixed(2):0,f:+(P.face||0).toFixed(2),fl:G.floor,hp:Math.round(P.hp),hm:Math.round(P.d.life),lv:P.lvl,mv:P.moving?1:0,
+  mpSend({t:'s',id:NET.me,ts:Math.round(now),x:+P.x.toFixed(2),y:+P.y.toFixed(2),f:+(P.face||0).toFixed(2),fl:G.floor,hp:Math.round(P.hp),hm:Math.round(P.d.life),lv:P.lvl,mv:P.moving?1:0,
     a:P.atkT>0?+(1-P.atkT/P.atkDur).toFixed(2):0,ad:P.atkDur||.4,r:riding()?1:0,dd:P.dead?1:0,dn:P.down>0?+P.down.toFixed(1):0,ro:P.roll>0?+P.roll.toFixed(2):0,rvi,rvp,nm:mpName()},true);
   const L=mpLook(),h=JSON.stringify(L.eq).length+'|'+Object.values(L.eq).map(i=>i.id).join(',')+L.cls+L.nm;if(h!==NET.lookH||now-NET.lookT>6000){NET.lookH=h;NET.lookT=now;mpSend(L)}},33);
 
 /* ----- shared monsters ----- */
 // host: who stands close enough to share the host's monsters, and a stand-in hero for each of them
 function mpSyncList(){const out=[];if(NET.role!=='host'||typeof G.floor!=='number')return out;
-  for(const[id,c]of NET.conns){const r=NET.others.get(id);if(!r||r.stale||r.floor!==G.floor){c.syncOn=0;continue}const d=hyp(r.x-P.x,r.y-P.y);c.syncOn=d<(c.syncOn?MPUNSYNC:MPSYNC)?1:0;if(c.syncOn){r.conn=c;out.push(r)}}return out}
-function mpProxy(r){const p=Object.create(P);Object.assign(p,{x:r.x,y:r.y,dead:r.dead||r.down>0,iframe:0,dash:null,roll:0,leap:null,hp:Math.max(1,r.hp),mpProxy:r});return p}
+  for(const[id,c]of NET.conns){const r=NET.others.get(id);c.syncOn=r&&!r.stale&&r.floor===G.floor&&r.buf.length?1:0;if(c.syncOn){r.conn=c;out.push(r)}}return out}
+// the islands around a friend on the host's floor stay awake on the host's machine
+owCentres=(cx,cy)=>{const o=[[cx,cy]];if(NET.role!=='host'||G.floor!==0)return o;
+  for(const r of NET.others.values())if(!r.stale&&r.floor===0&&r.buf.length){const q=[Math.floor(r.tx/CH),Math.floor(r.ty/CH)];if(!o.some(z=>z[0]===q[0]&&z[1]===q[1]))o.push(q)}return o};
+function mpProxy(r){const[x,y]=mpLatest(r),p=Object.create(P);Object.assign(p,{x,y,dead:r.dead||r.down>0,iframe:0,dash:null,roll:0,leap:null,hp:Math.max(1,r.hp),mpProxy:r});return p}
 // host: monsters pick the nearest standing hero, and keep their choice unless another comes much closer
 const _updEnemyMP=updEnemy;updEnemy=function(e,dt){if(e.mir){mpMirTick(e,dt);return}const L=NET.hostSync;if(!L||!L.length)return _updEnemyMP(e,dt);
   const me=!(P.dead||P.down>0);let best=me?null:undefined,bd=me?hyp(e.x-P.x,e.y-P.y)-(e.tg==='h'?2:0):1e9;
   for(const r of L){if(r.dead||r.down>0)continue;const d=hyp(e.x-r.x,e.y-r.y)-(e.tg===r.id?2:0);if(d<bd){bd=d;best=r}}
-  if(!best){e.tg='h';return _updEnemyMP(e,dt)}e.tg=best.id;const P0=P;P=best.px||(best.px=mpProxy(best));try{_updEnemyMP(e,dt)}finally{P=P0}};
+  if(!best){e.tg='h';return _updEnemyMP(e,dt)}e.tg=best.id;const P0=P,F0=G.flow,O0=G.flowO;P=best.px||(best.px=mpProxy(best));
+  // around walls a monster follows the path to the friend it hunts, not to the host
+  if(best.flow){G.flow=best.flow;G.flowO=best.flowO}try{_updEnemyMP(e,dt)}finally{P=P0;G.flow=F0;G.flowO=O0}};
 // host: a blow meant for a friend's stand-in travels to that friend, who takes it with their own armour
 const _hurtPlayerMP=hurtPlayer;hurtPlayer=function(dmg,elem,src){if(P&&P.mpProxy){const c=P.mpProxy.conn;mpTo(c,{t:'hu',d:+dmg.toFixed(1),el:elem||null,n:src&&src.nid!=null?src.nid:null,sx:src?+(+src.x).toFixed(2):null,sy:src?+(+src.y).toFixed(2):null});return true}return _hurtPlayerMP(dmg,elem,src)};
 // host: more heroes, tougher monsters
@@ -4871,46 +4894,66 @@ const mpParty=f=>function(...a){const e=f.apply(this,a);if(e&&NET.role==='host'&
 makeEnemy=mpParty(makeEnemy);makeBoss=mpParty(makeBoss);makeWBoss=mpParty(makeWBoss);
 const _recalcMP=recalc;recalc=function(){_recalcMP();if(P&&P.d&&mpOn())P.d.mf+=20*(NET.others.size)};
 // host: what a guest needs to rebuild a monster of their own
-function mpDesc(e){const p={};for(const k of Object.keys(e)){const v=e[k];if(k==='dead'||k==='dieT')continue;if(v==null||typeof v==='number'||typeof v==='string'||typeof v==='boolean')p[k]=v;else if(Array.isArray(v)&&v.length<12&&v.every(q=>q==null||typeof q!=='object'))p[k]=v.slice()}
+function mpDesc(e){const p={};for(const k of Object.keys(e)){const v=e[k];if(k==='dead'||k==='dieT'||k==='ck'||k==='tg'||k==='_mp')continue;if(v==null||typeof v==='number'||typeof v==='string'||typeof v==='boolean')p[k]=v;else if(Array.isArray(v)&&v.length<12&&v.every(q=>q==null||typeof q!=='object'))p[k]=v.slice()}
   return{c:e.rgk?'r':e.wb?'w':e.boss?'b':'e',p}}
-// host: twenty times a second, every friend nearby gets the monsters around them
+// host: twenty times a second, every friend on this floor gets the monsters around them
 function mpHostSync(dt){const L=NET.hostSync=mpSyncList();NET.snapT-=dt;const m=G.map;
   for(const c of NET.conns.values())if(!c.syncOn&&c.wasSync){c.wasSync=0;c.known.clear();mpTo(c,{t:'eo'})}
   if(!L.length)return;
-  for(const r of L)r.px=mpProxy(r);
+  for(const r of L){r.px=mpProxy(r);r.flT=(r.flT||0)-dt;
+    if(r.flT<=0){r.flT=.3;const P0=P,F0=G.flow,O0=G.flowO;P=r.px;G.flow=r.flow||null;try{computeFlow();r.flow=G.flow;r.flowO=G.flowO}finally{P=P0;G.flow=F0;G.flowO=O0}}
+    // monsters make room for a friend just as they do for the host
+    for(const e of m.enemies){if(e.dead||e.mir)continue;const dx=e.x-r.px.x,dy=e.y-r.px.y,dd=hyp(dx,dy),mn=e.r+P.r;if(dd<mn&&dd>.001&&!(r.roll>0))moveEnt(e,dx/dd*(mn-dd),dy/dd*(mn-dd))}}
   // monster attacks: every new strike zone and shot goes to the friends near it
   const tl=[],pj=[];
   for(const t of G.tele)if(!t._mp){t._mp=1;if(t.ally||t.owner==='p')continue;const o=t.owner;if(o&&o.nid==null)o.nid=++NET.nid;
     tl.push({shape:t.shape,x:+t.x.toFixed(2),y:+t.y.toFixed(2),r:t.r,ang:t.ang,arc:t.arc,len:t.len,w:t.w,t:t.t,dur:t.dur,dmg:+(t.dmg||0).toFixed(1),elem:t.elem||null,meteor:t.meteor?1:0,follow:t.follow?1:0,n:o?o.nid:null})}
   for(const p of G.proj)if(!p._mp){p._mp=1;if(p.owner!=='e')continue;pj.push({x:+p.x.toFixed(2),y:+p.y.toFixed(2),vx:+p.vx.toFixed(2),vy:+p.vy.toFixed(2),dmg:+(p.dmg||0).toFixed(1),kind:p.kind,r:p.r,life:p.life})}
-  for(const r of L){const near=o=>hyp(o.x-r.x,o.y-r.y)<MPSEE;const a=tl.filter(near),b=pj.filter(near);if(a.length)mpTo(r.conn,{t:'tl',fl:G.floor,l:a});if(b.length)mpTo(r.conn,{t:'pj',fl:G.floor,l:b})}
+  for(const r of L){const near=o=>hyp(o.x-r.px.x,o.y-r.px.y)<MPSEE;const a=tl.filter(near),b=pj.filter(near);if(a.length)mpTo(r.conn,{t:'tl',fl:G.floor,l:a});if(b.length)mpTo(r.conn,{t:'pj',fl:G.floor,l:b})}
   if(NET.snapT>0)return;NET.snapT=.05;
-  for(const r of L){const c=r.conn,nw=[],snap=[];c.wasSync=1;
-    for(const e of m.enemies){if(e.dead||hyp(e.x-r.x,e.y-r.y)>MPSEE)continue;if(e.nid==null)e.nid=++NET.nid;if(!c.known.has(e.nid)){c.known.add(e.nid);nw.push([e.nid,mpDesc(e)])}
+  const ts=Math.round(performance.now());
+  for(const r of L){const c=r.conn,nw=[],snap=[],seen=new Set();c.wasSync=1;
+    for(const e of m.enemies){if(e.dead)continue;if(e.nid==null)e.nid=++NET.nid;if(hyp(e.x-r.px.x,e.y-r.px.y)>(c.known.has(e.nid)?MPSEE+6:MPSEE))continue;seen.add(e.nid);if(!c.known.has(e.nid)){c.known.add(e.nid);nw.push([e.nid,mpDesc(e)])}
       snap.push([e.nid,Math.round(e.x*100)/100,Math.round(e.y*100)/100,Math.round((e.face||0)*100)/100,Math.round(e.hp),(e.aggro?1:0)|(e.charge>0?2:0)|(e.lungeT>0?4:0)|(e.slow>0?8:0),Math.round(e.max)])}
-    if(nw.length)mpTo(c,{t:'es',fl:G.floor,l:nw});mpTo(c,{t:'e',fl:G.floor,l:snap},true)}}
+    // what walked out of sight or was unloaded leaves the friend's screen too
+    const gone=[];for(const n of c.known)if(!seen.has(n))gone.push(n);for(const n of gone)c.known.delete(n);
+    if(gone.length)mpTo(c,{t:'ex',l:gone});if(nw.length)mpTo(c,{t:'es',fl:G.floor,ts,l:nw});mpTo(c,{t:'e',fl:G.floor,ts,l:snap},true)}}
 // host: a friend's blow lands on the real monster
 function mpGuestHit(d,c){const r=NET.others.get(c.mpId);if(!r||r.floor!==G.floor)return;const e=G.map.enemies.find(x=>x.nid===d.n&&!x.dead);if(!e)return;const o=d.o||{};
   if(o.ven){e.dotT=3;e.dotD=Math.max(e.dotD||0,o.ven)}
-  hitEnemy(e,d.d,{crit:!!o.crit,slow:o.slow||0,kb:o.kb||0,from:o.from!=null?o.from:Math.atan2(e.y-r.y,e.x-r.x),col:o.col||'#9ad0ff',ally:true})}
+  NET.hitBy=r.id;try{hitEnemy(e,d.d,{crit:!!o.crit,slow:o.slow||0,kb:o.kb||0,from:o.from!=null?o.from:Math.atan2(e.y-r.y,e.x-r.x),col:o.col||'#9ad0ff',ally:true})}finally{NET.hitBy=null}}
 // host: every death is announced to the friends who saw that monster
 const _killEnemyMP=killEnemy;killEnemy=function(e,a){const was=e.dead;_killEnemyMP(e,a);if(NET.role!=='host'||was||e.nid==null||e.mir)return;
   for(const c of NET.conns.values())if(c.known&&c.known.has(e.nid)){c.known.delete(e.nid);mpTo(c,{t:'ed',n:e.nid,a:+(e.fallA||0).toFixed(2)})}};
 
 // guest: mirrors of the host's monsters
-function mpSyncOn(){if(NET.sync&&NET.syncMap===G.map)return;NET.sync=true;NET.syncMap=G.map;NET.mir.clear();G.map.enemies=G.map.enemies.filter(e=>e.dead)}
-function mpUnsync(){NET.sync=false;const m=NET.syncMap;NET.syncMap=null;if(m===G.map)for(const e of NET.mir.values()){if(e.dead)continue;delete e.mir;e.x=e.tx;e.y=e.ty}NET.mir.clear()}
+function mpHostHere(){const h=NET.others.get('h');return NET.role==='guest'&&!!h&&!h.stale&&typeof G.floor==='number'&&h.floor===G.floor}
+function mpSyncOn(){if(NET.sync&&NET.syncMap===G.map)return;if(NET.sync)mpUnsync();NET.sync=true;NET.syncMap=G.map;NET.mir.clear();NET.lastSnap=0;NET.ask={};G.map.enemies=G.map.enemies.filter(e=>e.dead&&!e.mir)}
+// the host went elsewhere: in the tower the monsters left behind are yours now, on the islands your own come back
+function mpUnsync(){const m=NET.syncMap;NET.sync=false;NET.syncMap=null;NET.mir.clear();if(!m)return;
+  if(m.world){m.enemies=m.enemies.filter(e=>!e.mir&&!e.ck);m.active=new Set();m.ac=null;if(m===G.map)owTick()}
+  else for(const e of m.enemies)if(e.mir){delete e.mir;e.buf=null;e.aggro=false}}
 function mpMkMirror(nid,s){const p=s.p||{},pm=G.mlvl;let e=null;G.mlvl=p.ml||pm;
   try{if(s.c==='r'&&typeof makeRgBoss==='function')e=makeRgBoss(p.x,p.y);else if(s.c==='w')e=makeWBoss(Math.max(0,WB.findIndex(b=>b.id===p.wb)),p.x,p.y);
     else if(s.c==='b')e=makeBoss(typeof G.floor==='number'&&G.floor>0?G.floor:3,p.x,p.y);else e=makeEnemy(p.vid||p.type||'skel',p.x,p.y,p.rank||'normal')}catch(er){e=null}finally{G.mlvl=pm}
-  if(!e)return null;Object.assign(e,p);e.nid=nid;e.mir=1;e.tx=e.x;e.ty=e.y;e.pack=null;e.seenT=performance.now();return e}
-function mpSpawnMirrors(d){if(d.fl!==G.floor)return;mpSyncOn();for(const[nid,s]of d.l){if(NET.mir.has(nid))continue;const e=mpMkMirror(nid,s);if(e){NET.mir.set(nid,e);G.map.enemies.push(e)}}}
-function mpSnap(d){if(d.fl!==G.floor)return;mpSyncOn();NET.syncT=performance.now();const now=NET.syncT;
-  for(const[nid,x,y,f,hp,fl,mx]of d.l){const e=NET.mir.get(nid);if(!e||e.dead)continue;e.tx=x;e.ty=y;e.face=f;e.hp=hp;if(mx)e.max=mx;e.aggro=!!(fl&1);e.charge=fl&2?.2:0;if(fl&4)e.lungeT=Math.max(e.lungeT||0,.1);e.slow=fl&8?.2:0;e.seenT=now}}
-function mpMirTick(e,dt){const dx=e.tx-e.x,dy=e.ty-e.y,d=Math.hypot(dx,dy);if(d>4){e.x=e.tx;e.y=e.ty}else{const k=Math.min(1,dt*16);e.x+=dx*k;e.y+=dy*k}
-  if(d>.03)e.anim+=dt*(e.spd||2)*.6;else e.anim+=dt*.3;e.flash=Math.max(0,(e.flash||0)-dt);e.hitT=Math.max(0,(e.hitT||0)-dt);e.lungeT=Math.max(0,(e.lungeT||0)-dt);e.kvx=e.kvy=0}
+  if(!e)return null;Object.assign(e,p);delete e.ck;e.nid=nid;e.mir=1;e.tx=e.x;e.ty=e.y;e.ix=e.x;e.iy=e.y;e.pack=null;e.seenT=performance.now();e.buf=[];return e}
+function mpSpawnMirrors(d){if(d.fl!==G.floor||!mpHostHere())return;mpSyncOn();const ts=d.ts!=null?d.ts:mpNow(NET.hc);
+  for(const[nid,s]of d.l){if(NET.mir.has(nid))continue;const e=mpMkMirror(nid,s);if(e){e.buf.push({t:ts,x:e.x,y:e.y});NET.mir.set(nid,e);G.map.enemies.push(e)}}}
+function mpMirGone(d){const g=new Set();for(const n of d.l||[]){const e=NET.mir.get(n);if(e){NET.mir.delete(n);g.add(e)}}if(g.size)G.map.enemies=G.map.enemies.filter(e=>!g.has(e))}
+function mpSnap(d){if(d.fl!==G.floor||!mpHostHere())return;const ts=d.ts!=null?d.ts:performance.now();if(NET.lastSnap&&ts<=NET.lastSnap)return;NET.lastSnap=ts;mpClock(NET.hc,ts);
+  mpSyncOn();NET.syncT=performance.now();const now=NET.syncT;let ask=null;
+  for(const[nid,x,y,f,hp,fl,mx]of d.l){const e=NET.mir.get(nid);
+    // a monster we never heard of: ask for it again rather than be hit by something unseen
+    if(!e){if(!(now-(NET.ask[nid]||0)<1200)){NET.ask[nid]=now;(ask||(ask=[])).push(nid)}continue}if(e.dead)continue;
+    mpPush(e.buf,{t:ts,x,y});e.tx=x;e.ty=y;e.face=f;
+    // a friend's blows show here as they land on the host
+    const lost=e.hp-hp;if(lost>.5&&now-(e.myT||0)>400){e.flash=.1;e.hitT=.18;e.oT=now;e.oAcc=(e.oAcc||0)+lost;if(now-(e.oNT||0)>180){e.oNT=now;if(CFG.numbers)ftext(e.x,e.y,Math.round(e.oAcc)+'','#9ad0ff',false);e.oAcc=0}}
+    e.hp=now-(e.myT||0)<400?Math.min(e.hp,hp):hp;if(mx)e.max=mx;e.aggro=!!(fl&1);e.charge=fl&2?.2:0;if(fl&4)e.lungeT=Math.max(e.lungeT||0,.1);e.slow=fl&8?.2:0;e.seenT=now}
+  if(ask)mpSend({t:'rq',l:ask})}
+function mpMirTick(e,dt){const q=mpAt(e.buf||[],mpNow(NET.hc)-MPLAG),ox=e.ix,oy=e.iy;if(q){e.ix=q.x;e.iy=q.y}e.x=e.ix;e.y=e.iy;
+  if(hyp(e.ix-ox,e.iy-oy)>dt*.3)e.anim+=dt*(e.spd||2)*.6;else e.anim+=dt*.3;e.flash=Math.max(0,(e.flash||0)-dt);e.hitT=Math.max(0,(e.hitT||0)-dt);e.lungeT=Math.max(0,(e.lungeT||0)-dt);e.kvx=e.kvy=0}
 // guest: the host says it fell. Whoever stood close gets the kill: experience, glut, quests and their own loot
-function mpMirrorDies(d){const e=NET.mir.get(d.n);if(!e||e.dead)return;NET.mir.delete(d.n);e.x=e.tx;e.y=e.ty;
+function mpMirrorDies(d){const e=NET.mir.get(d.n);if(!e||e.dead)return;NET.mir.delete(d.n);
   if(P&&!P.dead&&hyp(e.x-P.x,e.y-P.y)<32){delete e.mir;try{killEnemy(e,d.a)}catch(er){e.dead=true;e.dieT=0}}else{e.dead=true;e.dieT=0;e.fallA=d.a}}
 // guest: a strike zone or a shot from a mirrored monster; it is judged here, against your own hero
 function mpEnemyTeles(d){if(!NET.sync||d.fl!==G.floor)return;for(const t of d.l){const o=t.n!=null?NET.mir.get(t.n):null;const q=Object.assign({},t,{owner:o||null,meteor:!!t.meteor,follow:!!t.follow&&!!o,_mp:1});delete q.n;G.tele.push(q)}}
@@ -4919,13 +4962,24 @@ function mpEnemyShots(d){if(!NET.sync||d.fl!==G.floor)return;for(const p of d.l)
 const _hitEnemyMP=hitEnemy;hitEnemy=function(e,dmg,o={}){if(!e||!e.mir)return _hitEnemyMP(e,dmg,o);if(e.dead)return;
   let d=dmg,ven=0;if(!o.ally&&d>0){if(P.cryT>0)d*=1+P.cryB/100;if(P.venomT>0)ven=d*P.venomB/300}
   mpSend({t:'h',n:e.nid,d:Math.round(d*10)/10,o:{crit:o.crit?1:0,slow:o.slow||0,kb:o.kb||0,from:o.from!=null?+o.from.toFixed(2):null,col:o.col||null,ven}});
-  d*=e.dmgTaken||1;e.flash=.1;e.hitT=.22;if(CFG.numbers)ftext(e.x,e.y,Math.round(d)+(o.crit?'!':''),o.crit?'#ffd94f':o.col||'#f2ecd8',o.crit);
+  const now=performance.now();e.myT=now;d*=e.dmgTaken||1;if(now-(e.oT||0)<MPPINCER*1000)d*=MPPINCERX,mpPincerFx(e);e.flash=.1;e.hitT=.22;if(CFG.numbers)ftext(e.x,e.y,Math.round(d)+(o.crit?'!':''),o.crit?'#ffd94f':o.col||'#f2ecd8',o.crit);
   if(o.slow)e.slow=Math.max(e.slow||0,o.slow);const a=o.from!=null?o.from:Math.atan2(e.y-P.y,e.x-P.x);gore(e.x,e.y,a,o.crit?11:5,goreOf(e),.8*(e.scale||1));e.hp=Math.max(1,e.hp-d)};
-function mpGuestTick(){if(!NET.sync)return;const now=performance.now(),m=G.map;
-  if(NET.syncMap!==m||now-NET.syncT>1500){mpUnsync();return}
-  // in shared ground only the host's monsters live
+function mpGuestTick(){if(!mpHostHere()){if(NET.sync)mpUnsync();return}
+  mpSyncOn();const now=performance.now(),m=G.map;
+  // on the host's floor only the host's monsters live
   if(m.enemies.some(e=>!e.mir&&!e.dead))m.enemies=m.enemies.filter(e=>e.mir||e.dead);
-  for(const[nid,e]of NET.mir)if(!e.dead&&now-e.seenT>1800&&hyp(e.x-P.x,e.y-P.y)<MPSEE-6){NET.mir.delete(nid);e.dead=true;e.dieT=99}}
+  // a mirror that has gone quiet is dropped, and the host is asked to send it again
+  const lost=[];for(const[nid,e]of NET.mir)if(!e.dead&&now-e.seenT>3000){NET.mir.delete(nid);lost.push(e)}if(lost.length){const g=new Set(lost);m.enemies=m.enemies.filter(e=>!g.has(e))}
+  // your own hero pushed them aside a moment ago; where they stand is the host's word
+  for(const e of NET.mir.values())if(!e.dead){e.x=e.ix;e.y=e.iy;e.kvx=e.kvy=0}}
+
+/* ----- the pincer: hit what your friend just hit ----- */
+const MPPINCER=2.5,MPPINCERX=1.2;
+function mpPincerFx(e){const now=performance.now();if(now-(e.zgT||0)<2600)return;e.zgT=now;ftext(e.x,e.y-.5,'Zangengriff!','#ffd94f',true);sparks(e.x,e.y,.9,0,10,['#fff0a8','#ffd94f'],5,3)}
+// host: who struck last decides; a friend's blow and yours within a breath of each other bite harder
+const _hitEnemyPin=hitEnemy;hitEnemy=function(e,dmg,o={}){if(!e||e.mir||NET.role!=='host'||!NET.others.size||e.dead)return _hitEnemyPin(e,dmg,o);
+  const who=NET.hitBy||(o.ally?null:'h');if(!who)return _hitEnemyPin(e,dmg,o);const now=performance.now(),hb=e.hb||(e.hb={});
+  let pin=false;for(const k in hb)if(k!==who&&now-hb[k]<MPPINCER*1000)pin=true;hb[who]=now;if(pin){dmg*=MPPINCERX;mpPincerFx(e)}return _hitEnemyPin(e,dmg,o)};
 
 /* ----- skills, seen from afar ----- */
 // another hero's spell: the same light and noise, without the damage (that is dealt on their machine)
@@ -4981,7 +5035,7 @@ function mpBeacons(d,id){let n=0;const r=NET.others.get(id),who=r?r.nm:'Ein Mits
 /* ----- falling, and being carried back ----- */
 function mpAllyNear(){for(const r of NET.others.values())if(!r.stale&&!r.dead&&!(r.down>0)&&r.floor===G.floor&&hyp(r.x-P.x,r.y-P.y)<60)return true;return false}
 const _dieMP=die;die=function(){if(mpOn()&&P&&!(P.down>0)&&mpAllyNear()){P.down=MPDOWN;P.dead=true;P.hp=0;P.poisonT=0;P.heal=0;G.deathT=1e9;P.path=[];P.target=null;P.interact=null;
-    sfx('death');G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS);banner('NIEDERGESTRECKT','Dein Mitspieler hat '+MPDOWN+' Sekunden, dich aufzurichten','death',3200);mpSend({t:'s',id:NET.me,x:+P.x.toFixed(2),y:+P.y.toFixed(2),fl:G.floor,dd:1,dn:MPDOWN,hp:0,hm:Math.round(P.d.life),lv:P.lvl,f:P.face||0,nm:mpName()});return}
+    sfx('death');G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS);banner('NIEDERGESTRECKT','Dein Mitspieler hat '+MPDOWN+' Sekunden, dich aufzurichten','death',3200);mpSend({t:'s',id:NET.me,ts:Math.round(performance.now()),x:+P.x.toFixed(2),y:+P.y.toFixed(2),fl:G.floor,dd:1,dn:MPDOWN,hp:0,hm:Math.round(P.d.life),lv:P.lvl,f:P.face||0,nm:mpName()});return}
   if(P)P.down=0;_dieMP()};
 function mpRevived(by){if(!P||!(P.down>0))return;const r=NET.others.get(by);P.down=0;P.dead=false;G.deathT=0;P.hp=Math.max(1,P.d.life*.35);P.iframe=2;
   banner('WIEDERBELEBT',r?'von '+r.nm:'','',2200);sfx('lvl');burst(P.x,P.y,'#ffe08a',26,3);flash(P.x,P.y,1,60,'255,230,160',.35)}
@@ -5001,8 +5055,7 @@ const _drawPlayerMP=drawPlayer;drawPlayer=function(){_drawPlayerMP();if(!P||!(P.
 /* ----- the others ----- */
 // glide toward where they will be in a moment, not where they were
 function mpTick(dt){const now=performance.now();NET.meX=P.x;NET.meY=P.y;
-  for(const r of NET.others.values()){const age=Math.min(.12,(now-(r.at||now))/1000),px=r.tx+(r.moving?r.vx*age:0),py=r.ty+(r.moving?r.vy*age:0),k=Math.min(1,dt*18);
-    r.x+=(px-r.x)*k;r.y+=(py-r.y)*k;if(r.moving)r.anim+=dt;if(r.atkT>0)r.atkT=Math.max(0,r.atkT-dt);if(r.whirl>0){r.whirl-=dt;slashFx(r.x,r.y,G.t*22,1.5,1.9,'235,225,205',.12,.6,.38)}r.trail.length=0;r.stale=now-r.seen>4000;
+  for(const r of NET.others.values()){const q=mpAt(r.buf,mpNow(r)-MPLAG);if(q){r.x=q.x;r.y=q.y}if(r.moving)r.anim+=dt;if(r.atkT>0)r.atkT=Math.max(0,r.atkT-dt);if(r.whirl>0){r.whirl-=dt;slashFx(r.x,r.y,G.t*22,1.5,1.9,'235,225,205',.12,.6,.38)}r.trail.length=0;r.stale=now-r.seen>4000;
     // standing beside a fallen friend raises them
     if(r.down>0&&!(now<r.rvCool)&&!P.dead&&!r.stale&&r.floor===G.floor&&hyp(r.x-P.x,r.y-P.y)<1.9){r.rv+=dt;if(r.rv>=MPREV){r.rv=0;r.down=0;r.rvCool=now+2000;mpSend({t:'rv',id:NET.me,to:r.id,by:NET.me});log('Du hast '+r.nm+' wieder aufgerichtet.','#ffe08a')}}else r.rv=Math.max(0,r.rv-dt*2)}
   if(NET.role==='host')mpHostSync(dt);else if(NET.role==='guest')mpGuestTick();
