@@ -348,6 +348,7 @@ body.tvon #pQuest,body.tvon #pMap,body.tvon #pTree{top:calc(78px + env(safe-area
 @media (max-width:900px),(max-height:520px){#tvcl{transform:scale(.8);transform-origin:100% 100%}#tvstick{transform:scale(.85);transform-origin:0 100%}#tvdash{left:calc(150px + env(safe-area-inset-left,0px));width:64px;height:64px}#tvextra{left:calc(154px + env(safe-area-inset-left,0px));bottom:calc(112px + env(safe-area-inset-bottom,0px))}#tvextra .tvb{width:50px;height:50px}
   #tvpot{transform:translateX(-62%) scale(.84);transform-origin:50% 100%}.tvt{width:46px;height:46px}.tvt.act{height:56px}.tvt b{font-size:19px}.tvt small{font-size:8px}#tvset{width:46px;height:46px;font-size:22px}
   body.tvon .panel,body.tvon .panel.left,body.tvon .panel.right{top:calc(64px + env(safe-area-inset-top,0px));width:calc(100vw - 260px)}body.tvon #pQuest,body.tvon #pMap,body.tvon #pTree{top:calc(64px + env(safe-area-inset-top,0px))}}
+#pStash .sttabs{display:flex;gap:6px;margin:8px 0 4px}#pStash .sttabs button{flex:1;font-family:var(--f-sc);font-size:14px;min-height:34px;opacity:.7}#pStash .sttabs button.on{opacity:1;border-color:#c8962a;color:#ffd88a;background:linear-gradient(#4a3418,#1e140a)}#pStash .sttabs small{color:#9ad0ff}
 </style>
 </head>
 <body>
@@ -4767,13 +4768,13 @@ function mpFail(msg){mpStop(true);NET.err=msg;NET.st='';mpMenu()}
 async function mpHost(){if(mpOn())return;mpStop(true);NET.err='';NET.st='Spiel wird eröffnet …';NET.role='opening';mpMenu();
   try{await mpLib()}catch(e){return mpFail('Der Online-Dienst ist gerade nicht erreichbar.')}
   let tries=0;const go=()=>{const code=String(1000+Math.floor(Math.random()*9000)),p=new Peer(MPPRE+code,MPICE);NET.peer=p;
-    p.on('open',()=>{NET.role='host';NET.code=code;NET.me='h';NET.st='';log('Online: dein Spiel-Code ist '+code,'#9ad0ff');mpMenu();mpHud(1)});
+    p.on('open',()=>{NET.role='host';NET.code=code;NET.me='h';NET.st='';NET.shared=mpShHost();log('Online: dein Spiel-Code ist '+code,'#9ad0ff');mpMenu();mpHud(1)});
     p.on('connection',c=>c.label==='u'?mpAcceptFast(c):mpAccept(c));
     p.on('disconnected',()=>{if(NET.role==='host'&&!p.destroyed)setTimeout(()=>{try{p.reconnect()}catch(e){}},1500)});
     p.on('error',er=>{if(er.type==='unavailable-id'&&tries++<8){p.destroy();go()}else if(NET.role!=='host')mpFail(mpErr(er));else if(er.type!=='peer-unavailable')log('Online: '+mpErr(er),'#ff8a6a')})};go()}
 function mpAccept(c){const id='g'+(++NET.n);c.mpId=id;c.known=new Set();
   c.on('open',()=>{if(NET.conns.size>=MPMAX){c.send({t:'full'});setTimeout(()=>c.close(),400);return}
-    NET.conns.set(id,c);NET.bfSig='';c.send({t:'w',seed:G.seed,id,code:NET.code,host:mpName()});c.send(mpLook());for(const r of NET.others.values())if(r.look)c.send(Object.assign({},r.look,{id:r.id}))});
+    NET.conns.set(id,c);NET.bfSig='';c.send({t:'w',seed:G.seed,id,code:NET.code,host:mpName()});c.send(mpLook());for(const r of NET.others.values())if(r.look)c.send(Object.assign({},r.look,{id:r.id}));c.send({t:'sl',l:mpShList(),ack:0})});
   c.on('data',d=>mpRecv(d,c));c.on('close',()=>mpDrop(id));c.on('error',()=>mpDrop(id))}
 // the fast lane belongs to whichever friend opened it from the same address
 function mpAcceptFast(c){c.on('open',()=>{for(const m of NET.conns.values())if(m.peer===c.peer)m.fast=c});
@@ -4796,7 +4797,7 @@ async function mpJoin(code){code=String(code||'').replace(/\D/g,'');if(code.leng
 function mpStop(quiet){const was=NET.role;
   try{if(NET.role==='host')for(const c of NET.conns.values())if(c.open)c.send({t:'bye'});if(NET.host&&NET.host.open)NET.host.send({t:'bye'})}catch(e){}
   try{NET.peer&&NET.peer.destroy()}catch(e){}
-  if(NET.sync)mpUnsync();
+  if(NET.sync)mpUnsync();if(NET.shView)mpShView(false);NET.shared=null;NET.shSeq=0;NET.shAck={};
   NET.peer=null;NET.host=null;NET.hostU=null;NET.hostSync=null;NET.joinView=0;NET.conns.clear();NET.others.clear();NET.role=null;NET.code=null;NET.st='';NET.goTo=0;
   if(P&&P.down>0){P.down=0;P.dead=false;P.hp=Math.max(1,P.d.life*.2)}
   if(was==='guest')mpLeaveWorld();if(!quiet&&was)log('Online beendet.','#a39b88');mpMenu();mpHud(1)}
@@ -4841,11 +4842,13 @@ function mpRecv(d,c){if(!d||!d.t)return;
   if(d.t==='gone'){const r=NET.others.get(d.id);if(r)log(r.nm+' hat das Spiel verlassen.','#a39b88');NET.others.delete(d.id);mpHud(1);return}
   if(d.t==='hi')return;
   if(NET.role==='guest'){
+    if(d.t==='sl'){mpShRecv(d);return}if(d.t==='sno'){mpShLate(d);return}
     if(d.t==='e'){mpSnap(d);return}if(d.t==='es'){mpSpawnMirrors(d);return}if(d.t==='ex'){mpMirGone(d);return}if(d.t==='ed'){mpMirrorDies(d);return}if(d.t==='eo'){if(NET.sync)mpUnsync();return}
     if(d.t==='tl'){mpEnemyTeles(d);return}if(d.t==='pj'){mpEnemyShots(d);return}
     // a blow lands when its swing shows here, since monsters are replayed a tenth of a second late
     if(d.t==='hu'){setTimeout(()=>{if(P&&!P.dead&&mpOn()){const src=d.n!=null?NET.mir.get(d.n):d.sx!=null?{x:d.sx,y:d.sy}:null;hurtPlayer(d.d,d.el||null,src)}},MPLAG);return}}
   if(NET.role==='host'&&d.t==='h'){mpGuestHit(d,c);return}
+  if(NET.role==='host'&&d.t==='sx'){mpShOps(d,c);return}
   if(NET.role==='host'&&d.t==='rq'){if(c.known)for(const n of d.l||[])c.known.delete(n);return}
   const id=NET.role==='host'?c.mpId:d.id;if(!id||id===NET.me)return;
   if(NET.role==='host'&&MPRELAY.has(d.t)){d.id=id;for(const[k,cc]of NET.conns)if(k!==id)mpTo(cc,d,d.t==='s')}
@@ -5052,6 +5055,56 @@ const _drawPlayerMP=drawPlayer;drawPlayer=function(){_drawPlayerMP();if(!P||!(P.
   ctx.font="bold 13px 'IM Fell English', Georgia, serif";ctx.textAlign='center';ctx.fillStyle='rgba(0,0,0,.7)';ctx.fillText(Math.ceil(P.down)+'',sx+1,sy-35);ctx.fillStyle=pr>0?'#ffe08a':'#ff6a50';ctx.fillText(Math.ceil(P.down)+'',sx,sy-36);
   if(P.mpRemote&&pr<=0&&hyp(P.x-NET.meX,P.y-NET.meY)<5){ctx.font="12px 'IM Fell English', Georgia, serif";ctx.fillStyle='#ffe08a';ctx.fillText('Daneben stehen bleiben',sx,sy+30)}ctx.restore()};
 
+/* ----- the shared chest: one more drawer in the bottomless chest while online ----- */
+// It lives in the host's save and the host's word is final: a guest's item leaves their hands when the host has it, and
+// a guest takes one only for as long as nobody else was quicker. Each change goes out as a whole new list.
+NET.shared=null;NET.shView=false;NET.shSnap=null;NET.shSeq=0;NET.shAck={};NET.shU=0;NET.shC=0;
+const mpShKey=i=>i.su!=null?i.su:i.cu;
+const mpShHost=()=>{if(!G.mpShared)G.mpShared=[];for(const it of G.mpShared)if(it.su==null)it.su=++NET.shU;else NET.shU=Math.max(NET.shU,it.su);return G.mpShared};
+const mpShSnap=a=>new Map(a.map(it=>[it,it.gx+','+it.gy]));
+function mpShList(){return JSON.parse(JSON.stringify(G.mpShared||[]))}
+function mpShBroadcast(){if(NET.role!=='host')return;const l=mpShList();for(const[id,c]of NET.conns)if(c.open)c.send({t:'sl',l,ack:NET.shAck[id]||0})}
+function mpShView(on){on=!!on&&mpOn()&&!!NET.shared;if(on===NET.shView)return;
+  if(on){P.ownStash=P.stash;P.stash=NET.shared;NET.shSnap=mpShSnap(NET.shared)}else{P.stash=P.ownStash||P.stash;P.ownStash=null;NET.shSnap=null}NET.shView=on}
+// host: place an item where it was dropped, or in the first free spot when someone else got there first
+function mpShPut(it,x,y){const L=G.mpShared,[w,h]=isz(it),fits=(a,b)=>!L.some(o=>{const[c,d]=isz(o);return a<o.gx+c&&a+w>o.gx&&b<o.gy+d&&b+h>o.gy});
+  if(it.su==null||L.some(o=>o.su===it.su))it.su=++NET.shU;
+  if(x!=null&&x>=0&&x<=SW-w&&y>=0&&fits(x,y)){it.gx=x;it.gy=y}else{let ok=false;for(let b=0;!ok;b++)for(let a=0;a<=SW-w;a++)if(fits(a,b)){it.gx=a;it.gy=b;ok=true;break}}L.push(it)}
+// host: a friend's changes to the shared drawer
+function mpShOps(d,c){mpShHost();const L=G.mpShared,no=[];
+  for(const su of d.take||[]){const i=L.findIndex(o=>mpShKey(o)===su);if(i>=0)L.splice(i,1);else no.push(su)}
+  for(const[su,x,y]of d.mv||[]){const it=L.find(o=>mpShKey(o)===su);if(!it)continue;const i=L.indexOf(it);L.splice(i,1);mpShPut(it,x,y)}
+  for(const it of d.put||[])mpShPut(it,it.gx,it.gy);
+  NET.shAck[c.mpId]=d.seq||0;if(no.length)mpTo(c,{t:'sno',l:no});mpShRefresh();mpShBroadcast();save()}
+// guest: the host's list is the truth, unless it predates something we just sent
+function mpShRecv(d){if((d.ack||0)<NET.shSeq)return;const l=d.l||[];
+  if(NET.shView){NET.shared=l;P.stash=l;NET.shSnap=mpShSnap(l);if(!$('pStash').hidden)mpShQuiet(updatePanels)}else NET.shared=l}
+// guest: too late, someone else took it first: it goes back where it came from
+function mpShLate(d){for(const su of d.l||[]){const is=o=>o&&mpShKey(o)===su;let nm=null;
+  if(is(G.hand)){nm=G.hand.name;G.hand=null}else{const i=P.inv.findIndex(is);if(i>=0){nm=P.inv[i].name;invDel(P.inv[i])}else for(const k in P.eq)if(is(P.eq[k])){nm=P.eq[k].name;P.eq[k]=null}}
+  if(nm)log('Zu spät: '+nm+' hat schon jemand anderes genommen.','#ff8a6a')}updatePanels()}
+function mpShRefresh(){if(NET.role!=='host')return;NET.shared=G.mpShared;if(NET.shView){P.stash=G.mpShared;NET.shSnap=mpShSnap(G.mpShared);if(!$('pStash').hidden)mpShQuiet(updatePanels)}}
+let mpShMute=0;const mpShQuiet=f=>{mpShMute++;try{f()}finally{mpShMute--}};
+// every change in the open drawer, seen as what left, what came and what moved
+const _updatePanelsSh=updatePanels;updatePanels=function(){if(NET.shView&&(!mpOn()||$('pStash').hidden))mpShView(false);
+  if(NET.shView&&!mpShMute&&P){const now=P.stash,old=NET.shSnap||new Map(),cur=mpShSnap(now),take=[],put=[],mv=[];
+    for(const[it]of old)if(!cur.has(it))take.push(it);for(const[it,k]of cur)if(!old.has(it))put.push(it);else if(old.get(it)!==k)mv.push(it);
+    if(take.length||put.length||mv.length){
+      if(NET.role==='host'){if(now!==G.mpShared){G.mpShared=now;NET.shared=now}for(const it of put)if(it.su==null||now.some(o=>o!==it&&o.su===it.su))it.su=++NET.shU;mpShBroadcast();save()}
+      // a fresh item gets a name of our own at once, so it can be taken again before the host has numbered it
+      else{NET.shared=now;for(const it of put){delete it.su;it.cu=NET.me+'.'+(++NET.shC)}mpSend({t:'sx',id:NET.me,seq:++NET.shSeq,take:take.map(mpShKey),put:JSON.parse(JSON.stringify(put)),mv:mv.map(i=>[mpShKey(i),i.gx,i.gy])})}}
+    NET.shSnap=cur}
+  _updatePanelsSh()};
+// the drawer's tabs, shown only while online
+const _buildStashSh=buildStash;buildStash=function(){_buildStashSh();if(!mpOn()||!NET.shared)return;const b=$('pStash'),h=b.querySelector('h2');
+  if(NET.shView&&h)h.firstChild.textContent='Gemeinsame Truhe ';
+  const t=document.createElement('div');t.className='sttabs';t.innerHTML=`<button data-sttab="own" class="${NET.shView?'':'on'}">Eigene Truhe</button><button data-sttab="sh" class="${NET.shView?'on':''}">Gemeinsam <small>${NET.shared.length}</small></button>`;
+  h.after(t);if(NET.shView){const hint=b.querySelector('.srow .hint');if(hint)hint.textContent='Alle Spieler dieses Online-Spiels sehen diese Truhe';}};
+document.addEventListener('click',e=>{const t=e.target.closest&&e.target.closest('[data-sttab]');if(!t||!P)return;mpShView(t.dataset.sttab==='sh');sfx('pick');mpShQuiet(updatePanels)});
+// the host's chest is saved with the host's world; a guest keeps only their own
+const _saveDataSh=saveData;saveData=function(){const sw=NET.shView;if(sw){P.stash=P.ownStash}try{const d=_saveDataSh();if(d&&NET.role!=='guest'&&G.mpShared&&!(G.mpOwn&&!G.mpOwn.same))d.g.mpShared=JSON.parse(JSON.stringify(G.mpShared));return d}finally{if(sw)P.stash=NET.shared}};
+const _applyDataSh=applyData;applyData=function(d){const sh=d&&d.g&&d.g.mpShared;_applyDataSh(d);G.mpShared=sh||[]};
+
 /* ----- the others ----- */
 // glide toward where they will be in a moment, not where they were
 function mpTick(dt){const now=performance.now();NET.meX=P.x;NET.meY=P.y;
@@ -5114,7 +5167,7 @@ function mpMenu(){if(menuView!=='online')return;const b=$('mbox');if(!b)return;c
   const n=$('mpname');if(n){n.addEventListener('keydown',e=>e.stopPropagation());n.addEventListener('input',()=>{CFG.mpName=n.value.slice(0,14);saveCfg()})}}
 // leaving the game ends the session first, so the guest's own world is what gets saved
 const _toTitleMP=toTitle;toTitle=function(){if(mpOn())mpStop(true);_toTitleMP()};
-const _startNewMP=startNew;startNew=function(c){if(mpOn()||NET.role)mpStop(true);G.mpOwn=null;G.mpw=null;_startNewMP(c)};
+const _startNewMP=startNew;startNew=function(c){if(mpOn()||NET.role)mpStop(true);G.mpOwn=null;G.mpw=null;G.mpShared=[];_startNewMP(c)};
 /* ---------- loot economy: gear comes slowly, junk fills the bags ---------- */
 // fallen guardians, tower keepers and island lords alike, open the way to jewels and runes
 const bossCount=()=>Object.keys(G.bossDead||{}).filter(k=>k!=='rift'&&G.bossDead[k]).length+Object.keys(G.owBoss||{}).filter(k=>G.owBoss[k]).length;
