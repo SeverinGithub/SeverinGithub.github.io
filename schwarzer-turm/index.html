@@ -4019,7 +4019,7 @@ function bindPad(el){
   el.addEventListener('touchstart',e=>{const b=e.target.closest('[data-t]');if(!b||!P)return;e.preventDefault();wake();const k=b.dataset.t,t=e.changedTouches[0];b.classList.add('on');
     if(k==='atk'){ATK.held=true;ATK.tid=t.identifier;atkTick();return}
     if(k==='sk'){aimT={id:b.dataset.id,x0:t.clientX,y0:t.clientY,tid:t.identifier,b,drag:false};return}
-    if(G.state!=='play')return;if(k==='roll')doRoll();else if(k==='flask')drinkFlask();else if(k==='loot')quickLoot();else if(k==='ash')summonAsh();else if(k==='menu')escKey()},{passive:false});
+    if(G.state!=='play')return;if(k==='roll')doRoll();else if(k==='dash')tvDash();else if(k==='flask')drinkFlask();else if(k==='loot')quickLoot();else if(k==='ash')summonAsh();else if(k==='menu')escKey()},{passive:false});
   el.addEventListener('touchmove',e=>{if(!aimT||!P)return;for(const t of e.changedTouches){if(t.identifier!==aimT.tid)continue;e.preventDefault();const dx=t.clientX-aimT.x0,dy=t.clientY-aimT.y0;if(Math.hypot(dx,dy)>18){aimT.drag=[dx,dy];aimShow(dx,dy)}}},{passive:false});
   const up=e=>{for(const t of e.changedTouches){el.querySelectorAll('.on').forEach(x=>x.classList.remove('on'));
       if(aimT&&t.identifier===aimT.tid){const a=aimT;aimT=null;aimEl().hidden=true;tCast(a.id,a.drag||null)}if(t.identifier===ATK.tid){ATK.held=false;ATK.tid=null}}};
@@ -5412,14 +5412,16 @@ function tvHtml(){if($('tvstick'))return;document.body.insertAdjacentHTML('befor
   <div id="tvtabs" class="tv">${TPAD.tabs.map(([k,id,n])=>`<button class="tvt" data-tv="${id}" aria-label="${n}"><b>${k}</b><small>${n}</small></button>`).join('')}</div>
   <button id="tvx" class="tv" aria-label="Schließen" hidden>✕</button>
   <div id="tvstick" class="tv"><i></i><span>Laufen</span></div>
-  <button id="tvdash" class="tv tvb" aria-label="Ausweichen in Laufrichtung">⟲<small>Ausweichen</small></button>
+  <button id="tvdash" class="tv tvb" aria-label="Angriff">⚔<small>Angriff</small></button>
   <div id="tvextra" class="tv"></div>
   <div id="tvpot" class="tv"></div>
   <div id="tvcl" class="tv"></div>`);
   const pad=(id,fn)=>$(id).addEventListener('touchstart',e=>{e.preventDefault();e.stopPropagation();wake();fn(e)},{passive:false});
   pad('tvset',()=>{if(OVL.has(G.state))ovClose();closeAll();escKey()});
   pad('tvx',()=>tvCloseAll());
-  pad('tvdash',()=>tvDash());
+  // the button beside the stick attacks while held, the big one on the right rolls
+  const ab=$('tvdash');ab.addEventListener('touchstart',e=>{e.preventDefault();e.stopPropagation();wake();if(!P)return;ab.classList.add('on');ATK.held=true;ATK.tid=e.changedTouches[0].identifier;atkTick()},{passive:false});
+  const abUp=e=>{for(const t of e.changedTouches)if(t.identifier===ATK.tid){ATK.held=false;ATK.tid=null}ab.classList.remove('on')};ab.addEventListener('touchend',abUp);ab.addEventListener('touchcancel',abUp);
   $('tvtabs').addEventListener('touchstart',e=>{const b=e.target.closest('[data-tv]');if(!b)return;e.preventDefault();e.stopPropagation();wake();tvTab(b.dataset.tv)},{passive:false});
   // potions, flask, pickup and the extra coins answer a plain tap
   for(const id of['tvpot','tvextra'])$(id).addEventListener('touchstart',e=>{const b=e.target.closest('[data-tvp]');if(!b||!P||G.state!=='play')return;e.preventDefault();e.stopPropagation();wake();
@@ -5453,7 +5455,7 @@ const tvEnd=e=>{if(e.target!==cv||!$('tvstick'))return;e.preventDefault();e.stop
   for(const t of e.changedTouches){if(t.identifier===JOY.id){JOY.id=null;JOY.v=[0,0];tvStickHome();tvStickDraw();if(P)P.path=[]}else if(t.identifier===tapId){tapId=null;dispatchEvent(new MouseEvent('mouseup',{button:0}))}}};
 addEventListener('touchend',tvEnd,{capture:true,passive:false});addEventListener('touchcancel',tvEnd,{capture:true,passive:false});
 
-function tvCluster(){const sk=mySk();let h=`<button class="tb atk" data-t="atk" aria-label="Angriff">⚔</button>`;
+function tvCluster(){const sk=mySk();let h=`<button class="tb atk" data-t="dash" aria-label="Ausweichen in Laufrichtung">⟲</button>`;
   sk.forEach((s,i)=>{const[x,y]=TVSK[i]||TVSK[0];h+=`<button class="tb sk ${P.sk[s.id]?'':'locked'}" data-t="sk" data-id="${s.id}" style="right:${x-31}px;bottom:${y-31}px" aria-label="${s.n}">${skImg(s.id)}<i class="cd"></i><span class="k">F${s.key}</span></button>`});return h}
 function tvPots(){return`<button class="tvq" data-tvp="life"><img class="px" src="${pxURL('potL')}" alt=""><b id="tvL"></b><small>Heiltrank</small></button>
   <button class="tvq" data-tvp="mana"><img class="px" src="${pxURL('potM')}" alt=""><b id="tvM"></b><small>Manatrank</small></button>
