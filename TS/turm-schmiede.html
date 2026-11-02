@@ -1,0 +1,306 @@
+<title>Turm-Schmiede</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap">
+<style>
+/* Layout: workbench – canvas left, palette + item sheet right, previews and code underneath. One dark look, same as the game. */
+:root{
+  --ink:#0d0d10;--ink-2:#15151a;--ink-3:#1e1e25;--line:#34343e;
+  --paper:#ece4cf;--paper-dim:#a39b88;--gold:#ffd88a;--ember:#ff9a3a;--unique:#e8973a;--bad:#ff6a5a;--sky:#1650a8;
+  --f-display:'Pirata One','IM Fell English',Georgia,serif;--f-body:'IM Fell English',Georgia,serif;--f-sc:'IM Fell English SC',Georgia,serif;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--ink);color:var(--paper);font-family:var(--f-body);font-size:16px;line-height:1.45;padding-block:24px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+header{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:12px 24px;border-bottom:1px solid var(--line);padding-bottom:14px}
+h1{font-family:var(--f-display);font-weight:400;font-size:clamp(40px,7vw,64px);line-height:.9;margin:0;color:#f4eedd}
+header p{margin:6px 0 0;color:var(--paper-dim);font-style:italic;max-width:60ch}
+.steps{display:flex;flex-wrap:wrap;gap:6px 18px;font-family:var(--f-sc);font-size:14px;color:var(--paper-dim)}
+.steps b{color:var(--gold);font-weight:400}
+h2{font-family:var(--f-sc);font-weight:400;font-size:15px;letter-spacing:.08em;color:var(--paper-dim);margin:0;border-bottom:1px solid var(--line);padding-bottom:4px}
+.bench{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,400px);gap:22px;align-items:start}
+@media (max-width:860px){.bench{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--ink-2);border:1px solid var(--line);box-shadow:0 0 0 3px #000;padding:14px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+button,select,input,textarea{font-family:var(--f-body);font-size:15px;color:var(--paper);background:var(--ink-3);border:1px solid var(--line);border-radius:0}
+button{padding:6px 10px;cursor:pointer}
+button:hover{border-color:var(--paper-dim)}
+button:focus-visible,select:focus-visible,input:focus-visible,textarea:focus-visible,canvas:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+button.on{border-color:var(--gold);color:var(--gold);background:#231d10}
+button.primary{background:#2a1e0c;border-color:#7a5a24;color:var(--gold)}
+.sep{width:1px;background:var(--line);margin:0 2px}
+#ed{width:100%;max-width:528px;aspect-ratio:1;image-rendering:pixelated;touch-action:none;cursor:crosshair;display:block;margin:0 auto;background:#111}
+.hint{font-size:14px;color:var(--paper-dim);font-style:italic;margin:0}
+.pal{display:flex;flex-direction:column;gap:6px}
+.palrow{display:grid;grid-template-columns:76px 1fr;gap:8px;align-items:center}
+.palrow span{font-family:var(--f-sc);font-size:13px;color:var(--paper-dim)}
+.sw{display:flex;flex-wrap:wrap;gap:3px}
+.sw button{width:18px;height:18px;padding:0;border:1px solid #000}
+.sw{gap:2px}
+.sw button.sel{outline:2px solid var(--gold);outline-offset:1px}
+.cur{display:flex;align-items:center;gap:10px;font-family:var(--f-sc);font-size:14px}
+.cur i{width:30px;height:30px;border:1px solid #000;display:block}
+.cur input[type=color]{width:38px;height:30px;padding:0;background:none}
+.form{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 12px;align-items:center}
+.form label{font-family:var(--f-sc);font-size:14px;color:var(--paper-dim)}
+.form input,.form select,.form textarea{width:100%;padding:6px 8px}
+.form textarea{min-height:60px;resize:vertical}
+.check{display:flex;align-items:center;gap:8px;font-size:15px}
+.prev{display:flex;flex-wrap:wrap;gap:14px;align-items:end}
+.prev figure{margin:0;display:flex;flex-direction:column;gap:4px;align-items:center}
+.prev figcaption{font-family:var(--f-sc);font-size:12px;color:var(--paper-dim)}
+.prev canvas{image-rendering:pixelated;display:block;border:1px solid #26262c}
+.out{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px;align-items:start}
+@media (max-width:860px){.out{grid-template-columns:minmax(0,1fr)}}
+#code,#imp{width:100%;min-height:200px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px;line-height:1.3;padding:8px;background:#09090c;color:#d8d0bc;resize:vertical}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+#msg{font-size:14px;color:var(--gold);min-height:1.4em}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.card{display:grid;grid-template-columns:40px minmax(0,1fr);gap:8px;align-items:center;background:var(--ink-3);border:1px solid var(--line);padding:6px;cursor:pointer;text-align:left}
+.card canvas{width:36px;height:36px;image-rendering:pixelated}
+.card b{font-family:var(--f-sc);font-weight:400;font-size:14px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.card small{color:var(--paper-dim);font-size:12px}
+.card.u b{color:var(--unique)}
+.empty{color:var(--paper-dim);font-style:italic;font-size:14px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <div>
+    <h1>Turm-Schmiede</h1>
+    <p>Zeichne hier deine eigenen Gegenstände für <i>Der Schwarze Turm</i>. Ich gebe ihnen danach Werte und baue sie ins Spiel ein.</p>
+  </div>
+  <div class="steps"><span><b>1</b> Zeichnen</span><span><b>2</b> Name und Typ wählen</span><span><b>3</b> Code kopieren und mir schicken</span></div>
+</header>
+
+<div class="bench">
+  <section class="panel" aria-label="Zeichenfläche">
+    <div class="tools" role="toolbar" aria-label="Werkzeuge">
+      <button data-tool="pen" class="on" title="Stift (S)">Stift</button>
+      <button data-tool="erase" title="Radierer (E) · Rechtsklick radiert auch">Radierer</button>
+      <button data-tool="fill" title="Füllen (F)">Füllen</button>
+      <button data-tool="pick" title="Farbe aufnehmen (P)">Pipette</button>
+      <span class="sep"></span>
+      <button id="mirror" title="Spiegelt jeden Strich links/rechts, gut für Helme und Rüstungen">Spiegeln</button>
+      <button id="guides" class="on" title="Hilfslinien ein/aus">Hilfslinien</button>
+      <span class="sep"></span>
+      <button id="undo" title="Rückgängig (Strg+Z)">↶</button>
+      <button id="redo" title="Wiederholen (Strg+Y)">↷</button>
+      <button data-shift="-1,0" title="Bild nach links schieben" aria-label="Nach links schieben">←</button>
+      <button data-shift="1,0" title="Bild nach rechts schieben" aria-label="Nach rechts schieben">→</button>
+      <button data-shift="0,-1" title="Bild nach oben schieben" aria-label="Nach oben schieben">↑</button>
+      <button data-shift="0,1" title="Bild nach unten schieben" aria-label="Nach unten schieben">↓</button>
+      <button id="clear" title="Alles löschen">Leeren</button>
+    </div>
+    <canvas id="ed" width="512" height="512" tabindex="0" aria-label="32 mal 32 Pixel Zeichenfläche"></canvas>
+    <p class="hint" id="guideHint">Waffen schräg zeichnen: Griff unten links, Spitze oben rechts. Der Kreis zeigt, wo die Hand die Waffe im Spiel hält. Den dunklen Umriss setzt das Spiel automatisch, die Farben werden auf die Spielpalette gerundet.</p>
+  </section>
+
+  <aside class="panel" aria-label="Farben und Gegenstand">
+    <h2>Farben</h2>
+    <div class="cur"><i id="curSw"></i><span id="curHex">#a7b1c2</span><input type="color" id="custom" value="#a7b1c2" aria-label="Eigene Farbe wählen"><span style="color:var(--paper-dim);font-family:var(--f-body);font-style:italic;font-size:13px">eigene Farbe</span></div>
+    <div class="pal" id="pal"></div>
+
+    <h2>Gegenstand</h2>
+    <div class="form">
+      <label for="fName">Name</label><input id="fName" maxlength="40" placeholder="z. B. Grabdorn">
+      <label for="fType">Typ</label><select id="fType"></select>
+      <label for="fTier">Stärke</label>
+      <select id="fTier">
+        <option value="früh">Früh · Ebene 1–5</option><option value="mitte" selected>Mitte · Ebene 6–15</option>
+        <option value="spät">Spät · Ebene 16–25</option><option value="endspiel">Endspiel · ab Ebene 26</option>
+      </select>
+      <label for="fKind">Art</label>
+      <select id="fKind">
+        <option value="grundform">Grundform · kommt mit zufälligen Eigenschaften</option>
+        <option value="einzigartig">Einzigartig · feste Werte, orange</option>
+      </select>
+      <label for="fWish">Wünsche</label><textarea id="fWish" placeholder="z. B. Feuerschaden, sehr schnell, stiehlt Leben"></textarea>
+    </div>
+    <label class="check"><input type="checkbox" id="fOutline" checked> Schwarzer Umriss wie im Spiel</label>
+  </aside>
+</div>
+
+<section class="panel" aria-label="Vorschau">
+  <h2>So sieht es im Spiel aus</h2>
+  <div class="prev">
+    <figure><canvas id="pvInv" width="44" height="44" style="width:44px;height:44px"></canvas><figcaption>Inventar</figcaption></figure>
+    <figure><canvas id="pvTip" width="80" height="80" style="width:80px;height:80px"></canvas><figcaption>Tooltip</figcaption></figure>
+    <figure><canvas id="pvGrass" width="120" height="80" style="width:240px;height:160px"></canvas><figcaption>Am Boden, Hügel</figcaption></figure>
+    <figure><canvas id="pvDark" width="120" height="80" style="width:240px;height:160px"></canvas><figcaption>Am Boden, Gewölbe</figcaption></figure>
+  </div>
+</section>
+
+<div class="out">
+  <section class="panel" aria-label="Code">
+    <h2>Code für Claude</h2>
+    <textarea id="code" readonly aria-label="Code des Gegenstands"></textarea>
+    <div class="row">
+      <button class="primary" id="copy">Code kopieren</button>
+      <button id="copyAll">Alle meine Items kopieren</button>
+      <span id="msg" role="status"></span>
+    </div>
+    <p class="hint">Füge den Code in den Chat ein und schreib dazu, was du willst, zum Beispiel „das ist ein Schwert für die späten Ebenen“.</p>
+  </section>
+  <section class="panel" aria-label="Meine Items">
+    <h2>Meine Items</h2>
+    <div class="row"><button class="primary" id="save">Speichern</button><button id="new">Neues Item</button><button id="del">Löschen</button></div>
+    <div class="list" id="list"></div>
+    <p class="hint">Gespeichert wird nur in diesem Browser.</p>
+    <details>
+      <summary class="hint" style="cursor:pointer">Code einfügen und laden</summary>
+      <textarea id="imp" placeholder="#TURM-ITEM …" aria-label="Code zum Laden"></textarea>
+      <div class="row"><button id="load">Laden</button></div>
+    </details>
+  </section>
+</div>
+</div>
+
+<script>
+(()=>{
+const N=32,$=id=>document.getElementById(id);
+const TYPES=[['Schwert','sword'],['Dolch','dagger'],['Axt','axe'],['Streitkolben','mace'],['Speer','spear'],['Zweihänder','great'],['Stab','staff'],
+  ['Schild','shield'],['Helm','helm'],['Rüstung','armor'],['Handschuhe','gloves'],['Stiefel','boots'],['Gürtel','belt'],['Ring','ring'],['Amulett','amulet']];
+const WEAPON=new Set(['sword','dagger','axe','mace','spear','great','staff']);
+
+// the game's own palette: every pixel in the game is snapped to these colours
+const PAL_RAMPS=[['Stein',14,'#040302','#2a241e','#6a6052','#c8c0b0'],['Stahl',12,'#04060a','#22283a','#5a6680','#b8c4d4'],['Leder',12,'#0a0602','#3a2414','#7a5232','#c8a070'],['Rost',10,'#100402','#4a1a0c','#9a4a28','#d89060'],
+ ['Blut',10,'#120000','#500806','#a01c14','#ff6a50'],['Feuer',10,'#401000','#c04008','#ff9a30','#fff4d0'],['Gold',10,'#1a1000','#6a4a0a','#c8962a','#fff0a8'],['Moos',9,'#080a04','#2a3218','#5e6a3a','#b0c080'],
+ ['Gras',12,'#0a1a02','#2a6a10','#6cbc20','#c8f878'],['Himmel',12,'#020818','#0e3a8a','#3a7ae0','#c8e4ff'],['Leere',8,'#080410','#2e1a52','#7a5ac0','#d8c8ff'],['Seele',8,'#021010','#0e4a4a','#40c0b8','#e0fff8'],['Haut',10,'#200e06','#6a3a24','#b4805c','#f4d0aa']];
+const h2=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)),toHex=c=>'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('');
+const PAL=PAL_RAMPS.map(([n,k,...ks])=>{const K=ks.map(h2),out=[];for(let i=0;i<k;i++){const t=i/(k-1)*(K.length-1),j=Math.min(K.length-2,Math.floor(t)),u=t-j;out.push(toHex(K[j].map((v,c)=>Math.round(v+(K[j+1][c]-v)*u))))}return[n,out]});
+PAL.push(['Schwarz',['#000000','#ffffff']]);
+const ALL=PAL.flatMap(p=>p[1]).map(h2),LUT=new Uint8Array(32768);
+for(let r=0;r<32;r++)for(let g=0;g<32;g++)for(let b=0;b<32;b++){const R0=r*8+4,G0=g*8+4,B0=b*8+4;let best=0,bd=1e12;for(let i=0;i<ALL.length;i++){const[pr,pg,pb]=ALL[i],dr=R0-pr,dg=G0-pg,db=B0-pb,rm=(R0+pr)/2,d=(2+rm/256)*dr*dr+4*dg*dg+(2+(255-rm)/256)*db*db;if(d<bd){bd=d;best=i}}LUT[(r<<10)|(g<<5)|b]=best}
+const BAYER=[0,8,2,10,12,4,14,6,3,11,1,9,15,7,13,5].map(v=>(v-7.5)*1.6);
+function quantize(g,w,h){const img=g.getImageData(0,0,w,h),d=img.data;for(let y=0;y<h;y++)for(let x=0;x<w;x++){const i=(y*w+x)*4;if(d[i+3]<120){d[i+3]=0;continue}const t=BAYER[(y&3)*4+(x&3)],c=[0,1,2].map(k=>Math.max(0,Math.min(255,d[i+k]+t))),q=ALL[LUT[((c[0]>>3)<<10)|((c[1]>>3)<<5)|(c[2]>>3)]];d[i]=q[0];d[i+1]=q[1];d[i+2]=q[2];d[i+3]=255}g.putImageData(img,0,0)}
+const KEY='turm-schmiede-v1';
+const store={get(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return{}}},set(v){try{localStorage.setItem(KEY,JSON.stringify(v))}catch(e){}}};
+
+// example so the bench opens with something on it
+const EX={name:'Grabdorn',type:'sword',tier:'mitte',kind:'einzigartig',wish:'Kälteschaden, schnell',outline:true,
+ px:['................','.............hl.','............hlm.','...........hlm..','..........hlm...','.........hlm....','.....G..hlm.....','.....gGhlm......',
+     '......gG........','......wgG.......','.....w..gG......','....W...........','..rR............','..rr............','................','................'],
+ col:{h:'#eef2f8',l:'#a7b1c2',m:'#6b7587',g:'#a87418',G:'#e2b23c',w:'#482612',W:'#714020',r:'#2a60e0',R:'#a8d0ff'}};
+
+let px=new Array(N*N).fill(null),color='#a7b1c2',tool='pen',mirror=false,guides=true,undo=[],redo=[],curId=null;
+let saved=store.get();saved.items=saved.items||[];
+
+// palette
+$('pal').innerHTML=PAL.map(([n,cs])=>`<div class="palrow"><span>${n}</span><div class="sw">${cs.map(c=>`<button style="background:${c}" data-c="${c}" title="${c}" aria-label="Farbe ${n} ${c}"></button>`).join('')}</div></div>`).join('');
+$('fType').innerHTML=TYPES.map(([n,v])=>`<option value="${v}">${n}</option>`).join('');
+function setColor(c){color=c;$('curSw').style.background=c;$('curHex').textContent=c;$('custom').value=c;
+  document.querySelectorAll('.sw button').forEach(b=>b.classList.toggle('sel',b.dataset.c===c));if(tool==='erase'||tool==='pick')setTool('pen')}
+$('pal').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(b)setColor(b.dataset.c)});
+$('custom').addEventListener('input',e=>setColor(e.target.value));
+function setTool(t){tool=t;document.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('on',b.dataset.tool===t))}
+document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>setTool(b.dataset.tool));
+$('mirror').onclick=()=>{mirror=!mirror;$('mirror').classList.toggle('on',mirror);draw()};
+$('guides').onclick=()=>{guides=!guides;$('guides').classList.toggle('on',guides);draw()};
+
+// history
+const snap=()=>{undo.push(px.slice());if(undo.length>80)undo.shift();redo=[]};
+$('undo').onclick=()=>{if(!undo.length)return;redo.push(px.slice());px=undo.pop();changed()};
+$('redo').onclick=()=>{if(!redo.length)return;undo.push(px.slice());px=redo.pop();changed()};
+$('clear').onclick=()=>{snap();px.fill(null);changed()};
+document.querySelectorAll('[data-shift]').forEach(b=>b.onclick=()=>{const[dx,dy]=b.dataset.shift.split(',').map(Number);snap();const n=new Array(N*N).fill(null);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){const v=px[y*N+x];const X=x+dx,Y=y+dy;if(v&&X>=0&&X<N&&Y>=0&&Y<N)n[Y*N+X]=v}px=n;changed()});
+
+// editor canvas
+const ed=$('ed'),eg=ed.getContext('2d'),S=ed.width/N;
+function draw(){eg.clearRect(0,0,ed.width,ed.height);
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){eg.fillStyle=(x+y)%2?'#16161b':'#1c1c22';eg.fillRect(x*S,y*S,S,S);const v=px[y*N+x];if(v){eg.fillStyle=v;eg.fillRect(x*S,y*S,S,S)}}
+  eg.strokeStyle='rgba(255,255,255,.05)';eg.lineWidth=1;eg.beginPath();for(let i=1;i<N;i++){eg.moveTo(i*S+.5,0);eg.lineTo(i*S+.5,ed.height);eg.moveTo(0,i*S+.5);eg.lineTo(ed.width,i*S+.5)}eg.stroke();
+  const ty=$('fType').value;
+  if(guides&&WEAPON.has(ty)){eg.setLineDash([6,6]);eg.strokeStyle='rgba(255,216,138,.35)';eg.lineWidth=2;eg.beginPath();eg.moveTo(S*.5,ed.height-S*.5);eg.lineTo(ed.width-S*.5,S*.5);eg.stroke();eg.setLineDash([]);
+}
+  if(mirror||guides&&!WEAPON.has(ty)){eg.strokeStyle=mirror?'rgba(255,216,138,.5)':'rgba(255,216,138,.18)';eg.lineWidth=2;eg.beginPath();eg.moveTo(ed.width/2,0);eg.lineTo(ed.width/2,ed.height);eg.stroke()}
+  $('guideHint').textContent=WEAPON.has(ty)?'Waffen schräg zeichnen: Griff unten links, Spitze oben rechts. Den dunklen Umriss setzt das Spiel automatisch, die Farben werden auf die Spielpalette gerundet.':'Rüstung und Schmuck gerade von vorne zeichnen. Mit „Spiegeln“ wird jede Seite gleich. Den dunklen Umriss setzt das Spiel automatisch.'}
+const cellAt=e=>{const r=ed.getBoundingClientRect();return[Math.floor((e.clientX-r.left)/r.width*N),Math.floor((e.clientY-r.top)/r.height*N)]};
+function paint(x,y,v){if(x<0||y<0||x>=N||y>=N)return;px[y*N+x]=v;if(mirror)px[y*N+(N-1-x)]=v}
+function flood(x,y,v){const t=px[y*N+x];if(t===v)return;const st=[[x,y]];while(st.length){const[a,b]=st.pop();if(a<0||b<0||a>=N||b>=N||px[b*N+a]!==t)continue;paint(a,b,v);st.push([a+1,b],[a-1,b],[a,b+1],[a,b-1])}}
+let down=false,last=null,erasing=false;
+ed.addEventListener('contextmenu',e=>e.preventDefault());
+ed.addEventListener('pointerdown',e=>{const[x,y]=cellAt(e);erasing=e.button===2;
+  if(tool==='pick'&&!erasing){const v=px[y*N+x];if(v)setColor(v);return}
+  snap();if(tool==='fill'&&!erasing){flood(x,y,color);changed();return}
+  down=true;last=[x,y];ed.setPointerCapture(e.pointerId);paint(x,y,erasing||tool==='erase'?null:color);changed()});
+ed.addEventListener('pointermove',e=>{if(!down)return;const[x,y]=cellAt(e);let[x0,y0]=last;const dx=Math.abs(x-x0),dy=-Math.abs(y-y0),sx=x0<x?1:-1,sy=y0<y?1:-1;let er=dx+dy;
+  for(let k=0;k<128;k++){paint(x0,y0,erasing||tool==='erase'?null:color);if(x0===x&&y0===y)break;const e2=2*er;if(e2>=dy){er+=dy;x0+=sx}if(e2<=dx){er+=dx;y0+=sy}}last=[x,y];changed()});
+addEventListener('pointerup',()=>{down=false});
+addEventListener('keydown',e=>{if(e.target.matches('input,textarea,select'))return;const k=e.key.toLowerCase();
+  if((e.ctrlKey||e.metaKey)&&k==='z'){e.preventDefault();(e.shiftKey?$('redo'):$('undo')).click()}else if((e.ctrlKey||e.metaKey)&&k==='y'){e.preventDefault();$('redo').click()}
+  else if(k==='s')setTool('pen');else if(k==='e')setTool('erase');else if(k==='f')setTool('fill');else if(k==='p')setTool('pick')});
+
+// sprite exactly like the game: 16x16 + 1px outline → 18x18
+const O=N+2;
+function sprite(){const c=document.createElement('canvas');c.width=c.height=O;const g=c.getContext('2d',{willReadFrequently:true}),out=$('fOutline').checked;
+  const f=(x,y)=>x>=0&&y>=0&&x<N&&y<N&&!!px[y*N+x];
+  for(let y=0;y<O;y++)for(let x=0;x<O;x++){const v=f(x-1,y-1)?px[(y-1)*N+x-1]:null;
+    if(v){g.fillStyle=v;g.fillRect(x,y,1,1)}else if(out&&(f(x-2,y-1)||f(x,y-1)||f(x-1,y-2)||f(x-1,y))){g.fillStyle='#0a0806';g.fillRect(x,y,1,1)}}
+  quantize(g,O,O);return c}
+function previews(){const sp=sprite(),u=$('fKind').value==='einzigartig';
+  const P=(id,fn,q)=>{const c=$(id),g=c.getContext('2d',{willReadFrequently:true});g.imageSmoothingEnabled=false;g.clearRect(0,0,c.width,c.height);fn(g,c);if(q)quantize(g,c.width,c.height)};
+  P('pvInv',g=>{g.fillStyle=u?'#24160a':'#15151a';g.fillRect(0,0,44,44);g.drawImage(sp,5,5)});
+  P('pvTip',g=>{g.fillStyle='#060608';g.fillRect(0,0,80,80);g.drawImage(sp,6,6,68,68)});
+  const ground=(g,a,b,lit)=>{g.fillStyle=a;g.fillRect(0,0,120,80);for(let i=-2;i<6;i++)for(let j=-2;j<6;j++){const x=60+(i-j)*32,y=10+(i+j)*16;g.fillStyle=(i+j)%2?a:b;g.beginPath();g.moveTo(x,y);g.lineTo(x+32,y+16);g.lineTo(x,y+32);g.lineTo(x-32,y+16);g.closePath();g.fill()}
+    if(lit){const r=g.createRadialGradient(60,50,4,60,50,70);r.addColorStop(0,'rgba(0,0,0,0)');r.addColorStop(1,'rgba(4,3,2,.85)');g.fillStyle=r;g.fillRect(0,0,120,80)}
+    g.fillStyle='rgba(0,0,0,.45)';g.beginPath();g.ellipse(60,60,16,6,0,0,7);g.fill();if(u){g.fillStyle='rgba(232,151,58,.3)';g.beginPath();g.ellipse(60,60,16,8,0,0,7);g.fill()}g.drawImage(sp,43,32)};
+  P('pvGrass',g=>ground(g,'#3f8a22','#47962a',false),1);
+  P('pvDark',g=>ground(g,'#3e3328','#463a2e',true),1)}
+
+// code
+const typeName=v=>(TYPES.find(t=>t[1]===v)||TYPES[0])[0];
+function itemData(){return{name:$('fName').value.trim()||'Unbenannt',type:$('fType').value,tier:$('fTier').value,kind:$('fKind').value,wish:$('fWish').value.trim(),outline:$('fOutline').checked,px:px.slice()}}
+function toCode(d){const used=[...new Set(d.px.filter(Boolean))],ch='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';const m={};used.forEach((c,i)=>m[c]=ch[i]||'?');
+  const rows=[];for(let y=0;y<N;y++){let r='';for(let x=0;x<N;x++){const v=d.px[y*N+x];r+=v?m[v]:'.'}rows.push(r)}
+  return['#TURM-ITEM v2','name: '+d.name,'typ: '+typeName(d.type),'stärke: '+d.tier,'art: '+d.kind,'wünsche: '+(d.wish||'–').replace(/\n/g,' '),'umriss: '+(d.outline?'ja':'nein'),
+    'farben: '+used.map(c=>m[c]+'='+c).join(' '),'pixel:',...rows,'#ENDE'].join('\n')}
+function fromCode(txt){const L=txt.split(/\r?\n/).map(s=>s.trim());const get=k=>{const l=L.find(s=>s.toLowerCase().startsWith(k+':'));return l?l.slice(k.length+1).trim():''};
+  const cols={};get('farben').split(/\s+/).forEach(p=>{const[k,v]=p.split('=');if(k&&/^#[0-9a-f]{6}$/i.test(v||''))cols[k]=v});
+  const i=L.findIndex(s=>s.toLowerCase()==='pixel:');if(i<0)throw new Error('Im Code fehlt die Zeile „pixel:“.');
+  const n=(L[i+1]||'').length>=32?32:16,rows=L.slice(i+1,i+1+n);if(rows.length<n||rows.some(r=>r.length<n))throw new Error('Das Pixelbild braucht 32 Zeilen mit je 32 Zeichen.');
+  let p=[];rows.forEach(r=>{for(let x=0;x<n;x++)p.push(r[x]==='.'?null:cols[r[x]]||null)});p=up2(p);
+  const tn=get('typ').toLowerCase(),t=TYPES.find(t=>t[0].toLowerCase()===tn);
+  return{name:get('name')||'Unbenannt',type:t?t[1]:'sword',tier:get('stärke')||'mitte',kind:get('art')==='einzigartig'?'einzigartig':'grundform',wish:get('wünsche').replace(/^–$/,''),outline:get('umriss')!=='nein',px:p}}
+function loadItem(d,id=null){px=up2(d.px);$('fName').value=d.name;$('fType').value=d.type;$('fTier').value=d.tier;$('fKind').value=d.kind;$('fWish').value=d.wish||'';$('fOutline').checked=d.outline!==false;curId=id;undo=[];redo=[];changed()}
+function changed(){draw();previews();$('code').value=toCode(itemData());saved.draft={...itemData(),id:curId};store.set(saved)}
+['fName','fType','fTier','fKind','fWish','fOutline'].forEach(id=>$(id).addEventListener('input',changed));
+
+// clipboard
+const say=t=>{$('msg').textContent=t;clearTimeout(say.t);say.t=setTimeout(()=>$('msg').textContent='',3500)};
+async function copy(text){try{await navigator.clipboard.writeText(text);say('Kopiert. Jetzt im Chat einfügen.')}catch(e){$('code').value=text;$('code').focus();$('code').select();say('Text ist markiert. Mit Strg+C oder ⌘+C kopieren.')}}
+$('copy').onclick=()=>copy(toCode(itemData()));
+$('copyAll').onclick=()=>{if(!saved.items.length){say('Noch keine Items gespeichert.');return}copy(saved.items.map(toCode).join('\n\n'))};
+
+// my items
+function mini(d){const c=document.createElement("canvas");c.width=c.height=N;const g=c.getContext('2d');d.px.forEach((v,i)=>{if(v){g.fillStyle=v;g.fillRect(i%N,i/N|0,1,1)}});return c}
+function renderList(){const l=$('list');l.innerHTML='';if(!saved.items.length){l.innerHTML='<p class="empty">Noch nichts gespeichert. Drück auf „Speichern“, dann landet dein Item hier.</p>';return}
+  saved.items.forEach(d=>{if(d.px.length!==N*N)d.px=up2(d.px);const b=document.createElement('button');b.className='card'+(d.kind==='einzigartig'?' u':'');b.appendChild(mini(d));
+    const t=document.createElement('div');t.innerHTML=`<b></b><small>${typeName(d.type)} · ${d.tier}</small>`;t.querySelector('b').textContent=d.name;b.appendChild(t);
+    if(d.id===curId)b.style.borderColor='var(--gold)';b.onclick=()=>{loadItem(d,d.id);renderList()};l.appendChild(b)})}
+$('save').onclick=()=>{const d={...itemData(),id:curId||Date.now().toString(36)};curId=d.id;const i=saved.items.findIndex(x=>x.id===d.id);if(i>=0)saved.items[i]=d;else saved.items.push(d);store.set(saved);renderList();say('Gespeichert: '+d.name)};
+$('new').onclick=()=>{loadItem({name:'',type:$('fType').value,tier:'mitte',kind:'grundform',wish:'',outline:true,px:new Array(N*N).fill(null)});renderList()};
+$('del').onclick=()=>{if(!curId){say('Dieses Item ist noch nicht gespeichert.');return}saved.items=saved.items.filter(x=>x.id!==curId);curId=null;store.set(saved);renderList();say('Gelöscht.')};
+$('load').onclick=()=>{try{loadItem(fromCode($('imp').value));renderList();say('Geladen.')}catch(e){say(e.message)}};
+
+// boot
+const up2=p=>{const n=Math.round(Math.sqrt(p.length));if(n===N)return p.slice();const o=new Array(N*N).fill(null);for(let y=0;y<N;y++)for(let x=0;x<N;x++)o[y*N+x]=p[(y>>1)*n+(x>>1)]??null;return o};
+// example: a shaded sword, painted small and snapped to the palette
+function exampleSword(){const c=document.createElement('canvas');c.width=c.height=N;const g=c.getContext('2d',{willReadFrequently:true});
+  g.translate(5.5,26.5);g.rotate(-Math.PI/4);
+  const lg=(y0,y1,cs)=>{const q=g.createLinearGradient(0,y0,0,y1);cs.forEach((c2,i)=>q.addColorStop(i/(cs.length-1),c2));return q};
+  g.fillStyle=lg(-2.6,2.6,['#e8eef8','#a8b2c4','#6a7488','#2c3242']);g.beginPath();g.moveTo(6,-2.4);g.lineTo(27,-1.8);g.lineTo(31,0);g.lineTo(27,1.8);g.lineTo(6,2.4);g.closePath();g.fill();
+  g.fillStyle='#2c3242';g.fillRect(7,-.4,18,.8);
+  g.fillStyle=lg(-6,6,['#fff0a8','#c8962a','#6a4a0a']);g.fillRect(4,-6.5,2.4,13);
+  g.fillStyle=lg(-1.4,1.4,['#9a6a40','#5a3a20','#2a1a0c']);g.fillRect(-2,-1.4,6,2.8);
+  const pg=g.createRadialGradient(-3.6,-1,0,-3,0,2.6);pg.addColorStop(0,'#c8e4ff');pg.addColorStop(.5,'#3a7ae0');pg.addColorStop(1,'#0e3a8a');g.fillStyle=pg;g.beginPath();g.arc(-3,0,2.4,0,7);g.fill();
+  g.setTransform(1,0,0,1,0,0);quantize(g,N,N);const d=g.getImageData(0,0,N,N).data,o=[];
+  for(let i=0;i<N*N;i++)o.push(d[i*4+3]>120?toHex([d[i*4],d[i*4+1],d[i*4+2]]):null);return o}
+const exPx=exampleSword();
+const start=saved.draft&&saved.draft.px?saved.draft:{...EX,px:exPx};
+setColor('#a7b1c2');loadItem(start,start.id||null);renderList();
+document.fonts&&document.fonts.ready.then(draw);
+})();
+</script>
