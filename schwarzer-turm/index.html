@@ -418,6 +418,20 @@ body.tvon .skill{padding:8px}
 .svname{background:transparent;border:0;border-bottom:1px dashed #5a4a30;color:#ece4cf;font:inherit;font-size:17px;padding:2px 0;width:100%;outline:none}.svname:focus{border-bottom-color:#e8c878}
 .svbtn{display:flex;gap:5px}.svbtn button{min-height:38px;padding:0 12px;font-size:15px;white-space:nowrap}.svbtn .svdel{padding:0 10px}.svbtn button.arm{background:#6a1a10;color:#ffd8c0}
 @media (max-width:640px){.svrow{grid-template-columns:24px 1fr}.svbtn{grid-column:1 / -1;justify-content:flex-end}}
+/* touch V3: life and mana in the upper corners, the settings coin and tab row fold down from a quiet mark at the top centre,
+   the roll beside the stick and the attack under the right thumb */
+body.tvon .orbw{--os:clamp(84px,12vw,140px)}
+body.tvon .orbw.life{left:calc(6px + env(safe-area-inset-left,0px))}
+body.tvon .orbw.mana{left:auto;right:calc(6px + env(safe-area-inset-right,0px))}
+body.tvon #topinfo{left:calc(clamp(84px,12vw,140px) + 18px + env(safe-area-inset-left,0px));top:calc(10px + env(safe-area-inset-top,0px));max-width:calc(50vw - clamp(84px,12vw,140px) - 60px)}
+body.tvon #log{top:calc(clamp(84px,12vw,140px) + 14px + env(safe-area-inset-top,0px))}
+#tvdrop{position:fixed;top:env(safe-area-inset-top,0px);left:50%;transform:translateX(-50%);width:64px;height:30px;min-height:0;padding:0;background:transparent;border:0;box-shadow:none;color:rgba(255,216,138,.5);font:24px/30px var(--f-sc);text-shadow:0 1px 2px #000,0 0 6px rgba(0,0,0,.8);z-index:51;touch-action:none;-webkit-user-select:none;user-select:none}
+#tvdrop span{display:inline-block;transform:rotate(90deg);transition:transform .18s}#tvdrop.open span{transform:rotate(-90deg)}
+#tvbar{position:fixed;top:calc(30px + env(safe-area-inset-top,0px));left:50%;transform:translateX(-50%);display:flex;gap:8px;align-items:flex-start;z-index:50}
+#tvbar #tvset,#tvbar #tvtabs{position:static;width:56px;height:56px}#tvbar #tvtabs{width:auto;height:auto}
+body.tvon .panel,body.tvon .panel.left,body.tvon .panel.right,body.tvon #pQuest,body.tvon #pMap,body.tvon #pTree{top:calc(92px + env(safe-area-inset-top,0px))}
+body.tvon.tvpanel #tvx{top:calc(96px + env(safe-area-inset-top,0px))!important}
+@media (max-width:900px),(max-height:520px){#tvbar #tvset{width:46px;height:46px}body.tvon .panel,body.tvon .panel.left,body.tvon .panel.right,body.tvon #pQuest,body.tvon #pMap,body.tvon #pTree{top:calc(82px + env(safe-area-inset-top,0px))}body.tvon.tvpanel #tvx{top:calc(86px + env(safe-area-inset-top,0px))!important}}
 </style>
 </head>
 <body>
@@ -5483,24 +5497,26 @@ const _makeRuneL=makeRune;makeRune=function(k){return runeOK()?_makeRuneL(k):mak
 /* ---------- touch V2 for tablets: a fixed stick and dash under the left thumb, attack and six skills under the right,
    potions in the middle, the settings coin and a tab row on top, and panels that slide in from the right ---------- */
 const TPAD={tabs:[['C','pChar','Held'],['I','pInv','Taschen'],['K','pSkill','Können'],['J','pColl','Sammlung'],['L','quests','Chronik'],['M','map','Karte'],['P','tree','Talente']],
-  R:64,tap:null,float:false,pot:'',ride:null};
+  R:64,tap:null,float:false,pot:'',ride:null,open:false};
 // the skill coins sit on two arcs around the attack button: [distance from the right edge, from the bottom] of each centre
 const TVSK=[[272,226],[198,256],[232,166],[160,186],[88,198],[120,262]];
 function tvHtml(){if($('tvstick'))return;document.body.insertAdjacentHTML('beforeend',`
-  <button id="tvset" class="tv" aria-label="Einstellungen und Pause">⚙</button>
-  <div id="tvtabs" class="tv">${TPAD.tabs.map(([k,id,n])=>`<button class="tvt" data-tv="${id}" aria-label="${n}"><b>${k}</b><small>${n}</small></button>`).join('')}</div>
+  <button id="tvdrop" class="tv" aria-label="Knöpfe ein- oder ausklappen"><span>&gt;</span></button>
+  <div id="tvbar" class="tv"><button id="tvset" aria-label="Einstellungen und Pause">⚙</button>
+  <div id="tvtabs">${TPAD.tabs.map(([k,id,n])=>`<button class="tvt" data-tv="${id}" aria-label="${n}"><b>${k}</b><small>${n}</small></button>`).join('')}</div></div>
   <button id="tvx" class="tv" aria-label="Schließen" hidden>✕</button>
   <div id="tvstick" class="tv"><i></i><span>Laufen</span></div>
-  <button id="tvdash" class="tv tvb" aria-label="Angriff">⚔<small>Angriff</small></button>
+  <button id="tvdash" class="tv tvb" aria-label="Ausweichen in Laufrichtung">⟲<small>Ausweichen</small></button>
   <div id="tvextra" class="tv"></div>
   <div id="tvpot" class="tv"></div>
   <div id="tvcl" class="tv"></div>`);
   const pad=(id,fn)=>$(id).addEventListener('touchstart',e=>{e.preventDefault();e.stopPropagation();wake();fn(e)},{passive:false});
   pad('tvset',()=>{if(OVL.has(G.state))ovClose();closeAll();escKey()});
   pad('tvx',()=>tvCloseAll());
-  // the button beside the stick attacks while held, the big one on the right rolls
-  const ab=$('tvdash');ab.addEventListener('touchstart',e=>{e.preventDefault();e.stopPropagation();wake();if(!P)return;ab.classList.add('on');ATK.held=true;ATK.tid=e.changedTouches[0].identifier;atkTick()},{passive:false});
-  const abUp=e=>{for(const t of e.changedTouches)if(t.identifier===ATK.tid){ATK.held=false;ATK.tid=null}ab.classList.remove('on')};ab.addEventListener('touchend',abUp);ab.addEventListener('touchcancel',abUp);
+  // the button beside the stick rolls, the big one on the right attacks while held
+  pad('tvdash',()=>{const b=$('tvdash');b.classList.add('on');setTimeout(()=>b.classList.remove('on'),140);tvDash()});
+  // the quiet mark at the top folds the settings coin and the tab row down and up again
+  pad('tvdrop',()=>{TPAD.open=!TPAD.open;sfx('pick');touchHud()});
   $('tvtabs').addEventListener('touchstart',e=>{const b=e.target.closest('[data-tv]');if(!b)return;e.preventDefault();e.stopPropagation();wake();tvTab(b.dataset.tv)},{passive:false});
   // potions, flask, pickup and the extra coins answer a plain tap
   for(const id of['tvpot','tvextra'])$(id).addEventListener('touchstart',e=>{const b=e.target.closest('[data-tvp]');if(!b||!P||G.state!=='play')return;e.preventDefault();e.stopPropagation();wake();
@@ -5534,7 +5550,7 @@ const tvEnd=e=>{if(e.target!==cv||!$('tvstick'))return;e.preventDefault();e.stop
   for(const t of e.changedTouches){if(t.identifier===JOY.id){JOY.id=null;JOY.v=[0,0];tvStickHome();tvStickDraw();if(P)P.path=[]}else if(t.identifier===tapId){tapId=null;dispatchEvent(new MouseEvent('mouseup',{button:0}))}}};
 addEventListener('touchend',tvEnd,{capture:true,passive:false});addEventListener('touchcancel',tvEnd,{capture:true,passive:false});
 
-function tvCluster(){const sk=mySk();let h=`<button class="tb atk" data-t="dash" aria-label="Ausweichen in Laufrichtung">⟲</button>`;
+function tvCluster(){const sk=mySk();let h=`<button class="tb atk" data-t="atk" aria-label="Angriff">⚔</button>`;
   sk.forEach((s,i)=>{const[x,y]=TVSK[i]||TVSK[0];h+=`<button class="tb sk ${P.sk[s.id]?'':'locked'}" data-t="sk" data-id="${s.id}" style="right:${x-31}px;bottom:${y-31}px" aria-label="${s.n}">${skImg(s.id)}<i class="cd"></i><span class="k">F${s.key}</span></button>`});return h}
 function tvPots(){return`<button class="tvq" data-tvp="life"><img class="px" src="${pxURL('potL')}" alt=""><b id="tvL"></b><small>Heiltrank</small></button>
   <button class="tvq" data-tvp="mana"><img class="px" src="${pxURL('potM')}" alt=""><b id="tvM"></b><small>Manatrank</small></button>
@@ -5543,7 +5559,7 @@ function tvPots(){return`<button class="tvq" data-tvp="life"><img class="px" src
 const _touchHudV=touchHud;touchHud=function(){if(!TOUCH)return;tvHtml();const play=G.state==='play'&&!!P,ovl=OVL.has(G.state)&&!!P,act=play||ovl?tvActive():null,pan=!!act||(play&&panels.some(p=>!$(p).hidden));
   document.body.classList.toggle('tvon',play||ovl);document.body.classList.toggle('tvpanel',pan);
   document.body.classList.toggle('tvdual',!$('pInv').hidden&&(!$('pShop').hidden||!$('pStash').hidden));
-  for(const id of['tvset','tvtabs'])$(id).hidden=!(play||ovl);for(const id of['tvstick','tvdash','tvextra'])$(id).hidden=!play;
+  $('tvdrop').hidden=!(play||ovl);$('tvbar').hidden=!(play||ovl)||!(TPAD.open||pan);$('tvdrop').classList.toggle('open',TPAD.open||pan);for(const id of['tvstick','tvdash','tvextra'])$(id).hidden=!play;
   for(const id of['tvpot','tvcl'])$(id).hidden=!play||pan;
   if(!(play||ovl)){$('tvx').hidden=true;return}
   for(const b of $('tvtabs').children)b.classList.toggle('act',b.dataset.tv===act);
