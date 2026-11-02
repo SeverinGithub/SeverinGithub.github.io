@@ -1044,6 +1044,59 @@ function mk(w,h,f){const c=document.createElement('canvas');c.width=w;c.height=h
 function dia(g,oy=0){g.beginPath();g.moveTo(32,oy);g.lineTo(64,oy+16);g.lineTo(32,oy+32);g.lineTo(0,oy+16);g.closePath()}
 function specks(g,w,h,n,cols,sz=1){for(let k=0;k<n;k++){g.fillStyle=cols[Math.random()*cols.length|0];g.fillRect(Math.random()*w,Math.random()*h,sz,sz)}}
 const SPR={floor:[],grass:[],wall:[],rock:[],cliffL:null,cliffR:null,tower:null};
+// the island's earthen edge: a grass lip, a band of soil with pebbles, faceted rock going dark below, stones, roots hanging out,
+// now and then moss, ivy, mushrooms, a crevice or a few crystals; six of each side, picked per tile
+function cliffVariants(){const N=6,out=[[],[]];
+  const mix=(a,b,t)=>{const p=parseInt(a.slice(1),16),q=parseInt(b.slice(1),16),c=[16,8,0].map(s=>Math.round(((p>>s)&255)+(((q>>s)&255)-((p>>s)&255))*t));return'#'+c.map(v=>v.toString(16).padStart(2,'0')).join('')};
+  const tone=d=>d<12?mix('#5a3c22','#4a3222',d/12):d<28?mix('#4a3222','#3a3436',(d-12)/16):mix('#3a3436','#1c1c22',Math.min(1,(d-28)/(CL-20)));
+  for(let side=0;side<2;side++)for(let v=0;v<N;v++){const R=mulberry(911+side*37+v*101),r=(a,b)=>a+R()*(b-a),L=side===0,dk=L?1:.62;
+    const P=(u,d)=>L?[u*32,16+u*16+d]:[32+u*32,32-u*16+d];
+    // the underside: fixed at the corners so neighbours meet, ragged between
+    const bu=[0,.18,.32,.5,.66,.82,1],bot=bu.map((u,k)=>{const e=L?.8+(.7-.8)*u:.7+(.8-.7)*u;return(k===0||k===bu.length-1)?e*CL:e*CL+r(-8,6)+(k===2+v%3?r(8,16):0)});
+    out[side].push(mk(64,32+CL+14,g=>{
+      const sil=()=>{g.beginPath();const a=P(0,0),b=P(1,0);g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);for(let k=bu.length-1;k>=0;k--){const p=P(bu[k],bot[k]);g.lineTo(p[0],p[1])}g.closePath()};
+      g.save();sil();g.clip();
+      // facets: a jittered grid of rows going down, each triangle its own shade
+      const us=[0,.2,.4,.6,.8,1],ds=[0,5,11,18,27,38,50,63,CL+4],V=ds.map((d,ri)=>us.map((u,ci)=>{const uu=ci&&ci<us.length-1?u+r(-.06,.06):u,dd=ri?d+r(-2.5,2.5):d;return[uu,dd]}));
+      for(let ri=0;ri<ds.length-1;ri++)for(let ci=0;ci<us.length-1;ci++){const a=V[ri][ci],b=V[ri][ci+1],c=V[ri+1][ci+1],e=V[ri+1][ci];
+        for(const tri of[[a,b,c],[a,c,e]]){const dm=(tri[0][1]+tri[1][1]+tri[2][1])/3,col=shade(tone(dm),dk*r(.84,1.14)*(1-.35*Math.min(1,dm/CL)));
+          g.fillStyle=col;g.strokeStyle=col;g.lineWidth=.6;g.beginPath();tri.forEach(([u,d],k)=>{const p=P(u,d);k?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])});g.closePath();g.fill();g.stroke()}}
+      // strata following the edge
+      g.lineWidth=.8;for(const d0 of[16+r(-2,2),31+r(-3,3),47+r(-3,3)]){g.strokeStyle=`rgba(255,240,220,${(.07*dk).toFixed(3)})`;g.beginPath();for(let k=0;k<=8;k++){const p=P(k/8,d0+Math.sin(k*1.7+v)*1.2);k?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])}g.stroke();
+        g.strokeStyle='rgba(0,0,0,.18)';g.beginPath();for(let k=0;k<=8;k++){const p=P(k/8,d0+1+Math.sin(k*1.7+v)*1.2);k?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])}g.stroke()}
+      // pebbles in the soil
+      for(let k=0;k<10;k++){const p=P(r(.04,.96),r(5,13));g.fillStyle=shade(R()<.5?'#8a7a64':'#6a5e50',dk);g.fillRect(p[0]|0,p[1]|0,R()<.3?2:1,1)}
+      // a dark crevice now and then
+      if(R()<.3){const u=r(.25,.75),d=r(26,40),w=r(.07,.12),h=r(5,9),pts=[[u-w,d],[u-w*.3,d-h*.4],[u+w*.4,d-h*.5],[u+w,d+h*.1],[u+w*.2,d+h*.6],[u-w*.6,d+h*.4]];
+        g.fillStyle='#0a0a0e';g.beginPath();pts.forEach(([a,b],k)=>{const p=P(a,b);k?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1])});g.closePath();g.fill()}
+      // stones bedded in the face: a lit facet on the upper left, a dark one below
+      for(let k=0,n=2+(R()*2|0);k<n;k++){const[cx,cy]=P(r(.12,.88),r(10,44)),rr=r(2.2,4.4),pts=[];for(let i=0;i<6;i++){const a=i/6*6.283+r(-.3,.3);pts.push([cx+Math.cos(a)*rr*r(.8,1.15),cy+Math.sin(a)*rr*.75*r(.8,1.15)])}
+        const base=shade('#6e6a62',dk*r(.85,1.1));g.fillStyle=base;g.beginPath();pts.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.closePath();g.fill();
+        g.fillStyle=shade(base,1.3);g.beginPath();g.moveTo(cx,cy);g.lineTo(pts[3][0],pts[3][1]);g.lineTo(pts[4][0],pts[4][1]);g.lineTo(pts[5][0],pts[5][1]);g.closePath();g.fill();
+        g.fillStyle=shade(base,.62);g.beginPath();g.moveTo(cx,cy);g.lineTo(pts[0][0],pts[0][1]);g.lineTo(pts[1][0],pts[1][1]);g.lineTo(pts[2][0],pts[2][1]);g.closePath();g.fill()}
+      // moss on the rock
+      if(R()<.6)for(let c=0,n=1+(R()*2|0);c<n;c++){const[cx,cy]=P(r(.1,.9),r(16,40));for(let k=0;k<14;k++){g.fillStyle=shade(R()<.5?'#3e6e2a':'#5a8a34',dk);g.fillRect(cx+r(-4,4)|0,cy+r(-1.5,1.5)|0,1,1)}}
+      // crystals, rarely
+      if(R()<.08){const[cx,cy]=P(r(.25,.75),r(30,46));for(let k=0;k<3;k++){const a=-1.57+(k-1)*.45,l=r(3,6),x=cx+(k-1)*1.6;g.fillStyle=k===1?'#a8f0ff':'#5ab8e0';g.beginPath();g.moveTo(x-1,cy);g.lineTo(x+Math.cos(a)*l,cy+Math.sin(a)*l);g.lineTo(x+1,cy);g.closePath();g.fill()}
+        g.fillStyle='rgba(200,250,255,.5)';g.fillRect(cx,cy-4,1,2)}
+      g.restore();
+      // the grass lip: a strip along the edge with blades hanging over
+      const G2=['#3a7a22','#4e9a2a','#6ab83a'];g.fillStyle=shade('#3e8424',dk);g.beginPath();{const a=P(0,0),b=P(1,0),c=P(1,2.6),e=P(0,2.6);g.moveTo(a[0],a[1]);g.lineTo(b[0],b[1]);g.lineTo(c[0],c[1]);g.lineTo(e[0],e[1])}g.closePath();g.fill();
+      for(let k=0;k<16;k++){const u=r(0,1),l=r(2,6.5),p=P(u,1.5),q=P(u+r(-.02,.02),1.5+l);g.fillStyle=shade(G2[R()*3|0],dk);g.beginPath();g.moveTo(p[0]-1.2,p[1]);g.lineTo(p[0]+1.2,p[1]);g.lineTo(q[0],q[1]);g.closePath();g.fill()}
+      // mushrooms in the soil
+      if(R()<.3)for(let k=0,n=1+(R()*3|0);k<n;k++){const[x,y]=P(r(.15,.85),r(8,12)),red=R()<.6;g.fillStyle=shade('#e8dcc0',dk);g.fillRect(x|0,y|0,1,2);g.fillStyle=shade(red?'#c83a2a':'#b89060',dk);g.fillRect((x|0)-1,(y|0)-1,3,1);if(red){g.fillStyle='#fff';g.fillRect(x|0,(y|0)-1,1,1)}}
+      // roots: they come out of the soil and hang down, some past the rock, with a few side shoots
+      for(let k=0,n=1+(R()*3|0);k<n;k++){let u=r(.08,.92),d=r(5,11);const len=r(14,58),pts=[P(u,d)];let du=r(-.01,.01);
+        for(let s=4;s<len;s+=3.5){du+=r(-.012,.012);u=clamp(u+du,.02,.98);d+=3.5;pts.push(P(u,d))}
+        for(let i=1;i<pts.length;i++){const w=1.9*(1-i/pts.length)+.5;g.strokeStyle=shade(i<pts.length*.5?'#6a4828':'#4e3420',dk);g.lineWidth=w;g.lineCap='round';g.beginPath();g.moveTo(...pts[i-1]);g.lineTo(...pts[i]);g.stroke()}
+        g.strokeStyle=shade('#9a7448',dk);g.lineWidth=.5;g.beginPath();pts.slice(0,Math.ceil(pts.length*.45)).forEach((p,i)=>i?g.lineTo(p[0]-.5,p[1]):g.moveTo(p[0]-.5,p[1]));g.stroke();
+        for(let b=0;b<2;b++){const i=1+(R()*(pts.length-2)|0),p=pts[i];if(!p)continue;const s=R()<.5?-1:1;g.strokeStyle=shade('#5a3c22',dk);g.lineWidth=.6;g.beginPath();g.moveTo(...p);g.quadraticCurveTo(p[0]+s*3,p[1]+2,p[0]+s*r(3,6),p[1]+r(4,8));g.stroke()}}
+      // ivy now and then, leaves on alternate sides
+      if(R()<.4){let u=r(.1,.9),d=1;const len=r(14,34);g.strokeStyle=shade('#2e5a1e',dk);g.lineWidth=.7;g.beginPath();g.moveTo(...P(u,d));const lv=[];for(;d<len;d+=3){u+=r(-.025,.025);const p=P(u,d);g.lineTo(...p);lv.push(p)}g.stroke();
+        lv.forEach(([x,y],i)=>{const s=i%2?1:-1;g.fillStyle=shade(i%3?'#4e8a2a':'#6aa83a',dk);g.beginPath();g.moveTo(x,y);g.lineTo(x+s*2.6,y-.6);g.lineTo(x+s*1.6,y+1.6);g.closePath();g.fill()})}
+    }))}
+  return out}
+const CLV=(side,i,j)=>{const V=SPR.cliffV;if(!V)return side?SPR.cliffR:SPR.cliffL;return V[side][(((i*73856093)^(j*19349663))>>>0)%V[side].length]};
 function buildSprites(){
   for(let v=0;v<6;v++)SPR.floor.push(mk(64,32,g=>{dia(g);const l=36+v*3;g.fillStyle=`rgb(${l+12},${l+7},${l+2})`;g.fill();g.save();g.clip();specks(g,64,32,90,['#0c0a08','#4a4036','#1a1612']);
     g.strokeStyle='rgba(0,0,0,.16)';g.lineWidth=1;g.beginPath();g.moveTo(32,0);g.lineTo(64,16);g.lineTo(32,32);g.lineTo(0,16);g.closePath();g.stroke();
@@ -1069,7 +1122,7 @@ function buildSprites(){
     specks(g,72,64,140,['#000','#55555c','#2a2a2e']);g.restore()}));
   const cliff=(left)=>mk(64,32+CL,g=>{g.beginPath();if(left){g.moveTo(0,16);g.lineTo(32,32);g.lineTo(32,32+CL*.7);g.lineTo(14,16+CL);g.lineTo(0,16+CL*.8)}else{g.moveTo(32,32);g.lineTo(64,16);g.lineTo(64,16+CL*.8);g.lineTo(48,16+CL);g.lineTo(32,32+CL*.7)}g.closePath();
     g.fillStyle=left?'#2a2a2e':'#151517';g.fill();g.save();g.clip();g.strokeStyle='rgba(0,0,0,.6)';for(let k=0;k<10;k++){const x=rnd(0,64);g.beginPath();g.moveTo(x,10);g.lineTo(x+rnd(-5,5),32+CL);g.stroke()}specks(g,64,32+CL,200,['#000','#4a4a52','#1d1d20']);g.restore()});
-  SPR.cliffL=cliff(true);SPR.cliffR=cliff(false);
+  SPR.cliffL=cliff(true);SPR.cliffR=cliff(false);SPR.cliffV=cliffVariants();
   const D=SPR.deco={bones:[],rubble:[],blood:[],skull:[]};
   for(let v=0;v<4;v++){
     D.bones.push(mk(40,24,g=>{g.lineCap='round';for(let k=0;k<3+v;k++){const x=rnd(8,32),y=rnd(6,18),a=rnd(0,3.14),l=rnd(4,9);g.strokeStyle='#0a0a0c';g.lineWidth=3.2;g.beginPath();g.moveTo(x-Math.cos(a)*l,y-Math.sin(a)*l*.5);g.lineTo(x+Math.cos(a)*l,y+Math.sin(a)*l*.5);g.stroke();g.strokeStyle='#bdb49a';g.lineWidth=1.6;g.stroke()}}));
@@ -1100,11 +1153,11 @@ function voice(e,ch=1){if(Math.random()>ch||G.t<(G.voiceT||0))return;const l=e.l
   if(l==='skel'||l==='archer')h=sample('skel',.5,{rate:rnd(.85,1.1)*(e.scale>1.1?.85:1)});else if(l==='ghoul')h=sample('zombie',.45,{cut:2.2,rate:rnd(.9,1.1)});
   if(h)G.voiceT=G.t+.6}
 // settings live in their own key so a new game keeps them
-const CFGKEY='schwarzer-turm-cfg',CFG=Object.assign({music:70,sfx:80,shake:true,hitstop:true,numbers:true},(()=>{try{return JSON.parse(localStorage.getItem(CFGKEY))||{}}catch(e){return{}}})());
+const CFGKEY='schwarzer-turm-cfg',CFG=Object.assign({music:70,sfx:80,voice:90,shake:true,hitstop:true,numbers:true},(()=>{try{return JSON.parse(localStorage.getItem(CFGKEY))||{}}catch(e){return{}}})());
 function saveCfg(){try{localStorage.setItem(CFGKEY,JSON.stringify(CFG))}catch(e){}}
 let SFXG=null;
 const musVol=()=>G.muted?0:CFG.music/100*.65;
-function applyCfg(){if(SFXG)SFXG.gain.value=CFG.sfx/100;if(mus.a){clearInterval(mus.a._f);mus.a.volume=musVol()}}
+function applyCfg(){if(SFXG)SFXG.gain.value=CFG.sfx/100;if(typeof VO!=='undefined'&&VO.bus)VO.bus.gain.value=(CFG.voice??90)/100;if(mus.a){clearInterval(mus.a._f);mus.a.volume=musVol()}}
 function initAudio(){if(AC)return;try{AC=new(window.AudioContext||window.webkitAudioContext)();SFXG=AC.createGain();SFXG.gain.value=CFG.sfx/100;SFXG.connect(AC.destination);noiseBuf=AC.createBuffer(1,AC.sampleRate*.3,AC.sampleRate);const d=noiseBuf.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}catch(e){AC=null}if(AC)loadSfx()}
 function sfx(type){if(!AC||G.muted)return;const t=AC.currentTime,g=AC.createGain();g.connect(SFXG);
   const tone=(f1,f2,dur,wave='square',vol=.06)=>{const o=AC.createOscillator();o.type=wave;o.frequency.setValueAtTime(f1,t);o.frequency.exponentialRampToValueAtTime(f2,t+dur);g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);o.start(t);o.stop(t+dur)};
@@ -1543,8 +1596,8 @@ function render(){
   // floors
   for(let s=i0+j0;s<=i1+j1;s++)for(let i=Math.max(i0,s-j1);i<=Math.min(i1,s-j0);i++){const j=s-i,t=m.t[j*m.w+i];if(!t)continue;const[sx,sy]=iso(i,j);if(sx<-70||sx>W+70||sy<-40||sy>H+120)continue;
     if(t===7||t===8||t===9){const u=t===9?m.under[j*m.w+i]:t;if(u===4)ctx.drawImage(SPR.grass[(i*7+j*13)%6],sx-32,sy);else if(u===8)ctx.drawImage(SPR.bridge[(i*7+j*13)%3],sx-32,sy);else ctx.drawImage(SPR.flag[(i*7+j*13)%4],sx-32,sy);
-      const v0=m.t[(j+1)*m.w+i]===0,v1=m.t[j*m.w+i+1]===0;if(u===8){if(v0)ctx.drawImage(SPR.bridgeSide[i%4===1?1:0],sx-32,sy);if(v1)ctx.drawImage(SPR.cliffR,sx-32,sy)}else{if(v0)ctx.drawImage(SPR.cliffL,sx-32,sy);if(v1)ctx.drawImage(SPR.cliffR,sx-32,sy)}}
-    else if(t===4||t===3||t===5){ctx.drawImage(SPR.grass[(i*7+j*13)%6],sx-32,sy);if(m.t[(j+1)*m.w+i]===0)ctx.drawImage(SPR.cliffL,sx-32,sy);if(m.t[j*m.w+i+1]===0)ctx.drawImage(SPR.cliffR,sx-32,sy)}
+      const v0=m.t[(j+1)*m.w+i]===0,v1=m.t[j*m.w+i+1]===0;if(u===8){if(v0)ctx.drawImage(SPR.bridgeSide[i%4===1?1:0],sx-32,sy);if(v1)ctx.drawImage(CLV(1,i,j),sx-32,sy)}else{if(v0)ctx.drawImage(CLV(0,i,j),sx-32,sy);if(v1)ctx.drawImage(CLV(1,i,j),sx-32,sy)}}
+    else if(t===4||t===3||t===5){ctx.drawImage(SPR.grass[(i*7+j*13)%6],sx-32,sy);if(m.t[(j+1)*m.w+i]===0)ctx.drawImage(CLV(0,i,j),sx-32,sy);if(m.t[j*m.w+i+1]===0)ctx.drawImage(CLV(1,i,j),sx-32,sy)}
     else if(t===1||t===2||t===6){ctx.drawImage(SPR.floor[(i*7+j*13)%6],sx-32,sy);themeTint(m,i,j,sx,sy);const sh=(Math.sin(i*.27+j*.11)+Math.sin(i*.09-j*.23+1.7)+2)*.1;if(sh>.04){ctx.fillStyle=`rgba(0,0,6,${sh.toFixed(2)})`;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx+32,sy+16);ctx.lineTo(sx,sy+32);ctx.lineTo(sx-32,sy+16);ctx.closePath();ctx.fill()}}}
   if(m.deco)for(const d of m.deco){const[sx,sy]=iso(d.x,d.y);if(sx<-40||sx>W+40||sy<-30||sy>H+30)continue;const c=SPR.deco[d.k][d.v];ctx.drawImage(c,sx-c.width/2,sy-c.height/2)}
   drawDecals();
@@ -3659,7 +3712,7 @@ function mxInit(){if(!AC||MX.out)return;MX.out=AC.createGain();MX.out.gain.value
   MX.boss=AC.createGain();MX.boss.gain.value=0;MX.boss.connect(MX.out);const dl=AC.createBiquadFilter();dl.type='lowpass';dl.frequency.value=240;const dg=AC.createGain();dg.gain.value=.07;dl.connect(dg);dg.connect(MX.boss);
   for(const[f,dt]of[[55,0],[82.4,7],[110,-5]]){const o=AC.createOscillator();o.type='sawtooth';o.frequency.value=f;o.detune.value=dt;o.connect(dl);o.start()}MX.next=0;MX.beat=0;MX.duck=1}
 function drum(t,f0,amp,len=.45){const o=AC.createOscillator(),g=AC.createGain();o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(36,t+len*.55);g.gain.setValueAtTime(amp,t);g.gain.exponentialRampToValueAtTime(.001,t+len);o.connect(g);g.connect(MX.boss);o.start(t);o.stop(t+len+.05)}
-function updMusicLayers(){if(!AC||!P)return;mxInit();if(!MX.out)return;const now=AC.currentTime,v=musVol();
+function updMusicLayers(){if(!AC||!P)return;mxInit();if(!MX.out)return;const now=AC.currentTime,v=G.state==='title'?0:musVol();
   const boss=mus.key!=='boss'&&G.state==='play'&&G.map&&G.map.enemies.some(e=>e.boss&&!e.dead&&e.aggro&&hyp(e.x-P.x,e.y-P.y)<16);
   const night=G.map&&G.map.world?nightA():0,rain=G.map&&G.map.world&&G.wx&&G.wx.k==='rain'?G.wx.i:0;
   MX.out.gain.setTargetAtTime(v,now,.3);MX.boss.gain.setTargetAtTime(boss?1:0,now,boss?.5:2.5);MX.pad.gain.setTargetAtTime(night*(boss?.2:1),now,2);MX.rain.gain.setTargetAtTime(rain*.22,now,1.5);
@@ -3763,7 +3816,7 @@ function showMenu(v,msg=''){menuView=v;$('menu').hidden=false;const ingame=G.sta
     <button class="mbtn" data-m="reload">Grafik neu laden (R)</button><button class="mbtn" data-m="hardreload">Seite neu laden · Spielstand bleibt</button><button class="mbtn" data-m="newgame">Neues Spiel beginnen</button><div class="msg" role="status">${msg}</div>`;
   else if(v==='settings'){const sl=(k,n)=>`<label class="mrow"><span>${n}</span><input type="range" min="0" max="100" step="5" value="${CFG[k]}" data-cfg="${k}" id="cfg-${k}"><output>${CFG[k]}</output></label>`,
       ck=(k,n)=>`<label class="mcheck"><span>${n}</span><input type="checkbox" data-cfg="${k}" id="cfg-${k}" ${CFG[k]?'checked':''}></label>`;
-    b.innerHTML=`<h2>Einstellungen</h2><h3>Ton</h3>${sl('music','Musik')}${sl('sfx','Effekte')}<label class="mcheck"><span>Alles stumm (M)</span><input type="checkbox" data-cfg="mute" id="cfg-mute" ${G.muted?'checked':''}></label>
+    b.innerHTML=`<h2>Einstellungen</h2><h3>Ton</h3>${sl('music','Musik')}${sl('sfx','Effekte')}${sl('voice','Stimmen')}<label class="mcheck"><span>Alles stumm (M)</span><input type="checkbox" data-cfg="mute" id="cfg-mute" ${G.muted?'checked':''}></label>
       <h3>Kampf</h3>${ck('shake','Bildschirmwackeln')}${ck('hitstop','Trefferstopp')}${ck('numbers','Schadenszahlen')}<button class="mbtn" data-m="back">Zurück</button>`}
   else if(v==='controls')b.innerHTML=`<h2>Steuerung</h2>${KEYS_HTML}<button class="mbtn" data-m="back">Zurück</button>`;
   else if(v==='confirm')b.innerHTML=`<h2>Sicher?</h2><p class="hint" style="text-align:center;margin:0">${msg}</p><button class="mbtn" data-m="yes">Ja, neu beginnen</button><button class="mbtn" data-m="back">Abbrechen</button>`;
@@ -3776,7 +3829,7 @@ function contInfo(){const d=loadData();$('btnCont').hidden=!d;if(d)$('contInfo')
 function titleBackdrop(){P=newPlayer();resetTransient();recalc();P.hp=P.d.life;G.seed=4242;G.maps={0:genTown()};G.map=G.maps[0];P.x=G.map.start.x-2;P.y=G.map.start.y-4;camX=P.x;camY=P.y;G.map.objs=G.map.objs.filter(o=>o.type!=='merchant');
   G.tele=[];G.proj=[];G.fx=[];G.rings=[];G.bolts=[];G.texts=[];G.lights=[];G.glutmalShown=null}
 function toTitle(){save();closeAll();$('menu').hidden=true;menuView=null;G.state='title';G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS);
-  $('hud').hidden=true;$('topinfo').hidden=true;$('bossbar').hidden=true;$('target').hidden=true;titleBackdrop();contInfo();$('title').hidden=false;playMusic('town')}
+  $('hud').hidden=true;$('topinfo').hidden=true;$('bossbar').hidden=true;$('target').hidden=true;titleBackdrop();contInfo();$('title').hidden=false;playMusic(null)}
 function askNew(){if(loadData()&&G.state!=='play'){confirmFn=()=>{closeMenu();pickClass()};showMenu('confirm','Dein bisheriger Spielstand wird dabei überschrieben.')}else{closeMenu();pickClass()}}
 document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('[data-cls]');if(c){closeMenu();startNew(c.dataset.cls)}});
 $('menu').addEventListener('click',e=>{const t=e.target.closest('[data-m]');if(!t){if(e.target.id==='menu'&&G.state!=='title')escKey();return}const m=t.dataset.m;
@@ -3786,7 +3839,7 @@ $('menu').addEventListener('click',e=>{const t=e.target.closest('[data-m]');if(!
 $('menu').addEventListener('input',e=>{const t=e.target,k=t.dataset.cfg;if(!k)return;
   if(k==='mute'){G.muted=t.checked;if(G.muted){G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS)}applyCfg();return}
   CFG[k]=t.type==='checkbox'?t.checked:+t.value;if(t.nextElementSibling&&t.nextElementSibling.tagName==='OUTPUT')t.nextElementSibling.value=t.value;applyCfg();saveCfg();
-  if(k==='sfx'&&AC)sample('sword',.55)});
+  if(k==='sfx'&&AC)sample('sword',.55);if(k==='voice'&&AC&&!(VO.src&&AC.currentTime<VO.end))voice(pick(['vodal','vsmith','vquest','vtrade']))});
 $('title').addEventListener('click',e=>{const t=e.target.closest('[data-m]');if(t){initAudio();showMenu(t.dataset.m)}});
 addEventListener('pagehide',()=>{if(G.state==='play'||G.state==='paused')save()});
 function startNew(cls='wanderer'){
@@ -6942,7 +6995,7 @@ function trialTick(){const m=G.map;if(!m||m.kind!=='dungeon'||!P)return;for(cons
   o.sealed=false;banner('PRÜFUNG BESTANDEN','Die Prüfungstruhe öffnet ihr Siegel','',2600);sample('lvl',.5)||sfx('lvl');shock(o.x,o.y,3,'255,220,140',.7,3);addLight(o.x,o.y,260,1,1)}}
 
 // where they stand: many barrels and crates, now and then something finer
-function chestTier(r,deep){const x=r();return x<.012?'gold':x<.024?'emerald':x<.07?'crystal':x<.15?'royal':x<(deep?.34:.3)?'iron':'wood'}
+function chestTier(r,deep){const x=r();return x<.005?'gold':x<.01?'emerald':x<.035?'crystal':x<.09?'royal':x<(deep?.27:.24)?'iron':'wood'}
 function dungeonChests(m){const{w,t}=m,T=(i,j)=>t[j*w+i],f=m.floor||1,n8=(i,j)=>{let n=0;for(let a=-1;a<=1;a++)for(let b=-1;b<=1;b++)if((a||b)&&T(i+a,j+b)===1)n++;return n};
   for(const o of m.objs)if(o.type==='chest'&&!o.ct&&!o.secret&&!o.star)o.ct=chestTier(R,f>=6);
   const busy=[...m.objs],ok=(x,y,d=1.4)=>!busy.some(o=>hyp(o.x-x,o.y-y)<d)&&hyp(x-m.start.x,y-m.start.y)>3;
@@ -6962,7 +7015,7 @@ const _populateCh=populate;populate=function(m){_populateCh(m);if(m.kind!=='dung
 const CHOW={village:[4,8],camp:[3,6],ruins:[2,4],wild:[1,3],forest:[1,3],grave:[1,2],rock:[0,2],boss:[1,3]};
 const _owContentCh=owContent;owContent=function(m,cx,cy){const c=_owContentCh(m,cx,cy),I=islandOf(cx,cy);if(!I||I.kind==='home')return c;
   const Rg=mulberry(Math.floor(hsh(cx,cy,131)*1e9)),W0=m.w,t=m.t,taken=[...c.objs,...c.props,...c.blocks.map(b=>({x:b.i+.5,y:b.j+.5}))];
-  for(const o of c.objs)if(o.type==='chest'&&!o.ct){const x=Rg();o.ct=x<.015?'gold':x<.03?'emerald':x<.08?'crystal':x<.17?'royal':x<.34?'iron':'wood'}
+  for(const o of c.objs)if(o.type==='chest'&&!o.ct){const x=Rg();o.ct=x<.006?'gold':x<.012?'emerald':x<.04?'crystal':x<.1?'royal':x<.27?'iron':'wood'}
   const place=(ct)=>{for(let g=0;g<30;g++){const a=Rg()*6.283,r=2.5+Rg()*(I.r-3.5),x=I.x+Math.cos(a)*r,y=I.y+Math.sin(a)*r,v=t[Math.floor(y)*W0+Math.floor(x)];
     if(!(v===4||v===7)||taken.some(o=>hyp(o.x-x,o.y-y)<1.6))continue;c.objs.push({type:'chest',ct,x,y,open:false});taken.push({x,y});return[x,y]}return null};
   const[n0,n1]=CHOW[I.kind]||[0,1];for(let k=n0+Math.floor(Rg()*(n1-n0+1));k--;){const p=place(Rg()<.5?'barrel':'crate');if(p&&Rg()<.4){const q=place(Rg()<.5?'barrel':'crate')}}
@@ -7088,11 +7141,13 @@ $('tmenu').querySelector('#btnNew').insertAdjacentHTML('afterend','<button class
 /* ---------- voices: Odalinde, Brannoc, Eldrik and the travelling traders say a line when you step up to them ---------- */
 Object.assign(SFXF,{vodal:4,vsmith:4,vquest:5,vtrade:5});
 const VO={k:null,src:null,end:0,last:{}};
+// the voices have their own volume, apart from the effects
+function voG(){if(!VO.bus){VO.bus=AC.createGain();VO.bus.connect(AC.destination)}VO.bus.gain.value=(CFG.voice??90)/100;return VO.bus}
 function voice(k){if(!AC||G.muted)return;const L=SBUF[k];if(!L||!L.length)return;
   // the same person does not start over while still speaking; someone else cuts in
   if(VO.src&&AC.currentTime<VO.end){if(VO.k===k)return;try{VO.g.gain.setTargetAtTime(0,AC.currentTime,.05);VO.src.stop(AC.currentTime+.2)}catch(e){}}
   let i=Math.floor(Math.random()*L.length);if(L.length>1&&i===VO.last[k])i=(i+1+Math.floor(Math.random()*(L.length-1)))%L.length;VO.last[k]=i;
-  const s=AC.createBufferSource(),g=AC.createGain();s.buffer=L[i];g.gain.value=1;s.connect(g);g.connect(SFXG);s.start();Object.assign(VO,{k,src:s,g,end:AC.currentTime+L[i].duration});
+  const s=AC.createBufferSource(),g=AC.createGain();s.buffer=L[i];g.gain.value=1;s.connect(g);g.connect(voG());s.start();Object.assign(VO,{k,src:s,g,end:AC.currentTime+L[i].duration});
   // the music steps back while they talk
   const a=mus.a;if(a){fadeAudio(a,musVol()*.35,300);s.onended=()=>{if(VO.src===s&&mus.a===a)fadeAudio(a,musVol(),900)}}}
 const voiceOf=o=>!o?null:o.type==='smith'?'vsmith':o.type==='chronist'?'vquest':o.type==='merchant'?(isHomeMerchant(o)?'vodal':'vtrade'):null;
