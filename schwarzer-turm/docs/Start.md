@@ -1,0 +1,32 @@
+---
+tags: [index]
+---
+# Der Schwarze Turm – Projekt-Vault
+
+Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose Himmelsinseln (Overworld), vier Klassen, Runen, Online-Multiplayer per PeerJS. Alles steckt in **einer einzigen Datei**: `schwarzer-turm/index.html` (~7.860 Zeilen, ~1 MB).
+
+- Live: GitHub Pages des Repos `SeverinGithub/SeverinGithub.github.io`, Pfad `/schwarzer-turm/`
+- Artefakt (Vorschau auf claude.ai): https://claude.ai/artifact/RyXp68BqnpmdkzTHnvAd8z – zuletzt **v65**
+- Letzter Stand: Commit `2aec3eb` (2026-11-02), gepusht auf `main`
+
+## Zum Einstieg in einer neuen Session
+1. [[Arbeitsweise]] lesen – feste Regeln (Push nur nach „Ja, live schalten“, Artefakt immer aktualisieren, Commit-Format).
+2. [[Architektur]] – wie der Code aufgebaut ist und wie man neue Module einhängt.
+3. [[Code-Landkarte]] – wo die wichtigen Funktionen liegen.
+4. [[Test-Workflow]] – wie man im Browser testet (`_t.html`, `__ev`).
+5. [[Offene Punkte]] – was noch angeboten oder unklar ist.
+
+## Features (Details zu allem, was in den letzten Sessions gebaut wurde)
+- [[Steuerung]] – Tastatur, Tab/V, iPad-Knöpfe
+- [[Arena]] – Statue, nur besiegte Gegner, keine Beute
+- [[Multiplayer]] – Sync, Quest-Angleich, Statue für Gäste, sichtbare Fähigkeiten
+- [[Runen und Runenwörter]]
+- [[Schleifstein]]
+- [[Magierrobe]]
+- [[Titelbildschirm]]
+- [[Overworld Inseln und Brücken]]
+- [[Ausrüstung und Kleinigkeiten]] – Zweihand-Anzeige, Umhänge entfernt, Quest-Dialog-Fix
+
+## Verlauf
+- [[Entscheidungen]] – was wann warum so entschieden wurde
+- [[Changelog]] – alle Commits mit vollständigen Nachrichten
