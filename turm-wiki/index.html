@@ -1,0 +1,202 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Turm-Kompendium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0c0b0a;--ink2:#15120f;--ink3:#1e1a15;--line:#3a3328;--line2:#58492f;--paper:#ece4cf;--dim:#a39a86;--gold:#e3b04b;--ember:#ff8a2a;--blood:#c42a1c;
+  --r-normal:#ece4cf;--r-magic:#7aa4ff;--r-rare:#ffd94f;--r-unique:#e8973a;--r-rune:#f0b25a;--r-runeword:#cdbf94;--good:#8fe36a;
+  --f-display:'Pirata One',Georgia,serif;--f-body:'IM Fell English',Georgia,serif;--f-sc:'IM Fell English SC',Georgia,serif}
+*{box-sizing:border-box}html,body{margin:0;background:var(--ink);color:var(--paper);font:17px/1.45 var(--f-body)}
+body{background:radial-gradient(1200px 600px at 70% -10%,#2a1a0c 0,transparent 60%),radial-gradient(900px 500px at -10% 110%,#1a0c08 0,transparent 60%),var(--ink);min-height:100vh}
+a{color:var(--gold)}img.px{image-rendering:pixelated}
+header{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:10px 20px;background:linear-gradient(#0c0b0af2,#0c0b0ad8);border-bottom:1px solid var(--line);backdrop-filter:blur(4px)}
+header h1{margin:0;font:400 30px/1 var(--f-display);color:var(--gold);letter-spacing:.5px;white-space:nowrap;text-shadow:0 0 18px #ff8a2a40}
+header h1 small{display:block;font:13px var(--f-sc);color:var(--dim);letter-spacing:1.5px}
+#q{flex:1;max-width:420px;margin-left:auto;background:var(--ink2);border:1px solid var(--line2);color:var(--paper);font:16px var(--f-body);padding:8px 12px;border-radius:2px;outline:none}
+#q:focus{border-color:var(--gold);box-shadow:0 0 0 3px #e3b04b22}
+.wrap{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 62px)}
+nav{border-right:1px solid var(--line);padding:16px 0;position:sticky;top:62px;height:calc(100vh - 62px);overflow:auto}
+nav a{display:flex;justify-content:space-between;padding:7px 20px;color:var(--paper);text-decoration:none;font:18px var(--f-sc);border-left:3px solid transparent}
+nav a span{color:var(--dim);font:14px var(--f-body)}
+nav a:hover{background:#ffffff08}nav a.on{border-left-color:var(--ember);background:linear-gradient(90deg,#ff8a2a1c,transparent);color:var(--gold)}
+nav .sep{margin:14px 20px 6px;font:12px var(--f-sc);color:var(--dim);letter-spacing:2px;text-transform:uppercase}
+main{padding:22px 28px 60px;min-width:0}
+h2{font:400 38px/1.1 var(--f-display);color:var(--gold);margin:0 0 4px}
+.lead{color:var(--dim);margin:0 0 20px;max-width:760px}
+h3{font:400 24px var(--f-display);color:var(--paper);margin:28px 0 10px;padding-bottom:4px;border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:10px}
+.card{background:linear-gradient(#1a1612,#100e0b);border:1px solid var(--line);padding:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;text-align:center;transition:border-color .12s,transform .12s;min-width:0}
+.card:hover{border-color:var(--gold);transform:translateY(-2px)}
+.card .pic{height:112px;width:100%;display:flex;align-items:flex-end;justify-content:center;background:radial-gradient(closest-side,#2c241a,transparent);margin-bottom:6px}
+.card .pic img{max-height:108px;max-width:100%}
+.card .nm{font:18px/1.15 var(--f-sc)}.card .sub{font-size:14px;color:var(--dim)}
+.card .tags{margin-top:5px;display:flex;flex-wrap:wrap;gap:4px;justify-content:center}
+.tag{font:12px var(--f-sc);padding:1px 6px;border:1px solid var(--line2);color:var(--dim);border-radius:2px;white-space:nowrap}
+.e-fire{color:#ffb070;border-color:#7a3a14}.e-frost{color:#9ad0ff;border-color:#2a5070}.e-poison{color:#9ae070;border-color:#2e5a1e}.e-light{color:#fff07a;border-color:#6a6020}
+.c-normal{color:var(--r-normal)}.c-magic{color:var(--r-magic)}.c-rare{color:var(--r-rare)}.c-unique{color:var(--r-unique)}.c-rune{color:var(--r-rune)}.c-runeword{color:var(--r-runeword)}
+.tw{overflow-x:auto;max-width:100%}table{border-collapse:collapse;width:100%;font-size:15px}th,td{padding:5px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font:14px var(--f-sc);color:var(--dim);font-weight:400}tr:hover td{background:#ffffff05}
+.num{text-align:right;font-variant-numeric:tabular-nums}
+.mod{color:var(--r-magic)}
+.list{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:14px;align-items:flex-start;background:linear-gradient(#1a1612,#100e0b);border:1px solid var(--line);padding:12px 14px}
+.row .ic{flex:0 0 auto;width:72px;display:flex;justify-content:center}.row .ic img{max-width:72px;max-height:110px}
+img.z{zoom:2}img.it{zoom:1.5;max-height:72px!important}.card .pic img.it{max-height:72px}
+.row .bd{flex:1;min-width:0}.row .ttl{font:20px var(--f-sc)}.row .meta{color:var(--dim);font-size:14px}
+.cols{columns:2 300px;column-gap:24px}
+/* detail drawer */
+#scrim{position:fixed;inset:0;background:#000a;opacity:0;pointer-events:none;transition:opacity .15s;z-index:9}
+#dr{position:fixed;top:0;right:0;bottom:0;width:min(560px,100vw);background:linear-gradient(#1b1611,#0e0c0a);border-left:1px solid var(--line2);z-index:10;transform:translateX(102%);transition:transform .2s;overflow:auto;padding:22px 24px 40px}
+body.open #scrim{opacity:1;pointer-events:auto}body.open #dr{transform:none}
+#dr .x{position:absolute;top:10px;right:12px;background:none;border:1px solid var(--line2);color:var(--paper);font:20px/1 var(--f-body);width:34px;height:34px;cursor:pointer}
+#dr .hero{display:flex;justify-content:center;align-items:flex-end;min-height:180px;background:radial-gradient(closest-side,#33281b,transparent);margin:10px 0 14px}
+#dr .hero img{max-width:100%;max-height:340px}#dr .hero img.big{height:220px;width:auto}
+#dr h2{font-size:34px;padding-right:40px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 16px;margin:12px 0}.kv b{font:15px var(--f-sc);color:var(--dim);font-weight:400}
+.note{font-size:14px;color:var(--dim);font-style:italic;margin-top:12px}
+.tale{font-style:italic;color:#d8cfb8;border-left:2px solid var(--line2);padding-left:12px;margin:10px 0}
+#load{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:var(--ink);z-index:20;font:28px var(--f-display);color:var(--gold)}
+#load small{font:15px var(--f-body);color:var(--dim)}
+.empty{color:var(--dim);font-style:italic}
+@media (max-width:760px){.wrap{grid-template-columns:1fr}nav{position:static;height:auto;display:flex;overflow-x:auto;padding:0;border-right:0;border-bottom:1px solid var(--line)}
+  nav a{border-left:0;border-bottom:3px solid transparent;white-space:nowrap;padding:10px 12px;gap:6px}nav a.on{border-bottom-color:var(--ember)}nav .sep{display:none}
+  header{flex-wrap:wrap;padding:10px 16px}#q{max-width:none;flex-basis:100%}main{padding:16px}.grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}}
+</style></head><body>
+<div id="load">Der Turm wird geöffnet …<small id="lst">Spieldatei wird gelesen</small></div>
+<header><h1>Der Schwarze Turm<small>Kompendium</small></h1><input id="q" type="search" placeholder="Suchen: Gegner, Gegenstand, Rune …" autocomplete="off"></header>
+<div class="wrap"><nav id="nav"></nav><main id="main"></main></div>
+<div id="scrim"></div><aside id="dr"></aside>
+<script>
+(()=>{
+/* the wiki owns no data of its own: it opens the game hidden, reads every table and lets the game draw its own pictures */
+let GW=null,D=null;const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+async function loadGame(){const src=await (await fetch('../schwarzer-turm/index.html',{cache:'no-cache'})).text(),i=src.lastIndexOf('})();');
+  const html=src.slice(0,i)+';window.__ev=s=>eval(s);'+src.slice(i);
+  const f=document.createElement('iframe');f.setAttribute('aria-hidden','true');f.tabIndex=-1;f.style.cssText='position:fixed;left:-3000px;top:0;width:1280px;height:800px;border:0;pointer-events:none';
+  // the hidden game never gets a frame: no loop, no music, no saving, only its tables and its brushes
+  f.srcdoc=html.replace('<head>','<head><base href="../schwarzer-turm/"><script>window.requestAnimationFrame=()=>0;window.setInterval=()=>0<\/script>');document.body.appendChild(f);await new Promise(r=>f.onload=r);
+  return f.contentWindow}
+
+/* runs inside the game: everything here sees the game's own names */
+function EXTRACT(){
+  const ELN={fire:'Feuer',frost:'Kälte',cold:'Kälte',poison:'Gift',light:'Blitz'};const eln=k=>k?(EL[k]&&EL[k].n)||ELN[k]||k:null;
+  const mt=(k,v)=>{try{return MODTXT[k]?MODTXT[k](v):k+' '+v}catch(e){return k+' '+v}};const mods=m=>MODORDER.filter(k=>m&&m[k]!=null).concat(Object.keys(m||{}).filter(k=>!MODORDER.includes(k))).map(k=>mt(k,m[k]));
+  const atML=(ml,f)=>{const o=G.mlvl;G.mlvl=ml;try{return f()}finally{G.mlvl=o}};
+  const r1=x=>Math.round(x*10)/10,ri=x=>Math.round(x);
+  const foeStats=mk=>[1,10,20,40].map(ml=>atML(ml,()=>{const e=mk();return{ml,hp:ri(e.max||e.hp),dmg:[ri(e.dmg[0]),ri(e.dmg[1])],xp:ri(e.xp)}}));
+  const MOVE={slam:'Stampfer',sweep:'Rundschlag',charge:'Ansturm',nova:'Feuerring',summon:'Beschwörung',meteor:'Meteor'};
+  const FAM={};for(const k in MON)FAM[k]=MON[k].n;
+  const foes=Object.values(VAR).map(v=>{const d=MON[v.base]||{};return{id:v.id,n:v.n,fam:v.base,famN:FAM[v.base]||v.base,kind:d.kind==='ranged'?'Fernkampf':'Nahkampf',elem:v.elem,elemN:eln(v.elem),proj:v.proj,
+    minF:v.minF,w:v.w,scale:r1((d.scale||1)*v.scale),spd:r1((d.spd||0)*v.spd),range:d.range,stats:(()=>{try{return foeStats(()=>makeEnemy(v.id,0,0))}catch(e){return[]}})(),
+    mul:{hp:v.hp,dmg:v.dmg,spd:v.spd}}});
+  const bosses=[];
+  BOSSES.forEach((b,i)=>bosses.push({id:'t'+i,n:b.n,where:'Turm · Ebene '+(3*(i+1))+', dann alle 9 Ebenen stärker wieder',moves:b.moves.map(m=>MOVE[m]||m),mk:'makeBoss('+3*(i+1)+',0,0)'}));
+  WB.forEach((b,i)=>bosses.push({id:b.id,n:b.n,where:'Himmelsinseln · ca. '+String(b.dist).replace('.',',')+' Inseln vom Hügel entfernt',moves:b.moves.map(m=>MOVE[m]||m),mk:'makeWBoss('+i+',0,0)',minions:(b.min||[]).map(k=>(VAR[k]&&VAR[k].n)||(MON[k]&&MON[k].n)||k)}));
+  if(typeof makeRgBoss==='function')bosses.push({id:'rgk',n:'Ser Haldor, der Riesenritter',where:'Riesenkloster',moves:['Ansturm','Rundschlag','Stampfer','Beschwörung'],mk:'makeRgBoss(0,0)'});
+  for(const b of bosses){try{const f=new Function('return '+b.mk);b.stats=[1,10,20,40].map(ml=>atML(ml,()=>{const e=eval(b.mk);b.n=e.name||b.n;b.sub=e.bsub||'';return{ml,hp:ri(e.max||e.hp),dmg:[ri(e.dmg[0]),ri(e.dmg[1])],xp:ri(e.xp)}}));const e=eval(b.mk);b.scale=r1(e.scale)}catch(x){b.stats=[];b.err=String(x)}}
+  const SN=SLOTNAME,SC={};for(const k in SLOTCODE)SC[SLOTCODE[k]]=SN[k];
+  const items=Object.values(BASE).map(b=>({n:b.n,slot:b.slot,slotN:SN[b.slot],lvl:b.lvl,dmg:b.dmg,speed:b.speed,str:b.str,dex:b.dex,twoH:!!b.twoH,cls:b.cls,def:b.def,block:b.block,shape:b.shape||b.n,tier:b.tier||'',mage:!!b.mage,dual:!!b.dual}));
+  const uniq=UNIQ.map(u=>({n:u.n,b:u.b,lvl:u.lvl,slotN:BASE[u.b]?SN[BASE[u.b].slot]:'',mods:mods(u.m)}));
+  const runes=RUNES.map(r=>({k:r.k,n:r.n,l:r.l,w:mods(r.w),a:mods(r.a)}));
+  const RN=Object.fromEntries(RUNES.map(r=>[r.k,r.n]));
+  const rw=RW.map(r=>({n:r.n,slots:r.s.map(s=>SN[s]||s),runes:r.r.map(k=>RN[k]||k),l:r.l,mods:mods(r.m)}));
+  const aff=AFF.map(a=>({k:a.k,pre:!!a.p,slots:[...a.s].map(c=>SC[c]||c),names:a.n,tiers:a.n.map((n,t)=>{try{return a.r(t)}catch(e){return null}}),txt:(()=>{try{return mt(a.k,'X')}catch(e){return a.k}})(),minT:a.minT||0}));
+  const skd=(s,l)=>{try{return s.desc(l)}catch(e){return''}},skm=(s,l)=>{try{return typeof s.mana==='function'?s.mana(l):s.mana}catch(e){return null}};
+  const sk=s=>({id:s.id,n:s.n,req:s.req,cd:s.cd,mana1:skm(s,1),mana10:skm(s,10),d1:skd(s,1),d10:skd(s,10)});
+  const cls=Object.entries(CLS).map(([id,c])=>({id,n:c.n,d:c.d,stats:c.stats,skills:c.skills.map(k=>SKBY[k]).filter(Boolean).map(sk)}));
+  const used=new Set(cls.flatMap(c=>c.skills.map(s=>s.id)));const other=SKILLS.filter(s=>!used.has(s.id)).map(sk);
+  const tales=Object.entries(TALES).map(([k,t])=>({k,n:t[0],t:t[1]}));
+  return JSON.stringify({foes,bosses,items,uniq,runes,rw,aff,cls,other,tales})}
+
+/* also inside the game: pictures, drawn by the game's own hands and trimmed to what is painted */
+function PICS(){
+  const trim=c=>{const g=c.getContext('2d'),d=g.getImageData(0,0,c.width,c.height).data;let x0=c.width,y0=c.height,x1=-1,y1=-1;
+    for(let y=0;y<c.height;y++)for(let x=0;x<c.width;x++)if(d[(y*c.width+x)*4+3]>8){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
+    if(x1<0)return c.toDataURL();const p=4,o=document.createElement('canvas');o.width=x1-x0+1+p*2;o.height=y1-y0+1+p*2;o.getContext('2d').drawImage(c,x0-p,y0-p,o.width,o.height,0,0,o.width,o.height);return o.toDataURL()};
+  const foe=(e,s)=>{const sz=Math.ceil(70*Math.max(1,e.scale||1)),c=document.createElement('canvas');c.width=sz*s*2;c.height=sz*s*2;const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.scale(s,s);
+    const a=(W/2-CX)/32,b=(H/2-CY)/16;e.x=(a+b)/2;e.y=(b-a)/2;e.face=.9;e.anim=0;e.flash=0;e.hitT=0;e.lungeT=0;e.dead=false;const[sx,sy]=iso(e.x,e.y);g.translate(sz-sx,sz*1.5-sy);
+    const c0=ctx,t0=G.tele;ctx=g;G.tele=[];try{drawEnemy(e)}finally{ctx=c0;G.tele=t0}return trim(c)};
+  const item=(b,rar)=>{const B=BASE[b];if(!B)return'';const it={id:UID++,b,slot:B.slot,cls:B.cls,rar:rar||'normal',ilvl:B.lvl,mods:{},req:{lvl:B.lvl,str:B.str,dex:B.dex},name:b};
+    if(B.dmg){it.dmg=B.dmg.slice();it.speed=B.speed;it.twoH=B.twoH}if(B.def)it.def=B.def;if(B.block)it.block=B.block;return invIcon(it)};
+  const rune=k=>invIcon((typeof _makeRuneL==='function'?_makeRuneL:makeRune)(k));
+  window.WKP={foe:id=>foe(makeEnemy(id,0,0),3),boss:mk=>foe(eval(mk),2),item,rune,skill:id=>(typeof SKIC!=='undefined'&&SKIC[id])||''}}
+
+const cache=new Map();const pic=(k,f)=>{if(!cache.has(k)){let u='';try{u=f()}catch(e){console.warn('Bild',k,e)}cache.set(k,u)}return cache.get(k)};
+const P={foe:id=>pic('f'+id,()=>GW.WKP.foe(id)),boss:b=>pic('b'+b.id,()=>GW.WKP.boss(b.mk)),item:(n,r)=>pic('i'+n+r,()=>GW.WKP.item(n,r)),rune:k=>pic('r'+k,()=>GW.WKP.rune(k)),skill:id=>pic('s'+id,()=>GW.WKP.skill(id))};
+const img=(u,cls='')=>u?`<img class="px ${cls}" src="${u}" alt="" loading="lazy">`:'';
+const eTag=(k,n)=>k?`<span class="tag e-${k==='cold'?'frost':k}">${esc(n)}</span>`:'';
+const floorTxt=f=>f>=999?'Sonderzone':'ab Ebene '+f;
+
+/* pages */
+const PAGES=[
+  {id:'gegner',n:'Gegner',sec:'Bestiarium',count:()=>D.foes.length,render:renderFoes},
+  {id:'bosse',n:'Bosse',count:()=>D.bosses.length,render:renderBosses},
+  {id:'waffen',n:'Waffen',sec:'Arsenal',count:()=>shapes('weapon').length,render:()=>renderGear(['weapon'],'Waffen','Jede Grundform gibt es in mehreren Materialstufen. Ein Klick zeigt alle Stufen mit Schaden, Tempo und Anforderung.')},
+  {id:'ruestung',n:'Rüstung & Schmuck',count:()=>['helm','armor','offhand','gloves','boots','belt','ring','amulet'].reduce((n,s)=>n+shapes(s).length,0),render:()=>renderGear(['helm','armor','offhand','gloves','boots','belt','ring','amulet'],'Rüstung & Schmuck','Helme, Rüstungen, Schilde, Handschuhe, Stiefel, Gürtel, Ringe und Amulette mit allen Materialstufen.')},
+  {id:'einzigartig',n:'Einzigartige',count:()=>D.uniq.length,render:renderUniq},
+  {id:'affixe',n:'Eigenschaften',count:()=>D.aff.length,render:renderAff},
+  {id:'runen',n:'Runen',sec:'Runenkunde',count:()=>D.runes.length,render:renderRunes},
+  {id:'runenwoerter',n:'Runenwörter',count:()=>D.rw.length,render:renderRW},
+  {id:'klassen',n:'Klassen',sec:'Helden',count:()=>D.cls.length,render:renderCls},
+  {id:'lore',n:'Überlieferung',sec:'Welt',count:()=>D.tales.length,render:renderLore}];
+let page='gegner',query='';
+function shapes(slot){const m=new Map();for(const it of D.items.filter(i=>i.slot===slot)){if(!m.has(it.shape))m.set(it.shape,[]);m.get(it.shape).push(it)}return[...m.values()].map(l=>l.sort((a,b)=>a.lvl-b.lvl))}
+const hit=(...s)=>!query||s.join(' ').toLowerCase().includes(query);
+
+function renderFoes(){const fams=[...new Set(D.foes.map(f=>f.fam))];let h=`<h2>Gegner</h2><p class="lead">Alle ${D.foes.length} Gegnerarten nach Familie. Werte gelten für Monsterstufe 1; mit jeder Stufe steigen Leben um 32 %, Schaden um 20 % und Erfahrung um 35 % des Grundwerts.</p>`;
+  for(const fam of fams){const L=D.foes.filter(f=>f.fam===fam&&hit(f.n,f.famN,f.elemN||''));if(!L.length)continue;
+    h+=`<h3>${esc(L[0].famN)}</h3><div class="grid">`+L.map(f=>{const s=f.stats[0]||{};return`<div class="card" data-k="foe:${f.id}"><div class="pic">${img(P.foe(f.id))}</div><div class="nm">${esc(f.n)}</div><div class="sub">${s.hp??'?'} Leben · ${s.dmg?s.dmg.join('–'):'?'} Schaden</div><div class="tags"><span class="tag">${floorTxt(f.minF)}</span>${eTag(f.elem,f.elemN)}</div></div>`}).join('')+`</div>`}
+  return h}
+function renderBosses(){return`<h2>Bosse</h2><p class="lead">Hüter der Turmebenen, Herren der Himmelsinseln und was sonst noch wartet.</p><div class="grid">`+D.bosses.filter(b=>hit(b.n,b.where)).map(b=>{const s=b.stats[0]||{};return`<div class="card" data-k="boss:${b.id}"><div class="pic">${img(P.boss(b))}</div><div class="nm">${esc(b.n)}</div><div class="sub">${esc(b.where)}</div><div class="tags"><span class="tag">${s.hp??'?'} Leben</span></div></div>`}).join('')+`</div>`}
+function renderGear(slots,title,lead){let h=`<h2>${title}</h2><p class="lead">${lead}</p>`;
+  const SN=Object.fromEntries(D.items.map(i=>[i.slot,i.slotN]));
+  for(const sl of slots){const S=shapes(sl).filter(l=>hit(l[0].shape,...l.map(i=>i.n)));if(!S.length)continue;if(slots.length>1)h+=`<h3>${esc(SN[sl])}</h3>`;
+    h+=`<div class="grid">`+S.map(l=>{const a=l[0],z=l[l.length-1];return`<div class="card" data-k="gear:${esc(a.shape)}:${sl}"><div class="pic">${img(P.item(a.n),'it')}</div><div class="nm">${esc(a.shape)}</div><div class="sub">Stufe ${a.lvl}${l.length>1?'–'+z.lvl:''} · ${l.length} ${l.length>1?'Stufen':'Stufe'}</div><div class="tags">${a.dmg?`<span class="tag">${a.dmg.join('–')} Schaden</span>`:''}${a.def?`<span class="tag">${a.def} Vert.</span>`:''}${a.twoH?'<span class="tag">Zweihändig</span>':''}${a.mage?'<span class="tag">Magier</span>':''}</div></div>`}).join('')+`</div>`}
+  return h}
+function renderUniq(){const L=D.uniq.filter(u=>hit(u.n,u.b,u.slotN,...u.mods)).sort((a,b)=>a.lvl-b.lvl);
+  return`<h2>Einzigartige Gegenstände</h2><p class="lead">${D.uniq.length} Unikate mit festen Eigenschaften, nach Stufe sortiert.</p><div class="list">`+(L.map(u=>`<div class="row"><div class="ic">${img(P.item(u.b,'unique'),'it')}</div><div class="bd"><div class="ttl c-unique">${esc(u.n)}</div><div class="meta">${esc(u.b)} · ${esc(u.slotN)} · ab Stufe ${u.lvl}</div>${u.mods.map(m=>`<div class="mod">${esc(m)}</div>`).join('')}</div></div>`).join('')||'<p class="empty">Nichts gefunden.</p>')+`</div>`}
+function renderAff(){const L=D.aff.filter(a=>hit(a.txt,...a.names,...a.slots));
+  return`<h2>Eigenschaften</h2><p class="lead">Magische und seltene Gegenstände würfeln diese Eigenschaften. Präfixe stehen vor dem Namen, Suffixe dahinter; je höher die Gegenstandsstufe, desto stärker die Stufe.</p><div class="tw"><table><tr><th>Eigenschaft</th><th>Art</th><th>Stufen (Name · Wert)</th><th>Auf</th></tr>`+
+    L.map(a=>`<tr><td class="mod">${esc(a.txt)}</td><td>${a.pre?'Präfix':'Suffix'}</td><td>${a.names.map((n,t)=>t<a.minT?'':`${esc(n)} <span style="color:var(--dim)">${a.tiers[t]?a.tiers[t].join('–'):''}</span>`).filter(Boolean).join('<br>')}</td><td>${esc(a.slots.join(', '))}</td></tr>`).join('')+`</table></div>`}
+function renderRunes(){const L=D.runes.filter(r=>hit(r.n,...r.w,...r.a));
+  return`<h2>Runen</h2><p class="lead">Runen werden in gesockelte Gegenstände gesetzt. In Waffen wirken sie anders als in Rüstungen und Schmuck. Vor dem dritten besiegten Boss fallen nur zeichenlose Steine.</p><div class="tw"><table><tr><th></th><th>Rune</th><th class="num">Stufe</th><th>In Waffen</th><th>In Rüstung & Schmuck</th></tr>`+
+    L.map(r=>`<tr><td style="width:60px">${img(P.rune(r.k),'z')}</td><td class="c-rune" style="font:18px var(--f-sc)">${esc(r.n)}</td><td class="num">${r.l}</td><td class="mod">${r.w.map(esc).join('<br>')}</td><td class="mod">${r.a.map(esc).join('<br>')}</td></tr>`).join('')+`</table></div>`}
+function renderRW(){const L=D.rw.filter(r=>hit(r.n,...r.runes,...r.mods,...r.slots));
+  return`<h2>Runenwörter</h2><p class="lead">Die richtigen Runen in der richtigen Reihenfolge, in einem Gegenstand mit genau so vielen Sockeln.</p><div class="list">`+L.map(r=>`<div class="row"><div class="bd"><div class="ttl c-runeword">${esc(r.n)}</div><div class="meta">${r.runes.map(n=>`<span class="c-rune">${esc(n)}</span>`).join(' + ')} · ${esc(r.slots.join(', '))}${r.l?' · ab Stufe '+r.l:''}</div>${r.mods.map(m=>`<div class="mod">${esc(m)}</div>`).join('')}</div></div>`).join('')+`</div>`}
+function skRow(s){return`<div class="row"><div class="ic">${img(P.skill(s.id),'z')}</div><div class="bd"><div class="ttl">${esc(s.n)}</div><div class="meta">ab Stufe ${s.req}${s.cd?' · Abklingzeit '+s.cd+' s':''}${s.mana1!=null?' · Mana '+s.mana1+(s.mana10!=null&&s.mana10!==s.mana1?' (Stufe 10: '+s.mana10+')':''):''}</div><div>${esc(s.d1)}</div>${s.d10&&s.d10!==s.d1?`<div class="meta">Fertigkeitsstufe 10: ${esc(s.d10)}</div>`:''}</div></div>`}
+function renderCls(){let h=`<h2>Klassen & Fertigkeiten</h2><p class="lead">Vier Wege durch den Turm. Werte in den Beschreibungen gelten ohne Ausrüstung.</p>`;
+  for(const c of D.cls){const S=c.skills.filter(s=>hit(c.n,s.n,s.d1));if(!S.length&&query)continue;h+=`<h3>${esc(c.n)}</h3><p>${esc(c.d)}</p><p class="meta" style="color:var(--dim)">Startwerte: Stärke ${c.stats.str} · Geschick ${c.stats.dex} · Vitalität ${c.stats.vit} · Energie ${c.stats.ene}</p><div class="list">${S.map(skRow).join('')}</div>`}
+  const O=D.other.filter(s=>hit(s.n,s.d1));if(O.length)h+=`<h3>Waffenfertigkeiten</h3><p class="lead">Fertigkeiten, die mit der Waffe kommen und nicht fest zu einer Klasse gehören.</p><div class="list">${O.map(skRow).join('')}</div>`;return h}
+function renderLore(){return`<h2>Überlieferung</h2><p class="lead">Was die Steine, Altäre und Tafeln der Welt erzählen.</p><div class="cols">`+D.tales.filter(t=>hit(t.n,t.t)).map(t=>`<div style="break-inside:avoid;margin-bottom:18px"><div style="font:20px var(--f-sc);color:var(--gold)">${esc(t.n)}</div><div class="tale">${esc(t.t)}</div></div>`).join('')+`</div>`}
+
+/* details */
+const statTable=st=>st&&st.length?`<div class="tw"><table><tr><th>Monsterstufe</th><th class="num">Leben</th><th class="num">Schaden</th><th class="num">Erfahrung</th></tr>${st.map(s=>`<tr><td>${s.ml}</td><td class="num">${s.hp}</td><td class="num">${s.dmg.join('–')}</td><td class="num">${s.xp}</td></tr>`).join('')}</table></div>`:'';
+function detail(k){const[t,a,b]=k.split(':');let h='';
+  if(t==='foe'){const f=D.foes.find(x=>x.id===a);h=`<h2>${esc(f.n)}</h2><div class="meta" style="color:var(--dim)">${esc(f.famN)} · ${f.kind}</div><div class="hero">${img(P.foe(f.id))}</div>
+    <div class="kv"><b>Vorkommen</b><span>${floorTxt(f.minF)}${f.minF<999?' (Turm und Himmelsinseln mit passender Tiefe)':''}</span><b>Element</b><span>${f.elemN||'—'}</span><b>Geschoss</b><span>${f.proj?esc({arrow:'Pfeil',fire:'Feuer',frost:'Frost',poison:'Gift'}[f.proj]||f.proj):'—'}</span><b>Tempo</b><span>${f.spd}</span><b>Größe</b><span>×${f.scale}</span><b>Häufigkeit</b><span>${f.w>=2?'häufig':f.w>=1.2?'normal':f.w>0?'selten':'nur an festen Orten'}</span><b>Gegenüber Grundform</b><span>Leben ×${f.mul.hp} · Schaden ×${f.mul.dmg} · Tempo ×${f.mul.spd}</span></div>
+    ${statTable(f.stats)}<p class="note">Champions: Leben ×2,6, Schaden ×1,4, Erfahrung ×3. Einzigartige Anführer: Leben ×4,2, Schaden ×1,6, Erfahrung ×6 und zwei Elite-Eigenschaften.</p>`}
+  if(t==='boss'){const B=D.bosses.find(x=>x.id===a);h=`<h2>${esc(B.n)}</h2><div class="meta" style="color:var(--dim)">${esc(B.where)}</div><div class="hero">${img(P.boss(B))}</div>
+    <div class="kv"><b>Angriffe</b><span>${esc(B.moves.join(', '))}</span>${B.minions&&B.minions.length?`<b>Gefolge</b><span>${esc(B.minions.join(', '))}</span>`:''}<b>Größe</b><span>×${B.scale||'?'}</span></div>${statTable(B.stats)}${B.err?`<p class="note">Werte nicht lesbar: ${esc(B.err)}</p>`:''}`}
+  if(t==='gear'){const L=D.items.filter(i=>i.shape===a&&i.slot===b).sort((x,y)=>x.lvl-y.lvl),f=L[0];
+    h=`<h2>${esc(a)}</h2><div class="meta" style="color:var(--dim)">${esc(f.slotN)}${f.twoH?' · Zweihändig':''}${f.mage?' · Magierausrüstung':''}</div><div class="hero">${img(P.item(L[L.length-1].n),'big')}</div>
+    <div class="tw"><table><tr><th></th><th>Name</th><th class="num">Stufe</th>${f.dmg?'<th class="num">Schaden</th><th class="num">Tempo</th>':'<th class="num">Vert.</th>'}${f.block?'<th class="num">Block</th>':''}<th class="num">Stärke</th><th class="num">Geschick</th></tr>
+    ${L.map(i=>`<tr><td style="width:44px">${img(P.item(i.n))}</td><td>${esc(i.n)}</td><td class="num">${i.lvl}</td>${i.dmg?`<td class="num">${i.dmg.join('–')}</td><td class="num">${i.speed}</td>`:`<td class="num">${i.def||'—'}</td>`}${f.block?`<td class="num">${i.block||'—'}%</td>`:''}<td class="num">${i.str||'—'}</td><td class="num">${i.dex||'—'}</td></tr>`).join('')}</table></div>
+    ${D.uniq.some(u=>L.some(i=>i.n===u.b))?`<h3>Unikate auf dieser Grundform</h3>${D.uniq.filter(u=>L.some(i=>i.n===u.b)).map(u=>`<div style="margin-bottom:10px"><div class="c-unique" style="font:18px var(--f-sc)">${esc(u.n)}</div><div class="meta" style="color:var(--dim)">${esc(u.b)} · ab Stufe ${u.lvl}</div>${u.mods.map(m=>`<div class="mod">${esc(m)}</div>`).join('')}</div>`).join('')}`:''}
+    <p class="note">Verteidigung schwankt beim Fund um −10 % bis +15 %. Magische und seltene Fundstücke bekommen zusätzlich Eigenschaften.</p>`}
+  $('#dr').innerHTML=`<button class="x" aria-label="Schließen">×</button>`+h;$('#dr').scrollTop=0;document.body.classList.add('open')}
+const close=()=>document.body.classList.remove('open');
+
+function nav(){let h='';for(const p of PAGES){if(p.sec)h+=`<div class="sep">${p.sec}</div>`;h+=`<a href="#${p.id}" class="${p.id===page?'on':''}">${p.n}<span>${p.count()}</span></a>`}$('#nav').innerHTML=h}
+function show(){const p=PAGES.find(x=>x.id===page)||PAGES[0];nav();$('#main').innerHTML=p.render();const on=$('#nav a.on');if(on)on.scrollIntoView({block:'nearest',inline:'center'})}
+function route(){const[pg,...rest]=decodeURIComponent(location.hash.slice(1)).split('/');page=PAGES.some(p=>p.id===pg)?pg:'gegner';show();if(rest.length)detail(rest.join('/'));else close()}
+
+document.addEventListener('click',e=>{const c=e.target.closest('.card');if(c){location.hash=page+'/'+c.dataset.k;return}if(e.target.closest('#dr .x')||e.target.id==='scrim')history.length>1?history.back():(location.hash=page)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('open'))location.hash=page});
+let qt;$('#q').addEventListener('input',e=>{clearTimeout(qt);qt=setTimeout(()=>{query=e.target.value.trim().toLowerCase();show()},120)});
+addEventListener('hashchange',route);
+
+(async()=>{try{GW=await loadGame();$('#lst').textContent='Tabellen werden gelesen';
+  D=JSON.parse(GW.__ev(`(${EXTRACT})()`));GW.__ev(`(${PICS})()`);$('#load').remove();route()}
+  catch(e){$('#lst').textContent='Fehler: '+e.message;console.error(e)}})();
+})();
+</script></body></html>
