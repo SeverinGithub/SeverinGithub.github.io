@@ -19,6 +19,7 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 
 ## Features (Details zu allem, was in den letzten Sessions gebaut wurde)
 - [[Klassen]] – Krieger, Jägerin, Magier, Alchemist; Waffen pro Klasse, Bögen/Armbrüste, Talentbaum mit 4 Zweigen
+- [[Anpassung]] – Bosse und Gegner passen sich an Schaden und Zähigkeit des Spielers an, Multiplayer-Skalierung, Karten-Zoom, feste Kartenobjekte
 - [[Steuerung]] – Tastatur, Tab/V, iPad-Knöpfe
 - [[Arena]] – Statue, nur besiegte Gegner, keine Beute
 - [[Multiplayer]] – Sync, Quest-Angleich, Statue für Gäste, sichtbare Fähigkeiten

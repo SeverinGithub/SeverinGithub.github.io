@@ -25,6 +25,10 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-02 | Umhänge komplett entfernt | Neue Magierrobe macht sie überflüssig |
 | 2026-11-02 | Titelbildschirm neu, Inhalt/Buttons/IDs unverändert | Nutzer: „inhaltlich alles gleich, darf viel cooler aussehen“ |
 | 2026-11-02 | Magierrobe im eigenen Poly-Stil, inspiriert von Pixel-Art-Vorlage | Nutzer-Screenshot als Vorlage |
+| 2026-11-02 | Bosse „sehr schwer“ und adaptiv: ~68 s Kampf, ~7 volle Treffer tödlich, Elden-Ring-Gefühl | Nutzer: „immer sehr sehr schwer“, „elden ring boss system“ |
+| 2026-11-02 | Normale Gegner nur sanft angepasst (±35 %) | Nutzer wählte „Sanft“ |
+| 2026-11-02 | Multiplayer-Bosse: stärkster Spieler als Basis, Leben ×N, Schaden ×(1+0,25·(N−1)) | Nutzer-Beispiel: 3 Spieler → 3× Leben, 1,5× Schaden |
+| 2026-11-02 | Karte: Zwei-Finger-Zoom + Plus/Minus | Nutzer wählte „Zwei-Finger-Zoom“ |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

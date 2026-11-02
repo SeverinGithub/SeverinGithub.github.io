@@ -39,6 +39,7 @@ Zeilennummern in `schwarzer-turm/index.html`, Stand Commit `2aec3eb`. Sie versch
 | 7674 | `function titleCam` | Titelbildschirm, siehe [[Titelbildschirm]] |
 | 7693–7830 | Modul „names on the ground, the statue's arena, what others cast, the grindstone“ | Tab-Namen, `kvOf`, `summonArena`, `MPOLD`, `visProxy`, `visRun`, Schleifstein (`grindItem`, `openGrind`, `drawGrind`, `grindTick`) |
 | 7832–8054 | Modul „four ways up the tower“ | Klassen, Waffen pro Klasse, Bögen/Armbrüste/Holzzauberstab, Alchemist-Phiolen, Talentbaum mit 4 Zweigen, Spielstand-Übernahme, Jägerin-/Alchemist-Aussehen, siehe [[Klassen]] |
+| 8056–8121 | Modul „the tower measures you“ | Karten-Pinch-Zoom und +/−, Spieler-Analyse (`PW`, `myPow`, `teamPow`), adaptive Bosse (`adaptBoss`) und Gegner (`adaptFoe`), Boss-Kombos/Trank-Bestrafung, feste Kartenobjekte (`SOLID`, `moveEnt`-Wrapper) |
 | 8055 | `expandItems();buildPalette();…` | Init-Zeile – neue Module direkt davor |
 
 Zurück zu [[Start]].
