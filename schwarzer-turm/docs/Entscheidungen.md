@@ -7,6 +7,12 @@ Was entschieden wurde und warum, neueste zuerst.
 
 | Datum | Entscheidung | Warum / Quelle |
 |---|---|---|
+| 2026-11-02 | Vier Klassen: Krieger, Jägerin (Banditin, Klingen), Magier (klassisch), Alchemist (Bogen/Armbrust/Holzzauberstab + Wurftränke); Wanderer entfällt | Nutzer: jede Klasse soll sich anders spielen |
+| 2026-11-02 | Fremde Waffen tragbar, aber halber Schaden und keine Waffenfertigkeiten | Nutzer: „helfen überhaupt nicht, arbeiten gegen den Build“ – Singleplayer soll nicht blockiert sein |
+| 2026-11-02 | Wurftränke kosten nur Mana | Nutzer: „Fähigkeiten wie alles andere“ |
+| 2026-11-02 | Alte Wanderer wählen beim Laden neu; Stufe/XP/Gegenstände bleiben, Punkte kommen zurück | Nutzer: Weiterspielen soll Spaß machen |
+| 2026-11-02 | Talentbaum 4 Zweige, Reset für alle | Folgt aus den Klassen; Punkte kommen zurück |
+| 2026-11-02 | Neue Waffen erst nach `expandItems` anlegen | Sonst verschieben sich die 240 generierten Unikate |
 | 2026-11-02 | Tab = Bodennamen, Minikarte auf **V** | Nutzer per Rückfrage: „Tab für Namen, Minikarte auf andere Taste“; vorgeschlagenes O war schon Statistik |
 | 2026-11-02 | Arena: nur Varianten, die der Held schon getötet hat; alte Saves schalten ganze getötete Familien frei | Keine Kill-Daten pro Variante in alten Saves |
 | 2026-11-02 | Arena-Gegner: XP ja, Items/Runen/Tränke/Glut nein – dreifach abgesichert | Nutzer: „wirklich nichts droppen, nur fürs Leveling, auch keine Glut“ |

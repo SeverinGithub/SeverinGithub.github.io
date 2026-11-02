@@ -3195,7 +3195,7 @@ function closeTree(){$('pTree').hidden=true;hideTip();G.state='play';buildBelt()
 function buildTree(){if(!TV||$('pTree').hidden)return;
   const vw=innerWidth,vh=innerHeight-64,vb=[TV.x-vw*TV.s/2,TV.y-vh*TV.s/2,vw*TV.s,vh*TV.s];
   let s=`<svg id="tsvg" viewBox="${vb.join(' ')}" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="tglow"><stop offset="0" stop-color="#ffd88a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd88a" stop-opacity="0"/></radialGradient></defs>`;
-  TB.forEach((b,bi)=>{const th=-Math.PI/2+bi*Math.PI/3,r=R0T+7*62+80;s+=`<text x="${Math.cos(th)*r}" y="${Math.sin(th)*r+8}" text-anchor="middle" class="tlab" fill="${b.col}">${b.n}</text>`});
+  TB.forEach((b,bi)=>{const th=-Math.PI/2+bi*2*Math.PI/TB.length,r=R0T+7*62+80;s+=`<text x="${Math.cos(th)*r}" y="${Math.sin(th)*r+8}" text-anchor="${Math.cos(th)>.5?'start':Math.cos(th)<-.5?'end':'middle'}" class="tlab" fill="${b.col}">${b.n}</text>`});
   for(const[a,b]of TEDGE){const A=TREE[a],B=TREE[b],on=tHas(a)&&tHas(b),av=(tHas(a)&&tCan(b))||(tHas(b)&&tCan(a));s+=`<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" class="te${on?' on':av?' av':''}"/>`}
   for(const id in TREE){const n=TREE[id],r={origin:16,small:9,not:15,key:22}[n.k],has=tHas(id),can=tCan(id),col=n.b>=0?TB[n.b].col:'#c8b898';
     if(has&&n.k!=='small')s+=`<circle cx="${n.x}" cy="${n.y}" r="${r*2.4}" fill="url(#tglow)"/>`;
@@ -7829,6 +7829,229 @@ const _updForgeGr=updForge;updForge=function(dt){_updForgeGr(dt);if(P&&G.map&&G.
 const _drawObjG=drawObj;drawObj=function(o){if(o.type==='grind')return drawGrind(o);return _drawObjG(o)};
 const _interactG=interact;interact=function(o){if(o&&o.type==='grind'){sample('chest',.3)||sfx('pick');openGrind();return}return _interactG(o)};
 TALES.grind=['Der Schleifstein','Ein grauer Stein aus dem Bruch unter dem Hügel, im Trog darunter steht immer Wasser. Was eine Rune festhält, gibt er wieder her, ohne Kratzer an ihr. Nur die Worte, die Runen zusammen sprachen, hört man danach nicht mehr.'];
+/* ---------- four ways up the tower: the warrior, the huntress, the mage and the alchemist · the wanderer has gone, and every weapon now belongs to someone ---------- */
+const OLDW={str:15,dex:15,vit:15,ene:10};
+// the alchemist's six: arrows, and flasks that cost nothing but mana and break where they land
+SKILLS.push(
+ {id:'a_fire',n:'Brandphiole',req:1,cd:.9,mana:l=>5+l,desc:l=>`Wirft eine Phiole Brandöl: ${pct(1.1+l*.12)} Waffenschaden als Feuer im Umkreis, danach brennt der Boden 3 Sekunden.`},
+ {id:'a_frost',n:'Frostphiole',req:3,cd:1.4,mana:l=>7+l,desc:l=>`Die Phiole zerspringt zu einem Eisring: ${pct(.9+l*.1)} Waffenschaden als Kälte, Feinde werden langsamer.`},
+ {id:'a_heal',n:'Heilnebel',req:6,cd:12,mana:l=>12+l,desc:l=>`Ein goldener Nebel um dich: 4 Sekunden lang ${12+Math.round(l*1.5)}% deines Lebens zurück, Gift verfliegt. Heilt auch Mitspieler im Nebel.`},
+ {id:'a_plague',n:'Seuchenkolben',req:9,cd:6,mana:l=>14+l*2,desc:l=>`Ein schwerer Kolben, der als Giftwolke aufplatzt: 4 Sekunden lang insgesamt etwa ${pct((1.6+l*.16)*1.2)} Waffenschaden als Gift.`},
+ {id:'a_oil',n:'Alchemistenöl',req:12,cd:30,mana:l=>18+l,desc:l=>`${15+l} Sekunden lang tragen deine Pfeile reihum Feuer, Frost, Blitz und Gift: je ${30+l*4}% des Schadens zusätzlich als Element, Blitze springen über.`});
+SKILLS.forEach(s=>SKBY[s.id]=s);
+SKBY.multi.desc=l=>`Schießt ${5+Math.floor(l/4)} Pfeile im Fächer, je ${60+l*6}% Waffenschaden. Mit Bogen oder Armbrust am stärksten.`;
+SKBY.d_flurry.req=1;SKBY.d_dash.req=1;SKBY.d_cross.req=3;SKBY.dash.req=6;SKBY.d_dance.req=9;SKBY.d_exec.req=15;
+// the order the hero sees them in; the old name stays as a quiet fallback until a wanderer has chosen
+{const C0=Object.assign({},CLS);for(const k of Object.keys(CLS))delete CLS[k];
+  CLS.krieger=Object.assign(C0.krieger,{stats:{str:24,dex:12,vit:24,ene:5},d:'Stahl und Zorn, keine Zauber. Am meisten Leben, schwere Waffen, mitten hinein. Langklinge, Hammer und Speer bringen eigene Fertigkeiten. +25% Leben, −30% Mana.'});
+  CLS.jaegerin=Object.assign(C0.jaegerin,{look:{legs:'robeV'},skills:['d_flurry','d_dash','d_cross','dash','d_dance','d_exec'],stats:{str:14,dex:26,vit:15,ene:10},d:'Schnell, scharf, schwer zu fassen. Mit Dolch oder Doppelklingen durch die Reihen, zuschlagen und weg. +15% Angriffstempo, +10% Lauftempo, +5% kritische Treffer.'});
+  CLS.magier=Object.assign(C0.magier,{stats:{str:10,dex:12,vit:12,ene:30},d:C0.magier.d+' +30% Mana, −15% Leben.'});
+  CLS.alchemist={n:'Alchemist',d:'Bogen, Armbrust oder Holzzauberstab, dazu Phiolen voller Feuer, Frost und Seuche. Heilt sich und andere. +40% Trankwirkung, auch für geworfene Phiolen.',
+    skills:['multi','a_fire','a_frost','a_heal','a_plague','a_oil'],stats:{str:12,dex:20,vit:16,ene:16},ts:'als0',wc:'bow',look:{}};
+  Object.defineProperty(CLS,'wanderer',{value:CLS.krieger,enumerable:false,configurable:true})}
+const CBON={krieger:d=>{d.life=Math.round(d.life*1.25);d.mana=Math.round(d.mana*.7)},jaegerin:d=>{d.aspd*=1.15;d.frw+=10;d.crit+=5},
+  magier:d=>{d.life=Math.round(d.life*.85);d.mana=Math.round(d.mana*1.3)},alchemist:d=>{d.potPow+=40;d.flaskH+=15}};
+
+/* ---------- whose weapon is whose: anyone may carry anything, but a stranger's weapon fights at half strength and brings no skills ---------- */
+const isRangedW=w=>!!w&&(w.cls==='bow'||w.cls==='xbow'),isWandW=w=>!!w&&SH(w.b)==='Holzzauberstab';
+const CLSW={krieger:w=>['sword','axe','mace','great','spear'].includes(w.cls)&&!isDualB(w.b),jaegerin:w=>w.cls==='dagger'||isDualB(w.b),
+  magier:w=>w.cls==='staff',alchemist:w=>isRangedW(w)||isWandW(w)};
+const wOK=(w,c=P&&P.cls)=>!w||w.slot!=='weapon'||!CLSW[c]||CLSW[c](w);
+const wFor=w=>Object.keys(CLSW).filter(c=>CLSW[c](w)).map(c=>CLS[c].n).join(' · ');
+const _wSetKeyK=wSetKey;wSetKey=function(){const k=_wSetKeyK();return k&&P&&P.cls==='krieger'&&k!=='dual'?k:null};
+const _recalcK=recalc;recalc=function(){_recalcK();if(!P||!P.d)return;const d=P.d,w=P.eq.weapon,on=w&&d.okS&&d.okS.has(w);
+  d.offW=on&&!wOK(w)?1:0;if(d.offW){d.dmin*=.5;d.dmax*=.5;d.ele*=.5}
+  if(on){if(w.cls==='bow')d.reach=7.5;else if(w.cls==='xbow')d.reach=7;else if(isWandW(w))d.reach=6}
+  const B=CBON[P.cls];if(B)B(d);if(P.hp>d.life)P.hp=d.life;if(P.mp>d.mana)P.mp=d.mana};
+const _itemTipK=itemTipHTML;itemTipHTML=function(it,c){let h=_itemTipK(it,c);if(it&&it.slot==='weapon'&&P&&CLS[P.cls]){const ok=wOK(it),t=ok?`<div class="base">Waffe für: ${wFor(it)}</div>`:`<div class="req bad">Nicht für ${CLS[P.cls].n}: halber Schaden, keine Waffenfertigkeiten · Waffe für: ${wFor(it)}</div>`;
+    const i=h.indexOf('<div class="act">');h=i>=0?h.slice(0,i)+t+h.slice(i):h+t}return h};
+// loot leans towards the hero's own weapons: a stranger's weapon is rolled once more
+const _makeItemK=makeItem;makeItem=function(l,o){const it=_makeItemK(l,o);if(P&&it&&it.slot==='weapon'&&!wOK(it)&&!(o&&o.keepCls)&&Math.random()<.55)return _makeItemK(l,o);return it};
+
+/* ---------- bows, crossbows and the little wooden wand: added after the old armoury is laid out, so every old unique keeps its name ---------- */
+const ALWB=[['Kurzbogen',1,2,6,1.3,0,0,1,'bow'],['Jagdbogen',5,3,10,1.3,0,20,1,'bow'],['Langbogen',10,5,15,1.15,10,32,1,'bow'],['Kompositbogen',16,7,20,1.25,15,46,1,'bow'],['Knochenbogen',22,9,27,1.2,20,62,1,'bow'],['Drachenbogen',30,12,35,1.25,25,85,1,'bow'],
+  ['Leichte Armbrust',3,4,9,.95,12,8,1,'xbow'],['Armbrust',9,7,16,.9,26,14,1,'xbow'],['Schwere Armbrust',17,12,27,.8,46,20,1,'xbow'],['Belagerungsarmbrust',27,18,42,.75,72,30,1,'xbow'],
+  ['Holzzauberstab',1,1,4,1.35,0,0,0,'staff']];
+// pixel sprites for the ground and the shop: a bent limb with a string, a stock with a steel bow across
+const pxBow=()=>pfill((x,y)=>{const a=x-y,p=x+y-15,pt=-3.4+3.4*(a/12)*(a/12);if(Math.abs(a)>12.5)return -1;const d=Math.abs(p-pt);
+  if(Math.abs(a)<=1.5&&d<=1.4)return 5+(p<pt?1:0);if(d<=.9)return Math.abs(a)>=10.5?1+(p<pt?1:0):8+(p<pt?2:a>0?1:0);if(Math.abs(p)<=.45&&Math.abs(a)<=12)return 7;return -1});
+const pxXbow=()=>pfill((x,y)=>{const a=x-y,p=x+y-15;if(Math.abs(p)<=1.1&&a>=-12&&a<=5)return 8+(p<0?2:1);
+  const q=a-4.5-(p*p)/20;if(Math.abs(q)<=.8&&Math.abs(p)<=7.5)return 1+(p<0?1:0);if(Math.abs(p)<=.45&&a>5&&a<=11)return 6;if(Math.abs(a+5)<=.8&&p>1&&p<=4)return 9;return -1});
+const _expandItemsK=expandItems;expandItems=function(){_expandItemsK();
+  for(const w of ALWB){const b={n:w[0],slot:'weapon',lvl:w[1],dmg:[w[2],w[3]],speed:w[4],str:w[5],dex:w[6],twoH:!!w[7],cls:w[8]};BASE[b.n]=b;
+    PXS[b.n]=w[8]==='bow'?[pxBow,'iron','leather',w[0]==='Knochenbogen'?'bone':'wood',w[0]==='Drachenbogen'?'ruby':'emerald']:w[8]==='xbow'?[pxXbow,'steel','leather','wood','ruby']:[()=>wStaff({top:5,orb:1.4,knot:1}),'wood','moss','wood','emerald'];
+    ISZ[b.n]=w[8]==='staff'?[1,2]:[2,3];
+    for(const M of MATS){const n=M.p+'-'+b.n,nb=Object.assign({},b,{n,shape:b.n,tier:M.p,lvl:b.lvl+M.l,str:Math.round(b.str*(1+M.l/80)),dex:Math.round(b.dex*(1+M.l/80)),dmg:b.dmg.map(v=>Math.max(1,Math.round(v*M.m)))});BASE[n]=nb;PXS[n]=[PXS[b.n][0],M.mat,PXS[b.n][2],PXS[b.n][3],PXS[b.n][4]]}}
+  UNIQ.push({n:'Sehne des Morgens',b:'Jagdbogen',lvl:6,m:{ed:80,dex:10,ias:15,fire:5}},{n:'Kesselbrecher',b:'Leichte Armbrust',lvl:5,m:{ed:90,str:8,crit:6,life:15}},
+    {n:'Ast der Alten Eiche',b:'Holzzauberstab',lvl:4,m:{spell:40,ene:10,mana:25,regen:2}},{n:'Nebelsänger',b:'Langbogen',lvl:12,m:{ed:130,poison:12,dex:15,mf:20}},
+    {n:'Bolzenwerk des Meisters',b:'Armbrust',lvl:11,m:{ed:140,ias:20,crit:10,str:10}},{n:'Rabenschwinge',b:'Kompositbogen',lvl:18,m:{ed:160,cold:15,frw:15,dex:20}},
+    {n:'Hornruf der Tiefe',b:'Knochenbogen',lvl:24,m:{ed:190,ls:6,crit:12,life:40}},{n:'Mauerfall',b:'Schwere Armbrust',lvl:20,m:{ed:200,str:20,light:18,res:15}},
+    {n:'Zweig der Weisen',b:'Holzzauberstab',lvl:20,m:{spell:100,allsk:1,mana:50,mregen:4}},{n:'Vyrthrax\' Sehne',b:'Drachenbogen',lvl:32,m:{ed:240,fire:40,dex:30,allsk:1}},
+    {n:'Belagerer',b:'Belagerungsarmbrust',lvl:30,m:{ed:250,crit:15,str:30,dmgred:6}})};
+WEXT.bow=[-13,13,0,6.5];WEXT.xbow=[-6,17,0,10];WLEN.bow=WLEN.xbow=14;
+// in the hand: the bow is held across the aim, the crossbow along it, the wand is a twig with a stone at the tip
+function vBow(m,sh){const T=m.t,lim=(sd)=>{const P0=[[2,0],[3.6,-4.6*sd],[2.8,-9.2*sd],[.2,-13*sd]];for(let k=1;k<P0.length;k++)limb(P0[k-1][0],P0[k-1][1],P0[k][0],P0[k][1],1.35-k*.22,1.2-k*.22,T,true);
+    poly([[.9,-12*sd],[-.6,-14.2*sd],[.4,-13.6*sd]],m.p,true);if(sh==='Kompositbogen'||sh==='Drachenbogen')limb(.2,-13*sd,-1.4,-13.8*sd,.5,.3,m.p,true)};
+  ctx.strokeStyle='rgba(236,228,206,.85)';ctx.lineWidth=.45;ctx.beginPath();ctx.moveTo(-.4,-13.3);ctx.lineTo(-.4,13.3);ctx.stroke();lim(1);lim(-1);
+  limb(2.1,-1.9,2.1,1.9,1.55,1.55,m.s,true);if(sh==='Drachenbogen'||sh==='Knochenbogen')blob(3.2,0,1.1,1.1,m.gem3,true)}
+function vXbow(m,sh){const heavy=sh==='Schwere Armbrust'||sh==='Belagerungsarmbrust';limb(-6,.6,15,0,heavy?1.9:1.5,1.2,m.t,true);limb(-1,1,-2.6,4.2,.8,.8,m.t,true);
+  const hw=heavy?10:8.5;ctx.strokeStyle='rgba(236,228,206,.8)';ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(11,-hw);ctx.lineTo(7,0);ctx.lineTo(11,hw);ctx.stroke();
+  for(const sd of[-1,1]){limb(13.5,0,12.6,sd*hw*.55,1.1,.9,m.p,true);limb(12.6,sd*hw*.55,11,sd*hw,.9,.6,m.p,true)}limb(7,0,16.5,0,.45,.45,m.s,true);poly([[16,-.9],[18,0],[16,.9]],m.p,true);if(heavy)blob(3,-1.2,.9,.9,m.gem3,true)}
+function vWand(m){limb(-3,0,12,0,.85,.55,m.t,true);blob(4,0,.9,.9,m.t,true);const gl=ctx.createRadialGradient(13,0,0,13,0,5);gl.addColorStop(0,m.gem3[2]+'aa');gl.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(13,0,5,0,7);ctx.fill();blob(13,0,1.6,1.6,m.gem3,true)}
+const _vWeaponK=vWeapon;vWeapon=function(hx,hy,ang,cls,m,b){const sh=SH(b);if(cls!=='bow'&&cls!=='xbow'&&sh!=='Holzzauberstab')return _vWeaponK(hx,hy,ang,cls,m,b);
+  ctx.save();ctx.translate(hx,hy);ctx.rotate(ang);if(cls==='bow')vBow(m,sh);else if(cls==='xbow')vXbow(m,sh);else vWand(m);ctx.restore()};
+const _iconWK=iconW;iconW=function(it){if(it.cls==='bow'){ctx.save();ctx.rotate(Math.PI/2);vWeapon(0,0,0,'bow',wRampsOf(it),it.b);ctx.restore();return}return _iconWK(it)};
+const _invIconK=invIcon;invIcon=function(it){if(!isWandW(it))return _invIconK(it);const s=WEXT.staff;WEXT.staff=[-4,13,2,2.6];try{return _invIconK(it)}finally{WEXT.staff=s}};
+
+/* ---------- shooting: a bow or crossbow looses an arrow where a blade would swing, the wand spits a spark of its element ---------- */
+const _resolveSwingK=resolveSwing;resolveSwing=function(){const w=P.eq.weapon;if(!w||!P.d.okS.has(w)||!(isRangedW(w)||isWandW(w)))return _resolveSwingK();const a=P.face;
+  if(isWandW(w)){const el=w.elem||'fire',E=EL[el];G.proj.push({x:P.x+Math.cos(a)*.4,y:P.y+Math.sin(a)*.4,vx:Math.cos(a)*14,vy:Math.sin(a)*14,owner:'p',dmg:pDmg(1),kind:E.kind,col:E.col,r:.25,life:.75,
+      onHit:e=>{if(e.dead)return;if(el==='frost')e.slow=Math.max(e.slow||0,1.2);if(el==='poison'){e.dotT=3;e.dotD=Math.max(e.dotD||0,pDmg(.1))}}});flash(P.x+Math.cos(a)*.6,P.y+Math.sin(a)*.6,.6,18,E.rgb,.14);return}
+  const x=w.cls==='xbow';pArrow(a,pDmg(x?1.15:1),{sp:x?22:17,big:x,pierce:false,life:.7});kick(a+Math.PI,x?2:1)};
+
+/* ---------- the alchemist's flasks: thrown in an arc, they burst at the mark or on the first foe in the way ---------- */
+const alD=m=>pDmg(m)*(1+((P&&P.d&&P.d.potPow)||0)/200);
+const FLC={fire:['#fff0b0','#ff8a2a','#8a2a08'],frost:['#ffffff','#9ad0ff','#2a5a8a'],poison:['#eaffc0','#8ae050','#2a5a10'],heal:['#fff8c0','#f0d050','#8a6a10']};
+function alLob(tx,ty,el,o){const d=Math.max(1.2,Math.min(9,hyp(tx-P.x,ty-P.y))),a=Math.atan2(ty-P.y,tx-P.x),sp=11,t=d/sp;
+  G.proj.push(Object.assign({x:P.x+Math.cos(a)*.4,y:P.y+Math.sin(a)*.4,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,owner:'p',kind:'flask',fl:el,fc:FLC[el],r:.22,life:t,life0:t,aoe:1.6,boomE:el==='frost'?'frost':el==='poison'?'poison':'fire',col:EL[el]?EL[el].col:'#ffd070'},o));sfx('swing')}
+const alGlass=(x,y,c)=>{for(let k=0;k<12;k++){const a=rnd(0,6.28);fxp({k:'shard',x,y,z:.4,vx:Math.cos(a)*rnd(2,5),vy:Math.sin(a)*rnd(2,5),vz:rnd(1,3),life:.45,col:pick(['#e8f4f0','#bcd8d0',c[1]]),s:rnd(1,2),rot:a,g:1})}};
+const _castExtK=castExt;castExt=function(id,l,ang,tx,ty){
+  if(id==='a_fire'){alLob(tx,ty,'fire',{dmg:alD(1.1+l*.12),onBoom:p=>{alGlass(p.x,p.y,p.fc);G.zones.push({k:'burn',x:p.x,y:p.y,r:1.8,t:0,dur:3,tick:.5,acc:0,dmg:p.dmg*.12});decal('scorch',p.x,p.y,1.1,20)}});return}
+  if(id==='a_frost'){alLob(tx,ty,'frost',{dmg:alD(.3),aoe:1,onBoom:p=>{alGlass(p.x,p.y,p.fc);mRing('frost',p.x,p.y,alD(.9+l*.1),l,true)}});return}
+  if(id==='a_plague'){alLob(tx,ty,'poison',{dmg:alD(.4),aoe:1.2,onBoom:p=>{alGlass(p.x,p.y,p.fc);mStorm('poison',p.x,p.y,alD(1.6+l*.16),false)}});return}
+  if(id==='a_heal'){const amt=P.d.life*(12+l*1.5)/100*(1+P.d.potPow/200);G.aheal=(G.aheal||[]).concat({x:P.x,y:P.y,t:0,dur:4,rate:amt/4});P.poisonT=0;
+    shock(P.x,P.y,2.6,'255,230,140',.6,4);flash(P.x,P.y,1,60,'255,230,140',.3);sample('potion',.7)||sfx('cast');ftext(P.x,P.y-.6,'Heilnebel','#ffe08a',true);
+    if(typeof mpOn==='function'&&mpOn())try{mpSend({t:'aheal',x:P.x,y:P.y,f:G.floor,a:amt})}catch(e){}return}
+  if(id==='a_oil'){P.oilT=15+l;P.oilB=30+l*4;flash(P.x,P.y,1,50,'255,220,150',.35);for(const k of ELK)shock(P.x,P.y,1.6+ELK.indexOf(k)*.5,EL[k].rgb,.5,3);ftext(P.x,P.y-.6,'Alchemistenöl','#ffd8a0',true);sfx('cast');return}
+  return _castExtK(id,l,ang,tx,ty)};
+// oiled arrows: each one dipped in the next element
+const _pArrowK=pArrow;pArrow=function(ang,dmg,o={}){if(P&&P.oilT>0){const el=ELK[(G.oilI=((G.oilI||0)+1)%4)],b=(P.oilB||30)/100;
+    o=Object.assign({col:EL[el].col,oil:el,onHit:(e,p)=>{eHit(el,e,p.dmg*b);if(el==='light'&&!e.dead)jumpOn(el,e,p.dmg*b*.6,1,new Set([e]))}},o)}return _pArrowK(ang,dmg,o)};
+const _drawProjK=drawProj;drawProj=function(p){
+  if(p.kind==='arrow'&&p.oil){const[sx,sy]=iso(p.x,p.y),[dx,dy]=scrDir(Math.atan2(p.vy,p.vx)),E=EL[p.oil];ctx.save();ctx.globalCompositeOperation='lighter';ctx.strokeStyle=`rgba(${E.rgb},.55)`;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(sx-dx*8,sy-16-dy*8);ctx.lineTo(sx+dx*6,sy-16+dy*6);ctx.stroke();ctx.restore();return _drawProjK(p)}
+  if(p.kind!=='flask')return _drawProjK(p);const[sx,sy]=iso(p.x,p.y),q=p.life0?clamp(1-p.life/p.life0,0,1):.5,z=Math.sin(q*Math.PI)*26+12,c=p.fc||FLC.fire;
+  ctx.save();ctx.globalAlpha=.3;ctx.fillStyle='#000';ctx.beginPath();ctx.ellipse(sx,sy,3.2,1.5,0,0,7);ctx.fill();ctx.restore();
+  ctx.save();ctx.translate(sx,sy-z);const gl=ctx.createRadialGradient(0,0,0,0,0,9);gl.addColorStop(0,c[1]+'66');gl.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(0,0,9,0,7);ctx.fill();
+  ctx.rotate(G.t*13);blob(0,1,3.2,3.2,['#2a3a38','#6a8a84','#bcd8d0','#f0fff8']);blob(0,1.8,2.5,2,[c[2],c[2],c[1],c[0]]);poly([[-1.1,-1.8],[1.1,-1.8],[1,-4.6],[-1,-4.6]],['#2a3a38','#6a8a84','#bcd8d0','#f0fff8']);blob(0,-5,1.2,.9,['#3a1a08','#6a3a14','#9a6a34','#c8985a']);
+  ctx.fillStyle='#ffffff';ctx.fillRect(-1.8,-.4,.9,.9);ctx.restore()};
+// the flasks that reach their mark burst there; the healing mist does its work; the oil wears off
+const _updateK=update;update=function(dt){if(P&&G.map&&G.state==='play'){
+    for(const p of G.proj)if(p.kind==='flask'&&p.owner==='p'&&p.life-dt<=0&&p.life>0){p.life=0;explode(p)}
+    if(P.oilT>0)P.oilT-=dt;
+    if(G.aheal&&G.aheal.length){for(const h of G.aheal){h.t+=dt;if(hyp(P.x-h.x,P.y-h.y)<2.6&&!P.dead)P.hp=Math.min(P.d.life,P.hp+h.rate*dt);
+        if(Math.random()<dt*28){const a=rnd(0,6.28),r=rnd(0,2.4);fxp({k:'mote',x:h.x+Math.cos(a)*r,y:h.y+Math.sin(a)*r,z:.1,vx:0,vy:0,vz:rnd(.6,1.4),life:rnd(.6,1),col:pick(['#fff4c0','#f0d860','#c8f0a0']),s:rnd(1,2),g:-.2})}}
+      G.aheal=G.aheal.filter(h=>h.t<h.dur)}}
+  return _updateK(dt)};
+if(typeof mpRecv==='function'){const _mpRecvK=mpRecv;mpRecv=function(d,c){if(d&&d.t==='aheal'){if(P&&!P.dead&&G.floor===d.f&&hyp(P.x-d.x,P.y-d.y)<3)G.aheal=(G.aheal||[]).concat({x:d.x,y:d.y,t:0,dur:4,rate:d.a/4});return}return _mpRecvK(d,c)}}
+
+/* ---------- skill icons for the flasks and the oil, painted like the others, once the palette exists ---------- */
+const _buildSpritesK=buildSprites;buildSprites=function(){_buildSpritesK();alIcons()};
+function alIcons(){const mk=f=>{const c=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d',{willReadFrequently:true});f(g);quantize(g,32,32);return c.toDataURL()};
+  const plate=(g,a,b)=>{const q=g.createRadialGradient(16,14,2,16,16,24);q.addColorStop(0,a);q.addColorStop(1,b);g.fillStyle=q;g.fillRect(0,0,32,32);g.fillStyle='#030202';g.fillRect(0,0,32,1);g.fillRect(0,31,32,1);g.fillRect(0,0,1,32);g.fillRect(31,0,1,32);
+    g.fillStyle='rgba(255,230,190,.25)';g.fillRect(1,1,30,1);g.fillRect(1,1,1,30);g.fillStyle='rgba(0,0,0,.5)';g.fillRect(1,30,30,1);g.fillRect(30,1,1,30)};
+  const glow=(g,x,y,r,c)=>{const q=g.createRadialGradient(x,y,0,x,y,r);q.addColorStop(0,c);q.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=q;g.fillRect(0,0,32,32)};
+  const flask=(g,c,x=16,y=19,s=1)=>{g.save();g.translate(x,y);g.scale(s,s);g.fillStyle='#1a2422';g.beginPath();g.arc(0,2,8,0,7);g.fill();g.fillRect(-3.4,-9,6.8,8);
+    g.fillStyle='#a8c8c0';g.beginPath();g.arc(0,2,6.8,0,7);g.fill();g.fillRect(-2.2,-8,4.4,7);const q=g.createLinearGradient(0,0,0,9);q.addColorStop(0,c[0]);q.addColorStop(.4,c[1]);q.addColorStop(1,c[2]);g.fillStyle=q;g.beginPath();g.arc(0,2,6.8,-.15,Math.PI+.15);g.fill();
+    g.fillStyle='#8a5a2a';g.fillRect(-2.4,-11,4.8,3);g.fillStyle='#ffffff';g.fillRect(-4,-1,2,2);g.fillRect(-2.6,-6,1,3);g.restore()};
+  SKIC.a_fire=mk(g=>{plate(g,'#3a1a08','#080200');glow(g,16,18,14,'rgba(255,140,50,.6)');flask(g,FLC.fire);g.fillStyle='#ffd070';for(const[x,h]of[[10,6],[16,9],[22,6]]){g.beginPath();g.moveTo(x-2.5,10);g.quadraticCurveTo(x,10-h,x+.5,10-h-2);g.quadraticCurveTo(x+2,7-h*.4,x+2.5,10);g.fill()}});
+  SKIC.a_frost=mk(g=>{plate(g,'#0e2238','#02060c');glow(g,16,18,14,'rgba(150,210,255,.6)');g.strokeStyle='#e8f8ff';g.lineWidth=1.4;g.beginPath();g.arc(16,19,12.5,0,7);g.stroke();flask(g,FLC.frost,16,19,.85)});
+  SKIC.a_heal=mk(g=>{plate(g,'#2a2208','#060402');glow(g,16,16,15,'rgba(255,230,140,.6)');flask(g,FLC.heal);g.fillStyle='#fff8d0';g.fillRect(14.5,15,3,9);g.fillRect(11.5,18,9,3)});
+  SKIC.a_plague=mk(g=>{plate(g,'#14280a','#030601');glow(g,16,20,15,'rgba(150,230,90,.6)');for(const[x,y,r]of[[9,9,4],[16,6,5],[23,9,4]]){g.fillStyle='rgba(150,220,90,.55)';g.beginPath();g.arc(x,y,r,0,7);g.fill()}flask(g,FLC.poison,16,21,.95)});
+  SKIC.a_oil=mk(g=>{plate(g,'#2a1c10','#060302');glow(g,16,16,15,'rgba(255,220,160,.45)');ELK.forEach((k,i)=>{g.fillStyle=EL[k].c[1];g.beginPath();g.arc(9+i*4.6,24-((i%2)*2),2.2,0,7);g.fill()});
+    g.strokeStyle='#d8c8a8';g.lineWidth=2;g.beginPath();g.moveTo(6,26);g.lineTo(24,8);g.stroke();g.fillStyle='#e8e8f0';g.beginPath();g.moveTo(27,5);g.lineTo(20,8);g.lineTo(24,12);g.fill();g.fillStyle='#8a3a2a';g.fillRect(5,24,4,4)})}
+
+/* ---------- the talent tree grows four branches instead of six: the guardian joins the warrior, the wanderer's packs go to the alchemist ---------- */
+{const by=id=>TB.find(b=>b.id===id),kr=by('kr'),ja=by('ja'),al=by('al'),ma=by('ma'),wc=by('wc'),wa=by('wa');
+  kr.cl=kr.cl.concat(wc.cl.map(c=>c.n==='Knochenpanzer'?{s:c.s,n:c.n,m:{thorns:20,life:25,dmgred:2}}:c));
+  ja.n='Jägerin';ja.cl=ja.cl.concat({s:[{ias:4},{crit:2},{ias:4}],n:'Schattentanz',m:{sk_d_dance:1,ias:8}});
+  al.cl=al.cl.concat(wa.cl);ma.cl[0].m={sk_m_bolt:1,spell:12};ma.cl[1].m={sk_m_ring:1,mcost:10};ma.cl[2].m={sk_m_storm:1,cdr:8};
+  TB.length=0;TB.push(kr,ja,al,ma);for(const k in TREE)delete TREE[k];TEDGE.length=0;
+  const N=TB.length,D=62,R0=110,add=(id,x,y,o)=>TREE[id]=Object.assign({id,x,y,adj:[]},o),link=(a,b)=>{TREE[a].adj.push(b);TREE[b].adj.push(a);TEDGE.push([a,b])};
+  const SLOT={1:[[2,1]],2:[[2,-1],[4,1]],3:[[2,-1],[4,1],[6,-1]],4:[[1,-1],[2,1],[4,1],[5,-1]],5:[[1,-1],[2,1],[3,-1],[4,1],[6,-1]],6:[[1,-1],[2,1],[3,-1],[4,1],[5,-1],[6,1]]};
+  add('o',0,0,{k:'origin',n:'Ursprung',m:{},b:-1});
+  TB.forEach((b,bi)=>{const th=-Math.PI/2+bi*2*Math.PI/N,ax=Math.cos(th),ay=Math.sin(th),px=-ay,py=ax;let prev='o';
+    for(let k=0;k<7;k++){const r=R0+k*D,id=b.id+'s'+k;add(id,ax*r,ay*r,{k:'small',b:bi,m:b.spine[k%3]});link(prev,id);prev=id}
+    const kr2=R0+7*D+16;add(b.id+'K',ax*kr2,ay*kr2,{k:'key',b:bi,n:b.key.n,m:b.key.m});link(prev,b.id+'K');
+    b.cl.forEach((c,ci)=>{const[s,side]=SLOT[b.cl.length][ci],r=R0+s*D;let pr=b.id+'s'+s;
+      for(let j=1;j<=4;j++){const al2=r+j*D*.5,pe=side*j*D*.42,id=b.id+'c'+ci+j;add(id,ax*al2+px*pe,ay*al2+py*pe,j<4?{k:'small',b:bi,m:c.s[j-1]}:{k:'not',b:bi,n:c.n,m:c.m});link(pr,id);pr=id}})});
+  TB.forEach((b,bi)=>{const c=TB[(bi+1)%N],th=-Math.PI/2+(bi+.5)*2*Math.PI/N,r=(R0+D)*Math.cos(Math.PI/N),id='br'+bi,m={};
+    for(const mm of[b.spine[0],c.spine[0]])for(const k in mm)m[k]=(m[k]||0)+Math.ceil(mm[k]*.6);
+    add(id,Math.cos(th)*r,Math.sin(th)*r,{k:'small',b:-1,m});link(b.id+'s1',id);link(c.id+'s1',id)})}
+
+/* ---------- old heroes: the tree is replanted for everyone, the huntress learns her new blades, and a wanderer chooses a new way ---------- */
+function skReset(){const sum=(Array.isArray(P.slv)?P.slv:Object.values(P.sk||{})).reduce((a,b)=>a+(b||0),0);P.slv=[1,0,0,0,0,0];P.sk={};P._ska=null;P.cds={};P.spts+=Math.max(0,sum-1);P.sel=CLS[P.cls].skills[0];return Math.max(0,sum-1)}
+function clsSwitch(c){const C=CLS[c];let back=0;for(const k in OLDW){const s=(P.stats[k]||0)-OLDW[k];if(s>0)back+=s}
+  P.pts+=back;P.stats={...C.stats};P.cls=c;const sb=skReset();P.tree=[];
+  const w=P.eq.weapon;if(!wOK(w,c)){P.eq.weapon=null;if(w&&!invAdd(w))(P.stash||(P.stash=[])).push(w);P.eq.weapon=startWeapon(C.wc)}
+  P.clv=1;recalc();P.hp=P.d.life;P.mp=P.d.mana;WSC_clear();updatePanels();
+  log(`Du gehst jetzt als ${C.n}. ${back} Eigenschaftspunkte, ${sb} Fertigkeitspunkte und alle Talentpunkte stehen dir neu zur Verfügung (C, K, T).`,'#e8c878');try{save()}catch(e){}}
+const WSC_clear=()=>{for(const k in WSC)delete WSC[k]};
+function clsPick(){const d=$('dialog');G.clsPick=1;
+  d.innerHTML='<h2>Der Wanderer geht</h2><p class="hint">Der Turm kennt jetzt vier Wege. Wähle deinen: Stufe, Erfahrung, Glut und alle Gegenstände bleiben, Eigenschafts-, Fertigkeits- und Talentpunkte bekommst du zurück.</p><div class="clsgrid">'
+    +Object.entries(CLS).map(([k,c])=>`<button class="clscard" data-clspick="${k}"><b>${c.n}</b><span>${c.d}</span><span class="clsk">${c.skills.map(id=>skImg(id)).join('')}</span></button>`).join('')+'</div>';d.hidden=false}
+document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-clspick]');if(!b||!P)return;e.stopPropagation();G.clsPick=0;closeDialog();clsSwitch(b.dataset.clspick)},true);
+const _skMigrateK=skMigrate;skMigrate=function(){_skMigrateK();if(!P||G.state!=='play')return;
+  if(!Object.keys(CLS).includes(P.cls)){if($('dialog').hidden||!G.clsPick)clsPick();return}
+  if((P.clv||0)>=1)return;P.clv=1;let msg='Der Talentbaum ist neu gewachsen, alle Talentpunkte sind zurück (T).';if((P.tree||[]).length)P.tree=[];
+  if(P.cls==='jaegerin'){const sb=skReset();msg+=` Die Jägerin kämpft jetzt mit Klingen: ${sb} Fertigkeitspunkte zurück (K).`}
+  WSC_clear();recalc();updatePanels();log(msg,'#e8c878')};
+// the mage still starts with his oak staff; the little wand is found, not given
+const _startWeaponK=startWeapon;startWeapon=function(c){if(c==='staff'){const it=_startWeaponK(c);if(isWandW(it)&&BASE['Eichenstab']){const b=BASE['Eichenstab'];Object.assign(it,{b:b.n,name:b.n,dmg:b.dmg.slice(),speed:b.speed,twoH:b.twoH});it.mods.spell=10+b.lvl*2}return it}return _startWeaponK(c)};
+const _startNewK=startNew;startNew=function(c){const r=_startNewK(c);if(P)P.clv=1;return r};
+const _saveDataK=saveData;saveData=function(){const d=_saveDataK();if(d&&P)d.p.clv=P.clv||0;return d};
+
+/* ---------- the huntress: a hooded mantle, a cloth over the mouth, quiet leather · the alchemist: an apron, goggles, a strap of glowing vials ---------- */
+const _heroLookK=heroLook;heroLook=function(fl){const r=_heroLookK(fl);if(P&&(P.cls==='jaegerin'||P.cls==='alchemist')){r.R[P.cls==='jaegerin'?'hunt':'alch']=1;r.R.clsHelm=!!(P.eq.helm&&P.d.okS.has(P.eq.helm))}return r};
+const darkR=C=>[C[0],C[0],C[1],C[2]];
+// a ramp pulled part of the way towards another, so the mantle keeps the armour's colour but always reads as the huntress's dusk-violet
+const mixR=(A,B,t)=>A.map((c,i)=>{if(!/^#[0-9a-f]{6}$/i.test(c))return c;const h=k=>parseInt(c.slice(k,k+2),16)*(1-t)+parseInt(B[i].slice(k,k+2),16)*t;return'#'+[1,3,5].map(k=>Math.round(h(k)).toString(16).padStart(2,'0')).join('')});
+const _humanoidK=humanoid;humanoid=function(o){const R=o.R;if(!R||!(R.hunt||R.alch)||o.clsDone)return _humanoidK(o);
+  const C=R.torso,f=o.f,back=o.back,tw=o.tw||1,mv=o.moving,s=mv?Math.sin(o.ph||0):0,c2=mv?Math.cos((o.ph||0)*2):0,head0=o.head,o2=Object.assign({},o,{clsDone:1}),inner=o.torsoFx;
+  if(R.hunt){const K=darkR(mixR(C,['#0e0a16','#221a34','#3a2c52','#5a4878'],.5)),LT=['#120c08','#24180e','#3a2816','#5a4026'];
+    o2.torsoFx=(shX,shY,hipX,hipY)=>{if(inner)inner(shX,shY,hipX,hipY,back);
+      if(back){// the mantle over the back: from the shoulders to below the belt, its hem cut in points and swinging
+        const T=[-8.6,-4,0,4,8.6].map(x=>[shX+x*tw,shY-1]),B=[-9.6,-5,0,5,9.6].map((x,k)=>[hipX+x*tw+s*1.4*(.5+Math.abs(x)/10),hipY+5+(k%2?1.6:0)+(mv?Math.abs(x)/10*c2*.8:0)]);
+        for(let k=0;k<4;k++){ctx.fillStyle=K[clamp(2-(k>1?1:0)+(k===0?-1:0),0,3)];ctx.beginPath();ctx.moveTo(...T[k]);ctx.lineTo(...T[k+1]);ctx.lineTo(...B[k+1]);ctx.lineTo(...B[k]);ctx.closePath();ctx.fill()}
+        ctx.strokeStyle=K[0];ctx.lineWidth=.6;ctx.globalAlpha=.7;ctx.beginPath();for(const k of[1,3]){ctx.moveTo(T[k][0],T[k][1]+2);ctx.lineTo(B[k][0],B[k][1]-.8)}ctx.stroke();ctx.globalAlpha=1;return}
+      // belt, a strap across the chest with three knives in it, the capelet's edges over the shoulders and a clasp
+      limb(hipX-6.4*tw,hipY+.4,hipX+6.4*tw,hipY+.4,.9,.9,LT,true);blob(hipX+f*1.6,hipY+.4,1.1,1,RP.iron,true);
+      limb(shX-f*5.5*tw,shY+.5,hipX+f*5*tw,hipY-.5,.75,.75,LT,true);
+      for(let k=0;k<3;k++){const t=.25+k*.2,x=shX-f*5.5*tw+(hipX+f*5*tw-(shX-f*5.5*tw))*t,y=shY+.5+(hipY-.5-shY-.5)*t;limb(x,y,x-f*.6,y-2.6,.55,.4,RP.iron,true);blob(x-f*.7,y-2.9,.5,.5,RP.iron)}
+      for(const sd of[-1,1]){ctx.fillStyle=K[sd===f?2:1];ctx.beginPath();ctx.moveTo(shX+sd*1.6,shY-1.6);ctx.lineTo(shX+sd*9.4*tw,shY);ctx.lineTo(shX+sd*8.6*tw,shY+5.4);ctx.lineTo(shX+sd*6.8*tw,shY+4.2);ctx.lineTo(shX+sd*5.6*tw,shY+6.4);ctx.lineTo(shX+sd*3.2,shY+3);ctx.closePath();ctx.fill()}
+      blob(shX+f*.6,shY+.6,1,1,RP.iron,true)};
+    o2.armFx=a=>{const dx=a.hx-a.ex,dy=a.hy-a.ey,l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l;limb(a.hx-ux*3.6,a.hy-uy*3.6,a.hx-ux*.9,a.hy-uy*.9,1.55,1.4,LT,true);ctx.strokeStyle=LT[3];ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(a.hx-ux*2.2-uy*1.3,a.hy-uy*2.2+ux*1.3);ctx.lineTo(a.hx-ux*2.2+uy*1.3,a.hy-uy*2.2-ux*1.3);ctx.stroke()};
+    o2.head=(hx,hy)=>{const H=K,peak=-f*1.4;
+      if(R.clsHelm){head0(hx,hy);blob(hx,hy+5.2,6.6,2.4,H);return}
+      if(back){head0(hx,hy);blob(hx,hy-.6,5.6,6.2,H);poly([[hx-2.6,hy-5],[hx+peak*1.4,hy-8.6],[hx+2.6,hy-5]],[H[1],H[1],H[2],H[2]]);poly([[hx-6.2,hy+5.4],[hx-5,hy+1],[hx+5,hy+1],[hx+6.2,hy+5.4]],H);return}
+      blob(hx,hy,5.4,6,[H[0],H[0],H[0],H[1]]);head0(hx,hy);
+      // the cloth over mouth and nose, then the hood's shadow down to the eyes
+      ctx.fillStyle='#1c1612';ctx.beginPath();ctx.moveTo(hx-4.2,hy+.9);ctx.lineTo(hx+4.2,hy+.9);ctx.lineTo(hx+3.6,hy+3.8);ctx.lineTo(hx+f*.6,hy+4.6);ctx.lineTo(hx-3.6,hy+3.8);ctx.closePath();ctx.fill();
+      ctx.fillStyle='#3a302a';ctx.fillRect(hx-4,hy+.9,8,.6);
+      ctx.save();ctx.globalAlpha=.5;ctx.fillStyle='#000';ctx.beginPath();ctx.ellipse(hx+f*.6,hy-2.6,4.2,2.4,0,0,7);ctx.fill();ctx.restore();
+      poly([[hx-5.8,hy+5.2],[hx-5.8,hy-2],[hx-3.4,hy-7],[hx+peak,hy-8.4],[hx+3.4,hy-7],[hx+5.8,hy-2],[hx+5.8,hy+5.2],[hx+4.2,hy+5.2],[hx+4.4,hy-1.4],[hx+2.8,hy-4.6],[hx,hy-5.2],[hx-2.8,hy-4.6],[hx-4.4,hy-1.4],[hx-4.2,hy+5.2]],H)}}
+  else{const AP=['#4a3a24','#7a6440','#a88c5c','#d0b480'],LT=['#1a0e06','#3a2210','#6a4422','#9a6a3a'],VC=['#ff5a3a','#7ae050','#5ab0ff','#ffc040'],gl=.6+.4*Math.sin(G.t*3);
+    o2.torsoFx=(shX,shY,hipX,hipY)=>{if(inner)inner(shX,shY,hipX,hipY,back);
+      if(back){// a round flask strapped to the back, green and glowing
+        limb(shX-6*tw,shY+1,hipX+5*tw,hipY,.7,.7,LT,true);limb(shX+6*tw,shY+1,hipX-5*tw,hipY,.7,.7,LT,true);
+        const bx=shX+f*.8,by=shY+7;blob(bx,by,3.3,3.4,['#1a2422','#4a6460','#9ac0b8','#e0fff8']);blob(bx,by+.9,2.7,2.3,['#1a4a10','#3a8a20','#7ae050','#d0ffb0']);
+        poly([[bx-1,by-3],[bx+1,by-3],[bx+.9,by-5.4],[bx-.9,by-5.4]],['#1a2422','#4a6460','#9ac0b8','#e0fff8']);blob(bx,by-5.7,1.1,.8,['#3a1a08','#6a3a14','#9a6a34','#c8985a']);limb(bx-3.4,by,bx+3.4,by,.5,.5,LT,true);
+        ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.16*gl;ctx.fillStyle='#7ae050';ctx.beginPath();ctx.arc(bx,by+.8,4,0,7);ctx.fill();ctx.restore();return}
+      // the apron: from the chest to the knees, a strap round the neck, a pocket with a vial in it
+      const sw=s*1.2,top=shY+4,bot=hipY+7.5;
+      ctx.fillStyle=lgrad(hipX-7,top,hipX+7,top,[AP[0],AP[1],AP[2],AP[1]]);ctx.beginPath();ctx.moveTo(shX-4.4*tw,top);ctx.lineTo(shX+4.4*tw,top);ctx.lineTo(hipX+5.6*tw,hipY);ctx.lineTo(hipX+6.6*tw+sw,bot);ctx.lineTo(hipX-6.6*tw+sw,bot+.6);ctx.lineTo(hipX-5.6*tw,hipY);ctx.closePath();ctx.fill();
+      ctx.strokeStyle=AP[0];ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(hipX-6.6*tw+sw,bot+.6);ctx.lineTo(hipX+6.6*tw+sw,bot);ctx.stroke();
+      limb(shX-4.2*tw,top,shX-1.6,shY-1.4,.5,.5,LT,true);limb(shX+4.2*tw,top,shX+1.6,shY-1.4,.5,.5,LT,true);limb(hipX-6*tw,hipY+.2,hipX+6*tw,hipY+.2,.6,.6,LT,true);
+      const px2=hipX+f*2.4,py2=hipY+3.4;poly([[px2-2.4,py2-1.4],[px2+2.4,py2-1.4],[px2+2.2,py2+2.4],[px2-2.2,py2+2.4]],[AP[0],AP[0],AP[1],AP[1]],true);limb(px2-.6,py2-1.2,px2-.6,py2-3.6,.7,.7,['#2a3a38','#6a8a84','#bcd8d0','#f0fff8']);blob(px2-.6,py2-3.9,.6,.5,LT);
+      // the bandolier: shoulder to hip, four vials that glow each in their own colour
+      const ax0=shX-f*5.6*tw,ay0=shY+.4,ax1=hipX+f*5.4*tw,ay1=hipY-.8;limb(ax0,ay0,ax1,ay1,.8,.8,LT,true);
+      for(let k=0;k<4;k++){const t=.18+k*.2,x=ax0+(ax1-ax0)*t,y=ay0+(ay1-ay0)*t;blob(x,y-.4,1.15,1.6,['#1a2422','#6a8a84','#bcd8d0','#f0fff8']);blob(x,y+.1,.9,1,[VC[k],VC[k],VC[k],'#ffffff']);
+        ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.25*gl;ctx.fillStyle=VC[k];ctx.beginPath();ctx.arc(x,y,2.4,0,7);ctx.fill();ctx.restore();blob(x,y-2.1,.55,.45,LT)}};
+    o2.armFx=a=>{const dx=a.ex-a.sx,dy=a.ey-a.sy,l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l;blob(a.ex-ux*.4,a.ey-uy*.4,2.1,1.6,['#8a7a64','#b8a888','#e0d4b8','#f4ecd8']);limb(a.hx-(a.hx-a.ex)*.35,a.hy-(a.hy-a.ey)*.35,a.hx,a.hy,1.6,1.5,LT,true)};
+    o2.head=(hx,hy)=>{head0(hx,hy);if(R.clsHelm)return;const BR=['#3a2406','#8a6418','#d0a838','#fff0a0'];
+      limb(hx-4.6,hy-2.8,hx+4.6,hy-2.8,.75,.75,LT,true);if(back)return;
+      for(const sd of[-1,1]){const gx=hx+sd*1.9+f*.7,gy=hy-3.4;blob(gx,gy,1.75,1.6,BR,true);blob(gx,gy,1.05,.95,['#1a3a40','#2a6a78','#6ac0d0','#d0f8ff']);ctx.fillStyle='#ffffff';ctx.fillRect(gx-.7,gy-.7,.5,.5)}}}
+  return _humanoidK(o2)};
+
 expandItems();buildPalette();buildUI();initGL();buildSprites();buildEnvSprites();buildGrain();
 // title backdrop: the hill, idle
 titleBackdrop();

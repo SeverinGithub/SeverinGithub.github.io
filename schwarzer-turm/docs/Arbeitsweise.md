@@ -8,7 +8,7 @@ Diese Regeln hat der Nutzer im Lauf der Sessions festgelegt. Sie gelten weiter.
 ## Veröffentlichen
 - **Push nach `main` nur mit Freigabe.** Nach jedem Commit fragen; gepusht wird erst, wenn der Nutzer „Ja, live schalten“ antwortet (oder es in derselben Anfrage vorab erlaubt). Eine Freigabe gilt nur für diesen einen Push.
 - Die Memory-Regel „kleine Änderungen direkt deployen“ gilt **nur für e-reading**, nicht für den Schwarzen Turm.
-- **Artefakt immer mit aktualisieren:** nach jeder Änderung `schwarzer-turm/index.html` mit dem Artifact-Tool auf dieselbe URL veröffentlichen: https://claude.ai/artifact/RyXp68BqnpmdkzTHnvAd8z (gleicher `file_path`). Stand: v65.
+- **Artefakt** (Stand 2026-11-02: alte URL nicht mehr erreichbar, neues nur nach Rückfrage) – früher: **immer mit aktualisieren:** nach jeder Änderung `schwarzer-turm/index.html` mit dem Artifact-Tool auf dieselbe URL veröffentlichen: https://claude.ai/artifact/RyXp68BqnpmdkzTHnvAd8z (gleicher `file_path`). Stand: v65.
 
 ## Commits
 - Commit-Nachricht auf **Deutsch**, Präfix `Schwarzer Turm: `, beschreibt alle Änderungen ausführlich in einem Satzgefüge (siehe [[Changelog]]).

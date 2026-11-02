@@ -3,10 +3,11 @@ tags: [index]
 ---
 # Der Schwarze Turm – Projekt-Vault
 
-Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose Himmelsinseln (Overworld), vier Klassen, Runen, Online-Multiplayer per PeerJS. Alles steckt in **einer einzigen Datei**: `schwarzer-turm/index.html` (~7.860 Zeilen, ~1 MB).
+Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose Himmelsinseln (Overworld), vier Klassen (Krieger, Jägerin, Magier, Alchemist), Runen, Online-Multiplayer per PeerJS. Alles steckt in **einer einzigen Datei**: `schwarzer-turm/index.html` (~7.860 Zeilen, ~1 MB).
 
 - Live: GitHub Pages des Repos `SeverinGithub/SeverinGithub.github.io`, Pfad `/schwarzer-turm/`
-- Artefakt (Vorschau auf claude.ai): https://claude.ai/artifact/RyXp68BqnpmdkzTHnvAd8z – zuletzt **v65**
+- Artefakt (Vorschau auf claude.ai): die alte Adresse RyXp68BqnpmdkzTHnvAd8z ist nicht mehr erreichbar (2026-11-02) – neues Artefakt nur nach Rückfrage
+- Wiki: `turm-wiki/index.html` im selben Repo, liest Daten und Bilder live aus dem Spiel (siehe [[Turm-Wiki]])
 - Letzter Stand: Commit `2aec3eb` (2026-11-02), gepusht auf `main`
 
 ## Zum Einstieg in einer neuen Session
@@ -17,6 +18,7 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 5. [[Offene Punkte]] – was noch angeboten oder unklar ist.
 
 ## Features (Details zu allem, was in den letzten Sessions gebaut wurde)
+- [[Klassen]] – Krieger, Jägerin, Magier, Alchemist; Waffen pro Klasse, Bögen/Armbrüste, Talentbaum mit 4 Zweigen
 - [[Steuerung]] – Tastatur, Tab/V, iPad-Knöpfe
 - [[Arena]] – Statue, nur besiegte Gegner, keine Beute
 - [[Multiplayer]] – Sync, Quest-Angleich, Statue für Gäste, sichtbare Fähigkeiten

@@ -3,6 +3,11 @@ tags: [todo]
 ---
 # Offene Punkte
 
+- [ ] **Neues Artefakt anlegen?** Die alte Artefakt-URL ist nicht mehr erreichbar – nachfragen.
+- [ ] Klassen: Balance im echten Spiel prüfen (Phiolenschaden, Jägerin-Tempo, Krieger-Leben).
+- [ ] Jägerin-Banditin: Unsichtbarkeit nach Schattenschritt (Gegner verlieren das Ziel) wäre ein naheliegender Ausbau.
+- [ ] Multiplayer: Mitspieler-Aussehen von Jägerin/Alchemist und der Heilnebel mit zwei echten Spielern prüfen.
+- [ ] Bogen: Beim Grundangriff schwingt die Figur noch wie mit einer Klinge; eigene Schuss-Animation wäre schöner.
 - [ ] **Odalindes Sockelanzahl wählbar machen** – angeboten nach der Runenwort-Prüfung, Nutzer hat nicht geantwortet. Würde gezieltes Bauen von 2/3/4-Runen-Runenwörtern erlauben. Erst nachfragen.
 - [ ] **Multiplayer mit zwei echten Spielern testen**: Statue für Gäste (`ar`/`arx`) und sichtbare Fähigkeiten wurden nur mit simulierten Paketen geprüft.
 - [ ] Schleifstein: soll das Herauslösen etwas kosten (Glut)? Nicht besprochen, aktuell kostenlos.
