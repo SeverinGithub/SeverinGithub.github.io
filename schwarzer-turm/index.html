@@ -114,6 +114,8 @@ button:disabled{opacity:.45;cursor:default}
 #ghost.bad,#sghost.bad{background:rgba(196,42,28,.25);outline-color:rgba(255,106,80,.7)}
 #hand{position:fixed;z-index:60;pointer-events:none;image-rendering:pixelated;filter:drop-shadow(0 6px 8px rgba(0,0,0,.8))}
 .eq{margin:2px;background:radial-gradient(circle at 40% 35%,#1a1410,#060403);border:4px solid transparent;border-image:var(--tx-sock) 2 / 4px stretch;image-rendering:pixelated;display:grid;place-items:center;position:relative;cursor:pointer}
+/* a two-handed weapon shows a faint grey copy of itself in the off hand, so the slot reads as taken */
+.eq img.twoh{opacity:.42;filter:grayscale(1) brightness(.95)}
 .eq .lbl{position:absolute;bottom:1px;left:0;right:0;text-align:center;font-size:10px;color:#5a4a34;font-family:var(--f-sc);pointer-events:none}
 .eq svg{width:36px;height:36px}
 .eq .px{position:relative;z-index:1}
@@ -2685,7 +2687,7 @@ const EQLAYOUT=[['helm','Helm',5,1,2,2],['amulet','Amulett',7,2,1,1],['weapon','
 function buildInv(){
   const ok=P.d.okS,shop=!$('pShop').hidden;
   $('pInv').innerHTML=`<h2>Inventar <button data-close>Schließen</button></h2>
-  <div id="equip">${EQLAYOUT.map(([k,n,c,r,w,h])=>{const it=P.eq[k];return`<div class="eq ${it?'r-'+it.rar:''} ${it&&!ok.has(it)?'bad':''}" data-eq="${k}" style="grid-column:${c} / span ${w};grid-row:${r} / span ${h}">${it?`<img class="px" src="${invIcon(it)}" alt="">`:`<span class="lbl">${n}</span>`}</div>`}).join('')}</div>
+  <div id="equip">${EQLAYOUT.map(([k,n,c,r,w,h])=>{const it=P.eq[k];return`<div class="eq ${it?'r-'+it.rar:''} ${it&&!ok.has(it)?'bad':''}" data-eq="${k}" style="grid-column:${c} / span ${w};grid-row:${r} / span ${h}">${it?`<img class="px" src="${invIcon(it)}" alt="">`:k==='offhand'&&P.eq.weapon&&P.eq.weapon.twoH?`<img class="px twoh" src="${invIcon(P.eq.weapon)}" alt=""><span class="lbl">Zweihändig</span>`:`<span class="lbl">${n}</span>`}</div>`}).join('')}</div>
   <div id="grid" style="height:calc(var(--cell) * ${IH});grid-template-rows:repeat(${IH},var(--cell))">${'<div class="cell"></div>'.repeat(IW*IH)}${P.inv.map((it,i)=>{const[w,h]=isz(it);return`<div class="iitem r-${it.rar} ${it.slot!=='potion'&&!canUse(it)?'bad':''}" data-inv="${i}" style="left:calc(var(--cell)*${it.gx});top:calc(var(--cell)*${it.gy});width:calc(var(--cell)*${w});height:calc(var(--cell)*${h})"><img class="px" src="${invIcon(it)}" alt="">${it.n>1?'<span class="n">'+it.n+'</span>':''}</div>`}).join('')}<div id="ghost" hidden></div></div>
   <div class="derived"><span style="color:var(--ember)">Glut</span><span style="color:var(--ember)">${P.glut}</span></div>
   <p class="hint">${shop?'Klick: verkaufen':'Klick: aufnehmen und ablegen'} · Rechtsklick: anlegen oder trinken · Shift+Klick: fallen lassen</p>`;updHand()}
