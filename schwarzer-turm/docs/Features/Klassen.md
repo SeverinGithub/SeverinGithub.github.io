@@ -40,6 +40,16 @@ Wunsch des Nutzers (2026-11-02): Die Klassen sollen sich deutlich unterscheiden 
 - Alchemist: helle Lederschürze mit Tasche, Gurt mit vier leuchtenden Phiolen, Schutzbrille, hochgekrempelte Ärmel, Kolben auf dem Rücken; Hemd/Ärmel tragen die Rüstungsfarbe.
 - Mit Helm: Kapuze als Kragen bzw. keine Brille.
 
+## Schuss-Animation für Bogen und Armbrust (2026-11-03)
+- `drawPlayer` (`220-figures.js`): mit Bogen/Armbrust kein Hieb mehr. `rgW` = Waffenklasse beim Angriff; die Figur zielt (`atk=wang=th`), spannt bis `sp=.45` (dann löst `resolveSwing` den Schuss aus), danach Rückstoß (Körper weicht leicht zurück, Waffe kippt kurz hoch). Keine Klingenspur.
+- `880-bows.js`: `BOWK` (wie weit die Sehne gezogen ist), `BOWHAND` (Hautfarbe der Zughand), `XBOLT` (Bolzen eingelegt). `vBow` zieht die Sehne mit, legt einen Pfeil mit Federn und Spitze auf und zeichnet die Zughand; `vXbow` zeigt nach dem Schuss eine entspannte Sehne ohne Bolzen, ab `sp=.88` wieder geladen. Inventar und Boden zeichnen weiter mit den Grundwerten.
+- Klang: beim Spannen `sfx('draw')` statt Schwert-Wusch, beim Schuss `sfx('twang')` bzw. `sfx('bolt')` (Synth in `120-audio.js`).
+
+## Jägerin: Schatten nach dem Schattenschritt (2026-11-03)
+- `dash` setzt zusätzlich `P.veilT=min(3, 2+0,1·Stufe)`. Solange er läuft, verlieren normale Gegner weiter als 1,4 Schritte das Ziel (`updEnemy` in `200-update.js`: `aggro=false`, Schuss-Aufladung abgebrochen, „?“ über dem Kopf). Bosse lassen sich nicht täuschen.
+- Grundangriff (`startAttack`) und jede andere Fertigkeit (`castSkill`) beenden den Schatten – der erste Schlag aus dem Schatten trifft mit dem Krit-Bonus.
+- Die Figur ist dabei durchscheinend und flackert leicht; Mitspieler sehen das über das Feld `vl` im Bewegungspaket.
+
 ## Alte Spielstände (`P.clv`)
 - Wanderer: Dialog „Der Wanderer geht“ (`clsPick`) beim ersten Laden; Stufe, Erfahrung, Glut, Gegenstände bleiben; Eigenschaftspunkte über den alten Grundwerten, alle Fertigkeitspunkte und alle Talentpunkte kommen zurück; fremde Waffe wandert ins Inventar, Startwaffe der neuen Klasse wird angelegt.
 - Alle anderen: Talentbaum zurückgesetzt (Punkte zurück). Jägerin zusätzlich Fertigkeitspunkte zurück.

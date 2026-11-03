@@ -19,14 +19,21 @@ const _expandItemsK=expandItems;expandItems=function(){_expandItemsK();
     {n:'Zweig der Weisen',b:'Holzzauberstab',lvl:20,m:{spell:100,allsk:1,mana:50,mregen:4}},{n:'Vyrthrax\' Sehne',b:'Drachenbogen',lvl:32,m:{ed:240,fire:40,dex:30,allsk:1}},
     {n:'Belagerer',b:'Belagerungsarmbrust',lvl:30,m:{ed:250,crit:15,str:30,dmgred:6}})};
 WEXT.bow=[-13,13,0,6.5];WEXT.xbow=[-6,17,0,10];WLEN.bow=WLEN.xbow=14;
+// while shooting the hero hands in how far the string is drawn (BOWK, with the skin of the drawing hand) and whether a bolt lies in the crossbow (XBOLT)
+let BOWK=0,BOWHAND=null,XBOLT=1;
 // in the hand: the bow is held across the aim, the crossbow along it, the wand is a twig with a stone at the tip
 function vBow(m,sh){const T=m.t,lim=(sd)=>{const P0=[[2,0],[3.6,-4.6*sd],[2.8,-9.2*sd],[.2,-13*sd]];for(let k=1;k<P0.length;k++)limb(P0[k-1][0],P0[k-1][1],P0[k][0],P0[k][1],1.35-k*.22,1.2-k*.22,T,true);
     poly([[.9,-12*sd],[-.6,-14.2*sd],[.4,-13.6*sd]],m.p,true);if(sh==='Kompositbogen'||sh==='Drachenbogen')limb(.2,-13*sd,-1.4,-13.8*sd,.5,.3,m.p,true)};
-  ctx.strokeStyle='rgba(236,228,206,.85)';ctx.lineWidth=.45;ctx.beginPath();ctx.moveTo(-.4,-13.3);ctx.lineTo(-.4,13.3);ctx.stroke();lim(1);lim(-1);
-  limb(2.1,-1.9,2.1,1.9,1.55,1.55,m.s,true);if(sh==='Drachenbogen'||sh==='Knochenbogen')blob(3.2,0,1.1,1.1,m.gem3,true)}
+  const nx=-.4-7*BOWK;ctx.strokeStyle='rgba(236,228,206,.85)';ctx.lineWidth=.45;ctx.beginPath();ctx.moveTo(-.4,-13.3);ctx.lineTo(nx,0);ctx.lineTo(-.4,13.3);ctx.stroke();lim(1);lim(-1);
+  limb(2.1,-1.9,2.1,1.9,1.55,1.55,m.s,true);if(sh==='Drachenbogen'||sh==='Knochenbogen')blob(3.2,0,1.1,1.1,m.gem3,true);
+  // the nocked arrow: shaft over the grip, grey feathers at the string, a steel head beyond the bow
+  if(BOWK>0){const hx=nx+17.5;limb(nx,0,hx-1.4,0,.42,.42,RP.wood,true);poly([[hx-1.6,-1.1],[hx+.8,0],[hx-1.6,1.1]],RP.iron,true);
+    ctx.fillStyle='#d8d2c4';ctx.beginPath();ctx.moveTo(nx+.4,0);ctx.lineTo(nx+3.4,-1.2);ctx.lineTo(nx+3.8,0);ctx.lineTo(nx+3.4,1.2);ctx.closePath();ctx.fill();
+    if(BOWHAND)blob(nx-.6,.2,1.5,1.4,BOWHAND,true)}}
 function vXbow(m,sh){const heavy=sh==='Schwere Armbrust'||sh==='Belagerungsarmbrust';limb(-6,.6,15,0,heavy?1.9:1.5,1.2,m.t,true);limb(-1,1,-2.6,4.2,.8,.8,m.t,true);
-  const hw=heavy?10:8.5;ctx.strokeStyle='rgba(236,228,206,.8)';ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(11,-hw);ctx.lineTo(7,0);ctx.lineTo(11,hw);ctx.stroke();
-  for(const sd of[-1,1]){limb(13.5,0,12.6,sd*hw*.55,1.1,.9,m.p,true);limb(12.6,sd*hw*.55,11,sd*hw,.9,.6,m.p,true)}limb(7,0,16.5,0,.45,.45,m.s,true);poly([[16,-.9],[18,0],[16,.9]],m.p,true);if(heavy)blob(3,-1.2,.9,.9,m.gem3,true)}
+  // spent, the string snaps forward against the limbs and the groove lies empty until the bolt is wound back in
+  const hw=heavy?10:8.5,sx=XBOLT?7:12.4;ctx.strokeStyle='rgba(236,228,206,.8)';ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(11,-hw);ctx.lineTo(sx,0);ctx.lineTo(11,hw);ctx.stroke();
+  for(const sd of[-1,1]){limb(13.5,0,12.6,sd*hw*.55,1.1,.9,m.p,true);limb(12.6,sd*hw*.55,11,sd*hw,.9,.6,m.p,true)}if(XBOLT){limb(7,0,16.5,0,.45,.45,m.s,true);poly([[16,-.9],[18,0],[16,.9]],m.p,true)}if(heavy)blob(3,-1.2,.9,.9,m.gem3,true)}
 function vWand(m){limb(-3,0,12,0,.85,.55,m.t,true);blob(4,0,.9,.9,m.t,true);const gl=ctx.createRadialGradient(13,0,0,13,0,5);gl.addColorStop(0,m.gem3[2]+'aa');gl.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(13,0,5,0,7);ctx.fill();blob(13,0,1.6,1.6,m.gem3,true)}
 const _vWeaponK=vWeapon;vWeapon=function(hx,hy,ang,cls,m,b){const sh=SH(b);if(cls!=='bow'&&cls!=='xbow'&&sh!=='Holzzauberstab')return _vWeaponK(hx,hy,ang,cls,m,b);
   ctx.save();ctx.translate(hx,hy);ctx.rotate(ang);if(cls==='bow')vBow(m,sh);else if(cls==='xbow')vXbow(m,sh);else vWand(m);ctx.restore()};

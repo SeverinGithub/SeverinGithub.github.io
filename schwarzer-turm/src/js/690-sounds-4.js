@@ -6,11 +6,11 @@ const _sampleD=sample;sample=function(k,vol=.7,o={}){return _sampleD(k,k==='poti
 // synthesis: a pitched voice with an optional wobble, and filtered noise; both fade out on their own
 function syO(t,{type='sine',f0,f1=f0,dur,vol,at=.006,del=0,vib=0,vr=6,filt=null,fq=1}){const o=AC.createOscillator(),g=AC.createGain(),T=t+del;o.type=type;
   o.frequency.setValueAtTime(f0,T);o.frequency.exponentialRampToValueAtTime(Math.max(20,f1),T+dur);g.gain.setValueAtTime(.0001,T);g.gain.exponentialRampToValueAtTime(vol,T+at);g.gain.exponentialRampToValueAtTime(.0001,T+dur);
-  let n=o;if(filt){const f=AC.createBiquadFilter();f.type=filt[0];f.frequency.value=filt[1];f.Q.value=fq;o.connect(f);n=f}n.connect(g);g.connect(SFXG);
+  let n=o;if(filt){const f=AC.createBiquadFilter();f.type=filt[0];f.frequency.value=filt[1];f.Q.value=fq;o.connect(f);n=f}n.connect(g);g.connect(sfxOut());
   if(vib){const l=AC.createOscillator(),lg=AC.createGain();l.frequency.value=vr;lg.gain.value=vib;l.connect(lg);lg.connect(o.frequency);l.start(T);l.stop(T+dur+.05)}o.start(T);o.stop(T+dur+.05)}
 function syN(t,{dur,vol,ft='lowpass',f0,f1=f0,q=1,at=.004,del=0}){const s=AC.createBufferSource(),f=AC.createBiquadFilter(),g=AC.createGain(),T=t+del;s.buffer=noiseBuf;s.loop=true;s.playbackRate.value=rnd(.8,1.2);
   f.type=ft;f.Q.value=q;f.frequency.setValueAtTime(f0,T);f.frequency.exponentialRampToValueAtTime(Math.max(20,f1),T+dur);g.gain.setValueAtTime(.0001,T);g.gain.exponentialRampToValueAtTime(vol,T+at);g.gain.exponentialRampToValueAtTime(.0001,T+dur);
-  s.connect(f);f.connect(g);g.connect(SFXG);s.start(T,Math.random()*.2);s.stop(T+dur+.05)}
+  s.connect(f);f.connect(g);g.connect(sfxOut());s.start(T,Math.random()*.2);s.stop(T+dur+.05)}
 const SYN={
   // hammer blows: a deep body, a dull crack, a rumble under the heavier ones
   thud:t=>{syO(t,{f0:150,f1:38,dur:.5,vol:.55});syO(t,{type:'triangle',f0:75,f1:30,dur:.35,vol:.3});syN(t,{dur:.25,vol:.4,f0:1100,f1:180})},

@@ -103,7 +103,9 @@ function drawPlayer(){
   if(go&&run>.25&&!P.roll){const q=Math.sign(Math.sin(P.gPh));if(q!==P.gS){P.gS=q;smoke(P.x,P.y,1,'rgba(90,78,62,',2.5+run*2.5,.25)}}
   // swing: wind up, snap through, settle; the body steps into the blow
   const sp=P.atkT>0?1-P.atkT/P.atkDur:0,sw=sp<.32?-2.3*(1-Math.pow(1-sp/.32,2)):sp<.55?-2.3+4.2*Math.pow((sp-.32)/.23,2):1.9-.7*(1-Math.pow(1-(sp-.55)/.45,2));
-  const lunge=P.atkT>0&&sp>.28&&sp<.75?Math.sin((sp-.28)/.47*Math.PI)*4.5:0,lx=fx*lunge,ly=fy*lunge*.6;
+  // a bow is drawn, not swung: pull until the arrow leaves (the shot resolves at .45), then the body gives a little to the recoil
+  const rgW=P.atkT>0&&P.eq.weapon&&P.d.okS.has(P.eq.weapon)&&isRangedW(P.eq.weapon)?P.eq.weapon.cls:null,rgK=rgW&&sp<.45?Math.pow(sp/.45,.6):0;
+  const lunge=rgW?(sp>.45&&sp<.8?-Math.sin((sp-.45)/.35*Math.PI)*(rgW==='xbow'?2.4:1.6):0):P.atkT>0&&sp>.28&&sp<.75?Math.sin((sp-.28)/.47*Math.PI)*4.5:0,lx=fx*lunge,ly=fy*lunge*.6;
   const th=Math.atan2(fy,fx),an=P.atkT>0?null:heroAnim(P,th,f);
   ctx.save();ctx.translate(sx+lx,sy+ly+(an?an.dy:0));if(P.leap)ctx.translate(0,-Math.sin(Math.min(1,P.leap.t/P.leap.dur)*Math.PI)*34);
   const{R,fx:tfx}=heroLook(P.hurt>0),helm=P.eq.helm&&P.d.okS.has(P.eq.helm)?P.eq.helm:null,wpn=P.eq.weapon&&P.d.okS.has(P.eq.weapon)?P.eq.weapon:null,sh=P.eq.offhand&&P.d.okS.has(P.eq.offhand)?P.eq.offhand:null;
@@ -112,20 +114,21 @@ function drawPlayer(){
   // the weapon trails lower behind a runner, sweeps round in a whirl, is lifted high in a leap
   let wang=Math.atan2(fy,fx)+(P.atkT>0?sw:.9+run*.7*Math.abs(fx))*f,atk=P.atkT>0?wang:null,lean=go?.05+run*.17:0,sq=0;
   if(an){atk=an.atk;wang=an.wang;lean+=an.lean;sq+=an.sq}
+  if(rgW){const kick=sp>.45&&sp<.7?Math.sin((sp-.45)/.25*Math.PI)*(rgW==='xbow'?.22:.12):0;atk=th;wang=th-kick*f;lean=-.04-kick*.3}
   if(P.dash){atk=th;wang=th+.15*f;lean=.32}
   if(P.leap){const q=Math.min(1,P.leap.t/P.leap.dur);if(q<.7){atk=-Math.PI/2;wang=-Math.PI/2+f*(.3+q*.4)}else{const k=(q-.7)/.3;atk=th*(1-k)+Math.PI/2*k;wang=-Math.PI/2+f*(.6+k*2.4)}}
   let whirlA=null;if(P.whirl>0){whirlA=(1-P.whirl/.35)*Math.PI*4;atk=th+whirlA*f;wang=atk}
   if(go&&!P.roll){sq+=Math.pow(Math.abs(Math.sin(P.gPh)),8)*(.025+run*.05)}
   ctx.transform(1,0,-f*lean*(Math.abs(fx)*.7+.3),1,0,0);if(sq)ctx.scale(1+sq*.5,1-sq);
   const o={R,f,back,dir:[fx*f,fy],moving:go&&!P.leap,ph:P.gPh,head,torsoFx:tfx,atk,stride:1+run*.55,knee:run*3.4+(P.leap?4:0),lift:1+run*1.3,bobA:1.1+run*1.6,armSwing:1+run*1,armLen:15-run*3,
-    weapon:(x,y)=>{if(!wpn)return;vWeapon(x,y,wang,wpn.cls,wRampsOf(wpn),wpn.b);if(P.atkT>0&&sp>.3&&sp<.66&&!P.whirl){const L=WLEN[SH(wpn.b)==='Henkersbeil'?'axe':wpn.cls]||22,c=Math.cos(wang),s2=Math.sin(wang);P.trail.push({ox:lx+x+c*L,oy:ly+y+s2*L,ix:lx+x+c*L*.42,iy:ly+y+s2*L*.42,t:0})}
+    weapon:(x,y)=>{if(!wpn)return;if(rgW){BOWK=rgK;BOWHAND=R.skin;XBOLT=rgW==='xbow'&&sp>.45&&sp<.88?0:1}try{vWeapon(x,y,wang,wpn.cls,wRampsOf(wpn),wpn.b)}finally{BOWK=0;BOWHAND=null;XBOLT=1}if(P.atkT>0&&sp>.3&&sp<.66&&!P.whirl&&!rgW){const L=WLEN[SH(wpn.b)==='Henkersbeil'?'axe':wpn.cls]||22,c=Math.cos(wang),s2=Math.sin(wang);P.trail.push({ox:lx+x+c*L,oy:ly+y+s2*L,ix:lx+x+c*L*.42,iy:ly+y+s2*L*.42,t:0})}
       if(an&&an.glow){const L=WLEN[wpn.cls]||22;ctx.save();ctx.globalCompositeOperation='lighter';const gx=x+Math.cos(wang)*L,gy=y+Math.sin(wang)*L,g=ctx.createRadialGradient(gx,gy,0,gx,gy,9*an.glow);g.addColorStop(0,`rgba(255,220,150,${.8*an.glow})`);g.addColorStop(1,'rgba(255,140,60,0)');ctx.fillStyle=g;ctx.fillRect(gx-10,gy-10,20,20);ctx.restore()}},
     offhand:sh?(x,y,b)=>vShield(sh,x,y,b,f):wpn&&isDualB(wpn.b)?(x,y)=>vWeapon(x,y,wang+(P.atkT>0?-.5:.35)*f,wpn.cls,wRampsOf(wpn),wpn.b):null};
   if(an&&an.hit&&P.anHit!==P.anS){P.anHit=P.anS;heroImpact(P,an.hit)}
   if(P.dead){o.moving=false;o.weapon=null;ctx.translate(0,-3);ctx.rotate(-Math.PI/2*f);ctx.translate(0,22);humanoid(o);ctx.restore();return}
   if(P.roll>0){heroRoll(o);ctx.restore();return}
   if(whirlA!=null){const c=Math.cos(whirlA);ctx.scale((c<0?-1:1)*Math.max(.35,Math.abs(c)),1)}
-  if(an&&an.ground)an.ground();if(an&&an.alpha!=null)ctx.globalAlpha*=Math.max(0,an.alpha);
+  if(an&&an.ground)an.ground();if(an&&an.alpha!=null)ctx.globalAlpha*=Math.max(0,an.alpha);if(P.veilT>0)ctx.globalAlpha*=.32+.08*Math.sin(G.t*9);
   const aw=humanoid(o);if(an&&an.fx){const L=wpn?(WLEN[wpn.cls]||22):6;an.fx(aw.hx+Math.cos(wang)*L,aw.hy+.8+Math.sin(wang)*L,aw.hx,aw.hy)}
   if(P.ward>0){for(let k=0;k<6;k++){const a=G.t*3+k*1.047,x=Math.cos(a)*17,y=-18+Math.sin(a)*8+Math.sin(G.t*4+k)*2;limb(x-2.6,y+.6,x+2.6,y-.6,.9,.9,RP.bone)}}
   ctx.restore()}

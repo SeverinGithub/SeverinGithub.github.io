@@ -6,7 +6,7 @@ SKILLS.push(
  {id:'multi',n:'Fächerschuss',req:1,cd:.45,mana:l=>4+Math.round(l*.6),desc:l=>`Schießt ${5+Math.floor(l/4)} Pfeile im Fächer, je ${60+l*6}% Waffenschaden.`},
  {id:'pierce',n:'Durchschlag',req:1,cd:.8,mana:l=>6+l,desc:l=>`Ein schwerer Pfeil, der alles durchbohrt: ${180+l*20}% Waffenschaden.`},
  {id:'trap',n:'Dornenfalle',req:3,cd:1,mana:l=>8+l,desc:l=>`Legt eine Falle, höchstens 3 zugleich. Sie zündet bei Feinden: ${Math.round(spellBase('trap',l))} Schaden und Gift.`},
- {id:'dash',n:'Schattenschritt',req:6,cd:3,mana:l=>6+l,desc:l=>`Huscht 5 Schritte weit, unverwundbar. Danach 3 Sekunden lang +${30+l*3}% kritische Trefferchance.`},
+ {id:'dash',n:'Schattenschritt',req:6,cd:3,mana:l=>6+l,desc:l=>`Huscht 5 Schritte weit, unverwundbar. Danach ${Math.min(3,2+l*.1).toFixed(1).replace('.',',')} Sekunden im Schatten: Gegner verlieren dich aus den Augen, bis du zuschlägst. 3 Sekunden lang +${30+l*3}% kritische Trefferchance.`},
  {id:'rain',n:'Pfeilregen',req:9,cd:5,mana:l=>14+l*2,desc:l=>`Lässt 2 Sekunden lang Pfeile auf ein Gebiet regnen: je Welle ${45+l*5}% Waffenschaden.`},
  {id:'venom',n:'Giftklinge',req:12,cd:14,mana:l=>12+l,desc:l=>`15 Sekunden lang vergiftet jeder Treffer: ${20+l*4}% des Schadens zusätzlich als Gift über 3 Sekunden.`},
  {id:'meteor',n:'Meteor',req:9,cd:3,mana:l=>16+l*2,desc:l=>`Ruft einen Meteor herab: ${Math.round(spellBase('meteor',l))} Feuerschaden, danach brennt der Boden.`},
@@ -39,14 +39,14 @@ function castExt(id,l,ang,tx,ty){const m=G.map;
   if(id==='trap'){G.ptraps=(G.ptraps||[]).filter(t=>t.life>0);if(G.ptraps.length>=3)G.ptraps.shift();let d=Math.min(6,hyp(tx-P.x,ty-P.y)),x=P.x+Math.cos(ang)*d,y=P.y+Math.sin(ang)*d;if(!walkable(x,y)){x=P.x;y=P.y}
     G.ptraps.push({x,y,arm:.6,life:25,l,dmg:spellBase('trap',l)});sfx('pick');smoke(x,y,3,'rgba(60,70,40,',4,.3)}
   if(id==='dash'){let ex=P.x,ey=P.y;for(let s=0;s<=5;s+=.25){const x=P.x+Math.cos(ang)*s,y=P.y+Math.sin(ang)*s;if(!free(x,y,P.r))break;ex=x;ey=y;if(((s*4)|0)%2===0)P.ghosts.push({x,y,face:ang,t:0})}
-    smoke(P.x,P.y,5,'rgba(40,30,60,',6,.3);P.x=ex;P.y=ey;P.iframe=.4;P.shadowT=3;P.shadowB=30+l*3;smoke(P.x,P.y,5,'rgba(40,30,60,',6,.3);sfx('roll');P.path=[]}
+    smoke(P.x,P.y,5,'rgba(40,30,60,',6,.3);P.x=ex;P.y=ey;P.iframe=.4;P.shadowT=3;P.shadowB=30+l*3;P.veilT=Math.min(3,2+l*.1);smoke(P.x,P.y,5,'rgba(40,30,60,',6,.3);sfx('roll');P.path=[]}
   if(id==='rain'){let d=Math.min(9,hyp(tx-P.x,ty-P.y));G.zones.push({k:'rain',x:P.x+Math.cos(ang)*d,y:P.y+Math.sin(ang)*d,r:2.5,t:0,dur:2,tick:.33,acc:.33,dmg:pDmg(.45+l*.05)})}
   if(id==='venom'){P.venomT=15;P.venomB=20+l*4;flash(P.x,P.y,1,40,'140,230,80',.3);for(let k=0;k<20;k++)fxp({k:'mote',x:P.x+rnd(-.5,.5),y:P.y+rnd(-.5,.5),z:rnd(.3,1.4),vx:rnd(-1,1),vy:rnd(-1,1),vz:rnd(0,1),life:.8,col:pick(['#9ae050','#d8ff9a']),s:rnd(1,2),g:0});sfx('cast')}
   if(id==='meteor'){let d=Math.min(10,hyp(tx-P.x,ty-P.y));G.zones.push({k:'meteor',x:P.x+Math.cos(ang)*d,y:P.y+Math.sin(ang)*d,r:2.4,t:0,dur:.9,dmg:spellBase('meteor',l)});sample('fire',.5,{rate:.7})}
   if(id==='blink'){let ex=P.x,ey=P.y;const d=Math.min(8,hyp(tx-P.x,ty-P.y));for(let s=0;s<=d;s+=.25){const x=P.x+Math.cos(ang)*s,y=P.y+Math.sin(ang)*s;if(free(x,y,P.r)){ex=x;ey=y}}
     const burst=(x,y)=>{boom(x,y,.9,'fire');for(const e of m.enemies)if(!e.dead&&hyp(e.x-x,e.y-y)<1.8+e.r)hitEnemy(e,spellBase('blink',l)*rnd(.85,1.15),{col:'#ffb070'})};burst(P.x,P.y);P.x=ex;P.y=ey;P.path=[];P.iframe=.25;camX+=0;burst(P.x,P.y);sfx('zap')}}
 function updExt(dt){const m=G.map;
-  if(P.cryT>0)P.cryT-=dt;if(P.shadowT>0)P.shadowT-=dt;if(P.venomT>0){P.venomT-=dt;if(Math.random()<dt*8)fxp({k:'mote',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.2),vx:0,vy:0,vz:.6,life:.5,col:'#9ae050',s:1,g:0})}
+  if(P.cryT>0)P.cryT-=dt;if(P.shadowT>0)P.shadowT-=dt;if(P.veilT>0)P.veilT-=dt;if(P.venomT>0){P.venomT-=dt;if(Math.random()<dt*8)fxp({k:'mote',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.2),vx:0,vy:0,vz:.6,life:.5,col:'#9ae050',s:1,g:0})}
   if(P.cryT>0&&Math.random()<dt*6)fxp({k:'ember',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.4),vx:0,vy:0,vz:1,life:.5,col:'#ff7a3a',s:1,g:0});
   for(const z of G.zones){z.t+=dt;
     if(z.k==='rain'){z.acc+=dt;for(let q=0;q<3;q++){const a=rnd(0,6.28),r=rnd(0,z.r);fxp({k:'shard',x:z.x+Math.cos(a)*r,y:z.y+Math.sin(a)*r,z:3,vx:0,vy:0,vz:-14,life:.2,col:'#e8e2d0',s:1.4,rot:1.57,g:0})}

@@ -68,7 +68,7 @@ function dropItem(it,x,y){
   const m=G.map;for(let k=0;k<12;k++){const a=Math.random()*7,r=Math.random()*1.1,nx=x+Math.cos(a)*r,ny=y+Math.sin(a)*r;if(walkable(nx,ny)){x=nx;y=ny;break}}
   m.items.push({item:it,x,y,t:0});if(it.rar==='unique'){sfx('unique');log('Einzigartig: '+it.name,'var(--r-unique)')}}
 function startAttack(ang){
-  if(P.st<=0)return false;P.face=ang;P.atkDur=1/P.d.aspd;P.atkT=P.atkDur;P.hitDone=false;P.st-=8;P.stDelay=.7;sample('sword',.55)||sfx('swing');return true}
+  if(P.st<=0)return false;P.veilT=0;P.face=ang;P.atkDur=1/P.d.aspd;P.atkT=P.atkDur;P.hitDone=false;P.st-=8;P.stDelay=.7;if(isRangedW(P.eq.weapon)&&P.d.okS.has(P.eq.weapon))sfx('draw');else sample('sword',.55)||sfx('swing');return true}
 function resolveSwing(){
   const reach=P.d.reach+.35;let any=false;
   for(const e of G.map.enemies){if(e.dead)continue;const d=hyp(e.x-P.x,e.y-P.y);if(d>reach+e.r)continue;if(Math.abs(angDiff(Math.atan2(e.y-P.y,e.x-P.x),P.face))>1.05&&d>e.r+.2)continue;weaponHit(e);any=true}
@@ -77,7 +77,7 @@ function castSkill(id,tx,ty){
   if(P.dead||P.roll>0||P.dash||P.leap||P.cast>0||P.atkT>0)return;
   const s=SKBY[id],l=skLvl(id);if(l<=0){log(s.n+' ist noch nicht erlernt (K).','#a39b88');return}
   if((P.cds[id]||0)>0)return;const cost=Math.max(1,Math.round(s.mana(l)*(1-P.d.mcost/100)));if(P.mp<cost){log('Nicht genug Mana.','#7aa4ff');return}
-  P.mp-=cost;P.cds[id]=s.cd*(1-P.d.cdr/100);P.sel=id;const ang=Math.atan2(ty-P.y,tx-P.x);P.face=ang;P.cast=.28;P.path=[];P.target=null;sfx('cast');
+  if(id!=='dash')P.veilT=0;P.mp-=cost;P.cds[id]=s.cd*(1-P.d.cdr/100);P.sel=id;const ang=Math.atan2(ty-P.y,tx-P.x);P.face=ang;P.cast=.28;P.path=[];P.target=null;sfx('cast');
   if(!['whirl','fire','nova','charge','ward','chain'].includes(id)){castExt(id,l,ang,tx,ty);return}
   if(id==='whirl'){P.cast=.35;P.whirl=.35;for(let k=0;k<4;k++)slashFx(P.x,P.y,ang+k*1.571,2.4,1.9,'235,225,205',.3,.6,.5);smoke(P.x,P.y,5,'rgba(90,78,62,',6,.2);for(const e of G.map.enemies){if(!e.dead&&hyp(e.x-P.x,e.y-P.y)<1.9+e.r)weaponHit(e,1.1+l*.15)}G.rings.push({x:P.x,y:P.y,r:.4,max:2,v:10,col:'#e8e2d0',hit:new Set(),dmg:0})}
   if(id==='fire'){const sp=10;sample('fire',.6);flash(P.x+Math.cos(ang)*.5,P.y+Math.sin(ang)*.5,.8,22,'255,180,80',.16);G.proj.push({x:P.x+Math.cos(ang)*.4,y:P.y+Math.sin(ang)*.4,vx:Math.cos(ang)*sp,vy:Math.sin(ang)*sp,owner:'p',dmg:spellBase('fire',l),kind:'glut',r:.3,life:1.4,aoe:1.4})}

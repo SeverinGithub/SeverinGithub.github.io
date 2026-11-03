@@ -8,7 +8,7 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 - Live: GitHub Pages des Repos `SeverinGithub/SeverinGithub.github.io`, Pfad `/schwarzer-turm/`
 - Artefakt (Vorschau auf claude.ai): die alte Adresse RyXp68BqnpmdkzTHnvAd8z ist nicht mehr erreichbar (2026-11-02) – neues Artefakt nur nach Rückfrage
 - Wiki: `turm-wiki/index.html` im selben Repo, liest Daten und Bilder live aus dem Spiel (siehe [[Turm-Wiki]])
-- Letzter Stand: Commit `2aec3eb` (2026-11-02), gepusht auf `main`
+- Letzter Stand: siehe [[Changelog]] bzw. `git log` (Stand 2026-11-03: Bogen-Animation, Schatten der Jägerin, Mitspieler-Effekte)
 
 ## Zum Einstieg in einer neuen Session
 1. [[Arbeitsweise]] lesen – feste Regeln (Push nur nach „Ja, live schalten“, Artefakt immer aktualisieren, Commit-Format).

@@ -120,7 +120,7 @@ function mpQuestSync(qi,who){if(!P||G.state==='title')return;const to=Math.min(q
 function mpRemote(id){return{id,nm:'Mitspieler',x:0,y:0,tx:0,ty:0,vx:0,vy:0,face:0,floor:null,anim:0,atkT:0,atkDur:.4,eq:{},d:{okS:new Set()},cls:'wanderer',ghosts:[],trail:[],buf:[],hurt:0,moving:false,dead:false,down:0,rv:0,roll:0,whirl:0,ward:0,leap:null,ride:false,hs:rgHS(),lvl:1,hp:1,hm:1,seen:0,fresh:1}}
 function mpState(r,d){const ts=d.ts!=null?d.ts:performance.now();if(r.lts!=null&&ts<=r.lts)return;r.lts=ts;mpClock(r,ts);
   const far=r.fresh||r.floor!==d.fl;if(far){r.buf=[];r.x=d.x;r.y=d.y;r.hs=rgHS()}mpPush(r.buf,{t:ts,x:d.x,y:d.y});r.tx=d.x;r.ty=d.y;r.at=performance.now();r.fresh=0;
-  r.face=d.f;r.floor=d.fl;r.moving=!!d.mv;r.ride=!!d.r;r.dead=!!d.dd;r.down=performance.now()<r.rvCool?0:d.dn||0;if(r.down===0&&performance.now()<r.rvCool)r.dead=false;r.roll=d.ro||0;r.lvl=d.lv;r.hp=d.hp;r.hm=d.hm;r.rvi=d.rvi||null;r.rvp=d.rvp||0;if(d.nm)r.nm=d.nm;r.seen=performance.now();
+  r.face=d.f;r.floor=d.fl;r.moving=!!d.mv;r.ride=!!d.r;r.dead=!!d.dd;r.down=performance.now()<r.rvCool?0:d.dn||0;if(r.down===0&&performance.now()<r.rvCool)r.dead=false;r.roll=d.ro||0;r.veilT=d.vl||0;r.lvl=d.lv;r.hp=d.hp;r.hm=d.hm;r.rvi=d.rvi||null;r.rvp=d.rvp||0;if(d.nm)r.nm=d.nm;r.seen=performance.now();
   if(d.a>0){r.atkDur=d.ad||.4;const t=(1-d.a)*r.atkDur;if(!(r.atkT>0)||Math.abs(r.atkT-t)>.15)r.atkT=t}
   if(NET.goTo&&NET.role==='guest'&&r.id==='h'){NET.goTo=0;if(typeof d.fl==='number'&&d.fl===0&&G.floor===0)mpTravel('h',1);else if(typeof d.fl==='number')log(r.nm+' ist im Turm, '+floorTitle(d.fl)+'. Am Leuchtfeuer kannst du zu '+r.nm+' reisen.','#9ad0ff')}}
 function mpLook(){const eq={};for(const k of['weapon','offhand','helm','armor','gloves','boots','belt','mount']){const it=P&&P.eq[k];if(it&&(k==='mount'||P.d.okS.has(it)))eq[k]=it}return{t:'l',id:NET.me,cls:P?P.cls:'wanderer',nm:mpName(),eq,qi:P?P.qi||0:0}}
@@ -130,7 +130,7 @@ setInterval(()=>{if(!mpOn()||!P||G.state==='title'||!P.d)return;const now=perfor
   NET.st0=now;
   let rvi=null,rvp=0;for(const r of NET.others.values())if(r.rv>0){rvi=r.id;rvp=+(r.rv/MPREV).toFixed(2)}
   mpSend({t:'s',id:NET.me,ts:Math.round(now),x:+P.x.toFixed(2),y:+P.y.toFixed(2),f:+(P.face||0).toFixed(2),fl:G.floor,hp:Math.round(P.hp),hm:Math.round(P.d.life),lv:P.lvl,mv:P.moving?1:0,
-    a:P.atkT>0?+(1-P.atkT/P.atkDur).toFixed(2):0,ad:P.atkDur||.4,r:riding()?1:0,dd:P.dead?1:0,dn:P.down>0?+P.down.toFixed(1):0,ro:P.roll>0?+P.roll.toFixed(2):0,rvi,rvp,nm:mpName()},true);
+    a:P.atkT>0?+(1-P.atkT/P.atkDur).toFixed(2):0,ad:P.atkDur||.4,r:riding()?1:0,dd:P.dead?1:0,dn:P.down>0?+P.down.toFixed(1):0,ro:P.roll>0?+P.roll.toFixed(2):0,vl:P.veilT>0?+P.veilT.toFixed(1):0,rvi,rvp,nm:mpName()},true);
   const L=mpLook(),h=JSON.stringify(L.eq).length+'|'+Object.values(L.eq).map(i=>i.id).join(',')+L.cls+L.nm+'|'+L.qi;if(h!==NET.lookH||now-NET.lookT>6000){NET.lookH=h;NET.lookT=now;mpSend(L)}},33);
 
 /* ----- shared monsters ----- */
@@ -254,7 +254,7 @@ function mpCastFx(r,d){if(r.floor!==G.floor||typeof G.floor!=='number')return;co
     case'nova':for(let k=0;k<40;k++){const q=k/40*6.283;fxp({k:'shard',x,y,z:.3+rnd(0,.4),vx:Math.cos(q)*9,vy:Math.sin(q)*9,vz:rnd(0,1),life:.5,col:pick(['#ffffff','#e0fff8','#a8d0ff','#6ad0ff']),s:rnd(2,3.5),rot:q,g:1})}
       shock(x,y,4.6,'170,220,255',.5,4);flash(x,y,.6,50,'170,220,255',.25);decal('frost',x,y,1.6,20);G.rings.push({x,y,r:.3,max:4.6,v:9,col:'#bfe2ff',hit:new Set(),dmg:0});break;
     case'charge':smoke(x,y,4,'rgba(90,78,62,',5,.3);setTimeout(()=>{if(r.floor===G.floor){slamFx(r.x,r.y,1.8,false);sfx('boom')}},380);break;
-    case'ward':for(let k=0;k<22;k++){const q=rnd(0,6.28),rr=rnd(1.2,2);fxp({k:'bone',x:x+Math.cos(q)*rr,y:y+Math.sin(q)*rr,z:rnd(.3,1.2),vx:-Math.cos(q)*rr*3,vy:-Math.sin(q)*rr*3,vz:0,life:.33,col:pick(GORE.bone.cols),s:rnd(1.4,2.4),g:0,rot:q,vr:8})}flash(x,y,.8,40,'236,228,200',.3);break;
+    case'ward':r.wardU=G.t+15;for(let k=0;k<22;k++){const q=rnd(0,6.28),rr=rnd(1.2,2);fxp({k:'bone',x:x+Math.cos(q)*rr,y:y+Math.sin(q)*rr,z:rnd(.3,1.2),vx:-Math.cos(q)*rr*3,vy:-Math.sin(q)*rr*3,vz:0,life:.33,col:pick(GORE.bone.cols),s:rnd(1.4,2.4),g:0,rot:q,vr:8})}flash(x,y,.8,40,'236,228,200',.3);break;
     case'chain':{const[tx,ty]=at(10);let cur=null,bd=3.2;for(const e of G.map.enemies){if(e.dead)continue;const dd=hyp(e.x-tx,e.y-ty);if(dd<bd&&hyp(e.x-x,e.y-y)<10){bd=dd;cur=e}}
       if(!cur)G.bolts.push({a:[x,y],b:[x+cs*4,y+sn*4],t:.2});let from={x,y};const hit=new Set();
       for(let k=0;k<3+Math.floor(l/3)&&cur;k++){G.bolts.push({a:[from.x,from.y],b:[cur.x,cur.y],t:.25});hit.add(cur);flash(cur.x,cur.y,.7,30,'180,210,255',.2);sparks(cur.x,cur.y,.7,0,10,['#ffffff','#cfe0ff','#7aa4ff'],6,3.2);from=cur;let nx=null,nd=4.5;for(const e of G.map.enemies){if(e.dead||hit.has(e))continue;const dd=hyp(e.x-from.x,e.y-from.y);if(dd<nd){nd=dd;nx=e}}cur=nx}
@@ -366,7 +366,8 @@ const _applyDataSh=applyData;applyData=function(d){const sh=d&&d.g&&d.g.mpShared
 /* ----- the others ----- */
 // glide toward where they will be in a moment, not where they were
 function mpTick(dt){const now=performance.now();NET.meX=P.x;NET.meY=P.y;
-  for(const r of NET.others.values()){const q=mpAt(r.buf,mpNow(r)-MPLAG);if(q){r.x=q.x;r.y=q.y}if(r.moving)r.anim+=dt;if(r.atkT>0)r.atkT=Math.max(0,r.atkT-dt);if(r.whirl>0){r.whirl-=dt;slashFx(r.x,r.y,G.t*22,1.5,1.9,'235,225,205',.12,.6,.38)}r.trail.length=0;r.stale=now-r.seen>4000;
+  for(const r of NET.others.values()){const q=mpAt(r.buf,mpNow(r)-MPLAG);if(q){r.x=q.x;r.y=q.y}if(r.moving)r.anim+=dt;if(r.atkT>0)r.atkT=Math.max(0,r.atkT-dt);if(r.whirl>0){r.whirl-=dt;slashFx(r.x,r.y,G.t*22,1.5,1.9,'235,225,205',.12,.6,.38)}r.trail.length=0;
+    r.dash=r.dashU>G.t?{ang:r.dashA,left:1,l:0}:null;r.ward=r.wardU>G.t?1:0;if(r.dash)r.ghosts.push({x:r.x,y:r.y,face:r.dashA,t:0});for(const g of r.ghosts)g.t+=dt;if(r.ghosts.length)r.ghosts=r.ghosts.filter(g=>g.t<.3);r.stale=now-r.seen>4000;
     // standing beside a fallen friend raises them
     if(r.down>0&&!(now<r.rvCool)&&!P.dead&&!r.stale&&r.floor===G.floor&&hyp(r.x-P.x,r.y-P.y)<1.9){r.rv+=dt;if(r.rv>=MPREV){r.rv=0;r.down=0;r.rvCool=now+2000;mpSend({t:'rv',id:NET.me,to:r.id,by:NET.me});log('Du hast '+r.nm+' wieder aufgerichtet.','#ffe08a')}}else r.rv=Math.max(0,r.rv-dt*2)}
   if(NET.role==='host')mpHostSync(dt);else if(NET.role==='guest')mpGuestTick();

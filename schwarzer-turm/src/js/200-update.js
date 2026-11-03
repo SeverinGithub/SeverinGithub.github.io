@@ -96,6 +96,8 @@ function updEnemy(e,dt){
   e.flash=Math.max(0,e.flash-dt);e.slow=Math.max(0,e.slow-dt);e.hitT=Math.max(0,(e.hitT||0)-dt);e.lungeT=Math.max(0,(e.lungeT||0)-dt);
   if(e.kvx||e.kvy){moveEnt(e,e.kvx*dt,e.kvy*dt);const dm=Math.pow(.002,dt);e.kvx*=dm;e.kvy*=dm;if(Math.abs(e.kvx)+Math.abs(e.kvy)<.05)e.kvx=e.kvy=0}
   const dx=P.x-e.x,dy=P.y-e.y,d=hyp(dx,dy),sp=e.spd*(e.slow>0?.5:1);
+  // in the shadow after a shadow step the huntress is gone for anyone not close enough to touch her; bosses are not fooled
+  if(P.veilT>0&&!e.boss&&d>1.4){if(e.aggro){e.aggro=false;e.charge=0;if(CFG.numbers)ftext(e.x,e.y-.3,'?','#b8b0d8')}e.anim+=dt*.3;return}
   if(!e.aggro&&d<(e.boss?9:7.5)&&eLos(e,0)){e.aggro=true;voice(e);if(e.pack)for(const p of e.pack)p.aggro=true}
   if(!e.aggro){e.anim+=dt*.3;return}
   if(d>26){e.aggro=false;return}

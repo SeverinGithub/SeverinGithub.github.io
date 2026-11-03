@@ -42,4 +42,10 @@ Statt alles nachzubauen, läuft die **echte** Fertigkeit (`castExt(id,l,ang,tx,t
 - Getestet: alle 31 Fertigkeiten × 4 Elemente – eigener Held (Position, Leben, Mana, Buffs, Sprung/Dash-Zustand) und ein Testgegner mit 1e6 Leben blieben unverändert, keine Konsolenfehler.
 - Bekannte Grenzen: Schild-Optik von `g_parry` und Dash-Bewegung erscheinen nicht am Mitspieler (dessen Position kommt ohnehin per Netz); `sfx()` (ohne Lautstärkeparameter) spielt in voller Lautstärke.
 
+## Klingenwall, Dash und Klang am Mitspieler (2026-11-03)
+- `visRun` übernimmt nach der Sandbox `px.ward` → `r.wardU` (Ablaufzeit, 8 s) und `px.dash` → `r.dashA/r.dashU` (Dauer = Strecke / 16) und löscht die eigenen Felder am Stellvertreter wieder. Der alte Knochenschild (`case'ward'`) setzt `r.wardU` auf 15 s.
+- Der Mitspieler-Tick in `560-online.js` macht daraus `r.ward`/`r.dash` und legt Nachbilder (`r.ghosts`) an; `drawPlayer` zeigt dann die kreisenden Klingen bzw. die Dash-Haltung. Wird der Schild vorzeitig zerschlagen, sieht der andere das nicht (nicht synchronisiert).
+- **Entfernungsdämpfung:** `SFXV` (0,15…1) in `120-audio.js`; `sfxOut()` schickt Klänge durch einen leiseren Gain-Knoten. Genutzt von `sample`, `sfx` und `syn` (`690-sounds-4.js`). `visRun` setzt `SFXV` nach Entfernung (ersetzt die alte `sample`-Hülle), der alte `MPOLD`-Pfad in `mpCastFx` ebenfalls (verzögerte Teile dort bleiben ungedämpft).
+- Nur mit simuliertem Mitspieler geprüft.
+
 Zurück zu [[Start]].
