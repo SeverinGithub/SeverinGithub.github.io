@@ -21,6 +21,8 @@ tags: [todo]
 - [x] Gang für alle Figuren (Stehen/Atmen, Gehen, Laufen, Sprinten mit Knien) und Dash nach vorn mit Salto etwa jedes 5. Mal (2026-11-03, siehe [[Bewegung]]). Auf dem iPad ansehen, ob der Dash zu stark kippt.
 - [ ] **Waffen-Ideen abarbeiten**: 54 Einträge in [[Waffen-Ideen]], der Reihe nach (zuerst Knotenstab für den Magier, dann Schwerter, Hellebarde neu).
 - [x] Questgeber Eldrik neu gezeichnet mit eigener Schreibstube (2026-11-03, siehe [[Eldriks Schreibstube]]).
+- [x] Kartendesign: Themen-Stockwerke, Flüche, Sonderräume, Fässer/Kronleuchter/Druckplatten, Bodenrisse, Aufzug, Grüfte, Landmarken, Brückensteine, Klima, Turm-Lichter (2026-11-03, siehe [[Turm-Ebenen und Inseln]]). Im echten Spiel Häufigkeiten und Schaden prüfen.
+- [ ] **Multiplayer für die neuen Kartenteile**: Hebel, Prüfung, Fässer, Kronleuchter, Bodenrisse und Brückensteine werden noch nicht übertragen.
 - [ ] **Odalindes Sockelanzahl wählbar machen** – angeboten nach der Runenwort-Prüfung, Nutzer hat nicht geantwortet. Würde gezieltes Bauen von 2/3/4-Runen-Runenwörtern erlauben. Erst nachfragen.
 - [ ] **Multiplayer mit zwei echten Spielern testen**: Statue für Gäste (`ar`/`arx`) und sichtbare Fähigkeiten wurden nur mit simulierten Paketen geprüft.
 - [ ] Schleifstein: soll das Herauslösen etwas kosten (Glut)? Nicht besprochen, aktuell kostenlos.

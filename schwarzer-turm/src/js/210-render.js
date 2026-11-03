@@ -58,9 +58,9 @@ function render(){RF++;
     else if(x.k==='pr')drawProj(x.p)}
   drawFxWorld();
   // darkness
-  if(m.kind==='dungeon'||(m.world&&(nightA()>.01||rgDark()>.01))){dctx.setTransform(1,0,0,1,0,0);dctx.globalCompositeOperation='source-over';dctx.clearRect(0,0,W,H);dctx.fillStyle=m.kind==='dungeon'?'rgba(4,3,2,.95)':darkFill();dctx.fillRect(0,0,W,H);dctx.globalCompositeOperation='destination-out';
+  if(m.kind==='dungeon'||(m.world&&(nightA()>.01||rgDark()>.01))){dctx.setTransform(1,0,0,1,0,0);dctx.globalCompositeOperation='source-over';dctx.clearRect(0,0,W,H);dctx.fillStyle=m.kind==='dungeon'?dungDark(m):darkFill();dctx.fillRect(0,0,W,H);dctx.globalCompositeOperation='destination-out';
     dctx.imageSmoothingEnabled=true;const light=(x,y,r,a=1)=>{if(!(r>0&&a>0))return;const[sx,sy]=iso(x,y),cy=sy-10;if(sx+r<0||sx-r>W||cy+r*.6<0||cy-r*.6>H)return;dctx.globalAlpha=Math.min(1,a);dctx.drawImage(lightSpr(),sx-r,cy-r*.6,r*2,r*1.2);dctx.globalAlpha=1};
-    {const rd=rgDark();light(P.x,P.y,(330+(Math.sin(G.t*7)*5))*(1-rd*.38),1-rd*.42)}
+    {const rd=rgDark();light(P.x,P.y,(330+(Math.sin(G.t*7)*5))*(1-rd*.38)*(m.kind==='dungeon'?plLight(m):1),1-rd*.42)}
     for(const o of m.objs)if(o.type==='shrine')light(o.x,o.y,G.lit[G.floor]?280:120,.9);else if(o.type==='stairs')light(o.x,o.y,140,.6);
     for(const p of G.proj)if(p.kind!=='arrow')light(p.x,p.y,90,.8);
     for(const t of G.tele)if(t.t>0&&t.elem==='fire')light(t.x,t.y,80,.5);

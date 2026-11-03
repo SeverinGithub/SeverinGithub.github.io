@@ -11,7 +11,7 @@ function update(dt){
   if(P.poisonT>0){P.poisonT-=dt;P.hp-=P.poisonD*dt;if(Math.random()<dt*8)fxp({k:'mote',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.4,1.4),vz:.5,life:.8,col:'#9ae050',s:.9,g:0});if(P.hp<=0&&!P.dead){P.hp=0;die();return}}
   P.stDelay-=dt;if(P.stDelay<=0)P.st=Math.min(d.stam,P.st+d.stam*.45*dt);
   if(P.wardT>0){P.wardT-=dt;if(P.wardT<=0)P.ward=0}
-  const spd=4.2*(1+d.frw/100)*(P.chill>0?.65:1)*(P.flaskT>0?.4:1);
+  const spd=4.2*(1+d.frw/100)*(P.chill>0?.65:1)*(P.flaskT>0?.4:1)*floorSpd();
   let moving=false;
   if(P.whirl>0)slashFx(P.x,P.y,G.t*22,1.5,1.9,'235,225,205',.12,.6,.38);
   if(P.leap){moving=true}

@@ -47,5 +47,8 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 220-figures.js | `humanoid` (Gang, Atmen), `drawPlayer`, `heroDash`, `heroRoll` | Figuren und Bewegung, siehe [[Bewegung]] |
 | 980-eldrik-study.js | `eldMesh`, `eldPose`, `drawChron` | Eldriks Schreibstube, siehe [[Eldriks Schreibstube]] |
 | 970-class-gear.js | `HUNT`, `ALCH`, `gearAdd`, `ALDG`, `HUIMP`/`ALIMP`, `gSetOf`, `gGlint`, `HOODOFF` | Ausrüstung von Jägerin und Alchemist, neue Dolche und Unikate, Masken und Kapuzen in `vHelm`, siehe [[Klassen]] |
+| 982-floor-themes.js | `FTH`, `fthOf`, `CURSE`, `ftDress`, `ftWell`, `ftGround`, `ftProp`, `ftTick`, `dungDark`, `plLight`, `floorSpd` | Themen-Stockwerke, Flüche, Turmfenster, Lichtschacht, Lava/Wasser/Dampf, Feuerbecken, siehe [[Turm-Ebenen und Inseln]] |
+| 984-tower-rooms.js | `twS` (`G.tw`), `twDress`, `TWI`, `twObjE`, `twBlast`, `twWave`, `twFall` | Sonderräume, Pulverfässer und Kronleuchter, Druckplatten, Bodenrisse, Aufzug |
+| 986-island-sights.js | `ISN`, `genCrypt`, `enterCrypt`, `isBuild`, `CLIM`, `drawIslets`, `TWLIGHTS` | Landmarken, Grüfte, Brückensteine, treibende Inseln, Klima nach Region, Turm-Lichter |
 
 Zurück zu [[Start]].
