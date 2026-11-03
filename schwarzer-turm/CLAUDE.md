@@ -6,9 +6,11 @@ Feature-Notizen (`docs/Features/`) und `docs/Changelog.md` nur lesen, wenn die A
 
 Wichtigste Regeln (Details in `docs/Arbeitsweise.md`):
 - Push nach `main` nur nach „Ja, live schalten“ – jede Freigabe gilt für einen Push.
-- Nach jeder Änderung das Artefakt https://claude.ai/artifact/RyXp68BqnpmdkzTHnvAd8z aktualisieren.
-- Nur `index.html` committen, nie `_t.html`/`_d.html`; Commit auf Deutsch mit Präfix `Schwarzer Turm: `.
-- Code nie umschreiben, sondern umhüllen (Wrapper-Muster); neue Module direkt vor die Init-Zeile `expandItems();buildPalette();…`.
-- `index.html` nie ganz lesen (~1 MB) – immer `grep -n` nach Funktionsnamen, dann gezielt Ausschnitte.
+- **Quellcode liegt in `src/`** (`src/js/NNN-name.js`, `src/style.css`, `src/shell.html`). `index.html` ist Build-Ergebnis: nie direkt bearbeiten und nie lesen, sondern `node tools/build.mjs` (mit `--test` zusätzlich `_t.html` mit Eval-Brücke).
+- Code finden: zuerst `src/INDEX.md` (Definitionen und Wrapper pro Datei), dann `grep -n name src/js/*.js` und nur die betroffene Datei lesen.
+- Bestehendes Verhalten direkt in seiner Moduldatei ändern; neue Systeme als neue Datei mit Nummer vor `999-boot-loop.js`. Wrapper nur noch, wenn ein System sich in ein fremdes einklinkt.
+- Committen: `src/`, `tools/`, gebaute `index.html`, `docs/` – nie `_t.html`/`_d.html`. Vorher `node tools/build.mjs --check`. Commit auf Deutsch mit Präfix `Schwarzer Turm: `.
+- Artefakt https://claude.ai/artifact/RyXp68BqnpmdkzTHnvAd8z ist nicht mehr erreichbar – ein neues nur nach Rückfrage.
+- Leistung messen mit `?perf` (Shift+F3), siehe `docs/Features/Performance.md`.
 
 Nach größeren Änderungen die passenden Notizen in `docs/` nachziehen (Code-Landkarte, Entscheidungen, Offene Punkte, Changelog).

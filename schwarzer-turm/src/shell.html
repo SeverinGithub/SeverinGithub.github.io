@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Der Schwarze Turm</title>
+<meta name="description" content="Ein Dungeon-Crawler im Pixel-Stil: Steig in den schwarzen Turm hinab, sammle Waffen und Rüstungen, bezwinge die Hüter der Tiefe.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Pirata+One&display=swap">
+<style>
+/*@CSS*/
+</style>
+</head>
+<body>
+
+<canvas id="c"></canvas>
+<canvas id="ui"></canvas>
+<div id="topinfo" hidden><div id="floorName">Der Hügel</div><div class="glut" id="glutTxt">0 Glut</div><div id="qtrack"></div></div>
+<div id="target" hidden><div class="nm" id="tName"></div><div class="sub" id="tSub"></div><div class="bar"><div id="tHp"></div></div></div>
+<div id="bossbar" hidden><div class="nm" id="bName"></div><div class="bar"><div id="bHp"></div></div></div>
+<div id="banner"><div class="strip"><div class="big" id="bBig"></div><div class="small" id="bSmall"></div></div></div>
+<div id="log"></div>
+<div id="hud" hidden>
+  <div id="hudbar"></div>
+  <div class="orbw life" title="Leben"><canvas id="orbL" width="52" height="52"></canvas><div class="ring"></div><span id="lifeTxt"></span></div>
+  <div id="mid">
+    <div class="bar" id="wardbar" hidden><div id="wardFill"></div></div>
+    <div class="bar" id="stam"><div id="stamFill"></div></div>
+    <div id="belt"></div>
+    <div class="bar" id="xp"><div id="xpFill"></div></div>
+  </div>
+  <div class="orbw mana" title="Mana"><canvas id="orbM" width="52" height="52"></canvas><div class="ring"></div><span id="manaTxt"></span></div>
+</div>
+<div class="panel left" id="pChar" hidden></div>
+<div class="panel left" id="pSkill" hidden></div>
+<div class="panel left" id="pShop" hidden></div>
+<div class="panel right" id="pInv" hidden></div>
+<div class="panel left" id="pColl" hidden></div>
+<div class="panel left" id="pStash" hidden></div>
+<div id="pTree" hidden></div>
+<div id="pQuest" class="ovl" hidden></div>
+<div id="pMap" class="ovl" hidden><div class="thead"><h2>Karte</h2><span class="thint">Ziehen verschiebt · Zwei Finger oder Mausrad zoomen · ☠ Boss · ◆ Händler · ● Leuchtfeuer · Kreis: Questziel</span><button data-mapz="-1" aria-label="Herauszoomen">−</button><button data-mapz="1" aria-label="Hineinzoomen">+</button><button data-mapme>Zu mir</button><button data-ovclose>Schließen (M)</button></div><canvas id="mapc"></canvas></div>
+<div id="dialog" hidden></div>
+<div id="tip" hidden></div>
+<img id="hand" class="px" hidden alt="">
+<div id="title">
+  <div class="tsky"></div><div class="tglow"></div><div class="tfog"></div><canvas id="tEmb"></canvas><div class="tshade"></div>
+  <div class="tpanel">
+    <svg class="tcrest" viewBox="0 0 80 80" aria-hidden="true">
+      <defs><linearGradient id="tcG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe6a8"/><stop offset=".5" stop-color="#c48a30"/><stop offset="1" stop-color="#6a4212"/></linearGradient>
+      <radialGradient id="tcW"><stop offset="0" stop-color="#fff2c0"/><stop offset=".5" stop-color="#ff9a3a"/><stop offset="1" stop-color="#a03a08"/></radialGradient></defs>
+      <circle cx="40" cy="40" r="37" fill="#0c0810" stroke="url(#tcG)" stroke-width="2.5"/>
+      <circle cx="40" cy="40" r="31.5" fill="none" stroke="#c48a30" stroke-opacity=".45" stroke-width="1" stroke-dasharray="2 3.2"/>
+      <path d="M30 66 L33 30 L30 30 L30 22 L34 22 L34 26 L38 26 L38 22 L42 22 L42 26 L46 26 L46 22 L50 22 L50 30 L47 30 L50 66 Z" fill="#050307" stroke="url(#tcG)" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M36 66 L36 58 Q40 52 44 58 L44 66 Z" class="win" fill="url(#tcW)"/>
+      <rect x="38.6" y="36" width="2.8" height="6" rx="1.4" class="win" fill="url(#tcW)"/>
+      <path d="M18 66 L62 66" stroke="url(#tcG)" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+    <h1><span class="tder">Der</span><span class="tname">Schwarze<br>Turm</span></h1>
+    <div class="trule" aria-hidden="true"></div>
+    <p>Auf dem grünen Hügel steht ein Turm, der tiefer in die Erde reicht als in den Himmel. Steig hinab, sammle Klingen und Rüstungen, bezwinge die Hüter der Tiefe.</p>
+    <nav id="tmenu" aria-label="Hauptmenü">
+      <button id="btnCont" class="mbtn" hidden>Fortsetzen<small id="contInfo"></small></button>
+      <button id="btnNew" class="mbtn">Neues Spiel</button>
+      <button class="mbtn" data-m="settings">Einstellungen</button>
+      <button class="mbtn" data-m="controls">Steuerung</button>
+    </nav>
+  </div>
+</div>
+<div id="menu" hidden><div class="mbox" id="mbox" role="dialog" aria-modal="true"></div></div>
+
+<script>
+(()=>{
+'use strict';
+//@JS
+})();
+</script>
+</body>
+</html>

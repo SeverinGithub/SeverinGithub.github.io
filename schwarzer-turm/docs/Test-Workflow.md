@@ -9,25 +9,19 @@ cd /Users/severinschwarz/Documents/GitHub/SeverinGithub.github.io && python3 -m 
 ```
 Im Hintergrund starten (lief zuletzt als Hintergrund-Task). Aufruf: `http://localhost:8770/schwarzer-turm/_t.html`.
 
-## Testkopie `_t.html` mit Konsolen-Zugang
-Das Spiel ist ein IIFE, also von außen unerreichbar. Die Testkopie bekommt vor dem letzten `})();` eine Eval-Brücke:
+## Bauen, Testkopie und Syntax-Check
 ```bash
-python3 - <<'EOF'
-s=open('index.html').read();i=s.rindex('})();');s=s[:i]+';window.__ev=s=>eval(s);'+s[i:];open('_t.html','w').write(s)
-EOF
+node tools/build.mjs --test
 ```
-Dann im Browser-Pane per JavaScript: `__ev("P.x")`, `__ev("summonArena(…)")` usw. Mehrzeiliges als IIFE-String übergeben: `` __ev(`(()=>{ … return x })()`) ``.
-- Ins Spiel: `document.getElementById('btnCont').click()` („Fortsetzen“) und ~2,5 s warten.
-- **`_t.html` nie committen, vor dem Commit löschen.** Bei Code-Änderungen dieselbe Ersetzung auch in `_t.html` machen oder neu bauen.
-
-## Syntax-Check
-```bash
-python3 -c "s=open('index.html').read();a=s.index('<script>',s.index('</style>'));b=s.rindex('</script>');open('/tmp/chk.js','w').write(s[a+8:b])" && node --check /tmp/chk.js
-```
-(Im Scratchpad statt `/tmp` ablegen.) Findet auch doppelte `const`-Namen.
+- Schreibt `index.html` und `_t.html`. Die Testkopie hat vor dem letzten `})();` die Eval-Brücke `window.__ev=s=>eval(s)`.
+- Die Syntax wird automatisch geprüft; bei einem Fehler nennt der Build die Quelldatei und die Zeile.
+- Im Browser-Pane per JavaScript: `__ev("P.x")`, Mehrzeiliges als `` __ev(`(()=>{ … return x })()`) ``.
+- Ins Spiel: `document.getElementById('btnCont').click()` („Fortsetzen“), dann ~2,5 s warten.
+- Messanzeige: `_t.html?perf` (oder Shift+F3), siehe [[Performance]].
+- `_t.html` steht in `.gitignore`. Trotzdem vor dem Commit löschen.
 
 ## Tricks
-- **Touch erzwingen** (iPad-Steuerung testen): `sed "s/const TOUCH=matchMedia/const TOUCH=true||matchMedia/"` auf `_t.html`; Berührungen mit `new Touch(...)` + `TouchEvent` simulieren.
+- **Touch erzwingen** (iPad-Steuerung testen): `sed "s/const TOUCH=matchMedia/const TOUCH=true||matchMedia/"` auf die fertige `_t.html` (nicht auf `src/`); Berührungen mit `new Touch(...)` + `TouchEvent` simulieren.
 - **Viewport:** Browser-Pane ist schmal; für Desktop-Ansicht `resize_window` 1280×800, danach immer wieder auf `desktop` zurücksetzen.
 - **Screenshots hinken** oft einen Frame hinterher (Animationen) – zweiten Screenshot machen.
 - **Nahaufnahme eines Objekts:** WebGL-Canvas und `cv` sind nicht auslesbar. Stattdessen Objekt in eigenen Canvas zeichnen, indem man `ctx` kurz tauscht:

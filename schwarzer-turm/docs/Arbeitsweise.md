@@ -13,7 +13,7 @@ Diese Regeln hat der Nutzer im Lauf der Sessions festgelegt. Sie gelten weiter.
 ## Commits
 - Commit-Nachricht auf **Deutsch**, Präfix `Schwarzer Turm: `, beschreibt alle Änderungen ausführlich in einem Satzgefüge (siehe [[Changelog]]).
 - Abschluss-Zeile: `Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`
-- Nur `schwarzer-turm/index.html` committen. **Nie** `_t.html` oder `_d.html` committen; `_t.html` vor dem Commit löschen.
+- Committet werden `src/`, `tools/`, die gebaute `index.html` (GitHub Pages liefert sie aus) und die Notizen in `docs/`. Vor dem Commit `node tools/build.mjs --check`: `index.html` muss zum Stand von `src/` passen. **Nie** `_t.html` oder `_d.html` committen (stehen in `.gitignore`).
 - Im Repo liegen ungetrackte fremde Dateien (`.DS_Store`, `judas-unter-uns.html`, `music/`, `sfx/`, `turm-schmiede.html`, …) – nicht anfassen, nicht mitcommitten.
 
 ## Qualität und Stil
@@ -23,10 +23,10 @@ Diese Regeln hat der Nutzer im Lauf der Sessions festgelegt. Sie gelten weiter.
 - Nach jeder Änderung im Browser testen (siehe [[Test-Workflow]]) und am Ende den Viewport wieder auf Desktop zurücksetzen.
 
 ## Ablauf einer typischen Anfrage
-1. Code lesen (grep nach Funktionsnamen, siehe [[Code-Landkarte]]).
-2. Neues Modul in einer Scratch-Datei schreiben, per Python vor der Init-Zeile einfügen (siehe [[Architektur]]).
-3. Syntax-Check mit `node --check`.
-4. `_t.html` bauen, im Browser-Pane testen, Screenshots prüfen.
-5. `_t.html` löschen → Artefakt veröffentlichen → committen → fragen „Push it live?“ mit Antwort-Knopf „Ja, live schalten“.
+1. Code finden: `src/INDEX.md` lesen oder `grep -n name src/js/*.js`, dann nur die betroffene Moduldatei lesen (siehe [[Code-Landkarte]]).
+2. Ändern: bestehendes Verhalten direkt in der Moduldatei, neues System als neue Datei `NNN-name.js` vor 999 (siehe [[Architektur]]).
+3. `node tools/build.mjs --test` baut `index.html` und `_t.html` und prüft dabei die Syntax.
+4. Im Browser-Pane testen, Screenshots prüfen, bei Leistungsfragen `?perf` anhängen (siehe [[Performance]]).
+5. `_t.html` löschen, `node tools/build.mjs --check`, committen, dann fragen „Push it live?“ mit dem Antwort-Knopf „Ja, live schalten“.
 
 Zurück zu [[Start]].

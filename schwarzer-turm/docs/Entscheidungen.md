@@ -29,6 +29,9 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-02 | Normale Gegner nur sanft angepasst (±35 %) | Nutzer wählte „Sanft“ |
 | 2026-11-02 | Multiplayer-Bosse: stärkster Spieler als Basis, Leben ×N, Schaden ×(1+0,25·(N−1)) | Nutzer-Beispiel: 3 Spieler → 3× Leben, 1,5× Schaden |
 | 2026-11-02 | Karte: Zwei-Finger-Zoom + Plus/Minus | Nutzer wählte „Zwei-Finger-Zoom“ |
+| 2026-11-03 | Quellcode in `src/js/` aufgeteilt (~100 Module), Build `tools/build.mjs` erzeugt weiter eine einzelne `index.html` | Nutzer: „größer denken“, weniger Tokens pro Änderung; eine Datei bleibt für Pages, Wiki und Artefakte |
+| 2026-11-03 | Bestehenden Code direkt im Modul ändern statt neue Wrapper zu stapeln | Dateien sind jetzt klein genug; Wrapper nur noch beim Einklinken fremder Systeme |
+| 2026-11-03 | Bei Web/JavaScript bleiben, kein Engine-Wechsel; Plattformen später über PWA, Capacitor (iPad) und Tauri (PC) | Engpass ist der Canvas-2D-Renderer, nicht die Sprache (Messung) |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

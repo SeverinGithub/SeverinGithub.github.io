@@ -12,14 +12,15 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 
 ## Zum Einstieg in einer neuen Session
 1. [[Arbeitsweise]] lesen – feste Regeln (Push nur nach „Ja, live schalten“, Artefakt immer aktualisieren, Commit-Format).
-2. [[Architektur]] – wie der Code aufgebaut ist und wie man neue Module einhängt.
+2. [[Architektur]] – Quellcode in `src/js/` (≈100 Module), gebaut mit `node tools/build.mjs` zu `index.html`; Übersicht aller Funktionen in `src/INDEX.md`.
 3. [[Code-Landkarte]] – wo die wichtigen Funktionen liegen.
-4. [[Test-Workflow]] – wie man im Browser testet (`_t.html`, `__ev`).
+4. [[Test-Workflow]] – wie man im Browser testet (`node tools/build.mjs --test`, `_t.html`, `__ev`, `?perf`).
 5. [[Offene Punkte]] – was noch angeboten oder unklar ist.
 
 ## Features (Details zu allem, was in den letzten Sessions gebaut wurde)
 - [[Klassen]] – Krieger, Jägerin, Magier, Alchemist; Waffen pro Klasse, Bögen/Armbrüste, Talentbaum mit 4 Zweigen
 - [[Anpassung]] – Bosse und Gegner passen sich an Schaden und Zähigkeit des Spielers an, Multiplayer-Skalierung, Karten-Zoom, feste Kartenobjekte
+- [[Performance]] – Messanzeige `?perf`, Messwerte, erledigte Optimierungen, Plan für den GPU-Renderer
 - [[Steuerung]] – Tastatur, Tab/V, iPad-Knöpfe
 - [[Arena]] – Statue, nur besiegte Gegner, keine Beute
 - [[Multiplayer]] – Sync, Quest-Angleich, Statue für Gäste, sichtbare Fähigkeiten

@@ -3,6 +3,12 @@ tags: [todo]
 ---
 # Offene Punkte
 
+- [ ] **Mit `?perf` auf dem iPad messen** (Oberwelt mit vielen Gegnern, Turm, Multiplayer) – Grundlage für den GPU-Renderer, siehe [[Performance]].
+- [ ] **GPU-Renderer** (Texturatlas, instanziertes Zeichnen, Licht als Shader, Boden-Chunks) als umschaltbares Modul neben dem alten bauen.
+- [ ] **Inhalte als Daten**: Gegner, Bosse, Waffen, Unikate, Runen, Quests, Überlieferung aus `030-data.js` & Co. in eigene Daten-Dateien; das Wiki und die Turm-Schmiede lesen sie direkt.
+- [ ] **Wrapper-Stapel zurückfalten** (in `src/INDEX.md` mit `↻` markiert), System für System, sobald es ohnehin angefasst wird; dazu Logik-Tests in Node (Schaden, Beute, Balancing, Spielstand-Migration).
+- [ ] PWA (Homescreen, offline) fürs iPad; später Capacitor (App Store) bzw. Tauri (PC/Steam).
+- [ ] Spielstände versionieren (Format-Version + Migrationen statt Einzelfällen wie `P.clv`).
 - [ ] **Neues Artefakt anlegen?** Die alte Artefakt-URL ist nicht mehr erreichbar – nachfragen.
 - [ ] Klassen: Balance im echten Spiel prüfen (Phiolenschaden, Jägerin-Tempo, Krieger-Leben).
 - [ ] Jägerin-Banditin: Unsichtbarkeit nach Schattenschritt (Gegner verlieren das Ziel) wäre ein naheliegender Ausbau.

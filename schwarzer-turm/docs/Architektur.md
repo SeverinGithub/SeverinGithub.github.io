@@ -3,23 +3,26 @@ tags: [technik]
 ---
 # Architektur
 
-## Eine Datei, ein IIFE
-- Alles liegt in `schwarzer-turm/index.html`: CSS im `<style>`, HTML-Gerüst (`#title`, Panels `pChar/pInv/pSkill/pShop/pColl/pStash`, `#dialog`, `#tip`, …), dann ein großes `<script>` mit einem IIFE `(()=>{ … })();`.
-- Assets (Musik, Sounds) liegen außerhalb im Repo (`music/`, `sfx/`); Grafik wird zur Laufzeit gezeichnet (Canvas 2D + WebGL-Nachbearbeitung).
-- Gerendert wird in den 2D-Canvas `cv` (logische Größe `W×H`, Zoom `ZM`), danach per WebGL (`initGL`) mit Licht/Grain ausgegeben. **Der 2D-Canvas wird nach dem Hochladen geleert** – für Nahaufnahmen deshalb Objekte in einen eigenen Canvas zeichnen (siehe [[Test-Workflow]]).
+## Quellcode in `src/`, gebaut zu einer Datei (seit 2026-11-03)
+- **Bearbeitet wird nur `src/`**, nie `index.html` direkt. `node tools/build.mjs` setzt daraus die eine `index.html` zusammen. Die bleibt eine einzelne Datei, damit GitHub Pages, das Turm-Wiki und Artefakte unverändert funktionieren.
+  - `src/shell.html`: HTML-Gerüst (`#title`, Panels `pChar/pInv/pSkill/pShop/pColl/pStash`, `#dialog`, `#tip`, …) mit den Platzhaltern `/*@CSS*/` und `//@JS`.
+  - `src/style.css`: das ganze CSS.
+  - `src/js/NNN-name.js`: ~100 Module, nach Nummer zusammengehängt in **ein** IIFE `(()=>{'use strict'; … })();`. Alle Module teilen also einen Gültigkeitsbereich, und ein späteres Modul sieht und umhüllt alles aus früheren.
+  - `src/INDEX.md` wird beim Build erzeugt: pro Datei die definierten Namen und die umhüllten Funktionen (`↻`). **Erste Anlaufstelle, um Code zu finden.**
+- Der Build prüft die Syntax (`node --check`) und meldet die fehlerhafte Quelldatei samt Zeile. `--test` erzeugt zusätzlich `_t.html` mit Eval-Brücke, `--check` prüft nur, ob `index.html` aktuell ist.
+- Assets (Musik, Sounds) liegen außerhalb im Repo (`music/`, `sfx/`). Grafik wird zur Laufzeit gezeichnet: Canvas 2D in kleiner Auflösung, dann per WebGL (`initGL`/`present`) mit Palette, Licht und Grain ausgegeben. **Der 2D-Canvas wird nach dem Hochladen geleert**, für Nahaufnahmen deshalb Objekte in einen eigenen Canvas zeichnen (siehe [[Test-Workflow]]).
 
-## Wrapper-Muster (wichtigste Konvention)
-Funktionen werden nie umgeschrieben, sondern weiter hinten im Code umhüllt:
-```js
-const _killEnemyAr=killEnemy;killEnemy=function(e,a){ … _killEnemyAr(e,a) … };
-```
-- Funktionsdeklarationen (`function x(){}`) und `let`-Variablen sind dadurch neu zuweisbar. **`const`-Funktionen nicht** (z. B. `mpOn`, `later`, `stOf`, `canSock`, `wFoes`, `mElem`) – vor dem Umhüllen prüfen: `grep -n "const name=\|function name(" index.html`.
-- Variablennamen der gespeicherten Originale müssen eindeutig sein (`_updForgeG` gab es schon → `_updForgeGr`). Vor dem Einfügen auf Doppelte prüfen.
-- Der zuletzt definierte Wrapper ist der äußerste. Neue Module werden **direkt vor** der Init-Zeile eingefügt:
+## Ändern statt umhüllen
+- **Fehler und Änderungen an bestehendem Verhalten** werden direkt in der Datei gemacht, in der der Code steht (Fundort über `src/INDEX.md` oder `grep -n name src/js/*.js`). Das geht jetzt, weil jede Datei klein ist. Neue Wrapper-Schichten auf alte Funktionen vermeiden.
+- **Neue Systeme** bekommen eine eigene Datei mit freier Nummer vor `999-boot-loop.js`, z. B. `970-…js`. Zwischen bestehenden Nummern ist Platz (Zehnerschritte).
+- Wrapper bleiben erlaubt, wenn ein neues System sich bewusst in ein fremdes einklinkt:
   ```js
-  expandItems();buildPalette();buildUI();initGL();buildSprites();buildEnvSprites();buildGrain();
+  const _killEnemyAr=killEnemy;killEnemy=function(e,a){ … _killEnemyAr(e,a) … };
   ```
-  Damit sind sie äußerer als alle bestehenden Wrapper (z. B. alle 15 `killEnemy`-Wrapper liegen davor).
+  - Funktionsdeklarationen und `let` sind neu zuweisbar, **`const`-Funktionen nicht** (z. B. `mpOn`, `later`, `stOf`, `canSock`, `wFoes`, `mElem`, `free`, `walkable`).
+  - Die Namen der gespeicherten Originale müssen eindeutig sein. Der Build findet doppelte `const`.
+  - Der Wrapper in der höchsten Dateinummer ist der äußerste.
+- Altlast: Viele Funktionen tragen noch Wrapper-Stapel aus der Ein-Datei-Zeit (`src/INDEX.md` zeigt sie mit `↻`). Wer ein System ohnehin anfasst, faltet dessen Wrapper nach und nach in die Grundfunktion zurück (siehe [[Offene Punkte]]).
 
 ## Zentrale Globals
 - `G` – Spielzustand: `state` ('title'|'play'|'paused'|…), `floor` (0 = Overworld/Hügel), `map`, `t` (Zeit), `proj`, `zones`, `rings`, `bolts`, `fx`, `labels`, `maxFloor`, `mlvl` (Monsterstufe), `shake`, `vproj`/`vzones` (nur optisch, Multiplayer).

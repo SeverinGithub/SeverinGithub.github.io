@@ -1336,7 +1336,7 @@ function drawFxWorld(){
 // motes and embers share one soft glow per colour instead of a new gradient for every speck
 const GLOWS={};function glowSpr(col){let c=GLOWS[col];if(c)return c;c=GLOWS[col]=document.createElement('canvas');c.width=c.height=32;const g=c.getContext('2d'),q=g.createRadialGradient(16,16,0,16,16,16);q.addColorStop(0,col);q.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=q;g.fillRect(0,0,32,32);return c}
 function drawFxGlow(){ctx.save();ctx.globalCompositeOperation='lighter';
-  for(const f of G.fx){if(f.k==='dot'||f.k==='blood'||f.k==='bone'||f.k==='rock'||f.k==='smoke')continue;const[sx,sy0]=iso(f.x,f.y),sy=sy0-f.z*30,p=f.t/f.life,a=1-p;
+  for(const f of G.fx){if(f.k==='dot'||f.k==='blood'||f.k==='bone'||f.k==='rock'||f.k==='smoke')continue;const[sx,sy0]=iso(f.x,f.y),sy=sy0-f.z*30,p=f.t/f.life,a=1-p;if(f.k!=='shock'&&f.k!=='slash'&&(sx<-160||sx>W+160||sy<-160||sy>H+160))continue;
     if(f.k==='spark'){const[vx,vy]=[(f.vx-f.vy)*32,(f.vx+f.vy)*16-f.vz*30];ctx.strokeStyle=f.col;ctx.globalAlpha=a;ctx.lineWidth=f.s;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx-vx*.035,sy-vy*.035);ctx.stroke()}
     else if(f.k==='mote'||f.k==='ember'){const r=f.s*1.6;ctx.globalAlpha=a;ctx.drawImage(glowSpr(f.col),sx-r*2,sy-r*2,r*4,r*4)}
     else if(f.k==='shard'){ctx.save();ctx.translate(sx,sy);ctx.rotate(f.rot||0);ctx.globalAlpha=a;ctx.fillStyle=f.col;ctx.beginPath();ctx.moveTo(-f.s*1.6,0);ctx.lineTo(0,-f.s*.5);ctx.lineTo(f.s*1.6,0);ctx.lineTo(0,f.s*.5);ctx.fill();ctx.restore()}
@@ -1510,8 +1510,12 @@ addEventListener('keydown',e=>{
   else if(k==='f')drinkFlask();else if(k==='q'||k==='y')quickPotion('life');else if(k==='x')quickPotion('mana');
   else if(k==='c')togglePanel('pChar');else if(k==='i'||k==='b')togglePanel('pInv');else if(k==='k'||k==='t')togglePanel('pSkill');else if(k==='j')togglePanel('pColl');
   else if(k==='r')reloadRes();else if(k==='n'){G.muted=!G.muted;if(G.muted){G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS)}if(mus.a)fadeAudio(mus.a,musVol(),400);log(G.muted?'Ton aus':'Ton an')}});
-function hoverEnemy(){let best=null,bd=1e9;for(const e of G.map.enemies){if(e.dead)continue;const[sx,sy]=iso(e.x,e.y),s=e.scale||1,dx=mouse.x-sx,dy=mouse.y-(sy-18*s);if(Math.abs(dx)<16*s+4&&Math.abs(dy)<22*s+4){const d=dx*dx+dy*dy;if(d<bd){bd=d;best=e}}}return best}
-function hoverObj(){const[wx,wy]=scr2w(mouse.x,mouse.y);for(const o of G.map.objs){const[sx,sy]=iso(o.x,o.y);const big=o.type==='colossus',dx=mouse.x-sx,dy=mouse.y-(sy-(o.type==='door'?40:big?110:16));if(Math.abs(dx)<(big?42:26)&&Math.abs(dy)<(o.type==='door'?50:big?120:26))return o}return null}
+// both are asked many times per frame (every drawn object asks hoverObj), so each answer is kept until the next frame or mouse move
+const HOV={f:-1,x:0,y:0,m:null,e:undefined,o:undefined};function hovFresh(){if(HOV.f!==RF||HOV.x!==mouse.x||HOV.y!==mouse.y||HOV.m!==G.map){HOV.f=RF;HOV.x=mouse.x;HOV.y=mouse.y;HOV.m=G.map;HOV.e=HOV.o=undefined}}
+function hoverEnemy(){hovFresh();if(HOV.e===undefined)HOV.e=hoverEnemyRaw();return HOV.e}
+function hoverObj(){hovFresh();if(HOV.o===undefined)HOV.o=hoverObjRaw();return HOV.o}
+function hoverEnemyRaw(){let best=null,bd=1e9;for(const e of G.map.enemies){if(e.dead)continue;const[sx,sy]=iso(e.x,e.y),s=e.scale||1,dx=mouse.x-sx,dy=mouse.y-(sy-18*s);if(Math.abs(dx)<16*s+4&&Math.abs(dy)<22*s+4){const d=dx*dx+dy*dy;if(d<bd){bd=d;best=e}}}return best}
+function hoverObjRaw(){for(const o of G.map.objs){const[sx,sy]=iso(o.x,o.y);const big=o.type==='colossus',dx=mouse.x-sx,dy=mouse.y-(sy-(o.type==='door'?40:big?110:16));if(Math.abs(dx)<(big?42:26)&&Math.abs(dy)<(o.type==='door'?50:big?120:26))return o}return null}
 function hoverLabel(){for(const l of G.labels)if(mouse.x>=l.x&&mouse.x<=l.x+l.w&&mouse.y>=l.y&&mouse.y<=l.y+l.h)return l;return null}
 
 /* ---------- update ---------- */
@@ -1658,7 +1662,11 @@ function bossUpdate(e,dt,d,busy,sp){
 /* ---------- render ---------- */
 let grain=null;
 function buildGrain(){grain=mk(256,256,g=>{const d=g.createImageData(256,256);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}g.putImageData(d,0,0)})}
-function render(){
+let RF=0;
+// one soft disc (full, 70% at 0.6, gone at the rim) stands in for every light cut into the darkness
+let LSPR=null;function lightSpr(){if(LSPR)return LSPR;const c=LSPR=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d'),q=g.createRadialGradient(128,128,0,128,128,128);q.addColorStop(0,'rgba(0,0,0,1)');q.addColorStop(.6,'rgba(0,0,0,.7)');q.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=q;g.fillRect(0,0,256,256);return c}
+const VIG={c:null,w:0,h:0};function vignette(w,h){if(VIG.c&&VIG.w===w&&VIG.h===h)return VIG.c;const c=VIG.c=document.createElement('canvas');c.width=Math.ceil(w);c.height=Math.ceil(h);VIG.w=w;VIG.h=h;const g=c.getContext('2d'),q=g.createRadialGradient(w/2,h/2,Math.min(w,h)*.35,w/2,h/2,Math.max(w,h)*.75);q.addColorStop(0,'rgba(0,0,0,0)');q.addColorStop(1,'rgba(0,0,0,.55)');g.fillStyle=q;g.fillRect(0,0,w,h);return c}
+function render(){RF++;
   const m=G.map;G.lq=[];
   camX+=(P.x-camX)*.15;camY+=(P.y-camY)*.15;
   const sh=CFG.shake?G.shake:0,kx=CFG.shake?G.kx||0:0,ky=CFG.shake?G.ky||0:0;CX=W/2-(camX-camY)*32+(sh?rnd(-sh,sh):0)+kx;CY=H/2-(camX+camY)*16-40+(sh?rnd(-sh,sh):0)+ky;
@@ -1712,7 +1720,7 @@ function render(){
   drawFxWorld();
   // darkness
   if(m.kind==='dungeon'||(m.world&&(nightA()>.01||rgDark()>.01))){dctx.setTransform(1,0,0,1,0,0);dctx.globalCompositeOperation='source-over';dctx.clearRect(0,0,W,H);dctx.fillStyle=m.kind==='dungeon'?'rgba(4,3,2,.95)':darkFill();dctx.fillRect(0,0,W,H);dctx.globalCompositeOperation='destination-out';
-    const light=(x,y,r,a=1)=>{const[sx,sy]=iso(x,y);dctx.save();dctx.translate(sx,sy-10);dctx.scale(1,.6);const g=dctx.createRadialGradient(0,0,0,0,0,r);g.addColorStop(0,`rgba(0,0,0,${a})`);g.addColorStop(.6,`rgba(0,0,0,${a*.7})`);g.addColorStop(1,'rgba(0,0,0,0)');dctx.fillStyle=g;dctx.beginPath();dctx.arc(0,0,r,0,7);dctx.fill();dctx.restore()};
+    dctx.imageSmoothingEnabled=true;const light=(x,y,r,a=1)=>{if(!(r>0&&a>0))return;const[sx,sy]=iso(x,y),cy=sy-10;if(sx+r<0||sx-r>W||cy+r*.6<0||cy-r*.6>H)return;dctx.globalAlpha=Math.min(1,a);dctx.drawImage(lightSpr(),sx-r,cy-r*.6,r*2,r*1.2);dctx.globalAlpha=1};
     {const rd=rgDark();light(P.x,P.y,(330+(Math.sin(G.t*7)*5))*(1-rd*.38),1-rd*.42)}
     for(const o of m.objs)if(o.type==='shrine')light(o.x,o.y,G.lit[G.floor]?280:120,.9);else if(o.type==='stairs')light(o.x,o.y,140,.6);
     for(const p of G.proj)if(p.kind!=='arrow')light(p.x,p.y,90,.8);
@@ -1742,7 +1750,7 @@ function render(){
   ctx.setTransform(DPR,0,0,DPR,0,0);const vW=W,vH=H;W=innerWidth;H=innerHeight;
 
   ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
-  const vg=ctx.createRadialGradient(W/2,H/2,Math.min(W,H)*.35,W/2,H/2,Math.max(W,H)*.75);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.55)');ctx.fillStyle=vg;ctx.fillRect(0,0,W,H);
+  ctx.drawImage(vignette(W,H),0,0,W,H);
   if(P.hp<P.d.life*.3&&!P.dead){ctx.fillStyle=`rgba(160,10,10,${.12+Math.sin(G.t*5)*.06})`;ctx.fillRect(0,0,W,H)}
   if(G.showMap&&G.state==='play')drawMinimap();
   W=vW;H=vH;ctx.restore();ctx=wctx}
@@ -8119,6 +8127,33 @@ const _moveEntPW=moveEnt;moveEnt=function(e,dx,dy){const px=e.x,py=e.y;_moveEntP
     let a=dd>.001?Math.atan2(oy,ox):Math.atan2(-dy,-dx);const mv=hyp(dx,dy);let s=(-Math.sin(a)*dx+Math.cos(a)*dy);if(Math.abs(s)<mv*.35)s=(s<0?-1:1)*mv*.7;a+=s/R;
     const nx=o.x+Math.cos(a)*R,ny=o.y+Math.sin(a)*R;if(free(nx,ny,(e.r||.3)*.8)){e.x=nx;e.y=ny}else{e.x=px;e.y=py}}};
 
+/* ---------- perf overlay: ?perf in the address (or Shift+F3) shows frame time, logic, drawing and network, measured on the device itself ---------- */
+const PERF={on:false,box:null,acc:{},n:0,t0:0,ft:[],net:{i:0,o:0},wrapped:false};
+// the parts worth knowing; each is timed by a thin wrapper that only exists once the overlay was switched on
+const PERF_FN=['update','render','updHUD','present','drawEnemy','drawObj','drawProp','drawPlayer','drawFxWorld','drawFxGlow','drawWeather','drawDecals','drawLabels','drawMinimap','drawClouds','drawGrass','updEnemy','computeFlow'];
+function perfWrap(){if(PERF.wrapped)return;PERF.wrapped=true;
+  for(const n of PERF_FN){let f;try{f=eval(n)}catch(_){continue}if(typeof f!=='function')continue;
+    const g=function(...a){if(!PERF.on)return f.apply(this,a);const t=performance.now();try{return f.apply(this,a)}finally{PERF.acc[n]=(PERF.acc[n]||0)+performance.now()-t}};
+    try{eval(n+'=g')}catch(_){}}
+  const _s=mpSend;mpSend=function(o,fast){if(PERF.on)PERF.net.o++;return _s(o,fast)};
+  const _r=mpRecv;mpRecv=function(d,c){if(PERF.on)PERF.net.i++;return _r(d,c)}}
+function perfToggle(on=!PERF.on){PERF.on=on;if(on){perfWrap();if(!PERF.box){const b=document.createElement('pre');b.id='perfBox';
+    Object.assign(b.style,{position:'fixed',left:'6px',top:'6px',zIndex:9999,margin:0,padding:'6px 8px',background:'rgba(0,0,0,.72)',color:'#d8f0c8',font:'11px/1.35 ui-monospace,Menlo,monospace',pointerEvents:'none',whiteSpace:'pre',borderRadius:'4px'});
+    document.body.appendChild(b);PERF.box=b}PERF.box.hidden=false;PERF.t0=performance.now();PERF.acc={};PERF.n=0;PERF.ft=[];requestAnimationFrame(perfTick)}
+  else if(PERF.box)PERF.box.hidden=true}
+let perfLast=0;
+function perfTick(now){if(!PERF.on)return;if(perfLast)PERF.ft.push(now-perfLast);perfLast=now;PERF.n++;
+  if(now-PERF.t0>=1000){const ft=PERF.ft.slice().sort((a,b)=>a-b),n=PERF.n,avg=ft.reduce((a,b)=>a+b,0)/Math.max(1,ft.length),p95=ft[Math.floor(ft.length*.95)]||0,el=(now-PERF.t0)/1000;
+    const ms=k=>((PERF.acc[k]||0)/n).toFixed(2),m=G.map,rows=[
+      `FPS ${(n/el).toFixed(0)}  Frame ${avg.toFixed(1)} ms  p95 ${p95.toFixed(1)}  max ${(ft[ft.length-1]||0).toFixed(1)}`,
+      `Logik ${ms('update')}  Zeichnen ${ms('render')}  HUD ${ms('updHUD')}  GPU-Upload ${ms('present')}`,
+      ...PERF_FN.slice(4).filter(k=>PERF.acc[k]>.05*n).map(k=>`  ${k.padEnd(12)} ${ms(k)}`),
+      `Gegner ${m?m.enemies.filter(e=>!e.dead).length:0}  Effekte ${(G.fx||[]).length}  Geschosse ${(G.proj||[]).length}  Objekte ${m&&m.objs?m.objs.length:0}`,
+      `Bild ${cv.width}×${cv.height} intern · DPR ${devicePixelRatio} · Zoom ${ZM.toFixed(2)}`+(mpOn()?`  Netz ${(PERF.net.i/el).toFixed(0)}↓ ${(PERF.net.o/el).toFixed(0)}↑/s · ${NET.others.size+1} Spieler`:'')];
+    PERF.box.textContent=rows.join('\n');PERF.t0=now;PERF.acc={};PERF.n=0;PERF.ft=[];PERF.net={i:0,o:0}}
+  requestAnimationFrame(perfTick)}
+addEventListener('keydown',e=>{if(e.key==='F3'&&e.shiftKey){e.preventDefault();perfToggle()}});
+if(/[?&]perf\b/.test(location.search))setTimeout(()=>perfToggle(true),0);
 expandItems();buildPalette();buildUI();initGL();buildSprites();buildEnvSprites();buildGrain();
 // title backdrop: the hill, idle
 titleBackdrop();
