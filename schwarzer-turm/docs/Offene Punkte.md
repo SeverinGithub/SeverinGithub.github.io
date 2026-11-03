@@ -22,6 +22,7 @@ tags: [todo]
 - [ ] **Waffen-Ideen abarbeiten**: 54 Einträge in [[Waffen-Ideen]], der Reihe nach (zuerst Knotenstab für den Magier, dann Schwerter, Hellebarde neu).
 - [x] Questgeber Eldrik neu gezeichnet mit eigener Schreibstube (2026-11-03, siehe [[Eldriks Schreibstube]]).
 - [x] Kartendesign: Themen-Stockwerke, Flüche, Sonderräume, Fässer/Kronleuchter/Druckplatten, Bodenrisse, Aufzug, Grüfte, Landmarken, Brückensteine, Klima, Turm-Lichter (2026-11-03, siehe [[Turm-Ebenen und Inseln]]). Im echten Spiel Häufigkeiten und Schaden prüfen.
+- [x] Startinsel als Dorf mit festem Grundriss, Wegen, Vierteln, Friedhof, Steg, Dorfbewohnern und Wachstum (2026-11-03, siehe [[Der Hügel]]). Im echten Spiel prüfen, ob Stationen gut erreichbar sind.
 - [ ] **Multiplayer für die neuen Kartenteile**: Hebel, Prüfung, Fässer, Kronleuchter, Bodenrisse und Brückensteine werden noch nicht übertragen.
 - [ ] **Odalindes Sockelanzahl wählbar machen** – angeboten nach der Runenwort-Prüfung, Nutzer hat nicht geantwortet. Würde gezieltes Bauen von 2/3/4-Runen-Runenwörtern erlauben. Erst nachfragen.
 - [ ] **Multiplayer mit zwei echten Spielern testen**: Statue für Gäste (`ar`/`arx`) und sichtbare Fähigkeiten wurden nur mit simulierten Paketen geprüft.

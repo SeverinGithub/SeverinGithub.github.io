@@ -21,6 +21,7 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 - [[Klassen]] – Krieger, Jägerin, Magier, Alchemist; Waffen pro Klasse, Bögen/Armbrüste, eigene Ausrüstung für Jägerin und Alchemist
 - [[Talentbaum]] – 8 Zweige, 4 Ringe, 32 Meilensteine, 1.561 Knoten
 - [[Turm-Ebenen und Inseln]] – Themen-Stockwerke, Flüche, Sonderräume, Fallen, Abkürzungen, Grüfte, Landmarken, Klima, Turm-Lichter
+- [[Der Hügel]] – die Startinsel als geplantes Dorf: Ring um den Turm, Viertel, Friedhof, Steg, Dorfbewohner, Wachstum mit jedem Hüter
 - [[Bewegung]] – Gehen, Laufen, Sprinten, Atmen, Dash mit seltenem Salto
 - [[Waffen-Ideen]] – 54 neue Waffen zum Abarbeiten
 - [[Helden und Spielstände]] – Heldenliste statt Speicherplätze, jeder Held speichert sich selbst samt Standort

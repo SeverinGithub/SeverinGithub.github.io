@@ -34,6 +34,7 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-03 | Bei Web/JavaScript bleiben, kein Engine-Wechsel; Plattformen später über PWA, Capacitor (iPad) und Tauri (PC) | Engpass ist der Canvas-2D-Renderer, nicht die Sprache (Messung) |
 | 2026-11-03 | Kartendesign in drei neuen Modulen (982/984/986), alles pro Seed ausgewürfelt | Nutzer: alle zwölf Ideen umsetzen; gleiche Karten für alle Mitspieler |
 | 2026-11-03 | Wetter nach Region lenkt das bestehende Wetter (`G.wx`) statt eines zweiten Systems; Schnee neu | Es gab schon Regen, Asche und Nebel in 370 |
+| 2026-11-03 | Startinsel: Stationen behalten ihre Module, ein Plan in 988 versetzt sie nur an feste Plätze; Straßen sind Steinboden (Feld 7) | Kein Umbau von sieben Modulen nötig; Brücken werden zur Laufzeit gesucht, damit es für jeden Seed passt |
 | 2026-11-03 | Einbahntür als Aufzug: unten entriegeln, oben bis dahin verschlossen | Ein Objekt statt Tür-Kacheln, gleiche Wirkung wie in Elden Ring |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 

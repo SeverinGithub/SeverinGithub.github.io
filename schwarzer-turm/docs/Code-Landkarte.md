@@ -50,5 +50,6 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 982-floor-themes.js | `FTH`, `fthOf`, `CURSE`, `ftDress`, `ftWell`, `ftGround`, `ftProp`, `ftTick`, `dungDark`, `plLight`, `floorSpd` | Themen-Stockwerke, Flüche, Turmfenster, Lichtschacht, Lava/Wasser/Dampf, Feuerbecken, siehe [[Turm-Ebenen und Inseln]] |
 | 984-tower-rooms.js | `twS` (`G.tw`), `twDress`, `TWI`, `twObjE`, `twBlast`, `twWave`, `twFall` | Sonderräume, Pulverfässer und Kronleuchter, Druckplatten, Bodenrisse, Aufzug |
 | 986-island-sights.js | `ISN`, `genCrypt`, `enterCrypt`, `isBuild`, `CLIM`, `drawIslets`, `TWLIGHTS` | Landmarken, Grüfte, Brückensteine, treibende Inseln, Klima nach Region, Turm-Lichter |
+| 988-hill-village.js | `hvBuild`, `hvTick`, `hvHeads`, `hvEdge`, `hvWalk`, `HVLOOK`, `hvDraw`, `hvSprites`, `hvGraves` | Der Hügel als Dorf: Ring, Straßen, feste Plätze der Stationen, Platz, Werkstattdach, Friedhof, Steg, Laternen, Wegweiser, Dorfbewohner, Wachstum nach Hütern |
 
 Zurück zu [[Start]].
