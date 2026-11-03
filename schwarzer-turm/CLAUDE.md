@@ -9,7 +9,7 @@ Wichtigste Regeln (Details in `docs/Arbeitsweise.md`):
 - **Quellcode liegt in `src/`** (`src/js/NNN-name.js`, `src/style.css`, `src/shell.html`). `index.html` ist Build-Ergebnis: nie direkt bearbeiten und nie lesen, sondern `node tools/build.mjs` (mit `--test` zusätzlich `_t.html` mit Eval-Brücke).
 - Code finden: zuerst `src/INDEX.md` (Definitionen und Wrapper pro Datei), dann `grep -n name src/js/*.js` und nur die betroffene Datei lesen.
 - Bestehendes Verhalten direkt in seiner Moduldatei ändern; neue Systeme als neue Datei mit Nummer vor `999-boot-loop.js`. Wrapper nur noch, wenn ein System sich in ein fremdes einklinkt.
-- Committen: `src/`, `tools/`, gebaute `index.html`, `docs/` – nie `_t.html`/`_d.html`. Vorher `node tools/build.mjs --check`. Commit auf Deutsch mit Präfix `Schwarzer Turm: `.
+- Committen: `src/`, `tools/`, gebaute `index.html`, `docs/`, `godot/` (Godot-Projekt, Export siehe `docs/Godot-Umstieg.md`) – nie `_t.html`/`_d.html`. Vorher `node tools/build.mjs --check`. Commit auf Deutsch mit Präfix `Schwarzer Turm: `.
 - Artefakt https://claude.ai/artifact/RyXp68BqnpmdkzTHnvAd8z ist nicht mehr erreichbar – ein neues nur nach Rückfrage.
 - Leistung messen mit `?perf` (Shift+F3), siehe `docs/Features/Performance.md`.
 

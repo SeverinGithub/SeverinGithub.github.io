@@ -1,0 +1,1199 @@
+{
+ "skel": {
+  "id": "skel",
+  "base": "skel",
+  "n": "Knochenwicht",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "minF": 1,
+  "w": 3
+ },
+ "bleich": {
+  "id": "bleich",
+  "base": "skel",
+  "n": "Bleichknochen",
+  "pal": {
+   "bone": "pale"
+  },
+  "hp": 1.1,
+  "dmg": 1,
+  "spd": 1.05,
+  "scale": 1,
+  "minF": 1,
+  "w": 2
+ },
+ "dunkelgebein": {
+  "id": "dunkelgebein",
+  "base": "skel",
+  "n": "Dunkelgebein",
+  "pal": {
+   "bone": "darkbone"
+  },
+  "hp": 1.4,
+  "dmg": 1.25,
+  "spd": 1,
+  "scale": 1.05,
+  "minF": 3,
+  "w": 2
+ },
+ "aschegebein": {
+  "id": "aschegebein",
+  "base": "skel",
+  "n": "Aschegebein",
+  "pal": {
+   "bone": "char"
+  },
+  "hp": 1.6,
+  "dmg": 1.35,
+  "spd": 1,
+  "scale": 1.05,
+  "elem": "fire",
+  "minF": 5,
+  "w": 2
+ },
+ "frostgebein": {
+  "id": "frostgebein",
+  "base": "skel",
+  "n": "Frostgebein",
+  "pal": {
+   "bone": "ice"
+  },
+  "hp": 1.7,
+  "dmg": 1.35,
+  "spd": 0.95,
+  "scale": 1.05,
+  "elem": "frost",
+  "minF": 7,
+  "w": 2
+ },
+ "grabritter": {
+  "id": "grabritter",
+  "base": "skel",
+  "n": "Grabritter",
+  "pal": {
+   "bone": "ash",
+   "dark": "black"
+  },
+  "hp": 2.4,
+  "dmg": 1.6,
+  "spd": 0.9,
+  "scale": 1.18,
+  "minF": 9,
+  "w": 1.4
+ },
+ "goldgebein": {
+  "id": "goldgebein",
+  "base": "skel",
+  "n": "Goldgebein",
+  "pal": {
+   "bone": "gold"
+  },
+  "hp": 2.6,
+  "dmg": 1.8,
+  "spd": 1.05,
+  "scale": 1.1,
+  "minF": 12,
+  "w": 1
+ },
+ "archer": {
+  "id": "archer",
+  "base": "archer",
+  "n": "Knochenschütze",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "minF": 1,
+  "w": 2
+ },
+ "dunkelschuetze": {
+  "id": "dunkelschuetze",
+  "base": "archer",
+  "n": "Dunkelschütze",
+  "pal": {
+   "bone": "darkbone"
+  },
+  "hp": 1.4,
+  "dmg": 1.3,
+  "spd": 1,
+  "scale": 1,
+  "minF": 3,
+  "w": 1.5
+ },
+ "brandschuetze": {
+  "id": "brandschuetze",
+  "base": "archer",
+  "n": "Brandschütze",
+  "pal": {
+   "bone": "char"
+  },
+  "hp": 1.6,
+  "dmg": 1.4,
+  "spd": 1,
+  "scale": 1,
+  "elem": "fire",
+  "proj": "fire",
+  "minF": 5,
+  "w": 1.4
+ },
+ "frostschuetze": {
+  "id": "frostschuetze",
+  "base": "archer",
+  "n": "Frostschütze",
+  "pal": {
+   "bone": "ice"
+  },
+  "hp": 1.7,
+  "dmg": 1.4,
+  "spd": 1,
+  "scale": 1,
+  "elem": "frost",
+  "proj": "frost",
+  "minF": 7,
+  "w": 1.4
+ },
+ "giftschuetze": {
+  "id": "giftschuetze",
+  "base": "archer",
+  "n": "Giftschütze",
+  "pal": {
+   "bone": "greenbone"
+  },
+  "hp": 1.8,
+  "dmg": 1.5,
+  "spd": 1,
+  "scale": 1,
+  "elem": "poison",
+  "proj": "poison",
+  "minF": 9,
+  "w": 1.4
+ },
+ "ghoul": {
+  "id": "ghoul",
+  "base": "ghoul",
+  "n": "Grabschänder",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "minF": 2,
+  "w": 2
+ },
+ "faeulnisghul": {
+  "id": "faeulnisghul",
+  "base": "ghoul",
+  "n": "Fäulnisghul",
+  "pal": {
+   "flesh": "rot"
+  },
+  "hp": 1.4,
+  "dmg": 1.2,
+  "spd": 0.95,
+  "scale": 1.05,
+  "elem": "poison",
+  "minF": 3,
+  "w": 2
+ },
+ "blutghul": {
+  "id": "blutghul",
+  "base": "ghoul",
+  "n": "Blutghul",
+  "pal": {
+   "flesh": "blood"
+  },
+  "hp": 1.5,
+  "dmg": 1.4,
+  "spd": 1.3,
+  "scale": 1,
+  "minF": 5,
+  "w": 1.6
+ },
+ "bleichghul": {
+  "id": "bleichghul",
+  "base": "ghoul",
+  "n": "Bleichghul",
+  "pal": {
+   "flesh": "ash"
+  },
+  "hp": 1.9,
+  "dmg": 1.5,
+  "spd": 1.1,
+  "scale": 1.08,
+  "minF": 7,
+  "w": 1.4
+ },
+ "moorghul": {
+  "id": "moorghul",
+  "base": "ghoul",
+  "n": "Moorghul",
+  "pal": {
+   "flesh": "bog"
+  },
+  "hp": 2.4,
+  "dmg": 1.7,
+  "spd": 1,
+  "scale": 1.15,
+  "elem": "poison",
+  "minF": 10,
+  "w": 1.2
+ },
+ "spider": {
+  "id": "spider",
+  "base": "spider",
+  "n": "Höhlenspinne",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "minF": 1,
+  "w": 3
+ },
+ "giftspinne": {
+  "id": "giftspinne",
+  "base": "spider",
+  "n": "Giftspinne",
+  "pal": {
+   "dark": "venom"
+  },
+  "hp": 1.1,
+  "dmg": 1.1,
+  "spd": 1.05,
+  "scale": 1,
+  "elem": "poison",
+  "minF": 1,
+  "w": 3
+ },
+ "blutspinne": {
+  "id": "blutspinne",
+  "base": "spider",
+  "n": "Blutspinne",
+  "pal": {
+   "dark": "red"
+  },
+  "hp": 1.4,
+  "dmg": 1.3,
+  "spd": 1.1,
+  "scale": 1.05,
+  "minF": 3,
+  "w": 2.5
+ },
+ "schattenspinne": {
+  "id": "schattenspinne",
+  "base": "spider",
+  "n": "Schattenspinne",
+  "pal": {
+   "dark": "shadow"
+  },
+  "hp": 1.5,
+  "dmg": 1.4,
+  "spd": 1.35,
+  "scale": 1,
+  "minF": 5,
+  "w": 2.5
+ },
+ "riesenspinne": {
+  "id": "riesenspinne",
+  "base": "spider",
+  "n": "Riesenspinne",
+  "pal": {
+   "dark": "giant"
+  },
+  "hp": 3.5,
+  "dmg": 1.9,
+  "spd": 0.85,
+  "scale": 1.7,
+  "elem": "poison",
+  "minF": 6,
+  "w": 1.4
+ },
+ "aschespinne": {
+  "id": "aschespinne",
+  "base": "spider",
+  "n": "Aschespinne",
+  "pal": {
+   "dark": "ember"
+  },
+  "hp": 1.8,
+  "dmg": 1.5,
+  "spd": 1.15,
+  "scale": 1.05,
+  "elem": "fire",
+  "minF": 7,
+  "w": 2
+ },
+ "frostspinne": {
+  "id": "frostspinne",
+  "base": "spider",
+  "n": "Frostspinne",
+  "pal": {
+   "dark": "frostb"
+  },
+  "hp": 1.9,
+  "dmg": 1.5,
+  "spd": 1.1,
+  "scale": 1.05,
+  "elem": "frost",
+  "minF": 8,
+  "w": 2
+ },
+ "brutmutter": {
+  "id": "brutmutter",
+  "base": "spider",
+  "n": "Brutmutter",
+  "pal": {
+   "dark": "giant"
+  },
+  "hp": 5.5,
+  "dmg": 2.2,
+  "spd": 0.7,
+  "scale": 2.2,
+  "elem": "poison",
+  "minF": 12,
+  "w": 0.9
+ },
+ "cult": {
+  "id": "cult",
+  "base": "cult",
+  "n": "Aschekultist",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "elem": "fire",
+  "proj": "fire",
+  "minF": 4,
+  "w": 2
+ },
+ "frostkultist": {
+  "id": "frostkultist",
+  "base": "cult",
+  "n": "Frostkultist",
+  "pal": {
+   "robe": "robeB"
+  },
+  "hp": 1.3,
+  "dmg": 1.2,
+  "spd": 1,
+  "scale": 1,
+  "elem": "frost",
+  "proj": "frost",
+  "minF": 5,
+  "w": 1.5
+ },
+ "giftkultist": {
+  "id": "giftkultist",
+  "base": "cult",
+  "n": "Giftkultist",
+  "pal": {
+   "robe": "robeG"
+  },
+  "hp": 1.5,
+  "dmg": 1.3,
+  "spd": 1,
+  "scale": 1,
+  "elem": "poison",
+  "proj": "poison",
+  "minF": 6,
+  "w": 1.5
+ },
+ "blutkultist": {
+  "id": "blutkultist",
+  "base": "cult",
+  "n": "Blutkultist",
+  "pal": {
+   "robe": "robeD"
+  },
+  "hp": 1.9,
+  "dmg": 1.5,
+  "spd": 1,
+  "scale": 1.05,
+  "elem": "fire",
+  "proj": "fire",
+  "minF": 8,
+  "w": 1.2
+ },
+ "schattenkultist": {
+  "id": "schattenkultist",
+  "base": "cult",
+  "n": "Schattenkultist",
+  "pal": {
+   "robe": "robeV"
+  },
+  "hp": 2.2,
+  "dmg": 1.6,
+  "spd": 1.1,
+  "scale": 1.05,
+  "elem": "frost",
+  "proj": "frost",
+  "minF": 10,
+  "w": 1.2
+ },
+ "wraith": {
+  "id": "wraith",
+  "base": "wraith",
+  "n": "Klageseele",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "elem": "frost",
+  "proj": "frost",
+  "minF": 4,
+  "w": 2
+ },
+ "schattenseele": {
+  "id": "schattenseele",
+  "base": "wraith",
+  "n": "Schattenseele",
+  "pal": {
+   "ghost": "ghostV"
+  },
+  "hp": 1.4,
+  "dmg": 1.3,
+  "spd": 1.25,
+  "scale": 1,
+  "elem": "frost",
+  "proj": "frost",
+  "minF": 6,
+  "w": 1.5
+ },
+ "glutgeist": {
+  "id": "glutgeist",
+  "base": "wraith",
+  "n": "Glutgeist",
+  "pal": {
+   "ghost": "ghostE"
+  },
+  "hp": 1.7,
+  "dmg": 1.4,
+  "spd": 1.1,
+  "scale": 1,
+  "elem": "fire",
+  "proj": "fire",
+  "minF": 8,
+  "w": 1.4
+ },
+ "giftgeist": {
+  "id": "giftgeist",
+  "base": "wraith",
+  "n": "Giftgeist",
+  "pal": {
+   "ghost": "ghostG"
+  },
+  "hp": 1.9,
+  "dmg": 1.5,
+  "spd": 1.1,
+  "scale": 1,
+  "elem": "poison",
+  "proj": "poison",
+  "minF": 10,
+  "w": 1.3
+ },
+ "golem": {
+  "id": "golem",
+  "base": "golem",
+  "n": "Steinkoloss",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "minF": 6,
+  "w": 1.4
+ },
+ "moorkoloss": {
+  "id": "moorkoloss",
+  "base": "golem",
+  "n": "Moorkoloss",
+  "pal": {
+   "stone": "moss"
+  },
+  "hp": 1.3,
+  "dmg": 1.2,
+  "spd": 1,
+  "scale": 1.05,
+  "elem": "poison",
+  "minF": 7,
+  "w": 1
+ },
+ "eiskoloss": {
+  "id": "eiskoloss",
+  "base": "golem",
+  "n": "Eiskoloss",
+  "pal": {
+   "stone": "iceS"
+  },
+  "hp": 1.6,
+  "dmg": 1.4,
+  "spd": 0.95,
+  "scale": 1.1,
+  "elem": "frost",
+  "minF": 9,
+  "w": 1
+ },
+ "lavakoloss": {
+  "id": "lavakoloss",
+  "base": "golem",
+  "n": "Lavakoloss",
+  "pal": {
+   "stone": "lava"
+  },
+  "hp": 1.9,
+  "dmg": 1.6,
+  "spd": 0.95,
+  "scale": 1.12,
+  "elem": "fire",
+  "minF": 12,
+  "w": 1
+ },
+ "knochenkoloss": {
+  "id": "knochenkoloss",
+  "base": "golem",
+  "n": "Knochenkoloss",
+  "pal": {
+   "stone": "boneS"
+  },
+  "hp": 2.3,
+  "dmg": 1.8,
+  "spd": 1,
+  "scale": 1.2,
+  "minF": 14,
+  "w": 0.8
+ },
+ "scorp": {
+  "id": "scorp",
+  "base": "scorp",
+  "n": "Sandskorpion",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "elem": "poison",
+  "minF": 1,
+  "w": 2.4
+ },
+ "giftskorpion": {
+  "id": "giftskorpion",
+  "base": "scorp",
+  "n": "Giftskorpion",
+  "pal": {
+   "sand": "venom"
+  },
+  "hp": 1.2,
+  "dmg": 1.15,
+  "spd": 1.05,
+  "scale": 1,
+  "elem": "poison",
+  "minF": 2,
+  "w": 2.4
+ },
+ "hoehlenskorpion": {
+  "id": "hoehlenskorpion",
+  "base": "scorp",
+  "n": "Höhlenskorpion",
+  "pal": {
+   "sand": "black"
+  },
+  "hp": 1.4,
+  "dmg": 1.3,
+  "spd": 1.1,
+  "scale": 1.05,
+  "elem": "poison",
+  "minF": 3,
+  "w": 2.2
+ },
+ "blutskorpion": {
+  "id": "blutskorpion",
+  "base": "scorp",
+  "n": "Blutskorpion",
+  "pal": {
+   "sand": "red"
+  },
+  "hp": 1.6,
+  "dmg": 1.5,
+  "spd": 1.15,
+  "scale": 1.05,
+  "elem": "poison",
+  "minF": 5,
+  "w": 2
+ },
+ "feuerskorpion": {
+  "id": "feuerskorpion",
+  "base": "scorp",
+  "n": "Feuerskorpion",
+  "pal": {
+   "sand": "ember"
+  },
+  "hp": 1.8,
+  "dmg": 1.6,
+  "spd": 1.1,
+  "scale": 1.08,
+  "elem": "fire",
+  "minF": 7,
+  "w": 1.8
+ },
+ "kristallskorpion": {
+  "id": "kristallskorpion",
+  "base": "scorp",
+  "n": "Kristallskorpion",
+  "pal": {
+   "sand": "crystal"
+  },
+  "hp": 2.1,
+  "dmg": 1.7,
+  "spd": 1.05,
+  "scale": 1.1,
+  "elem": "frost",
+  "minF": 9,
+  "w": 1.6
+ },
+ "schattenskorpion": {
+  "id": "schattenskorpion",
+  "base": "scorp",
+  "n": "Schattenskorpion",
+  "pal": {
+   "sand": "shadow"
+  },
+  "hp": 2.4,
+  "dmg": 1.8,
+  "spd": 1.3,
+  "scale": 1.1,
+  "elem": "poison",
+  "minF": 11,
+  "w": 1.4
+ },
+ "kaiserskorpion": {
+  "id": "kaiserskorpion",
+  "base": "scorp",
+  "n": "Kaiserskorpion",
+  "pal": {
+   "sand": "royal"
+  },
+  "hp": 5,
+  "dmg": 2.3,
+  "spd": 0.8,
+  "scale": 1.9,
+  "elem": "poison",
+  "minF": 11,
+  "w": 0.8
+ },
+ "rg_bauer": {
+  "id": "rg_bauer",
+  "base": "skel",
+  "n": "Knochenbauer",
+  "pal": {},
+  "hp": 1.1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "pale",
+   "hat": "straw",
+   "body": "rags",
+   "bodyC": "tunic",
+   "wep": "pitchfork",
+   "reach": 1.5
+  }
+ },
+ "rg_sense": {
+  "id": "rg_sense",
+  "base": "skel",
+  "n": "Sensenknecht",
+  "pal": {},
+  "hp": 1.2,
+  "dmg": 1.25,
+  "spd": 0.95,
+  "scale": 1,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "hat": "hood",
+   "hatC": "ash",
+   "body": "rags",
+   "bodyC": "ash",
+   "wep": "scythe",
+   "reach": 1.4
+  }
+ },
+ "rg_dresch": {
+  "id": "rg_dresch",
+  "base": "skel",
+  "n": "Dreschgebein",
+  "pal": {},
+  "hp": 1.3,
+  "dmg": 1.2,
+  "spd": 1,
+  "scale": 1.02,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "darkbone",
+   "hat": "cap",
+   "hatC": "tunic",
+   "body": "tunic",
+   "bodyC": "tunic",
+   "wep": "flail"
+  }
+ },
+ "rg_metzger": {
+  "id": "rg_metzger",
+  "base": "skel",
+  "n": "Metzgergebein",
+  "pal": {},
+  "hp": 1.5,
+  "dmg": 1.3,
+  "spd": 0.95,
+  "scale": 1.08,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "body": "apron",
+   "bodyC": "ash",
+   "wep": "cleaver"
+  }
+ },
+ "rg_buerger": {
+  "id": "rg_buerger",
+  "base": "skel",
+  "n": "Schwarzer Bürger",
+  "pal": {},
+  "hp": 1.3,
+  "dmg": 1.15,
+  "spd": 1.05,
+  "scale": 1,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "black",
+   "hat": "cap",
+   "hatC": "red",
+   "body": "tunic",
+   "bodyC": "blue",
+   "cape": "robe",
+   "wep": "club",
+   "eye": "#ff6a3a"
+  }
+ },
+ "rg_bleich": {
+  "id": "rg_bleich",
+  "base": "skel",
+  "n": "Bleicher Bürger",
+  "pal": {},
+  "hp": 1.1,
+  "dmg": 1.1,
+  "spd": 1.15,
+  "scale": 0.98,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "pale",
+   "body": "tunic",
+   "bodyC": "red",
+   "wep": "dagger",
+   "eye": "#8ad0ff"
+  }
+ },
+ "rg_wache": {
+  "id": "rg_wache",
+  "base": "skel",
+  "n": "Stadtwache",
+  "pal": {},
+  "hp": 1.8,
+  "dmg": 1.4,
+  "spd": 1,
+  "scale": 1.05,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "hat": "kettle",
+   "hatC": "iron",
+   "body": "gambeson",
+   "bodyC": "red",
+   "wep": "halberd",
+   "reach": 1.6
+  }
+ },
+ "rg_armbrust": {
+  "id": "rg_armbrust",
+  "base": "archer",
+  "n": "Armbrustwache",
+  "pal": {},
+  "hp": 1.5,
+  "dmg": 1.6,
+  "spd": 0.9,
+  "scale": 1.02,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "hat": "kettle",
+   "hatC": "iron",
+   "body": "gambeson",
+   "bodyC": "blue",
+   "wep": "crossbow"
+  }
+ },
+ "rg_jaeger": {
+  "id": "rg_jaeger",
+  "base": "archer",
+  "n": "Knochenjäger",
+  "pal": {},
+  "hp": 1.3,
+  "dmg": 1.3,
+  "spd": 1.05,
+  "scale": 1,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "darkbone",
+   "hat": "hood",
+   "hatC": "green",
+   "body": "tunic",
+   "bodyC": "green",
+   "wep": "longbow"
+  }
+ },
+ "rg_ritter": {
+  "id": "rg_ritter",
+  "base": "skel",
+  "n": "Ritterskelett",
+  "pal": {},
+  "hp": 2.6,
+  "dmg": 1.6,
+  "spd": 0.95,
+  "scale": 1.12,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "hat": "great",
+   "hatC": "iron",
+   "body": "plate",
+   "armor": "iron",
+   "bodyC": "red",
+   "wep": "sword",
+   "shield": "kite",
+   "shC": "red"
+  }
+ },
+ "rg_ross": {
+  "id": "rg_ross",
+  "base": "skel",
+  "n": "Knochenross",
+  "pal": {},
+  "hp": 2,
+  "dmg": 1.4,
+  "spd": 1.75,
+  "scale": 1.25,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "horse": 1,
+   "hbone": "pale",
+   "eye": "#6ad0ff"
+  }
+ },
+ "rg_reiter": {
+  "id": "rg_reiter",
+  "base": "skel",
+  "n": "Knochenreiter",
+  "pal": {},
+  "hp": 3,
+  "dmg": 1.8,
+  "spd": 1.6,
+  "scale": 1.3,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "horse": 1,
+   "rider": 1,
+   "hbone": "bone",
+   "bard": "black",
+   "bone": "darkbone",
+   "hat": "barbute",
+   "hatC": "iron",
+   "body": "plate",
+   "armor": "iron",
+   "bodyC": "red",
+   "wep": "lance",
+   "reach": 1.8
+  }
+ },
+ "rg_riese": {
+  "id": "rg_riese",
+  "base": "skel",
+  "n": "Riesenritterskelett",
+  "pal": {},
+  "hp": 5,
+  "dmg": 2.2,
+  "spd": 0.85,
+  "scale": 1.85,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "ash",
+   "hat": "great",
+   "hatC": "black",
+   "body": "plate",
+   "armor": "black",
+   "bodyC": "black",
+   "wep": "great",
+   "reach": 1.6,
+   "eye": "#ff5a2a"
+  }
+ },
+ "rg_koenig": {
+  "id": "rg_koenig",
+  "base": "skel",
+  "n": "Königlicher Ritter",
+  "pal": {},
+  "hp": 3.4,
+  "dmg": 2,
+  "spd": 1,
+  "scale": 1.2,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "hat": "crown",
+   "hatC": "black",
+   "plume": "red",
+   "body": "royal",
+   "armor": "black",
+   "bodyC": "red",
+   "cape": "red",
+   "wep": "mace",
+   "shield": "kite",
+   "shC": "royal"
+  }
+ },
+ "rg_armritter": {
+  "id": "rg_armritter",
+  "base": "archer",
+  "n": "Armbrustritter",
+  "pal": {},
+  "hp": 2.4,
+  "dmg": 2,
+  "spd": 0.9,
+  "scale": 1.1,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "hat": "great",
+   "hatC": "iron",
+   "body": "plate",
+   "armor": "iron",
+   "bodyC": "blue",
+   "wep": "crossbow"
+  }
+ },
+ "rg_templer": {
+  "id": "rg_templer",
+  "base": "skel",
+  "n": "Schwarzer Templer",
+  "pal": {},
+  "hp": 3.2,
+  "dmg": 2.1,
+  "spd": 0.95,
+  "scale": 1.15,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "darkbone",
+   "hat": "great",
+   "hatC": "black",
+   "body": "plate",
+   "armor": "black",
+   "bodyC": "ash",
+   "cape": "black",
+   "wep": "hammer"
+  }
+ },
+ "rg_hellebard": {
+  "id": "rg_hellebard",
+  "base": "skel",
+  "n": "Königshellebardier",
+  "pal": {},
+  "hp": 2.8,
+  "dmg": 1.9,
+  "spd": 0.95,
+  "scale": 1.12,
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "bone",
+   "hat": "barbute",
+   "hatC": "gold",
+   "body": "royal",
+   "armor": "royal",
+   "bodyC": "red",
+   "wep": "halberd",
+   "reach": 1.7
+  }
+ },
+ "rg_hexe": {
+  "id": "rg_hexe",
+  "base": "cult",
+  "n": "Waldhexe",
+  "pal": {
+   "robe": "robeG"
+  },
+  "hp": 2.2,
+  "dmg": 1.8,
+  "spd": 1.1,
+  "scale": 1,
+  "elem": "poison",
+  "proj": "poison",
+  "minF": 999,
+  "w": 0
+ },
+ "rg_knecht": {
+  "id": "rg_knecht",
+  "base": "skel",
+  "n": "Dornenknecht",
+  "pal": {},
+  "hp": 2.2,
+  "dmg": 1.7,
+  "spd": 1.15,
+  "scale": 1.05,
+  "elem": "poison",
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "char",
+   "hat": "hood",
+   "hatC": "blood",
+   "body": "rags",
+   "bodyC": "blood",
+   "wep": "sickle"
+  }
+ },
+ "rg_waldjaeger": {
+  "id": "rg_waldjaeger",
+  "base": "archer",
+  "n": "Waldschütze",
+  "pal": {},
+  "hp": 2,
+  "dmg": 1.8,
+  "spd": 1.05,
+  "scale": 1,
+  "elem": "poison",
+  "proj": "poison",
+  "minF": 999,
+  "w": 0,
+  "gear": {
+   "bone": "darkbone",
+   "hat": "hood",
+   "hatC": "blood",
+   "body": "tunic",
+   "bodyC": "black",
+   "wep": "longbow"
+  }
+ },
+ "jungdrache": {
+  "id": "jungdrache",
+  "base": "dragon",
+  "n": "Jungdrache",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1.05,
+  "scale": 0.85,
+  "elem": "fire",
+  "minF": 16,
+  "w": 0.9
+ },
+ "feuerdrache": {
+  "id": "feuerdrache",
+  "base": "dragon",
+  "n": "Feuerdrache",
+  "pal": {},
+  "hp": 1.3,
+  "dmg": 1.2,
+  "spd": 1,
+  "scale": 1,
+  "elem": "fire",
+  "minF": 19,
+  "w": 0.8
+ },
+ "glutdrache": {
+  "id": "glutdrache",
+  "base": "dragon",
+  "n": "Glutdrache",
+  "pal": {},
+  "hp": 1.7,
+  "dmg": 1.45,
+  "spd": 0.95,
+  "scale": 1.15,
+  "elem": "fire",
+  "minF": 23,
+  "w": 0.7
+ },
+ "aschedrache": {
+  "id": "aschedrache",
+  "base": "dragon",
+  "n": "Aschedrache",
+  "pal": {},
+  "hp": 2.2,
+  "dmg": 1.7,
+  "spd": 0.95,
+  "scale": 1.3,
+  "elem": "fire",
+  "minF": 27,
+  "w": 0.6
+ },
+ "werwolf": {
+  "id": "werwolf",
+  "base": "wolf",
+  "n": "Werwolf",
+  "pal": {},
+  "hp": 1,
+  "dmg": 1,
+  "spd": 1,
+  "scale": 1,
+  "minF": 999,
+  "w": 0
+ },
+ "grauwolf": {
+  "id": "grauwolf",
+  "base": "wolf",
+  "n": "Grauer Werwolf",
+  "pal": {},
+  "hp": 1.4,
+  "dmg": 1.25,
+  "spd": 1.05,
+  "scale": 1.12,
+  "minF": 999,
+  "w": 0
+ },
+ "nachtgeist": {
+  "id": "nachtgeist",
+  "base": "wraith",
+  "n": "Nachtgeist",
+  "pal": {
+   "dark": "ghostV"
+  },
+  "hp": 1.2,
+  "dmg": 1.15,
+  "spd": 1.1,
+  "scale": 1.05,
+  "elem": "frost",
+  "minF": 999,
+  "w": 0
+ }
+}

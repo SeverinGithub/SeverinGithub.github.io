@@ -1,0 +1,158 @@
+{
+ "skel": {
+  "n": "Knochenwicht",
+  "hp": 24,
+  "dmg": [
+   3,
+   6
+  ],
+  "spd": 2.3,
+  "r": 0.3,
+  "range": 1,
+  "wind": 0.5,
+  "cd": 1.2,
+  "xp": 12,
+  "kind": "melee"
+ },
+ "ghoul": {
+  "n": "Grabschänder",
+  "hp": 36,
+  "dmg": [
+   4,
+   8
+  ],
+  "spd": 2.7,
+  "r": 0.33,
+  "range": 1,
+  "wind": 0.45,
+  "cd": 1.1,
+  "xp": 16,
+  "kind": "melee"
+ },
+ "spider": {
+  "n": "Höhlenspinne",
+  "hp": 15,
+  "dmg": [
+   2,
+   5
+  ],
+  "spd": 4,
+  "r": 0.28,
+  "range": 0.9,
+  "wind": 0.32,
+  "cd": 0.9,
+  "xp": 9,
+  "kind": "melee"
+ },
+ "archer": {
+  "n": "Knochenschütze",
+  "hp": 18,
+  "dmg": [
+   3,
+   6
+  ],
+  "spd": 2.1,
+  "r": 0.3,
+  "range": 7,
+  "wind": 0.6,
+  "cd": 1.9,
+  "xp": 14,
+  "kind": "ranged",
+  "proj": "arrow"
+ },
+ "cult": {
+  "n": "Aschekultist",
+  "hp": 22,
+  "dmg": [
+   5,
+   8
+  ],
+  "spd": 2,
+  "r": 0.3,
+  "range": 6.5,
+  "wind": 0.8,
+  "cd": 2.2,
+  "xp": 18,
+  "kind": "ranged",
+  "proj": "fire"
+ },
+ "wraith": {
+  "n": "Klageseele",
+  "hp": 28,
+  "dmg": [
+   4,
+   7
+  ],
+  "spd": 3,
+  "r": 0.3,
+  "range": 6,
+  "wind": 0.7,
+  "cd": 2,
+  "xp": 20,
+  "kind": "ranged",
+  "proj": "frost"
+ },
+ "golem": {
+  "n": "Steinkoloss",
+  "hp": 90,
+  "dmg": [
+   9,
+   15
+  ],
+  "spd": 1.5,
+  "r": 0.5,
+  "range": 1.3,
+  "wind": 0.95,
+  "cd": 2.2,
+  "xp": 45,
+  "kind": "melee",
+  "scale": 1.5
+ },
+ "scorp": {
+  "n": "Sandskorpion",
+  "hp": 30,
+  "dmg": [
+   4,
+   8
+  ],
+  "spd": 2.6,
+  "r": 0.36,
+  "range": 1.1,
+  "wind": 0.45,
+  "cd": 1.3,
+  "xp": 18,
+  "kind": "melee"
+ },
+ "dragon": {
+  "n": "Feuerdrache",
+  "hp": 120,
+  "dmg": [
+   9,
+   15
+  ],
+  "spd": 2.4,
+  "r": 0.55,
+  "range": 1.5,
+  "wind": 0.55,
+  "cd": 1.7,
+  "xp": 70,
+  "kind": "melee",
+  "scale": 1.4
+ },
+ "wolf": {
+  "n": "Werwolf",
+  "hp": 95,
+  "dmg": [
+   9,
+   15
+  ],
+  "spd": 3.5,
+  "r": 0.42,
+  "range": 1.3,
+  "wind": 0.32,
+  "cd": 1.05,
+  "xp": 60,
+  "kind": "melee",
+  "scale": 1.15
+ }
+}

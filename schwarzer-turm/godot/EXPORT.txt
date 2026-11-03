@@ -1,0 +1,5 @@
+Export aus dem Browser-Spiel, 2026-11-03T21:25:59.750Z
+Daten: 1064 Grundteile, 310 Unikate, 74 Gegnerarten, 53 Fertigkeiten
+Weltbilder: 202
+Symbole: 1064
+Figuren-Bögen: 78

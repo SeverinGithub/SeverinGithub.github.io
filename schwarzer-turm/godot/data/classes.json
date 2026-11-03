@@ -1,0 +1,93 @@
+{
+ "krieger": {
+  "n": "Krieger",
+  "d": "Stahl und Zorn, keine Zauber. Am meisten Leben, schwere Waffen, mitten hinein. Langklinge, Hammer und Speer bringen eigene Fertigkeiten. +25% Leben, −30% Mana.",
+  "skills": [
+   "whirl",
+   "slam",
+   "charge",
+   "cry",
+   "atem",
+   "schwur"
+  ],
+  "stats": {
+   "str": 24,
+   "dex": 12,
+   "vit": 24,
+   "ene": 5
+  },
+  "ts": "krs0",
+  "wc": "sword",
+  "look": {
+   "legs": "darkbone"
+  }
+ },
+ "jaegerin": {
+  "n": "Jägerin",
+  "d": "Schnell, scharf, schwer zu fassen. Mit Dolch oder Doppelklingen durch die Reihen, zuschlagen und weg. +15% Angriffstempo, +10% Lauftempo, +5% kritische Treffer.",
+  "skills": [
+   "d_flurry",
+   "d_dash",
+   "d_cross",
+   "dash",
+   "d_dance",
+   "d_exec"
+  ],
+  "stats": {
+   "str": 14,
+   "dex": 26,
+   "vit": 15,
+   "ene": 10
+  },
+  "ts": "jas0",
+  "wc": "dagger",
+  "look": {
+   "legs": "robeV"
+  }
+ },
+ "magier": {
+  "n": "Aschemagier",
+  "d": "Der Stab bestimmt das Element: Feuer, Frost, Blitz oder Gift. Zauber nacheinander gewirkt erzeugen Resonanzen. +30% Mana, −15% Leben.",
+  "skills": [
+   "m_bolt",
+   "m_ring",
+   "m_jump",
+   "m_storm",
+   "ward",
+   "m_fuse"
+  ],
+  "stats": {
+   "str": 10,
+   "dex": 12,
+   "vit": 12,
+   "ene": 30
+  },
+  "ts": "mas0",
+  "wc": "staff",
+  "look": {
+   "legs": "robeV",
+   "torso": "robeV"
+  }
+ },
+ "alchemist": {
+  "n": "Alchemist",
+  "d": "Bogen, Armbrust oder Holzzauberstab, dazu Phiolen voller Feuer, Frost und Seuche. Heilt sich und andere. +40% Trankwirkung, auch für geworfene Phiolen.",
+  "skills": [
+   "multi",
+   "a_fire",
+   "a_frost",
+   "a_heal",
+   "a_plague",
+   "a_oil"
+  ],
+  "stats": {
+   "str": 12,
+   "dex": 20,
+   "vit": 16,
+   "ene": 16
+  },
+  "ts": "als0",
+  "wc": "bow",
+  "look": {}
+ }
+}

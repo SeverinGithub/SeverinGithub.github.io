@@ -1,0 +1,325 @@
+[
+ {
+  "id": "whirl",
+  "n": "Wirbelhieb",
+  "req": 1,
+  "cd": 0.7,
+  "key": 1
+ },
+ {
+  "id": "fire",
+  "n": "Glutkugel",
+  "req": 1,
+  "cd": 0.35,
+  "key": 2
+ },
+ {
+  "id": "nova",
+  "n": "Frostring",
+  "req": 3,
+  "cd": 1.2,
+  "key": 3
+ },
+ {
+  "id": "charge",
+  "n": "Sturmangriff",
+  "req": 6,
+  "cd": 1.5,
+  "key": 3
+ },
+ {
+  "id": "ward",
+  "n": "Knochenwall",
+  "req": 9,
+  "cd": 6,
+  "key": 5
+ },
+ {
+  "id": "chain",
+  "n": "Kettenblitz",
+  "req": 12,
+  "cd": 0.5,
+  "key": 6
+ },
+ {
+  "id": "slam",
+  "n": "Erdspalter",
+  "req": 3,
+  "cd": 1.1,
+  "key": 2
+ },
+ {
+  "id": "cry",
+  "n": "Kriegsschrei",
+  "req": 6,
+  "cd": 40,
+  "key": 4
+ },
+ {
+  "id": "leap",
+  "n": "Sprungschlag",
+  "req": 9,
+  "cd": 4
+ },
+ {
+  "id": "multi",
+  "n": "Fächerschuss",
+  "req": 1,
+  "cd": 0.45
+ },
+ {
+  "id": "pierce",
+  "n": "Durchschlag",
+  "req": 1,
+  "cd": 0.8
+ },
+ {
+  "id": "trap",
+  "n": "Dornenfalle",
+  "req": 3,
+  "cd": 1
+ },
+ {
+  "id": "dash",
+  "n": "Schattenschritt",
+  "req": 6,
+  "cd": 3
+ },
+ {
+  "id": "rain",
+  "n": "Pfeilregen",
+  "req": 9,
+  "cd": 5
+ },
+ {
+  "id": "venom",
+  "n": "Giftklinge",
+  "req": 12,
+  "cd": 14
+ },
+ {
+  "id": "meteor",
+  "n": "Meteor",
+  "req": 9,
+  "cd": 3
+ },
+ {
+  "id": "blink",
+  "n": "Aschesprung",
+  "req": 6,
+  "cd": 2.5
+ },
+ {
+  "id": "atem",
+  "req": 9,
+  "cd": 50,
+  "n": "Zweiter Atem",
+  "key": 5
+ },
+ {
+  "id": "schwur",
+  "req": 15,
+  "cd": 90,
+  "n": "Heiliger Schwur",
+  "key": 6
+ },
+ {
+  "id": "m_bolt",
+  "req": 1,
+  "cd": 0.35
+ },
+ {
+  "id": "m_ring",
+  "req": 3,
+  "cd": 1.2
+ },
+ {
+  "id": "m_jump",
+  "req": 6,
+  "cd": 2.5
+ },
+ {
+  "id": "m_storm",
+  "req": 9,
+  "cd": 3
+ },
+ {
+  "id": "m_fuse",
+  "req": 18,
+  "cd": 30
+ },
+ {
+  "id": "d_flurry",
+  "n": "Klingenwirbel",
+  "req": 1,
+  "cd": 0.8
+ },
+ {
+  "id": "d_dash",
+  "n": "Schattenschnitt",
+  "req": 1,
+  "cd": 3
+ },
+ {
+  "id": "d_cross",
+  "n": "Kreuzschnitt",
+  "req": 3,
+  "cd": 2
+ },
+ {
+  "id": "d_fan",
+  "n": "Klingenfächer",
+  "req": 6,
+  "cd": 4
+ },
+ {
+  "id": "d_dance",
+  "n": "Klingentanz",
+  "req": 9,
+  "cd": 10
+ },
+ {
+  "id": "d_exec",
+  "n": "Todesreigen",
+  "req": 15,
+  "cd": 8
+ },
+ {
+  "id": "g_cleave",
+  "n": "Weiter Schwung",
+  "req": 1,
+  "cd": 0.9
+ },
+ {
+  "id": "g_lunge",
+  "n": "Ausfall",
+  "req": 1,
+  "cd": 3
+ },
+ {
+  "id": "g_quake",
+  "n": "Erdspalter",
+  "req": 3,
+  "cd": 4
+ },
+ {
+  "id": "g_parry",
+  "n": "Klingenwall",
+  "req": 6,
+  "cd": 14
+ },
+ {
+  "id": "g_spin",
+  "n": "Sturmwirbel",
+  "req": 9,
+  "cd": 6
+ },
+ {
+  "id": "g_judg",
+  "n": "Richtspruch",
+  "req": 15,
+  "cd": 9
+ },
+ {
+  "id": "h_smash",
+  "n": "Schmetterschlag",
+  "req": 1,
+  "cd": 1
+ },
+ {
+  "id": "h_quake",
+  "n": "Bebenring",
+  "req": 1,
+  "cd": 4
+ },
+ {
+  "id": "h_leap",
+  "n": "Sprungschmetterer",
+  "req": 3,
+  "cd": 5
+ },
+ {
+  "id": "h_throw",
+  "n": "Hammerwurf",
+  "req": 6,
+  "cd": 3
+ },
+ {
+  "id": "h_storm",
+  "n": "Donnerhammer",
+  "req": 9,
+  "cd": 7
+ },
+ {
+  "id": "h_titan",
+  "n": "Titanenschlag",
+  "req": 15,
+  "cd": 10
+ },
+ {
+  "id": "sp_thrust",
+  "n": "Durchstich",
+  "req": 1,
+  "cd": 0.8
+ },
+ {
+  "id": "sp_vault",
+  "n": "Stabsprung",
+  "req": 1,
+  "cd": 4
+ },
+ {
+  "id": "sp_sweep",
+  "n": "Rundschlag",
+  "req": 3,
+  "cd": 3
+ },
+ {
+  "id": "sp_throw",
+  "n": "Speerwurf",
+  "req": 6,
+  "cd": 2.5
+ },
+ {
+  "id": "sp_wall",
+  "n": "Lanzenwall",
+  "req": 9,
+  "cd": 12
+ },
+ {
+  "id": "sp_rain",
+  "n": "Speerregen",
+  "req": 15,
+  "cd": 9
+ },
+ {
+  "id": "a_fire",
+  "n": "Brandphiole",
+  "req": 1,
+  "cd": 0.9
+ },
+ {
+  "id": "a_frost",
+  "n": "Frostphiole",
+  "req": 3,
+  "cd": 1.4
+ },
+ {
+  "id": "a_heal",
+  "n": "Heilnebel",
+  "req": 6,
+  "cd": 12
+ },
+ {
+  "id": "a_plague",
+  "n": "Seuchenkolben",
+  "req": 9,
+  "cd": 6
+ },
+ {
+  "id": "a_oil",
+  "n": "Alchemistenöl",
+  "req": 12,
+  "cd": 30
+ }
+]

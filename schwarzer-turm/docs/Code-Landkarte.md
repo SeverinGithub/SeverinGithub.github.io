@@ -56,3 +56,6 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 992-warrior-gear.js | `KRIE`, `KRIET`, `KRIMP`, `isKrie` | Krieger-Set: 24 Teile in drei Macharten, gezeichnet wie die alten Ketten-/Schuppen-/Plattenteile (`shape`), mit Stärke, Leben und Schadensminderung eingebaut |
 
 Zurück zu [[Start]].
+
+## Godot (`godot/`)
+Export: `tools/godot-export-server.mjs` (Server, schreibt nach `godot/`) und `tools/godot-export.js` (läuft im Spiel). Godot-Skripte: `data.gd` (Autoload `Data`), `iso.gd`, `figure.gd`, `main.gd`. Siehe [[Godot-Umstieg]].

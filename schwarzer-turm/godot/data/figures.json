@@ -1,0 +1,1714 @@
+{
+ "enemy_skel": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Knochenwicht",
+  "look": "skel"
+ },
+ "enemy_bleich": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Bleichknochen",
+  "look": "skel"
+ },
+ "enemy_dunkelgebein": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Dunkelgebein",
+  "look": "skel"
+ },
+ "enemy_aschegebein": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Aschegebein",
+  "look": "skel"
+ },
+ "enemy_frostgebein": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Frostgebein",
+  "look": "skel"
+ },
+ "enemy_grabritter": {
+  "cell": 130,
+  "anchor": [
+   65,
+   111
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Grabritter",
+  "look": "skel"
+ },
+ "enemy_goldgebein": {
+  "cell": 122,
+  "anchor": [
+   61,
+   104
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Goldgebein",
+  "look": "skel"
+ },
+ "enemy_archer": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Knochenschütze",
+  "look": "archer"
+ },
+ "enemy_dunkelschuetze": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Dunkelschütze",
+  "look": "archer"
+ },
+ "enemy_brandschuetze": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Brandschütze",
+  "look": "archer"
+ },
+ "enemy_frostschuetze": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Frostschütze",
+  "look": "archer"
+ },
+ "enemy_giftschuetze": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Giftschütze",
+  "look": "archer"
+ },
+ "enemy_ghoul": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Grabschänder",
+  "look": "ghoul"
+ },
+ "enemy_faeulnisghul": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Fäulnisghul",
+  "look": "ghoul"
+ },
+ "enemy_blutghul": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Blutghul",
+  "look": "ghoul"
+ },
+ "enemy_bleichghul": {
+  "cell": 120,
+  "anchor": [
+   60,
+   102
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Bleichghul",
+  "look": "ghoul"
+ },
+ "enemy_moorghul": {
+  "cell": 127,
+  "anchor": [
+   63.5,
+   108
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Moorghul",
+  "look": "ghoul"
+ },
+ "enemy_spider": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Höhlenspinne",
+  "look": "spider"
+ },
+ "enemy_giftspinne": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Giftspinne",
+  "look": "spider"
+ },
+ "enemy_blutspinne": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Blutspinne",
+  "look": "spider"
+ },
+ "enemy_schattenspinne": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Schattenspinne",
+  "look": "spider"
+ },
+ "enemy_riesenspinne": {
+  "cell": 180,
+  "anchor": [
+   90,
+   153
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Riesenspinne",
+  "look": "spider"
+ },
+ "enemy_aschespinne": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Aschespinne",
+  "look": "spider"
+ },
+ "enemy_frostspinne": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Frostspinne",
+  "look": "spider"
+ },
+ "enemy_brutmutter": {
+  "cell": 228,
+  "anchor": [
+   114,
+   194
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Brutmutter",
+  "look": "spider"
+ },
+ "enemy_cult": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Aschekultist",
+  "look": "cult"
+ },
+ "enemy_frostkultist": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Frostkultist",
+  "look": "cult"
+ },
+ "enemy_giftkultist": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Giftkultist",
+  "look": "cult"
+ },
+ "enemy_blutkultist": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Blutkultist",
+  "look": "cult"
+ },
+ "enemy_schattenkultist": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Schattenkultist",
+  "look": "cult"
+ },
+ "enemy_wraith": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Klageseele",
+  "look": "wraith"
+ },
+ "enemy_schattenseele": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Schattenseele",
+  "look": "wraith"
+ },
+ "enemy_glutgeist": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Glutgeist",
+  "look": "wraith"
+ },
+ "enemy_giftgeist": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Giftgeist",
+  "look": "wraith"
+ },
+ "enemy_golem": {
+  "cell": 160,
+  "anchor": [
+   80,
+   136
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Steinkoloss",
+  "look": "golem"
+ },
+ "enemy_moorkoloss": {
+  "cell": 168,
+  "anchor": [
+   84,
+   143
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Moorkoloss",
+  "look": "golem"
+ },
+ "enemy_eiskoloss": {
+  "cell": 175,
+  "anchor": [
+   87.5,
+   149
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Eiskoloss",
+  "look": "golem"
+ },
+ "enemy_lavakoloss": {
+  "cell": 178,
+  "anchor": [
+   89,
+   151
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Lavakoloss",
+  "look": "golem"
+ },
+ "enemy_knochenkoloss": {
+  "cell": 189,
+  "anchor": [
+   94.5,
+   161
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Knochenkoloss",
+  "look": "golem"
+ },
+ "enemy_scorp": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Sandskorpion",
+  "look": "scorp"
+ },
+ "enemy_giftskorpion": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Giftskorpion",
+  "look": "scorp"
+ },
+ "enemy_hoehlenskorpion": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Höhlenskorpion",
+  "look": "scorp"
+ },
+ "enemy_blutskorpion": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Blutskorpion",
+  "look": "scorp"
+ },
+ "enemy_feuerskorpion": {
+  "cell": 120,
+  "anchor": [
+   60,
+   102
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Feuerskorpion",
+  "look": "scorp"
+ },
+ "enemy_kristallskorpion": {
+  "cell": 122,
+  "anchor": [
+   61,
+   104
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Kristallskorpion",
+  "look": "scorp"
+ },
+ "enemy_schattenskorpion": {
+  "cell": 122,
+  "anchor": [
+   61,
+   104
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Schattenskorpion",
+  "look": "scorp"
+ },
+ "enemy_kaiserskorpion": {
+  "cell": 199,
+  "anchor": [
+   99.5,
+   169
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Kaiserskorpion",
+  "look": "scorp"
+ },
+ "enemy_rg_bauer": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Knochenbauer",
+  "look": "skel"
+ },
+ "enemy_rg_sense": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Sensenknecht",
+  "look": "skel"
+ },
+ "enemy_rg_dresch": {
+  "cell": 114,
+  "anchor": [
+   57,
+   97
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Dreschgebein",
+  "look": "skel"
+ },
+ "enemy_rg_metzger": {
+  "cell": 120,
+  "anchor": [
+   60,
+   102
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Metzgergebein",
+  "look": "skel"
+ },
+ "enemy_rg_buerger": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Schwarzer Bürger",
+  "look": "skel"
+ },
+ "enemy_rg_bleich": {
+  "cell": 111,
+  "anchor": [
+   55.5,
+   94
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Bleicher Bürger",
+  "look": "skel"
+ },
+ "enemy_rg_wache": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Stadtwache",
+  "look": "skel"
+ },
+ "enemy_rg_armbrust": {
+  "cell": 114,
+  "anchor": [
+   57,
+   97
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Armbrustwache",
+  "look": "archer"
+ },
+ "enemy_rg_jaeger": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Knochenjäger",
+  "look": "archer"
+ },
+ "enemy_rg_ritter": {
+  "cell": 124,
+  "anchor": [
+   62,
+   105
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Ritterskelett",
+  "look": "skel"
+ },
+ "enemy_rg_ross": {
+  "cell": 136,
+  "anchor": [
+   68,
+   116
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Knochenross",
+  "look": "skel"
+ },
+ "enemy_rg_reiter": {
+  "cell": 141,
+  "anchor": [
+   70.5,
+   120
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Knochenreiter",
+  "look": "skel"
+ },
+ "enemy_rg_riese": {
+  "cell": 194,
+  "anchor": [
+   97,
+   165
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Riesenritterskelett",
+  "look": "skel"
+ },
+ "enemy_rg_koenig": {
+  "cell": 132,
+  "anchor": [
+   66,
+   112
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Königlicher Ritter",
+  "look": "skel"
+ },
+ "enemy_rg_armritter": {
+  "cell": 122,
+  "anchor": [
+   61,
+   104
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Armbrustritter",
+  "look": "archer"
+ },
+ "enemy_rg_templer": {
+  "cell": 127,
+  "anchor": [
+   63.5,
+   108
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Schwarzer Templer",
+  "look": "skel"
+ },
+ "enemy_rg_hellebard": {
+  "cell": 124,
+  "anchor": [
+   62,
+   105
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Königshellebardier",
+  "look": "skel"
+ },
+ "enemy_rg_hexe": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Waldhexe",
+  "look": "cult"
+ },
+ "enemy_rg_knecht": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Dornenknecht",
+  "look": "skel"
+ },
+ "enemy_rg_waldjaeger": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Waldschütze",
+  "look": "archer"
+ },
+ "enemy_jungdrache": {
+  "cell": 131,
+  "anchor": [
+   65.5,
+   111
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Jungdrache",
+  "look": "dragon"
+ },
+ "enemy_feuerdrache": {
+  "cell": 151,
+  "anchor": [
+   75.5,
+   128
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Feuerdrache",
+  "look": "dragon"
+ },
+ "enemy_glutdrache": {
+  "cell": 171,
+  "anchor": [
+   85.5,
+   145
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Glutdrache",
+  "look": "dragon"
+ },
+ "enemy_aschedrache": {
+  "cell": 191,
+  "anchor": [
+   95.5,
+   162
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Aschedrache",
+  "look": "dragon"
+ },
+ "enemy_werwolf": {
+  "cell": 127,
+  "anchor": [
+   63.5,
+   108
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Werwolf",
+  "look": "wolf"
+ },
+ "enemy_grauwolf": {
+  "cell": 140,
+  "anchor": [
+   70,
+   119
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Grauer Werwolf",
+  "look": "wolf"
+ },
+ "enemy_nachtgeist": {
+  "cell": 117,
+  "anchor": [
+   58.5,
+   99
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Nachtgeist",
+  "look": "wraith"
+ },
+ "hero_krieger": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   6
+  ],
+  "idle": [
+   14,
+   1
+  ],
+  "name": "Krieger"
+ },
+ "hero_jaegerin": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   6
+  ],
+  "idle": [
+   14,
+   1
+  ],
+  "name": "Jägerin"
+ },
+ "hero_magier": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   6
+  ],
+  "idle": [
+   14,
+   1
+  ],
+  "name": "Aschemagier"
+ },
+ "hero_alchemist": {
+  "cell": 112,
+  "anchor": [
+   56,
+   95
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   6
+  ],
+  "idle": [
+   14,
+   1
+  ],
+  "name": "Alchemist"
+ }
+}

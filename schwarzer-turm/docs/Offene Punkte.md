@@ -3,6 +3,8 @@ tags: [todo]
 ---
 # Offene Punkte
 
+- [ ] **Godot-Umstieg**: Godot installieren, `godot/` öffnen und die Testszene prüfen; Entscheidungen zu Ausrüstung am Helden, Web-Fassung und Reihenfolge, siehe [[Godot-Umstieg]].
+
 - [ ] **Mit `?perf` auf dem iPad messen** (auf dem Mac ist auch der große Kampf nur halb ausgelastet, Messung 2026-11-03 abends) (Oberwelt mit vielen Gegnern, Turm, Multiplayer) – Grundlage für den GPU-Renderer, siehe [[Performance]].
 - [ ] **GPU-Renderer** (Texturatlas, instanziertes Zeichnen, Licht als Shader, Boden-Chunks) als umschaltbares Modul neben dem alten bauen.
 - [ ] **Inhalte als Daten**: Gegner, Bosse, Waffen, Unikate, Runen, Quests, Überlieferung aus `030-data.js` & Co. in eigene Daten-Dateien; das Wiki und die Turm-Schmiede lesen sie direkt.

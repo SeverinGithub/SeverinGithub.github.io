@@ -1,0 +1,1588 @@
+{
+ "Hügelwacht": [
+  "moss",
+  "gold",
+  0,
+  "emerald"
+ ],
+ "Grünes Blut": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Der Erste Stein": [
+  "stone",
+  "stone",
+  "stone",
+  "frost"
+ ],
+ "Wächterrund": [
+  "sky",
+  "gold"
+ ],
+ "Grasläufer": [
+  "grass",
+  "leather"
+ ],
+ "Aschenwurzel": [
+  "dark",
+  0,
+  "dark",
+  "ember"
+ ],
+ "Himmelsriss": [
+  "sky",
+  "gold",
+  0,
+  "frost"
+ ],
+ "Mantel des Hügels": [
+  "moss",
+  "bronze"
+ ],
+ "Ring der Blauen Stunde": [
+  "moon",
+  "moon",
+  0,
+  "sapphire"
+ ],
+ "Turmglocke": [
+  "bronze",
+  "gold",
+  "dark"
+ ],
+ "Fäuste des Steinmetzes": [
+  "stone",
+  "stone"
+ ],
+ "Wolkenbrecher": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Krone der Zinnen": [
+  "gold",
+  "bronze"
+ ],
+ "Blutring": [
+  "blood",
+  "blood",
+  0,
+  "ruby"
+ ],
+ "Auge des Turms": [
+  "dark",
+  "dark",
+  0,
+  "ember"
+ ],
+ "Sturmtreter": [
+  "sky",
+  "gold",
+  0,
+  "frost"
+ ],
+ "Gürtel der Ewigen Wache": [
+  "gold",
+  "gold"
+ ],
+ "Stab des Blauen Mittags": [
+  "gold",
+  "gold",
+  "gold",
+  "sapphire"
+ ],
+ "Kargsteins Ende": [
+  "blood",
+  "dark",
+  "dark"
+ ],
+ "Mondsichel des Schweigens": [
+  "moon",
+  "moon",
+  "cloth",
+  "frost"
+ ],
+ "Grabsteinwall": [
+  "dark",
+  "stone"
+ ],
+ "Drachenzahn Vaels": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Totenmaske": [
+  "bone",
+  "void",
+  0,
+  "amethyst"
+ ],
+ "Schwarze Haut": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Nachtgesang": [
+  "void",
+  "moon",
+  "cloth",
+  "sapphire"
+ ],
+ "Aschehand": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Grabtor": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Eisenfaust": [
+  "iron",
+  "steel"
+ ],
+ "Sonnenfluch": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Frosthunger": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Giftbiss": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Giftwall des Aschenmeers": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Sonnenzahn": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Gifthunger der Weberin": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Sturmwache": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Rabenpfad des Bleichen Ritters": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Ascheband": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Glutzorn der Tiefe": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Seelenwache": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Steinwache": [
+  "stone",
+  "stone"
+ ],
+ "Frostspalter des Letzten Lichts": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Seelendorn": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Seelenruf": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Dorndorn": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Blutzange": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Seelenruf der Krähen": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Wolfsschritt des Ewigen Winters": [
+  "stone",
+  "leather"
+ ],
+ "Steintor": [
+  "stone",
+  "stone"
+ ],
+ "Steinspalter": [
+  "stone",
+  "stone"
+ ],
+ "Giftwall des Ewigen Winters": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Frostspalter": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Wolfskrone": [
+  "stone",
+  "leather"
+ ],
+ "Seelendorn des Stummen Wächters": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Dornspalter des Bleichen Ritters": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Sonnenschwur": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Seelenschwur des Letzten Lichts": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Seelenruf des Letzten Lichts": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Rabenwache": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Eisentrutz des Verlorenen": [
+  "iron",
+  "steel"
+ ],
+ "Mondruf": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Frostzahn": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Steinhunger": [
+  "stone",
+  "stone"
+ ],
+ "Mondspalter des Stummen Wächters": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Blutgang": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Aschegurt": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Grabhunger": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Rabenschwur des Ewigen Winters": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Seelenwache des Ewigen Winters": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Giftgürtel": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Dornpanzer": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Nachtzorn": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Glutstirn des Aschenmeers": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Dornklaue": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Eisenschritt": [
+  "iron",
+  "steel"
+ ],
+ "Grabschild": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Nachtruf": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Seelenfluch des Hügeltyrannen": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Grabsiegel": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Dornruf": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Rabenwache des Schwarzen Turms": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Aschedorn des Bleichen Ritters": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Grabwehr": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Sturmklinge": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Mondschwur der Weberin": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Seelenpanzer der Krähen": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Giftdorn": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Glutzorn des Letzten Lichts": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Dornblick des Letzten Lichts": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Mondwehr": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Eisenmantel": [
+  "iron",
+  "steel"
+ ],
+ "Giftzorn": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Wolfszahn": [
+  "stone",
+  "leather"
+ ],
+ "Rabenwall": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Glutbiss": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Steinklinge": [
+  "stone",
+  "stone"
+ ],
+ "Grabgriff des Aschenmeers": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Nachtbiss": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Mondmantel": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Sturmtor": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Frostklinge": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Steinstirn": [
+  "stone",
+  "stone"
+ ],
+ "Frostwache": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Frostfaust": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Rabenblick der Weberin": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Nachtsiegel des Bleichen Ritters": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Grabspalter des Ewigen Winters": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Rabensang": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Giftfaust des Ewigen Winters": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Sturmschwur": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Blutschwur der Tiefe": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Aschewache": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Seelenfaust": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Rabenschnur": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Gifthunger": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Frostbiss des Hügeltyrannen": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Monddorn": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Giftreif": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Sonnenklinge": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Sonnensang": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Rabenschwur": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Sonnenblick der Tiefe": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Giftruf": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Nachtband": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Glutsohle": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Wolfszorn des Roten Mondes": [
+  "stone",
+  "leather"
+ ],
+ "Frostzange": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Seelenband": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Glutmantel": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Dornschwur des Stummen Wächters": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Wolfsauge": [
+  "stone",
+  "leather"
+ ],
+ "Sturmwache der Krähen": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Grabtrutz des Bleichen Ritters": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Glutfluch des Letzten Lichts": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Mondhunger": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Giftschnur des Aschenmeers": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Glutschritt des Wanderers": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Wolfsklinge": [
+  "stone",
+  "leather"
+ ],
+ "Sturmklinge der Krähen": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Grabwache": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Steinruf": [
+  "stone",
+  "stone"
+ ],
+ "Seelenschritt des Ewigen Winters": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Bluthunger": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Giftklinge des Ersten Königs": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Blutpfad des Ersten Königs": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Steinschwur des Bleichen Ritters": [
+  "stone",
+  "stone"
+ ],
+ "Aschesang": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Mondwehr des Ewigen Winters": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Mondspalter des Hügeltyrannen": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Giftbiss des Bleichen Ritters": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Mondklinge der Krähen": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Rabenbiss": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Grabklinge der Krähen": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Grabschnur des Stummen Wächters": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Sonnensang des Letzten Lichts": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Glutfluch des Roten Mondes": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Steinkrone des Wanderers": [
+  "stone",
+  "stone"
+ ],
+ "Giftkreis der Tiefe": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Grabband": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Sonnenfaust": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Sonnenschnur des Bleichen Ritters": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Rabenwehr des Hügeltyrannen": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Wolfsspalter der Weberin": [
+  "stone",
+  "leather"
+ ],
+ "Mondklinge": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Nachtfluch des Roten Mondes": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Eisengang des Ersten Königs": [
+  "iron",
+  "steel"
+ ],
+ "Frostband": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Grabhand": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Rabensang der Krähen": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Mondkrone des Bleichen Ritters": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Aschezorn": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Gluttrutz": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Aschegurt des Hügeltyrannen": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Aschezahn": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Giftsang des Wanderers": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Frosthand": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Grabzahn": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Steinsiegel des Ewigen Winters": [
+  "stone",
+  "stone"
+ ],
+ "Glutgriff": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Seelensang": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Nachtwehr": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Grabbiss der Tiefe": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Rabenfaust der Weberin": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Mondbiss": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Giftmantel": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Eisenkrone des Bleichen Ritters": [
+  "iron",
+  "steel"
+ ],
+ "Dornschädel des Aschenmeers": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Seelenpfad": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Steinfluch des Wanderers": [
+  "stone",
+  "stone"
+ ],
+ "Nachtwache des Letzten Lichts": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Steintritt des Bleichen Ritters": [
+  "stone",
+  "stone"
+ ],
+ "Steindorn der Weberin": [
+  "stone",
+  "stone"
+ ],
+ "Gifttrutz des Wanderers": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Steinschwur des Letzten Lichts": [
+  "stone",
+  "stone"
+ ],
+ "Frostruf": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Mondhaut": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Ascheblick": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Wolfsbiss des Aschenmeers": [
+  "stone",
+  "leather"
+ ],
+ "Glutgurt": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Blutband": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Grabruf": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Blutruf der Weberin": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Glutbiss des Wanderers": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Eisenbiss des Verlorenen": [
+  "iron",
+  "steel"
+ ],
+ "Aschezange des Stummen Wächters": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Mondhülle": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Frostmantel": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Mondhaube des Aschenmeers": [
+  "moon",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Eisenbiss des Aschenmeers": [
+  "iron",
+  "steel"
+ ],
+ "Sonnenschädel des Ersten Königs": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Ascheklinge des Stummen Wächters": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Steinbiss": [
+  "stone",
+  "stone"
+ ],
+ "Sturmgurt des Wanderers": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Blutfluch": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Giftklaue": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Rabenzahn": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Giftkrone des Hügeltyrannen": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Seelenwehr": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Glutpfad des Letzten Lichts": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Steinschwur": [
+  "stone",
+  "stone"
+ ],
+ "Glutruf": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Sturmwache des Aschenmeers": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Aschepfad des Stummen Wächters": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Ascheschädel": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Glutdorn": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Sonnenruf": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Sturmwall der Krähen": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Sturmmantel der Tiefe": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Seelentritt des Aschenmeers": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Dornbiss des Schwarzen Turms": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Seelenfluch des Ewigen Winters": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Dornschritt des Ersten Königs": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Rabenspalter": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Nachtfluch des Wanderers": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Sonnenwache": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Giftpanzer": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Wolfswache der Weberin": [
+  "stone",
+  "leather"
+ ],
+ "Rabendorn": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Dornschwur": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Sonnenstirn": [
+  "gold",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Eisenpanzer der Tiefe": [
+  "iron",
+  "steel"
+ ],
+ "Blutschnur": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Dorngriff": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Aschegurt der Weberin": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Grabtor des Wanderers": [
+  "bone",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Rabengang": [
+  "dark",
+  "iron",
+  0,
+  "sapphire"
+ ],
+ "Sturmdorn": [
+  "sky",
+  "gold",
+  0,
+  "sapphire"
+ ],
+ "Steinkrone": [
+  "stone",
+  "stone"
+ ],
+ "Frostwache des Schwarzen Turms": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Steinzahn": [
+  "stone",
+  "stone"
+ ],
+ "Blutsang der Weberin": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Glutblick der Tiefe": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Frostschädel": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Glutspalter": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Giftzahn": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Dornsang": [
+  "moss",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Wolfstor": [
+  "stone",
+  "leather"
+ ],
+ "Eisenruf": [
+  "iron",
+  "steel"
+ ],
+ "Blutschädel des Schwarzen Turms": [
+  "blood",
+  "dark",
+  0,
+  "ruby"
+ ],
+ "Nachtschädel des Verlorenen": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Glutwehr des Stummen Wächters": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Nachtgang": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Aschefluch": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Seelenklaue": [
+  "moon",
+  "void",
+  0,
+  "soul"
+ ],
+ "Eisenblick": [
+  "iron",
+  "steel"
+ ],
+ "Aschewehr": [
+  "dark",
+  "ember",
+  0,
+  "ember"
+ ],
+ "Schleier der Mondlosen Nacht": [
+  "diamond",
+  "void",
+  0,
+  "frost"
+ ],
+ "Rabenfeder": [
+  "void",
+  "dark",
+  0,
+  "amethyst"
+ ],
+ "Atem der Seuche": [
+  "dscale",
+  "bronze",
+  0,
+  "emerald"
+ ],
+ "Mantel des Steins der Weisen": [
+  "gold",
+  "dscale",
+  0,
+  "topaz"
+ ],
+ "Witwenzahn": [
+  "venom",
+  "dark",
+  0,
+  "emerald"
+ ],
+ "Schnabel der Morrigan": [
+  "void",
+  "iron",
+  0,
+  "amethyst"
+ ],
+ "Eisherz des Winters": [
+  "sky",
+  "moon",
+  0,
+  "frost"
+ ],
+ "Der lachende Schädel": [
+  "bone",
+  "dark",
+  0,
+  "soul"
+ ],
+ "Wurzel der Welt": [
+  "moss",
+  "gold",
+  0,
+  "emerald"
+ ],
+ "Morgentau": [
+  "moon",
+  "dark",
+  0,
+  "sapphire"
+ ],
+ "Zorn des Feuerbergs": [
+  "ember",
+  "gold",
+  0,
+  "ember"
+ ],
+ "Erdbrecher": [
+  "dark",
+  "bronze",
+  0,
+  "topaz"
+ ],
+ "Widderstirn": [
+  "bronze",
+  "gold",
+  0,
+  "topaz"
+ ],
+ "Eiserne Wacht": [
+  "dark",
+  "iron",
+  0,
+  "ruby"
+ ],
+ "Schwur des Ritters": [
+  "steel",
+  "gold",
+  0,
+  "sapphire"
+ ]
+}

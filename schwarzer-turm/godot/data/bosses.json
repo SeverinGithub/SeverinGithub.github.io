@@ -1,0 +1,32 @@
+[
+ {
+  "look": "knight",
+  "n": "Morgrath, der Hügeltyrann",
+  "moves": [
+   "slam",
+   "sweep",
+   "charge"
+  ]
+ },
+ {
+  "look": "weaver",
+  "n": "Die Ascheweberin",
+  "moves": [
+   "nova",
+   "summon",
+   "meteor",
+   "sweep"
+  ]
+ },
+ {
+  "look": "warden",
+  "n": "Graukeil, Wächter der Tiefe",
+  "moves": [
+   "slam",
+   "charge",
+   "meteor",
+   "nova",
+   "sweep"
+  ]
+ }
+]

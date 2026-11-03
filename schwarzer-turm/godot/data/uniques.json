@@ -1,0 +1,3210 @@
+[
+ {
+  "n": "Hügelwacht",
+  "b": "Kurzschwert",
+  "lvl": 3,
+  "m": {
+   "ed": 70,
+   "str": 6,
+   "life": 15,
+   "ls": 4
+  }
+ },
+ {
+  "n": "Grünes Blut",
+  "b": "Dolch",
+  "lvl": 4,
+  "m": {
+   "ed": 60,
+   "dex": 10,
+   "ias": 20,
+   "crit": 8
+  }
+ },
+ {
+  "n": "Der Erste Stein",
+  "b": "Keule",
+  "lvl": 5,
+  "m": {
+   "ed": 90,
+   "vit": 8,
+   "cold": 6,
+   "regen": 2
+  }
+ },
+ {
+  "n": "Wächterrund",
+  "b": "Rundschild",
+  "lvl": 4,
+  "m": {
+   "edef": 90,
+   "res": 15,
+   "life": 20
+  }
+ },
+ {
+  "n": "Grasläufer",
+  "b": "Stiefel",
+  "lvl": 5,
+  "m": {
+   "frw": 25,
+   "dex": 8,
+   "stam": 20,
+   "edef": 60
+  }
+ },
+ {
+  "n": "Aschenwurzel",
+  "b": "Eichenstab",
+  "lvl": 6,
+  "m": {
+   "spell": 60,
+   "ene": 15,
+   "mana": 30,
+   "allsk": 1
+  }
+ },
+ {
+  "n": "Himmelsriss",
+  "b": "Krummsäbel",
+  "lvl": 7,
+  "m": {
+   "ed": 120,
+   "light": 12,
+   "ias": 15,
+   "frw": 10
+  }
+ },
+ {
+  "n": "Mantel des Hügels",
+  "b": "Kettenhemd",
+  "lvl": 8,
+  "m": {
+   "edef": 100,
+   "life": 35,
+   "regen": 3,
+   "stam": 20
+  }
+ },
+ {
+  "n": "Ring der Blauen Stunde",
+  "b": "Ring",
+  "lvl": 8,
+  "m": {
+   "mana": 40,
+   "ene": 12,
+   "spell": 30,
+   "mf": 20
+  }
+ },
+ {
+  "n": "Turmglocke",
+  "b": "Morgenstern",
+  "lvl": 9,
+  "m": {
+   "ed": 140,
+   "str": 12,
+   "stam": 25,
+   "res": 15
+  }
+ },
+ {
+  "n": "Fäuste des Steinmetzes",
+  "b": "Kettenhandschuhe",
+  "lvl": 10,
+  "m": {
+   "ias": 20,
+   "str": 10,
+   "crit": 6,
+   "edef": 70
+  }
+ },
+ {
+  "n": "Wolkenbrecher",
+  "b": "Zweihänder",
+  "lvl": 12,
+  "m": {
+   "ed": 160,
+   "light": 20,
+   "str": 15,
+   "crit": 10
+  }
+ },
+ {
+  "n": "Krone der Zinnen",
+  "b": "Topfhelm",
+  "lvl": 12,
+  "m": {
+   "edef": 120,
+   "vit": 15,
+   "res": 20,
+   "mf": 25
+  }
+ },
+ {
+  "n": "Blutring",
+  "b": "Ring",
+  "lvl": 14,
+  "m": {
+   "ls": 7,
+   "str": 10,
+   "life": 25,
+   "crit": 5
+  }
+ },
+ {
+  "n": "Auge des Turms",
+  "b": "Amulett",
+  "lvl": 16,
+  "m": {
+   "allsk": 2,
+   "res": 20,
+   "mf": 40,
+   "life": 30
+  }
+ },
+ {
+  "n": "Sturmtreter",
+  "b": "Plattenstiefel",
+  "lvl": 18,
+  "m": {
+   "frw": 30,
+   "light": 10,
+   "res": 25,
+   "edef": 90
+  }
+ },
+ {
+  "n": "Gürtel der Ewigen Wache",
+  "b": "Kriegsgürtel",
+  "lvl": 18,
+  "m": {
+   "life": 50,
+   "vit": 15,
+   "stam": 30,
+   "edef": 80
+  }
+ },
+ {
+  "n": "Stab des Blauen Mittags",
+  "b": "Aschestab",
+  "lvl": 20,
+  "m": {
+   "spell": 110,
+   "ene": 25,
+   "allsk": 2,
+   "fire": 15
+  }
+ },
+ {
+  "n": "Kargsteins Ende",
+  "b": "Henkersbeil",
+  "lvl": 22,
+  "m": {
+   "ed": 220,
+   "ls": 8,
+   "str": 20,
+   "life": 40
+  }
+ },
+ {
+  "n": "Mondsichel des Schweigens",
+  "b": "Mondsichel",
+  "lvl": 24,
+  "m": {
+   "ed": 180,
+   "cold": 25,
+   "dex": 20,
+   "ias": 25
+  }
+ },
+ {
+  "n": "Grabsteinwall",
+  "b": "Grabsteinschild",
+  "lvl": 28,
+  "m": {
+   "edef": 150,
+   "res": 35,
+   "vit": 25,
+   "life": 50
+  }
+ },
+ {
+  "n": "Drachenzahn Vaels",
+  "b": "Drachenzahn",
+  "lvl": 30,
+  "m": {
+   "ed": 240,
+   "fire": 40,
+   "allsk": 1,
+   "ls": 6,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Totenmaske",
+  "b": "Totenkrone",
+  "lvl": 30,
+  "m": {
+   "edef": 150,
+   "allsk": 2,
+   "life": 60,
+   "ls": 4
+  }
+ },
+ {
+  "n": "Schwarze Haut",
+  "b": "Schwarzer Harnisch",
+  "lvl": 30,
+  "m": {
+   "edef": 180,
+   "str": 20,
+   "vit": 20,
+   "res": 30
+  }
+ },
+ {
+  "n": "Nachtgesang",
+  "b": "Nachtzahn",
+  "lvl": 34,
+  "m": {
+   "ed": 200,
+   "dex": 30,
+   "ias": 30,
+   "crit": 15,
+   "cold": 20
+  }
+ },
+ {
+  "n": "Aschehand",
+  "b": "Lederhandschuhe",
+  "lvl": 12,
+  "m": {
+   "fire": 13,
+   "xp": 8,
+   "dex": 12
+  }
+ },
+ {
+  "n": "Grabtor",
+  "b": "Drachenglas-Wappenschild",
+  "lvl": 64,
+  "m": {
+   "vit": 29,
+   "regen": 9,
+   "res": 30
+  }
+ },
+ {
+  "n": "Eisenfaust",
+  "b": "Drachenglas-Lederhandschuhe",
+  "lvl": 48,
+  "m": {
+   "edef": 201,
+   "str": 32
+  }
+ },
+ {
+  "n": "Sonnenfluch",
+  "b": "Blutstahl-Kurzschwert",
+  "lvl": 17,
+  "m": {
+   "allsk": 1,
+   "res": 20,
+   "ias": 16
+  }
+ },
+ {
+  "n": "Frosthunger",
+  "b": "Drachenglas-Eichenstab",
+  "lvl": 41,
+  "m": {
+   "cold": 40,
+   "res": 29,
+   "dex": 29
+  }
+ },
+ {
+  "n": "Giftbiss",
+  "b": "Leerenstahl-Kriegsaxt",
+  "lvl": 39,
+  "m": {
+   "poison": 50,
+   "crit": 8,
+   "ias": 30,
+   "vit": 29
+  }
+ },
+ {
+  "n": "Giftwall des Aschenmeers",
+  "b": "Obsidian-Turmschild",
+  "lvl": 28,
+  "m": {
+   "poison": 39,
+   "crit": 7,
+   "res": 22
+  }
+ },
+ {
+  "n": "Sonnenzahn",
+  "b": "Mondsilber-Zweihänder",
+  "lvl": 31,
+  "m": {
+   "allsk": 2,
+   "res": 24,
+   "ed": 175
+  }
+ },
+ {
+  "n": "Gifthunger der Weberin",
+  "b": "Kurzschwert",
+  "lvl": 7,
+  "m": {
+   "poison": 17,
+   "crit": 4,
+   "dex": 10
+  }
+ },
+ {
+  "n": "Sturmwache",
+  "b": "Krummsäbel",
+  "lvl": 13,
+  "m": {
+   "light": 17,
+   "ias": 16
+  }
+ },
+ {
+  "n": "Rabenpfad des Bleichen Ritters",
+  "b": "Obsidian-Stiefel",
+  "lvl": 14,
+  "m": {
+   "mf": 32,
+   "glutf": 41,
+   "frw": 14,
+   "dex": 14
+  }
+ },
+ {
+  "n": "Ascheband",
+  "b": "Blutstahl-Kriegsgürtel",
+  "lvl": 41,
+  "m": {
+   "fire": 30,
+   "xp": 15,
+   "edef": 139,
+   "mf": 31
+  }
+ },
+ {
+  "n": "Glutzorn der Tiefe",
+  "b": "Blutstahl-Nachtzahn",
+  "lvl": 55,
+  "m": {
+   "fire": 42,
+   "ed": 220,
+   "crit": 12,
+   "life": 90
+  }
+ },
+ {
+  "n": "Seelenwache",
+  "b": "Obsidian-Henkersbeil",
+  "lvl": 36,
+  "m": {
+   "spell": 130,
+   "mana": 75,
+   "ed": 171
+  }
+ },
+ {
+  "n": "Steinwache",
+  "b": "Sternenstahl-Nachtzahn",
+  "lvl": 66,
+  "m": {
+   "dmgred": 15,
+   "vit": 25,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Frostspalter des Letzten Lichts",
+  "b": "Sternenstahl-Bluthacke",
+  "lvl": 57,
+  "m": {
+   "cold": 39,
+   "res": 30,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Seelendorn",
+  "b": "Blutstahl-Eichenstab",
+  "lvl": 28,
+  "m": {
+   "spell": 87,
+   "mana": 67,
+   "ls": 6,
+   "life": 50
+  }
+ },
+ {
+  "n": "Seelenruf",
+  "b": "Obsidian-Krummsäbel",
+  "lvl": 23,
+  "m": {
+   "spell": 76,
+   "mana": 51,
+   "ed": 123
+  }
+ },
+ {
+  "n": "Dorndorn",
+  "b": "Obsidian-Aschestab",
+  "lvl": 40,
+  "m": {
+   "thorns": 39,
+   "ed": 157,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Blutzange",
+  "b": "Blutstahl-Kettenhandschuhe",
+  "lvl": 24,
+  "m": {
+   "ls": 6,
+   "life": 55,
+   "dex": 17,
+   "mf": 27
+  }
+ },
+ {
+  "n": "Seelenruf der Krähen",
+  "b": "Hellebarde",
+  "lvl": 14,
+  "m": {
+   "spell": 64,
+   "mana": 46,
+   "dex": 13,
+   "res": 15
+  }
+ },
+ {
+  "n": "Wolfsschritt des Ewigen Winters",
+  "b": "Schattentreter",
+  "lvl": 33,
+  "m": {
+   "frw": 20,
+   "ias": 23,
+   "dex": 23
+  }
+ },
+ {
+  "n": "Steintor",
+  "b": "Drachenglas-Grabsteinschild",
+  "lvl": 69,
+  "m": {
+   "dmgred": 15,
+   "vit": 25,
+   "edef": 180
+  }
+ },
+ {
+  "n": "Steinspalter",
+  "b": "Drachenglas-Hellebarde",
+  "lvl": 60,
+  "m": {
+   "dmgred": 15,
+   "vit": 25,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Giftwall des Ewigen Winters",
+  "b": "Leerenstahl-Rundschild",
+  "lvl": 47,
+  "m": {
+   "poison": 47,
+   "crit": 10,
+   "life": 90
+  }
+ },
+ {
+  "n": "Frostspalter",
+  "b": "Mondsilber-Seelenspieß",
+  "lvl": 56,
+  "m": {
+   "cold": 37,
+   "res": 29,
+   "str": 30
+  }
+ },
+ {
+  "n": "Wolfskrone",
+  "b": "Mondsilber-Totenkrone",
+  "lvl": 62,
+  "m": {
+   "frw": 25,
+   "ias": 25,
+   "life": 90
+  }
+ },
+ {
+  "n": "Seelendorn des Stummen Wächters",
+  "b": "Kurzschwert",
+  "lvl": 3,
+  "m": {
+   "spell": 36,
+   "mana": 26,
+   "ls": 2
+  }
+ },
+ {
+  "n": "Dornspalter des Bleichen Ritters",
+  "b": "Sternenstahl-Kolossklinge",
+  "lvl": 68,
+  "m": {
+   "thorns": 45,
+   "ed": 198
+  }
+ },
+ {
+  "n": "Sonnenschwur",
+  "b": "Drachenglas-Aschestab",
+  "lvl": 66,
+  "m": {
+   "allsk": 2,
+   "res": 29,
+   "ias": 30
+  }
+ },
+ {
+  "n": "Seelenschwur des Letzten Lichts",
+  "b": "Blutstahl-Morgenstern",
+  "lvl": 27,
+  "m": {
+   "spell": 92,
+   "mana": 62,
+   "dex": 18,
+   "str": 17
+  }
+ },
+ {
+  "n": "Seelenruf des Letzten Lichts",
+  "b": "Aschestab",
+  "lvl": 29,
+  "m": {
+   "spell": 92,
+   "mana": 59,
+   "crit": 8
+  }
+ },
+ {
+  "n": "Rabenwache",
+  "b": "Sternenstahl-Speer",
+  "lvl": 46,
+  "m": {
+   "mf": 70,
+   "glutf": 82,
+   "str": 29
+  }
+ },
+ {
+  "n": "Eisentrutz des Verlorenen",
+  "b": "Mondsilber-Grabsteinschild",
+  "lvl": 50,
+  "m": {
+   "edef": 220,
+   "str": 29,
+   "life": 90,
+   "res": 30
+  }
+ },
+ {
+  "n": "Mondruf",
+  "b": "Leerenstahl-Keule",
+  "lvl": 42,
+  "m": {
+   "mregen": 7,
+   "ene": 25,
+   "ias": 28
+  }
+ },
+ {
+  "n": "Frostzahn",
+  "b": "Drachenglas-Henkersbeil",
+  "lvl": 67,
+  "m": {
+   "cold": 40,
+   "res": 30,
+   "str": 30
+  }
+ },
+ {
+  "n": "Steinhunger",
+  "b": "Dolch",
+  "lvl": 3,
+  "m": {
+   "dmgred": 4,
+   "vit": 7,
+   "ias": 9,
+   "dex": 6
+  }
+ },
+ {
+  "n": "Mondspalter des Stummen Wächters",
+  "b": "Langschwert",
+  "lvl": 5,
+  "m": {
+   "mregen": 3,
+   "ene": 10,
+   "ls": 3
+  }
+ },
+ {
+  "n": "Blutgang",
+  "b": "Blutstahl-Plattenstiefel",
+  "lvl": 45,
+  "m": {
+   "ls": 9,
+   "life": 80,
+   "dex": 27
+  }
+ },
+ {
+  "n": "Aschegurt",
+  "b": "Sternenstahl-Kettengürtel",
+  "lvl": 66,
+  "m": {
+   "fire": 29,
+   "xp": 15,
+   "edef": 180
+  }
+ },
+ {
+  "n": "Grabhunger",
+  "b": "Drachenglas-Kurzschwert",
+  "lvl": 46,
+  "m": {
+   "vit": 32,
+   "regen": 9,
+   "crit": 12,
+   "mf": 33
+  }
+ },
+ {
+  "n": "Rabenschwur des Ewigen Winters",
+  "b": "Obsidian-Dolch",
+  "lvl": 18,
+  "m": {
+   "mf": 38,
+   "glutf": 48,
+   "str": 14
+  }
+ },
+ {
+  "n": "Seelenwache des Ewigen Winters",
+  "b": "Leerenstahl-Kurzschwert",
+  "lvl": 34,
+  "m": {
+   "spell": 124,
+   "mana": 83,
+   "str": 23,
+   "life": 71
+  }
+ },
+ {
+  "n": "Giftgürtel",
+  "b": "Mondsilber-Kettengürtel",
+  "lvl": 56,
+  "m": {
+   "poison": 55,
+   "crit": 10,
+   "life": 81,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Dornpanzer",
+  "b": "Obsidian-Schuppenpanzer",
+  "lvl": 23,
+  "m": {
+   "thorns": 29,
+   "edef": 95,
+   "str": 17
+  }
+ },
+ {
+  "n": "Nachtzorn",
+  "b": "Sternenstahl-Nachtzahn",
+  "lvl": 58,
+  "m": {
+   "crit": 15,
+   "dex": 30,
+   "ed": 200
+  }
+ },
+ {
+  "n": "Glutstirn des Aschenmeers",
+  "b": "Sternenstahl-Topfhelm",
+  "lvl": 45,
+  "m": {
+   "fire": 45,
+   "life": 85,
+   "str": 30
+  }
+ },
+ {
+  "n": "Dornklaue",
+  "b": "Obsidian-Klauenhandschuhe",
+  "lvl": 44,
+  "m": {
+   "thorns": 37,
+   "edef": 155,
+   "dex": 26
+  }
+ },
+ {
+  "n": "Eisenschritt",
+  "b": "Drachenglas-Plattenstiefel",
+  "lvl": 65,
+  "m": {
+   "edef": 220,
+   "str": 32,
+   "vit": 29,
+   "life": 90
+  }
+ },
+ {
+  "n": "Grabschild",
+  "b": "Drachenglas-Rundschild",
+  "lvl": 53,
+  "m": {
+   "vit": 32,
+   "regen": 9
+  }
+ },
+ {
+  "n": "Nachtruf",
+  "b": "Sternenstahl-Krummsäbel",
+  "lvl": 42,
+  "m": {
+   "crit": 15,
+   "dex": 32,
+   "ias": 30,
+   "mf": 38
+  }
+ },
+ {
+  "n": "Seelenfluch des Hügeltyrannen",
+  "b": "Leerenstahl-Keule",
+  "lvl": 46,
+  "m": {
+   "spell": 118,
+   "mana": 90,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Grabsiegel",
+  "b": "Rubinring",
+  "lvl": 8,
+  "m": {
+   "vit": 12,
+   "regen": 3,
+   "str": 9
+  }
+ },
+ {
+  "n": "Dornruf",
+  "b": "Blutstahl-Keule",
+  "lvl": 14,
+  "m": {
+   "thorns": 18,
+   "ias": 14
+  }
+ },
+ {
+  "n": "Rabenwache des Schwarzen Turms",
+  "b": "Mondsilber-Sternenstab",
+  "lvl": 53,
+  "m": {
+   "mf": 70,
+   "glutf": 90,
+   "ed": 200,
+   "res": 30
+  }
+ },
+ {
+  "n": "Aschedorn des Bleichen Ritters",
+  "b": "Keule",
+  "lvl": 3,
+  "m": {
+   "fire": 7,
+   "xp": 6,
+   "crit": 4
+  }
+ },
+ {
+  "n": "Grabwehr",
+  "b": "Mondsilber-Kettenhemd",
+  "lvl": 27,
+  "m": {
+   "vit": 20,
+   "regen": 7,
+   "res": 22
+  }
+ },
+ {
+  "n": "Sturmklinge",
+  "b": "Mondsilber-Kriegshammer",
+  "lvl": 40,
+  "m": {
+   "light": 50,
+   "ias": 30,
+   "ls": 8
+  }
+ },
+ {
+  "n": "Mondschwur der Weberin",
+  "b": "Obsidian-Krummsäbel",
+  "lvl": 25,
+  "m": {
+   "mregen": 6,
+   "ene": 20,
+   "ls": 5
+  }
+ },
+ {
+  "n": "Seelenpanzer der Krähen",
+  "b": "Sternenstahl-Lederwams",
+  "lvl": 32,
+  "m": {
+   "spell": 108,
+   "mana": 81,
+   "life": 77
+  }
+ },
+ {
+  "n": "Giftdorn",
+  "b": "Obsidian-Dolch",
+  "lvl": 18,
+  "m": {
+   "poison": 27,
+   "crit": 5,
+   "ias": 15
+  }
+ },
+ {
+  "n": "Glutzorn des Letzten Lichts",
+  "b": "Blutstahl-Sternenstab",
+  "lvl": 54,
+  "m": {
+   "fire": 45,
+   "ed": 220,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Dornblick des Letzten Lichts",
+  "b": "Leerenstahl-Hornhelm",
+  "lvl": 66,
+  "m": {
+   "thorns": 45,
+   "edef": 160,
+   "life": 85
+  }
+ },
+ {
+  "n": "Mondwehr",
+  "b": "Obsidian-Wappenschild",
+  "lvl": 29,
+  "m": {
+   "mregen": 6,
+   "ene": 22,
+   "vit": 23
+  }
+ },
+ {
+  "n": "Eisenmantel",
+  "b": "Mondsilber-Schuppenpanzer",
+  "lvl": 43,
+  "m": {
+   "edef": 220,
+   "str": 32
+  }
+ },
+ {
+  "n": "Giftzorn",
+  "b": "Sternenstahl-Nachtzahn",
+  "lvl": 68,
+  "m": {
+   "poison": 55,
+   "crit": 10,
+   "ias": 28,
+   "res": 30
+  }
+ },
+ {
+  "n": "Wolfszahn",
+  "b": "Sternenstahl-Sternenstab",
+  "lvl": 61,
+  "m": {
+   "frw": 25,
+   "ias": 25
+  }
+ },
+ {
+  "n": "Rabenwall",
+  "b": "Leerenstahl-Grabsteinschild",
+  "lvl": 65,
+  "m": {
+   "mf": 66,
+   "glutf": 90,
+   "str": 30
+  }
+ },
+ {
+  "n": "Glutbiss",
+  "b": "Blutstahl-Dolch",
+  "lvl": 22,
+  "m": {
+   "fire": 28,
+   "ed": 144,
+   "ias": 20
+  }
+ },
+ {
+  "n": "Steinklinge",
+  "b": "Mondsilber-Keule",
+  "lvl": 27,
+  "m": {
+   "dmgred": 12,
+   "vit": 18,
+   "crit": 9
+  }
+ },
+ {
+  "n": "Grabgriff des Aschenmeers",
+  "b": "Leerenstahl-Klauenhandschuhe",
+  "lvl": 59,
+  "m": {
+   "vit": 32,
+   "regen": 9,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Nachtbiss",
+  "b": "Blutstahl-Kolossklinge",
+  "lvl": 51,
+  "m": {
+   "crit": 14,
+   "dex": 32,
+   "ias": 29
+  }
+ },
+ {
+  "n": "Mondmantel",
+  "b": "Drachenglas-Plattenharnisch",
+  "lvl": 72,
+  "m": {
+   "mregen": 8,
+   "ene": 30,
+   "str": 30,
+   "dex": 28
+  }
+ },
+ {
+  "n": "Sturmtor",
+  "b": "Mondsilber-Grabsteinschild",
+  "lvl": 58,
+  "m": {
+   "light": 50,
+   "ias": 30,
+   "str": 30,
+   "res": 30
+  }
+ },
+ {
+  "n": "Frostklinge",
+  "b": "Leerenstahl-Zweihänder",
+  "lvl": 52,
+  "m": {
+   "cold": 38,
+   "res": 30,
+   "crit": 12,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Steinstirn",
+  "b": "Sternenstahl-Totenkrone",
+  "lvl": 62,
+  "m": {
+   "dmgred": 14,
+   "vit": 23,
+   "str": 27
+  }
+ },
+ {
+  "n": "Frostwache",
+  "b": "Leerenstahl-Seelenspieß",
+  "lvl": 67,
+  "m": {
+   "cold": 40,
+   "res": 30,
+   "ls": 8
+  }
+ },
+ {
+  "n": "Frostfaust",
+  "b": "Kettenhandschuhe",
+  "lvl": 8,
+  "m": {
+   "cold": 13,
+   "res": 11,
+   "ias": 12
+  }
+ },
+ {
+  "n": "Rabenblick der Weberin",
+  "b": "Blutstahl-Totenkrone",
+  "lvl": 54,
+  "m": {
+   "mf": 70,
+   "glutf": 90,
+   "res": 30
+  }
+ },
+ {
+  "n": "Nachtsiegel des Bleichen Ritters",
+  "b": "Ring",
+  "lvl": 3,
+  "m": {
+   "crit": 5,
+   "dex": 9,
+   "mf": 12
+  }
+ },
+ {
+  "n": "Grabspalter des Ewigen Winters",
+  "b": "Sternenstahl-Henkersbeil",
+  "lvl": 53,
+  "m": {
+   "vit": 32,
+   "regen": 9,
+   "ias": 30
+  }
+ },
+ {
+  "n": "Rabensang",
+  "b": "Obsidian-Nachtzahn",
+  "lvl": 56,
+  "m": {
+   "mf": 70,
+   "glutf": 90,
+   "str": 30,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Giftfaust des Ewigen Winters",
+  "b": "Obsidian-Lederhandschuhe",
+  "lvl": 7,
+  "m": {
+   "poison": 14,
+   "crit": 4,
+   "life": 28
+  }
+ },
+ {
+  "n": "Sturmschwur",
+  "b": "Leerenstahl-Langschwert",
+  "lvl": 44,
+  "m": {
+   "light": 39,
+   "ias": 29,
+   "ed": 196
+  }
+ },
+ {
+  "n": "Blutschwur der Tiefe",
+  "b": "Ring",
+  "lvl": 9,
+  "m": {
+   "ls": 4,
+   "life": 37,
+   "res": 11
+  }
+ },
+ {
+  "n": "Aschewache",
+  "b": "Obsidian-Morgenstern",
+  "lvl": 15,
+  "m": {
+   "fire": 12,
+   "xp": 8,
+   "ed": 81,
+   "vit": 14
+  }
+ },
+ {
+  "n": "Seelenfaust",
+  "b": "Lederhandschuhe",
+  "lvl": 3,
+  "m": {
+   "spell": 38,
+   "mana": 24,
+   "str": 6,
+   "dex": 6
+  }
+ },
+ {
+  "n": "Rabenschnur",
+  "b": "Mondsilber-Schärpe",
+  "lvl": 24,
+  "m": {
+   "mf": 45,
+   "glutf": 65,
+   "edef": 113
+  }
+ },
+ {
+  "n": "Gifthunger",
+  "b": "Handaxt",
+  "lvl": 4,
+  "m": {
+   "poison": 11,
+   "crit": 4,
+   "ed": 57,
+   "life": 22
+  }
+ },
+ {
+  "n": "Frostbiss des Hügeltyrannen",
+  "b": "Drachenzahn",
+  "lvl": 32,
+  "m": {
+   "cold": 28,
+   "res": 27,
+   "ed": 158
+  }
+ },
+ {
+  "n": "Monddorn",
+  "b": "Sternenstahl-Keule",
+  "lvl": 28,
+  "m": {
+   "mregen": 5,
+   "ene": 19,
+   "dex": 17
+  }
+ },
+ {
+  "n": "Giftreif",
+  "b": "Rubinring",
+  "lvl": 7,
+  "m": {
+   "poison": 14,
+   "crit": 4,
+   "dex": 10,
+   "res": 9
+  }
+ },
+ {
+  "n": "Sonnenklinge",
+  "b": "Dolch",
+  "lvl": 5,
+  "m": {
+   "allsk": 1,
+   "res": 13,
+   "ias": 10
+  }
+ },
+ {
+  "n": "Sonnensang",
+  "b": "Mondsilber-Krummsäbel",
+  "lvl": 28,
+  "m": {
+   "allsk": 2,
+   "res": 25,
+   "dex": 22
+  }
+ },
+ {
+  "n": "Rabenschwur",
+  "b": "Blutstahl-Speer",
+  "lvl": 19,
+  "m": {
+   "mf": 36,
+   "glutf": 50,
+   "dex": 18
+  }
+ },
+ {
+  "n": "Sonnenblick der Tiefe",
+  "b": "Eisenhelm",
+  "lvl": 20,
+  "m": {
+   "allsk": 1,
+   "res": 22,
+   "edef": 113
+  }
+ },
+ {
+  "n": "Giftruf",
+  "b": "Mondsilber-Kolossklinge",
+  "lvl": 57,
+  "m": {
+   "poison": 55,
+   "crit": 10,
+   "ls": 8,
+   "res": 30
+  }
+ },
+ {
+  "n": "Nachtband",
+  "b": "Obsidian-Kriegsgürtel",
+  "lvl": 29,
+  "m": {
+   "crit": 9,
+   "dex": 26,
+   "str": 18,
+   "mf": 27
+  }
+ },
+ {
+  "n": "Glutsohle",
+  "b": "Blutstahl-Stiefel",
+  "lvl": 17,
+  "m": {
+   "fire": 24,
+   "dex": 16,
+   "str": 14
+  }
+ },
+ {
+  "n": "Wolfszorn des Roten Mondes",
+  "b": "Blutstahl-Bluthacke",
+  "lvl": 47,
+  "m": {
+   "frw": 22,
+   "ias": 25,
+   "dex": 30,
+   "life": 90
+  }
+ },
+ {
+  "n": "Frostzange",
+  "b": "Panzerhandschuhe",
+  "lvl": 18,
+  "m": {
+   "cold": 18,
+   "res": 16,
+   "str": 17
+  }
+ },
+ {
+  "n": "Seelenband",
+  "b": "Leerenstahl-Kettengürtel",
+  "lvl": 68,
+  "m": {
+   "spell": 130,
+   "mana": 84,
+   "str": 30,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Glutmantel",
+  "b": "Obsidian-Lederwams",
+  "lvl": 15,
+  "m": {
+   "fire": 21,
+   "vit": 14
+  }
+ },
+ {
+  "n": "Dornschwur des Stummen Wächters",
+  "b": "Blutstahl-Handaxt",
+  "lvl": 18,
+  "m": {
+   "thorns": 20,
+   "ed": 115
+  }
+ },
+ {
+  "n": "Wolfsauge",
+  "b": "Smaragdamulett",
+  "lvl": 13,
+  "m": {
+   "frw": 12,
+   "ias": 13,
+   "dex": 13,
+   "vit": 12
+  }
+ },
+ {
+  "n": "Sturmwache der Krähen",
+  "b": "Leerenstahl-Nachtzahn",
+  "lvl": 72,
+  "m": {
+   "light": 50,
+   "ias": 30,
+   "ls": 8
+  }
+ },
+ {
+  "n": "Grabtrutz des Bleichen Ritters",
+  "b": "Rundschild",
+  "lvl": 3,
+  "m": {
+   "vit": 9,
+   "regen": 3,
+   "life": 20
+  }
+ },
+ {
+  "n": "Glutfluch des Letzten Lichts",
+  "b": "Langschwert",
+  "lvl": 13,
+  "m": {
+   "fire": 19,
+   "ed": 103,
+   "ls": 3
+  }
+ },
+ {
+  "n": "Mondhunger",
+  "b": "Drachenglas-Henkersbeil",
+  "lvl": 63,
+  "m": {
+   "mregen": 8,
+   "ene": 30,
+   "ias": 30
+  }
+ },
+ {
+  "n": "Giftschnur des Aschenmeers",
+  "b": "Drachenglas-Kriegsgürtel",
+  "lvl": 59,
+  "m": {
+   "poison": 55,
+   "crit": 10,
+   "str": 30,
+   "mf": 40
+  }
+ },
+ {
+  "n": "Glutschritt des Wanderers",
+  "b": "Sternenstahl-Stiefel",
+  "lvl": 34,
+  "m": {
+   "fire": 36,
+   "res": 24
+  }
+ },
+ {
+  "n": "Wolfsklinge",
+  "b": "Sternenstahl-Keule",
+  "lvl": 26,
+  "m": {
+   "frw": 19,
+   "ias": 20,
+   "ls": 5
+  }
+ },
+ {
+  "n": "Sturmklinge der Krähen",
+  "b": "Sternenstahl-Hellebarde",
+  "lvl": 43,
+  "m": {
+   "light": 50,
+   "ias": 29,
+   "ed": 191
+  }
+ },
+ {
+  "n": "Grabwache",
+  "b": "Mondsilber-Eichenstab",
+  "lvl": 32,
+  "m": {
+   "vit": 23,
+   "regen": 7,
+   "ed": 149
+  }
+ },
+ {
+  "n": "Steinruf",
+  "b": "Leerenstahl-Sternenstab",
+  "lvl": 69,
+  "m": {
+   "dmgred": 14,
+   "vit": 25,
+   "ls": 8
+  }
+ },
+ {
+  "n": "Seelenschritt des Ewigen Winters",
+  "b": "Sternenstahl-Plattenstiefel",
+  "lvl": 54,
+  "m": {
+   "spell": 121,
+   "mana": 90,
+   "vit": 29
+  }
+ },
+ {
+  "n": "Bluthunger",
+  "b": "Aschestab",
+  "lvl": 25,
+  "m": {
+   "ls": 6,
+   "life": 65,
+   "str": 21
+  }
+ },
+ {
+  "n": "Giftklinge des Ersten Königs",
+  "b": "Leerenstahl-Kriegshammer",
+  "lvl": 48,
+  "m": {
+   "poison": 54,
+   "crit": 9,
+   "ls": 8
+  }
+ },
+ {
+  "n": "Blutpfad des Ersten Königs",
+  "b": "Sternenstahl-Stiefel",
+  "lvl": 25,
+  "m": {
+   "ls": 7,
+   "life": 50,
+   "dex": 16
+  }
+ },
+ {
+  "n": "Steinschwur des Bleichen Ritters",
+  "b": "Obsidian-Aschestab",
+  "lvl": 39,
+  "m": {
+   "dmgred": 14,
+   "vit": 20,
+   "dex": 29
+  }
+ },
+ {
+  "n": "Aschesang",
+  "b": "Obsidian-Nachtzahn",
+  "lvl": 50,
+  "m": {
+   "fire": 30,
+   "xp": 15,
+   "str": 30,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Mondwehr des Ewigen Winters",
+  "b": "Wappenschild",
+  "lvl": 32,
+  "m": {
+   "mregen": 7,
+   "ene": 24,
+   "res": 27,
+   "mf": 36
+  }
+ },
+ {
+  "n": "Mondspalter des Hügeltyrannen",
+  "b": "Obsidian-Langschwert",
+  "lvl": 20,
+  "m": {
+   "mregen": 5,
+   "ene": 16,
+   "ed": 106
+  }
+ },
+ {
+  "n": "Giftbiss des Bleichen Ritters",
+  "b": "Obsidian-Kriegsaxt",
+  "lvl": 30,
+  "m": {
+   "poison": 43,
+   "crit": 8,
+   "res": 22
+  }
+ },
+ {
+  "n": "Mondklinge der Krähen",
+  "b": "Sternenstahl-Zweihänder",
+  "lvl": 35,
+  "m": {
+   "mregen": 6,
+   "ene": 28,
+   "crit": 11,
+   "mf": 30
+  }
+ },
+ {
+  "n": "Rabenbiss",
+  "b": "Krummsäbel",
+  "lvl": 20,
+  "m": {
+   "mf": 41,
+   "glutf": 58,
+   "ed": 99,
+   "str": 13
+  }
+ },
+ {
+  "n": "Grabklinge der Krähen",
+  "b": "Mondsilber-Drachenzahn",
+  "lvl": 54,
+  "m": {
+   "vit": 32,
+   "regen": 9,
+   "ed": 198
+  }
+ },
+ {
+  "n": "Grabschnur des Stummen Wächters",
+  "b": "Blutstahl-Ledergürtel",
+  "lvl": 26,
+  "m": {
+   "vit": 25,
+   "regen": 6,
+   "edef": 101
+  }
+ },
+ {
+  "n": "Sonnensang des Letzten Lichts",
+  "b": "Drachenzahn",
+  "lvl": 43,
+  "m": {
+   "allsk": 2,
+   "res": 32,
+   "ls": 8
+  }
+ },
+ {
+  "n": "Glutfluch des Roten Mondes",
+  "b": "Sternenstahl-Kolossklinge",
+  "lvl": 60,
+  "m": {
+   "fire": 45,
+   "ed": 211,
+   "dex": 30,
+   "res": 30
+  }
+ },
+ {
+  "n": "Steinkrone des Wanderers",
+  "b": "Mondsilber-Topfhelm",
+  "lvl": 46,
+  "m": {
+   "dmgred": 15,
+   "vit": 23,
+   "edef": 180
+  }
+ },
+ {
+  "n": "Giftkreis der Tiefe",
+  "b": "Ring",
+  "lvl": 3,
+  "m": {
+   "poison": 11,
+   "crit": 3,
+   "mf": 12,
+   "res": 6
+  }
+ },
+ {
+  "n": "Grabband",
+  "b": "Drachenglas-Ledergürtel",
+  "lvl": 59,
+  "m": {
+   "vit": 32,
+   "regen": 9
+  }
+ },
+ {
+  "n": "Sonnenfaust",
+  "b": "Kettenhandschuhe",
+  "lvl": 18,
+  "m": {
+   "allsk": 1,
+   "res": 21,
+   "crit": 6
+  }
+ },
+ {
+  "n": "Sonnenschnur des Bleichen Ritters",
+  "b": "Obsidian-Kettengürtel",
+  "lvl": 40,
+  "m": {
+   "allsk": 2,
+   "res": 32,
+   "life": 87
+  }
+ },
+ {
+  "n": "Rabenwehr des Hügeltyrannen",
+  "b": "Obsidian-Lederwams",
+  "lvl": 13,
+  "m": {
+   "mf": 33,
+   "glutf": 41,
+   "vit": 13,
+   "str": 11
+  }
+ },
+ {
+  "n": "Wolfsspalter der Weberin",
+  "b": "Obsidian-Dolch",
+  "lvl": 9,
+  "m": {
+   "frw": 12,
+   "ias": 12,
+   "dex": 11
+  }
+ },
+ {
+  "n": "Mondklinge",
+  "b": "Sternenstahl-Aschestab",
+  "lvl": 44,
+  "m": {
+   "mregen": 7,
+   "ene": 30,
+   "dex": 29,
+   "life": 90
+  }
+ },
+ {
+  "n": "Nachtfluch des Roten Mondes",
+  "b": "Sternenstahl-Kolossklinge",
+  "lvl": 55,
+  "m": {
+   "crit": 15,
+   "dex": 32
+  }
+ },
+ {
+  "n": "Eisengang des Ersten Königs",
+  "b": "Stiefel",
+  "lvl": 10,
+  "m": {
+   "edef": 99,
+   "str": 13,
+   "frw": 12,
+   "mf": 16
+  }
+ },
+ {
+  "n": "Frostband",
+  "b": "Leerenstahl-Ledergürtel",
+  "lvl": 51,
+  "m": {
+   "cold": 40,
+   "res": 30,
+   "edef": 180
+  }
+ },
+ {
+  "n": "Grabhand",
+  "b": "Blutstahl-Kettenhandschuhe",
+  "lvl": 26,
+  "m": {
+   "vit": 22,
+   "regen": 7,
+   "str": 23
+  }
+ },
+ {
+  "n": "Rabensang der Krähen",
+  "b": "Drachenglas-Kriegsaxt",
+  "lvl": 48,
+  "m": {
+   "mf": 70,
+   "glutf": 90,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Mondkrone des Bleichen Ritters",
+  "b": "Hornhelm",
+  "lvl": 28,
+  "m": {
+   "mregen": 6,
+   "ene": 23,
+   "vit": 18
+  }
+ },
+ {
+  "n": "Aschezorn",
+  "b": "Leerenstahl-Kriegsaxt",
+  "lvl": 42,
+  "m": {
+   "fire": 30,
+   "xp": 15,
+   "str": 30
+  }
+ },
+ {
+  "n": "Gluttrutz",
+  "b": "Blutstahl-Rundschild",
+  "lvl": 15,
+  "m": {
+   "fire": 18,
+   "res": 12
+  }
+ },
+ {
+  "n": "Aschegurt des Hügeltyrannen",
+  "b": "Drachenglas-Schärpe",
+  "lvl": 42,
+  "m": {
+   "fire": 30,
+   "xp": 14,
+   "res": 29,
+   "dex": 24
+  }
+ },
+ {
+  "n": "Aschezahn",
+  "b": "Mondsilber-Hellebarde",
+  "lvl": 32,
+  "m": {
+   "fire": 21,
+   "xp": 11,
+   "crit": 9,
+   "life": 63
+  }
+ },
+ {
+  "n": "Giftsang des Wanderers",
+  "b": "Morgenstern",
+  "lvl": 20,
+  "m": {
+   "poison": 32,
+   "crit": 6,
+   "ls": 4
+  }
+ },
+ {
+  "n": "Frosthand",
+  "b": "Obsidian-Panzerhandschuhe",
+  "lvl": 34,
+  "m": {
+   "cold": 38,
+   "res": 27,
+   "ias": 21
+  }
+ },
+ {
+  "n": "Grabzahn",
+  "b": "Sternenstahl-Keule",
+  "lvl": 30,
+  "m": {
+   "vit": 25,
+   "regen": 7,
+   "ias": 25,
+   "mf": 27
+  }
+ },
+ {
+  "n": "Steinsiegel des Ewigen Winters",
+  "b": "Amethystamulett",
+  "lvl": 32,
+  "m": {
+   "dmgred": 13,
+   "vit": 22,
+   "dex": 19
+  }
+ },
+ {
+  "n": "Glutgriff",
+  "b": "Lederhandschuhe",
+  "lvl": 7,
+  "m": {
+   "fire": 13,
+   "str": 8
+  }
+ },
+ {
+  "n": "Seelensang",
+  "b": "Hellebarde",
+  "lvl": 26,
+  "m": {
+   "spell": 81,
+   "mana": 64,
+   "ed": 138,
+   "mf": 26
+  }
+ },
+ {
+  "n": "Nachtwehr",
+  "b": "Obsidian-Turmschild",
+  "lvl": 21,
+  "m": {
+   "crit": 10,
+   "dex": 19,
+   "life": 45,
+   "res": 17
+  }
+ },
+ {
+  "n": "Grabbiss der Tiefe",
+  "b": "Mondsilber-Krummsäbel",
+  "lvl": 38,
+  "m": {
+   "vit": 23,
+   "regen": 9,
+   "ias": 30,
+   "res": 25
+  }
+ },
+ {
+  "n": "Rabenfaust der Weberin",
+  "b": "Mondsilber-Lederhandschuhe",
+  "lvl": 28,
+  "m": {
+   "mf": 46,
+   "glutf": 62,
+   "str": 20
+  }
+ },
+ {
+  "n": "Mondbiss",
+  "b": "Blutstahl-Eichenstab",
+  "lvl": 16,
+  "m": {
+   "mregen": 4,
+   "ene": 16,
+   "ls": 4
+  }
+ },
+ {
+  "n": "Giftmantel",
+  "b": "Obsidian-Lederwams",
+  "lvl": 21,
+  "m": {
+   "poison": 32,
+   "crit": 7,
+   "vit": 15
+  }
+ },
+ {
+  "n": "Eisenkrone des Bleichen Ritters",
+  "b": "Topfhelm",
+  "lvl": 13,
+  "m": {
+   "edef": 102,
+   "str": 16,
+   "vit": 13
+  }
+ },
+ {
+  "n": "Dornschädel des Aschenmeers",
+  "b": "Drachenglas-Eisenhelm",
+  "lvl": 49,
+  "m": {
+   "thorns": 45,
+   "edef": 149,
+   "life": 90,
+   "res": 30
+  }
+ },
+ {
+  "n": "Seelenpfad",
+  "b": "Leerenstahl-Schattentreter",
+  "lvl": 61,
+  "m": {
+   "spell": 130,
+   "mana": 90,
+   "frw": 29
+  }
+ },
+ {
+  "n": "Steinfluch des Wanderers",
+  "b": "Blutstahl-Krummsäbel",
+  "lvl": 17,
+  "m": {
+   "dmgred": 9,
+   "vit": 12,
+   "ed": 85,
+   "str": 16
+  }
+ },
+ {
+  "n": "Nachtwache des Letzten Lichts",
+  "b": "Henkersbeil",
+  "lvl": 29,
+  "m": {
+   "crit": 12,
+   "dex": 25,
+   "str": 20
+  }
+ },
+ {
+  "n": "Steintritt des Bleichen Ritters",
+  "b": "Mondsilber-Schattentreter",
+  "lvl": 51,
+  "m": {
+   "dmgred": 15,
+   "vit": 23,
+   "frw": 30,
+   "dex": 29
+  }
+ },
+ {
+  "n": "Steindorn der Weberin",
+  "b": "Mondsilber-Mondsichel",
+  "lvl": 52,
+  "m": {
+   "dmgred": 13,
+   "vit": 24,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Gifttrutz des Wanderers",
+  "b": "Obsidian-Wappenschild",
+  "lvl": 36,
+  "m": {
+   "poison": 46,
+   "crit": 9,
+   "res": 29,
+   "life": 63
+  }
+ },
+ {
+  "n": "Steinschwur des Letzten Lichts",
+  "b": "Leerenstahl-Mondsichel",
+  "lvl": 56,
+  "m": {
+   "dmgred": 15,
+   "vit": 24,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Frostruf",
+  "b": "Obsidian-Speer",
+  "lvl": 18,
+  "m": {
+   "cold": 18,
+   "res": 16,
+   "ed": 101
+  }
+ },
+ {
+  "n": "Mondhaut",
+  "b": "Kettenhemd",
+  "lvl": 9,
+  "m": {
+   "mregen": 3,
+   "ene": 12,
+   "life": 28
+  }
+ },
+ {
+  "n": "Ascheblick",
+  "b": "Sternenstahl-Topfhelm",
+  "lvl": 44,
+  "m": {
+   "fire": 30,
+   "xp": 15,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Wolfsbiss des Aschenmeers",
+  "b": "Mondsilber-Kriegsaxt",
+  "lvl": 41,
+  "m": {
+   "frw": 21,
+   "ias": 21,
+   "crit": 10,
+   "str": 30
+  }
+ },
+ {
+  "n": "Glutgurt",
+  "b": "Kriegsgürtel",
+  "lvl": 18,
+  "m": {
+   "fire": 24,
+   "life": 50,
+   "dex": 13
+  }
+ },
+ {
+  "n": "Blutband",
+  "b": "Blutstahl-Kriegsgürtel",
+  "lvl": 45,
+  "m": {
+   "ls": 8,
+   "life": 88,
+   "res": 26,
+   "mf": 40
+  }
+ },
+ {
+  "n": "Grabruf",
+  "b": "Leerenstahl-Kriegshammer",
+  "lvl": 52,
+  "m": {
+   "vit": 32,
+   "regen": 9,
+   "dex": 30
+  }
+ },
+ {
+  "n": "Blutruf der Weberin",
+  "b": "Drachenglas-Kurzschwert",
+  "lvl": 49,
+  "m": {
+   "ls": 9,
+   "life": 80,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Glutbiss des Wanderers",
+  "b": "Blutstahl-Eichenstab",
+  "lvl": 21,
+  "m": {
+   "fire": 28,
+   "ed": 130,
+   "crit": 6
+  }
+ },
+ {
+  "n": "Eisenbiss des Verlorenen",
+  "b": "Mondsilber-Zweihänder",
+  "lvl": 41,
+  "m": {
+   "str": 26,
+   "ls": 7,
+   "life": 85
+  }
+ },
+ {
+  "n": "Aschezange des Stummen Wächters",
+  "b": "Mondsilber-Lederhandschuhe",
+  "lvl": 24,
+  "m": {
+   "fire": 19,
+   "xp": 10,
+   "ias": 17
+  }
+ },
+ {
+  "n": "Mondhülle",
+  "b": "Mondsilber-Schuppenpanzer",
+  "lvl": 37,
+  "m": {
+   "mregen": 7,
+   "ene": 24,
+   "edef": 180
+  }
+ },
+ {
+  "n": "Frostmantel",
+  "b": "Mondsilber-Schuppenpanzer",
+  "lvl": 34,
+  "m": {
+   "cold": 35,
+   "res": 27
+  }
+ },
+ {
+  "n": "Mondhaube des Aschenmeers",
+  "b": "Drachenglas-Topfhelm",
+  "lvl": 56,
+  "m": {
+   "mregen": 8,
+   "ene": 30,
+   "str": 28
+  }
+ },
+ {
+  "n": "Eisenbiss des Aschenmeers",
+  "b": "Blutstahl-Keule",
+  "lvl": 14,
+  "m": {
+   "str": 17,
+   "ed": 87
+  }
+ },
+ {
+  "n": "Sonnenschädel des Ersten Königs",
+  "b": "Obsidian-Hornhelm",
+  "lvl": 29,
+  "m": {
+   "allsk": 2,
+   "res": 25,
+   "vit": 17,
+   "mf": 28
+  }
+ },
+ {
+  "n": "Ascheklinge des Stummen Wächters",
+  "b": "Blutstahl-Kolossklinge",
+  "lvl": 57,
+  "m": {
+   "fire": 30,
+   "xp": 14,
+   "str": 30
+  }
+ },
+ {
+  "n": "Steinbiss",
+  "b": "Obsidian-Schattendolch",
+  "lvl": 23,
+  "m": {
+   "dmgred": 9,
+   "vit": 16,
+   "ias": 21
+  }
+ },
+ {
+  "n": "Sturmgurt des Wanderers",
+  "b": "Blutstahl-Schärpe",
+  "lvl": 25,
+  "m": {
+   "light": 35,
+   "ias": 19,
+   "edef": 120,
+   "life": 63
+  }
+ },
+ {
+  "n": "Blutfluch",
+  "b": "Blutstahl-Runenklinge",
+  "lvl": 41,
+  "m": {
+   "ls": 9,
+   "life": 85,
+   "ias": 25
+  }
+ },
+ {
+  "n": "Giftklaue",
+  "b": "Sternenstahl-Lederhandschuhe",
+  "lvl": 25,
+  "m": {
+   "poison": 30,
+   "crit": 8,
+   "ias": 21,
+   "res": 17
+  }
+ },
+ {
+  "n": "Rabenzahn",
+  "b": "Sternenstahl-Bluthacke",
+  "lvl": 62,
+  "m": {
+   "mf": 70,
+   "glutf": 90,
+   "ls": 7,
+   "str": 30
+  }
+ },
+ {
+  "n": "Giftkrone des Hügeltyrannen",
+  "b": "Sternenstahl-Lederkappe",
+  "lvl": 30,
+  "m": {
+   "poison": 44,
+   "crit": 7,
+   "life": 63
+  }
+ },
+ {
+  "n": "Seelenwehr",
+  "b": "Drachenglas-Kettenhemd",
+  "lvl": 55,
+  "m": {
+   "spell": 130,
+   "mana": 90,
+   "edef": 180,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Glutpfad des Letzten Lichts",
+  "b": "Obsidian-Stiefel",
+  "lvl": 9,
+  "m": {
+   "fire": 16,
+   "dex": 10,
+   "str": 10
+  }
+ },
+ {
+  "n": "Steinschwur",
+  "b": "Mondsilber-Schattendolch",
+  "lvl": 45,
+  "m": {
+   "dmgred": 15,
+   "vit": 25,
+   "ias": 30,
+   "res": 30
+  }
+ },
+ {
+  "n": "Glutruf",
+  "b": "Mondsilber-Kriegshammer",
+  "lvl": 46,
+  "m": {
+   "fire": 40,
+   "ed": 220,
+   "dex": 29
+  }
+ },
+ {
+  "n": "Sturmwache des Aschenmeers",
+  "b": "Mondsilber-Krummsäbel",
+  "lvl": 25,
+  "m": {
+   "light": 28,
+   "ias": 23,
+   "dex": 19,
+   "str": 18
+  }
+ },
+ {
+  "n": "Aschepfad des Stummen Wächters",
+  "b": "Drachenglas-Schattentreter",
+  "lvl": 64,
+  "m": {
+   "fire": 28,
+   "xp": 15,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Ascheschädel",
+  "b": "Mondsilber-Totenkrone",
+  "lvl": 55,
+  "m": {
+   "fire": 30,
+   "xp": 15,
+   "life": 90,
+   "dex": 28
+  }
+ },
+ {
+  "n": "Glutdorn",
+  "b": "Zweihänder",
+  "lvl": 18,
+  "m": {
+   "fire": 25,
+   "ed": 135,
+   "dex": 13
+  }
+ },
+ {
+  "n": "Sonnenruf",
+  "b": "Dolch",
+  "lvl": 6,
+  "m": {
+   "allsk": 1,
+   "res": 13,
+   "crit": 4
+  }
+ },
+ {
+  "n": "Sturmwall der Krähen",
+  "b": "Drachenglas-Wappenschild",
+  "lvl": 62,
+  "m": {
+   "light": 46,
+   "ias": 30,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Sturmmantel der Tiefe",
+  "b": "Obsidian-Lederwams",
+  "lvl": 8,
+  "m": {
+   "light": 16,
+   "ias": 13,
+   "life": 25,
+   "mf": 15
+  }
+ },
+ {
+  "n": "Seelentritt des Aschenmeers",
+  "b": "Stiefel",
+  "lvl": 3,
+  "m": {
+   "spell": 38,
+   "mana": 25,
+   "vit": 7
+  }
+ },
+ {
+  "n": "Dornbiss des Schwarzen Turms",
+  "b": "Sternenstahl-Schattendolch",
+  "lvl": 49,
+  "m": {
+   "thorns": 45,
+   "ls": 8,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Seelenfluch des Ewigen Winters",
+  "b": "Blutstahl-Kolossklinge",
+  "lvl": 42,
+  "m": {
+   "spell": 126,
+   "mana": 90,
+   "str": 28
+  }
+ },
+ {
+  "n": "Dornschritt des Ersten Königs",
+  "b": "Blutstahl-Schattentreter",
+  "lvl": 52,
+  "m": {
+   "thorns": 45,
+   "edef": 157,
+   "frw": 30
+  }
+ },
+ {
+  "n": "Rabenspalter",
+  "b": "Blutstahl-Kriegsaxt",
+  "lvl": 20,
+  "m": {
+   "mf": 47,
+   "glutf": 43,
+   "str": 14,
+   "res": 15
+  }
+ },
+ {
+  "n": "Nachtfluch des Wanderers",
+  "b": "Drachenglas-Krummsäbel",
+  "lvl": 54,
+  "m": {
+   "crit": 15,
+   "dex": 32,
+   "str": 30
+  }
+ },
+ {
+  "n": "Sonnenwache",
+  "b": "Leerenstahl-Hellebarde",
+  "lvl": 52,
+  "m": {
+   "allsk": 2,
+   "res": 32,
+   "ls": 8
+  }
+ },
+ {
+  "n": "Giftpanzer",
+  "b": "Sternenstahl-Kettenhemd",
+  "lvl": 30,
+  "m": {
+   "poison": 32,
+   "crit": 8,
+   "str": 22,
+   "life": 65
+  }
+ },
+ {
+  "n": "Wolfswache der Weberin",
+  "b": "Handaxt",
+  "lvl": 9,
+  "m": {
+   "frw": 11,
+   "ias": 11,
+   "dex": 9
+  }
+ },
+ {
+  "n": "Rabendorn",
+  "b": "Blutstahl-Keule",
+  "lvl": 24,
+  "m": {
+   "mf": 51,
+   "glutf": 49,
+   "ed": 145,
+   "vit": 21
+  }
+ },
+ {
+  "n": "Dornschwur",
+  "b": "Drachenzahn",
+  "lvl": 39,
+  "m": {
+   "thorns": 40,
+   "ls": 7
+  }
+ },
+ {
+  "n": "Sonnenstirn",
+  "b": "Obsidian-Lederkappe",
+  "lvl": 17,
+  "m": {
+   "allsk": 1,
+   "res": 20,
+   "vit": 12
+  }
+ },
+ {
+  "n": "Eisenpanzer der Tiefe",
+  "b": "Kettenhemd",
+  "lvl": 6,
+  "m": {
+   "edef": 78,
+   "str": 11,
+   "life": 24
+  }
+ },
+ {
+  "n": "Blutschnur",
+  "b": "Leerenstahl-Kettengürtel",
+  "lvl": 68,
+  "m": {
+   "ls": 9,
+   "life": 86,
+   "str": 30
+  }
+ },
+ {
+  "n": "Dorngriff",
+  "b": "Sternenstahl-Panzerhandschuhe",
+  "lvl": 58,
+  "m": {
+   "thorns": 45,
+   "edef": 160,
+   "str": 29
+  }
+ },
+ {
+  "n": "Aschegurt der Weberin",
+  "b": "Mondsilber-Kettengürtel",
+  "lvl": 48,
+  "m": {
+   "fire": 25,
+   "xp": 13,
+   "vit": 30
+  }
+ },
+ {
+  "n": "Grabtor des Wanderers",
+  "b": "Blutstahl-Rundschild",
+  "lvl": 19,
+  "m": {
+   "vit": 20,
+   "regen": 5,
+   "str": 13
+  }
+ },
+ {
+  "n": "Rabengang",
+  "b": "Sternenstahl-Schattentreter",
+  "lvl": 57,
+  "m": {
+   "mf": 66,
+   "glutf": 90,
+   "vit": 30,
+   "str": 30
+  }
+ },
+ {
+  "n": "Sturmdorn",
+  "b": "Leerenstahl-Sternenstab",
+  "lvl": 70,
+  "m": {
+   "light": 50,
+   "ias": 30,
+   "ls": 7
+  }
+ },
+ {
+  "n": "Steinkrone",
+  "b": "Mondsilber-Totenkrone",
+  "lvl": 61,
+  "m": {
+   "dmgred": 15,
+   "vit": 25
+  }
+ },
+ {
+  "n": "Frostwache des Schwarzen Turms",
+  "b": "Obsidian-Drachenzahn",
+  "lvl": 49,
+  "m": {
+   "cold": 37,
+   "res": 30,
+   "dex": 29
+  }
+ },
+ {
+  "n": "Steinzahn",
+  "b": "Leerenstahl-Mondsichel",
+  "lvl": 52,
+  "m": {
+   "dmgred": 15,
+   "vit": 25,
+   "crit": 12,
+   "res": 30
+  }
+ },
+ {
+  "n": "Blutsang der Weberin",
+  "b": "Handaxt",
+  "lvl": 6,
+  "m": {
+   "ls": 4,
+   "life": 29,
+   "dex": 9,
+   "mf": 15
+  }
+ },
+ {
+  "n": "Glutblick der Tiefe",
+  "b": "Drachenglas-Lederkappe",
+  "lvl": 51,
+  "m": {
+   "fire": 45,
+   "str": 30,
+   "vit": 29
+  }
+ },
+ {
+  "n": "Frostschädel",
+  "b": "Obsidian-Lederkappe",
+  "lvl": 9,
+  "m": {
+   "cold": 14,
+   "res": 12,
+   "str": 11
+  }
+ },
+ {
+  "n": "Glutspalter",
+  "b": "Aschestab",
+  "lvl": 19,
+  "m": {
+   "fire": 22,
+   "ed": 128,
+   "dex": 14
+  }
+ },
+ {
+  "n": "Giftzahn",
+  "b": "Sternenstahl-Keule",
+  "lvl": 37,
+  "m": {
+   "poison": 54,
+   "crit": 8,
+   "res": 21
+  }
+ },
+ {
+  "n": "Dornsang",
+  "b": "Eichenstab",
+  "lvl": 12,
+  "m": {
+   "thorns": 18,
+   "ias": 14
+  }
+ },
+ {
+  "n": "Wolfstor",
+  "b": "Rundschild",
+  "lvl": 6,
+  "m": {
+   "frw": 10,
+   "ias": 11,
+   "res": 8
+  }
+ },
+ {
+  "n": "Eisenruf",
+  "b": "Leerenstahl-Drachenzahn",
+  "lvl": 66,
+  "m": {
+   "str": 32,
+   "crit": 12
+  }
+ },
+ {
+  "n": "Blutschädel des Schwarzen Turms",
+  "b": "Lederkappe",
+  "lvl": 9,
+  "m": {
+   "ls": 4,
+   "life": 31,
+   "res": 9
+  }
+ },
+ {
+  "n": "Nachtschädel des Verlorenen",
+  "b": "Lederkappe",
+  "lvl": 17,
+  "m": {
+   "crit": 7,
+   "dex": 18,
+   "life": 39
+  }
+ },
+ {
+  "n": "Glutwehr des Stummen Wächters",
+  "b": "Sternenstahl-Wappenschild",
+  "lvl": 51,
+  "m": {
+   "fire": 45,
+   "edef": 180
+  }
+ },
+ {
+  "n": "Nachtgang",
+  "b": "Stiefel",
+  "lvl": 12,
+  "m": {
+   "crit": 6,
+   "dex": 15,
+   "res": 13
+  }
+ },
+ {
+  "n": "Aschefluch",
+  "b": "Obsidian-Eichenstab",
+  "lvl": 12,
+  "m": {
+   "fire": 12,
+   "xp": 8,
+   "str": 13
+  }
+ },
+ {
+  "n": "Seelenklaue",
+  "b": "Obsidian-Klauenhandschuhe",
+  "lvl": 35,
+  "m": {
+   "spell": 93,
+   "mana": 71,
+   "ias": 24
+  }
+ },
+ {
+  "n": "Eisenblick",
+  "b": "Lederkappe",
+  "lvl": 5,
+  "m": {
+   "edef": 82,
+   "str": 11
+  }
+ },
+ {
+  "n": "Aschewehr",
+  "b": "Mondsilber-Schwarzer Harnisch",
+  "lvl": 51,
+  "m": {
+   "fire": 30,
+   "xp": 15,
+   "edef": 180,
+   "mf": 36
+  }
+ },
+ {
+  "n": "Sehne des Morgens",
+  "b": "Jagdbogen",
+  "lvl": 6,
+  "m": {
+   "ed": 80,
+   "dex": 10,
+   "ias": 15,
+   "fire": 5
+  }
+ },
+ {
+  "n": "Kesselbrecher",
+  "b": "Leichte Armbrust",
+  "lvl": 5,
+  "m": {
+   "ed": 90,
+   "str": 8,
+   "crit": 6,
+   "life": 15
+  }
+ },
+ {
+  "n": "Ast der Alten Eiche",
+  "b": "Holzzauberstab",
+  "lvl": 4,
+  "m": {
+   "spell": 40,
+   "ene": 10,
+   "mana": 25,
+   "regen": 2
+  }
+ },
+ {
+  "n": "Nebelsänger",
+  "b": "Langbogen",
+  "lvl": 12,
+  "m": {
+   "ed": 130,
+   "poison": 12,
+   "dex": 15,
+   "mf": 20
+  }
+ },
+ {
+  "n": "Bolzenwerk des Meisters",
+  "b": "Armbrust",
+  "lvl": 11,
+  "m": {
+   "ed": 140,
+   "ias": 20,
+   "crit": 10,
+   "str": 10
+  }
+ },
+ {
+  "n": "Rabenschwinge",
+  "b": "Kompositbogen",
+  "lvl": 18,
+  "m": {
+   "ed": 160,
+   "cold": 15,
+   "frw": 15,
+   "dex": 20
+  }
+ },
+ {
+  "n": "Hornruf der Tiefe",
+  "b": "Knochenbogen",
+  "lvl": 24,
+  "m": {
+   "ed": 190,
+   "ls": 6,
+   "crit": 12,
+   "life": 40
+  }
+ },
+ {
+  "n": "Mauerfall",
+  "b": "Schwere Armbrust",
+  "lvl": 20,
+  "m": {
+   "ed": 200,
+   "str": 20,
+   "light": 18,
+   "res": 15
+  }
+ },
+ {
+  "n": "Zweig der Weisen",
+  "b": "Holzzauberstab",
+  "lvl": 20,
+  "m": {
+   "spell": 100,
+   "allsk": 1,
+   "mana": 50,
+   "mregen": 4
+  }
+ },
+ {
+  "n": "Vyrthrax' Sehne",
+  "b": "Drachenbogen",
+  "lvl": 32,
+  "m": {
+   "ed": 240,
+   "fire": 40,
+   "dex": 30,
+   "allsk": 1
+  }
+ },
+ {
+  "n": "Belagerer",
+  "b": "Belagerungsarmbrust",
+  "lvl": 30,
+  "m": {
+   "ed": 250,
+   "crit": 15,
+   "str": 30,
+   "dmgred": 6
+  }
+ },
+ {
+  "n": "Flüsternde Naht",
+  "b": "Lederkapuze",
+  "lvl": 6,
+  "m": {
+   "dex": 8,
+   "crit": 5,
+   "frw": 10
+  }
+ },
+ {
+  "n": "Seidengriff",
+  "b": "Messerhandschuhe",
+  "lvl": 12,
+  "m": {
+   "ias": 20,
+   "crit": 6,
+   "dex": 10
+  }
+ },
+ {
+  "n": "Mantel der Ersten Jagd",
+  "b": "Pirschmantel",
+  "lvl": 14,
+  "m": {
+   "dex": 15,
+   "ias": 10,
+   "life": 30,
+   "res": 10
+  }
+ },
+ {
+  "n": "Rabenfeder",
+  "b": "Rabenkapuze",
+  "lvl": 27,
+  "m": {
+   "dex": 20,
+   "crit": 10,
+   "allsk": 1,
+   "mf": 20
+  }
+ },
+ {
+  "n": "Schritte im Nebel",
+  "b": "Nebelläufer",
+  "lvl": 32,
+  "m": {
+   "frw": 30,
+   "dex": 20,
+   "res": 20
+  }
+ },
+ {
+  "n": "Gurt der Sieben Klingen",
+  "b": "Klingengurt",
+  "lvl": 33,
+  "m": {
+   "ias": 15,
+   "crit": 8,
+   "life": 50,
+   "str": 10
+  }
+ },
+ {
+  "n": "Schleier der Mondlosen Nacht",
+  "b": "Nachtumhang",
+  "lvl": 36,
+  "m": {
+   "dex": 30,
+   "crit": 12,
+   "frw": 20,
+   "dmgred": 8,
+   "life": 60
+  }
+ },
+ {
+  "n": "Stich der Elster",
+  "b": "Stilett",
+  "lvl": 7,
+  "m": {
+   "ed": 80,
+   "dex": 10,
+   "crit": 10,
+   "ias": 10
+  }
+ },
+ {
+  "n": "Krähenkris",
+  "b": "Kris",
+  "lvl": 11,
+  "m": {
+   "ed": 110,
+   "poison": 10,
+   "ls": 5,
+   "dex": 12
+  }
+ },
+ {
+  "n": "Schnabel der Morrigan",
+  "b": "Rabenschnabel",
+  "lvl": 22,
+  "m": {
+   "ed": 170,
+   "crit": 15,
+   "ias": 20,
+   "cold": 12
+  }
+ },
+ {
+  "n": "Witwenzahn",
+  "b": "Giftzahn",
+  "lvl": 28,
+  "m": {
+   "ed": 200,
+   "poison": 30,
+   "dex": 25,
+   "ls": 6
+  }
+ },
+ {
+  "n": "Glasaugen des Lehrlings",
+  "b": "Schutzbrille",
+  "lvl": 3,
+  "m": {
+   "potPow": 15,
+   "ene": 6,
+   "res": 8
+  }
+ },
+ {
+  "n": "Kittel des Meisters Halvard",
+  "b": "Laborkittel",
+  "lvl": 9,
+  "m": {
+   "potPow": 25,
+   "mana": 30,
+   "res": 15,
+   "regen": 3
+  }
+ },
+ {
+  "n": "Schnabel des Doktors",
+  "b": "Schnabelmaske",
+  "lvl": 20,
+  "m": {
+   "potPow": 30,
+   "poison": 15,
+   "res": 25,
+   "life": 40
+  }
+ },
+ {
+  "n": "Tiegelfaust",
+  "b": "Glutgreifer",
+  "lvl": 22,
+  "m": {
+   "fire": 20,
+   "potPow": 20,
+   "ias": 10
+  }
+ },
+ {
+  "n": "Atem der Seuche",
+  "b": "Pestmaske",
+  "lvl": 28,
+  "m": {
+   "poison": 30,
+   "potPow": 40,
+   "dmgred": 6,
+   "allsk": 1
+  }
+ },
+ {
+  "n": "Großer Kessel",
+  "b": "Kolbengürtel",
+  "lvl": 33,
+  "m": {
+   "potPow": 50,
+   "flaskH": 30,
+   "life": 60
+  }
+ },
+ {
+  "n": "Mantel des Steins der Weisen",
+  "b": "Elixierkutte",
+  "lvl": 36,
+  "m": {
+   "potPow": 60,
+   "allsk": 1,
+   "mana": 60,
+   "res": 25,
+   "regen": 6
+  }
+ },
+ {
+  "n": "Glimmwurz",
+  "b": "Knotenstab",
+  "lvl": 4,
+  "m": {
+   "spell": 20,
+   "fire": 4,
+   "mana": 15
+  }
+ },
+ {
+  "n": "Eisherz des Winters",
+  "b": "Kristallstab",
+  "lvl": 22,
+  "m": {
+   "spell": 60,
+   "cold": 15,
+   "mana": 40,
+   "res": 15
+  }
+ },
+ {
+  "n": "Der lachende Schädel",
+  "b": "Knochenstab",
+  "lvl": 26,
+  "m": {
+   "spell": 70,
+   "ls": 4,
+   "life": 50,
+   "allsk": 1
+  }
+ },
+ {
+  "n": "Wurzel der Welt",
+  "b": "Weltenast",
+  "lvl": 55,
+  "m": {
+   "spell": 150,
+   "poison": 40,
+   "regen": 10,
+   "life": 120,
+   "allsk": 2
+  }
+ },
+ {
+  "n": "Zunge des Legionärs",
+  "b": "Gladius",
+  "lvl": 5,
+  "m": {
+   "ed": 70,
+   "crit": 8,
+   "ias": 10
+  }
+ },
+ {
+  "n": "Morgentau",
+  "b": "Katana",
+  "lvl": 30,
+  "m": {
+   "ed": 180,
+   "crit": 12,
+   "ias": 20,
+   "dex": 20
+  }
+ },
+ {
+  "n": "Zorn des Feuerbergs",
+  "b": "Flamberge",
+  "lvl": 36,
+  "m": {
+   "ed": 220,
+   "fire": 30,
+   "str": 25,
+   "life": 60
+  }
+ },
+ {
+  "n": "Grimmbart",
+  "b": "Bartaxt",
+  "lvl": 8,
+  "m": {
+   "ed": 90,
+   "str": 10,
+   "life": 25
+  }
+ },
+ {
+  "n": "Glockenschlag",
+  "b": "Kettenflegel",
+  "lvl": 18,
+  "m": {
+   "ed": 140,
+   "light": 12,
+   "ias": 15
+  }
+ },
+ {
+  "n": "Erdbrecher",
+  "b": "Großhammer",
+  "lvl": 36,
+  "m": {
+   "ed": 240,
+   "str": 30,
+   "dmgred": 8,
+   "life": 80
+  }
+ },
+ {
+  "n": "Widderstirn",
+  "b": "Widderhelm",
+  "lvl": 28,
+  "m": {
+   "str": 20,
+   "life": 50,
+   "dmgred": 5,
+   "allsk": 1
+  }
+ },
+ {
+  "n": "Eiserne Wacht",
+  "b": "Kriegsharnisch",
+  "lvl": 28,
+  "m": {
+   "life": 90,
+   "dmgred": 10,
+   "edef": 120,
+   "thorns": 20
+  }
+ },
+ {
+  "n": "Fäuste des Schmieds",
+  "b": "Stahlfäuste",
+  "lvl": 22,
+  "m": {
+   "str": 20,
+   "ias": 15,
+   "fire": 10
+  }
+ },
+ {
+  "n": "Gurt des Bannerträgers",
+  "b": "Titanengurt",
+  "lvl": 33,
+  "m": {
+   "life": 80,
+   "str": 25,
+   "res": 15
+  }
+ },
+ {
+  "n": "Schwur des Ritters",
+  "b": "Ritterharnisch",
+  "lvl": 36,
+  "m": {
+   "life": 130,
+   "dmgred": 14,
+   "res": 25,
+   "str": 25,
+   "edef": 150
+  }
+ },
+ {
+  "n": "Erster Schritt der Legion",
+  "b": "Marschstiefel",
+  "lvl": 4,
+  "m": {
+   "frw": 15,
+   "life": 20,
+   "str": 6
+  }
+ }
+]
