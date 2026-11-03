@@ -465,7 +465,7 @@ body.tvon .skill{padding:8px}
 #mbox:has(.svlist){width:min(760px,94vw);max-width:none}
 .svlist{display:flex;flex-direction:column;gap:5px;margin:6px 0}
 .svrow{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:6px 8px;background:rgba(0,0,0,.35);border:1px solid #3a2e1e}
-.svrow.empty{opacity:.75}.svno{font-size:20px;color:#c8a050;text-align:center}
+.svrow.empty{opacity:.75}.svrow.cur{border-color:#c8a050;background:rgba(60,40,10,.45)}.svrow.cur .svno{color:#ffe08a}.svno{font-size:20px;color:#c8a050;text-align:center}
 .svmid{display:flex;flex-direction:column;min-width:0}.svmid small{color:#a39b88;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .svname{background:transparent;border:0;border-bottom:1px dashed #5a4a30;color:#ece4cf;font:inherit;font-size:17px;padding:2px 0;width:100%;outline:none}.svname:focus{border-bottom-color:#e8c878}
 .svbtn{display:flex;gap:5px}.svbtn button{min-height:38px;padding:0 12px;font-size:15px;white-space:nowrap}.svbtn .svdel{padding:0 10px}.svbtn button.arm{background:#6a1a10;color:#ffd8c0}

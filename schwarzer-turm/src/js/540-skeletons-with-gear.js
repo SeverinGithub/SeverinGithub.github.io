@@ -160,11 +160,12 @@ function rgDrawGear(e,o){const g=e.gear,{F,f,back,ph,atk,fx,fy}=o;
     :{torso:F(RP.dark),sleeve:B,fore:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)};
   if(g.rider){R.torso=F(rgC(g.bodyC||'red'));if(R.metal)R.metal.torso=0}
   const ranged=g.wep==='crossbow'||g.wep==='longbow',aim=Math.atan2(fy,fx),wa=ranged?aim:g.wep==='lance'?(atk??aim+.15*f):(atk??aim+.8*f);
-  humanoid({R,f,back,robe:!!g.rider,moving:!g.rider&&!e.dead,ph,tw:(plate?1.1:.92)*(g.tw||1),lw:plate?1.05:.66,armLen:15,atk:ranged?null:atk,
+  const oh={R,f,back,robe:!!g.rider,moving:!g.rider&&!e.dead,ph,tw:(plate?1.1:.92)*(g.tw||1),lw:plate?1.05:.66,armLen:15,atk:ranged?null:atk,
     torsoFx:plate||body?null:(a,b,c,d)=>{for(let k=0;k<4;k++)limb(a-5+k*.4,b+2.5+k*2.6,a+5-k*.4,b+2.5+k*2.6,.7,.7,B);limb(c,d,a,b+1,.8,.8,B)},
     head:(hx,hy)=>{if(!(g.hat==='great'||g.hat==='crown'||g.hat==='barbute')){blob(hx,hy,3.8,4.2,B);if(!back){ctx.fillStyle='#0a0806';ctx.fillRect(hx-2.4+f*.6,hy-1,1.6,1.6);ctx.fillRect(hx+.8+f*.6,hy-1,1.6,1.6);ctx.fillRect(hx-1.5+f*.6,hy+2.2,3,.8);ctx.fillStyle=g.eye||'#ffb040';ctx.fillRect(hx-2+f*.6,hy-.6,.8,.8);ctx.fillRect(hx+1.2+f*.6,hy-.6,.8,.8)}}rgHat(hx,hy,g,F,f,back)},
-    weapon:(x,y)=>ranged?rgBow(x,y,wa,g.wep==='crossbow',F,e.charge>0):rgWeapon(x,y,wa,g.wep,F,ph),
-    offhand:g.shield?(x,y,bk)=>rgShield(x+f*1,y-2,g.shield,g.shC||'red',F,bk):null});
+    weapon:(x,y)=>rgWeapon(x,y,wa,g.wep,F,ph),
+    offhand:g.shield?(x,y,bk)=>rgShield(x+f*1,y-2,g.shield,g.shC||'red',F,bk):null};
+  if(ranged)archEnemy(oh,e,fx,fy,f,F,g.wep==='crossbow');humanoid(oh);
   if(g.rider&&!back){blob(4*f,-4,2.6,1.8,F(RP.dark))}
   if(g.horse&&g.rider){ctx.restore();ctx.save();ctx.scale(1.2,1.2);if(e.hs&&e.hs.late)e.hs.late();ctx.restore()}}
 

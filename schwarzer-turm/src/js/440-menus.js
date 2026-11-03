@@ -8,7 +8,7 @@ let menuView=null,confirmFn=null;
 function showMenu(v,msg=''){menuView=v;$('menu').hidden=false;const ingame=G.state==='paused',b=$('mbox');
   if(v==='pause')b.innerHTML=`<h2>Pause</h2><button class="mbtn" data-m="resume">Weiterspielen</button><button class="mbtn" data-m="save">Spiel speichern</button>
     <button class="mbtn" data-m="settings">Einstellungen</button><button class="mbtn" data-m="controls">Steuerung</button><button class="mbtn" data-m="title">Speichern und zum Hauptmenü</button>
-    <button class="mbtn" data-m="reload">Grafik neu laden (R)</button><button class="mbtn" data-m="hardreload">Seite neu laden · Spielstand bleibt</button><button class="mbtn" data-m="newgame">Neues Spiel beginnen</button><div class="msg" role="status">${msg}</div>`;
+    <button class="mbtn" data-m="reload">Grafik neu laden (R)</button><button class="mbtn" data-m="hardreload">Seite neu laden · Spielstand bleibt</button><button class="mbtn" data-m="newgame">Neuen Helden beginnen</button><div class="msg" role="status">${msg}</div>`;
   else if(v==='settings'){const sl=(k,n)=>`<label class="mrow"><span>${n}</span><input type="range" min="0" max="100" step="5" value="${CFG[k]}" data-cfg="${k}" id="cfg-${k}"><output>${CFG[k]}</output></label>`,
       ck=(k,n)=>`<label class="mcheck"><span>${n}</span><input type="checkbox" data-cfg="${k}" id="cfg-${k}" ${CFG[k]?'checked':''}></label>`;
     b.innerHTML=`<h2>Einstellungen</h2><h3>Ton</h3>${sl('music','Musik')}${sl('sfx','Effekte')}${sl('voice','Stimmen')}<label class="mcheck"><span>Alles stumm (M)</span><input type="checkbox" data-cfg="mute" id="cfg-mute" ${G.muted?'checked':''}></label>
@@ -25,11 +25,12 @@ function titleBackdrop(){P=newPlayer();resetTransient();recalc();P.hp=P.d.life;G
   G.tele=[];G.proj=[];G.fx=[];G.rings=[];G.bolts=[];G.texts=[];G.lights=[];G.glutmalShown=null}
 function toTitle(){save();closeAll();$('menu').hidden=true;menuView=null;G.state='title';G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS);
   $('hud').hidden=true;$('topinfo').hidden=true;$('bossbar').hidden=true;$('target').hidden=true;titleBackdrop();contInfo();$('title').hidden=false;playMusic(null)}
-function askNew(){if(loadData()&&G.state!=='play'){confirmFn=()=>{closeMenu();pickClass()};showMenu('confirm','Dein bisheriger Spielstand wird dabei überschrieben.')}else{closeMenu();pickClass()}}
+// a new hero never replaces an old one: every hero keeps a save of their own (790-heroes.js)
+function askNew(){closeMenu();pickClass()}
 document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('[data-cls]');if(c){closeMenu();startNew(c.dataset.cls)}});
 $('menu').addEventListener('click',e=>{const t=e.target.closest('[data-m]');if(!t){if(e.target.id==='menu'&&G.state!=='title')escKey();return}const m=t.dataset.m;
   if(m==='resume')closeMenu();else if(m==='save'){save();showMenu('pause','Gespeichert.')}else if(m==='settings'||m==='controls')showMenu(m);
-  else if(m==='back')G.state==='paused'?showMenu('pause'):closeMenu();else if(m==='title')toTitle();else if(m==='reload'){reloadRes();showMenu('pause','Grafik neu geladen.')}else if(m==='hardreload'){save();location.reload()}else if(m==='newgame'){confirmFn=()=>{closeMenu();startNew()};showMenu('confirm','Dein jetziger Fortschritt wird überschrieben.')}
+  else if(m==='back')G.state==='paused'?showMenu('pause'):closeMenu();else if(m==='title')toTitle();else if(m==='reload'){reloadRes();showMenu('pause','Grafik neu geladen.')}else if(m==='hardreload'){save();location.reload()}else if(m==='newgame'){save();toTitle();pickClass()}
   else if(m==='yes'&&confirmFn){const f=confirmFn;confirmFn=null;f()}});
 $('menu').addEventListener('input',e=>{const t=e.target,k=t.dataset.cfg;if(!k)return;
   if(k==='mute'){G.muted=t.checked;if(G.muted){G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS)}applyCfg();return}
@@ -48,6 +49,9 @@ function startNew(cls='wanderer'){
   setTimeout(()=>log('Odalinde verkauft Tränke und verstärkt deinen Flakon.','#a39b88'),3200)}
 function begin(f){G.state='play';G.hand=null;$('title').hidden=true;$('hud').hidden=false;$('topinfo').hidden=false;buildBelt();enterFloor(f);P.hp=P.d.life;if(P._over&&P._over.length){for(const it of P._over)dropItem(it,P.x,P.y);log('Nicht alles passte ins neue Inventar. Der Rest liegt neben dir.','#a39b88')}P._over=null}
 $('btnNew').onclick=()=>{initAudio();askNew()};
-$('btnCont').onclick=()=>{initAudio();const d=loadData();if(!d)return pickClass();applyData(d);begin(G.respawnFloor);log('Willkommen zurück, Wanderer.','#ffd88a')};
+$('btnCont').onclick=()=>{initAudio();const d=loadData();if(!d)return pickClass();applyData(d);const ps=G.pos;delete G.pos;
+  // back where you left off: on the islands the world grows around the spot, in the tower the floor is rebuilt from its seed
+  let f=G.respawnFloor;if(ps&&typeof ps.f==='number'&&ps.f>=0&&ps.f<=(G.maxFloor||0)){f=ps.f;if(f===0)G.owAt={x:ps.x-1,y:ps.y-1}}
+  begin(f);if(ps&&f>0&&G.floor===f&&walkable(ps.x,ps.y)){P.x=ps.x;P.y=ps.y;camX=P.x;camY=P.y}log('Willkommen zurück, Wanderer.','#ffd88a')};
 contInfo();
 

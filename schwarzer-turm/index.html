@@ -476,7 +476,7 @@ body.tvon .skill{padding:8px}
 #mbox:has(.svlist){width:min(760px,94vw);max-width:none}
 .svlist{display:flex;flex-direction:column;gap:5px;margin:6px 0}
 .svrow{display:grid;grid-template-columns:30px 1fr auto;align-items:center;gap:10px;padding:6px 8px;background:rgba(0,0,0,.35);border:1px solid #3a2e1e}
-.svrow.empty{opacity:.75}.svno{font-size:20px;color:#c8a050;text-align:center}
+.svrow.empty{opacity:.75}.svrow.cur{border-color:#c8a050;background:rgba(60,40,10,.45)}.svrow.cur .svno{color:#ffe08a}.svno{font-size:20px;color:#c8a050;text-align:center}
 .svmid{display:flex;flex-direction:column;min-width:0}.svmid small{color:#a39b88;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .svname{background:transparent;border:0;border-bottom:1px dashed #5a4a30;color:#ece4cf;font:inherit;font-size:17px;padding:2px 0;width:100%;outline:none}.svname:focus{border-bottom-color:#e8c878}
 .svbtn{display:flex;gap:5px}.svbtn button{min-height:38px;padding:0 12px;font-size:15px;white-space:nowrap}.svbtn .svdel{padding:0 10px}.svbtn button.arm{background:#6a1a10;color:#ffd8c0}
@@ -548,7 +548,7 @@ body.tvon.tvpanel #tvx{top:calc(96px + env(safe-area-inset-top,0px))!important}
     <p>Auf dem grünen Hügel steht ein Turm, der tiefer in die Erde reicht als in den Himmel. Steig hinab, sammle Klingen und Rüstungen, bezwinge die Hüter der Tiefe.</p>
     <nav id="tmenu" aria-label="Hauptmenü">
       <button id="btnCont" class="mbtn" hidden>Fortsetzen<small id="contInfo"></small></button>
-      <button id="btnNew" class="mbtn">Neues Spiel</button>
+      <button id="btnNew" class="mbtn">Neuer Held</button>
       <button class="mbtn" data-m="settings">Einstellungen</button>
       <button class="mbtn" data-m="controls">Steuerung</button>
     </nav>
@@ -1806,6 +1806,7 @@ function humanoid(o){
     // set hands (o.hands = [weapon hand, other hand]) reach with a bent elbow and stop where the arm runs out
     const h=o.hands&&o.hands[weap?0:1];if(h){const k=rgIK(sx,sy,h[0],h[1],o.aL||9.5,o.aL||9.5,sd*f>0?-1:1);return{sx,sy,ex:k[0],ey:k[1],hx:k[2],hy:k[3]}}
     return{sx,sy,ex:(sx+hx)/2+sd*1.5,ey:(sy+hy)/2+1,hx,hy}};
+  if(o.handsAt)o.hands=o.handsAt(shX+f*7.6*tw,shY+1.6,shX-f*7.6*tw,shY+1.6);
   const aw=armPos(f,true),ao=armPos(-f,false);
   const drawArm=a=>{limb(a.sx,a.sy,a.ex,a.ey,2.6*lw,2.2*lw,R.sleeve||R.torso,M.sleeve);limb(a.ex,a.ey,a.hx,a.hy,2.2*lw,1.8*lw,R.fore||R.sleeve||R.torso,M.fore);if(o.armFx)o.armFx(a);blob(a.hx,a.hy+.8,2.1*lw,2.1*lw,R.hand||R.skin,M.hand)};
   if(back){if(o.weapon)o.weapon(aw.hx,aw.hy+.8);if(o.offhand)o.offhand(ao.hx,ao.hy,true)}
@@ -1882,8 +1883,8 @@ function drawPlayer(){
   if(go&&run>.25&&!P.roll){const q=Math.sign(Math.sin(P.gPh));if(q!==P.gS){P.gS=q;smoke(P.x,P.y,1,'rgba(90,78,62,',2.5+run*2.5,.25)}}
   // swing: wind up, snap through, settle; the body steps into the blow
   const sp=P.atkT>0?1-P.atkT/P.atkDur:0,sw=sp<.32?-2.3*(1-Math.pow(1-sp/.32,2)):sp<.55?-2.3+4.2*Math.pow((sp-.32)/.23,2):1.9-.7*(1-Math.pow(1-(sp-.55)/.45,2));
-  // a bow is drawn, not swung: pull until the arrow leaves (the shot resolves at .45), then the body gives a little to the recoil
-  const rgW=P.atkT>0&&P.eq.weapon&&P.d.okS.has(P.eq.weapon)&&isRangedW(P.eq.weapon)?P.eq.weapon.cls:null,rgK=rgW&&sp<.45?Math.pow(sp/.45,.6):0;
+  // a bow is drawn, not swung: pull until the arrow leaves (the shot resolves at .45), then the body gives a little to the recoil and the hand comes back for the next arrow
+  const rgW=P.atkT>0&&P.eq.weapon&&P.d.okS.has(P.eq.weapon)&&isRangedW(P.eq.weapon)?P.eq.weapon.cls:null,rgK=rgW?bowDraw(sp,.45):0,rgF=rgW&&sp>.45?(sp-.45)/.55:0,rgL=rgW==='xbow'&&sp>.62&&sp<.88?(sp-.62)/.26:0;
   const lunge=rgW?(sp>.45&&sp<.8?-Math.sin((sp-.45)/.35*Math.PI)*(rgW==='xbow'?2.4:1.6):0):P.atkT>0&&sp>.28&&sp<.75?Math.sin((sp-.28)/.47*Math.PI)*4.5:0,lx=fx*lunge,ly=fy*lunge*.6;
   const th=Math.atan2(fy,fx),an=P.atkT>0?null:heroAnim(P,th,f);
   ctx.save();ctx.translate(sx+lx,sy+ly+(an?an.dy:0));if(P.leap)ctx.translate(0,-Math.sin(Math.min(1,P.leap.t/P.leap.dur)*Math.PI)*34);
@@ -1893,16 +1894,17 @@ function drawPlayer(){
   // the weapon trails lower behind a runner, sweeps round in a whirl, is lifted high in a leap
   let wang=Math.atan2(fy,fx)+(P.atkT>0?sw:.9+run*.7*Math.abs(fx))*f,atk=P.atkT>0?wang:null,lean=go?.05+run*.17:0,sq=0;
   if(an){atk=an.atk;wang=an.wang;lean+=an.lean;sq+=an.sq}
-  if(rgW){const kick=sp>.45&&sp<.7?Math.sin((sp-.45)/.25*Math.PI)*(rgW==='xbow'?.22:.12):0;atk=th;wang=th-kick*f;lean=-.04-kick*.3}
+  if(rgW){const kick=sp>.45&&sp<.7?Math.sin((sp-.45)/.25*Math.PI)*(rgW==='xbow'?.22:.12):0;atk=th;wang=th-kick*f;lean=-.04-kick*.3-rgK*.05}
   if(P.dash){atk=th;wang=th+.15*f;lean=.32}
   if(P.leap){const q=Math.min(1,P.leap.t/P.leap.dur);if(q<.7){atk=-Math.PI/2;wang=-Math.PI/2+f*(.3+q*.4)}else{const k=(q-.7)/.3;atk=th*(1-k)+Math.PI/2*k;wang=-Math.PI/2+f*(.6+k*2.4)}}
   let whirlA=null;if(P.whirl>0){whirlA=(1-P.whirl/.35)*Math.PI*4;atk=th+whirlA*f;wang=atk}
   if(go&&!P.roll){sq+=Math.pow(Math.abs(Math.sin(P.gPh)),8)*(.025+run*.05)}
   ctx.transform(1,0,-f*lean*(Math.abs(fx)*.7+.3),1,0,0);if(sq)ctx.scale(1+sq*.5,1-sq);
   const o={R,f,back,dir:[fx*f,fy],moving:go&&!P.leap,ph:P.gPh,head,torsoFx:tfx,atk,stride:1+run*.55,knee:run*3.4+(P.leap?4:0),lift:1+run*1.3,bobA:1.1+run*1.6,armSwing:1+run*1,armLen:15-run*3,
-    weapon:(x,y)=>{if(!wpn)return;if(rgW){BOWK=rgK;BOWHAND=R.skin;XBOLT=rgW==='xbow'&&sp>.45&&sp<.88?0:1}try{vWeapon(x,y,wang,wpn.cls,wRampsOf(wpn),wpn.b)}finally{BOWK=0;BOWHAND=null;XBOLT=1}if(P.atkT>0&&sp>.3&&sp<.66&&!P.whirl&&!rgW){const L=WLEN[SH(wpn.b)==='Henkersbeil'?'axe':wpn.cls]||22,c=Math.cos(wang),s2=Math.sin(wang);P.trail.push({ox:lx+x+c*L,oy:ly+y+s2*L,ix:lx+x+c*L*.42,iy:ly+y+s2*L*.42,t:0})}
+    weapon:(x,y)=>{if(!wpn)return;const dw=()=>vWeapon(x,y,wang,wpn.cls,wRampsOf(wpn),wpn.b);if(rgW)withBow({k:rgK,hand:R.skin,vib:rgW==='bow'?bowVib(rgF):0,bolt:rgW==='xbow'&&sp>.45&&sp<.88?0:1,rl:rgL,glow:'255,226,160'},dw);else dw();if(P.atkT>0&&sp>.3&&sp<.66&&!P.whirl&&!rgW){const L=WLEN[SH(wpn.b)==='Henkersbeil'?'axe':wpn.cls]||22,c=Math.cos(wang),s2=Math.sin(wang);P.trail.push({ox:lx+x+c*L,oy:ly+y+s2*L,ix:lx+x+c*L*.42,iy:ly+y+s2*L*.42,t:0})}
       if(an&&an.glow){const L=WLEN[wpn.cls]||22;ctx.save();ctx.globalCompositeOperation='lighter';const gx=x+Math.cos(wang)*L,gy=y+Math.sin(wang)*L,g=ctx.createRadialGradient(gx,gy,0,gx,gy,9*an.glow);g.addColorStop(0,`rgba(255,220,150,${.8*an.glow})`);g.addColorStop(1,'rgba(255,140,60,0)');ctx.fillStyle=g;ctx.fillRect(gx-10,gy-10,20,20);ctx.restore()}},
     offhand:sh?(x,y,b)=>vShield(sh,x,y,b,f):wpn&&isDualB(wpn.b)?(x,y)=>vWeapon(x,y,wang+(P.atkT>0?-.5:.35)*f,wpn.cls,wRampsOf(wpn),wpn.b):null};
+  if(rgW&&!P.dead&&!(P.roll>0))archRig(o,{th,wang,k:rgK,fo:rgF,xb:rgW==='xbow',rl:rgL});
   if(an&&an.hit&&P.anHit!==P.anS){P.anHit=P.anS;heroImpact(P,an.hit)}
   if(P.dead){o.moving=false;o.weapon=null;ctx.translate(0,-3);ctx.rotate(-Math.PI/2*f);ctx.translate(0,22);humanoid(o);ctx.restore();return}
   if(P.roll>0){heroRoll(o);ctx.restore();return}
@@ -2085,11 +2087,10 @@ function drawEnemy(e){
     humanoid({R:{torso:F(RP.robe),sleeve:F(RP.robe),hand:F(RP.bone)},f,back,robe:true,moving:false,tw:1.2,atk,head:(hx,hy)=>{blob(hx,hy-.5,5.2,5.8,F(RP.robe));blob(hx+f*.5,hy+1,3,3,RP.dark);for(let k=0;k<3;k++)if(!back){ctx.fillStyle='#ff8a2a';ctx.fillRect(hx-3+k*2.4+f*.6,hy,1.2,1.2)}}});
     const gl=.5+Math.sin(G.t*6)*.3,g=ctx.createRadialGradient(0,-26,0,0,-26,7);g.addColorStop(0,`rgba(255,200,120,${gl})`);g.addColorStop(1,'rgba(255,90,20,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,-26,7,0,7);ctx.fill()}
   else{const ghoul=look==='ghoul',B=F(ghoul?RP.flesh:RP.bone);
-    humanoid({R:ghoul?{torso:B,sleeve:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)}:{torso:F(RP.dark),sleeve:B,fore:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)},
+    const oh={R:ghoul?{torso:B,sleeve:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)}:{torso:F(RP.dark),sleeve:B,fore:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)},
       f,back,moving:true,ph,hunch:ghoul?6:0,lw:ghoul?1.05:.62,tw:ghoul?1.05:.9,armLen:ghoul?18:15,atk,torsoFx:ghoul?null:(a,b,c,d)=>ribs(a,b,c,d),
       head:(hx,hy)=>{if(ghoul){blob(hx,hy,4,4.4,B);eyes(hx,hy,'#ffd040')}else skull(hx,hy)},
-      weapon:look==='archer'?(x,y)=>{ctx.save();ctx.translate(x,y);ctx.rotate(Math.atan2(fy,fx));ctx.strokeStyle=RP.wood[2];ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(-3,0,9,-1.2,1.2);ctx.stroke();ctx.strokeStyle='#cfc6aa';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(-3+Math.cos(-1.2)*9,Math.sin(-1.2)*9);ctx.lineTo(e.charge>0?-6:-3+Math.cos(1.2)*9*0+.5,0);ctx.lineTo(-3+Math.cos(1.2)*9,Math.sin(1.2)*9);ctx.stroke();ctx.restore()}
-        :ghoul?(x,y)=>{for(let k=-1;k<=1;k++)limb(x,y,x+f*3,y+2+k*1.2,.5,.2,F(RP.bone))}:(x,y)=>vWeapon(x,y,atk??Math.atan2(fy,fx)+.8*f,'sword',RUSTY,'')})}
+      weapon:ghoul?(x,y)=>{for(let k=-1;k<=1;k++)limb(x,y,x+f*3,y+2+k*1.2,.5,.2,F(RP.bone))}:(x,y)=>vWeapon(x,y,atk??Math.atan2(fy,fx)+.8*f,'sword',RUSTY,'')};if(look==='archer')archEnemy(oh,e,fx,fy,f,F,false);humanoid(oh)}
   ctx.restore();
   if(e.elem&&!e.dead&&Math.random()<.05)fxp({k:'mote',x:e.x+rnd(-.3,.3),y:e.y+rnd(-.3,.3),z:rnd(.3,1)*(e.scale||1),vz:.4,life:.8,col:{fire:'#ff9a30',frost:'#c8e4ff',poison:'#9ae050'}[e.elem],s:.8,g:0})}
 function drawProj(p){const[sx,sy]=iso(p.x,p.y);
@@ -2881,7 +2882,9 @@ function updHUD(){const d=P.d;
 /* ---------- save ---------- */
 const SAVEKEY='schwarzer-turm-v1'+((s=>s?'-'+s:'')((new URLSearchParams(location.search).get('slot')||'').replace(/\W/g,'').slice(0,8)));
 function saveData(){if(!P||G.state==='title')return null;const p={};for(const k of['lvl','xp','stats','pts','spts','sk','sel','eq','inv','stash','found','glut','flaskMax','flasks','flaskPow','tree','tbonus','qi','qc','qb','cls','merc','ash','bounty','diff','diffMax','riftMax','recs','playT','tales'])p[k]=P[k];if(G.hand)p.hand=G.hand;
-  return{p,g:{seed:G.seed,lit:G.lit,bossDead:G.bossDead,glutmal:G.glutmal,maxFloor:G.maxFloor,respawnFloor:G.respawnFloor,bossSeen:G.bossSeen,owFires:G.owFires,owClear:[...G.owClear],owRespawn:G.owRespawn,owSeen:[...G.owSeen],owBoss:G.owBoss,dayT:G.dayT||0,dstore:G.dstore||null},uid:UID}}
+  return{p,g:{seed:G.seed,lit:G.lit,bossDead:G.bossDead,glutmal:G.glutmal,maxFloor:G.maxFloor,respawnFloor:G.respawnFloor,bossSeen:G.bossSeen,owFires:G.owFires,owClear:[...G.owClear],owRespawn:G.owRespawn,owSeen:[...G.owSeen],owBoss:G.owBoss,dayT:G.dayT||0,dstore:G.dstore||null,
+    // where you stand, so a hero picks up exactly there (not when dead, not on special ground)
+    pos:typeof G.floor==='number'&&G.floor>=0&&!P.dead&&!(P.down>0)?{f:G.floor,x:+P.x.toFixed(2),y:+P.y.toFixed(2)}:null},uid:UID}}
 function save(){try{const d=saveData();if(d)localStorage.setItem(SAVEKEY,JSON.stringify(d))}catch(e){}}
 function loadData(){try{const s=localStorage.getItem(SAVEKEY);return s?JSON.parse(s):null}catch(e){return null}}
 function applyData(d){G.owSeen=new Set(d.g.owSeen||[]);delete d.g.owSeen;G.owBoss=d.g.owBoss||{};G.owFires=d.g.owFires||{};G.owClear=new Set(d.g.owClear||[]);G.owRespawn=d.g.owRespawn||null;delete d.g.owClear;P=newPlayer();Object.assign(P,d.p);P.stash=P.stash||[];{const old=(P.inv||[]).filter(Boolean),keep=old.every(it=>it.gx!=null);P.inv=[];P._over=d.p.hand?[d.p.hand]:[];delete P.hand;for(const it of old){if(keep&&invFits(it.gx,it.gy,...isz(it)))P.inv.push(it);else if(!invAdd(it))P._over.push(it)}}P.found=P.found||{};for(const it of[...Object.values(P.eq),...P.inv])if(it&&it.slot!=='potion'){P.found[it.b]=1;if(it.rar==='unique')P.found['u:'+it.name]=1}Object.assign(G,d.g);G.maps={};UID=d.uid||1;resetTransient();recalc();P.hp=P.d.life;P.mp=P.d.mana;P.st=P.d.stam}
@@ -3896,7 +3899,7 @@ let menuView=null,confirmFn=null;
 function showMenu(v,msg=''){menuView=v;$('menu').hidden=false;const ingame=G.state==='paused',b=$('mbox');
   if(v==='pause')b.innerHTML=`<h2>Pause</h2><button class="mbtn" data-m="resume">Weiterspielen</button><button class="mbtn" data-m="save">Spiel speichern</button>
     <button class="mbtn" data-m="settings">Einstellungen</button><button class="mbtn" data-m="controls">Steuerung</button><button class="mbtn" data-m="title">Speichern und zum Hauptmenü</button>
-    <button class="mbtn" data-m="reload">Grafik neu laden (R)</button><button class="mbtn" data-m="hardreload">Seite neu laden · Spielstand bleibt</button><button class="mbtn" data-m="newgame">Neues Spiel beginnen</button><div class="msg" role="status">${msg}</div>`;
+    <button class="mbtn" data-m="reload">Grafik neu laden (R)</button><button class="mbtn" data-m="hardreload">Seite neu laden · Spielstand bleibt</button><button class="mbtn" data-m="newgame">Neuen Helden beginnen</button><div class="msg" role="status">${msg}</div>`;
   else if(v==='settings'){const sl=(k,n)=>`<label class="mrow"><span>${n}</span><input type="range" min="0" max="100" step="5" value="${CFG[k]}" data-cfg="${k}" id="cfg-${k}"><output>${CFG[k]}</output></label>`,
       ck=(k,n)=>`<label class="mcheck"><span>${n}</span><input type="checkbox" data-cfg="${k}" id="cfg-${k}" ${CFG[k]?'checked':''}></label>`;
     b.innerHTML=`<h2>Einstellungen</h2><h3>Ton</h3>${sl('music','Musik')}${sl('sfx','Effekte')}${sl('voice','Stimmen')}<label class="mcheck"><span>Alles stumm (M)</span><input type="checkbox" data-cfg="mute" id="cfg-mute" ${G.muted?'checked':''}></label>
@@ -3913,11 +3916,12 @@ function titleBackdrop(){P=newPlayer();resetTransient();recalc();P.hp=P.d.life;G
   G.tele=[];G.proj=[];G.fx=[];G.rings=[];G.bolts=[];G.texts=[];G.lights=[];G.glutmalShown=null}
 function toTitle(){save();closeAll();$('menu').hidden=true;menuView=null;G.state='title';G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS);
   $('hud').hidden=true;$('topinfo').hidden=true;$('bossbar').hidden=true;$('target').hidden=true;titleBackdrop();contInfo();$('title').hidden=false;playMusic(null)}
-function askNew(){if(loadData()&&G.state!=='play'){confirmFn=()=>{closeMenu();pickClass()};showMenu('confirm','Dein bisheriger Spielstand wird dabei überschrieben.')}else{closeMenu();pickClass()}}
+// a new hero never replaces an old one: every hero keeps a save of their own (790-heroes.js)
+function askNew(){closeMenu();pickClass()}
 document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('[data-cls]');if(c){closeMenu();startNew(c.dataset.cls)}});
 $('menu').addEventListener('click',e=>{const t=e.target.closest('[data-m]');if(!t){if(e.target.id==='menu'&&G.state!=='title')escKey();return}const m=t.dataset.m;
   if(m==='resume')closeMenu();else if(m==='save'){save();showMenu('pause','Gespeichert.')}else if(m==='settings'||m==='controls')showMenu(m);
-  else if(m==='back')G.state==='paused'?showMenu('pause'):closeMenu();else if(m==='title')toTitle();else if(m==='reload'){reloadRes();showMenu('pause','Grafik neu geladen.')}else if(m==='hardreload'){save();location.reload()}else if(m==='newgame'){confirmFn=()=>{closeMenu();startNew()};showMenu('confirm','Dein jetziger Fortschritt wird überschrieben.')}
+  else if(m==='back')G.state==='paused'?showMenu('pause'):closeMenu();else if(m==='title')toTitle();else if(m==='reload'){reloadRes();showMenu('pause','Grafik neu geladen.')}else if(m==='hardreload'){save();location.reload()}else if(m==='newgame'){save();toTitle();pickClass()}
   else if(m==='yes'&&confirmFn){const f=confirmFn;confirmFn=null;f()}});
 $('menu').addEventListener('input',e=>{const t=e.target,k=t.dataset.cfg;if(!k)return;
   if(k==='mute'){G.muted=t.checked;if(G.muted){G.stepS=stopLoop(G.stepS);G.heartS=stopLoop(G.heartS)}applyCfg();return}
@@ -3936,7 +3940,10 @@ function startNew(cls='wanderer'){
   setTimeout(()=>log('Odalinde verkauft Tränke und verstärkt deinen Flakon.','#a39b88'),3200)}
 function begin(f){G.state='play';G.hand=null;$('title').hidden=true;$('hud').hidden=false;$('topinfo').hidden=false;buildBelt();enterFloor(f);P.hp=P.d.life;if(P._over&&P._over.length){for(const it of P._over)dropItem(it,P.x,P.y);log('Nicht alles passte ins neue Inventar. Der Rest liegt neben dir.','#a39b88')}P._over=null}
 $('btnNew').onclick=()=>{initAudio();askNew()};
-$('btnCont').onclick=()=>{initAudio();const d=loadData();if(!d)return pickClass();applyData(d);begin(G.respawnFloor);log('Willkommen zurück, Wanderer.','#ffd88a')};
+$('btnCont').onclick=()=>{initAudio();const d=loadData();if(!d)return pickClass();applyData(d);const ps=G.pos;delete G.pos;
+  // back where you left off: on the islands the world grows around the spot, in the tower the floor is rebuilt from its seed
+  let f=G.respawnFloor;if(ps&&typeof ps.f==='number'&&ps.f>=0&&ps.f<=(G.maxFloor||0)){f=ps.f;if(f===0)G.owAt={x:ps.x-1,y:ps.y-1}}
+  begin(f);if(ps&&f>0&&G.floor===f&&walkable(ps.x,ps.y)){P.x=ps.x;P.y=ps.y;camX=P.x;camY=P.y}log('Willkommen zurück, Wanderer.','#ffd88a')};
 contInfo();
 
 /* ---------- the smith: Brannoc's forge on the hill · grave slate and ember slate · weapons and armour up to +10 ---------- */
@@ -5213,11 +5220,12 @@ function rgDrawGear(e,o){const g=e.gear,{F,f,back,ph,atk,fx,fy}=o;
     :{torso:F(RP.dark),sleeve:B,fore:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)};
   if(g.rider){R.torso=F(rgC(g.bodyC||'red'));if(R.metal)R.metal.torso=0}
   const ranged=g.wep==='crossbow'||g.wep==='longbow',aim=Math.atan2(fy,fx),wa=ranged?aim:g.wep==='lance'?(atk??aim+.15*f):(atk??aim+.8*f);
-  humanoid({R,f,back,robe:!!g.rider,moving:!g.rider&&!e.dead,ph,tw:(plate?1.1:.92)*(g.tw||1),lw:plate?1.05:.66,armLen:15,atk:ranged?null:atk,
+  const oh={R,f,back,robe:!!g.rider,moving:!g.rider&&!e.dead,ph,tw:(plate?1.1:.92)*(g.tw||1),lw:plate?1.05:.66,armLen:15,atk:ranged?null:atk,
     torsoFx:plate||body?null:(a,b,c,d)=>{for(let k=0;k<4;k++)limb(a-5+k*.4,b+2.5+k*2.6,a+5-k*.4,b+2.5+k*2.6,.7,.7,B);limb(c,d,a,b+1,.8,.8,B)},
     head:(hx,hy)=>{if(!(g.hat==='great'||g.hat==='crown'||g.hat==='barbute')){blob(hx,hy,3.8,4.2,B);if(!back){ctx.fillStyle='#0a0806';ctx.fillRect(hx-2.4+f*.6,hy-1,1.6,1.6);ctx.fillRect(hx+.8+f*.6,hy-1,1.6,1.6);ctx.fillRect(hx-1.5+f*.6,hy+2.2,3,.8);ctx.fillStyle=g.eye||'#ffb040';ctx.fillRect(hx-2+f*.6,hy-.6,.8,.8);ctx.fillRect(hx+1.2+f*.6,hy-.6,.8,.8)}}rgHat(hx,hy,g,F,f,back)},
-    weapon:(x,y)=>ranged?rgBow(x,y,wa,g.wep==='crossbow',F,e.charge>0):rgWeapon(x,y,wa,g.wep,F,ph),
-    offhand:g.shield?(x,y,bk)=>rgShield(x+f*1,y-2,g.shield,g.shC||'red',F,bk):null});
+    weapon:(x,y)=>rgWeapon(x,y,wa,g.wep,F,ph),
+    offhand:g.shield?(x,y,bk)=>rgShield(x+f*1,y-2,g.shield,g.shC||'red',F,bk):null};
+  if(ranged)archEnemy(oh,e,fx,fy,f,F,g.wep==='crossbow');humanoid(oh);
   if(g.rider&&!back){blob(4*f,-4,2.6,1.8,F(RP.dark))}
   if(g.horse&&g.rider){ctx.restore();ctx.save();ctx.scale(1.2,1.2);if(e.hs&&e.hs.late)e.hs.late();ctx.restore()}}
 
@@ -7196,36 +7204,65 @@ const _mpRecvW=mpRecv;mpRecv=function(d,c){if(!d||!d.t)return _mpRecvW(d,c);
   if(d.t==='so'){relay();mpSecretIn(d);return}if(d.t==='bo'){relay();mpBoulderIn(d);return}
   return _mpRecvW(d,c)};
 const _mpTickW=mpTick;mpTick=function(dt){_mpTickW(dt);if(NET.role==='host'&&NET.conns.size&&(WD.t-=dt)<=0){WD.t=1;mpWorldOut()}};
-/* ---------- save slots: ten named places to keep a game, reached from the pause menu and the title ---------- */
-const SVKEY=SAVEKEY+'-slots',SVN=10;
-function svAll(){try{const a=JSON.parse(localStorage.getItem(SVKEY)||'[]');return Array.from({length:SVN},(_,i)=>a[i]||null)}catch(e){return Array(SVN).fill(null)}}
-function svPut(a){try{localStorage.setItem(SVKEY,JSON.stringify(a));return true}catch(e){return false}}
-const SV={arm:null,armT:0,msg:''};
-function svInfo(s){if(!s||!s.d)return'leer';let d;try{d=JSON.parse(s.d)}catch(e){return'beschädigt'}const c=CLS[d.p.cls]||CLS.wanderer,t=new Date(s.t||0);
-  return`${c.n} · Stufe ${d.p.lvl}${d.p.pl?' · Paragon '+d.p.pl:''} · Ebene ${d.g.maxFloor||0} · ${t.toLocaleDateString('de-DE')} ${t.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}`}
-function svHTML(){const a=svAll(),ingame=G.state==='paused'&&!!P,arm=(i,k)=>SV.arm===k+i&&performance.now()<SV.armT;
-  return`<h2>Spielstände</h2><p class="hint" style="text-align:center;margin:0 0 6px">${ingame?'Speichere dein Spiel auf einem von zehn Plätzen oder lade einen anderen.':'Lade einen gespeicherten Spielstand.'} Tippe auf den Namen, um ihn zu ändern.</p>
-  <div class="svlist">${a.map((s,i)=>`<div class="svrow${s&&s.d?'':' empty'}"><b class="svno">${i+1}</b><div class="svmid"><input class="svname" data-svn="${i}" maxlength="24" placeholder="Platz ${i+1}" value="${s&&s.n?s.n.replace(/"/g,'&quot;'):''}"><small>${svInfo(s)}</small></div>
-    <div class="svbtn">${ingame?`<button data-sv="save" data-i="${i}" class="${arm(i,'s')?'arm':''}">${arm(i,'s')?'Überschreiben?':'Speichern'}</button>`:''}${s&&s.d?`<button data-sv="load" data-i="${i}" class="${arm(i,'l')?'arm':''}">${arm(i,'l')?'Wirklich laden?':'Laden'}</button><button data-sv="del" data-i="${i}" class="svdel ${arm(i,'d')?'arm':''}" title="Löschen">${arm(i,'d')?'Löschen?':'✕'}</button>`:''}</div></div>`).join('')}</div>
-  <div class="msg" role="status">${SV.msg}</div><button class="mbtn" data-m="back">Zurück</button>`}
-function svShow(msg){SV.msg=msg||'';const b=$('mbox'),sc=b.scrollTop;b.innerHTML=svHTML();b.scrollTop=sc;
+/* ---------- heroes: every hero keeps a save of their own, written by itself · a new hero never replaces an old one ---------- */
+// storage: an index of heroes, one key per hero, and which hero plays now. The old single save and the ten slots become heroes once.
+const HKEY=SAVEKEY+'-heroes',HCUR=SAVEKEY+'-cur',hKey=id=>SAVEKEY+'-h-'+id;
+function hAll(){try{return JSON.parse(localStorage.getItem(HKEY)||'[]')}catch(e){return[]}}
+function hPut(a){try{localStorage.setItem(HKEY,JSON.stringify(a));return true}catch(e){return false}}
+function hCur(){try{return localStorage.getItem(HCUR)||null}catch(e){return null}}
+function hSetCur(id){try{id?localStorage.setItem(HCUR,id):localStorage.removeItem(HCUR)}catch(e){}}
+const hNewId=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+// what the list shows about a hero, read from the save itself
+function hInfoOf(d){return{cls:d.p.cls,lvl:d.p.lvl,pl:d.p.pl||0,fl:d.g.maxFloor||0}}
+function hDesc(h){const c=CLS[h.cls]||{n:'Held'},t=new Date(h.t||0);
+  return`${c.n} · Stufe ${h.lvl||1}${h.pl?' · Paragon '+h.pl:''} · tiefste Ebene ${h.fl||0}${h.t?` · ${t.toLocaleDateString('de-DE')} ${t.toLocaleTimeString('de-DE',{hour:'2-digit',minute:'2-digit'})}`:''}`}
+const hName=h=>h&&h.n?h.n:h?(CLS[h.cls]||{n:'Held'}).n:'';
+(function hMigrate(){try{if(localStorage.getItem(HKEY)!=null)return;const a=[],seen=new Set();let cur=null;
+  const take=(s,n,t)=>{if(!s||seen.has(s))return null;let d;try{d=JSON.parse(s)}catch(e){return null}if(!d||!d.p)return null;seen.add(s);const id=hNewId()+a.length;
+    localStorage.setItem(hKey(id),s);a.push(Object.assign({id,n:n||'',t:t||Date.now()},hInfoOf(d)));return id};
+  cur=take(localStorage.getItem(SAVEKEY),'',Date.now());
+  let slots=[];try{slots=JSON.parse(localStorage.getItem(SAVEKEY+'-slots')||'[]')}catch(e){}
+  for(const s of slots)if(s&&s.d){const id=take(s.d,s.n,s.t);if(id&&!cur)cur=id}
+  a.sort((x,y)=>(y.t||0)-(x.t||0));if(!hPut(a))return;hSetCur(cur||(a[0]&&a[0].id));
+  // everything now lives in the heroes; the old places are cleared to make room
+  localStorage.removeItem(SAVEKEY);localStorage.removeItem(SAVEKEY+'-slots')}catch(e){}})();
+// saving and loading always mean the hero who plays now
+let HWARN=0;
+save=function(){const d=saveData();if(!d)return false;let id=hCur();const a=hAll();let h=id&&a.find(x=>x.id===id);
+  if(!h){id=hNewId();h={id,n:''};a.unshift(h);hSetCur(id)}
+  try{localStorage.setItem(hKey(id),JSON.stringify(d))}catch(e){if(!HWARN){HWARN=1;log('Speichern fehlgeschlagen: der Browser-Speicher ist voll. Lösche einen alten Helden (Esc · Helden).','#ff5a4a')}return false}
+  Object.assign(h,hInfoOf(d),{t:Date.now()});hPut(a);return true};
+loadData=function(){const id=hCur();if(!id)return null;try{const s=localStorage.getItem(hKey(id));return s?JSON.parse(s):null}catch(e){return null}};
+// a new hero gets a place of their own before the first step
+const _startNewH=startNew;startNew=function(c){const a=hAll(),id=hNewId();a.unshift({id,n:'',cls:c,lvl:1,fl:0,t:Date.now()});hPut(a);hSetCur(id);HWARN=0;return _startNewH(c)};
+contInfo=function(){const id=hCur(),h=hAll().find(x=>x.id===id),ok=!!(h&&loadData());$('btnCont').hidden=!ok;if(ok)$('contInfo').textContent=`${hName(h)} · ${hDesc(h)}`;
+  const n=hAll().length;for(const b of document.querySelectorAll('#tmenu [data-m="heroes"]'))b.hidden=!n};
+const HV={arm:null,armT:0};
+function hArm(k){if(HV.arm===k&&performance.now()<HV.armT){HV.arm=null;return true}HV.arm=k;HV.armT=performance.now()+4000;return false}
+function hHTML(msg){const a=hAll().sort((x,y)=>(y.t||0)-(x.t||0)),cur=hCur(),ingame=G.state==='paused'&&!!P,arm=k=>HV.arm===k&&performance.now()<HV.armT;
+  return`<h2>Helden</h2><p class="hint" style="text-align:center;margin:0 0 6px">Jeder Held hat seinen eigenen Spielstand und speichert sich selbst, auch mit seinem Standort. Tippe auf den Namen, um ihn zu ändern.</p>
+  <div class="svlist">${a.length?a.map((h,i)=>{const on=h.id===cur;return`<div class="svrow${on?' cur':''}"><b class="svno">${on?'●':i+1}</b><div class="svmid"><input class="svname" data-hn="${h.id}" maxlength="24" placeholder="${(CLS[h.cls]||{n:'Held'}).n}" value="${(h.n||'').replace(/"/g,'&quot;')}"><small>${on?(ingame?'spielt gerade · ':'zuletzt gespielt · '):''}${hDesc(h)}</small></div>
+    <div class="svbtn">${on&&ingame?'':`<button data-hv="play" data-id="${h.id}">${on?'Fortsetzen':'Spielen'}</button>`}${on&&ingame?'':`<button data-hv="del" data-id="${h.id}" class="svdel ${arm('d'+h.id)?'arm':''}" title="Held löschen">${arm('d'+h.id)?'Wirklich löschen?':'✕'}</button>`}</div></div>`}).join(''):'<p class="hint" style="text-align:center">Noch kein Held.</p>'}</div>
+  <div class="msg" role="status">${msg||''}</div><button class="mbtn" data-hv="new">Neuer Held</button><button class="mbtn" data-m="back">Zurück</button>`}
+function hShow(msg){const b=$('mbox'),sc=b.scrollTop;b.innerHTML=hHTML(msg);b.scrollTop=sc;
   for(const el of b.querySelectorAll('.svname')){el.addEventListener('keydown',e=>{if(e.key==='Escape')return;e.stopPropagation();if(e.key==='Enter')el.blur()});
-    el.addEventListener('change',()=>{const a=svAll(),i=+el.dataset.svn;a[i]=Object.assign({},a[i]||{},{n:el.value.trim().slice(0,24)});svPut(a)})}}
-const _showMenuSv=showMenu;showMenu=function(v,msg=''){if(v!=='saves')return _showMenuSv(v,msg);menuView='saves';$('menu').hidden=false;SV.arm=null;svShow(msg)};
-// a second tap confirms anything that overwrites, loads or deletes
-function svArm(k){if(SV.arm===k&&performance.now()<SV.armT){SV.arm=null;return true}SV.arm=k;SV.armT=performance.now()+4000;return false}
-$('menu').addEventListener('click',e=>{if(e.target.closest('[data-m="saves"]'))return showMenu('saves');const t=e.target.closest('[data-sv]');if(!t)return;const i=+t.dataset.i,a=svAll(),s=a[i],k=t.dataset.sv;
-  if(k==='save'){if(s&&s.d&&!svArm('s'+i))return svShow();save();const d=localStorage.getItem(SAVEKEY);if(!d)return svShow('Speichern fehlgeschlagen.');
-    const nm=$('mbox').querySelector(`[data-svn="${i}"]`).value.trim().slice(0,24);a[i]={n:nm||(s&&s.n)||'',t:Date.now(),d};if(!svPut(a))return svShow('Kein Platz mehr im Browser-Speicher. Lösche einen anderen Spielstand.');sfx('gold');svShow('Gespeichert auf Platz '+(i+1)+(a[i].n?' · '+a[i].n:'')+'.')}
-  else if(k==='load'){if(!s||!s.d)return;if(!svArm('l'+i))return svShow(G.state==='paused'?'Nicht gespeicherter Fortschritt geht verloren.':'');
-    try{if(G.state==='paused'&&mpOn&&mpOn())mpStop(true)}catch(er){}localStorage.setItem(SAVEKEY,s.d);try{sessionStorage.setItem('st-svload',String(i+1))}catch(er){}G.state='title';location.reload()}
-  else if(k==='del'){if(!s||!s.d)return;if(!svArm('d'+i))return svShow();a[i]={n:s.n||''};a[i].n='';svPut(a);svShow('Platz '+(i+1)+' ist wieder frei.')}});
-// the pause menu and the title both get the way in
-const _showMenuSv2=showMenu;showMenu=function(v,msg=''){_showMenuSv2(v,msg);if(v!=='pause')return;const r=$('mbox').querySelector('[data-m="save"]');if(r)r.insertAdjacentHTML('afterend','<button class="mbtn" data-m="saves">Spielstände</button>')};
-$('tmenu').querySelector('#btnNew').insertAdjacentHTML('afterend','<button class="mbtn" data-m="saves">Spielstände</button>');
-// a slot that was just loaded goes straight into play
-(()=>{let n=null;try{n=sessionStorage.getItem('st-svload');sessionStorage.removeItem('st-svload')}catch(e){}if(!n)return;
-  setTimeout(()=>{if(G.state==='title'&&!$('btnCont').hidden){$('btnCont').click();setTimeout(()=>log('Spielstand '+n+' geladen.','#ffd88a'),50)}},400)})();
+    el.addEventListener('change',()=>{const a=hAll(),h=a.find(x=>x.id===el.dataset.hn);if(h){h.n=el.value.trim().slice(0,24);hPut(a);contInfo()}})}}
+const _showMenuH=showMenu;showMenu=function(v,msg=''){if(v!=='heroes')return _showMenuH(v,msg);menuView='heroes';$('menu').hidden=false;HV.arm=null;hShow(msg)};
+$('menu').addEventListener('click',e=>{if(e.target.closest('[data-m="heroes"]'))return showMenu('heroes');const t=e.target.closest('[data-hv]');if(!t)return;const k=t.dataset.hv,id=t.dataset.id,a=hAll(),h=a.find(x=>x.id===id);
+  if(k==='new'){if(G.state==='paused'&&P){save();toTitle()}askNew();return}
+  if(k==='play'){if(!h)return;if(G.state==='paused'&&P){
+      // switching while playing: this hero is saved first, then the page starts the other one
+      save();try{if(mpOn&&mpOn())mpStop(true)}catch(er){}hSetCur(id);try{sessionStorage.setItem('st-hplay',id)}catch(er){}G.state='title';location.reload();return}
+    hSetCur(id);closeMenu();contInfo();$('btnCont').click();return}
+  if(k==='del'){if(!h)return;if(!hArm('d'+id))return hShow(`${hName(h)} wird mit allem gelöscht. Zum Bestätigen noch einmal tippen.`);
+    try{localStorage.removeItem(hKey(id))}catch(er){}const b=a.filter(x=>x.id!==id);hPut(b);if(hCur()===id)hSetCur(b.sort((x,y)=>(y.t||0)-(x.t||0))[0]?.id||null);contInfo();sfx('boom');hShow(`${hName(h)} ist gelöscht.`)}});
+// the pause menu and the title both lead to the heroes; the pause menu says whom it saved
+const _showMenuH2=showMenu;showMenu=function(v,msg=''){if(v==='pause'&&msg==='Gespeichert.'){const h=hAll().find(x=>x.id===hCur());if(h)msg=`Gespeichert · ${hName(h)}`}
+  _showMenuH2(v,msg);if(v!=='pause')return;const r=$('mbox').querySelector('[data-m="save"]');if(r)r.insertAdjacentHTML('afterend','<button class="mbtn" data-m="heroes">Helden</button>')};
+$('tmenu').querySelector('#btnNew').insertAdjacentHTML('afterend','<button class="mbtn" data-m="heroes">Helden</button>');contInfo();
+// a hero chosen in the pause menu goes straight into play after the reload
+(()=>{let n=null;try{n=sessionStorage.getItem('st-hplay');sessionStorage.removeItem('st-hplay')}catch(e){}if(!n)return;
+  setTimeout(()=>{if(G.state==='title'&&!$('btnCont').hidden){$('btnCont').click();const h=hAll().find(x=>x.id===n);setTimeout(()=>log(`${hName(h)} ist zurück.`,'#ffd88a'),50)}},400)})();
 /* ---------- voices: Odalinde, Brannoc, Eldrik and the travelling traders say a line when you step up to them ---------- */
 Object.assign(SFXF,{vodal:4,vsmith:4,vquest:5,vtrade:5});
 const VO={k:null,src:null,end:0,last:{}};
@@ -7916,26 +7953,60 @@ const _expandItemsK=expandItems;expandItems=function(){_expandItemsK();
     {n:'Belagerer',b:'Belagerungsarmbrust',lvl:30,m:{ed:250,crit:15,str:30,dmgred:6}})};
 WEXT.bow=[-13,13,0,6.5];WEXT.xbow=[-6,17,0,10];WLEN.bow=WLEN.xbow=14;
 // while shooting the hero hands in how far the string is drawn (BOWK, with the skin of the drawing hand) and whether a bolt lies in the crossbow (XBOLT)
-let BOWK=0,BOWHAND=null,XBOLT=1;
+let BOWK=0,BOWHAND=null,XBOLT=1,BOWVIB=0,XRL=0,BOWGLOW=null;
 // in the hand: the bow is held across the aim, the crossbow along it, the wand is a twig with a stone at the tip
-function vBow(m,sh){const T=m.t,lim=(sd)=>{const P0=[[2,0],[3.6,-4.6*sd],[2.8,-9.2*sd],[.2,-13*sd]];for(let k=1;k<P0.length;k++)limb(P0[k-1][0],P0[k-1][1],P0[k][0],P0[k][1],1.35-k*.22,1.2-k*.22,T,true);
-    poly([[.9,-12*sd],[-.6,-14.2*sd],[.4,-13.6*sd]],m.p,true);if(sh==='Kompositbogen'||sh==='Drachenbogen')limb(.2,-13*sd,-1.4,-13.8*sd,.5,.3,m.p,true)};
-  const nx=-.4-7*BOWK;ctx.strokeStyle='rgba(236,228,206,.85)';ctx.lineWidth=.45;ctx.beginPath();ctx.moveTo(-.4,-13.3);ctx.lineTo(nx,0);ctx.lineTo(-.4,13.3);ctx.stroke();lim(1);lim(-1);
+function vBow(m,sh){const T=m.t,K=BOWK,ty=13*(1-K*.06),tx=.2-K*2,lim=(sd)=>{const P0=[[2,0],[3.6+K*.6,-4.6*sd],[2.8-K*.5,-9.2*(1-K*.04)*sd],[tx,-ty*sd]];for(let k=1;k<P0.length;k++)limb(P0[k-1][0],P0[k-1][1],P0[k][0],P0[k][1],1.35-k*.22,1.2-k*.22,T,true);
+    ctx.save();ctx.translate(tx-.2,(ty-13)*sd);poly([[.9,-12*sd],[-.6,-14.2*sd],[.4,-13.6*sd]],m.p,true);if(sh==='Kompositbogen'||sh==='Drachenbogen')limb(.2,-13*sd,-1.4,-13.8*sd,.5,.3,m.p,true);ctx.restore()};
+  // the limbs bend as the string comes back to the jaw; after the loose the string hums (BOWVIB)
+  const nx=-.4-11*K,sx=tx-.6,sy=ty+.3;ctx.strokeStyle='rgba(236,228,206,.85)';ctx.lineWidth=.45;ctx.beginPath();ctx.moveTo(sx,-sy);ctx.lineTo(nx+BOWVIB,0);ctx.lineTo(sx,sy);ctx.stroke();lim(1);lim(-1);
   limb(2.1,-1.9,2.1,1.9,1.55,1.55,m.s,true);if(sh==='Drachenbogen'||sh==='Knochenbogen')blob(3.2,0,1.1,1.1,m.gem3,true);
   // the nocked arrow: shaft over the grip, grey feathers at the string, a steel head beyond the bow
-  if(BOWK>0){const hx=nx+17.5;limb(nx,0,hx-1.4,0,.42,.42,RP.wood,true);poly([[hx-1.6,-1.1],[hx+.8,0],[hx-1.6,1.1]],RP.iron,true);
+  if(BOWK>0){const hx=nx+20;limb(nx,0,hx-1.4,0,.42,.42,RP.wood,true);poly([[hx-1.6,-1.1],[hx+.8,0],[hx-1.6,1.1]],RP.iron,true);
     ctx.fillStyle='#d8d2c4';ctx.beginPath();ctx.moveTo(nx+.4,0);ctx.lineTo(nx+3.4,-1.2);ctx.lineTo(nx+3.8,0);ctx.lineTo(nx+3.4,1.2);ctx.closePath();ctx.fill();
-    if(BOWHAND)blob(nx-.6,.2,1.5,1.4,BOWHAND,true)}}
+    if(BOWHAND)blob(nx-.6,.2,1.5,1.4,BOWHAND,true);bowGlint(hx+.4,0)}}
 function vXbow(m,sh){const heavy=sh==='Schwere Armbrust'||sh==='Belagerungsarmbrust';limb(-6,.6,15,0,heavy?1.9:1.5,1.2,m.t,true);limb(-1,1,-2.6,4.2,.8,.8,m.t,true);
   // spent, the string snaps forward against the limbs and the groove lies empty until the bolt is wound back in
-  const hw=heavy?10:8.5,sx=XBOLT?7:12.4;ctx.strokeStyle='rgba(236,228,206,.8)';ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(11,-hw);ctx.lineTo(sx,0);ctx.lineTo(11,hw);ctx.stroke();
-  for(const sd of[-1,1]){limb(13.5,0,12.6,sd*hw*.55,1.1,.9,m.p,true);limb(12.6,sd*hw*.55,11,sd*hw,.9,.6,m.p,true)}if(XBOLT){limb(7,0,16.5,0,.45,.45,m.s,true);poly([[16,-.9],[18,0],[16,.9]],m.p,true)}if(heavy)blob(3,-1.2,.9,.9,m.gem3,true)}
+  const hw=heavy?10:8.5,sx=XBOLT?7:12.4-5.4*XRL;ctx.strokeStyle='rgba(236,228,206,.8)';ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(11,-hw);ctx.lineTo(sx,0);ctx.lineTo(11,hw);ctx.stroke();
+  for(const sd of[-1,1]){limb(13.5,0,12.6,sd*hw*.55,1.1,.9,m.p,true);limb(12.6,sd*hw*.55,11,sd*hw,.9,.6,m.p,true)}if(XBOLT){limb(7,0,16.5,0,.45,.45,m.s,true);poly([[16,-.9],[18,0],[16,.9]],m.p,true);bowGlint(18.4,0)}if(heavy)blob(3,-1.2,.9,.9,m.gem3,true)}
 function vWand(m){limb(-3,0,12,0,.85,.55,m.t,true);blob(4,0,.9,.9,m.t,true);const gl=ctx.createRadialGradient(13,0,0,13,0,5);gl.addColorStop(0,m.gem3[2]+'aa');gl.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=gl;ctx.beginPath();ctx.arc(13,0,5,0,7);ctx.fill();blob(13,0,1.6,1.6,m.gem3,true)}
 const _vWeaponK=vWeapon;vWeapon=function(hx,hy,ang,cls,m,b){const sh=SH(b);if(cls!=='bow'&&cls!=='xbow'&&sh!=='Holzzauberstab')return _vWeaponK(hx,hy,ang,cls,m,b);
   ctx.save();ctx.translate(hx,hy);ctx.rotate(ang);if(cls==='bow')vBow(m,sh);else if(cls==='xbow')vXbow(m,sh);else vWand(m);ctx.restore()};
 const _iconWK=iconW;iconW=function(it){if(it.cls==='bow'){ctx.save();ctx.rotate(Math.PI/2);vWeapon(0,0,0,'bow',wRampsOf(it),it.b);ctx.restore();return}return _iconWK(it)};
 const _invIconK=invIcon;invIcon=function(it){if(!isWandW(it))return _invIconK(it);const s=WEXT.staff;WEXT.staff=[-4,13,2,2.6];try{return _invIconK(it)}finally{WEXT.staff=s}};
 
+
+/* ---------- the archer: both hands on the weapon, for the hero and for every bowman of the tower ---------- */
+// how far the string is drawn at p of the shot that looses at q: nock, a long pull that slows toward the jaw, a held breath at full draw, then the string is empty
+const bowDraw=(p,q)=>p<q*.12?0:p<q*.8?1-Math.pow(1-(p-q*.12)/(q*.68),2.2):p<q?1:0;
+// after the loose the string hums and dies away
+const bowVib=fo=>fo>0&&fo<1?Math.sin(fo*46)*2.4*Math.pow(1-fo,2):0;
+function withBow(st,fn){BOWK=st.k||0;BOWHAND=st.hand||null;BOWVIB=st.vib||0;XBOLT=st.bolt??1;XRL=st.rl||0;BOWGLOW=st.glow||null;
+  try{fn()}finally{BOWK=0;BOWHAND=null;BOWVIB=0;XBOLT=1;XRL=0;BOWGLOW=null}}
+// the tip gathers light as the draw comes full and pulses while the archer holds it
+function bowGlint(x,y){if(!BOWGLOW)return;const g0=clamp((BOWK-.55)/.45,0,1);if(g0<=0)return;const pu=BOWK>.97?.75+.25*Math.sin(G.t*22):.6,a=g0*pu,r=2.5+g0*4.5;
+  ctx.save();ctx.globalCompositeOperation='lighter';const g=ctx.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,`rgba(${BOWGLOW},${a})`);g.addColorStop(1,`rgba(${BOWGLOW},0)`);ctx.fillStyle=g;ctx.fillRect(x-r,y-r,r*2,r*2);
+  if(BOWK>.97){ctx.strokeStyle=`rgba(255,250,235,${.7*pu})`;ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(x-r*.9,y);ctx.lineTo(x+r*.9,y);ctx.moveTo(x,y-r*.6);ctx.lineTo(x,y+r*.6);ctx.stroke()}ctx.restore()}
+// the archer turns side-on, the bow arm pushes out while the other hand pulls the string back to the jaw; after the loose that hand flies on past the ear
+// and comes back to nock the next arrow. A crossbow lies on the other hand and is wound back after the shot.
+// a: th aim, wang weapon angle, k draw, fo follow-through 0..1, xb crossbow, rl how far the crossbow is wound back
+function archRig(o,a){const c=Math.cos(a.th),s=Math.sin(a.th);o.tw=(o.tw||1)*(1-.42*Math.abs(c));o.atk=null;
+  o.handsAt=(wx,wy)=>{const e=a.xb?10:9+7*Math.min(1,a.k*1.5+(a.fo>0?1:0)),gx=wx+c*e,gy=wy+2+s*e*.66,wc=Math.cos(a.wang),ws=Math.sin(a.wang);let d,n=0;
+    if(a.xb)d=a.rl>0?12.4-5.4*a.rl:8;
+    else if(a.fo>0){const f1=Math.min(1,a.fo/.22),bk=-11.4-3.5*Math.sin(f1*Math.PI/2),q=clamp((a.fo-.4)/.6,0,1),r2=q*q*(3-2*q);d=bk+(-.4-bk)*r2;n=1.8*(1-r2)*f1}
+    else d=-.4-11*a.k+(a.k>.97?Math.sin(G.t*57)*.35:0);
+    return[[gx,gy],[gx+wc*d-ws*n,gy+.8+ws*d+wc*n]]}}
+// a bowman of the tower: at rest the bow hangs in the hand, in the wind-up comes the same draw as the hero's, after the shot the same follow-through
+function archEnemy(o,e,fx,fy,f,F,xb){const th=Math.atan2(fy,fx),w=e.d&&e.d.wind||.6,ch=e.charge>0&&!e.dead?1-e.charge/w:-1,fo=!e.dead&&e.relT!=null&&G.t-e.relT>=0&&G.t-e.relT<.6?(G.t-e.relT)/.6:0,
+    m={p:F(RP.iron),s:F(RP.rust),t:F(RP.wood),gem3:F(RP.ember)},cls=xb?'xbow':'bow';
+  if(ch<0&&!fo){o.weapon=(x,y)=>vWeapon(x,y,th+(xb?.6:1)*f,cls,m,'');return}
+  const k=ch>=0?bowDraw(ch,1):0,kick=fo>0&&fo<.45?Math.sin(fo/.45*Math.PI)*(xb?.22:.12):0,wang=th-kick*f,rl=xb&&fo>.35?Math.min(1,(fo-.35)/.6):0,
+    glow=e.elem==='fire'?'255,150,60':e.elem==='frost'?'170,215,255':e.elem==='poison'?'160,240,90':'255,226,160';
+  archRig(o,{th,wang,k,fo,xb,rl});o.weapon=(x,y)=>withBow({k,hand:o.R.hand,vib:xb?0:bowVib(fo),bolt:xb&&fo>0&&fo<.95?0:1,rl,glow},()=>vWeapon(x,y,wang,cls,m,''))}
+// the loose and the creak of the draw are heard near the bowman, fading with the distance
+function bowSfx(e,k,v){if(!P)return;const d=Math.hypot(e.x-P.x,e.y-P.y);if(d>12)return;const s=SFXV;SFXV=v*(1-d/12);try{sfx(k)}finally{SFXV=s}}
+const isBowE=e=>(e.proj||e.d&&e.d.proj)==='arrow',isXbowE=e=>!!(e.gear&&e.gear.wep==='crossbow');
+const _fireProjB=fireProj;fireProj=function(e){e.relT=G.t;const r=_fireProjB(e);if(isBowE(e))bowSfx(e,isXbowE(e)?'bolt':'twang',.6);return r};
+const _updEnemyB=updEnemy;updEnemy=function(e,dt){const c0=e.charge;_updEnemyB(e,dt);if(!(c0>0)&&e.charge>0&&isBowE(e)&&!isXbowE(e))bowSfx(e,'draw',.8)};
 /* ---------- shooting: a bow or crossbow looses an arrow where a blade would swing, the wand spits a spark of its element ---------- */
 const _resolveSwingK=resolveSwing;resolveSwing=function(){const w=P.eq.weapon;if(!w||!P.d.okS.has(w)||!(isRangedW(w)||isWandW(w)))return _resolveSwingK();const a=P.face;
   if(isWandW(w)){const el=w.elem||'fire',E=EL[el];G.proj.push({x:P.x+Math.cos(a)*.4,y:P.y+Math.sin(a)*.4,vx:Math.cos(a)*14,vy:Math.sin(a)*14,owner:'p',dmg:pDmg(1),kind:E.kind,col:E.col,r:.25,life:.75,
@@ -8340,6 +8411,100 @@ const _vHelmCG=vHelm;vHelm=function(it,hx,hy,back,f){const t=HELMT[SH(it.b)];if(
   for(const sd of[-1,1]){const gx=hx+sd*2+f*.4,gy=hy-1.6;blob(gx,gy,1.7,1.6,['#3a2406','#8a6418','#d0a838','#fff0a0'],true);blob(gx,gy,1.1,1,[m.gem[0],m.gem[0],m.gem[1],m.gem[2]])}
   if(t==='plague'){blob(hx,hy-5.4,9,2.1,m.s);blob(hx,hy-7.4,4.6,2.8,m.s);limb(hx-4.4,hy-6,hx+4.4,hy-6,.6,.6,LT,true)}};
 let HOODOFF=0;
+/* ---------- Eldrik's study in low poly: a shelf of books behind him, a rug, a writing desk with the open chronicle, ink, a candle and stacks of books.
+   He keeps a round of fifteen seconds: writes, dips the quill, turns the page, strokes his beard and thinks, puts a book back on the shelf;
+   when someone comes close he looks up, lifts the quill in greeting and listens ---------- */
+const ELC=15,ELR={skin:['#3a2214','#8a5c40','#c0906c','#e0b898'],robe:['#0c0a12','#1e1a2c','#342e48','#4c4466'],hood:['#08060c','#16121e','#262034','#383050'],
+  trim:['#3a2a08','#7a5a18','#c09a38','#e8c860'],beard:['#6a6660','#a8a49c','#dcd8d0','#f8f6f0'],rope:['#2a1c0c','#5a4020','#8a6a3a','#b09060']};
+const ELBK=['#5a1a14','#1a3a5a','#2a4a1a','#5a4a1a','#3a1a4a','#6a3a1a','#1a1a1a','#7a6a50'];
+ELD.p.coat='#342e48';ELD.p.hatC='#262034';SOLID.chronist=.8;
+function eldMesh(){if(LPA.elB)return;const R=mulberry(83),WD='#5a3a1e',WL='#7a5430',DK='#3a2614';
+  const books=(M,u0,u1,v0,v1,z,hMin,hMax)=>{let u=u0;while(u<u1-1.5){const w=1.4+R()*1.6,h=hMin+R()*(hMax-hMin),c=ELBK[R()*ELBK.length|0];if(R()<.12){u+=w;continue}
+      M.box(u,v0,z,Math.min(u1,u+w),v1,z+h,c,{top:shade(c,1.3)});if(R()<.5)M.box(u,v1,z+h*.7,Math.min(u1,u+w),v1+.1,z+h*.78,'#c8a040');u+=w+.15}};
+  const stack=(M,u,v,n,rot)=>{let z=0;for(let k=0;k<n;k++){const w=8-k*.6+R()*1.5,d=5.5+R(),h=1.6+R()*1.2,c=ELBK[R()*ELBK.length|0],du=(R()-.5)*1.6*rot;
+      M.box(u-w/2+du,v-d/2,z,u+w/2+du,v+d/2,z+h,c,{top:shade(c,1.25)});M.box(u-w/2+du+.4,v+d/2,z+.3,u+w/2+du-.3,v+d/2+.05,z+h-.3,'#e8dcc0');z+=h}return z};
+  // behind him: the rug, the shelf full of books, a skull and a few scrolls on top
+  LPA.elB=lpBake(M=>M.with(ODU,()=>{
+    M.face([[-28,-15,.2],[44,-15,.2],[44,17,.2],[-28,17,.2]],'#c8a040',{n:[0,0,1]});M.face([[-26,-13,.3],[42,-13,.3],[42,15,.3],[-26,15,.3]],'#6a1a14',{n:[0,0,1],sp:.25});
+    M.face([[-20,-8,.4],[36,-8,.4],[36,10,.4],[-20,10,.4]],'#8a2a1a',{n:[0,0,1]});
+    for(const u of[-38,-5])M.box(u,-25,0,u+3,-17,66,DK,{sp:.3});
+    M.box(-35,-25,2,-5,-24,64,'#2e1e10',{sp:.5});
+    for(const z of[2,18,34,50]){M.box(-35,-24,z-1.6,-5,-17,z,WL);books(M,-34.5,-5.5,-23,-18.5,z,8,13)}
+    M.box(-39,-26,64,-2,-16,67,DK,{sp:.3});
+    M.ball(-30,-20,70.5,3.4,6,'#d8ccb0',{m:3,rz:.95});M.box(-31.6,-17,67.2,-28.4,-16.6,69.4,'#c8bca0');
+    for(let k=0;k<3;k++)M.cyl(-18+k*3.4,-20+k*.8,67,67+7+k*1.5,1.3,6,'#e8dcc0',{capCol:'#c8a878'});
+    M.cyl(-9,-21,67,73,1.2,6,'#d8c8a0',{capCol:'#a88a58'})}));
+  // in front of him: the desk with the chronicle, ink and a candle, books on the desk and on the floor
+  LPA.elF=lpBake(M=>M.with(ODU,()=>{
+    for(const[u,v]of[[10,-9],[33,-9],[10,8],[33,8]])M.box(u,v,0,u+2,v+2,26,DK);
+    M.box(11,-1,5,34,1,7,DK);M.box(9.5,-9.5,22,35.5,10.5,26,WD,{sp:.35});M.box(8,-11,26,37,12,28,WL,{sp:.3});
+    M.box(12,-5,28,28,5,28.6,'#4a1a10');
+    M.face([[12.5,-4.5,28.8],[20,-4.5,29.6],[20,4.5,29.6],[12.5,4.5,28.8]],'#e8dcc0',{n:[0,0,1]});M.face([[20,-4.5,29.6],[27.5,-4.5,28.8],[27.5,4.5,28.8],[20,4.5,29.6]],'#f0e6cc',{n:[0,0,1]});
+    M.box(20,4.5,28.4,21,5.2,29.6,'#c8a040');
+    M.lathe(28,6,[[28,2.1],[30.5,2.3],[31.6,1],[32.4,1]],7,'#1c1a2a',{bm:1.2,capCol:'#06060a'});
+    M.lathe(11,-8,[[28,2.6],[28.8,2.6],[29.3,1.1]],8,'#b08a38',{bm:1.2});M.cyl(11,-8,29.3,37,1.05,6,'#ece4d2',{capCol:'#f4eee0'});
+    M.with(lpMv(29.5,-6.5,28),()=>stack(M,0,0,3,1));
+    M.with(lpMv(-20,13,0),()=>stack(M,0,0,5,1));M.with(lpMv(-9,17,0),()=>stack(M,0,0,2,1));
+    M.with(lpMv(42,11,0),()=>{const z=stack(M,0,0,3,1);M.cyl(0,0,z,z+.1,.1,3,'#e8dcc0');M.box(-4,-1.4,z,4,1.4,z+2.6,'#e8dcc0',{top:'#f4ecd8'});M.box(-4.6,-1.6,z,-3.8,1.6,z+2.8,'#a88a58');M.box(3.8,-1.6,z,4.6,1.6,z+2.8,'#a88a58')})}))}
+// what he is doing at t of his round
+function eldPose(t){if(t<5)return{k:'write',q:t/5,n:0};if(t<6.2)return{k:'dip',q:(t-5)/1.2};if(t<7.6)return{k:'turn',q:(t-6.2)/1.4};
+  if(t<10.2)return{k:'think',q:(t-7.6)/2.6};if(t<12.6)return{k:'shelf',q:(t-10.2)/2.4,back:true};return{k:'write',q:(t-12.6)/2.4,n:1}}
+drawChron=function(o){const[sx,sy]=iso(o.x,o.y);if(sx<-120||sx>W+120||sy<-160||sy>H+80)return;eldMesh();const hov=G.state==='play'&&hoverObj()===o,t=(G.t+(o.off||0))%ELC,
+    dr=(c,x,y)=>ctx.drawImage(c,Math.round(x-c.ax),Math.round(y-c.ay)),d=hyp(P.x-o.x,P.y-o.y),near=G.state==='play'&&d<3.6;
+  if(near&&!o.near)o.waveT=G.t;o.near=near;
+  let p=eldPose(t),f=1;if(near){const[px]=iso(P.x,P.y),w=G.t-(o.waveT||0);p={k:w<1.6?'greet':'listen',q:w/1.6};f=px<sx-4?-1:1}else if(p.back)f=-1;
+  shadow(sx+6,sy+2,.7);dr(LPA.elB,sx,sy);
+  const LT=G.t-(o.lt||0);if(LT>.15&&d<22){o.lt=G.t;const w=smW(o,11,-4,38);addLight(w.x,w.y,80,.45+Math.random()*.1,.18)}
+  // Eldrik: a long indigo robe with a gold hem, the hood down on his shoulders, a bald head, spectacles and a beard to his chest
+  const br=Math.sin(G.t*1.2)*.5,sw=Math.sin(G.t*1.1)*.4,wob=k=>Math.sin(G.t*k);let hands=[null,null],quill=true;
+  if(p.k==='write'){hands=[[23+p.q*3+wob(15)*1.1,-29.4+wob(22)*.5],[13,-28.6]]}
+  else if(p.k==='dip'){const e=smE(p.q<.5?p.q*2:2-p.q*2),dip=p.q>.4&&p.q<.6?Math.sin((p.q-.4)/.2*Math.PI)*1.5:0;hands=[[23+(28-23)*e,-29.4+(-32.5+29.4)*e-Math.sin(p.q*Math.PI)*3+dip],[13,-28.6]]}
+  else if(p.k==='turn'){const e=smE(p.q);hands=[[27-14*e,-30-Math.sin(e*Math.PI)*5],[12,-28.6]];quill=false}
+  else if(p.k==='think'||p.k==='listen'){hands=[[f*3.5+wob(2.6)*.6,-33+wob(3.3)*1.6],f>0?[12,-28]:null];quill=p.k==='listen'}
+  else if(p.k==='shelf'){const r=Math.sin(Math.min(1,p.q/.8)*Math.PI);hands=[[-9-r*9,-34-r*12],null];quill=false}
+  else if(p.k==='greet'){const w=Math.sin(Math.min(1,p.q)*Math.PI);hands=[[f*(9+wob(10)*2*w),-31-w*16],f>0?[12,-28.6]:null]}
+  const head=(hx,hy)=>{const B=ELR.beard;
+    if(p.back){blob(hx,hy,4.2,4.8,ELR.skin);for(const s of[-1,1])blob(hx+s*3.5,hy+.8,1.5,2.6,B);blob(hx,hy+2.6,3.8,1.8,B);return}
+    blob(hx,hy,4.1,4.7,ELR.skin);ctx.fillStyle='rgba(255,240,220,.4)';ctx.fillRect(hx-1.8-f*.6,hy-3.8,1.8,1);
+    blob(hx-f*3.6,hy+.4,1.5,2.7,B);blob(hx+f*3.9,hy+.2,.8,2,B);
+    ctx.fillStyle=B[3];ctx.fillRect(hx-3+f*.7,hy-2.1,2.2,.9);ctx.fillRect(hx+.8+f*.7,hy-2.1,2.2,.9);
+    const look=p.k==='write'||p.k==='dip'||p.k==='turn'?1:0;ctx.fillStyle='#140a06';ctx.fillRect(hx-2.2+f*.7+f*look*.3,hy-.5+look*.4,1.1,.9);ctx.fillRect(hx+1.2+f*.7+f*look*.3,hy-.5+look*.4,1.1,.9);
+    // the spectacles catch the candle now and then
+    ctx.strokeStyle='#c8a050';ctx.lineWidth=.45;for(const ex of[hx-1.65+f*.7,hx+1.75+f*.7]){ctx.beginPath();ctx.arc(ex,hy,1.35,0,7);ctx.stroke()}
+    ctx.beginPath();ctx.moveTo(hx-.3+f*.7,hy-.2);ctx.lineTo(hx+.4+f*.7,hy-.2);ctx.stroke();if((G.t*.37+(o.x||0))%3<.25){ctx.fillStyle='rgba(255,250,220,.9)';ctx.fillRect(hx+1.6+f*.7,hy-1,.8,.8)}
+    blob(hx+f*1.7,hy+1,1,1.2,ELR.skin);
+    poly([[hx-3.7,hy+1.2],[hx+3.7,hy+1.2],[hx+3.2+sw,hy+7],[hx+1.6+sw*1.4,hy+12],[hx+sw*1.8,hy+14.5],[hx-1.6+sw*1.4,hy+12],[hx-3.2+sw,hy+7]],B);
+    ctx.fillStyle=B[1];for(let k=0;k<4;k++)ctx.fillRect(hx-1.8+k*1.2+sw*1.2,hy+5+k%2*2,.5,4);
+    blob(hx-1.2+f*.7,hy+2.3,1.9,.9,B);blob(hx+1.6+f*.7,hy+2.3,1.9,.9,B)};
+  const robeFx=(shX,shY,hipX,hipY,bk)=>{poly([[shX-7.2,shY-1.8],[shX+7.2,shY-1.8],[shX+5.6,shY+3.6],[shX-5.6,shY+3.6]],ELR.hood);
+    if(!bk){limb(shX+f*1.6,shY+3,hipX+f*2.6,-1.5,.8,.8,ELR.trim)}poly([[hipX-10.6,-2.2],[hipX+10.6,-2.2],[hipX+10.8,-.4],[hipX-10.8,-.4]],ELR.trim);
+    limb(hipX-6.4,hipY,hipX+6.4,hipY,.9,.9,ELR.rope);if(!bk){limb(hipX+f*3,hipY,hipX+f*3.8,hipY+7,.5,.4,ELR.rope);blob(hipX+f*3.8,hipY+7.6,.8,.9,ELR.rope)}};
+  const o2={R:{skin:ELR.skin,torso:ELR.robe,sleeve:ELR.robe,fore:ELR.robe,hand:ELR.skin,metal:{}},f,back:!!p.back,moving:false,robe:true,tw:.95,lw:.95,hunch:2.5,armsLate:true,hands,aL:9.5,head,torsoFx:robeFx};
+  ctx.save();ctx.translate(sx,sy+br*.4);humanoid(o2);ctx.restore();
+  dr(LPA.elF,sx,sy);
+  // on the pages: the lines he has written so far, and the page he turns
+  const R=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(sx+x,sy+y,w,h)};
+  const lines=p.k==='write'?Math.floor(p.q*(p.n?3:6)):p.k==='dip'||p.k==='turn'?6:p.k==='think'||p.k==='shelf'?0:2;
+  for(let k=0;k<lines;k++)R(21.2,-31.6+k*.75,4.4-(k*37%3)*.6,.35,'rgba(40,28,20,.75)');
+  if(p.k!=='write'||p.n)for(let k=0;k<6;k++)R(13.6,-31.6+k*.75,4.6-(k*23%3)*.6,.35,'rgba(40,28,20,.6)');
+  if(p.k==='turn'){const a=Math.PI*smE(p.q),ex=20+Math.cos(a)*7.5,ly=Math.sin(a)*5;ctx.fillStyle=a<Math.PI/2?'#f4ecd6':'#e0d4b8';
+    ctx.beginPath();ctx.moveTo(sx+20,sy-31.6);ctx.lineTo(sx+ex,sy-31.4-ly);ctx.lineTo(sx+ex,sy-27-ly);ctx.lineTo(sx+20,sy-27.2);ctx.closePath();ctx.fill()}
+  // the candle flame, its glow and the light on him
+  const fl=Math.sin(G.t*11)*.4+Math.sin(G.t*17)*.3;ctx.fillStyle='#ff9a30';ctx.beginPath();ctx.moveTo(sx+10.2,sy-41.4);ctx.quadraticCurveTo(sx+10.4+fl*.3,sy-44.5,sx+11+fl*.5,sy-46+fl);ctx.quadraticCurveTo(sx+11.7,sy-44,sx+11.8,sy-41.4);ctx.fill();
+  ctx.fillStyle='#fff0c0';ctx.fillRect(sx+10.6,sy-43.2,.9,1.8);
+  ctx.save();ctx.globalCompositeOperation='lighter';const q=ctx.createRadialGradient(sx+11,sy-43,1,sx+11,sy-43,26);q.addColorStop(0,'rgba(255,190,100,.32)');q.addColorStop(1,'rgba(255,150,60,0)');ctx.fillStyle=q;ctx.fillRect(sx-15,sy-69,52,52);ctx.restore();
+  // his arms over the desk, the quill in his hand or standing in the ink
+  ctx.save();ctx.translate(sx,sy+br*.4);const A=o2.arms;A.draw(A.ao);A.draw(A.aw);
+  const qd=(x,y,a)=>{const c=Math.cos(a),s=Math.sin(a);ctx.strokeStyle='#e8e2d6';ctx.lineWidth=1.3;ctx.beginPath();ctx.moveTo(x+c*1.5,y+s*1.5);ctx.lineTo(x+c*8,y+s*8);ctx.stroke();
+    ctx.strokeStyle='#b8b0a0';ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(x+c*2,y+s*2);ctx.lineTo(x+c*8.5,y+s*8.5);ctx.stroke();ctx.strokeStyle='#1a1410';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-c*1.6,y-s*1.6);ctx.stroke()};
+  if(quill){const h=A.aw;qd(h.hx+.4,h.hy+1.2,p.k==='greet'?-1.6:-1.05)}
+  for(const a of[A.ao,A.aw])blob(a.hx,a.hy+.6,1.9,1.9,ELR.skin);
+  if(p.k==='shelf'&&p.q>.25&&p.q<.75){const h=A.aw;R(h.hx-1.6,h.hy-4,3.2,5,'#3a1a4a');R(h.hx-1.6,h.hy-4,3.2,.6,'#c8a040')}
+  ctx.restore();
+  if(!quill)qd(sx+28,sy-30.2,-1.3);
+  // a golden mark over his head when the chronicle has something new for you
+  if((P.chrQ??-1)!==(P.qi||0)&&curQ()){const b=Math.sin(G.t*3)*2;ctx.font="bold 18px 'IM Fell English', Georgia, serif";ctx.textAlign='center';ctx.fillStyle='#000';ctx.fillText('!',sx+1,sy-60+b+1);ctx.fillStyle='#ffd040';ctx.fillText('!',sx,sy-60+b)}
+  if(hov)label(sx,sy-76,'Eldrik, der Chronist','#ffd88a')};
 expandItems();buildPalette();buildUI();initGL();buildSprites();buildEnvSprites();buildGrain();
 // title backdrop: the hill, idle
 titleBackdrop();

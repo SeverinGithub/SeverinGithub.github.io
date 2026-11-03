@@ -27,6 +27,7 @@ function humanoid(o){
     // set hands (o.hands = [weapon hand, other hand]) reach with a bent elbow and stop where the arm runs out
     const h=o.hands&&o.hands[weap?0:1];if(h){const k=rgIK(sx,sy,h[0],h[1],o.aL||9.5,o.aL||9.5,sd*f>0?-1:1);return{sx,sy,ex:k[0],ey:k[1],hx:k[2],hy:k[3]}}
     return{sx,sy,ex:(sx+hx)/2+sd*1.5,ey:(sy+hy)/2+1,hx,hy}};
+  if(o.handsAt)o.hands=o.handsAt(shX+f*7.6*tw,shY+1.6,shX-f*7.6*tw,shY+1.6);
   const aw=armPos(f,true),ao=armPos(-f,false);
   const drawArm=a=>{limb(a.sx,a.sy,a.ex,a.ey,2.6*lw,2.2*lw,R.sleeve||R.torso,M.sleeve);limb(a.ex,a.ey,a.hx,a.hy,2.2*lw,1.8*lw,R.fore||R.sleeve||R.torso,M.fore);if(o.armFx)o.armFx(a);blob(a.hx,a.hy+.8,2.1*lw,2.1*lw,R.hand||R.skin,M.hand)};
   if(back){if(o.weapon)o.weapon(aw.hx,aw.hy+.8);if(o.offhand)o.offhand(ao.hx,ao.hy,true)}
@@ -103,8 +104,8 @@ function drawPlayer(){
   if(go&&run>.25&&!P.roll){const q=Math.sign(Math.sin(P.gPh));if(q!==P.gS){P.gS=q;smoke(P.x,P.y,1,'rgba(90,78,62,',2.5+run*2.5,.25)}}
   // swing: wind up, snap through, settle; the body steps into the blow
   const sp=P.atkT>0?1-P.atkT/P.atkDur:0,sw=sp<.32?-2.3*(1-Math.pow(1-sp/.32,2)):sp<.55?-2.3+4.2*Math.pow((sp-.32)/.23,2):1.9-.7*(1-Math.pow(1-(sp-.55)/.45,2));
-  // a bow is drawn, not swung: pull until the arrow leaves (the shot resolves at .45), then the body gives a little to the recoil
-  const rgW=P.atkT>0&&P.eq.weapon&&P.d.okS.has(P.eq.weapon)&&isRangedW(P.eq.weapon)?P.eq.weapon.cls:null,rgK=rgW&&sp<.45?Math.pow(sp/.45,.6):0;
+  // a bow is drawn, not swung: pull until the arrow leaves (the shot resolves at .45), then the body gives a little to the recoil and the hand comes back for the next arrow
+  const rgW=P.atkT>0&&P.eq.weapon&&P.d.okS.has(P.eq.weapon)&&isRangedW(P.eq.weapon)?P.eq.weapon.cls:null,rgK=rgW?bowDraw(sp,.45):0,rgF=rgW&&sp>.45?(sp-.45)/.55:0,rgL=rgW==='xbow'&&sp>.62&&sp<.88?(sp-.62)/.26:0;
   const lunge=rgW?(sp>.45&&sp<.8?-Math.sin((sp-.45)/.35*Math.PI)*(rgW==='xbow'?2.4:1.6):0):P.atkT>0&&sp>.28&&sp<.75?Math.sin((sp-.28)/.47*Math.PI)*4.5:0,lx=fx*lunge,ly=fy*lunge*.6;
   const th=Math.atan2(fy,fx),an=P.atkT>0?null:heroAnim(P,th,f);
   ctx.save();ctx.translate(sx+lx,sy+ly+(an?an.dy:0));if(P.leap)ctx.translate(0,-Math.sin(Math.min(1,P.leap.t/P.leap.dur)*Math.PI)*34);
@@ -114,16 +115,17 @@ function drawPlayer(){
   // the weapon trails lower behind a runner, sweeps round in a whirl, is lifted high in a leap
   let wang=Math.atan2(fy,fx)+(P.atkT>0?sw:.9+run*.7*Math.abs(fx))*f,atk=P.atkT>0?wang:null,lean=go?.05+run*.17:0,sq=0;
   if(an){atk=an.atk;wang=an.wang;lean+=an.lean;sq+=an.sq}
-  if(rgW){const kick=sp>.45&&sp<.7?Math.sin((sp-.45)/.25*Math.PI)*(rgW==='xbow'?.22:.12):0;atk=th;wang=th-kick*f;lean=-.04-kick*.3}
+  if(rgW){const kick=sp>.45&&sp<.7?Math.sin((sp-.45)/.25*Math.PI)*(rgW==='xbow'?.22:.12):0;atk=th;wang=th-kick*f;lean=-.04-kick*.3-rgK*.05}
   if(P.dash){atk=th;wang=th+.15*f;lean=.32}
   if(P.leap){const q=Math.min(1,P.leap.t/P.leap.dur);if(q<.7){atk=-Math.PI/2;wang=-Math.PI/2+f*(.3+q*.4)}else{const k=(q-.7)/.3;atk=th*(1-k)+Math.PI/2*k;wang=-Math.PI/2+f*(.6+k*2.4)}}
   let whirlA=null;if(P.whirl>0){whirlA=(1-P.whirl/.35)*Math.PI*4;atk=th+whirlA*f;wang=atk}
   if(go&&!P.roll){sq+=Math.pow(Math.abs(Math.sin(P.gPh)),8)*(.025+run*.05)}
   ctx.transform(1,0,-f*lean*(Math.abs(fx)*.7+.3),1,0,0);if(sq)ctx.scale(1+sq*.5,1-sq);
   const o={R,f,back,dir:[fx*f,fy],moving:go&&!P.leap,ph:P.gPh,head,torsoFx:tfx,atk,stride:1+run*.55,knee:run*3.4+(P.leap?4:0),lift:1+run*1.3,bobA:1.1+run*1.6,armSwing:1+run*1,armLen:15-run*3,
-    weapon:(x,y)=>{if(!wpn)return;if(rgW){BOWK=rgK;BOWHAND=R.skin;XBOLT=rgW==='xbow'&&sp>.45&&sp<.88?0:1}try{vWeapon(x,y,wang,wpn.cls,wRampsOf(wpn),wpn.b)}finally{BOWK=0;BOWHAND=null;XBOLT=1}if(P.atkT>0&&sp>.3&&sp<.66&&!P.whirl&&!rgW){const L=WLEN[SH(wpn.b)==='Henkersbeil'?'axe':wpn.cls]||22,c=Math.cos(wang),s2=Math.sin(wang);P.trail.push({ox:lx+x+c*L,oy:ly+y+s2*L,ix:lx+x+c*L*.42,iy:ly+y+s2*L*.42,t:0})}
+    weapon:(x,y)=>{if(!wpn)return;const dw=()=>vWeapon(x,y,wang,wpn.cls,wRampsOf(wpn),wpn.b);if(rgW)withBow({k:rgK,hand:R.skin,vib:rgW==='bow'?bowVib(rgF):0,bolt:rgW==='xbow'&&sp>.45&&sp<.88?0:1,rl:rgL,glow:'255,226,160'},dw);else dw();if(P.atkT>0&&sp>.3&&sp<.66&&!P.whirl&&!rgW){const L=WLEN[SH(wpn.b)==='Henkersbeil'?'axe':wpn.cls]||22,c=Math.cos(wang),s2=Math.sin(wang);P.trail.push({ox:lx+x+c*L,oy:ly+y+s2*L,ix:lx+x+c*L*.42,iy:ly+y+s2*L*.42,t:0})}
       if(an&&an.glow){const L=WLEN[wpn.cls]||22;ctx.save();ctx.globalCompositeOperation='lighter';const gx=x+Math.cos(wang)*L,gy=y+Math.sin(wang)*L,g=ctx.createRadialGradient(gx,gy,0,gx,gy,9*an.glow);g.addColorStop(0,`rgba(255,220,150,${.8*an.glow})`);g.addColorStop(1,'rgba(255,140,60,0)');ctx.fillStyle=g;ctx.fillRect(gx-10,gy-10,20,20);ctx.restore()}},
     offhand:sh?(x,y,b)=>vShield(sh,x,y,b,f):wpn&&isDualB(wpn.b)?(x,y)=>vWeapon(x,y,wang+(P.atkT>0?-.5:.35)*f,wpn.cls,wRampsOf(wpn),wpn.b):null};
+  if(rgW&&!P.dead&&!(P.roll>0))archRig(o,{th,wang,k:rgK,fo:rgF,xb:rgW==='xbow',rl:rgL});
   if(an&&an.hit&&P.anHit!==P.anS){P.anHit=P.anS;heroImpact(P,an.hit)}
   if(P.dead){o.moving=false;o.weapon=null;ctx.translate(0,-3);ctx.rotate(-Math.PI/2*f);ctx.translate(0,22);humanoid(o);ctx.restore();return}
   if(P.roll>0){heroRoll(o);ctx.restore();return}
@@ -306,11 +308,10 @@ function drawEnemy(e){
     humanoid({R:{torso:F(RP.robe),sleeve:F(RP.robe),hand:F(RP.bone)},f,back,robe:true,moving:false,tw:1.2,atk,head:(hx,hy)=>{blob(hx,hy-.5,5.2,5.8,F(RP.robe));blob(hx+f*.5,hy+1,3,3,RP.dark);for(let k=0;k<3;k++)if(!back){ctx.fillStyle='#ff8a2a';ctx.fillRect(hx-3+k*2.4+f*.6,hy,1.2,1.2)}}});
     const gl=.5+Math.sin(G.t*6)*.3,g=ctx.createRadialGradient(0,-26,0,0,-26,7);g.addColorStop(0,`rgba(255,200,120,${gl})`);g.addColorStop(1,'rgba(255,90,20,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,-26,7,0,7);ctx.fill()}
   else{const ghoul=look==='ghoul',B=F(ghoul?RP.flesh:RP.bone);
-    humanoid({R:ghoul?{torso:B,sleeve:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)}:{torso:F(RP.dark),sleeve:B,fore:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)},
+    const oh={R:ghoul?{torso:B,sleeve:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)}:{torso:F(RP.dark),sleeve:B,fore:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)},
       f,back,moving:true,ph,hunch:ghoul?6:0,lw:ghoul?1.05:.62,tw:ghoul?1.05:.9,armLen:ghoul?18:15,atk,torsoFx:ghoul?null:(a,b,c,d)=>ribs(a,b,c,d),
       head:(hx,hy)=>{if(ghoul){blob(hx,hy,4,4.4,B);eyes(hx,hy,'#ffd040')}else skull(hx,hy)},
-      weapon:look==='archer'?(x,y)=>{ctx.save();ctx.translate(x,y);ctx.rotate(Math.atan2(fy,fx));ctx.strokeStyle=RP.wood[2];ctx.lineWidth=1.4;ctx.beginPath();ctx.arc(-3,0,9,-1.2,1.2);ctx.stroke();ctx.strokeStyle='#cfc6aa';ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(-3+Math.cos(-1.2)*9,Math.sin(-1.2)*9);ctx.lineTo(e.charge>0?-6:-3+Math.cos(1.2)*9*0+.5,0);ctx.lineTo(-3+Math.cos(1.2)*9,Math.sin(1.2)*9);ctx.stroke();ctx.restore()}
-        :ghoul?(x,y)=>{for(let k=-1;k<=1;k++)limb(x,y,x+f*3,y+2+k*1.2,.5,.2,F(RP.bone))}:(x,y)=>vWeapon(x,y,atk??Math.atan2(fy,fx)+.8*f,'sword',RUSTY,'')})}
+      weapon:ghoul?(x,y)=>{for(let k=-1;k<=1;k++)limb(x,y,x+f*3,y+2+k*1.2,.5,.2,F(RP.bone))}:(x,y)=>vWeapon(x,y,atk??Math.atan2(fy,fx)+.8*f,'sword',RUSTY,'')};if(look==='archer')archEnemy(oh,e,fx,fy,f,F,false);humanoid(oh)}
   ctx.restore();
   if(e.elem&&!e.dead&&Math.random()<.05)fxp({k:'mote',x:e.x+rnd(-.3,.3),y:e.y+rnd(-.3,.3),z:rnd(.3,1)*(e.scale||1),vz:.4,life:.8,col:{fire:'#ff9a30',frost:'#c8e4ff',poison:'#9ae050'}[e.elem],s:.8,g:0})}
 function drawProj(p){const[sx,sy]=iso(p.x,p.y);

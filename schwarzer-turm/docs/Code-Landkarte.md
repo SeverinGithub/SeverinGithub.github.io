@@ -42,7 +42,9 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 950-adaptive-map-collision.js | Modul „the tower measures you“ | Karten-Pinch-Zoom und +/−, Spieler-Analyse (`PW`, `myPow`, `teamPow`), adaptive Bosse (`adaptBoss`) und Gegner (`adaptFoe`), Boss-Kombos/Trank-Bestrafung, feste Kartenobjekte (`SOLID`, `moveEnt`-Wrapper) |
 | 999-boot-loop.js | Init-Zeile `expandItems();buildPalette();…` + Spielschleife `frame` | neue Module bekommen eine Nummer **vor** 999 |
 
+| 790-heroes.js | `hAll`, `hCur`, `hMigrate`, `save`/`loadData`-Ersatz, Menüansicht `heroes` | Heldenliste statt Speicherplätze, siehe [[Helden und Spielstände]] |
 | 960-perf-overlay.js | `perfToggle`, `PERF_FN` | Messanzeige `?perf` / Shift+F3, siehe [[Performance]] |
+| 980-eldrik-study.js | `eldMesh`, `eldPose`, `drawChron` | Eldriks Schreibstube, siehe [[Eldriks Schreibstube]] |
 | 970-class-gear.js | `HUNT`, `ALCH`, `gearAdd`, `ALDG`, `HUIMP`/`ALIMP`, `gSetOf`, `gGlint`, `HOODOFF` | Ausrüstung von Jägerin und Alchemist, neue Dolche und Unikate, Masken und Kapuzen in `vHelm`, siehe [[Klassen]] |
 
 Zurück zu [[Start]].

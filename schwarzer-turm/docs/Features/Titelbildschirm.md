@@ -13,7 +13,7 @@ Wunsch: „Mach einen komplett neuen Hauptscreen – inhaltlich alles gleich las
 
 ## JS
 - `titleCam()`: Kamera fest auf 15.9/20.3 (Desktop) bzw. 20.6/20.6 (schmal), leichtes Schwanken. Ein `render`-Wrapper erzwingt sie im Titelzustand (vorher driftete die Kamera zum Helden).
-- `titleBackdrop`-Wrapper: zeigt den Helden des **letzten Spielstands** (Klasse aus dem Save) bei 23.2/26.8, Blick zur Tür.
+- `titleBackdrop`-Wrapper: zeigt den **aktuellen Helden** aus der Heldenliste ([[Helden und Spielstände]]) (Klasse aus dem Save) bei 23.2/26.8, Blick zur Tür.
 - Glut-Partikel-Animation auf `#tEmb`.
 - Behobene Probleme beim Bau: matschiger Farbton (Verlauf/Deckkraft angepasst), Turm im iPad-Hochformat abgeschnitten (jetzt zentrierter Modus), Menü auf ersten Screenshots unsichtbar (nur Einblend-Animation).
 

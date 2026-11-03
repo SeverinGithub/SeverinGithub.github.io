@@ -16,6 +16,9 @@ tags: [todo]
 - [x] Jägerin-Banditin: Schatten nach dem Schattenschritt (2026-11-03, siehe [[Klassen]]). Im echten Spiel prüfen, ob 2–3 s sich gut anfühlen.
 - [ ] Multiplayer: Mitspieler-Aussehen von Jägerin/Alchemist und der Heilnebel mit zwei echten Spielern prüfen.
 - [x] Bogen/Armbrust: eigene Schuss-Animation mit Spannen, Pfeil und Rückstoß (2026-11-03, siehe [[Klassen]]).
+- [x] Bogen mit beiden Armen, Aufladen, Nachschwingen, auch für Gegner-Schützen (2026-11-03, siehe [[Klassen]]). Im echten Spiel prüfen, ob sich schnelles Schießen gut anfühlt.
+- [x] Heldenliste statt Speicherplätze, Position wird mitgespeichert (2026-11-03, siehe [[Helden und Spielstände]]). Auf dem iPad mit echten alten Spielständen prüfen.
+- [x] Questgeber Eldrik neu gezeichnet mit eigener Schreibstube (2026-11-03, siehe [[Eldriks Schreibstube]]).
 - [ ] **Odalindes Sockelanzahl wählbar machen** – angeboten nach der Runenwort-Prüfung, Nutzer hat nicht geantwortet. Würde gezieltes Bauen von 2/3/4-Runen-Runenwörtern erlauben. Erst nachfragen.
 - [ ] **Multiplayer mit zwei echten Spielern testen**: Statue für Gäste (`ar`/`arx`) und sichtbare Fähigkeiten wurden nur mit simulierten Paketen geprüft.
 - [ ] Schleifstein: soll das Herauslösen etwas kosten (Glut)? Nicht besprochen, aktuell kostenlos.
