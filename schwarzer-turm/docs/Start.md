@@ -22,8 +22,10 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 - [[Talentbaum]] – 8 Zweige, 4 Ringe, 32 Meilensteine, 1.561 Knoten
 - [[Turm-Ebenen und Inseln]] – Themen-Stockwerke, Flüche, Sonderräume, Fallen, Abkürzungen, Grüfte, Landmarken, Klima, Turm-Lichter
 - [[Der Hügel]] – die Startinsel als geplantes Dorf: Ring um den Turm, Viertel, Friedhof, Steg, Dorfbewohner, Wachstum mit jedem Hüter
+- [[Lebendige Inseln]] – Gras im Wind, Pfade, Pfützen, Tiere, Glühwürmchen, Runensteine und Flüstern auf den Himmelsinseln
 - [[Bewegung]] – Gehen, Laufen, Sprinten, Atmen, Dash mit seltenem Salto
 - [[Waffen-Ideen]] – 54 neue Waffen zum Abarbeiten
+- [[Welt-Ideen]] – 44 Ideen für eine lebendigere, mystischere Welt
 - [[Helden und Spielstände]] – Heldenliste statt Speicherplätze, jeder Held speichert sich selbst samt Standort
 - [[Eldriks Schreibstube]] – der Questgeber mit Pult, Regal und eigener Runde
 - [[Anpassung]] – Bosse und Gegner passen sich an Schaden und Zähigkeit des Spielers an, Multiplayer-Skalierung, Karten-Zoom, feste Kartenobjekte

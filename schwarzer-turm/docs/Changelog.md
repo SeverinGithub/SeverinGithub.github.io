@@ -162,3 +162,6 @@ Schwarzer Turm: Wegweiser mit kleinem Fenster und Lichterspur, Zäune am Steg-We
 ### 223e484 · 2026-11-03
 Schwarzer Turm: Odalinde zieht um – ihr Stand steht jetzt nördlich der Straße zur Arena zwischen Übungsplatz und Riss-Stein, mit Kräuterbeeten links daneben, Fass und Kiste dahinter und dem Händlerzelt dahinter, sobald der erste Hüter fällt; der kleine Weg zum Riss-Stein fällt dafür weg
 
+### 2af1c8a · 2026-11-03
+Schwarzer Turm: die Turmtür führt zur tiefsten Ebene, Funkenschlag ist ein Blitz – wer den Turm durch die Tür auf dem Hügel betritt, steht jetzt auf der tiefsten Ebene mit entzündetem Leuchtfeuer neben dem Feuer (ohne Feuer weiter Ebene 1), das Schild über der Tür nennt die Ebene; Funkenschlag ist keine Kugel mehr, sondern ein Blitz aus dem Stab, der sofort den ersten Feind in der Linie trifft (bis 10 Schritte) und auf zwei weitere überspringt, ohne Ziel endet er an der Wand; die Eislanze fliegt als Lanze aus Eis, die Symbole zeigen Blitz und Eislanze statt Kugeln, Flammen und Rauch am Stab gibt es nur noch beim Feuer, Blitzring und Blitzsprung zeigen Blitze und Funken statt Eissplittern und Frost, und der Frostring heißt in seiner Beschreibung nicht mehr Eisring; dazu die fehlenden Changelog-Einträge
+

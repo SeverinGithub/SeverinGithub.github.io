@@ -51,5 +51,6 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 984-tower-rooms.js | `twS` (`G.tw`), `twDress`, `TWI`, `twObjE`, `twBlast`, `twWave`, `twFall` | Sonderräume, Pulverfässer und Kronleuchter, Druckplatten, Bodenrisse, Aufzug |
 | 986-island-sights.js | `ISN`, `genCrypt`, `enterCrypt`, `isBuild`, `CLIM`, `drawIslets`, `TWLIGHTS` | Landmarken, Grüfte, Brückensteine, treibende Inseln, Klima nach Region, Turm-Lichter |
 | 988-hill-village.js | `hvBuild`, `hvTick`, `hvHeads`, `hvEdge`, `hvWalk`, `HVLOOK`, `hvDraw`, `hvSprites`, `hvGraves` | Der Hügel als Dorf: Ring, Straßen, feste Plätze der Stationen, Platz, Werkstattdach, Friedhof, Steg, Laternen, Wegweiser, Dorfbewohner, Wachstum nach Hütern |
+| 989-living-isles.js | `lvSpr`, `lvTick`, `lvGround`, `lvAir`, `lvGlow`, `lvWhisper`, `LV` | Lebendige Inseln: Gras im Wind, Trampelpfade, Bodenflecken, Pfützen, Wind mit Blättern, Vogelschwärme und Fledermäuse, Krähen auf Gräbern, Mücken, Bienen, Motten, Glühwürmchen, bröckelnde Ränder, Runensteine, Flüstern |
 
 Zurück zu [[Start]].
