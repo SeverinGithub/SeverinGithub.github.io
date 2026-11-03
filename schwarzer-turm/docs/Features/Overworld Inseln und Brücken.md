@@ -18,6 +18,7 @@ Umgesetzt in `386bf34` (2026-11-02): abwechslungsreichere Himmelsinseln.
 - `bridgeKind(...)`: zur Startinsel immer Stein; sonst per Hash 40 % Stein, 32 % Holz, 28 % Landbrücke.
 - **Holz:** schmale Plankenbrücke (Sprites `SPR.bridgeW`, Unterseite `SPR.bridgeSideW` mit Balken und hängenden Seilen), Seilpfosten `SPR.prop.ropepost` mit durchhängendem Seil. Fix: Brüstungs-Tiles bei Holz nur jedes zweite Feld (`if(bk==='wood'&&q%2)return`), sonst sah der Rand kammartig aus.
 - **Land:** gewundene Brücke aus Erde und Gras.
+- **Keine Brücke versperrt eine andere** (seit 2026-11-03): Läuft der Weg einer Brücke über das Geländer einer anderen, wird das Geländer dort zu Weg, und sein Pfosten verschwindet (`owUnpost`). Nach jeder Brücke öffnet `owOpenRails` außerdem jedes Geländerfeld, das zwischen zwei Brückenfeldern steht, etwa wo eine Brücke seitlich auf eine andere trifft. Brückensteine (986) machen es genauso. Vorher blieben pro Welt 50 bis 100 solcher Geländerstücke mitten im Weg stehen. Getestet auf 6 Seeds: 0 Sperren. Ein paar Inselgruppen haben weiterhin gar keine Brücke zum Rest (so ausgewürfelt), dafür gibt es die Brückensteine.
 
 ## Ebenfalls in `386bf34`
 - Umhänge (später wieder entfernt, siehe [[Ausrüstung und Kleinigkeiten]]).

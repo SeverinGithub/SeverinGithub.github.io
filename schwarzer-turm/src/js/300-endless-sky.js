@@ -35,15 +35,18 @@ function owIsland(m,cx,cy){const key=cx+','+cy;if(m.gen.has(key))return;m.gen.ad
 function owBridge(m,ax,ay,bx,by){const key='b'+ax+','+ay+'>'+bx+','+by;if(m.gen.has(key))return;m.gen.add(key);if(!linkOn(ax,ay,bx,by))return;
   owIsland(m,ax,ay);owIsland(m,bx,by);const A=islandOf(ax,ay),B=islandOf(bx,by),W=m.w,t=m.t;
   const bk=bridgeKind(ax,ay,bx,by),hor=by===ay,wd=bk==='wood'?2:3;if(!m.bw)m.bw=new Map();
-  const put=(i,j,par,q)=>{const k=j*W+i;if(t[k])return;
+  const put=(i,j,par,q)=>{const k=j*W+i;if(t[k]){if(!par&&t[k]===9&&m.under[k]===8){t[k]=8;m.under[k]=0;owUnpost(m,i,j)}return}
     if(bk==='land'){t[k]=4;m.under[k]=0;return}
     if(bk==='wood')m.bw.set(k,hor?1:2);
     if(par){t[k]=9;m.under[k]=8;if(bk==='wood'&&q%2)return;const ck=Math.floor(i/CH)+','+Math.floor(j/CH);if(!m.bblocks.has(ck))m.bblocks.set(ck,[]);
       m.bblocks.get(ck).push(bk==='wood'?{i,j,k:'ropepost',v:hor?0:1}:{i,j,k:'parapet',v:hsh(i,j,11)<.2?2:hsh(i,j,12)<.5?0:1})}else{t[k]=8;m.under[k]=0}};
   // a land bridge wanders and swells a little; it has no railing
   const wob=q=>bk==='land'?Math.round(Math.sin(q*.35+hsh(ax,ay,44)*6)*1.4):0,ext=q=>bk==='land'&&Math.sin(q*.6+hsh(bx,by,45)*6)>.55?1:0;
-  if(hor){const row=Math.round((A.y+B.y)/2)-1;for(let i=Math.floor(A.x);i<=Math.ceil(B.x);i++){const o=wob(i);for(let j=row+o-ext(i);j<row+o+wd+ext(i+3);j++)put(i,j,false);if(bk!=='land'){put(i,row-1,true,i);put(i,row+wd,true,i)}}}
-  else{const col=Math.round((A.x+B.x)/2)-1;for(let j=Math.floor(A.y);j<=Math.ceil(B.y);j++){const o=wob(j);for(let i=col+o-ext(j);i<col+o+wd+ext(j+3);i++)put(i,j,false);if(bk!=='land'){put(col-1,j,true,j);put(col+wd,j,true,j)}}}}
+  if(hor){const row=Math.round((A.y+B.y)/2)-1;for(let i=Math.floor(A.x);i<=Math.ceil(B.x);i++){const o=wob(i);for(let j=row+o-ext(i);j<row+o+wd+ext(i+3);j++)put(i,j,false);if(bk!=='land'){put(i,row-1,true,i);put(i,row+wd,true,i)}}owOpenRails(m,Math.floor(A.x)-1,Math.ceil(B.x)+1,row-4,row+wd+4)}
+  else{const col=Math.round((A.x+B.x)/2)-1;for(let j=Math.floor(A.y);j<=Math.ceil(B.y);j++){const o=wob(j);for(let i=col+o-ext(j);i<col+o+wd+ext(j+3);i++)put(i,j,false);if(bk!=='land'){put(col-1,j,true,j);put(col+wd,j,true,j)}}owOpenRails(m,col-4,col+wd+4,Math.floor(A.y)-1,Math.ceil(B.y)+1)}}
+// where one bridge meets another from the side, a railing post between two walkways would bar the way: open it
+function owOpenRails(m,i0,i1,j0,j1){const W=m.w,t=m.t,T=(i,j)=>t[j*W+i];for(let pass=0;pass<2;pass++)for(let j=j0;j<=j1;j++)for(let i=i0;i<=i1;i++){const k=j*W+i;if(t[k]!==9||m.under[k]!==8)continue;
+  if(T(i-1,j)===8&&T(i+1,j)===8||T(i,j-1)===8&&T(i,j+1)===8){t[k]=8;m.under[k]=0;owUnpost(m,i,j)}}}
 function owContent(m,cx,cy){const c={objs:[],props:[],deco:[],blocks:[],crit:[],spawn:[],lvl:1},I=islandOf(cx,cy);if(!I||I.kind==='home')return c;
   const Rg=mulberry(Math.floor(hsh(cx,cy,20)*1e9)),rr=(a,b)=>a+Rg()*(b-a),ri=(a,b)=>Math.floor(rr(a,b+1)),pk=a=>a[Math.floor(Rg()*a.length)],W=m.w,t=m.t,T=(i,j)=>t[j*W+i];
   c.lvl=lvlAt(I.x,I.y);const fe=Math.max(1,Math.round(I.dist*.9)),lead=!I.big||(cx===I.cx&&cy===I.cy),SX=I.sx||1,SY=I.sy||1;
@@ -104,6 +107,8 @@ function owTick(){const m=G.map;if(!m||!m.world)return;const cx=Math.floor(P.x/C
   m.objs=[...H.objs,...L.flatMap(q=>q.objs)];m.props=[...H.props,...L.flatMap(q=>q.props)];m.deco=[...H.deco,...L.flatMap(q=>q.deco)];m.crit=[...H.crit,...L.flatMap(q=>q.crit)];
   m.blocks=[...H.blocks,...L.flatMap(q=>q.blocks),...[...want].flatMap(q=>m.bblocks.get(q)||[])]}
 function owRestart(){const m=G.map;if(!m||!m.world)return;m.enemies=m.enemies.filter(e=>!e.ck);m.active=new Set();m.ac=null;owTick()}
+// take the railing post off a bridge tile that has become a walkway
+function owUnpost(m,i,j){const ck=Math.floor(i/CH)+','+Math.floor(j/CH),L=m.bblocks.get(ck),f=b=>!(b.i===i&&b.j===j&&(b.k==='parapet'||b.k==='ropepost'));if(L)m.bblocks.set(ck,L.filter(f));if(m.blocks)m.blocks=m.blocks.filter(f)}
 function nearWalk(x,y){for(let r=0;r<6;r+=.5)for(let a=0;a<6.28;a+=.5){const nx=x+Math.cos(a)*r,ny=y+Math.sin(a)*r;if(free(nx,ny,.3))return[nx,ny]}return[x,y]}
 function owTravel(key){const f=key==='home'?null:G.owFires[key];closeDialog();if(G.floor!==0)enterFloor(0);const m=G.map;
   if(f){const[x,y]=nearWalk(f.x+1,f.y+1);P.x=x;P.y=y}else{P.x=m.start.x;P.y=m.start.y}P.path=[];camX=P.x;camY=P.y;owRestart();sample('portal',.6,{rate:1});banner(f?f.name:'Der Hügel','',undefined,1800)}

@@ -21,11 +21,11 @@ const _owContentI=owContent;owContent=function(m,cx,cy){const c=_owContentI(m,cx
     const bk=`${cx},${cy}>${cx+dx},${cy+dy}`,x=Math.floor(I.x+dx*(I.r-3.2)+dy*2.6)+.5,y=Math.floor(I.y+dy*(I.r-3.2)+dx*2.6)+.5;if(!land(Math.floor(x),Math.floor(y))||taken.some(o=>hyp(o.x-x,o.y-y)<1.6))continue;
     const on=!!twS().br[bk];c.objs.push({type:'isbstone',x,y,bk,ax:cx,ay:cy,bx:cx+dx,by:cy+dy,on});taken.push({x,y});if(on)isBuild(m,cx,cy,cx+dx,cy+dy,false)}
   return c};
-function isBridgeTiles(m,ax,ay,bx,by){const A=islandOf(ax,ay),B=islandOf(bx,by),L=[];if(!A||!B)return L;const W0=m.w;
-  if(by===ay){const row=Math.round((A.y+B.y)/2)-1;for(let i=Math.floor(A.x);i<=Math.ceil(B.x);i++)for(let j=row;j<row+3;j++)if(!m.t[j*W0+i])L.push(j*W0+i)}
-  else{const col=Math.round((A.x+B.x)/2)-1;for(let j=Math.floor(A.y);j<=Math.ceil(B.y);j++)for(let i=col;i<col+3;i++)if(!m.t[j*W0+i])L.push(j*W0+i)}return L}
+function isBridgeTiles(m,ax,ay,bx,by){const A=islandOf(ax,ay),B=islandOf(bx,by),L=[];if(!A||!B)return L;const W0=m.w,open=k=>!m.t[k]||m.t[k]===9&&m.under[k]===8;
+  if(by===ay){const row=Math.round((A.y+B.y)/2)-1;for(let i=Math.floor(A.x);i<=Math.ceil(B.x);i++)for(let j=row;j<row+3;j++)if(open(j*W0+i))L.push(j*W0+i)}
+  else{const col=Math.round((A.x+B.x)/2)-1;for(let j=Math.floor(A.y);j<=Math.ceil(B.y);j++)for(let i=col;i<col+3;i++)if(open(j*W0+i))L.push(j*W0+i)}return L}
 let ISB=null;
-function isBuild(m,ax,ay,bx,by,anim){owIsland(m,bx,by);const L=isBridgeTiles(m,ax,ay,bx,by);if(!anim){for(const k of L){m.t[k]=8;m.under[k]=0}return}ISB={m,L,i:0,acc:0}}
+function isBuild(m,ax,ay,bx,by,anim){owIsland(m,bx,by);const L=isBridgeTiles(m,ax,ay,bx,by);for(const k of L)if(m.t[k]===9){owUnpost(m,k%m.w,Math.floor(k/m.w));m.t[k]=8;m.under[k]=0}if(!anim){for(const k of L){m.t[k]=8;m.under[k]=0}return}ISB={m,L,i:0,acc:0}}
 // the sights
 const _drawPropI=drawProp;drawProp=function(p){if(!ISN[p.k])return _drawPropI(p);isProp(p)};
 const _propLightI=propLight;propLight=function(p){if(p.k==='islight')return{r:240,a:.9,col:'255,220,150',f:3,h:128};if(p.k==='isfall')return{r:110,a:.4,col:'150,200,255',f:2,h:10};return _propLightI(p)};

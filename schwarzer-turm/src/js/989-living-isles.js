@@ -5,6 +5,11 @@ const LVS={};
 function lvSpr(){if(LVS.done)return;LVS.done=1;
   const blob=(g,cx,cy,rx,ry,col,n,Rr,a=1)=>{g.fillStyle=col;g.globalAlpha=a;for(let k=0;k<n;k++){const q=Rr()*6.28,d=Rr();g.beginPath();g.ellipse(cx+Math.cos(q)*rx*d*.55,cy+Math.sin(q)*ry*d*.55,rx*(.35+Rr()*.35),ry*(.35+Rr()*.35),0,0,7);g.fill()}g.globalAlpha=1};
   const dots=(g,cx,cy,rx,ry,cols,n,Rr,w=1,h=1)=>{for(let k=0;k<n;k++){const q=Rr()*6.28,d=Math.sqrt(Rr());g.fillStyle=cols[Math.floor(Rr()*cols.length)];g.fillRect(Math.round(cx+Math.cos(q)*rx*d),Math.round(cy+Math.sin(q)*ry*d),w,h)}};
+  // worn grass for the paths: the same kind of tile, more yellow, fewer blades, earth and pebbles between
+  LVS.path=[0,1,2,3,4,5].map(v=>mk(64,32,g=>{const Rr=mulberry(v*19+3);dia(g);g.fillStyle=['#9cb23a','#a2b640','#98ae36','#9fb43c','#a6b844','#9ab038'][v];g.fill();g.save();g.clip();
+    for(let k=0;k<4;k++){g.fillStyle=`rgba(${128+Rr()*20|0},${104+Rr()*16|0},${56+Rr()*10|0},${(.3+Rr()*.18).toFixed(2)})`;g.beginPath();g.ellipse(14+Rr()*36,8+Rr()*16,4+Rr()*7,2+Rr()*3,0,0,7);g.fill()}
+    for(let k=0;k<22;k++){const x=Rr()*64,y=Rr()*32;g.strokeStyle=Rr()<.55?'#62841c':'#c8dc66';g.globalAlpha=.6;g.beginPath();g.moveTo(x,y);g.lineTo(x+(Rr()*2-1)*1.5,y-1-Rr()*2.5);g.stroke()}
+    g.globalAlpha=1;for(let k=0;k<14;k++){g.fillStyle=['#6a5434','#a8946a','#5a4a2c','#c8b890'][Math.floor(Rr()*4)];g.fillRect(Rr()*60+2|0,Rr()*28+2|0,Rr()<.3?2:1,1)}g.restore()}));
   LVS.moss=[0,1,2].map(v=>mk(56,28,g=>{const Rr=mulberry(v*17+3);blob(g,28,14,24,11,'#24461a',8,Rr,.55);blob(g,28,14,16,7,'#36621f',6,Rr,.5);dots(g,28,14,16,7,['#5a8a2a','#6e9e34'],14,Rr)}));
   LVS.clover=[0,1,2].map(v=>mk(52,26,g=>{const Rr=mulberry(v*23+5);blob(g,26,13,22,10,'#3e7a22',7,Rr,.45);for(let k=0;k<12;k++){const x=6+Rr()*40,y=5+Rr()*16;g.fillStyle=Rr()<.5?'#5aa02c':'#4a8e26';g.fillRect(x|0,y|0,2,1);g.fillRect((x+1)|0,(y-1)|0,1,1);g.fillRect((x-1)|0,(y+1)|0,1,1)}dots(g,26,13,16,7,['#f0ecd8','#e8d8f0'],3+v,Rr,2,2)}));
   LVS.leaves=[0,1,2].map(v=>mk(56,28,g=>{const Rr=mulberry(v*41+9);for(let k=0;k<22;k++){const x=6+Rr()*44,y=4+Rr()*20;g.save();g.translate(x,y);g.rotate(Rr()*6.28);g.fillStyle=['#a0522a','#c07a2a','#d8a03a','#7a4a22','#8a6a2a'][Math.floor(Rr()*5)];g.beginPath();g.ellipse(0,0,2.6,1.2,0,0,7);g.fill();g.restore()}}));
@@ -21,7 +26,7 @@ function lvSpr(){if(LVS.done)return;LVS.done=1;
   LVS.glow={};for(const[k,col]of[['c','150,230,255'],['g','160,255,190'],['v','200,160,255']])LVS.glow[k]=[0,1,2,3].map(v=>mk(30,54,g=>{g.filter='blur(2px)';runes(g,v,`rgba(${col},.9)`,3.4);g.filter='none';runes(g,v,`rgba(${col},1)`,1.4);runes(g,v,'rgba(255,255,255,.85)',.6)}))}
 
 // what each island gets, decided from the seed so every player sees the same
-const _owContentLV=owContent;owContent=function(m,cx,cy){const c=_owContentLV(m,cx,cy);lvSpr();const lv=c.lv={tuft:[],trail:[],patch:[],rune:[],crow:[],gnat:[],bee:[]};
+const _owContentLV=owContent;owContent=function(m,cx,cy){const c=_owContentLV(m,cx,cy);lvSpr();const lv=c.lv={tuft:[],path:[],patch:[],rune:[],crow:[],gnat:[],bee:[]};
   // tufts leave the flat ground and sway on their own
   c.deco=c.deco.filter(d=>{if(d.k!=='tuft')return true;lv.tuft.push({x:d.x,y:d.y,v:d.v,ph:hsh(Math.floor(d.x*7),Math.floor(d.y*7),173)*6.28});return false});
   for(const d of c.deco)if(d.k==='flowers'&&lv.bee.length<3&&hsh(Math.floor(d.x*5),Math.floor(d.y*5),174)<.5)lv.bee.push({x:d.x,y:d.y,ph:hsh(cx,cy,175+lv.bee.length)*6.28});
@@ -30,10 +35,12 @@ const _owContentLV=owContent;owContent=function(m,cx,cy){const c=_owContentLV(m,
   // trodden paths from the middle to every bridge, a little crooked
   const path=new Set();
   if(!I.big){const ph=rr(0,6.28);for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const on=dx>0||dy>0?linkOn(cx,cy,cx+dx,cy+dy):linkOn(cx+dx,cy+dy,cx,cy);if(!on)continue;
-    let line=[];const end=()=>{if(line.length>2)lv.trail.push(line);line=[]};
-    for(let s=1.5;s<I.r+3;s+=.5){const o=Math.sin(s*.45+ph+dx*2+dy)*.6,x=I.x+dx*s-dy*o,y=I.y+dy*s+dx*o;if(T(Math.floor(x),Math.floor(y))!==4){if(line.length)end();continue}line.push([x,y]);
-      for(const[a,b]of[[0,0],[-dy*.5,dx*.5],[dy*.5,-dx*.5]])path.add(Math.floor(y+b)*W0+Math.floor(x+a))}end()}}
-  if(path.size)lv.tuft=lv.tuft.filter(d=>!path.has(Math.floor(d.y)*W0+Math.floor(d.x)));
+    let pi=null,pj=null;
+    for(let s=1.5;s<I.r+3;s+=.5){const o=Math.sin(s*.45+ph+dx*2+dy)*.6,i=Math.floor(I.x+dx*s-dy*o),j=Math.floor(I.y+dy*s+dx*o);if(T(i,j)!==4){pi=null;continue}
+      // a step to the side keeps the tiles joined edge to edge, never only at a corner
+      if(pi!==null&&pi!==i&&pj!==j&&T(pi,j)===4)path.add(j*W0+pi);path.add(j*W0+i);pi=i;pj=j}}}
+  for(const k of path){const i=k%W0,j=(k-i)/W0;if(T(i,j+1)&&T(i+1,j))lv.path.push({i,j,v:(i*7+j*13)%LVS.path.length})}
+  if(path.size){const off=d=>!path.has(Math.floor(d.y)*W0+Math.floor(d.x));lv.tuft=lv.tuft.filter(off);c.deco=c.deco.filter(off)}
   // patches: what lies about depends on the island
   const spot=(ok=v=>v===4)=>{for(let k=0;k<20;k++){const a=rr(0,6.28),r=rr(1,I.r-1.2),i=Math.floor(I.x+Math.cos(a)*r*SX),j=Math.floor(I.y+Math.sin(a)*r*SY);if(ok(T(i,j))&&!path.has(j*W0+i))return[i+rr(.2,.8),j+rr(.2,.8)]}return null};
   const put=(k,n,ok)=>{for(let q=0;q<n;q++){const p=spot(ok);if(p)lv.patch.push({k,x:p[0],y:p[1],v:Math.floor(rr(0,LVS[k].length-.01)),f:Rg()<.5})}};
@@ -46,17 +53,20 @@ const _owContentLV=owContent;owContent=function(m,cx,cy){const c=_owContentLV(m,
   for(const p of lv.patch)if(p.k==='mud'&&Rg()<.4)lv.gnat.push({x:p.x,y:p.y,ph:rr(0,6)});
   // standing stones with runes: often on ruins and grave islands, now and then out in the wild
   const nr=K==='ruins'?(Rg()<.85?2+(Rg()<.4):0):K==='grave'?(Rg()<.7?1+(Rg()<.3):0):K==='wild'||K==='forest'?(Rg()<.25?1:0):0,col=K==='ruins'?'c':K==='grave'?'g':'v';
-  const taken=[...c.objs,...c.props];
+  const taken=[...c.objs,...c.props],heads=[],RR=Math.ceil(I.r*Math.max(SX,SY))+4;
+  for(let j=Math.floor(I.y)-RR;j<=I.y+RR;j++)for(let i=Math.floor(I.x)-RR;i<=I.x+RR;i++)if(T(i,j)===8&&[[1,0],[-1,0],[0,1],[0,-1]].some(([a,b])=>{const v=T(i+a,j+b);return v===4||v===7}))heads.push([i+.5,j+.5]);
+  const segD=(px,py,ax,ay,bx,by)=>{const dx=bx-ax,dy=by-ay,L=dx*dx+dy*dy||1,q=clamp(((px-ax)*dx+(py-ay)*dy)/L,0,1);return hyp(px-ax-dx*q,py-ay-dy*q)};
+  const onWay=(x,y)=>heads.some(([hx,hy])=>segD(x,y,hx,hy,I.x,I.y)<2.8||segD(x,y,hx,hy,I.x,hy)<2.8||segD(x,y,I.x,hy,I.x,I.y)<2.8||segD(x,y,hx,hy,hx,I.y)<2.8||segD(x,y,hx,I.y,I.x,I.y)<2.8);
   for(let q=0,tr=0;q<nr&&tr<80;tr++){const a=rr(0,6.28),r=rr(3.5,I.r-2),i=Math.floor(I.x+Math.cos(a)*r*SX),j=Math.floor(I.y+Math.sin(a)*r*SY);
     if(Math.abs(i+.5-I.x)<3||Math.abs(j+.5-I.y)<3)continue;const v0=T(i,j);let ok=v0===4||v0===7;for(const[a2,b2]of[[1,0],[-1,0],[0,1],[0,-1],[1,1]]){const v=T(i+a2,j+b2);if(!v||v===8)ok=false}
-    if(!ok||taken.some(o=>Math.abs(o.x-i-.5)<1.4&&Math.abs(o.y-j-.5)<1.4)||lv.rune.some(o=>Math.abs(o.x-i-.5)<4&&Math.abs(o.y-j-.5)<4))continue;
+    if(!ok||onWay(i+.5,j+.5)||path.has(j*W0+i)||taken.some(o=>Math.abs(o.x-i-.5)<1.4&&Math.abs(o.y-j-.5)<1.4)||lv.rune.some(o=>Math.abs(o.x-i-.5)<4&&Math.abs(o.y-j-.5)<4))continue;
     const k=j*W0+i,v=Math.floor(rr(0,3.99));m.under[k]=t[k];t[k]=9;c.blocks.push({i,j,k:'lvrune',v});lv.rune.push({x:i+.5,y:j+.5,v,col,w:0,on:false});q++}
   lv.tuft=lv.tuft.filter(d=>T(Math.floor(d.x),Math.floor(d.y))!==9);
   return c};
 // the lists of the chunks around the hero, rebuilt whenever that set changes
 const _owTickLV=owTick;owTick=function(){_owTickLV();const m=G.map;if(!m||!m.world||m.lvAc===m.ac)return;m.lvAc=m.ac;
   const L=[...m.active].map(k=>m.cdata.get(k)&&m.cdata.get(k).lv).filter(Boolean),f=k=>L.flatMap(q=>q[k]||[]);
-  m.lv={tuft:f('tuft'),trail:f('trail'),patch:f('patch'),rune:f('rune'),crow:f('crow'),gnat:f('gnat'),bee:f('bee')}};
+  m.lv={tuft:f('tuft'),path:f('path'),patch:f('patch'),rune:f('rune'),crow:f('crow'),gnat:f('gnat'),bee:f('bee')}};
 
 // one world-wide state for the moving things
 const LV={wind:{a:0,s:.35},wet:0,birds:[],ffly:[],leaf:[],streak:[],peb:[],birdT:8,crT:1,whT:20,rustT:0,lx:0,ly:0};
@@ -121,12 +131,8 @@ function lvWhisper(x,y){if(!AC||G.muted||!noiseBuf)return;try{const t0=AC.curren
 // on the ground: paths, patches and puddles under everything, and tufts that sway
 const _drawDecalsLV=drawDecals;drawDecals=function(){const m=G.map;if(m&&m.world&&m.lv)lvGround(m);return _drawDecalsLV()};
 function lvGround(m){const lv=m.lv,vis=(x,y,mx=60)=>{const[sx,sy]=iso(x,y);return sx>-mx&&sx<W+mx&&sy>-mx&&sy<H+mx?[sx,sy]:null};
-  // trodden paths: soft strokes, darker at the rim, a paler rut down the middle
-  ctx.save();ctx.lineCap='round';ctx.lineJoin='round';const L=lv.trail.filter(l=>l.some(([x,y])=>vis(x,y,80)));
-  for(const[w,col]of[[30,'rgba(96,74,34,.22)'],[22,'rgba(112,82,42,.62)'],[13,'rgba(140,108,62,.5)'],[4,'rgba(170,140,94,.35)']]){ctx.strokeStyle=col;ctx.lineWidth=w;for(const l of L){ctx.beginPath();l.forEach(([x,y],k)=>{const[sx,sy]=iso(x,y);k?ctx.lineTo(sx,sy):ctx.moveTo(sx,sy)});ctx.stroke()}}
-  // pebbles and roots along the way
-  for(const l of L)for(let k=1;k<l.length;k++){const[x,y]=l[k],h=hsh(Math.floor(x*9),Math.floor(y*9),178);if(h>.55)continue;const[sx,sy]=iso(x+(h-.27)*.9,y-(h-.27)*.6);ctx.fillStyle=h<.2?'#5a4428':h<.4?'#a8987a':'#7a6446';ctx.fillRect(Math.round(sx),Math.round(sy),h<.2?3:2,h<.2?1:2)}
-  ctx.restore();
+  // trodden paths: tiles of worn grass with earth showing through
+  for(const p of lv.path){const[sx,sy]=iso(p.i,p.j);if(sx<-40||sx>W+40||sy<-40||sy>H+40)continue;ctx.drawImage(LVS.path[p.v],sx-32,sy)}
   const wet=LV.wet,nA=nightA();
   for(const p of lv.patch){const s=vis(p.x,p.y);if(!s)continue;const c=LVS[p.k][p.v];
     if(p.k==='mud'){ctx.drawImage(c,s[0]-30,s[1]-15);if(wet>.02){ctx.save();ctx.globalAlpha=wet*.85;ctx.translate(s[0],s[1]);ctx.scale(1,.5);const g=ctx.createRadialGradient(-4,-4,2,0,0,20);g.addColorStop(0,nA>.5?'#3a4a70':'#c8dcf4');g.addColorStop(.7,nA>.5?'#1a2440':'#7aa4d8');g.addColorStop(1,'rgba(60,80,110,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,20,0,7);ctx.fill();
