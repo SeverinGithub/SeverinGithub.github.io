@@ -18,7 +18,8 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 5. [[Offene Punkte]] – was noch angeboten oder unklar ist.
 
 ## Features (Details zu allem, was in den letzten Sessions gebaut wurde)
-- [[Klassen]] – Krieger, Jägerin, Magier, Alchemist; Waffen pro Klasse, Bögen/Armbrüste, Talentbaum mit 4 Zweigen
+- [[Klassen]] – Krieger, Jägerin, Magier, Alchemist; Waffen pro Klasse, Bögen/Armbrüste, eigene Ausrüstung für Jägerin und Alchemist
+- [[Talentbaum]] – 8 Zweige, 4 Ringe, 32 Meilensteine, 1.561 Knoten
 - [[Anpassung]] – Bosse und Gegner passen sich an Schaden und Zähigkeit des Spielers an, Multiplayer-Skalierung, Karten-Zoom, feste Kartenobjekte
 - [[Performance]] – Messanzeige `?perf`, Messwerte, erledigte Optimierungen, Plan für den GPU-Renderer
 - [[Steuerung]] – Tastatur, Tab/V, iPad-Knöpfe

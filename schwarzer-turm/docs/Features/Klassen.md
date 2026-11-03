@@ -32,7 +32,7 @@ Wunsch des Nutzers (2026-11-02): Die Klassen sollen sich deutlich unterscheiden 
 - Der Magier startet weiter mit dem Eichenstab (`startWeapon`-Wrapper).
 
 ## Talentbaum
-- 4 statt 6 Zweige: Krieger (+ Wächter-Cluster), Jägerin (+ „Schattentanz“), Alchemist (+ Wanderer-Cluster), Magier (Cluster-Mods auf `sk_m_*`). Neu aufgebaut nach `TREE`-Leerung, Geometrie über `N=TB.length`, Cluster-Plätze `SLOT`. Beschriftung im Baum-SVG über `TB.length`.
+- Seit 2026-11-03 der große Baum mit 8 Zweigen, siehe [[Talentbaum]].
 
 ## Aussehen
 - `heroLook` setzt `R.hunt` bzw. `R.alch`, `humanoid`-Wrapper hängt `torsoFx/armFx/head` ein (Muster wie die Magierrobe).
