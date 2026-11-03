@@ -9021,7 +9021,7 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   for(let j=0;j<44;j++)for(let i=0;i<44;i++)if(T(i,j)===3&&hyp(i+.5-HVC,j+.5-HVC)<15)setT(i,j,4);
   const heads=hvHeads(m),arena=heads.find(h=>h.x>33&&Math.abs(h.y-22.5)<4);
   // the square before the gate and the stations in their quarters
-  const Q=pl(45,8,4.6),door=[24.3,24.3],S={};S.shrine=Q;S.stash=pol(Q,8,2.3);S.merchant=pl(14,10.6,2.4);S.smith=pl(27,11.8,2.2);S.riftstone=pl(-14,11,1.8);
+  const Q=pl(45,8,4.6),door=[24.3,24.3],S={};S.shrine=Q;S.stash=pol(Q,8,2.3);S.merchant=pl(-16.5,8.8,2.4);S.smith=pl(27,11.8,2.2);S.riftstone=pl(-14,11,1.8);
   const WC=pl(102,9.6,3),WT=[-Math.sin(102*HVD),Math.cos(102*HVD)],WR=[Math.cos(102*HVD),Math.sin(102*HVD)],wv=(t,r)=>[WC[0]+WT[0]*t+WR[0]*r,WC[1]+WT[1]*t+WR[1]*r];
   S.anvil=wv(1.7,0);S.enchant=wv(0,.1);S.grind=wv(-1.7,0);S.chronist=pl(165,8.2,3);
   const GY=pl(135,10.6,2.6),deckA=[38,45,52,30,60].find(a=>!heads.some(h=>Math.abs(((h.a-a+540)%360)-180)<22))??45,deckE=hvEdge(m,deckA);
@@ -9039,7 +9039,7 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   if(west)road(bez(pol([HVC,HVC],west.a,7),add(pol([HVC,HVC],west.a,7.2),[.8,1.6]),ef,6),1.3);else road([pol([HVC,HVC],165,4.7),ef],1.3);
   for(let r=0;r<1.3;r+=.5)road(Array.from({length:13},(_,k)=>pol(ef,k/12*360,r)),1.1);
   const deckIn=pol([HVC,HVC],deckA,deckE-.6);road([add(Q,pol([0,0],deckA,2)),deckIn],1.5);
-  road([pol([HVC,HVC],-62,4.7),[25.6,16.9]],1.2);road([S.riftstone,pol([HVC,HVC],-14,7.6)],1.2);
+  road([pol([HVC,HVC],-62,4.7),[25.6,16.9]],1.2);
   // the deck over the edge: wooden planks on the void, a bench and a spyglass
   const ei=Math.floor(deckIn[0]+Math.cos(deckA*HVD)),ej=Math.floor(deckIn[1]+Math.sin(deckA*HVD));if(!m.bw)m.bw=new Map();H.hvDeck=[];
   for(let j=ej-1;j<=ej+2;j++)for(let i=ei-1;i<=ei+2;i++)if(!T(i,j)){const k=(HOY+j)*W0+HOX+i;setT(i,j,8,8);m.bw.set(k,1);H.hvDeck.push(k)}
@@ -9061,7 +9061,7 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   prop('hvroof',...wv(0,-1.05),{t:WT,r:WR});for(const s of[-1,1]){solid(...wv(s*3,-1.3))}
   prop('hvwood',...wv(1.4,-2.4));prop('hvcoal',...wv(-1.4,-2.4));take(...wv(0,-1.5),2.2);
   // the market: herb beds by Odalinde, barrels and crates, a quench barrel by the smith
-  const M=S.merchant;for(const p of[[2.1,.7],[1.5,2.0]])prop('ydflower',M[0]+p[0],M[1]+p[1],{seed:311+p[0]*7|0,pal:YDLAY.pals[(p[1]*3|0)%YDLAY.pals.length]});
+  const M=S.merchant;for(const p of[[-1.9,-.4],[-1.2,-2.0]])if(T(M[0]+p[0],M[1]+p[1])===4){prop('ydflower',M[0]+p[0],M[1]+p[1],{seed:311+p[1]*7|0,pal:YDLAY.pals[(p[0]*3|0)&3]});take(M[0]+p[0],M[1]+p[1],.6)}
   blk(M[0]-.6,M[1]-1.6,'barrel',0);blk(M[0]+.6,M[1]-1.7,'crate',1);blk(S.smith[0]+1.3,S.smith[1]-1.1,'barrel',1);prop('hvcoal',S.smith[0]+1.4,S.smith[1]+.9);
   // Eldrik's corner: book crates, a hedge behind him, a little herb garden
   const E=S.chronist;prop('hvbooks',E[0]+1.6,E[1]-.6);prop('hvbooks',E[0]-.4,E[1]+1.9,{v:1});
@@ -9073,7 +9073,7 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   for(let j=Math.floor(GY[1]-1.5);j<=GY[1]+1.5;j++)for(let i=Math.floor(GY[0]-1.5);i<=GY[0]+1.5;i++){if(hyp(i+.5-GY[0],j+.5-GY[1])>1.45||hyp(i+.5-GG[0],j+.5-GG[1])<1.1)continue;
     if(gi===4){blk(i+.5,j+.5,'tree',2);gi++;continue}if(blk(i+.5,j+.5,'grave',gi%3)){prop('hvrip',i+.5,j+.5,{txt:rip[gi]||HVRIP[gi%HVRIP.length]});gi++}}
   // growth: what the hill gains with every fallen guardian
-  if(g>=1){prop('hvbanner',M[0]-1.6,M[1]+.9,{v:2});for(const[a,b]of[[2.6,-1.2],[2.4,1.6],[3,.2],[-1.4,2.6]])if(blk(M[0]+a,M[1]+b,'tent',0)){blk(M[0]+a-.9,M[1]+b-.9,'crate',0);break}}
+  if(g>=1){prop('hvbanner',M[0]-1.6,M[1]+.9,{v:2});for(const[a,b]of[[-.4,-2.7],[-2.8,-1.6],[1.2,-2.9]])if(isFree(M[0]+a,M[1]+b,.8)&&blk(M[0]+a,M[1]+b,'tent',0)){blk(M[0]+a-.9,M[1]+b-.9,'crate',0);break}}
   const homes=[[62,11.4],[-120,10.4],[215,10.6],[80,12],[-32,11.6],[-150,10.5],[185,11.5],[240,11],[-58,12],[120,12]].map(([a,r])=>pl(a,r,2.6));let hn=g>=6?3:g>=4?2:g>=2?1:0;
   for(const p of homes){if(!hn)break;if(isFree(p[0]+.5,p[1]+.5,1.6)&&big(p[0],p[1],'house',hn&1))hn--}
   // hedges and a fence that make the lanes

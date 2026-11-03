@@ -12,7 +12,7 @@ Winkel und Abstände zählen ab der Turmmitte (lokal 22,5 / 22,5). Liegt der Ins
 |---|---|---|
 | Ring | Radius 4,7 um den Turm | gepflasterter Weg, 8 Laternen außen herum |
 | Dorfplatz | vor dem Tor (45°, Abstand 8) | Leuchtfeuer im Steinkreis, Brunnen, Truhe, zwei Bänke, zwei Banner am Torweg, Wegweiser |
-| Markt | Osten, an der Straße zur Arena | Odalinde mit Kräuterbeeten, Fass und Kiste; Brannoc mit Löschfass und Kohle; Riss-Stein am Rand |
+| Markt | Osten, an der Straße zur Arena | Odalinde nördlich der Straße zwischen Übungsplatz und Riss-Stein (−16,5°, Abstand 8,8; vom Nutzer so gewünscht), mit Kräuterbeeten, Fass und Kiste; Brannoc südlich am Dorfplatz mit Löschfass und Kohle |
 | Werkstatt | Südwesten (102°) | Amboss, Glyphentisch und Schleifstein in einer Reihe unter einem Pultdach mit Werkzeugwand, Holzstapel und Kohle dahinter |
 | Gelehrtenwinkel | Westen (165°), an der Westbrücke | Eldriks Schreibstube, Hecke dahinter, Bücherkisten, Kräutergarten |
 | Friedhof | 135° am Rand | Eisenzaun mit Tor zur Werkstattgasse, Gräber, ein alter Baum |
