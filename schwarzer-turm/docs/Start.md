@@ -25,6 +25,7 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 - [[Lebendige Inseln]] – Gras im Wind, Pfade, Pfützen, Tiere, Glühwürmchen, Runensteine und Flüstern auf den Himmelsinseln
 - [[Bewegung]] – Gehen, Laufen, Sprinten, Atmen, Dash mit seltenem Salto
 - [[Waffen-Ideen]] – 54 neue Waffen zum Abarbeiten
+- [[Neue Waffen]] – die ersten 24 davon und das Krieger-Set
 - [[Welt-Ideen]] – 44 Ideen für eine lebendigere, mystischere Welt
 - [[Helden und Spielstände]] – Heldenliste statt Speicherplätze, jeder Held speichert sich selbst samt Standort
 - [[Eldriks Schreibstube]] – der Questgeber mit Pult, Regal und eigener Runde

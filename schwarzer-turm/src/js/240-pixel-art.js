@@ -212,7 +212,7 @@ const INVC={};
 // icon at inventory size: weapons are painted upright from the same shapes the hero holds; the rest are shaded at size
 function invIcon(it){const[w,h]=isz(it),key=itKey(it)+'|'+itUq(it)+'|'+w+'x'+h+(it.soc?'|'+it.soc+':'+(it.runes||[]).join(','):'');if(INVC[key])return INVC[key];
   const c=document.createElement('canvas');c.width=w*ICW;c.height=h*ICW;const g=c.getContext('2d',{willReadFrequently:true});
-  const wc=SH(it.b)==='Henkersbeil'?'axe':it.cls;if(it.dmg&&WEXT[wc]){const[lo,L,ex,hw0]=WEXT[wc],hw=SH(it.b)==='Hellebarde'?7.5:hw0,sc=Math.min((c.height-4)/(L+ex-lo),(c.width-2)/(hw*2));
+  const wc=SH(it.b)==='Henkersbeil'?'axe':it.cls;const wx=WEXT[SH(it.b)]||WEXT[wc];if(it.dmg&&wx){const[lo,L,ex,hw0]=wx,hw=SH(it.b)==='Hellebarde'?7.5:hw0,sc=Math.min((c.height-4)/(L+ex-lo),(c.width-2)/(hw*2));
     g.translate(c.width/2,c.height-2+lo*sc);g.rotate(-Math.PI/2);g.scale(sc,sc);const prev=ctx;ctx=g;try{iconW(it)}finally{ctx=prev}g.setTransform(1,0,0,1,0,0)}
   else{const S=Math.min(w,h)*ICW-2,src=pxCanvas(itKey(it),itUq(it),false,S-2);g.drawImage(src,(c.width-src.width)/2|0,(c.height-src.height)/2|0)}
   const img=g.getImageData(0,0,c.width,c.height),d=img.data,W2=c.width,H2=c.height,op=(x,y)=>x>=0&&y>=0&&x<W2&&y<H2&&d[(y*W2+x)*4+3]>120;

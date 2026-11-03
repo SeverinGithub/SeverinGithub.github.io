@@ -68,6 +68,12 @@ Wunsch: „viel Content … von early game bis late game immer besser … Jäger
 - Wiki: zeigt die Schilder „Jägerin“/„Alchemist“ (Feld `kit` in `turm-wiki/index.html`).
 - Hinweis: Die oberste Stufe braucht Gegenstandsstufe ≈ 80 (Auswahlgrenze `ilvl·0,75+1`), wie die übrigen Endstufen.
 
+## Krieger-Set (2026-11-03, `992-warrior-gear.js`)
+- 24 Grundteile von Kettenhaube und Gambeson bis Kriegskrone und Ritterharnisch, jeweils in Schwarzeisen, Runenstahl und Drachenstahl.
+- Gezeichnet wie die alten schweren Teile (`shape` = Lederkappe, Kettenhemd, Schuppenpanzer, Plattenharnisch …), also mit Kettenmuster, Schuppen oder Schulterplatten am Helden.
+- Eingebaut (`KRIMP`): Helm Stärke und Leben, Rüstung Leben, Schadensminderung und Verteidigung, Handschuhe Stärke und Angriffstempo, Stiefel Lauftempo und Leben, Gürtel Leben und Stärke.
+- Beute und Tooltip wie bei den anderen Sets: fremde Klassen würfeln ein Krieger-Teil zu 55 % neu, der Tooltip zeigt „Ausrüstung: Krieger“. Sechs Unikate (Widderstirn, Eiserne Wacht, Schwur des Ritters …).
+
 ## Alte Spielstände (`P.clv`)
 - Wanderer: Dialog „Der Wanderer geht“ (`clsPick`) beim ersten Laden; Stufe, Erfahrung, Glut, Gegenstände bleiben; Eigenschaftspunkte über den alten Grundwerten, alle Fertigkeitspunkte und alle Talentpunkte kommen zurück; fremde Waffe wandert ins Inventar, Startwaffe der neuen Klasse wird angelegt.
 - Alle anderen: Talentbaum zurückgesetzt (Punkte zurück). Jägerin zusätzlich Fertigkeitspunkte zurück.

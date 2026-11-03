@@ -52,5 +52,7 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 986-island-sights.js | `ISN`, `genCrypt`, `enterCrypt`, `isBuild`, `CLIM`, `drawIslets`, `TWLIGHTS` | Landmarken, Grüfte, Brückensteine, treibende Inseln, Klima nach Region, Turm-Lichter |
 | 988-hill-village.js | `hvBuild`, `hvTick`, `hvHeads`, `hvEdge`, `hvWalk`, `HVLOOK`, `hvDraw`, `hvSprites`, `hvGraves` | Der Hügel als Dorf: Ring, Straßen, feste Plätze der Stationen, Platz, Werkstattdach, Friedhof, Steg, Laternen, Wegweiser, Dorfbewohner, Wachstum nach Hütern |
 | 989-living-isles.js | `lvSpr`, `lvTick`, `lvGround`, `lvAir`, `lvGlow`, `lvWhisper`, `LV` | Lebendige Inseln: Gras im Wind, Trampelpfade, Bodenflecken, Pfützen, Wind mit Blättern, Vogelschwärme und Fledermäuse, Krähen auf Gräbern, Mücken, Bienen, Motten, Glühwürmchen, bröckelnde Ränder, Runensteine, Flüstern |
+| 991-weapons-two.js | `NW`, `NWPX`, `NWIMP`, `NWS`, `NWT`, `NWD`, `nwW`, `nwStun`, `nwBlade` | 24 neue Waffen (Stäbe, Schwerter, Äxte, stumpfe Waffen) mit Materialstufen, eingebauten Werten, Treffer-Effekten (`weaponHit`-Wrapper), Blutung und Betäubung (`updEnemy`-Wrapper) und eigenem Bild in der Hand (`vWeapon`-Wrapper); Symbolgröße pro Form über `WEXT[Name]` |
+| 992-warrior-gear.js | `KRIE`, `KRIET`, `KRIMP`, `isKrie` | Krieger-Set: 24 Teile in drei Macharten, gezeichnet wie die alten Ketten-/Schuppen-/Plattenteile (`shape`), mit Stärke, Leben und Schadensminderung eingebaut |
 
 Zurück zu [[Start]].

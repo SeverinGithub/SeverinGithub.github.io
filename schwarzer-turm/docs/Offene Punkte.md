@@ -12,14 +12,14 @@ tags: [todo]
 - [ ] **Neues Artefakt anlegen?** Die alte Artefakt-URL ist nicht mehr erreichbar – nachfragen.
 - [ ] Großer Talentbaum (2026-11-03): Werte und Wege im echten Spiel prüfen, siehe [[Talentbaum]].
 - [ ] Klassen: Balance im echten Spiel prüfen (Phiolenschaden, Jägerin-Tempo, Krieger-Leben) – seit 2026-11-03 zusätzlich `potPow` aus der Alchemisten-Ausrüstung (bis über +100 % im Endspiel).
-- [ ] Krieger hat noch kein eigenes Set wie Magier/Jägerin/Alchemist (nutzt die allgemeinen schweren Rüstungen) – ggf. nachfragen.
 - [x] Jägerin-Banditin: Schatten nach dem Schattenschritt (2026-11-03, siehe [[Klassen]]). Im echten Spiel prüfen, ob 2–3 s sich gut anfühlen.
 - [ ] Multiplayer: Mitspieler-Aussehen von Jägerin/Alchemist und der Heilnebel mit zwei echten Spielern prüfen.
 - [x] Bogen/Armbrust: eigene Schuss-Animation mit Spannen, Pfeil und Rückstoß (2026-11-03, siehe [[Klassen]]).
 - [x] Bogen mit beiden Armen, Aufladen, Nachschwingen, auch für Gegner-Schützen (2026-11-03, siehe [[Klassen]]). Im echten Spiel prüfen, ob sich schnelles Schießen gut anfühlt.
 - [x] Heldenliste statt Speicherplätze, Position wird mitgespeichert (2026-11-03, siehe [[Helden und Spielstände]]). Auf dem iPad mit echten alten Spielständen prüfen.
 - [x] Gang für alle Figuren (Stehen/Atmen, Gehen, Laufen, Sprinten mit Knien) und Dash nach vorn mit Salto etwa jedes 5. Mal (2026-11-03, siehe [[Bewegung]]). Auf dem iPad ansehen, ob der Dash zu stark kippt.
-- [ ] **Waffen-Ideen abarbeiten**: 54 Einträge in [[Waffen-Ideen]], der Reihe nach (zuerst Knotenstab für den Magier, dann Schwerter, Hellebarde neu).
+- [ ] **Waffen-Ideen abarbeiten**: Nr. 1–25 sind drin (außer Wurfbeil), weiter mit Nr. 26 (Stangenwaffen, Hellebarde neu) bis 54 und dem Wurfbeil, siehe [[Waffen-Ideen]] und [[Neue Waffen]].
+- [ ] Neue Waffen und Krieger-Set im echten Spiel prüfen: Balance der Treffer-Effekte (Schockwelle, Blutung, Betäubung) und eigene Bewegungen je Waffe (bisher nutzen alle die Bewegung ihrer Art).
 - [x] Questgeber Eldrik neu gezeichnet mit eigener Schreibstube (2026-11-03, siehe [[Eldriks Schreibstube]]).
 - [x] Kartendesign: Themen-Stockwerke, Flüche, Sonderräume, Fässer/Kronleuchter/Druckplatten, Bodenrisse, Aufzug, Grüfte, Landmarken, Brückensteine, Klima, Turm-Lichter (2026-11-03, siehe [[Turm-Ebenen und Inseln]]). Im echten Spiel Häufigkeiten und Schaden prüfen.
 - [x] Startinsel als Dorf mit festem Grundriss, Wegen, Vierteln, Friedhof, Steg, Dorfbewohnern und Wachstum (2026-11-03, siehe [[Der Hügel]]). Im echten Spiel prüfen, ob Stationen gut erreichbar sind.

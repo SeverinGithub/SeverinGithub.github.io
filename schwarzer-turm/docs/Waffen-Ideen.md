@@ -7,40 +7,42 @@ Liste zum Abarbeiten, der Reihe nach von oben. Jede neue Grundform bekommt wie b
 
 **Schon im Spiel (2026-11-03):** Kurzschwert, Krummsäbel, Langschwert, Runenklinge, Mondsichel, Drachenzahn, sechs Zwillingsklingen, Dolch, Schattendolch, Nachtzahn, Stilett, Kris, Rabenschnabel, Giftzahn, Keule, Morgenstern, Kriegshammer, Handaxt, Kriegsaxt, Bluthacke, Eichenstab, Aschestab, Sternenstab, Holzzauberstab (Alchemist), Speer, Hellebarde (nur als Speer mit kleinem Beil), Seelenspieß, Zweihänder, Henkersbeil, Kolossklinge, vier Schilde, drei Zauberbücher, sechs Bögen, vier Armbrüste.
 
+**Erste Runde fertig (2026-11-03, `991-weapons-two.js`):** Nr. 1–25 außer dem Wurfbeil (Nr. 18, kommt mit dem Fernkampf). Wie sie gebaut sind und was jede kann: [[Neue Waffen]].
+
 Spalten: Name · Art · Klasse · Stufen · was sie besonders macht · Bewegung.
 
 ## Stäbe und Zauberwerkzeug (Magier)
-- [ ] **1 Knotenstab**: Stab aus Wurzelholz · Magier · 1–25 · der Holzstab für den Anfang; im Astloch glimmt eine Glut, die beim Zaubern aufflackert · aufstampfen wie beim Eichenstab
-- [ ] **2 Kampfstab**: Stab, beidhändig · Magier, Krieger · 5–40 · schnelle Stockschläge, stößt Gegner zurück, kein Zauberbonus, dafür Tempo · Wirbel mit beiden Händen in der Mitte
-- [ ] **3 Kristallstab**: Stab · Magier · 18–55 · Frostkristall an der Spitze, Frostzauber verlangsamen länger · der Kristall leuchtet beim Laden auf
-- [ ] **4 Knochenstab**: Stab · Magier · 22–60 · Schädel als Knauf, Zauber stehlen etwas Leben · der Kiefer klappert beim Zaubern
-- [ ] **5 Runenstab**: Stab · Magier · 30–69 · Runen glühen nacheinander auf, +1 auf alle Zauber · Runen fliegen um die Spitze
-- [ ] **6 Zauberrute**: Einhand-Rute · Magier · 8–50 · einhändig, sodass der Magier ein Buch oder einen Schild in der zweiten Hand tragen kann · kurze, schnelle Wischbewegung
-- [ ] **7 Weltenast**: Stab · Magier · 50–69 · Endspiel: ein lebender Ast mit Blättern, die beim Zaubern wachsen und abfallen; Gift- und Naturschaden · Blätter rieseln
+- [x] **1 Knotenstab**: Stab aus Wurzelholz · Magier · 1–25 · der Holzstab für den Anfang; im Astloch glimmt eine Glut, die beim Zaubern aufflackert · aufstampfen wie beim Eichenstab
+- [x] **2 Kampfstab**: Stab, beidhändig · Magier, Krieger · 5–40 · schnelle Stockschläge, stößt Gegner zurück, kein Zauberbonus, dafür Tempo · Wirbel mit beiden Händen in der Mitte
+- [x] **3 Kristallstab**: Stab · Magier · 18–55 · Frostkristall an der Spitze, Frostzauber verlangsamen länger · der Kristall leuchtet beim Laden auf
+- [x] **4 Knochenstab**: Stab · Magier · 22–60 · Schädel als Knauf, Zauber stehlen etwas Leben · der Kiefer klappert beim Zaubern
+- [x] **5 Runenstab**: Stab · Magier · 30–69 · Runen glühen nacheinander auf, +1 auf alle Zauber · Runen fliegen um die Spitze
+- [x] **6 Zauberrute**: Einhand-Rute · Magier · 8–50 · einhändig, sodass der Magier ein Buch oder einen Schild in der zweiten Hand tragen kann · kurze, schnelle Wischbewegung
+- [x] **7 Weltenast**: Stab · Magier · 50–69 · Endspiel: ein lebender Ast mit Blättern, die beim Zaubern wachsen und abfallen; Gift- und Naturschaden · Blätter rieseln
 
 ## Schwerter
-- [ ] **8 Gladius**: Einhand · Krieger · 1–20 · kurz und schnell, mehr Krit · Stich nach vorn statt Hieb
-- [ ] **9 Falchion**: Einhand · Krieger, Jägerin · 6–35 · schwere einschneidige Klinge, mehr Schaden gegen Ungepanzerte
-- [ ] **10 Bastardschwert**: Anderthalbhänder · Krieger · 12–45 · mit Schild einhändig, ohne Schild beidhändig mit mehr Schaden · Griffwechsel sichtbar
-- [ ] **11 Rapier**: Einhand · Jägerin · 10–45 · Stichwaffe mit Korb, sehr schnell, Durchbohren · schneller Ausfallschritt
-- [ ] **12 Estoc**: Zweihand-Stecher · Krieger · 20–55 · durchschlägt Rüstung, trifft in einer Linie
-- [ ] **13 Katana**: Einhand/Zweihand · Jägerin, Krieger · 25–60 · Blutung bei Treffern, Schnitt aus der Scheide als Fertigkeit · Ziehen und Schneiden in einem
-- [ ] **14 Flamberge**: Zweihand · Krieger · 30–65 · gewellte Klinge, starke Blutung, langsamer · weiter Bogen mit Klingenspur
-- [ ] **15 Claymore**: Zweihand · Krieger · 35–69 · Korbgriff, trifft im breiten Bogen, stößt zurück
+- [x] **8 Gladius**: Einhand · Krieger · 1–20 · kurz und schnell, mehr Krit · Stich nach vorn statt Hieb
+- [x] **9 Falchion**: Einhand · Krieger, Jägerin · 6–35 · schwere einschneidige Klinge, mehr Schaden gegen Ungepanzerte
+- [x] **10 Bastardschwert**: Anderthalbhänder · Krieger · 12–45 · mit Schild einhändig, ohne Schild beidhändig mit mehr Schaden · Griffwechsel sichtbar
+- [x] **11 Rapier**: Einhand · Jägerin · 10–45 · Stichwaffe mit Korb, sehr schnell, Durchbohren · schneller Ausfallschritt
+- [x] **12 Estoc**: Zweihand-Stecher · Krieger · 20–55 · durchschlägt Rüstung, trifft in einer Linie
+- [x] **13 Katana**: Einhand/Zweihand · Jägerin, Krieger · 25–60 · Blutung bei Treffern, Schnitt aus der Scheide als Fertigkeit · Ziehen und Schneiden in einem
+- [x] **14 Flamberge**: Zweihand · Krieger · 30–65 · gewellte Klinge, starke Blutung, langsamer · weiter Bogen mit Klingenspur
+- [x] **15 Claymore**: Zweihand · Krieger · 35–69 · Korbgriff, trifft im breiten Bogen, stößt zurück
 
 ## Äxte
-- [ ] **16 Bartaxt**: Einhand · Krieger · 4–30 · hakt den Schild aus: Gegner verlieren kurz die Abwehr
-- [ ] **17 Doppelaxt**: Zweihand · Krieger · 20–55 · zwei Schneiden, jeder zweite Hieb trifft rückwärts mit
+- [x] **16 Bartaxt**: Einhand · Krieger · 4–30 · hakt den Schild aus: Gegner verlieren kurz die Abwehr
+- [x] **17 Doppelaxt**: Zweihand · Krieger · 20–55 · zwei Schneiden, jeder zweite Hieb trifft rückwärts mit
 - [ ] **18 Wurfbeil**: Einhand und Wurfwaffe · Krieger, Jägerin · 8–45 · lässt sich werfen und kommt zurück · Wurf und Fangen
-- [ ] **19 Breitaxt**: Zweihand · Krieger · 40–69 · riesiges Blatt, spaltet Rüstung (Rüstung des Ziels sinkt)
+- [x] **19 Breitaxt**: Zweihand · Krieger · 40–69 · riesiges Blatt, spaltet Rüstung (Rüstung des Ziels sinkt)
 
 ## Stumpfe Waffen
-- [ ] **20 Flanschkolben**: Einhand · Krieger · 6–40 · mehr Schaden gegen Skelette und Golems
-- [ ] **21 Kettenflegel**: Einhand · Krieger · 14–50 · Kugel an der Kette, ignoriert Schilde; Kette mit echter Pendelbewegung · Ausholen über dem Kopf
-- [ ] **22 Zepter**: Einhand · Magier, Krieger · 10–55 · halb Waffe, halb Fokus: Licht- oder Feuerschaden plus Zauberbonus
-- [ ] **23 Kriegspicke**: Einhand · Krieger · 18–55 · Spitze statt Kopf, durchschlägt Rüstung
-- [ ] **24 Großhammer**: Zweihand · Krieger · 30–69 · Kolossalwaffe, Hiebe erschüttern den Boden (kleine Schockwelle), sehr langsam · Ausholen über die Schulter
-- [ ] **25 Riesenkeule**: Zweihand · Krieger · 45–69 · ein ganzer Baumstamm mit Eisenringen; wirft Gegner um
+- [x] **20 Flanschkolben**: Einhand · Krieger · 6–40 · mehr Schaden gegen Skelette und Golems
+- [x] **21 Kettenflegel**: Einhand · Krieger · 14–50 · Kugel an der Kette, ignoriert Schilde; Kette mit echter Pendelbewegung · Ausholen über dem Kopf
+- [x] **22 Zepter**: Einhand · Magier, Krieger · 10–55 · halb Waffe, halb Fokus: Licht- oder Feuerschaden plus Zauberbonus
+- [x] **23 Kriegspicke**: Einhand · Krieger · 18–55 · Spitze statt Kopf, durchschlägt Rüstung
+- [x] **24 Großhammer**: Zweihand · Krieger · 30–69 · Kolossalwaffe, Hiebe erschüttern den Boden (kleine Schockwelle), sehr langsam · Ausholen über die Schulter
+- [x] **25 Riesenkeule**: Zweihand · Krieger · 45–69 · ein ganzer Baumstamm mit Eisenringen; wirft Gegner um
 
 ## Stangenwaffen (eigene Art `pole`)
 - [ ] **26 Hellebarde, neue Fassung**: Stangenwaffe · Krieger · 15–55 · bekommt eine eigene Form mit Beil, Spitze und Haken statt der Speer-Variante; Rundumschwung als Grundangriff · weiter Halbkreis
