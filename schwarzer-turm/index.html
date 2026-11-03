@@ -8226,9 +8226,10 @@ const _saveDataK=saveData;saveData=function(){const d=_saveDataK();if(d&&P){d.p.
 
 /* ---------- the huntress: a hooded mantle, a cloth over the mouth, quiet leather · the alchemist: an apron, goggles, a strap of glowing vials ---------- */
 const _heroLookK=heroLook;heroLook=function(fl){const r=_heroLookK(fl);if(P&&(P.cls==='jaegerin'||P.cls==='alchemist')){r.R[P.cls==='jaegerin'?'hunt':'alch']=1;r.R.clsHelm=!!(P.eq.helm&&P.d.okS.has(P.eq.helm))}return r};
-const darkR=C=>[C[0],C[0],C[1],C[2]];
+function darkR(C){return[C[0],C[0],C[1],C[2]]}
 // a ramp pulled part of the way towards another, so the mantle keeps the armour's colour but always reads as the huntress's dusk-violet
-const mixR=(A,B,t)=>A.map((c,i)=>{if(!/^#[0-9a-f]{6}$/i.test(c))return c;const h=k=>parseInt(c.slice(k,k+2),16)*(1-t)+parseInt(B[i].slice(k,k+2),16)*t;return'#'+[1,3,5].map(k=>Math.round(h(k)).toString(16).padStart(2,'0')).join('')});
+// both are functions, not constants, so tools/godot-export-layers.js can follow them while it bakes
+function mixR(A,B,t){return A.map((c,i)=>{if(!/^#[0-9a-f]{6}$/i.test(c))return c;const h=k=>parseInt(c.slice(k,k+2),16)*(1-t)+parseInt(B[i].slice(k,k+2),16)*t;return'#'+[1,3,5].map(k=>Math.round(h(k)).toString(16).padStart(2,'0')).join('')})}
 const _humanoidK=humanoid;humanoid=function(o){const R=o.R;if(!R||!(R.hunt||R.alch)||o.clsDone)return _humanoidK(o);
   const C=R.torso,f=o.f,back=o.back,tw=o.tw||1,mv=o.moving,s=mv?Math.sin(o.ph||0):0,c2=mv?Math.cos((o.ph||0)*2):0,head0=o.head,o2=Object.assign({},o,{clsDone:1}),inner=o.torsoFx;
   if(R.hunt){const K=darkR(mixR(C,['#0e0a16','#221a34','#3a2c52','#5a4878'],.5)),cL=R.cape?8:0,LT=['#120c08','#24180e','#3a2816','#5a4026'];

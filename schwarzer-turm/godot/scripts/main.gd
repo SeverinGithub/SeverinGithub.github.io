@@ -1,9 +1,10 @@
 extends Node2D
-## Test scene for the asset pipeline: a grass island from the exported tiles, the warrior walks where you click,
-## a few enemies stroll about and strike when the hero comes close. Nothing of the real game logic yet.
+## Test scene for the asset pipeline: a grass island from the exported tiles, the hero walks where you click,
+## a few enemies stroll about and strike when the hero comes close. Keys 1–4 switch class and outfit (Hero, built from layers),
+## space strikes. Nothing of the real game logic yet.
 
 const SIZE := 18
-var hero: Figure
+var hero: Hero
 var foes: Array[Figure] = []
 var target := Vector2.ZERO
 var cam: Camera2D
@@ -12,7 +13,10 @@ var grass: Array[Texture2D] = []
 func _ready() -> void:
 	for i in 6:
 		grass.append(Data.sprite("grass/%d" % i))
-	hero = _figure("hero_krieger", Vector2(9, 9))
+	hero = Hero.new()
+	hero.world = Vector2(9, 9)
+	add_child(hero)
+	_outfit(0)
 	target = hero.world
 	var kinds := ["enemy_skel", "enemy_ghoul", "enemy_spider", "enemy_archer", "enemy_cult", "enemy_golem"]
 	for i in kinds.size():
@@ -24,6 +28,20 @@ func _ready() -> void:
 	cam.position_smoothing_speed = 9.0
 	add_child(cam)
 	cam.make_current()
+
+const OUTFITS := [
+	["krieger", {"armor": "Mondsilber-Plattenharnisch", "helm": "Hornhelm", "weapon": "Blutstahl-Langschwert", "offhand": "Wappenschild", "gloves": "Panzerhandschuhe", "boots": "Plattenstiefel", "belt": "Kriegsgürtel"}],
+	["jaegerin", {"armor": "Schattenmantel", "helm": "Rabenkapuze", "weapon": "Giftzahn", "gloves": "Krallenhandschuhe", "boots": "Nebelläufer"}],
+	["magier", {"armor": "Runenrobe", "helm": "Spitzhut", "weapon": "Knotenstab", "gloves": "Runenhandschuhe", "boots": "Sandalen", "belt": "Kordel"}],
+	["alchemist", {"armor": "Pestmantel", "helm": "Pestmaske", "weapon": "Kurzbogen", "gloves": "Glutgreifer", "belt": "Trankgurt"}],
+]
+
+func _outfit(i: int) -> void:
+	hero.cls = OUTFITS[i][0]
+	hero.gear = OUTFITS[i][1].duplicate()
+	hero.unique = {}
+	if hero.is_inside_tree():
+		hero.rebuild()
 
 func _figure(key: String, at: Vector2) -> Figure:
 	var f := Figure.new()
@@ -40,6 +58,11 @@ func _draw() -> void:
 			draw_texture(grass[(i * 7 + j * 13) % 6], p - Vector2(32, 0))
 
 func _unhandled_input(ev: InputEvent) -> void:
+	if ev is InputEventKey and ev.pressed and not ev.echo:
+		if ev.keycode >= KEY_1 and ev.keycode <= KEY_4:
+			_outfit(ev.keycode - KEY_1)
+		elif ev.keycode == KEY_SPACE:
+			hero.play("attack")
 	if ev.is_action_pressed("move_click"):
 		var w := Iso.to_world(get_global_mouse_position())
 		target = w.clamp(Vector2(.5, .5), Vector2(SIZE - .5, SIZE - .5))

@@ -177,3 +177,6 @@ Schwarzer Turm: 24 neue Waffen und ein eigenes Krieger-Set – aus den Waffen-Id
 ### 509e323 · 2026-11-03
 Schwarzer Turm: Kamera ruckelt nicht mehr, Kugeln seltener neu gemalt – die Kamera folgt dem Helden jetzt nach vergangener Zeit statt um einen festen Anteil pro Bild, sodass er bei schwankender Bildzeit oder einem ausgefallenen Bild nicht mehr gegen den Hintergrund springt; Lebens- und Manakugel werden höchstens 30-mal pro Sekunde neu gerastert und sofort, wenn sich ihr Stand ändert; dazu die Messung in Performance und der fehlende Changelog-Eintrag
 
+
+### e2956aa · 2026-11-03
+Schwarzer Turm: Umstieg auf Godot vorbereitet – Sicherung als ZIP und Git-Tag schwarzer-turm-vor-godot; ein Export-Werkzeug (tools/godot-export-server.mjs und tools/godot-export.js) schreibt alle Spieldaten als JSON nach godot/data (1064 Grundteile, 310 Unikate, 74 Gegnerarten, Fertigkeiten, Klassen, Affixe, Werte-Texte, Paletten), alle 202 Weltbilder und 1064 Gegenstandssymbole als PNG und backt die bisher jedes Bild neu gezeichneten Figuren in Bögen mit 8 Richtungen zum Gehen, Angreifen und Stehen (74 Gegnerarten, 4 Helden); dazu ein Godot-4-Projekt mit Daten-Autoload, Iso-Projektion wie im Browser, Figuren-Abspieler und einer Testszene mit Grasinsel, Krieger und Gegnern sowie die Notiz Godot-Umstieg mit Plan und offenen Entscheidungen

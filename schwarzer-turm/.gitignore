@@ -1,3 +1,7 @@
 _t.html
 _d.html
 .DS_Store
+godot/assets/hero/
+godot/data/hero_layers.json
+godot/_vgl*.png
+godot/.godot/

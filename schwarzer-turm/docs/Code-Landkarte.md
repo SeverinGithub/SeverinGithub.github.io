@@ -58,4 +58,4 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 Zurück zu [[Start]].
 
 ## Godot (`godot/`)
-Export: `tools/godot-export-server.mjs` (Server, schreibt nach `godot/`) und `tools/godot-export.js` (läuft im Spiel). Godot-Skripte: `data.gd` (Autoload `Data`), `iso.gd`, `figure.gd`, `main.gd`. Siehe [[Godot-Umstieg]].
+Export: `tools/godot-export-server.mjs` (Server, schreibt nach `godot/`), `tools/godot-export.js` (Daten, Bilder, Figuren) und `tools/godot-export-layers.js` (Held in Ebenen), beide laufen im Spiel. Godot-Skripte: `data.gd` (Autoload `Data`), `iso.gd`, `figure.gd`, `hero.gd` (Held aus Ebenen), `main.gd`; Shader `ramp_map.gdshader` (Grau → Materialverlauf). Siehe [[Godot-Umstieg]].
