@@ -43,5 +43,6 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 999-boot-loop.js | Init-Zeile `expandItems();buildPalette();…` + Spielschleife `frame` | neue Module bekommen eine Nummer **vor** 999 |
 
 | 960-perf-overlay.js | `perfToggle`, `PERF_FN` | Messanzeige `?perf` / Shift+F3, siehe [[Performance]] |
+| 970-class-gear.js | `HUNT`, `ALCH`, `gearAdd`, `ALDG`, `HUIMP`/`ALIMP`, `gSetOf`, `gGlint`, `HOODOFF` | Ausrüstung von Jägerin und Alchemist, neue Dolche und Unikate, Masken und Kapuzen in `vHelm`, siehe [[Klassen]] |
 
 Zurück zu [[Start]].

@@ -10,7 +10,8 @@ tags: [todo]
 - [ ] PWA (Homescreen, offline) fürs iPad; später Capacitor (App Store) bzw. Tauri (PC/Steam).
 - [ ] Spielstände versionieren (Format-Version + Migrationen statt Einzelfällen wie `P.clv`).
 - [ ] **Neues Artefakt anlegen?** Die alte Artefakt-URL ist nicht mehr erreichbar – nachfragen.
-- [ ] Klassen: Balance im echten Spiel prüfen (Phiolenschaden, Jägerin-Tempo, Krieger-Leben).
+- [ ] Klassen: Balance im echten Spiel prüfen (Phiolenschaden, Jägerin-Tempo, Krieger-Leben) – seit 2026-11-03 zusätzlich `potPow` aus der Alchemisten-Ausrüstung (bis über +100 % im Endspiel).
+- [ ] Krieger hat noch kein eigenes Set wie Magier/Jägerin/Alchemist (nutzt die allgemeinen schweren Rüstungen) – ggf. nachfragen.
 - [x] Jägerin-Banditin: Schatten nach dem Schattenschritt (2026-11-03, siehe [[Klassen]]). Im echten Spiel prüfen, ob 2–3 s sich gut anfühlen.
 - [ ] Multiplayer: Mitspieler-Aussehen von Jägerin/Alchemist und der Heilnebel mit zwei echten Spielern prüfen.
 - [x] Bogen/Armbrust: eigene Schuss-Animation mit Spannen, Pfeil und Rückstoß (2026-11-03, siehe [[Klassen]]).

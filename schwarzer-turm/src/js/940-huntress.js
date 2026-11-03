@@ -5,29 +5,31 @@ const darkR=C=>[C[0],C[0],C[1],C[2]];
 const mixR=(A,B,t)=>A.map((c,i)=>{if(!/^#[0-9a-f]{6}$/i.test(c))return c;const h=k=>parseInt(c.slice(k,k+2),16)*(1-t)+parseInt(B[i].slice(k,k+2),16)*t;return'#'+[1,3,5].map(k=>Math.round(h(k)).toString(16).padStart(2,'0')).join('')});
 const _humanoidK=humanoid;humanoid=function(o){const R=o.R;if(!R||!(R.hunt||R.alch)||o.clsDone)return _humanoidK(o);
   const C=R.torso,f=o.f,back=o.back,tw=o.tw||1,mv=o.moving,s=mv?Math.sin(o.ph||0):0,c2=mv?Math.cos((o.ph||0)*2):0,head0=o.head,o2=Object.assign({},o,{clsDone:1}),inner=o.torsoFx;
-  if(R.hunt){const K=darkR(mixR(C,['#0e0a16','#221a34','#3a2c52','#5a4878'],.5)),LT=['#120c08','#24180e','#3a2816','#5a4026'];
+  if(R.hunt){const K=darkR(mixR(C,['#0e0a16','#221a34','#3a2c52','#5a4878'],.5)),cL=R.cape?8:0,LT=['#120c08','#24180e','#3a2816','#5a4026'];
     o2.torsoFx=(shX,shY,hipX,hipY)=>{if(inner)inner(shX,shY,hipX,hipY,back);
       if(back){// the mantle over the back: from the shoulders to below the belt, its hem cut in points and swinging
-        const T=[-8.6,-4,0,4,8.6].map(x=>[shX+x*tw,shY-1]),B=[-9.6,-5,0,5,9.6].map((x,k)=>[hipX+x*tw+s*1.4*(.5+Math.abs(x)/10),hipY+5+(k%2?1.6:0)+(mv?Math.abs(x)/10*c2*.8:0)]);
+        const T=[-8.6,-4,0,4,8.6].map(x=>[shX+x*tw,shY-1]),B=[-9.6,-5,0,5,9.6].map((x,k)=>[hipX+x*tw*(1+cL/40)+s*(1.4+cL*.25)*(.5+Math.abs(x)/10),hipY+5+cL+(k%2?1.6:0)+(mv?Math.abs(x)/10*c2*(.8+cL*.12):0)]);
         for(let k=0;k<4;k++){ctx.fillStyle=K[clamp(2-(k>1?1:0)+(k===0?-1:0),0,3)];ctx.beginPath();ctx.moveTo(...T[k]);ctx.lineTo(...T[k+1]);ctx.lineTo(...B[k+1]);ctx.lineTo(...B[k]);ctx.closePath();ctx.fill()}
-        ctx.strokeStyle=K[0];ctx.lineWidth=.6;ctx.globalAlpha=.7;ctx.beginPath();for(const k of[1,3]){ctx.moveTo(T[k][0],T[k][1]+2);ctx.lineTo(B[k][0],B[k][1]-.8)}ctx.stroke();ctx.globalAlpha=1;return}
+        ctx.strokeStyle=K[0];ctx.lineWidth=.6;ctx.globalAlpha=.7;ctx.beginPath();for(const k of[1,3]){ctx.moveTo(T[k][0],T[k][1]+2);ctx.lineTo(B[k][0],B[k][1]-.8)}ctx.stroke();ctx.globalAlpha=1;
+        if(R.glint&2)gGlint(hipX-9*tw,shY,18*tw,hipY+5+cL-shY,7,1);return}
       // belt, a strap across the chest with three knives in it, the capelet's edges over the shoulders and a clasp
       limb(hipX-6.4*tw,hipY+.4,hipX+6.4*tw,hipY+.4,.9,.9,LT,true);blob(hipX+f*1.6,hipY+.4,1.1,1,RP.iron,true);
       limb(shX-f*5.5*tw,shY+.5,hipX+f*5*tw,hipY-.5,.75,.75,LT,true);
       for(let k=0;k<3;k++){const t=.25+k*.2,x=shX-f*5.5*tw+(hipX+f*5*tw-(shX-f*5.5*tw))*t,y=shY+.5+(hipY-.5-shY-.5)*t;limb(x,y,x-f*.6,y-2.6,.55,.4,RP.iron,true);blob(x-f*.7,y-2.9,.5,.5,RP.iron)}
       for(const sd of[-1,1]){ctx.fillStyle=K[sd===f?2:1];ctx.beginPath();ctx.moveTo(shX+sd*1.6,shY-1.6);ctx.lineTo(shX+sd*9.4*tw,shY);ctx.lineTo(shX+sd*8.6*tw,shY+5.4);ctx.lineTo(shX+sd*6.8*tw,shY+4.2);ctx.lineTo(shX+sd*5.6*tw,shY+6.4);ctx.lineTo(shX+sd*3.2,shY+3);ctx.closePath();ctx.fill()}
-      blob(shX+f*.6,shY+.6,1,1,RP.iron,true)};
+      blob(shX+f*.6,shY+.6,1,1,RP.iron,true);if(R.glint&2)gGlint(shX-9*tw,shY-1,18*tw,7,4,2)};
     o2.armFx=a=>{const dx=a.hx-a.ex,dy=a.hy-a.ey,l=Math.hypot(dx,dy)||1,ux=dx/l,uy=dy/l;limb(a.hx-ux*3.6,a.hy-uy*3.6,a.hx-ux*.9,a.hy-uy*.9,1.55,1.4,LT,true);ctx.strokeStyle=LT[3];ctx.lineWidth=.4;ctx.beginPath();ctx.moveTo(a.hx-ux*2.2-uy*1.3,a.hy-uy*2.2+ux*1.3);ctx.lineTo(a.hx-ux*2.2+uy*1.3,a.hy-uy*2.2-ux*1.3);ctx.stroke()};
-    o2.head=(hx,hy)=>{const H=K,peak=-f*1.4;
+    const hd0=(x,y)=>{HOODOFF=R.hoodR?1:0;try{head0(x,y)}finally{HOODOFF=0}};
+    o2.head=(hx,hy)=>{const H=R.hoodR?darkR(mixR(R.hoodR,['#0e0a16','#221a34','#3a2c52','#5a4878'],.35)):K,peak=-f*1.4,gl=()=>{if(R.glint)gGlint(hx-6,hy-8.5,12,13,4,R.glint)};
       if(R.clsHelm){head0(hx,hy);blob(hx,hy+5.2,6.6,2.4,H);return}
-      if(back){head0(hx,hy);blob(hx,hy-.6,5.6,6.2,H);poly([[hx-2.6,hy-5],[hx+peak*1.4,hy-8.6],[hx+2.6,hy-5]],[H[1],H[1],H[2],H[2]]);poly([[hx-6.2,hy+5.4],[hx-5,hy+1],[hx+5,hy+1],[hx+6.2,hy+5.4]],H);return}
-      blob(hx,hy,5.4,6,[H[0],H[0],H[0],H[1]]);head0(hx,hy);
+      if(back){hd0(hx,hy);blob(hx,hy-.6,5.6,6.2,H);poly([[hx-2.6,hy-5],[hx+peak*1.4,hy-8.6],[hx+2.6,hy-5]],[H[1],H[1],H[2],H[2]]);poly([[hx-6.2,hy+5.4],[hx-5,hy+1],[hx+5,hy+1],[hx+6.2,hy+5.4]],H);gl();return}
+      blob(hx,hy,5.4,6,[H[0],H[0],H[0],H[1]]);hd0(hx,hy);
       // the cloth over mouth and nose, then the hood's shadow down to the eyes
       ctx.fillStyle='#1c1612';ctx.beginPath();ctx.moveTo(hx-4.2,hy+.9);ctx.lineTo(hx+4.2,hy+.9);ctx.lineTo(hx+3.6,hy+3.8);ctx.lineTo(hx+f*.6,hy+4.6);ctx.lineTo(hx-3.6,hy+3.8);ctx.closePath();ctx.fill();
       ctx.fillStyle='#3a302a';ctx.fillRect(hx-4,hy+.9,8,.6);
       ctx.save();ctx.globalAlpha=.5;ctx.fillStyle='#000';ctx.beginPath();ctx.ellipse(hx+f*.6,hy-2.6,4.2,2.4,0,0,7);ctx.fill();ctx.restore();
-      poly([[hx-5.8,hy+5.2],[hx-5.8,hy-2],[hx-3.4,hy-7],[hx+peak,hy-8.4],[hx+3.4,hy-7],[hx+5.8,hy-2],[hx+5.8,hy+5.2],[hx+4.2,hy+5.2],[hx+4.4,hy-1.4],[hx+2.8,hy-4.6],[hx,hy-5.2],[hx-2.8,hy-4.6],[hx-4.4,hy-1.4],[hx-4.2,hy+5.2]],H)}}
-  else{const AP=['#4a3a24','#7a6440','#a88c5c','#d0b480'],LT=['#1a0e06','#3a2210','#6a4422','#9a6a3a'],VC=['#ff5a3a','#7ae050','#5ab0ff','#ffc040'],gl=.6+.4*Math.sin(G.t*3);
+      poly([[hx-5.8,hy+5.2],[hx-5.8,hy-2],[hx-3.4,hy-7],[hx+peak,hy-8.4],[hx+3.4,hy-7],[hx+5.8,hy-2],[hx+5.8,hy+5.2],[hx+4.2,hy+5.2],[hx+4.4,hy-1.4],[hx+2.8,hy-4.6],[hx,hy-5.2],[hx-2.8,hy-4.6],[hx-4.4,hy-1.4],[hx-4.2,hy+5.2]],H);gl()}}
+  else{const AP=R.apR?mixR(R.apR,['#4a3a24','#7a6440','#a88c5c','#d0b480'],.3):['#4a3a24','#7a6440','#a88c5c','#d0b480'],LT=['#1a0e06','#3a2210','#6a4422','#9a6a3a'],VC=['#ff5a3a','#7ae050','#5ab0ff','#ffc040'],gl=.6+.4*Math.sin(G.t*3);
     o2.torsoFx=(shX,shY,hipX,hipY)=>{if(inner)inner(shX,shY,hipX,hipY,back);
       if(back){// a round flask strapped to the back, green and glowing
         limb(shX-6*tw,shY+1,hipX+5*tw,hipY,.7,.7,LT,true);limb(shX+6*tw,shY+1,hipX-5*tw,hipY,.7,.7,LT,true);
@@ -35,9 +37,11 @@ const _humanoidK=humanoid;humanoid=function(o){const R=o.R;if(!R||!(R.hunt||R.al
         poly([[bx-1,by-3],[bx+1,by-3],[bx+.9,by-5.4],[bx-.9,by-5.4]],['#1a2422','#4a6460','#9ac0b8','#e0fff8']);blob(bx,by-5.7,1.1,.8,['#3a1a08','#6a3a14','#9a6a34','#c8985a']);limb(bx-3.4,by,bx+3.4,by,.5,.5,LT,true);
         ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.16*gl;ctx.fillStyle='#7ae050';ctx.beginPath();ctx.arc(bx,by+.8,4,0,7);ctx.fill();ctx.restore();return}
       // the apron: from the chest to the knees, a strap round the neck, a pocket with a vial in it
-      const sw=s*1.2,top=shY+4,bot=hipY+7.5;
+      const sw=s*(1.2+(R.coat?.8:0)),top=R.coat?shY+1:shY+4,bot=hipY+7.5+(R.coat?5:0);
       ctx.fillStyle=lgrad(hipX-7,top,hipX+7,top,[AP[0],AP[1],AP[2],AP[1]]);ctx.beginPath();ctx.moveTo(shX-4.4*tw,top);ctx.lineTo(shX+4.4*tw,top);ctx.lineTo(hipX+5.6*tw,hipY);ctx.lineTo(hipX+6.6*tw+sw,bot);ctx.lineTo(hipX-6.6*tw+sw,bot+.6);ctx.lineTo(hipX-5.6*tw,hipY);ctx.closePath();ctx.fill();
       ctx.strokeStyle=AP[0];ctx.lineWidth=.6;ctx.beginPath();ctx.moveTo(hipX-6.6*tw+sw,bot+.6);ctx.lineTo(hipX+6.6*tw+sw,bot);ctx.stroke();
+      if(R.scales){ctx.fillStyle=AP[0];ctx.globalAlpha=.75;for(let y=top+1.5;y<bot-.5;y+=1.6){const w0=5+(y-top)/(bot-top)*1.6;for(let x=-w0+((y-top)/1.6%2?.8:0);x<w0;x+=1.7){ctx.beginPath();ctx.arc(hipX+x*tw+sw*(y-top)/(bot-top),y,.62,0,Math.PI);ctx.fill()}}ctx.globalAlpha=1}
+      if(R.coat){ctx.strokeStyle=AP[0];ctx.lineWidth=.5;ctx.beginPath();ctx.moveTo(shX,top);ctx.lineTo(hipX+sw*.7,bot);ctx.stroke()}
       limb(shX-4.2*tw,top,shX-1.6,shY-1.4,.5,.5,LT,true);limb(shX+4.2*tw,top,shX+1.6,shY-1.4,.5,.5,LT,true);limb(hipX-6*tw,hipY+.2,hipX+6*tw,hipY+.2,.6,.6,LT,true);
       const px2=hipX+f*2.4,py2=hipY+3.4;poly([[px2-2.4,py2-1.4],[px2+2.4,py2-1.4],[px2+2.2,py2+2.4],[px2-2.2,py2+2.4]],[AP[0],AP[0],AP[1],AP[1]],true);limb(px2-.6,py2-1.2,px2-.6,py2-3.6,.7,.7,['#2a3a38','#6a8a84','#bcd8d0','#f0fff8']);blob(px2-.6,py2-3.9,.6,.5,LT);
       // the bandolier: shoulder to hip, four vials that glow each in their own colour

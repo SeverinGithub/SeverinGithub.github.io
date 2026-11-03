@@ -50,6 +50,20 @@ Wunsch des Nutzers (2026-11-02): Die Klassen sollen sich deutlich unterscheiden 
 - Grundangriff (`startAttack`) und jede andere Fertigkeit (`castSkill`) beenden den Schatten – der erste Schlag aus dem Schatten trifft mit dem Krit-Bonus.
 - Die Figur ist dabei durchscheinend und flackert leicht; Mitspieler sehen das über das Feld `vl` im Bewegungspaket.
 
+## Eigene Ausrüstung für Jägerin und Alchemist (2026-11-03, `970-class-gear.js`)
+Wunsch: „viel Content … von early game bis late game immer besser … Jägerin im late game eine Art Schwarzdiamant-Schattenumhang mit Kapuze … Alchemist eine Pestmaske aus Drachenschuppenleder“.
+- **Jägerin (`HUNT`, Flag `b.hunt`):** 6 Kopfteile (Stoffmaske → Nachtschleier), 6 Rüstungen (Lederweste → Nachtumhang, ab Pirschmantel als Umhang), je 4 Handschuhe, Stiefel, Gürtel. Stufen `HUNTT`: Nachtleder (+12), Dämmerseiden (+24), **Schwarzdiamant** (+36, Material `diamond`). Geschick-Anforderung ≈ 1,1 × Stufe.
+- **Alchemist (`ALCH`, Flag `b.alch`):** Schutzbrille, Laborkappe, Rauchmaske, Schnabelmaske, Pestmaske, Alchemistenhaube; Lederschürze, Laborkittel, Wachsmantel, Säureschürze, Pestmantel, Elixierkutte; je 4 Handschuhe, Stiefel, Gürtel. Stufen `ALCHT`: Wachsleder, Basiliskenleder, **Drachenschuppen** (Material `dscale`). Keine Anforderung außer Stufe.
+- Zusammen 192 Teile (48 Grundformen × 4), Stufe 1 bis 69. Spitzenstücke: `Schwarzdiamant-Nachtumhang` (69), `Schwarzdiamant-Schattenmantel` (55), `Drachenschuppen-Pestmaske` (61).
+- **Eingebaute Werte** wie bei der Magier-Ausrüstung (`HUIMP`/`ALIMP`, steigen mit der Stufe des Teils): Jägerin Geschick, Krit, Angriffs- und Lauftempo, Leben; Alchemist `potPow` (Tränke **und** Phiolenschaden über `alD`), Widerstände, Gift, `flaskH`, Mana. `MODTXT`/`MODORDER` kennen jetzt `potPow, flaskH, cdr, mcost`.
+- **4 neue Dolche** (`ALDG`): Stilett 5, Kris 9, Rabenschnabel 20, Giftzahn 26, jeweils mit allen `MATS`-Stufen (28 Waffen).
+- **18 Unikate**: 7 Jägerin-Rüstung, 4 Dolche, 7 Alchemist (z. B. Schleier der Mondlosen Nacht, Atem der Seuche, Mantel des Steins der Weisen).
+- **Beute:** Ein Teil aus dem Set einer fremden Klasse (Magier, Jägerin, Alchemist) wird zu 55 % neu gewürfelt (`gSetOf`). Tooltip zeigt „Ausrüstung: <Klasse>“.
+- **Am Charakter** (`heroLook`-Wrapper setzt Flags, gezeichnet in `940-huntress.js`): Kapuzen-Helm färbt die Jägerinnen-Kapuze (`R.hoodR`, `HOODOFF` unterdrückt die doppelte Kapuze aus `vHelm`), Umhänge hängen hinten bis zu den Knien (`R.cape`), Schwarzdiamant funkelt (`gGlint`, `R.glint` Bit 1 Kopf, Bit 2 Umhang). Alchemisten-Schürze nimmt die Farbe der Rüstung (`R.apR`), Mäntel sind länger (`R.coat`), Drachenschuppen zeigen Schuppen (`R.scales`). Masken in `vHelm`: `mask, hood, goggle, labcap, smoke, beak, plague` (mit Kapuze und breitem Hut), `ahood`. Andere Klassen tragen die Teile mit allgemeiner Kapuze bzw. Maske.
+- Pixelbilder: `PXA.hood, cmask, cloak, vest, apron, coat, goggle, beak`.
+- Wiki: zeigt die Schilder „Jägerin“/„Alchemist“ (Feld `kit` in `turm-wiki/index.html`).
+- Hinweis: Die oberste Stufe braucht Gegenstandsstufe ≈ 80 (Auswahlgrenze `ilvl·0,75+1`), wie die übrigen Endstufen.
+
 ## Alte Spielstände (`P.clv`)
 - Wanderer: Dialog „Der Wanderer geht“ (`clsPick`) beim ersten Laden; Stufe, Erfahrung, Glut, Gegenstände bleiben; Eigenschaftspunkte über den alten Grundwerten, alle Fertigkeitspunkte und alle Talentpunkte kommen zurück; fremde Waffe wandert ins Inventar, Startwaffe der neuen Klasse wird angelegt.
 - Alle anderen: Talentbaum zurückgesetzt (Punkte zurück). Jägerin zusätzlich Fertigkeitspunkte zurück.
