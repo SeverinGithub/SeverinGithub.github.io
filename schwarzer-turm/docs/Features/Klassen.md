@@ -72,4 +72,12 @@ Wunsch: „viel Content … von early game bis late game immer besser … Jäger
 - Wanderer: Dialog „Der Wanderer geht“ (`clsPick`) beim ersten Laden; Stufe, Erfahrung, Glut, Gegenstände bleiben; Eigenschaftspunkte über den alten Grundwerten, alle Fertigkeitspunkte und alle Talentpunkte kommen zurück; fremde Waffe wandert ins Inventar, Startwaffe der neuen Klasse wird angelegt.
 - Alle anderen: Talentbaum zurückgesetzt (Punkte zurück). Jägerin zusätzlich Fertigkeitspunkte zurück.
 
+## Magier-Zauber nach Element (`470-class-skills-2.js`)
+Seit 2026-11-03 passt jedes Element zu seinem Bild:
+- **Glutkugel** (Feuer) und **Seuchenkugel** (Gift) bleiben fliegende Kugeln.
+- **Eislanze** (Frost) fliegt als Lanze aus Eis (`drawProj`, `p.melem==='frost'`).
+- **Funkenschlag** (Blitz) ist kein Geschoss mehr. Ein Blitz aus dem Stab trifft sofort den ersten Feind in der Linie (bis 10 Schritte, Sichtlinie) und springt auf 2 weitere über. Ohne Ziel endet er an der ersten Wand (`G.bolts`).
+- Die Symbole zeigen einen Blitz, eine Eislanze und Kugeln für Feuer und Gift. Flammen und Rauch am Stab kommen nur beim Feuer.
+- Blitzring und Blitzsprung zeigen Blitze, Funken und Brandflecken statt Eissplittern und Frost. Die Beschreibung des Frostrings sagt nicht mehr „Eisring“.
+
 Zurück zu [[Start]].

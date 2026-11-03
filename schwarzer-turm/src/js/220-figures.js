@@ -197,13 +197,13 @@ function heroAnim(Q,th,f){const k=Q.anK&&ANK[Q.anK];if(!k)return null;const el=a
     else{const q=E((p-.32)/.68);set(L(th,th*.6,q),L(th-f*.08,idle,q),0,0,-.14*(1-q))}
     o.fx=(tx,ty,hx,hy)=>{const a=1-E(p/.6);if(a<=.02)return;glow(tx,ty,14+16*a,C.g,.9*a);glow(hx,hy,9,C.g,.55*a);
       // flames thrown back off the tip, a white-hot core, and a coal glowing in the hand
-      for(let i=0;i<7;i++){const fl=.55+.45*Math.sin(G.t*47+i*2.1),ln=(8+12*a)*fl,ang=th+Math.PI+(i-3)*.38+Math.sin(G.t*23+i)*.2;
+      if(el==='fire')for(let i=0;i<7;i++){const fl=.55+.45*Math.sin(G.t*47+i*2.1),ln=(8+12*a)*fl,ang=th+Math.PI+(i-3)*.38+Math.sin(G.t*23+i)*.2;
         ctx.fillStyle=i%2?`rgba(${C.a},${a})`:`rgba(${C.b},${a})`;ctx.beginPath();ctx.ellipse(tx+Math.cos(ang)*ln*.45,ty+Math.sin(ang)*ln*.45-2*fl,ln*.5,2.4,ang,0,7);ctx.fill()}
       ctx.fillStyle=`rgba(${C.b},${a})`;ctx.beginPath();ctx.arc(tx,ty,2.5+3.5*a,0,7);ctx.fill();ctx.fillStyle=`rgba(${C.c},${a})`;ctx.beginPath();ctx.arc(tx,ty,1.2+2*a,0,7);ctx.fill();
       ctx.fillStyle=`rgba(${C.a},${.9*a})`;ctx.beginPath();ctx.arc(hx,hy,1.8,0,7);ctx.fill();
       if(el==='light'){ctx.save();ctx.globalCompositeOperation='lighter';zig(hx,hy,tx,ty,4,3,1.2,`rgba(${C.c},${a})`);zig(tx,ty,tx+Math.cos(th)*14,ty+Math.sin(th)*14,4,6,1.2,`rgba(${C.a},${a})`);ctx.restore()}
       if(el==='poison')for(let i=0;i<4;i++){const t=(G.t*1.4+i/4)%1;ctx.strokeStyle=`rgba(${C.a},${(1-t)*a})`;ctx.lineWidth=1;ctx.beginPath();ctx.arc(tx+Math.sin(i*2+G.t)*4,ty-t*14,1+t*2.5,0,7);ctx.stroke()}
-      for(let i=0;i<3;i++){const t=(G.t*1.7+i/3)%1;ctx.fillStyle=`rgba(80,70,60,${.35*(1-t)*a})`;ctx.beginPath();ctx.arc(tx+Math.sin(G.t*3+i)*3,ty-t*16,1.5+t*3,0,7);ctx.fill()}};return o}
+      if(el==='fire')for(let i=0;i<3;i++){const t=(G.t*1.7+i/3)%1;ctx.fillStyle=`rgba(80,70,60,${.35*(1-t)*a})`;ctx.beginPath();ctx.arc(tx+Math.sin(G.t*3+i)*3,ty-t*16,1.5+t*3,0,7);ctx.fill()}};return o}
   // Frostring: up on the toes, the staff driven down, frost climbing the body and a ring of rime at the feet
   if(k==='nova'){const hiA=up,hiW=up+f*.2,loA=Math.atan2(.95,f*.35),loW=Math.PI/2-f*.1;
     if(p<.07){const q=E(p/.07);set(L(th,hiA,q),L(idle,hiW,q),-.08*q,-3*q,-.04*q)}
@@ -350,6 +350,8 @@ function drawEnemy(e){
   if(e.elem&&!e.dead&&Math.random()<.05)fxp({k:'mote',x:e.x+rnd(-.3,.3),y:e.y+rnd(-.3,.3),z:rnd(.3,1)*(e.scale||1),vz:.4,life:.8,col:{fire:'#ff9a30',frost:'#c8e4ff',poison:'#9ae050'}[e.elem],s:.8,g:0})}
 function drawProj(p){const[sx,sy]=iso(p.x,p.y);
   if(p.kind==='arrow'){const[dx,dy]=scrDir(Math.atan2(p.vy,p.vx));ctx.strokeStyle='#e8e2d0';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(sx-dx*10,sy-16-dy*10);ctx.lineTo(sx+dx*6,sy-16+dy*6);ctx.stroke()}
+  else if(p.melem==='frost'){const[dx,dy]=scrDir(Math.atan2(p.vy,p.vx)),y=sy-16,nx=-dy,ny=dx;ctx.fillStyle='#4a9ad0';ctx.beginPath();ctx.moveTo(sx+dx*16,y+dy*16);ctx.lineTo(sx-dx*12+nx*3.5,y-dy*12+ny*3.5);ctx.lineTo(sx-dx*9,y-dy*9);ctx.lineTo(sx-dx*12-nx*3.5,y-dy*12-ny*3.5);ctx.closePath();ctx.fill();
+    ctx.fillStyle='#d8f0ff';ctx.beginPath();ctx.moveTo(sx+dx*16,y+dy*16);ctx.lineTo(sx-dx*8+nx*1.6,y-dy*8+ny*1.6);ctx.lineTo(sx-dx*8-nx*.4,y-dy*8-ny*.4);ctx.closePath();ctx.fill()}
   else{const col=p.kind==='frost'?['#ffffff','#8cc8ff']:p.kind==='light'?['#ffffff','#9ab8ff']:p.kind==='poison'?['#e8ffc0','#6ad040']:['#fff3c0','#ff7a1a'];const g=ctx.createRadialGradient(sx,sy-16,1,sx,sy-16,p.kind==='glut'?11:8);g.addColorStop(0,col[0]);g.addColorStop(.5,col[1]);g.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(sx,sy-16,12,0,7);ctx.fill()}}
 function flame(x,y,sz,ph){const f=Math.sin(G.t*11+ph)*.15+Math.sin(G.t*17+ph*2)*.1;const g=ctx.createRadialGradient(x,y-sz*.4,1,x,y-sz*.3,sz*2.2);g.addColorStop(0,'rgba(255,200,110,.5)');g.addColorStop(1,'rgba(255,120,30,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y-sz*.3,sz*2.2,0,7);ctx.fill();
   ctx.fillStyle='#ff7a1a';ctx.beginPath();ctx.moveTo(x-sz*.5,y);ctx.quadraticCurveTo(x-sz*.4,y-sz*(1.2+f),x,y-sz*(1.7+f));ctx.quadraticCurveTo(x+sz*.4,y-sz*(1.1-f),x+sz*.5,y);ctx.fill();ctx.fillStyle='#ffe2a0';ctx.beginPath();ctx.moveTo(x-sz*.22,y);ctx.quadraticCurveTo(x,y-sz*(1+f),x+sz*.22,y);ctx.fill()}

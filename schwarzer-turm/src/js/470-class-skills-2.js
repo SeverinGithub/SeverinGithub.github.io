@@ -11,8 +11,8 @@ const elN=()=>{const e=mElem();return e?EL[e].n:'—'};
 SKILLS.push(
  {id:'atem',req:9,cd:50,n:'Zweiter Atem',mana:l=>10+l,desc:l=>`30 Sekunden lang regenerierst du ${(1.2+l*.15).toFixed(1)}% Leben pro Sekunde, Ausdauer kehrt doppelt so schnell zurück.`},
  {id:'schwur',req:15,cd:90,n:'Heiliger Schwur',mana:l=>16+l,desc:l=>`30 Sekunden lang +${60+l*8}% Schaden gegen Untote, 15% weniger erlittener Schaden, jeder Treffer gegen Untote heilt 1% Leben.`},
- {id:'m_bolt',req:1,cd:.35,mana:l=>4+Math.round(l*.8),desc:l=>{const d=Math.round(spellBase('fire',l)),e=mElem();return e==='frost'?`Eislanze durchbohrt alles in einer Linie: ${d} Kälteschaden, verlangsamt.`:e==='light'?`Schneller Funke: ${Math.round(d*.85)} Blitzschaden, springt auf 2 weitere Feinde über.`:e==='poison'?`Seuchenkugel: ${Math.round(d*.7)} Giftschaden, hinterlässt 3 Sekunden eine Giftwolke.`:e?`Feuerkugel, explodiert für ${d} Feuerschaden.`:'Braucht einen Zauberstab. Sein Element bestimmt, was du schleuderst.'}},
- {id:'m_ring',req:3,cd:1.2,mana:l=>8+l,desc:l=>{const d=Math.round(spellBase('nova',l)),e=mElem();return e==='fire'?`Feuerring um dich: ${d} Feuerschaden, der Boden brennt 3 Sekunden.`:e==='light'?`Blitzring: ${d} Blitzschaden, Funken springen auf Nachbarn über.`:e==='poison'?`Giftring: ${Math.round(d*.7)} Giftschaden und Gift über 3 Sekunden.`:e?`Eisring um dich: ${d} Kälteschaden, verlangsamt Feinde.`:'Braucht einen Zauberstab.'}},
+ {id:'m_bolt',req:1,cd:.35,mana:l=>4+Math.round(l*.8),desc:l=>{const d=Math.round(spellBase('fire',l)),e=mElem();return e==='frost'?`Eine Lanze aus Eis durchbohrt alles in einer Linie: ${d} Kälteschaden, verlangsamt.`:e==='light'?`Ein Blitz aus dem Stab trifft sofort den ersten Feind in der Linie (bis 10 Schritte): ${Math.round(d*.85)} Blitzschaden, springt auf 2 weitere Feinde über.`:e==='poison'?`Seuchenkugel: ${Math.round(d*.7)} Giftschaden, hinterlässt 3 Sekunden eine Giftwolke.`:e?`Feuerkugel, explodiert für ${d} Feuerschaden.`:'Braucht einen Zauberstab. Sein Element bestimmt, was du schleuderst.'}},
+ {id:'m_ring',req:3,cd:1.2,mana:l=>8+l,desc:l=>{const d=Math.round(spellBase('nova',l)),e=mElem();return e==='fire'?`Feuerring um dich: ${d} Feuerschaden, der Boden brennt 3 Sekunden.`:e==='light'?`Blitzring: ${d} Blitzschaden, Funken springen auf Nachbarn über.`:e==='poison'?`Giftring: ${Math.round(d*.7)} Giftschaden und Gift über 3 Sekunden.`:e?`Frostring um dich: ${d} Kälteschaden, verlangsamt Feinde.`:'Braucht einen Zauberstab.'}},
  {id:'m_jump',req:6,cd:2.5,mana:l=>8+l,desc:l=>`Teleportiert dich bis zu 8 Schritte weit. Am Start und am Ziel bricht ${elN()} hervor: ${Math.round(spellBase('blink',l))} Schaden.`},
  {id:'m_storm',req:9,cd:3,mana:l=>16+l*2,desc:l=>{const d=Math.round(spellBase('meteor',l)),e=mElem();return e==='frost'?`Hagelsturm: 2,4 Sekunden lang Eis auf ein Gebiet, insgesamt etwa ${Math.round(d*1.6)} Kälteschaden, verlangsamt.`:e==='light'?`Gewitter: 6 Blitze schlagen in Feinde im Gebiet, je ${Math.round(d*.45)} Blitzschaden.`:e==='poison'?`Seuchenwolke: 4 Sekunden Giftnebel, insgesamt etwa ${Math.round(d*1.2)} Giftschaden.`:e?`Ruft einen Meteor herab: ${d} Feuerschaden, danach brennt der Boden.`:'Braucht einen Zauberstab.'}},
  {id:'m_fuse',req:18,cd:30,mana:l=>30+l*2,desc:l=>`Verschmelzung: ${(10+l*.5).toFixed(1)} Sekunden lang lösen deine Zauber ihre Resonanzen immer aus. Jeder Ring schießt 8 Geschosse, jedes Geschoss zündet einen Ring, jeder Sturm fällt doppelt.`});
@@ -50,13 +50,20 @@ function mBolt(el,a,dmg,l,o={}){const E=EL[el],x=(o.x??P.x)+Math.cos(a)*.4,y=(o.
   const impact=p=>{G.mImpact={x:p.x,y:p.y,t:G.t};if(P.fuseT>0&&!o.child)mRing(el,p.x,p.y,dmg*.5,l,true)};
   if(el==='fire')mk(10,{aoe:1.4,boomE:'fire',onBoom:impact});
   else if(el==='frost')mk(17,{pierce:true,slow:2,big:true,life:1,onHit:(e,p)=>{if(!p.imp){p.imp=1;impact(p)}}});
-  else if(el==='light')mk(21,{dmg:dmg*.85,onHit:(e,p)=>{impact(p);jumpOn(el,e,dmg*.6,2,new Set([e]))}});
+  // Funkenschlag is no ball but a spark of lightning: it leaves the staff at once and strikes the first foe in its line, or runs on to a wall
+  else if(el==='light'){const ca=Math.cos(a),sa=Math.sin(a);let hit=null,end=10;
+    for(const e of G.map.enemies){if(e.dead||e.wall)continue;const dx=e.x-x,dy=e.y-y,t=dx*ca+dy*sa;if(t<0||t>end||Math.abs(dy*ca-dx*sa)>.45+(e.r||.3)||!los(x,y,e.x,e.y))continue;end=t;hit=e}
+    if(!hit)for(let s=.2;s<end;s+=.2)if(!walkable(x+ca*s,y+sa*s)){end=s;break}
+    const bx=hit?hit.x:x+ca*end,by=hit?hit.y:y+sa*end;G.bolts.push({a:[x,y],b:[bx,by],t:.2});G.bolts.push({a:[x,y],b:[bx,by],t:.12});
+    sparks(bx,by,.7,a+Math.PI,10,E.c.slice(0,3),6,1.4);addLight(bx,by,180,.9,.2);flash(bx,by,.7,30,E.rgb,.14);
+    if(hit){eHit(el,hit,dmg*.85);impact({x:hit.x,y:hit.y});jumpOn(el,hit,dmg*.6,2,new Set([hit]))}else if(!o.child)decal('scorch',bx,by,.35,12)}
   else mk(9,{dmg:dmg*.7,onHit:(e,p)=>{impact(p);if(!e.dead){e.dotT=3;e.dotD=Math.max(e.dotD||0,dmg*.15)}G.zones.push({k:'mcloud',x:p.x,y:p.y,r:1.6,t:0,dur:3,tick:.5,acc:0,dmg:dmg*.12})}});
   sample('fire',.4,{rate:el==='fire'?1:el==='frost'?1.5:el==='light'?2:.8});flash(x,y,.8,22,E.rgb,.16)}
 function mRing(el,x,y,dmg,l,child){const E=EL[el];G.rings.push({x,y,r:.3,max:4.6,v:9,col:E.c[1],hcol:E.col,hit:new Set(),dmg:el==='poison'?dmg*.7:dmg,slow:el==='frost'?2.5:0,
     onHit:el==='light'?(e=>{if(Math.random()<.5)jumpOn(el,e,dmg*.4,1,new Set([e]))}):el==='poison'?(e=>{if(!e.dead){e.dotT=3;e.dotD=Math.max(e.dotD||0,dmg*.15)}}):null});
-  for(let k=0;k<36;k++){const a=k/36*6.283;fxp({k:el==='fire'?'ember':el==='poison'?'mote':'shard',x,y,z:.3+rnd(0,.4),vx:Math.cos(a)*9,vy:Math.sin(a)*9,vz:rnd(0,1),life:.5,col:pick(E.c.slice(0,3)),s:rnd(2,3.5),rot:a,g:el==='fire'?-.2:1})}
-  shock(x,y,4.6,E.rgb,.5,4);flash(x,y,.6,50,E.rgb,.25);addLight(x,y,300,.9,.5);decal(el==='fire'?'scorch':el==='poison'?'ichor':'frost',x,y,1.1,20);
+  if(el==='light'){for(let k=0;k<12;k++){const a=k/12*6.283;G.bolts.push({a:[x,y],b:[x+Math.cos(a)*rnd(2.6,4.4),y+Math.sin(a)*rnd(2.6,4.4)],t:rnd(.12,.24)})}sparks(x,y,.4,0,30,E.c.slice(0,3),9,3.2)}
+  else for(let k=0;k<36;k++){const a=k/36*6.283;fxp({k:el==='fire'?'ember':el==='poison'?'mote':'shard',x,y,z:.3+rnd(0,.4),vx:Math.cos(a)*9,vy:Math.sin(a)*9,vz:rnd(0,1),life:.5,col:pick(E.c.slice(0,3)),s:rnd(2,3.5),rot:a,g:el==='fire'?-.2:1})}
+  shock(x,y,4.6,E.rgb,.5,4);flash(x,y,.6,50,E.rgb,.25);addLight(x,y,300,.9,.5);decal(el==='fire'||el==='light'?'scorch':el==='poison'?'ichor':'frost',x,y,el==='light'?.7:1.1,20);
   if(el==='fire')G.zones.push({k:'burn',x,y,r:2,t:0,dur:3,tick:.5,acc:0,dmg:dmg*.1});if(!child)sfx(el==='light'?'zap':'cast');
   if(P.fuseT>0&&!child)for(let k=0;k<8;k++)mBolt(el,k*Math.PI/4,spellBase('fire',l)*.5,l,{x,y,child:true})}
 function mStorm(el,x,y,dmg,big){const r=2.4*(big?1.35:1);
@@ -65,7 +72,7 @@ function mStorm(el,x,y,dmg,big){const r=2.4*(big?1.35:1);
   else if(el==='light')G.zones.push({k:'thunder',x,y,r:r+.6,t:0,dur:1.65,tick:.27,acc:.27,dmg:dmg*.45});
   else G.zones.push({k:'mcloud',x,y,r:r+.6,t:0,dur:4,tick:.5,acc:0,dmg:dmg*.15,big:1});
   sample('fire',.5,{rate:el==='fire'?.7:el==='frost'?1.3:el==='light'?1.8:.6})}
-function mBurst(el,x,y,dmg){boom(x,y,.9,el==='fire'?'fire':el==='poison'?'poison':'frost');for(const e of G.map.enemies)if(!e.dead&&hyp(e.x-x,e.y-y)<1.8+e.r)eHit(el,e,dmg*rnd(.85,1.15));if(el==='light')for(let k=0;k<3;k++)G.bolts.push({a:[x,y],b:[x+rnd(-1.6,1.6),y+rnd(-1.6,1.6)],t:.2})}
+function mBurst(el,x,y,dmg){if(el==='light'){const E=EL.light;flash(x,y,.5,60,E.rgb,.22);shock(x,y,1.8,E.rgb,.35,3);sparks(x,y,.5,0,26,E.c.slice(0,3),8,3.2);addLight(x,y,240,.95,.4);decal('scorch',x,y,.6,20);G.shake=Math.max(G.shake,3)}else boom(x,y,.9,el==='fire'?'fire':el==='poison'?'poison':'frost');for(const e of G.map.enemies)if(!e.dead&&hyp(e.x-x,e.y-y)<1.8+e.r)eHit(el,e,dmg*rnd(.85,1.15));if(el==='light')for(let k=0;k<3;k++)G.bolts.push({a:[x,y],b:[x+rnd(-1.6,1.6),y+rnd(-1.6,1.6)],t:.2})}
 function mCast(id,l,ang,tx,ty){const el=mElem(),E=EL[el],now=G.t,last=G.mLast,prev=last&&now-last.t<1.6&&last.id!==id?last.id:null,fuse=P.fuseT>0;G.mLast={id,t:now};
   const res=n=>{ftext(P.x,P.y-.9,'Resonanz: '+n,E.col,true);flash(P.x,P.y,1,40,E.rgb,.25)};
   if(id==='m_bolt'){const dmg=spellBase('fire',l),kr=prev==='m_ring'||fuse;if(prev==='m_ring')res('Kranz');if(kr)for(let k=0;k<8;k++)mBolt(el,ang+k*Math.PI/4,dmg*.7,l);else mBolt(el,ang,dmg,l)}
@@ -112,7 +119,10 @@ function addSkillIcons(){const mk=f=>{const c=document.createElement('canvas');c
   const orb=(g,x,y,r,c)=>{const q=g.createRadialGradient(x-r*.3,y-r*.3,0,x,y,r);q.addColorStop(0,c[0]);q.addColorStop(.5,c[1]);q.addColorStop(1,c[2]);g.fillStyle=q;g.beginPath();g.arc(x,y,r,0,7);g.fill()};
   const NONE={c:['#9da2aa','#6c7078','#45484e','#25272b'],pl:['#25272b','#060606'],rgb:'150,150,150'};
   for(const k of[...ELK,'none']){const E=EL[k]||NONE;
-    SKIC['m_bolt_'+k]=mk(g=>{plate(g,...E.pl);glow(g,20,12,13,`rgba(${E.rgb},.55)`);g.lineCap='round';for(let i=0;i<3;i++){g.strokeStyle=E.c[2-i];g.lineWidth=3-i;g.beginPath();g.moveTo(5+i*2,27-i);g.lineTo(17,15);g.stroke()}orb(g,20,12,6,E.c)});
+    SKIC['m_bolt_'+k]=mk(g=>{plate(g,...E.pl);glow(g,20,12,13,`rgba(${E.rgb},.55)`);g.lineCap='round';g.lineJoin='round';
+      if(k==='light'){const Z=[[4,28],[12,19],[9,17],[18,9],[15,8],[27,3]];for(const[w,c]of[[4.5,E.c[3]],[2.6,E.c[2]],[1.2,E.c[0]]]){g.strokeStyle=c;g.lineWidth=w;g.beginPath();Z.forEach(([x,y],i)=>i?g.lineTo(x,y):g.moveTo(x,y));g.stroke()}g.fillStyle=E.c[0];g.fillRect(25,2,3,3);g.fillRect(3,27,2,2);return}
+      if(k==='frost'){g.fillStyle=E.c[3];g.beginPath();g.moveTo(28,3);g.lineTo(7,16);g.lineTo(4,28);g.lineTo(16,25);g.closePath();g.fill();g.fillStyle=E.c[1];g.beginPath();g.moveTo(27,4);g.lineTo(9,17);g.lineTo(6,26);g.lineTo(14,23);g.closePath();g.fill();g.fillStyle=E.c[0];g.beginPath();g.moveTo(27,4);g.lineTo(10,18);g.lineTo(8,23);g.closePath();g.fill();return}
+      for(let i=0;i<3;i++){g.strokeStyle=E.c[2-i];g.lineWidth=3-i;g.beginPath();g.moveTo(5+i*2,27-i);g.lineTo(17,15);g.stroke()}orb(g,20,12,6,E.c)});
     SKIC['m_ring_'+k]=mk(g=>{plate(g,...E.pl);glow(g,16,16,15,`rgba(${E.rgb},.5)`);g.strokeStyle=E.c[1];g.lineWidth=2.2;g.beginPath();g.arc(16,16,10,0,7);g.stroke();g.strokeStyle=E.c[2];g.lineWidth=1;g.beginPath();g.arc(16,16,12.5,0,7);g.stroke();
       for(let i=0;i<8;i++){const a=i/8*6.283;g.fillStyle=i%2?E.c[0]:E.c[1];g.fillRect(16+Math.cos(a)*10-1.5,16+Math.sin(a)*10-1.5,3,3)}orb(g,16,16,2.5,E.c)});
     SKIC['m_storm_'+k]=mk(g=>{plate(g,...E.pl);glow(g,16,24,13,`rgba(${E.rgb},.55)`);g.lineCap='round';for(const[x,y]of[[8,4],[16,2],[23,6]]){g.strokeStyle=E.c[2];g.lineWidth=2.4;g.beginPath();g.moveTo(x,y);g.lineTo(x-4,y+14);g.stroke();g.strokeStyle=E.c[0];g.lineWidth=1;g.stroke()}

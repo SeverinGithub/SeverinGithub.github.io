@@ -61,6 +61,9 @@ Ab Ebene 3 ist etwa jede dritte Ebene verflucht. Dafür bringen ihre Gegner +30 
 - **Bodenrisse** (`m.cracks`, ab Ebene 2, nicht auf Boss-Ebenen): Wer darauf steht, hört den Boden knacken. Nach 0,8 s bricht er ein, und der Held fällt eine Ebene tiefer (−15 % Leben). Steht er nicht mehr darauf, bleibt ein Loch (`twhole`), durch das man später springen kann.
 - **Aufzug** (`twlift`): Er steht neben der Treppe und neben dem Leuchtfeuer. Von unten löst man einmal den Riegel, oben ist er bis dahin „von unten verriegelt“ (wie eine Einbahntür). Danach fährt er hin und her (`G.tw.lift[f]`).
 
+## Die Turmtür
+Die Tür auf dem Hügel führt zur tiefsten Ebene mit entzündetem Leuchtfeuer (`topFloor` in `180-interaction.js`, Schlüssel aus `G.lit`, Risse und Grüfte zählen nicht). Man steht dann neben dem Feuer. Ohne Feuer geht es nach Ebene 1. Das Schild über der Tür nennt die Ebene.
+
 ## Geheimgänge
 Aus einer rissigen Wand (760) treibt Staub in den Raum, sobald man näher als 10 Felder ist. Daran erkennt man sie.
 
