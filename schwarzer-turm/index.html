@@ -1686,7 +1686,7 @@ function render(){RF++;
   const i0=Math.max(0,Math.floor(Math.min(c1[0],c3[0]))-2),i1=Math.min(m.w-1,Math.ceil(Math.max(c2[0],c4[0]))+2),j0=Math.max(0,Math.floor(Math.min(c1[1],c2[1]))-2),j1=Math.min(m.h-1,Math.ceil(Math.max(c3[1],c4[1]))+2);
   // floors
   for(let s=i0+j0;s<=i1+j1;s++)for(let i=Math.max(i0,s-j1);i<=Math.min(i1,s-j0);i++){const j=s-i,t=m.t[j*m.w+i];if(!t)continue;const[sx,sy]=iso(i,j);if(sx<-70||sx>W+70||sy<-40||sy>H+120)continue;
-    if(t===7||t===8||t===9){const u=t===9?m.under[j*m.w+i]:t;if(u===4)ctx.drawImage(SPR.grass[(i*7+j*13)%6],sx-32,sy);else if(u===8){const bw=m.bw&&m.bw.get(j*m.w+i);ctx.drawImage(bw?SPR.bridgeW[bw-1][(i*7+j*13)%3]:SPR.bridge[(i*7+j*13)%3],sx-32,sy)}else ctx.drawImage(SPR.flag[(i*7+j*13)%4],sx-32,sy);
+    if(t===7||t===8||t===9){const u=t===9?m.under[j*m.w+i]:t;if(u===4)ctx.drawImage(SPR.grass[(i*7+j*13)%6],sx-32,sy);else if(u===8){const bw=m.bw&&m.bw.get(j*m.w+i);ctx.drawImage(bw?SPR.bridgeW[bw-1][(i*7+j*13)%3]:SPR.bridge[(i*7+j*13)%3],sx-32,sy)}else{if(m.world)ctx.drawImage(SPR.grass[(i*7+j*13)%6],sx-32,sy);ctx.drawImage(SPR.flag[(i*7+j*13)%4],sx-32,sy)}
       const v0=m.t[(j+1)*m.w+i]===0,v1=m.t[j*m.w+i+1]===0;if(u===8){const bw=m.bw&&m.bw.get(j*m.w+i);if(bw){if(v0)ctx.drawImage(SPR.bridgeSideW[0],sx-32,sy);if(v1)ctx.drawImage(SPR.bridgeSideW[1],sx-32,sy)}else{if(v0)ctx.drawImage(SPR.bridgeSide[i%4===1?1:0],sx-32,sy);if(v1)ctx.drawImage(CLV(1,i,j),sx-32,sy)}}else{if(v0)ctx.drawImage(CLV(0,i,j),sx-32,sy);if(v1)ctx.drawImage(CLV(1,i,j),sx-32,sy)}}
     else if(t===4||t===3||t===5){ctx.drawImage(SPR.grass[(i*7+j*13)%6],sx-32,sy);if(m.t[(j+1)*m.w+i]===0)ctx.drawImage(CLV(0,i,j),sx-32,sy);if(m.t[j*m.w+i+1]===0)ctx.drawImage(CLV(1,i,j),sx-32,sy)}
     else if(t===1||t===2||t===6){ctx.drawImage(SPR.floor[(i*7+j*13)%6],sx-32,sy);themeTint(m,i,j,sx,sy);const sh=(Math.sin(i*.27+j*.11)+Math.sin(i*.09-j*.23+1.7)+2)*.1;if(sh>.04){ctx.fillStyle=`rgba(0,0,6,${sh.toFixed(2)})`;ctx.beginPath();ctx.moveTo(sx,sy);ctx.lineTo(sx+32,sy+16);ctx.lineTo(sx,sy+32);ctx.lineTo(sx-32,sy+16);ctx.closePath();ctx.fill()}}}
@@ -9061,7 +9061,7 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   // Eldrik's corner: book crates, a hedge behind him, a little herb garden
   const E=S.chronist;prop('hvbooks',E[0]+1.6,E[1]-.6);prop('hvbooks',E[0]-.4,E[1]+1.9,{v:1});
   for(let k=-2;k<=1;k++)blk(E[0]-2.2,E[1]+k,'hvhedge',k&1);for(let k=-1;k<=1;k++)blk(E[0]+k,E[1]-2.3,'hvhedge',k&1);
-  for(const p of[[-1.3,3],[.2,3.4]])prop('ydflower',E[0]+p[0],E[1]+p[1],{seed:521+p[1]*5|0,pal:YDLAY.pals[2]});
+  let hb=0;for(const[a,b]of[[2.8,-1.6],[-1.3,3],[.2,3.4],[-3.4,-.8],[2.6,2.8],[-3.2,1.4]]){const x=E[0]+a,y=E[1]+b;if(hb>1||T(x,y)!==4||hyp(x-GY[0],y-GY[1])<3.4||!isFree(x,y,.6))continue;prop('ydflower',x,y,{seed:521+hb*37,pal:YDLAY.pals[2]});take(x,y,.6);hb++}
   // the graveyard: a low wall with a gate towards the lane, graves inside, one old tree
   const ga=ang(GY,wl[2]);for(let a=0;a<360;a+=30){if(Math.abs(((a+15-ga+540)%360)-180)<20)continue;const p0=pol(GY,a,2.15),p1=pol(GY,a+30,2.15);prop('hvfence',(p0[0]+p1[0])/2,(p0[1]+p1[1])/2,{x0:HOX+p0[0],y0:HOY+p0[1],x1:HOX+p1[0],y1:HOY+p1[1]})}
   prop('hvgate',...pol(GY,ga,2.05),{a:ga+90});const rip=hvGraves().slice(-5).reverse().map(h=>`${h.n} · ${h.c}, Stufe ${h.l}`);let gi=0;
@@ -9073,18 +9073,18 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   for(const p of homes){if(!hn)break;if(isFree(p[0]+.5,p[1]+.5,1.6)&&big(p[0],p[1],'house',hn&1))hn--}
   // hedges and a fence that make the lanes
   for(let k=0;k<4;k++){const p=wv(-3.4-k*.9,2.7);blk(p[0],p[1],'hvhedge',k&1)}
-  // trees where they belong: by the deck road and on the quiet side of the hill
-  for(const p of[pol(pol([HVC,HVC],deckA,deckE-3.2),deckA+90,2.6),pl(-150,10.5,2.5),pl(-118,11,2.5)])if(isFree(p[0],p[1],1))blk(p[0],p[1],'tree',(p[0]|0)%2);
+  // trees on the quiet side of the hill, away from the square so they hide nothing
+  for(const p of[pl(-150,10.5,2.5),pl(-118,11,2.5)])if(isFree(p[0],p[1],1))blk(p[0],p[1],'tree',(p[0]|0)%2);
   if(g>=5&&arena){const p=pol(pol([HVC,HVC],arena.a,hyp(arena.x-HVC,arena.y-HVC)-1.8),arena.a+90,2.4);if(T(p[0],p[1])===4){prop('hvwatch',p[0],p[1]);solid(p[0],p[1])}}
   if(g>=7)for(const a of[20,110,200,290]){const p0=pol(Q,a,2.9),p1=pol(Q,a+90,2.9);prop('hvgarl',(p0[0]+p1[0])/2,(p0[1]+p1[1])/2,{x0:HOX+p0[0],y0:HOY+p0[1],x1:HOX+p1[0],y1:HOY+p1[1]})}
   // lanterns along every road
-  const step=g>=3?3.4:4.6;for(const R of roads){if(R.w<1.3||R.pts===ring)continue;let acc=step*.5,side=1;
+  const step=g>=3?3.4:4.6,lamps=[],lampOk=(x,y)=>lamps.every(l=>hyp(l[0]-x,l[1]-y)>2.4);for(const R of roads){if(R.w<1.3||R.pts===ring)continue;let acc=step*.5,side=1;
     for(let k=0;k<R.pts.length-1;k++){const a=R.pts[k],b=R.pts[k+1],L=hyp(b[0]-a[0],b[1]-a[1]);if(!L)continue;const n=[-(b[1]-a[1])/L,(b[0]-a[0])/L];
       for(let s=0;s<L;s+=.25){if((acc+=.25)<step)continue;const x=a[0]+(b[0]-a[0])*s/L+n[0]*side*(R.w/2+.45),y=a[1]+(b[1]-a[1])*s/L+n[1]*side*(R.w/2+.45);
-        if(T(x,y)===4&&isFree(x,y,.9)&&hyp(x-HVC,y-HVC)>5.6){prop('hvlamp',x,y);take(x,y,.6);acc=0;side=-side}}}}
-  for(let k=0;k<8;k++){const p=pol([HVC,HVC],k*45+22,6.2);if(T(p[0],p[1])===4&&isFree(p[0],p[1],1))prop('hvlamp',p[0],p[1])}
-  // a washing line between the well and the first house
-  const wl0=pol(Q,150,4.4),wl1=pol(Q,112,4.6);if(T(wl0[0],wl0[1])===4&&T(wl1[0],wl1[1])===4)prop('hvline',(wl0[0]+wl1[0])/2,(wl0[1]+wl1[1])/2,{x0:HOX+wl0[0],y0:HOY+wl0[1],x1:HOX+wl1[0],y1:HOY+wl1[1]});
+        if(T(x,y)===4&&isFree(x,y,.9)&&lampOk(x,y)&&hyp(x-HVC,y-HVC)>5.6){prop('hvlamp',x,y);take(x,y,.6);lamps.push([x,y]);acc=0;side=-side}}}}
+  for(let k=0;k<8;k++){const p=pol([HVC,HVC],k*45+22,6.2);if(T(p[0],p[1])===4&&isFree(p[0],p[1],1)&&lampOk(p[0],p[1])){prop('hvlamp',p[0],p[1]);lamps.push(p)}}
+  // a washing line behind the well, strung across the view so the cloths hang side by side
+  for(const a of[128,150,105]){const c=pol(Q,a,4.7),wl0=[c[0]-.85,c[1]+.85],wl1=[c[0]+.85,c[1]-.85];if(T(wl0[0],wl0[1])!==4||T(wl1[0],wl1[1])!==4||!isFree(c[0],c[1],1.1))continue;take(c[0],c[1],1);prop('hvline',(wl0[0]+wl1[0])/2,(wl0[1]+wl1[1])/2,{x0:HOX+wl0[0],y0:HOY+wl0[1],x1:HOX+wl1[0],y1:HOY+wl1[1]});break}
   // the villagers and their rounds
   const fk=(id,route,o={})=>prop('hvfolk',route[0][0],route[0][1],Object.assign({id,route:route.map(p=>[HOX+p[0],HOY+p[1]]),to:1,dir:1,wait:rr(0,3),sp:1.25,pause:4,seed:rr(0,9)},o));
   fk('lehrling',[add(S.smith,[-1.1,.4]),add(Q,[1.1,1.6]),add(wl[0],[.2,.3]),wv(-1.6,1.3),wv(1.7,1)],{loadA:'ore',loadB:null});
@@ -9103,7 +9103,7 @@ function hvTick(dt){const m=G.map;if(!m||!m.world||!m.home||!P||G.state==='title
   if(H.hvG==null||H.hvG!==hvGrow()){const was=H.hvG;hvBuild(m);if(was!=null&&H.hvG>was){log('Der Hügel wächst: '+HVGROW[H.hvG],'#e8d8b0');banner('Der Hügel wächst',HVGROW[H.hvG],undefined,3200)}}
   let ch=0;for(const o of H.objs){const q=H.hvS[o.type];if(q&&!o.hvp){o.x=q[0];o.y=q[1];o.hvp=1;ch=1}}if(ch){m.ac=null;owTick()}
   if(Math.abs(P.x-HOX-HVC)+Math.abs(P.y-HOY-HVC)>60)return;
-  for(const p of H.props)if(p.k==='hvfolk')hvWalk(p,dt);
+  let bs=null,bd=3.6;for(const p of H.props){if(p.k==='hvfolk')hvWalk(p,dt);else if(p.k==='hvsign'){const d=hyp(p.x-P.x,p.y-P.y);if(d<bd){bd=d;bs=p}}}G.hvSign=bs;
   if(H.hvDeck&&!G.hvLook&&H.hvDeck.includes(Math.floor(P.y)*m.w+Math.floor(P.x))){G.hvLook=1;log('Vom Steg aus sieht man weit über die Inseln.','#c8d8e8')}}
 const _updForgeHV=updForge;updForge=function(dt){_updForgeHV(dt);if(P&&G.map&&G.state!=='title')hvTick(dt)};
 
@@ -9139,7 +9139,7 @@ function hvCarry(k,a,f,sx0){ctx.save();
 function hvFolk(p){const[sx,sy]=iso(p.x,p.y);if(sx<-60||sx>W+60||sy<-90||sy>H+40)return;const L=HVLOOK[p.id],[fx,fy]=scrDir(p.face??.8),f=fx>=0?1:-1,back=fy<0,s=L.s||1;
   shadow(sx,sy,.34*s);ctx.save();ctx.translate(sx,sy);if(s!==1)ctx.scale(s,s);
   const aw=humanoid({R:L.R,f,back,moving:!!p.mv,ph:p.ph||0,seed:p.seed,robe:!!L.robe,run:p.run&&p.mv?1:0,armSwing:p.load?.25:1,head:(hx,hy)=>hvHead(hx,hy,L,f,back)});
-  if(p.load&&aw)hvCarry(p.load,aw,f);ctx.restore();if(hyp(p.x-P.x,p.y-P.y)<2.2)label(sx,sy-56*s,L.n,'#d8ccb0')}
+  if(p.load&&aw)hvCarry(p.load,aw,f);ctx.restore();if(hyp(p.x-P.x,p.y-P.y)<1.5&&!G.hvSign)label(sx,sy-56*s,L.n,'#d8ccb0')}
 
 // sprites for the solid pieces: hedge, low wall, well
 const hvMk=(w,h,ax,ay,fn)=>{const c=document.createElement('canvas');c.width=w;c.height=h;c.ax=ax;c.ay=ay;fn(c.getContext('2d'),ax,ay);return c};
@@ -9176,8 +9176,8 @@ function hvDraw(p){if(p.k==='hvfolk')return hvFolk(p);const[sx,sy]=iso(p.x,p.y);
     const lx=sx+7,ly=sy-43,fl=.8+Math.sin(t*7+p.ph)*.12;ctx.fillStyle='#2a2018';ctx.fillRect(lx-3.5,ly,7,9);ctx.fillRect(lx-4.5,ly-1,9,2);ctx.fillStyle=`rgba(255,200,110,${fl})`;ctx.fillRect(lx-2.2,ly+1.8,4.4,5.6);
     ctx.save();ctx.globalCompositeOperation='lighter';const gr=ctx.createRadialGradient(lx,ly+4,0,lx,ly+4,G.night?30:16);gr.addColorStop(0,`rgba(255,180,90,${G.night?.4:.18})`);gr.addColorStop(1,'rgba(255,140,60,0)');ctx.fillStyle=gr;ctx.fillRect(lx-30,ly-26,60,60);ctx.restore();return}
   if(p.k==='hvsign'){shadow(sx,sy,.16);ctx.fillStyle='#4a3018';ctx.fillRect(sx-1.5,sy-44,3,44);ctx.fillStyle='#2a1a0c';ctx.fillRect(sx-2,sy-46,4,3);
-    p.to.forEach(([n,tx,ty],k)=>{const d=(tx-p.x)-(ty-p.y)>=0?1:-1,y=sy-40+k*7;ctx.fillStyle=k&1?'#7a5430':'#8a6038';ctx.beginPath();ctx.moveTo(sx-d*3,y);ctx.lineTo(sx+d*15,y);ctx.lineTo(sx+d*19,y+2.5);ctx.lineTo(sx+d*15,y+5);ctx.lineTo(sx-d*3,y+5);ctx.closePath();ctx.fill();
-      ctx.fillStyle='#3a2410';ctx.fillRect(sx+d*2-1,y+2,d*10,1);if(near<3.6)label(sx+d*30,y+6,n,'#e8d8b0')});return}
+    const talk=G.hvSign===p;let nl=0,nr=0;p.to.forEach(([n,tx,ty],k)=>{const d=(tx-p.x)-(ty-p.y)>=0?1:-1,y=sy-40+k*7;ctx.fillStyle=k&1?'#7a5430':'#8a6038';ctx.beginPath();ctx.moveTo(sx-d*3,y);ctx.lineTo(sx+d*15,y);ctx.lineTo(sx+d*19,y+2.5);ctx.lineTo(sx+d*15,y+5);ctx.lineTo(sx-d*3,y+5);ctx.closePath();ctx.fill();
+      ctx.fillStyle='#3a2410';ctx.fillRect(sx+d*2-1,y+2,d*10,1);if(talk){const q=d>0?nr++:nl++;label(sx+d*34,sy-52-q*19,(d<0?'‹ ':'')+n+(d>0?' ›':''),'#e8d8b0')}});return}
   if(p.k==='hvbench'){const a=p.a*HVD,u=[Math.cos(a)*.48,Math.sin(a)*.48],n=[-Math.sin(a)*.16,Math.cos(a)*.16];shadow(sx,sy,.3);
     for(const s of[-.8,.8])B(u[0]*s,u[1]*s,.04,.04,0,8,'#3a2614');
     Q([[-u[0]-n[0],-u[1]-n[1],8],[u[0]-n[0],u[1]-n[1],8],[u[0]+n[0],u[1]+n[1],8],[-u[0]+n[0],-u[1]+n[1],8]],'#9a6e3a');
@@ -9189,7 +9189,9 @@ function hvDraw(p){if(p.k==='hvfolk')return hvFolk(p);const[sx,sy]=iso(p.x,p.y);
     ctx.fillStyle=C[1];ctx.fillRect(sx-7,sy-58,14,2);ctx.fillStyle='#c8a040';ctx.fillRect(sx-1.5+sw*.4,sy-54,3,14);ctx.fillRect(sx-3+sw*.4,sy-55,6,2);ctx.fillRect(sx-2.5+sw*.45,sy-42,5,2);return}
   if(p.k==='hvring'){const n=12;for(let k=0;k<n;k++){const a=k/n*6.283,front=Math.sin(a)+Math.cos(a)>0;if(front!==!!p.half)continue;const X=sx+(Math.cos(a)-Math.sin(a))*.95*32,Y=sy+(Math.cos(a)+Math.sin(a))*.95*16;
       ctx.fillStyle=k%3?'#5a5650':'#6e6a62';ctx.beginPath();ctx.ellipse(X,Y-2,5,3.2,0,0,7);ctx.fill();ctx.fillStyle='#8a8478';ctx.beginPath();ctx.ellipse(X-1,Y-3.4,3,1.6,0,0,7);ctx.fill()}return}
-  if(p.k==='hvroof'){const[tx,ty]=p.t,[rx,ry]=p.r,P2=(a,b)=>[tx*a+rx*b,ty*a+ry*b],w=3.2,zb=78,zf=58;
+  if(p.k==='hvroof'){const[tx,ty]=p.t,[rx,ry]=p.r,P2=(a,b)=>[tx*a+rx*b,ty*a+ry*b],w=3.2,zb=78,zf=58,du=(P.x-p.x)*tx+(P.y-p.y)*ty,dv=(P.x-p.x)*rx+(P.y-p.y)*ry;
+    // the hero under the roof or just behind it sees through it, as with the tower
+    if(!p.fade&&Math.abs(du)<w+.8&&dv>-3.6&&dv<1.6){ctx.save();ctx.globalAlpha=.4;try{p.fade=1;hvDraw(p)}finally{p.fade=0;ctx.restore()}return}
     Q([[...P2(-w,-.3),0],[...P2(w,-.3),0],[...P2(w,-.3),zb],[...P2(-w,-.3),zb]],'#5a3a1e');
     for(let k=-3;k<=3;k++){const[a,b]=P2(k*.95,-.29);Q([[a-tx*.03,b-ty*.03,0],[a+tx*.03,b+ty*.03,0],[a+tx*.03,b+ty*.03,zb],[a-tx*.03,b-ty*.03,zb]],'#3a2614')}
     // tools on the back wall
@@ -9203,9 +9205,10 @@ function hvDraw(p){if(p.k==='hvfolk')return hvFolk(p);const[sx,sy]=iso(p.x,p.y);
     Q([[...P2(-w-.25,.95),zf-2],[...P2(w+.25,.95),zf-2],[...P2(w+.25,.95),zf-5],[...P2(-w-.25,.95),zf-5]],'#3a1c10');return}
   if(p.k==='hvwood'){shadow(sx,sy,.42);B(0,0,.42,.28,0,14,'#6a4622','#7a5430');for(let r=0;r<3;r++)for(let k=0;k<5-r;k++){const X=sx+(.42-(-.28+.12+k*.11+r*.05))*32,Y=sy+(.42+(-.28+.12+k*.11+r*.05))*16-3-r*4.5;
       ctx.fillStyle='#8a6a3a';ctx.beginPath();ctx.ellipse(X,Y,2.4,2.2,0,0,7);ctx.fill();ctx.fillStyle='#5a3a1e';ctx.fillRect(X-.5,Y-.5,1,1)}return}
-  if(p.k==='hvcoal'){shadow(sx,sy,.32);ctx.fillStyle='#1a1a1e';ctx.beginPath();ctx.ellipse(sx,sy-3,14,7,0,Math.PI,0);ctx.lineTo(sx+14,sy-1);ctx.ellipse(sx,sy-1,14,5,0,0,Math.PI);ctx.fill();
-    for(let k=0;k<8;k++){ctx.fillStyle=k%2?'#2e2e34':'#3e3e46';ctx.fillRect(sx-10+k*2.6,sy-6-((k*7)%5),2.4,2)}ctx.strokeStyle='#5a3a1e';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(sx+4,sy-7);ctx.lineTo(sx+10,sy-24);ctx.stroke();
-    ctx.fillStyle='#6a6c74';ctx.fillRect(sx+2,sy-8,5,4);return}
+  if(p.k==='hvcoal'){shadow(sx,sy,.3);const C=['#141418','#22222a','#30303a','#3e3e4a'];
+    for(let k=0;k<26;k++){const q=k/26,r=(1-q)*12,a=k*2.4,X=sx+Math.cos(a)*r,Y=sy-1-Math.abs(Math.sin(a))*r*.45-q*13;ctx.fillStyle=C[(k*7)%4];ctx.beginPath();ctx.ellipse(X,Y,3.2-q,2.4-q*.8,a,0,7);ctx.fill()}
+    ctx.fillStyle='#5a5a66';ctx.fillRect(sx-4,sy-9,1.5,1.5);ctx.fillRect(sx+3,sy-6,1.5,1.5);
+    ctx.strokeStyle='#5a3a1e';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(sx+6,sy-6);ctx.lineTo(sx+13,sy-22);ctx.stroke();ctx.fillStyle='#6a6c74';ctx.beginPath();ctx.moveTo(sx+3,sy-3);ctx.lineTo(sx+8,sy-2);ctx.lineTo(sx+7,sy-8);ctx.lineTo(sx+4,sy-8);ctx.closePath();ctx.fill();return}
   if(p.k==='hvbooks'){shadow(sx,sy,.28);B(0,0,.3,.24,0,12,'#6a4622','#7a5430');const C=['#5a1a14','#1a3a5a','#2a4a1a','#5a4a1a','#3a1a4a'];
     for(let k=0;k<5;k++){const x=-.22+k*.11;B(x,-.04,.04,.15,12,5+((k+p.v*2)%3)*1.5,C[(k+(p.v||0))%5])}return}
   if(p.k==='hvgate'){const a=p.a*HVD,u=[Math.cos(a)*.65,Math.sin(a)*.65];for(const s of[-1,1])B(u[0]*s,u[1]*s,.15,.15,0,26,'#6a665c','#8a8478');

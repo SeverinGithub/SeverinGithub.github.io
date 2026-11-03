@@ -53,6 +53,9 @@ Sie gehen feste Runden, warten an den Enden und sagen etwas, wenn man nahe ist. 
 Ändert sich die Zahl, macht `hvUndo` alle Feld-Änderungen rückgängig und baut neu (Liste `H.hvU`). Dazu erscheint „Der Hügel wächst“ als Banner und im Log.
 
 ## Technik
+- Straßen bekommen Gras unter das Pflaster (`210-render.js`, nur Oberwelt). Sonst schimmerte der blaue Himmel als Fugen durch.
+- Nur der nächste Wegweiser zeigt seine Ziele (`G.hvSign`). Sie stehen in einer Spalte über dem Pfosten, jeweils auf der Seite, in die das Brett zeigt.
+- Das Werkstattdach wird durchsichtig, wenn der Held darunter oder dahinter steht.
 - `hvBuild(m)` legt zuerst alle Brücken der Startinsel an (`owBridge` für die Nachbar-Chunks), damit die Wege sie auch finden, wenn der Held woanders lädt.
 - Feste Teile sind Blöcke mit eigenem Bild (`SPR.prop.hvhedge`, `hvwall`, `hvwell`, dazu `grave`, `tree`, `house`, `tent`, `barrel`, `crate`). Offene Teile sind Props mit `hv` vor dem Namen. `hvDraw` zeichnet sie.
 - Der Startpunkt (`m.start`) liegt am Dorfplatz.
