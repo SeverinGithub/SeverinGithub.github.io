@@ -17,14 +17,14 @@ Winkel und Abstände zählen ab der Turmmitte (lokal 22,5 / 22,5). Liegt der Ins
 | Gelehrtenwinkel | Westen (165°), an der Westbrücke | Eldriks Schreibstube, Hecke dahinter, Bücherkisten, Kräutergarten |
 | Friedhof | 135° am Rand | Eisenzaun mit Tor zur Werkstattgasse, Gräber, ein alter Baum |
 | Übungsplatz | Nordosten, wie bisher | Strohpuppe, Heu, Gestell, Zaun, Hühner (die verstreuten Laternen und Blumen von dort sind weg) |
-| Steg | am Rand vor dem Platz (ohne Brücke in der Nähe) | Holzplanken über dem Abgrund, Bank, Fernrohr, Laterne, Zaun am Weg |
+| Steg | am Rand vor dem Platz (ohne Brücke in der Nähe) | Holzplanken über dem Abgrund, Bank, Fernrohr, Laterne |
 
 ## Wege
 - Straßen sind Steinboden (Feld 7). Sie laufen nur auf Gras der Startinsel.
 - Vom Ring führt eine Straße zu jeder Brücke. Die Brücken sucht `hvHeads` zur Laufzeit: Brückenfelder (8) neben Gras, höchstens 20 Felder von der Mitte.
 - Dazu kommen Torweg, Marktgasse, Werkstattgasse bis zum Friedhofstor, ein Weg zu Eldrik, einer zum Übungsplatz und einer zum Steg.
 - **Brückentore:** An jeder Brücke stehen zwei Steinpfeiler (`hvwall`) und eine Laterne.
-- **Wegweiser** (`hvsign`) stehen am Platz und an jeder Brückenstraße. Beim Herangehen zeigen sie ihre Ziele: Turm, Markt, Werkstatt, Aussicht, Arena, Zu den Inseln, Eldrik, Friedhof, Übungsplatz. Jedes Brett zeigt in die Richtung seines Ziels.
+- **Wegweiser** (`hvsign`, ein Objekt) stehen am Platz und an jeder Brückenstraße. Ihre Bretter zeigen in die Richtung ihrer Ziele. Ein Klick öffnet ein kleines Fenster (`#hvpop`) mit allen Orten des Dorfs (`H.hvDest`) und der Entfernung in Schritten. Wählt man einen Ort, legt `hvGuide` eine Spur aus goldenen Pfeilen auf dem kürzesten Weg dorthin (`findPath`). Pfeile hinter dem Helden erlöschen, am Ziel heißt es „Du bist da“, nach 90 s erlischt die Spur. Geht man vom Schild weg, schließt sich das Fenster.
 - **Laternen** (`hvlamp`) stehen abwechselnd links und rechts an den Straßen. Nachts leuchten sie (`PLIGHT.hvlamp`).
 - Gras-Büschel auf Steinen und wilde Blumen zwischen den Häusern fallen weg. Lose Felsen nahe der Mitte werden entfernt.
 
@@ -54,7 +54,6 @@ Sie gehen feste Runden, warten an den Enden und sagen etwas, wenn man nahe ist. 
 
 ## Technik
 - Straßen bekommen Gras unter das Pflaster (`210-render.js`, nur Oberwelt). Sonst schimmerte der blaue Himmel als Fugen durch.
-- Nur der nächste Wegweiser zeigt seine Ziele (`G.hvSign`). Sie stehen in einer Spalte über dem Pfosten, jeweils auf der Seite, in die das Brett zeigt.
 - Das Werkstattdach wird durchsichtig, wenn der Held darunter oder dahinter steht.
 - `hvBuild(m)` legt zuerst alle Brücken der Startinsel an (`owBridge` für die Nachbar-Chunks), damit die Wege sie auch finden, wenn der Held woanders lädt.
 - Feste Teile sind Blöcke mit eigenem Bild (`SPR.prop.hvhedge`, `hvwall`, `hvwell`, dazu `grave`, `tree`, `house`, `tent`, `barrel`, `crate`). Offene Teile sind Props mit `hv` vor dem Namen. `hvDraw` zeichnet sie.

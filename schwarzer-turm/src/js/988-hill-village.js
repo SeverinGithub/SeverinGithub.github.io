@@ -21,7 +21,7 @@ const HVRIP=['Aldric · der erste Wächter des Turms','Mira · kam bis Ebene 9',
 function hvEdge(m,a){const c=Math.cos(a*HVD),s=Math.sin(a*HVD);let r=3;
   while(r<24){const t=m.t[Math.floor(HOY+HVC+s*r)*m.w+Math.floor(HOX+HVC+c*r)];if(!t||t===8)break;r+=.2}return r}
 function hvUndo(m){const H=m.home;if(H.hvU)for(let k=H.hvU.length-1;k>=0;k--){const[i,t,u]=H.hvU[k];m.t[i]=t;m.under[i]=u}H.hvU=null;
-  H.blocks=H.blocks.filter(b=>!b.hv);H.props=H.props.filter(p=>!p.hv)}
+  H.blocks=H.blocks.filter(b=>!b.hv);H.props=H.props.filter(p=>!p.hv);H.objs=H.objs.filter(o=>!o.hv)}
 // bridges that land on the hill, one head each: the middle of their last tiles
 function hvHeads(m){const out=[];for(let j=HOY-4;j<HOY+50;j++)for(let i=HOX-4;i<HOX+50;i++){if(m.t[j*m.w+i]!==8||hyp(i+.5-HOX-HVC,j+.5-HOY-HVC)>20)continue;
     if(![[1,0],[-1,0],[0,1],[0,-1]].some(([a,b])=>m.t[(j+b)*m.w+i+a]===4))continue;const x=i+.5-HOX,y=j+.5-HOY,c=out.find(h=>hyp(h.x-x,h.y-y)<3.5);
@@ -72,16 +72,14 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   const ei=Math.floor(deckIn[0]+Math.cos(deckA*HVD)),ej=Math.floor(deckIn[1]+Math.sin(deckA*HVD));if(!m.bw)m.bw=new Map();H.hvDeck=[];
   for(let j=ej-1;j<=ej+2;j++)for(let i=ei-1;i<=ei+2;i++)if(!T(i,j)){const k=(HOY+j)*W0+HOX+i;setT(i,j,8,8);m.bw.set(k,1);H.hvDeck.push(k)}
   const dc=pol([HVC,HVC],deckA,deckE+1.1);prop('hvtele',...pol(dc,deckA,.9));prop('hvbench',...pol(dc,deckA+90,.9),{a:deckA+90});prop('hvlamp',...pol(dc,deckA-90,1.1));
-  for(const s of[-1,1])for(let k=1;k<4;k++){const a=pol(pol([HVC,HVC],deckA,deckE-k),deckA+90,s*1.3),b=pol(pol([HVC,HVC],deckA,deckE-k-1),deckA+90,s*1.3);
-    if(T(a[0],a[1])===4)prop('ydfence',(a[0]+b[0])/2,(a[1]+b[1])/2,{x0:HOX+a[0],y0:HOY+a[1],x1:HOX+b[0],y1:HOY+b[1],end:k===3})}
   // the square: stones round the fire, the well, benches, banners framing the gate road, a signpost
   prop('hvring',Q[0]-.01,Q[1]-.01,{half:0});prop('hvring',Q[0]+.01,Q[1]+.01,{half:1});
   const WL=pol(Q,135,2.4);blk(WL[0],WL[1],'hvwell',0,[4,7]);
   for(const a of[95,-35]){const b=pol(Q,a,2.75);prop('hvbench',b[0],b[1],{a:a+90});take(b[0],b[1],.6)}
   for(const a of[187,263]){const b=pol(Q,a,3.15);prop('hvbanner',b[0],b[1],{v:0});take(b[0],b[1],.4)}
-  const sg=pol(Q,70,3.3);prop('hvsign',sg[0],sg[1],{to:[['Turm',door],['Markt',S.merchant],['Werkstatt',S.anvil],['Aussicht',dc]].map(([n,p])=>[n,HOX+p[0],HOY+p[1]])});take(sg[0],sg[1],.5);
+  const sg=pol(Q,70,3.3);H.objs.push({type:'hvsign',k:'hvsign',hv:1,name:'Wegweiser',x:HOX+sg[0],y:HOY+sg[1],to:[['Turm',door],['Markt',S.merchant],['Werkstatt',S.anvil],['Aussicht',dc]].map(([n,p])=>[n,HOX+p[0],HOY+p[1]])});take(sg[0],sg[1],.5);
   // signposts at the ring where the roads part
-  const sign=(a,r,to)=>{const p=pol([HVC,HVC],a,r);if(T(p[0],p[1])!==4)return;prop('hvsign',p[0],p[1],{to:to.map(([n,q])=>[n,HOX+q[0],HOY+q[1]])});take(p[0],p[1],.5)};
+  const sign=(a,r,to)=>{const p=pol([HVC,HVC],a,r);if(T(p[0],p[1])!==4)return;H.objs.push({type:'hvsign',k:'hvsign',hv:1,name:'Wegweiser',x:HOX+p[0],y:HOY+p[1],to:to.map(([n,q])=>[n,HOX+q[0],HOY+q[1]])});take(p[0],p[1],.5)};
   for(const h of heads){const to=h===arena?[['Arena',[h.x,h.y]],['Markt',S.merchant]]:[['Zu den Inseln',[h.x,h.y]]];if(west&&h===west)to.push(['Eldrik',S.chronist],['Friedhof',GY]);
     if(Math.abs(((h.a+90+540)%360)-180)<40)to.push(['Übungsplatz',[26.5,14.5]]);sign(h.a+16,6.6,to);
     // a bridge gate: a short wall to each side and a lamp
@@ -132,13 +130,18 @@ function hvBuild(m){const H=m.home;hvUndo(m);
   const nearP=(x,y)=>H.props.some(p=>p.hv&&hyp(p.x-x,p.y-y)<.7);
   H.deco=H.deco.filter(d=>{const lx=d.x-HOX,ly=d.y-HOY;if(d.k==='arena'||lx>44)return true;const t=T(lx,ly);if(t!==4)return false;
     if(d.k==='flowers'&&hyp(lx-HVC,ly-HVC)<14)return false;return!nearP(d.x,d.y)});
+  // where the signposts lead: every place of the village, by the spot one walks up to
+  const D=(n,p,t)=>[n,HOX+p[0],HOY+p[1],t];H.hvDest=[D('Turm',[25.4,25.4]),D('Dorfplatz',Q),D('Odalinde',S.merchant,'merchant'),D('Brannoc, der Schmied',S.smith,'smith'),D('Bodenlose Truhe',S.stash,'stash'),
+    D('Werkstatt',S.anvil,'anvil'),D('Eldrik, der Chronist',S.chronist,'chronist'),D('Übungsplatz',[26.5,15.6]),D('Friedhof',GG),D('Aussichtssteg',deckIn),D('Riss-Stein',S.riftstone,'riftstone')];
+  if(arena)H.hvDest.push(D('Arena',[arena.x,arena.y]));
   m.ac=null;owTick()}
 
 function hvTick(dt){const m=G.map;if(!m||!m.world||!m.home||!P||G.state==='title')return;const H=m.home;
   if(H.hvG==null||H.hvG!==hvGrow()){const was=H.hvG;hvBuild(m);if(was!=null&&H.hvG>was){log('Der Hügel wächst: '+HVGROW[H.hvG],'#e8d8b0');banner('Der Hügel wächst',HVGROW[H.hvG],undefined,3200)}}
   let ch=0;for(const o of H.objs){const q=H.hvS[o.type];if(q&&!o.hvp){o.x=q[0];o.y=q[1];o.hvp=1;ch=1}}if(ch){m.ac=null;owTick()}
   if(Math.abs(P.x-HOX-HVC)+Math.abs(P.y-HOY-HVC)>60)return;
-  let bs=null,bd=3.6;for(const p of H.props){if(p.k==='hvfolk')hvWalk(p,dt);else if(p.k==='hvsign'){const d=hyp(p.x-P.x,p.y-P.y);if(d<bd){bd=d;bs=p}}}G.hvSign=bs;
+  for(const p of H.props)if(p.k==='hvfolk')hvWalk(p,dt);
+  const pop=$('hvpop');if(pop&&!pop.hidden&&(!G.hvAt||hyp(G.hvAt.x-P.x,G.hvAt.y-P.y)>3.5))pop.hidden=true;
   if(H.hvDeck&&!G.hvLook&&H.hvDeck.includes(Math.floor(P.y)*m.w+Math.floor(P.x))){G.hvLook=1;log('Vom Steg aus sieht man weit über die Inseln.','#c8d8e8')}}
 const _updForgeHV=updForge;updForge=function(dt){_updForgeHV(dt);if(P&&G.map&&G.state!=='title')hvTick(dt)};
 
@@ -174,7 +177,7 @@ function hvCarry(k,a,f,sx0){ctx.save();
 function hvFolk(p){const[sx,sy]=iso(p.x,p.y);if(sx<-60||sx>W+60||sy<-90||sy>H+40)return;const L=HVLOOK[p.id],[fx,fy]=scrDir(p.face??.8),f=fx>=0?1:-1,back=fy<0,s=L.s||1;
   shadow(sx,sy,.34*s);ctx.save();ctx.translate(sx,sy);if(s!==1)ctx.scale(s,s);
   const aw=humanoid({R:L.R,f,back,moving:!!p.mv,ph:p.ph||0,seed:p.seed,robe:!!L.robe,run:p.run&&p.mv?1:0,armSwing:p.load?.25:1,head:(hx,hy)=>hvHead(hx,hy,L,f,back)});
-  if(p.load&&aw)hvCarry(p.load,aw,f);ctx.restore();if(hyp(p.x-P.x,p.y-P.y)<1.5&&!G.hvSign)label(sx,sy-56*s,L.n,'#d8ccb0')}
+  if(p.load&&aw)hvCarry(p.load,aw,f);ctx.restore();if(hyp(p.x-P.x,p.y-P.y)<1.5)label(sx,sy-56*s,L.n,'#d8ccb0')}
 
 // sprites for the solid pieces: hedge, low wall, well
 const hvMk=(w,h,ax,ay,fn)=>{const c=document.createElement('canvas');c.width=w;c.height=h;c.ax=ax;c.ay=ay;fn(c.getContext('2d'),ax,ay);return c};
@@ -211,8 +214,8 @@ function hvDraw(p){if(p.k==='hvfolk')return hvFolk(p);const[sx,sy]=iso(p.x,p.y);
     const lx=sx+7,ly=sy-43,fl=.8+Math.sin(t*7+p.ph)*.12;ctx.fillStyle='#2a2018';ctx.fillRect(lx-3.5,ly,7,9);ctx.fillRect(lx-4.5,ly-1,9,2);ctx.fillStyle=`rgba(255,200,110,${fl})`;ctx.fillRect(lx-2.2,ly+1.8,4.4,5.6);
     ctx.save();ctx.globalCompositeOperation='lighter';const gr=ctx.createRadialGradient(lx,ly+4,0,lx,ly+4,G.night?30:16);gr.addColorStop(0,`rgba(255,180,90,${G.night?.4:.18})`);gr.addColorStop(1,'rgba(255,140,60,0)');ctx.fillStyle=gr;ctx.fillRect(lx-30,ly-26,60,60);ctx.restore();return}
   if(p.k==='hvsign'){shadow(sx,sy,.16);ctx.fillStyle='#4a3018';ctx.fillRect(sx-1.5,sy-44,3,44);ctx.fillStyle='#2a1a0c';ctx.fillRect(sx-2,sy-46,4,3);
-    const talk=G.hvSign===p;let nl=0,nr=0;p.to.forEach(([n,tx,ty],k)=>{const d=(tx-p.x)-(ty-p.y)>=0?1:-1,y=sy-40+k*7;ctx.fillStyle=k&1?'#7a5430':'#8a6038';ctx.beginPath();ctx.moveTo(sx-d*3,y);ctx.lineTo(sx+d*15,y);ctx.lineTo(sx+d*19,y+2.5);ctx.lineTo(sx+d*15,y+5);ctx.lineTo(sx-d*3,y+5);ctx.closePath();ctx.fill();
-      ctx.fillStyle='#3a2410';ctx.fillRect(sx+d*2-1,y+2,d*10,1);if(talk){const q=d>0?nr++:nl++;label(sx+d*34,sy-52-q*19,(d<0?'‹ ':'')+n+(d>0?' ›':''),'#e8d8b0')}});return}
+    p.to.forEach(([n,tx,ty],k)=>{const d=(tx-p.x)-(ty-p.y)>=0?1:-1,y=sy-40+k*7;ctx.fillStyle=k&1?'#7a5430':'#8a6038';ctx.beginPath();ctx.moveTo(sx-d*3,y);ctx.lineTo(sx+d*15,y);ctx.lineTo(sx+d*19,y+2.5);ctx.lineTo(sx+d*15,y+5);ctx.lineTo(sx-d*3,y+5);ctx.closePath();ctx.fill();
+      ctx.fillStyle='#3a2410';ctx.fillRect(sx+d*2-1,y+2,d*10,1);});if(G.state==='play'&&hoverObj()===p)label(sx,sy-56,'Wegweiser','#e8d8b0');return}
   if(p.k==='hvbench'){const a=p.a*HVD,u=[Math.cos(a)*.48,Math.sin(a)*.48],n=[-Math.sin(a)*.16,Math.cos(a)*.16];shadow(sx,sy,.3);
     for(const s of[-.8,.8])B(u[0]*s,u[1]*s,.04,.04,0,8,'#3a2614');
     Q([[-u[0]-n[0],-u[1]-n[1],8],[u[0]-n[0],u[1]-n[1],8],[u[0]+n[0],u[1]+n[1],8],[-u[0]+n[0],-u[1]+n[1],8]],'#9a6e3a');
@@ -271,3 +274,32 @@ function hvDraw(p){if(p.k==='hvfolk')return hvFolk(p);const[sx,sy]=iso(p.x,p.y);
 }
 const _drawPropHV=drawProp;drawProp=function(p){if(p.k&&p.k.charCodeAt(0)===104&&p.k.charCodeAt(1)===118){hvSprites();return hvDraw(p)}return _drawPropHV(p)};
 const _drawHV=render;render=function(){if(G.map&&G.map.world)hvSprites();return _drawHV.apply(this,arguments)};
+
+// signposts: a click opens a small window with every place of the village; picking one lays a trail of lights there
+SOLID.hvsign=.22;
+const _drawObjHV=drawObj;drawObj=function(o){if(o.type==='hvsign'){hvSprites();return hvDraw(o)}return _drawObjHV(o)};
+const _interactHV=interact;interact=function(o){if(o&&o.type==='hvsign')return hvSignOpen(o);return _interactHV(o)};
+function hvSignOpen(o){const H=G.map&&G.map.home;if(!H||!H.hvDest)return;let el=$('hvpop');
+  if(!el){el=document.createElement('div');el.id='hvpop';el.hidden=true;document.body.appendChild(el);
+    el.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;e.stopPropagation();el.hidden=true;if(b.dataset.hvd!=null)hvGuide(+b.dataset.hvd)})}
+  G.hvAt={x:P.x,y:P.y};const here=H.hvDest.map((d,i)=>[d,i]).filter(([d])=>(!d[3]||H.objs.some(q=>q.type===d[3]))&&hyp(d[1]-o.x,d[2]-o.y)>3);
+  el.innerHTML=`<h3>Wegweiser</h3><div class="hvd">${here.map(([d,i])=>`<button data-hvd="${i}">${d[0]}<small>${Math.round(hyp(d[1]-P.x,d[2]-P.y))} Schritte</small></button>`).join('')}</div><button class="hvx">Schließen</button>`;
+  el.hidden=false;sfx('pick')}
+function hvGuide(i){const H=G.map.home,d=H.hvDest[i];if(!d)return;const[tx,ty]=nearWalk(d[1],d[2]),path=findPath(P.x,P.y,tx,ty);
+  if(!path||!path.length){log('Dorthin findet der Wegweiser keinen Weg.','#a39b88');return}
+  // even steps along the way, so the lights sit evenly whatever the path looks like
+  const pts=[],all=[[P.x,P.y],...path];let acc=0;for(let k=0;k<all.length-1;k++){const[a,b]=[all[k],all[k+1]],L=hyp(b[0]-a[0],b[1]-a[1]);for(let s=0;s<L;s+=.1){if((acc+=.1)<.85)continue;acc=0;const q=s/L;pts.push([a[0]+(b[0]-a[0])*q,a[1]+(b[1]-a[1])*q,Math.atan2(b[1]-a[1],b[0]-a[0])])}}
+  G.hvGuide={n:d[0],x:tx,y:ty,pts,t:0,at:0};log('Folge den Lichtern: '+d[0]+'.','#e8d8b0')}
+function hvGuideTick(dt){const g=G.hvGuide;if(!g)return;const m=G.map;if(!m||!m.world||(g.t+=dt)>90){G.hvGuide=null;return}
+  if(hyp(g.x-P.x,g.y-P.y)<1.6){G.hvGuide=null;log(g.n+'. Du bist da.','#e8d8b0');return}
+  // the lights behind the hero go out
+  for(let k=Math.min(g.pts.length-1,g.at+10);k>=g.at;k--)if(hyp(g.pts[k][0]-P.x,g.pts[k][1]-P.y)<1.2){g.at=k+1;break}}
+const _updForgeHG=updForge;updForge=function(dt){_updForgeHG(dt);if(P&&G.map&&G.state!=='title')hvGuideTick(dt)};
+function hvGuideDraw(){const g=G.hvGuide;if(!g)return;ctx.save();
+  for(let k=g.at;k<g.pts.length;k++){const[x,y,a]=g.pts[k],[sx,sy]=iso(x,y);if(sx<-30||sx>W+30||sy<-30||sy>H+30)continue;
+    const w=.5+.5*Math.sin(G.t*5-k*.7),f=Math.min(1,(k-g.at+1)/3),al=(.35+.45*w)*f,[dx,dy]=[Math.cos(a)-Math.sin(a),(Math.cos(a)+Math.sin(a))*.5],L=hyp(dx,dy)||1,ux=dx/L,uy=dy/L;
+    const gl=ctx.createRadialGradient(sx,sy,0,sx,sy,16);gl.addColorStop(0,`rgba(255,200,90,${(al*.55).toFixed(2)})`);gl.addColorStop(1,'rgba(255,170,60,0)');ctx.fillStyle=gl;ctx.fillRect(sx-16,sy-16,32,32);
+    ctx.beginPath();ctx.moveTo(sx+ux*10,sy+uy*10);ctx.lineTo(sx-ux*6-uy*9,sy-uy*6+ux*9);ctx.lineTo(sx-ux*2,sy-uy*2);ctx.lineTo(sx-ux*6+uy*9,sy-uy*6-ux*9);ctx.closePath();
+    ctx.fillStyle=`rgba(255,214,120,${Math.min(1,al+.25).toFixed(2)})`;ctx.strokeStyle=`rgba(60,30,4,${(al*.8).toFixed(2)})`;ctx.lineWidth=1.2;ctx.fill();ctx.stroke()}
+  const[sx,sy]=iso(g.x,g.y),r=10+Math.sin(G.t*4)*3;ctx.strokeStyle='rgba(255,210,120,.7)';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(sx,sy,r*1.6,r*.8,0,0,7);ctx.stroke();ctx.restore()}
+const _drawDecalsHV=drawDecals;drawDecals=function(){const r=_drawDecalsHV();if(G.map&&G.map.world)hvGuideDraw();return r};
