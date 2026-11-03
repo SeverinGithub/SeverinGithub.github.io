@@ -1,7 +1,7 @@
 ---
 tags: [todo, inhalt]
 ---
-# Waffen-Ideen: 60 neue Waffen und Werkzeuge
+# Waffen-Ideen: 54 neue Waffen
 
 Liste zum Abarbeiten, der Reihe nach von oben. Jede neue Grundform bekommt wie bisher automatisch alle Materialstufen (`MATS`), ein Pixelbild, ein Bild in der Hand (`vWeapon`) und, wo es passt, eigene Unikate. Vorbilder sind die Waffenarten aus Diablo 2, Path of Exile und Elden Ring: nur die Art übernehmen, nie Namen oder Aussehen der Originale.
 
@@ -81,17 +81,8 @@ Spalten: Name · Art · Klasse · Stufen · was sie besonders macht · Bewegung.
 - [ ] **53 Fackel**: Nebenhand und Schlagwaffe · alle · 1–30 · Feuerschaden, Licht, Spinnen weichen zurück
 - [ ] **54 Köcher**: Nebenhand · Alchemist · 5–69 · mehr Pfeilschaden, später Spezialpfeile (Feuer, Frost, Gift)
 
-## Werkzeuge
-- [ ] **55 Spitzhacke**: Werkzeug · alle · Erzadern im Turm abbauen, Erz für den Schmied
-- [ ] **56 Enterhaken**: Werkzeug · alle · zieht den Helden über Lücken zwischen Inseln oder zu Gegnern
-- [ ] **57 Angelrute**: Werkzeug · alle · Fischen an Inselrändern: Glut, Runen, seltene Tränke
-- [ ] **58 Dietrich-Set**: Werkzeug · Jägerin zuerst · öffnet verschlossene Truhen und Geheimtüren
-- [ ] **59 Schaufel**: Werkzeug · alle · vergrabene Schätze an markierten Stellen ausgraben
-- [ ] **60 Wünschelrute**: Werkzeug · alle · zeigt in der Nähe verborgene Schätze und Rissstellen an
-
 ## Hinweise für den Einbau
-- Neue Waffenart (z. B. `pole`, `claw`, `whip`, `fist`, `tool`): in `WEXT`/`WLEN` eintragen, `vWeapon` zeichnen, Klassen-Erlaubnis in den Klassendaten, Pixelbild für Boden und Inventar.
-- Werkzeuge brauchen jeweils ein kleines Spielsystem (Erzadern, Angelstellen, Schatzstellen); am besten zusammen mit einem passenden Ort auf den Inseln.
+- Neue Waffenart (z. B. `pole`, `claw`, `whip`, `fist`): in `WEXT`/`WLEN` eintragen, `vWeapon` zeichnen, Klassen-Erlaubnis in den Klassendaten, Pixelbild für Boden und Inventar.
 - Jede Waffe ins Turm-Wiki (liest `BASE` live) und in [[Klassen]] eintragen.
 
 Zurück zu [[Start]].
