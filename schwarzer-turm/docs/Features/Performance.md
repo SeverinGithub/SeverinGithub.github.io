@@ -31,6 +31,19 @@ Fazit: Das Zeichnen kostet etwa 6× so viel wie die Logik. Engpass ist der Canva
 - Vignette als zwischengespeichertes Bild (`vignette(w,h)`) statt eines Vollbild-Verlaufs pro Frame.
 - Leuchteffekte (`drawFxGlow`) außerhalb des Bildes werden übersprungen. Schockwellen und Hiebe bleiben wegen ihrer Größe ausgenommen.
 
+## Messung 2026-11-03 abends (Mac, iPad-Fenstergröße 1366×1024)
+| Lage | Zeit pro Bild (CPU) |
+|---|---|
+| Dorf auf dem Hügel, stehen | 2,6 ms |
+| Über die Inseln laufen (Chunks laden) | 1,9 ms, Spitze 9,5 ms |
+| Ebene 8, 105–138 Gegner, 600–850 Effekte, Kampf | 2,3–4,7 ms |
+
+Teuerste Teile im Kampf: `drawEnemy` (~1,2 ms, mit Impostor-Cache ab 30 Gegnern), GPU-Upload `present` (~0,6 ms), `update` (~0,6 ms), `drawFxGlow` (~0,4 ms). Selbst der große Kampf nutzt also nur gut die Hälfte eines 120-Hz-Bildes. Lange Aufgaben (über 50 ms) gab es keine.
+
+**Ursache für das Ruckeln:** Die Kamera folgte dem Helden pro Bild um 15 % des Abstands, egal wie lange das Bild dauerte. Schwankte die Bildzeit (120-Hz-Bildschirm, ein ausgefallenes Bild), sprang der Held gegen den Hintergrund: gerechnet um 5,4 Bildschirmpixel bei einem ausgefallenen Bild. Jetzt folgt die Kamera nach Zeit (`1-0.85^(dt·60)`, `camT` in `render`). Der Sprung liegt bei 0,8 px.
+
+**Lebens- und Manakugel:** `paintOrb` liest die Kugel zurück und rastert sie (`quantize`). Das geschah bisher zweimal pro Bild. Jetzt passiert es höchstens 30-mal pro Sekunde, und sofort, wenn sich der Stand ändert (`ORBT`).
+
 ## Nächster großer Schritt: GPU-Renderer
 - Alle Sprites (Boden, Wände, Props, Figuren nach `quantize`) kommen in Texturatlanten und werden in WebGL als Instanzen gezeichnet: ein Aufruf pro Ebene statt Tausender `drawImage`.
 - Licht und Dunkelheit als Shader statt `destination-out`-Maske. Partikel als Punkt-Sprites auf der GPU.

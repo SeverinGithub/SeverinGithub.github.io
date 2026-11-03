@@ -85,7 +85,10 @@ function buildUI(){
      const l=g.createLinearGradient(0,16,0,29);l.addColorStop(0,'#ffc070');l.addColorStop(1,'#c04008');g.fillStyle=l;g.beginPath();g.arc(16,21,7,0,Math.PI);g.lineTo(9,20);g.quadraticCurveTo(16,17,23,20);g.fill();g.fillStyle='rgba(255,255,255,.6)';g.fillRect(11,13,1.5,5)})};
   set('--tx-ringL',ring(['#ffb0a0','#d0261c','#3a0404']));set('--tx-ringM',ring(['#c8e4ff','#2a60e0','#020818']))}
 const ORBR={P:['#0e1a04','#3a6a10','#7ab030','#c8f878'],L:['#200000','#7a0a06','#c42a1c','#ff8a6a'],M:['#020820','#0e2a7a','#2a64e0','#9ac4ff']};
-function paintOrb(k,frac){const c=$('orb'+k),g=c.getContext('2d',{willReadFrequently:true}),r=k==='L'&&P&&P.poisonT>0?ORBR.P:ORBR[k],t=G.t;g.clearRect(0,0,52,52);g.save();g.beginPath();g.arc(26,26,26,0,7);g.clip();
+// the orbs are read back and dithered, so they are painted at most 30 times a second, or at once when the level moves
+const ORBT={};
+function paintOrb(k,frac){const pz=k==='L'&&P&&P.poisonT>0,o=ORBT[k]||(ORBT[k]={f:-1,t:-9,p:0});if(Math.abs(o.f-frac)<.002&&o.p===pz&&G.t-o.t<1/30&&G.t>=o.t)return;o.f=frac;o.t=G.t;o.p=pz;
+  const c=$('orb'+k),g=c.getContext('2d',{willReadFrequently:true}),r=k==='L'&&P&&P.poisonT>0?ORBR.P:ORBR[k],t=G.t;g.clearRect(0,0,52,52);g.save();g.beginPath();g.arc(26,26,26,0,7);g.clip();
   const bg=g.createRadialGradient(20,18,2,26,26,30);bg.addColorStop(0,'#1c1610');bg.addColorStop(1,'#020101');g.fillStyle=bg;g.fillRect(0,0,52,52);
   frac=clamp(frac,0,1);const lv=52-frac*52;
   if(frac>0){const wave=x=>lv+Math.sin(x*.24+t*2.6)*1.1+Math.sin(x*.5-t*1.7)*.5;g.beginPath();g.moveTo(0,52);for(let x=0;x<=52;x+=2)g.lineTo(x,wave(x));g.lineTo(52,52);g.closePath();

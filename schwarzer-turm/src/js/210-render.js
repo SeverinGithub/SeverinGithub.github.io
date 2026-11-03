@@ -1,13 +1,14 @@
 /* ---------- render ---------- */
 let grain=null;
 function buildGrain(){grain=mk(256,256,g=>{const d=g.createImageData(256,256);for(let i=0;i<d.data.length;i+=4){const v=Math.random()*255;d.data[i]=d.data[i+1]=d.data[i+2]=v;d.data[i+3]=255}g.putImageData(d,0,0)})}
-let RF=0;
+let RF=0,camT=0;
 // one soft disc (full, 70% at 0.6, gone at the rim) stands in for every light cut into the darkness
 let LSPR=null;function lightSpr(){if(LSPR)return LSPR;const c=LSPR=document.createElement('canvas');c.width=c.height=256;const g=c.getContext('2d'),q=g.createRadialGradient(128,128,0,128,128,128);q.addColorStop(0,'rgba(0,0,0,1)');q.addColorStop(.6,'rgba(0,0,0,.7)');q.addColorStop(1,'rgba(0,0,0,0)');g.fillStyle=q;g.fillRect(0,0,256,256);return c}
 const VIG={c:null,w:0,h:0};function vignette(w,h){if(VIG.c&&VIG.w===w&&VIG.h===h)return VIG.c;const c=VIG.c=document.createElement('canvas');c.width=Math.ceil(w);c.height=Math.ceil(h);VIG.w=w;VIG.h=h;const g=c.getContext('2d'),q=g.createRadialGradient(w/2,h/2,Math.min(w,h)*.35,w/2,h/2,Math.max(w,h)*.75);q.addColorStop(0,'rgba(0,0,0,0)');q.addColorStop(1,'rgba(0,0,0,.55)');g.fillStyle=q;g.fillRect(0,0,w,h);return c}
 function render(){RF++;
   const m=G.map;G.lq=[];
-  camX+=(P.x-camX)*.15;camY+=(P.y-camY)*.15;
+  // the camera follows by time, not by frame: with uneven frame times a fixed share per frame made the hero jump against the ground
+  const cn=performance.now(),cdt=camT?Math.min(.1,(cn-camT)/1000):1/60,ck=1-Math.pow(.85,cdt*60);camT=cn;camX+=(P.x-camX)*ck;camY+=(P.y-camY)*ck;
   const sh=CFG.shake?G.shake:0,kx=CFG.shake?G.kx||0:0,ky=CFG.shake?G.ky||0:0;CX=W/2-(camX-camY)*32+(sh?rnd(-sh,sh):0)+kx;CY=H/2-(camX+camY)*16-40+(sh?rnd(-sh,sh):0)+ky;
   ctx.save();
   if(m.kind==='town'){const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#08306f');g.addColorStop(.55,'#1356b0');g.addColorStop(1,'#1d6bcc');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);drawClouds(m,true)}
