@@ -152,7 +152,7 @@ function rgHoofFx(e,H,fore,near,vol){const a=e.face||0,bx=-Math.cos(a),by=-Math.
   if(vol>0)rgClop(vol*(near?1:.8),(fore?1.08:.94)*(near?1:.97)*rnd(.97,1.03))}
 // enemy hooves are heard only close by, and never too many at once
 function rgEarVol(e){if(!P)return 0;const d=Math.hypot(e.x-P.x,e.y-P.y);if(d>8)return 0;const n=G.t|0;if(G.rgEarS!==n){G.rgEarS=n;G.rgEarN=0}if(++G.rgEarN>10)return 0;return .03*(1-d/8)}
-function rgDrawGear(e,o){const g=e.gear,{F,f,back,ph,atk,fx,fy}=o;
+function rgDrawGear(e,o){const g=e.gear,{F,f,back,ph,atk,fx,fy}=o,eg=o.eg||{};
   if(g.horse){ctx.save();ctx.scale(1.2,1.2);const sd=rgHorse({F,f,late:g.rider,step:(i,fo,ne)=>rgHoofFx(e,e.hs,fo,ne,rgEarVol(e))},g,e);ctx.restore();if(!g.rider)return;ctx.save();ctx.translate(sd.x*1.2,sd.y*1.2+9);ctx.rotate(sd.a*.6);ctx.scale(.8,.8)}
   const B=F(rgC(g.bone||'bone')),body=g.body,C=F(rgC(g.bodyC||'tunic')),A=F(rgC(g.armor||'iron')),plate=body==='plate'||body==='royal',mail=body==='gambeson';
   const R=plate?{torso:A,sleeve:A,fore:A,hand:A,legs:A,shin:A,feet:A,skirt:F(rgC(g.bodyC||'black')),pauldron:A,belt:F(RP.gold),buckle:F(RP.gold),metal:{torso:1,sleeve:1,fore:1,shin:1,legs:1}}
@@ -160,7 +160,7 @@ function rgDrawGear(e,o){const g=e.gear,{F,f,back,ph,atk,fx,fy}=o;
     :{torso:F(RP.dark),sleeve:B,fore:B,hand:B,legs:B,shin:B,feet:B,skirt:F(RP.rust)};
   if(g.rider){R.torso=F(rgC(g.bodyC||'red'));if(R.metal)R.metal.torso=0}
   const ranged=g.wep==='crossbow'||g.wep==='longbow',aim=Math.atan2(fy,fx),wa=ranged?aim:g.wep==='lance'?(atk??aim+.15*f):(atk??aim+.8*f);
-  const oh={R,f,back,robe:!!g.rider,moving:!g.rider&&!e.dead,ph,tw:(plate?1.1:.92)*(g.tw||1),lw:plate?1.05:.66,armLen:15,atk:ranged?null:atk,
+  const oh={R,f,back,robe:!!g.rider,moving:!g.rider&&!e.dead&&eg.moving!==false,run:eg.run,seed:eg.seed,dir:eg.dir,ph,tw:(plate?1.1:.92)*(g.tw||1),lw:plate?1.05:.66,armLen:15,atk:ranged?null:atk,
     torsoFx:plate||body?null:(a,b,c,d)=>{for(let k=0;k<4;k++)limb(a-5+k*.4,b+2.5+k*2.6,a+5-k*.4,b+2.5+k*2.6,.7,.7,B);limb(c,d,a,b+1,.8,.8,B)},
     head:(hx,hy)=>{if(!(g.hat==='great'||g.hat==='crown'||g.hat==='barbute')){blob(hx,hy,3.8,4.2,B);if(!back){ctx.fillStyle='#0a0806';ctx.fillRect(hx-2.4+f*.6,hy-1,1.6,1.6);ctx.fillRect(hx+.8+f*.6,hy-1,1.6,1.6);ctx.fillRect(hx-1.5+f*.6,hy+2.2,3,.8);ctx.fillStyle=g.eye||'#ffb040';ctx.fillRect(hx-2+f*.6,hy-.6,.8,.8);ctx.fillRect(hx+1.2+f*.6,hy-.6,.8,.8)}}rgHat(hx,hy,g,F,f,back)},
     weapon:(x,y)=>rgWeapon(x,y,wa,g.wep,F,ph),

@@ -120,7 +120,7 @@ function mpQuestSync(qi,who){if(!P||G.state==='title')return;const to=Math.min(q
 function mpRemote(id){return{id,nm:'Mitspieler',x:0,y:0,tx:0,ty:0,vx:0,vy:0,face:0,floor:null,anim:0,atkT:0,atkDur:.4,eq:{},d:{okS:new Set()},cls:'wanderer',ghosts:[],trail:[],buf:[],hurt:0,moving:false,dead:false,down:0,rv:0,roll:0,whirl:0,ward:0,leap:null,ride:false,hs:rgHS(),lvl:1,hp:1,hm:1,seen:0,fresh:1}}
 function mpState(r,d){const ts=d.ts!=null?d.ts:performance.now();if(r.lts!=null&&ts<=r.lts)return;r.lts=ts;mpClock(r,ts);
   const far=r.fresh||r.floor!==d.fl;if(far){r.buf=[];r.x=d.x;r.y=d.y;r.hs=rgHS()}mpPush(r.buf,{t:ts,x:d.x,y:d.y});r.tx=d.x;r.ty=d.y;r.at=performance.now();r.fresh=0;
-  r.face=d.f;r.floor=d.fl;r.moving=!!d.mv;r.ride=!!d.r;r.dead=!!d.dd;r.down=performance.now()<r.rvCool?0:d.dn||0;if(r.down===0&&performance.now()<r.rvCool)r.dead=false;r.roll=d.ro||0;r.veilT=d.vl||0;r.lvl=d.lv;r.hp=d.hp;r.hm=d.hm;r.rvi=d.rvi||null;r.rvp=d.rvp||0;if(d.nm)r.nm=d.nm;r.seen=performance.now();
+  r.face=d.f;r.floor=d.fl;r.moving=!!d.mv;r.ride=!!d.r;r.dead=!!d.dd;r.down=performance.now()<r.rvCool?0:d.dn||0;if(r.down===0&&performance.now()<r.rvCool)r.dead=false;r.roll=d.ro||0;r.rollFlip=!!d.rf;r.veilT=d.vl||0;r.lvl=d.lv;r.hp=d.hp;r.hm=d.hm;r.rvi=d.rvi||null;r.rvp=d.rvp||0;if(d.nm)r.nm=d.nm;r.seen=performance.now();
   if(d.a>0){r.atkDur=d.ad||.4;const t=(1-d.a)*r.atkDur;if(!(r.atkT>0)||Math.abs(r.atkT-t)>.15)r.atkT=t}
   if(NET.goTo&&NET.role==='guest'&&r.id==='h'){NET.goTo=0;if(typeof d.fl==='number'&&d.fl===0&&G.floor===0)mpTravel('h',1);else if(typeof d.fl==='number')log(r.nm+' ist im Turm, '+floorTitle(d.fl)+'. Am Leuchtfeuer kannst du zu '+r.nm+' reisen.','#9ad0ff')}}
 function mpLook(){const eq={};for(const k of['weapon','offhand','helm','armor','gloves','boots','belt','mount']){const it=P&&P.eq[k];if(it&&(k==='mount'||P.d.okS.has(it)))eq[k]=it}return{t:'l',id:NET.me,cls:P?P.cls:'wanderer',nm:mpName(),eq,qi:P?P.qi||0:0}}
@@ -130,7 +130,7 @@ setInterval(()=>{if(!mpOn()||!P||G.state==='title'||!P.d)return;const now=perfor
   NET.st0=now;
   let rvi=null,rvp=0;for(const r of NET.others.values())if(r.rv>0){rvi=r.id;rvp=+(r.rv/MPREV).toFixed(2)}
   mpSend({t:'s',id:NET.me,ts:Math.round(now),x:+P.x.toFixed(2),y:+P.y.toFixed(2),f:+(P.face||0).toFixed(2),fl:G.floor,hp:Math.round(P.hp),hm:Math.round(P.d.life),lv:P.lvl,mv:P.moving?1:0,
-    a:P.atkT>0?+(1-P.atkT/P.atkDur).toFixed(2):0,ad:P.atkDur||.4,r:riding()?1:0,dd:P.dead?1:0,dn:P.down>0?+P.down.toFixed(1):0,ro:P.roll>0?+P.roll.toFixed(2):0,vl:P.veilT>0?+P.veilT.toFixed(1):0,rvi,rvp,nm:mpName()},true);
+    a:P.atkT>0?+(1-P.atkT/P.atkDur).toFixed(2):0,ad:P.atkDur||.4,r:riding()?1:0,dd:P.dead?1:0,dn:P.down>0?+P.down.toFixed(1):0,ro:P.roll>0?+P.roll.toFixed(2):0,rf:P.roll>0&&P.rollFlip?1:0,vl:P.veilT>0?+P.veilT.toFixed(1):0,rvi,rvp,nm:mpName()},true);
   const L=mpLook(),h=JSON.stringify(L.eq).length+'|'+Object.values(L.eq).map(i=>i.id).join(',')+L.cls+L.nm+'|'+L.qi;if(h!==NET.lookH||now-NET.lookT>6000){NET.lookH=h;NET.lookT=now;mpSend(L)}},33);
 
 /* ----- shared monsters ----- */

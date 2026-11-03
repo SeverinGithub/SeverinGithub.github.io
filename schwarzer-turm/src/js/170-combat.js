@@ -95,7 +95,7 @@ function castSkill(id,tx,ty){
 function doRoll(){
   if(P.dead||P.roll>0||P.dash||P.st<12)return;
   const[wx,wy]=scr2w(mouse.x,mouse.y);let a=Math.atan2(wy-P.y,wx-P.x);if(hyp(wx-P.x,wy-P.y)<.2)a=P.face;
-  P.roll=.38;P.iframe=.3;P.rollA=a;P.face=a;smoke(P.x,P.y,4,'rgba(90,78,62,',5,.3);P.st-=22;P.stDelay=.8;P.atkT=0;P.cast=0;P.path=[];sfx('roll')}
+  P.rollN=(P.rollN||0)+1;P.rollFlip=P.rollN>=6||(P.rollN>=4&&Math.random()<.4);if(P.rollFlip)P.rollN=0;P.roll=.38;P.iframe=.3;P.rollA=a;P.face=a;smoke(P.x,P.y,4,'rgba(90,78,62,',5,.3);P.st-=22;P.stDelay=.8;P.atkT=0;P.cast=0;P.path=[];sfx('roll')}
 function drinkFlask(){
   if(P.dead||P.flasks<=0||P.flaskT>0){if(P.flasks<=0)log('Der Flakon ist leer. Raste an einem Leuchtfeuer.','#a39b88');return}
   P.flasks--;P.flaskT=.5;P.poisonT=0;sample('potion',.7);P.heal=P.d.life*(.45+P.flaskPow*.08+P.d.flaskH/100);burst(P.x,P.y,'#ffcf6a',14,1.5)}

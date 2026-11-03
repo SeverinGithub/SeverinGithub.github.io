@@ -18,6 +18,8 @@ tags: [todo]
 - [x] Bogen/Armbrust: eigene Schuss-Animation mit Spannen, Pfeil und Rückstoß (2026-11-03, siehe [[Klassen]]).
 - [x] Bogen mit beiden Armen, Aufladen, Nachschwingen, auch für Gegner-Schützen (2026-11-03, siehe [[Klassen]]). Im echten Spiel prüfen, ob sich schnelles Schießen gut anfühlt.
 - [x] Heldenliste statt Speicherplätze, Position wird mitgespeichert (2026-11-03, siehe [[Helden und Spielstände]]). Auf dem iPad mit echten alten Spielständen prüfen.
+- [x] Gang für alle Figuren (Stehen/Atmen, Gehen, Laufen, Sprinten mit Knien) und Dash nach vorn mit Salto etwa jedes 5. Mal (2026-11-03, siehe [[Bewegung]]). Auf dem iPad ansehen, ob der Dash zu stark kippt.
+- [ ] **Waffen-Ideen abarbeiten**: 60 Einträge in [[Waffen-Ideen]], der Reihe nach (zuerst Knotenstab für den Magier, dann Schwerter, Hellebarde neu).
 - [x] Questgeber Eldrik neu gezeichnet mit eigener Schreibstube (2026-11-03, siehe [[Eldriks Schreibstube]]).
 - [ ] **Odalindes Sockelanzahl wählbar machen** – angeboten nach der Runenwort-Prüfung, Nutzer hat nicht geantwortet. Würde gezieltes Bauen von 2/3/4-Runen-Runenwörtern erlauben. Erst nachfragen.
 - [ ] **Multiplayer mit zwei echten Spielern testen**: Statue für Gäste (`ar`/`arx`) und sichtbare Fähigkeiten wurden nur mit simulierten Paketen geprüft.

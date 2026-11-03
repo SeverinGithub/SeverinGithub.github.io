@@ -8,7 +8,7 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 - Live: GitHub Pages des Repos `SeverinGithub/SeverinGithub.github.io`, Pfad `/schwarzer-turm/`
 - Artefakt (Vorschau auf claude.ai): die alte Adresse RyXp68BqnpmdkzTHnvAd8z ist nicht mehr erreichbar (2026-11-02) – neues Artefakt nur nach Rückfrage
 - Wiki: `turm-wiki/index.html` im selben Repo, liest Daten und Bilder live aus dem Spiel (siehe [[Turm-Wiki]])
-- Letzter Stand: siehe [[Changelog]] bzw. `git log` (Stand 2026-11-03: Heldenliste mit Position, Bogen mit beiden Armen auch für Gegner, Eldriks Schreibstube)
+- Letzter Stand: siehe [[Changelog]] bzw. `git log` (Stand 2026-11-03: neuer Gang für alle Figuren, Dash statt Dauer-Salto, Waffen-Ideenliste)
 
 ## Zum Einstieg in einer neuen Session
 1. [[Arbeitsweise]] lesen – feste Regeln (Push nur nach „Ja, live schalten“, Artefakt immer aktualisieren, Commit-Format).
@@ -20,6 +20,8 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 ## Features (Details zu allem, was in den letzten Sessions gebaut wurde)
 - [[Klassen]] – Krieger, Jägerin, Magier, Alchemist; Waffen pro Klasse, Bögen/Armbrüste, eigene Ausrüstung für Jägerin und Alchemist
 - [[Talentbaum]] – 8 Zweige, 4 Ringe, 32 Meilensteine, 1.561 Knoten
+- [[Bewegung]] – Gehen, Laufen, Sprinten, Atmen, Dash mit seltenem Salto
+- [[Waffen-Ideen]] – 60 neue Waffen und Werkzeuge zum Abarbeiten
 - [[Helden und Spielstände]] – Heldenliste statt Speicherplätze, jeder Held speichert sich selbst samt Standort
 - [[Eldriks Schreibstube]] – der Questgeber mit Pult, Regal und eigener Runde
 - [[Anpassung]] – Bosse und Gegner passen sich an Schaden und Zähigkeit des Spielers an, Multiplayer-Skalierung, Karten-Zoom, feste Kartenobjekte

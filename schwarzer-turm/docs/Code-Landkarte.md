@@ -44,6 +44,7 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 
 | 790-heroes.js | `hAll`, `hCur`, `hMigrate`, `save`/`loadData`-Ersatz, Menüansicht `heroes` | Heldenliste statt Speicherplätze, siehe [[Helden und Spielstände]] |
 | 960-perf-overlay.js | `perfToggle`, `PERF_FN` | Messanzeige `?perf` / Shift+F3, siehe [[Performance]] |
+| 220-figures.js | `humanoid` (Gang, Atmen), `drawPlayer`, `heroDash`, `heroRoll` | Figuren und Bewegung, siehe [[Bewegung]] |
 | 980-eldrik-study.js | `eldMesh`, `eldPose`, `drawChron` | Eldriks Schreibstube, siehe [[Eldriks Schreibstube]] |
 | 970-class-gear.js | `HUNT`, `ALCH`, `gearAdd`, `ALDG`, `HUIMP`/`ALIMP`, `gSetOf`, `gGlint`, `HOODOFF` | Ausrüstung von Jägerin und Alchemist, neue Dolche und Unikate, Masken und Kapuzen in `vHelm`, siehe [[Klassen]] |
 
