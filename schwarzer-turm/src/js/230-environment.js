@@ -23,7 +23,6 @@ function buildEnvSprites(){
   flat('smear',3,72,30,(g,w,h)=>{g.lineCap='round';for(let k=0;k<4;k++){g.strokeStyle=pr(['rgba(70,6,4,.8)','rgba(100,10,6,.7)']);g.lineWidth=rr(2,5);g.beginPath();g.moveTo(8,h/2+rr(-5,5));g.quadraticCurveTo(w/2,h/2+rr(-9,9),w-8,h/2+rr(-5,5));g.stroke()}});
   flat('pebbles',3,40,20,(g,w,h)=>{for(let k=0;k<9;k++){const x=rr(5,w-5),y=rr(4,h-4),r=rr(1.2,2.6);el(g,x,y+.7,r+.5,r*.6+.4,'#0c0a08');el(g,x,y,r,r*.6,pr(['#5a5248','#6a6258','#4a443c']));g.fillStyle='rgba(255,240,220,.25)';g.fillRect(x-r*.4|0,y-r*.3|0,1,1)}});
   flat('runes',1,120,60,(g,w,h)=>{g.strokeStyle='#5a0a06';g.lineWidth=2.4;g.beginPath();g.ellipse(w/2,h/2,52,24,0,0,7);g.stroke();g.lineWidth=1.4;g.beginPath();g.ellipse(w/2,h/2,42,19,0,0,7);g.stroke();
-    g.beginPath();for(let k=0;k<6;k++){const a=k*2*Math.PI*2/5-Math.PI/2,x=w/2+Math.cos(a)*40,y=h/2+Math.sin(a)*18;k?g.lineTo(x,y):g.moveTo(x,y)}g.stroke();
     for(let k=0;k<12;k++){const a=k/12*6.283,x=w/2+Math.cos(a)*47,y=h/2+Math.sin(a)*21.5;g.fillStyle='#7a1010';g.fillRect(x-1.5|0,y-1|0,3,2);g.fillRect(x|0,y-2|0,1,4)}});
   flat('flowers',5,44,24,(g,w,h,v)=>{const c=['#d0261c','#ffc020','#f0f0e0','#9a40e0','#ff8ab0'][v];for(let k=0;k<9;k++){const x=rr(5,w-5),y=rr(8,h-3);g.fillStyle='#2a5a10';g.fillRect(x|0,y-3|0,1,3);g.fillStyle=c;g.fillRect(x-1|0,y-5|0,3,2);g.fillStyle='#fff4a0';g.fillRect(x|0,y-5|0,1,1)}});
   flat('tuft',4,32,24,(g,w,h,v)=>{for(let k=0;k<16;k++){const x=w/2+rr(-9,9),a=rr(-.5,.5),l=rr(6,13);g.strokeStyle=pr(v%2?['#2f6a14','#4fa020','#1c3a0c']:['#3a7a18','#6cbc20','#24500c']);g.lineWidth=1;g.beginPath();g.moveTo(x,h-3);g.lineTo(x+Math.sin(a)*l,h-3-Math.cos(a)*l);g.stroke()}});
@@ -150,7 +149,7 @@ function buildEnvSprites(){
     c.ax=85;c.ay=268;SPR.colossus=c}
   SPR.deco.arena=[mk(330,165,g=>{g.save();g.translate(165,82.5);g.scale(1,.5);for(const[r,w2,c]of[[150,6,'rgba(40,34,28,.55)'],[138,2,'rgba(150,140,120,.5)'],[96,4,'rgba(40,34,28,.5)'],[46,5,'rgba(40,34,28,.55)'],[40,2,'rgba(160,150,130,.45)']]){g.strokeStyle=c;g.lineWidth=w2;g.beginPath();g.arc(0,0,r,0,7);g.stroke()}
     for(let k=0;k<16;k++){const a=k/16*6.283;g.strokeStyle='rgba(40,34,28,.45)';g.lineWidth=2;g.beginPath();g.moveTo(Math.cos(a)*46,Math.sin(a)*46);g.lineTo(Math.cos(a)*96,Math.sin(a)*96);g.stroke()}
-    g.fillStyle='rgba(60,10,8,.35)';g.beginPath();g.arc(0,0,30,0,7);g.fill();g.strokeStyle='rgba(150,140,120,.55)';g.lineWidth=2;g.beginPath();for(let k=0;k<6;k++){const a=k*2*Math.PI*2/5-Math.PI/2;k?g.lineTo(Math.cos(a)*26,Math.sin(a)*26):g.moveTo(Math.cos(a)*26,Math.sin(a)*26)}g.stroke();g.restore()})];
+    g.fillStyle='rgba(60,10,8,.35)';g.beginPath();g.arc(0,0,30,0,7);g.fill();g.restore()})];
   SPR.wallMoss=[];for(let v=0;v<4;v++)SPR.wallMoss.push(mk(64,32+WH,g=>{for(let k=0;k<70;k++){const left=Rs()<.5,u=Rs(),z=Math.pow(Rs(),1.8)*WH*.9,x=left?u*32:32+u*32,y=left?16+u*16+WH-z:32-u*16+WH-z,r=rr(1.2,3.6)*(1-z/WH*.5);
     el(g,x,y,r,r*.8,pr(['#1e2e0e','#2a3e14','#3a5418','#4a6820','#22300c']))}for(let k=0;k<8;k++){const left=Rs()<.5,u=Rs(),x=left?u*32:32+u*32,y0=left?16+u*16:32-u*16;g.fillStyle='rgba(60,84,24,.8)';g.fillRect(x|0,y0+WH*.3|0,1,rr(4,12)|0)}}))}
 // dress a finished dungeon: themes per room, blockers, wall pieces, light shafts, critters
