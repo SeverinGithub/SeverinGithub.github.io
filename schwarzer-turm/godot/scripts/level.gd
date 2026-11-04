@@ -72,6 +72,7 @@ var hover_i = null               # the ground item whose plate is under the mous
 var sk: Skills                   # the hero's skills and what they leave behind
 var ow: Overworld = null         # floor 0: the sky, streamed around the hero
 var dark_layer: CanvasLayer
+var theme: ThemeRun = null        # theme floors and tower rooms (982, 984)
 var glutmal = null
 
 static var _glow_tex: Texture2D
@@ -103,6 +104,11 @@ func build(map: Dictionary) -> void:
 				c.cj = cj
 				c.deco = layer == "deco"
 				g.add_child(c)
+	if not ow:
+		theme = ThemeRun.new().setup(self)
+		add_child(theme)
+		var dc := theme.dark_color()
+		dark_mat.set_shader_parameter("dark_col", Vector4(dc.r, dc.g, dc.b, dc.a))
 	ground_fx = Fx.new()
 	ground_fx.mode = "ground"
 	ground_fx.level = self
@@ -254,17 +260,59 @@ func _light(pos: Vector2, r: float, a: float) -> Dictionary:
 	lights.append(l)
 	return l
 
+## propLight with the wrappers of 982 and 984: windows, stained glass, candles, crucibles, cold braziers, lava, room lights
+func prop_light(p: Dictionary):
+	match p.k:
+		"ftglass": return {"r": 160, "a": .75, "col": FloorThemes.GLASS[p.v % 4], "f": 3, "h": WH * .6}
+		"ftlavaL": return {"r": 110 + p.r * 55, "a": .85, "col": Color8(255, 110, 30), "f": 7, "h": 2}
+		"ftwin": return {"r": 120, "a": .55, "col": Color8(140, 170, 230), "f": 2, "h": WH * .6}
+		"ftcandle": return {"r": 115, "a": .65, "col": Color8(255, 180, 90), "f": 4, "h": 42}
+		"ftcruc": return {"r": 160, "a": .8, "col": Color8(255, 120, 40), "f": 7, "h": 16}
+		"ftcold": return {"r": 40, "a": .3, "col": Color8(255, 80, 30), "f": 1, "h": 14}
+		"twL": return null if p.get("off") else {"r": p.get("r", 130), "a": .7, "col": p.col, "f": 3, "h": p.get("h", 20)}
+	return PLIGHT.get(p.k)
+
 ## a prop on the floor, with its light if it has one
 func _add_prop(p: Dictionary) -> void:
-	world.add_child(Prop.new().setup(p))
-	var L = PLIGHT.get(p.k)
+	if p.k != "twL":
+		world.add_child(Prop.new().setup(p))
+	_prop_lamp(p)
+
+func _prop_lamp(p: Dictionary) -> void:
+	var L = prop_light(p)
 	if L:
 		var pos := Iso.to_screen(Vector2(p.x, p.y))
 		var l := _light(pos, L.r, L.a)
 		l.f = float(L.f)
 		l.ph = float(p.get("ph", 0.0))
+		p._l = l
 		if L.col != null:
-			_glow(pos - Vector2(0, L.h), L.r * .78, L.col, .17)
+			p._g = _glow(pos - Vector2(0, L.h), L.r * .78, L.col, .17)
+
+## a prop's light changes (a cold brazier catches fire)
+func relight(p: Dictionary) -> void:
+	if p.has("_l"):
+		lights.erase(p._l)
+	if p.has("_g"):
+		p._g.queue_free()
+	p.erase("_l")
+	p.erase("_g")
+	_prop_lamp(p)
+
+## the floor changed (a crack gave way, rubble fell): paint its tiles again
+func redraw_ground() -> void:
+	for g in ["floor", "deco"]:
+		if has_node(g):
+			for c in get_node(g).get_children():
+				c.queue_redraw()
+
+## an object that appears while you play (a hole in the floor, the trial's chest)
+func add_obj(o: Dictionary) -> Prop:
+	m.objs.append(o)
+	var n := Prop.new().setup(o, true)
+	world.add_child(n)
+	obj_nodes.append(n)
+	return n
 
 ## the warm colour around a flame, added on top of the light
 func _glow(pos: Vector2, r: float, col: Color, a: float) -> Sprite2D:
@@ -678,6 +726,8 @@ func populate() -> void:
 			e.trial = true
 			_add_enemy(e)
 		o.erase("sealed")
+	if theme:
+		theme.on_populate()
 
 func _add_enemy(e: Enemy) -> void:
 	world.add_child(e)
@@ -729,6 +779,8 @@ func _process(dt: float) -> void:
 	_loot_q(dt)
 	_trial_tick()
 	_upd_traps(dt)
+	if theme:
+		theme.tick(dt)
 	for e in enemies:
 		if e.wb != "" and not e.aggro and not e.dead and e.world.distance_to(Vector2(P.x, P.y)) < 11:
 			e.aggro = true
@@ -873,7 +925,7 @@ func _update_hero(dt: float) -> void:
 	P.stDelay -= dt
 	if P.stDelay <= 0:
 		Game.st = minf(d.stam, Game.st + d.stam * .45 * dt)
-	var spd: float = 4.2 * (1 + d.frw / 100.0) * (.65 if P.chill > 0 else 1.0) * (.4 if P.flaskT > 0 else 1.0)
+	var spd: float = 4.2 * (1 + d.frw / 100.0) * (.65 if P.chill > 0 else 1.0) * (.4 if P.flaskT > 0 else 1.0) * (theme.floor_spd() if theme else 1.0)
 	var moving := false
 	var mouse_down := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not _over_ui() and P.get("cast", 0) <= 0 and not Game.hand:
@@ -1075,6 +1127,9 @@ func _interact(o: Prop) -> void:
 		"chest":
 			if not o.p.open:
 				_open_chest(o)
+		_:
+			if theme:
+				theme.interact(o)
 
 # ---------- chests (770-chests.js) ----------
 
@@ -1374,6 +1429,12 @@ func hit_enemy(e: Enemy, dmg: float, o := {}) -> void:
 	if P.get("oathT", 0) > 0 and dmg > 0 and e.type in Data.skill_info.undead:
 		dmg *= 1 + P.oathB / 100.0
 		Game.hp = minf(Game.d.life, Game.hp + Game.d.life * .01)
+	if e.obj != "":
+		if theme:
+			theme.trigger(e, o.get("chain", false))
+		return
+	if Game.bless_t > 0 and not o.get("ally") and not o.get("dot"):
+		dmg *= 1.3
 	dmg *= e.dmg_taken
 	if e.wall:
 		o = o.duplicate()
@@ -1429,6 +1490,10 @@ func weapon_hit(e: Enemy, mult := 1.0) -> void:
 		Game.hp = minf(d.life, Game.hp + dmg * d.ls / 100.0)
 
 func kill_enemy(e: Enemy, a := INF) -> void:
+	if e.obj != "":
+		if not e.dead and theme:
+			theme._blast(e)
+		return
 	if e.wall:
 		e.dead = true
 		e.die_t = 99
@@ -1449,6 +1514,8 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 		Game.mp = minf(d.mana, Game.mp + d.mok)
 	Game.gain_xp(e.xp)
 	_loot(e)
+	if theme:
+		theme.on_kill(e)
 	var rm: float = {"boss": 25.0, "unique": 6.0, "champ": 2.5}.get(e.rank, 1.0)
 	var gl := roundi((3 + Game.mlvl * 1.6) * R.rnd(.8, 1.25) * rm * (1 + d.glutf / 100.0))
 	Game.glut += gl
@@ -1628,6 +1695,12 @@ func _upd_enemy(e: Enemy, dt: float) -> void:
 	e.slow = maxf(0, e.slow - dt)
 	e.hit_t = maxf(0, e.hit_t - dt)
 	e.lunge_t = maxf(0, e.lunge_t - dt)
+	# a frenzied floor: they strike again sooner (the updEnemy wrapper of 982)
+	if theme and theme.curse == "raserei" and e.cd > 0 and e.cd < 60:
+		e.cd -= dt * .45
+	if e.stun > 0:
+		e.stun -= dt
+		return
 	if e.kv != Vector2.ZERO:
 		e.world = move_ent(e.world, e.kv * dt, e.r)
 		e.kv *= pow(.002, dt)
@@ -2004,7 +2077,7 @@ func kick(a: float, k: float) -> void:
 func _lights() -> void:
 	var want := []
 	if not P.dead:
-		want.append([Iso.to_screen(Vector2(P.x, P.y)), 330 + sin(Game.t * 7) * 5, 1.0])
+		want.append([Iso.to_screen(Vector2(P.x, P.y)), (330 + sin(Game.t * 7) * 5) * (theme.pl_light() if theme else 1.0), 1.0])
 	for L in lights:
 		want.append([L.p, L.r + sin(Game.t * 9 + L.ph) * L.f, L.a])
 	# moving lights: fire in flight, burning telegraphs, short flashes, the glut you left behind

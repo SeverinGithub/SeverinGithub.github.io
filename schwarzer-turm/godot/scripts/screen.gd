@@ -3,7 +3,7 @@ extends Node
 ## Every game pixel becomes a whole block of k×k screen pixels, k chosen so the picture stays close to 430 rows high;
 ## a wider screen (21:9) shows more to the sides instead of shrinking or stretching anything. Nothing is ever blurred
 ## or drawn with uneven pixels. F11 or Alt+Enter toggles full screen, Ctrl+Plus/Minus makes the pixels bigger or smaller
-## (Ctrl+0 back to the default); both are kept in user://screen.cfg.
+## (Ctrl+0 back to the default); on a Mac also Cmd+Ctrl+F or Cmd+Enter; both are kept in user://screen.cfg.
 ## Test (after --): --screen=3440x1440 pretends to be such a monitor (the window gets the size of one game picture).
 
 const ROWS := 430.0                # the browser's picture height, the size everything was drawn for
@@ -41,7 +41,7 @@ func scale_for(sz: Vector2i) -> int:
 
 func _fit() -> void:
 	var root := get_tree().root
-	var sz := fake if fake != Vector2i.ZERO else DisplayServer.window_get_size()
+	var sz := fake if fake != Vector2i.ZERO else get_tree().root.size
 	if sz.x <= 0 or sz.y <= 0:
 		return
 	k = scale_for(sz)
@@ -52,13 +52,16 @@ func _fit() -> void:
 			DisplayServer.window_set_size(game)
 		root.content_scale_size = game
 		return
-	root.content_scale_size = game
+	if root.content_scale_size != game:
+		root.content_scale_size = game
+		print("Bildschirm: Fenster %s → Spielbild %s, Pixel ×%d" % [sz, game, k])
 
 func _input(ev: InputEvent) -> void:
 	if not (ev is InputEventKey and ev.pressed and not ev.echo):
 		return
 	var kc: Key = ev.keycode
-	if kc == KEY_F11 or (kc == KEY_ENTER and ev.alt_pressed):
+	# F11 is "show desktop" on a Mac, so there also Cmd+Ctrl+F (the Mac's own) and Cmd+Enter
+	if kc == KEY_F11 or (kc == KEY_ENTER and (ev.alt_pressed or ev.meta_pressed)) or (kc == KEY_F and ev.meta_pressed and ev.ctrl_pressed):
 		var full := DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED if full else DisplayServer.WINDOW_MODE_FULLSCREEN)
 	elif ev.is_command_or_control_pressed() and (kc == KEY_EQUAL or kc == KEY_PLUS or kc == KEY_KP_ADD):
@@ -71,7 +74,7 @@ func _input(ev: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	# keep zoom within what this screen allows
-	var sz := DisplayServer.window_get_size()
+	var sz := get_tree().root.size
 	var base := maxi(1, roundi(sz.y / ROWS))
 	zoom = clampi(zoom, 1 - base, maxi(1, mini(sz.y / MIN_ROWS, sz.x / MIN_COLS)) - base)
 	_fit()

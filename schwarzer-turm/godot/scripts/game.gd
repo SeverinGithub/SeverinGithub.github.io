@@ -33,6 +33,8 @@ var spts := 1
 var glut := 0
 var maps := {}                   # floor → its map, kept while you play (G.maps)
 var no_traps := false            # test: no spike plates and fire spouts, so floors can be compared with the browser
+var tw := {"done": {}, "lift": {}}   # what the hero did in the tower: solved rooms, unlocked lifts (twS in 984)
+var bless_t := 0.0               # the blood altar's blessing: +30 % damage while it lasts
 var keys := 0                    # chest keys for the locked chests (770-chests.js)
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
 var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
@@ -88,6 +90,8 @@ func start_new(c: String) -> void:
 	glut = 0
 	keys = 0
 	maps = {}
+	tw = {"done": {}, "lift": {}}
+	bless_t = 0.0
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
 	inv = []
 	hand = null

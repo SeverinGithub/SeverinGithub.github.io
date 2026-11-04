@@ -34,7 +34,7 @@ func setup(d: Dictionary, obj := false) -> Prop:
 	return self
 
 func animated() -> bool:
-	return is_obj or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder"]
+	return is_obj or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder", "ftwin", "ftglass", "ftbars", "ftgear", "ftcandle", "ftcruc", "ftcold"]
 
 func _process(_dt: float) -> void:
 	if not is_obj and p.k == "dcboulder":
@@ -51,7 +51,13 @@ func _draw() -> void:
 	var sy := o.y
 	var t := Game.t
 	if is_obj:
+		if String(p.type).begins_with("tw"):
+			ThemeDraw.obj(self, p, sx, sy, t, ThemeRun.room, Game.tw.lift.has(Game.floor_no))
+			return
 		_draw_obj(sx, sy, t)
+		return
+	if String(p.k).begins_with("ft"):
+		ThemeDraw.prop(self, p, sx, sy, t)
 		return
 	match p.k:
 		"torch":

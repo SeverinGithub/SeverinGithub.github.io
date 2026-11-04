@@ -262,7 +262,7 @@ func _draw_map_traps() -> void:
 				for j in range(-1, 2):
 					var q := c + Vector2((i - j) * 5, (i + j) * 2.5)
 					draw_rect(Rect2(q.x - 1, q.y - .5, 2, 1.2), Color("#050403"))
-					if up > 0:
+					if up > .02:
 						draw_colored_polygon(PackedVector2Array([q + Vector2(-1.2, 0), q + Vector2(0, -9 * up), q + Vector2(1.2, 0)]), Color("#b8b0a0"))
 		else:
 			var f := Enemy._scr_dir(t.ang)

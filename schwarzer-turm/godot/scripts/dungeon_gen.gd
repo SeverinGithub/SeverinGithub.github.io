@@ -22,6 +22,8 @@ static func generate(seed_value: int, f: int) -> Dictionary:
 			break
 	if m.is_empty():
 		m = DungeonGen.new()._try(seed_value, f, 99, true)
+	# themes, curse, windows, the light well (982), then the special room, kegs, plates, cracks and lift (984)
+	FloorThemes.dress(m, seed_value, f, Game.tw.done)
 	# barrels, crates and finer chests (dungeonChests, run by populate in the browser with its own seeded random)
 	m.objs0 = m.objs.size()      # what stood before the barrels and crates: the decor of 760 runs before them in the browser
 	Chests.dungeon(m, seed_value)

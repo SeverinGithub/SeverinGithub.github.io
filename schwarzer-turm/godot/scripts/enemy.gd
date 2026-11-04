@@ -47,6 +47,11 @@ var wb := ""                     # an island lord's id
 var trial := false               # a guard of a trial room (770-chests.js)
 var wall := false                # a cracked wall in front of a hidden chamber (760-tower-2.js)
 var cracks: Array = []           # its cracks: x, y, angle, length
+var obj := ""                    # a powder keg ("barrel") or a chandelier ("chand") of a tower room (984-tower-rooms.js)
+var hz = null                    # its entry in the map's hazards
+var fuse := -1.0                 # the fuse burns (keg) or the chain gives (chandelier) once this is 0 or more
+var stun := 0.0                  # stunned by a falling chandelier
+var tw_wave := false             # a foe of the trial's waves
 
 static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = null) -> Enemy:
 	if R == null:
@@ -168,7 +173,7 @@ func _process(dt: float) -> void:
 	super._process(dt)
 	if wall:
 		visible = not dead
-		position += Vector2(randf_range(-1, 1), 0) if hit_t > 0 else Vector2.ZERO
+		position += Vector2(randf_range(-1, 1), 0) if hit_t > 0 and obj == "" else Vector2.ZERO
 		queue_redraw()
 		return
 	_pose()
@@ -176,6 +181,9 @@ func _process(dt: float) -> void:
 ## a cracked wall: a warm glow behind, cracks that widen with every blow, rubble at its foot (drawWall in 760-tower-2.js)
 func _draw() -> void:
 	if not wall:
+		return
+	if obj != "":
+		ThemeDraw.hazard(self, Game.t, world.distance_to(Game.hero_at) < (3.2 if obj == "barrel" else 3.5))
 		return
 	var p := 1 - hp / max_hp
 	var t := Game.t

@@ -7,13 +7,18 @@ class_name TowerTwo
 ## what lies about in the tower, with weights
 const DCK := [["dcbones", 5], ["dcskulls", 3], ["dcurn", 4], ["dccand", 3], ["dcrubble", 5], ["dcsword", 2], ["dcbook", 2], ["dccage", 1], ["dcbanner", 2]]
 
-## Array.prototype.sort as V8 runs it (TimSort; below 64 elements one binary insertion sort after the first run), with a
-## comparator that only rolls dice: the browser shuffles rooms with sort(()=>R()-.5), so the same rolls must fall in the same order
+## Array.prototype.sort as V8 runs it, with a comparator that only rolls dice: the browser shuffles rooms with
+## sort(()=>R()-.5), so the same rolls must fall in the same order. Up to 15 elements V8 sorts by plain binary insertion
+## from the second element; from 16 to 63 TimSort first counts a run (ascending or strictly descending), then inserts the
+## rest. Measured against the browser for 2–63 elements, 20 seeds each (2026-11-04).
 static func v8_shuffle(a: Array, R: Rng) -> Array:
 	var n := a.size()
 	if n < 2:
 		return a
 	var cmp := func() -> float: return R.next() - .5
+	if n <= 15:
+		_insert_from(a, 1, cmp)
+		return a
 	# the first run: ascending or strictly descending
 	var run := 2
 	var desc: bool = cmp.call() < 0
@@ -28,7 +33,11 @@ static func v8_shuffle(a: Array, R: Rng) -> Array:
 		for k in run:
 			a[k] = head[k]
 	# then binary insertion of the rest (minrun is the whole array below 64)
-	for start in range(run, n):
+	_insert_from(a, run, cmp)
+	return a
+
+static func _insert_from(a: Array, run: int, cmp: Callable) -> void:
+	for start in range(run, a.size()):
 		var left := 0
 		var right := start
 		var pivot = a[start]
@@ -41,7 +50,6 @@ static func v8_shuffle(a: Array, R: Rng) -> Array:
 		for p in range(start, left, -1):
 			a[p] = a[p - 1]
 		a[left] = pivot
-	return a
 
 # ---------- the cracked wall and its chamber ----------
 

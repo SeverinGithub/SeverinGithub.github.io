@@ -18,22 +18,36 @@ func _ready() -> void:
 		var kv := a.trim_prefix("--").split("=", true, 1)
 		args[kv[0]] = kv[1] if kv.size() > 1 else "1"
 	if args.has("shuf"):
-		var R := Rng.new(4242 * 6151 + 4 * 92821)
-		R.next()
-		var a := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-		TowerTwo.v8_shuffle(a, R)
-		print(a, " ", R.next())
+		# the browser's sort(()=>R()-.5) for 2 to 12 elements: compare with [...Array(n).keys()].sort(()=>R()-.5) at mulberry(777+n)
+		for n in range(2, 13):
+			var R := Rng.new(777 + n)
+			print(n, " ", TowerTwo.v8_shuffle(range(n), R), " ", "%.6f" % R.next())
 		get_tree().quit()
 		return
 	if args.has("maphash"):
 		# compare with the browser: the same seed must give the same floors (see docs/Godot-Umstieg.md)
-		for f in range(1, 5):
+		var fls: Array = range(1, 5) if args.maphash == "1" else Array(args.maphash.split(",")).map(func(x): return int(x))
+		for f in fls:
 			var m := DungeonGen.generate(int(args.get("seed", "4242")), f)
 			var hsh := 0
 			for v in m.t:
 				hsh = (hsh * 31 + v) % 1000000007
 			print("Ebene %d: Karte %d · %d Stücke Deko · %d Requisiten · Objekte %s" % [f, hsh, m.deco.size(), m.props.size(), m.objs.map(func(o): return "%s@%.2f,%.2f" % [o.get("ct", o.type), o.x, o.y])])
+			var f2 := func(v: float) -> String: return "%.2f" % v
+			var fl := func(a: Array, g: Callable) -> String: return " ".join(a.map(g))
+			var pool := func(L): return f2.call(L.x) + "," + f2.call(L.y) + "/" + f2.call(L.r)
+			print("  Thema %s · Fluch %s · Lava %s · Wasser %s · Dampf %s · Schacht %s" % [m.fth.id if m.get("fth") else "-", m.get("curse", "-"), fl.call(m.lava, pool), fl.call(m.water, pool),
+				fl.call(m.vents, func(v): return f2.call(v.x) + "," + f2.call(v.y)), f2.call(m.well.x) + "," + f2.call(m.well.y) if m.get("well") else "-"])
+			var ftp: Array = m.props.filter(func(p): return String(p.k).begins_with("ft") or p.k == "twL").map(func(p): return "%s@%s,%s%s%s" % [p.k, f2.call(p.x), f2.call(p.y), p.get("face", ""), (":%d" % p.v) if p.has("v") else ""])
+			var S = m.get("sroom")
+			print("  Raum %s · Fässer %s · Platten %s · Risse %s · Bilder %d %d" % ["-" if S == null else "%s@%s,%s%s" % [S.k, f2.call(S.cx), f2.call(S.cy), (" " + "".join(S.order.map(func(g): return str(g)))) if S.has("order") else ""],
+				fl.call(m.hz, func(z): return "%s@%s,%s" % [z.k, f2.call(z.x), f2.call(z.y)]), fl.call(m.plates, func(q): return f2.call(q.x) + "," + f2.call(q.y) + "/" + f2.call(q.len)),
+				fl.call(m.cracks, func(c): return "%s,%s/%d" % [f2.call(c.x), f2.call(c.y), c.seed]), ftp.size(), _sh(" ".join(ftp))])
 			if args.has("why"):
+				var R2 := Rng.new(int(args.get("seed", "4242")) * 6151 + f * 92821)
+				var a0 := R2.next()
+				var rs: Array = m.rooms.filter(func(r): return r != m.startRoom and not (m.boss and r == m.endRoom))
+				print("  Geheimräume %.4f n=%d " % [a0, rs.size()], " ".join(TowerTwo.v8_shuffle(rs, R2).map(func(q): return "%d,%d" % [q.cx, q.cy])))
 				print("  Räume ", " ".join(m.rooms.map(func(r): return "%d,%d%s%s" % [r.cx, r.cy, "S" if r == m.startRoom else "", "E" if r == m.endRoom else ""])))
 			# the second pass (760) without the unseeded traps: secret, boulders, what lies about
 			var e := TowerTwo.populate(m, int(args.get("seed", "4242")), 1)
@@ -41,6 +55,8 @@ func _ready() -> void:
 				e.free()
 			var sec: String = "-" if m.secret == null else "%d,%d %d,%d" % [m.secret.fi, m.secret.fj, m.secret.dir.x, m.secret.dir.y]
 			var dc: Array = m.props.filter(func(p): return String(p.k).begins_with("dc")).map(func(p): return "%s@%.2f,%.2f%s" % [p.k, p.x, p.y, "f" if p.get("f") else ""])
+			if args.has("kram"):
+				print("  KRAM " + " ".join(dc))
 			print("  Geheim %s · Felsen %s · Kram %d %d %s" % [sec, " ".join(m.boulders.map(func(b): return "%.1f,%.1f/%.2f/%.1f/%.3f" % [b.x0, b.y0, b.ang, b.len, b.cd])), dc.size(), _sh(" ".join(dc)), " ".join(dc.slice(0, 3))])
 		get_tree().quit()
 		return
@@ -112,6 +128,8 @@ func _ready() -> void:
 			if o.p.type == "chest" and Vector2(o.p.x, o.p.y).distance_to(Vector2(level.P.x, level.P.y)) < 6:
 				o.p.sealed = false
 				level._open_chest(o)
+	if args.has("tw"):
+		_tw_test()
 	if args.has("skp"):
 		sk_panel.visible = true
 	if args.has("inv"):
@@ -153,6 +171,18 @@ func enter_floor(f: int, by_door := false) -> void:
 	Game.floor_changed.emit(f)
 	if f > 0:
 		Game.log_msg("Ebene %d · Monsterstufe %d" % [f, Game.mlvl], Color("#a39b88"))
+		# the theme and the curse greet you (the enterFloor wrapper of 982)
+		var m: Dictionary = level.m
+		var c = FloorThemes.CURSE.get(m.get("curse", ""))
+		if m.get("fth") and (not m.boss or Game.boss_dead.get(f, false)):
+			Game.banner.emit(FloorThemes.title(f), ("Fluch: " + c.n + " · " if c else "") + m.fth.d, "boss" if c else "")
+		if c:
+			Game.log_msg("Fluch der Ebene: %s. %s. Dafür gibt es mehr Erfahrung und Beute." % [c.n, c.d], c.col)
+		if m.get("curse") == "finster":
+			var n: int = m.props.filter(func(p): return p.k == "ftcold").size()
+			var lit: int = m.get("fires", {"lit": 0}).lit
+			if lit < n:
+				Game.log_msg("Es ist finster. %d Feuerbecken warten darauf, entzündet zu werden." % (n - lit), c.col)
 	else:
 		Game.banner.emit("Der Hügel", "Ein Turm, schwarz gegen den Himmel", "")
 
@@ -325,3 +355,49 @@ static func _sh(s: String) -> int:
 	for c in s.to_utf8_buffer():
 		hh = (hh * 31 + c) % 1000000007
 	return hh
+
+## test (--tw): use every tower-room object of this floor as a player would – plaque, levers in the right order
+## (one wrong first), vault, trial, altar twice, cage, lift from below and back – and print what each did
+func _tw_test() -> void:
+	var S = level.m.get("sroom")
+	print("TW Raum ", S.get("kind", "-") if S else "-")
+	var by := {}
+	for n in level.obj_nodes:
+		if str(n.p.type).begins_with("tw"):
+			by[n.p.type] = by.get(n.p.type, []) + [n]
+	print("TW Objekte ", by.keys().map(func(k): return "%s×%d" % [k, by[k].size()]))
+	var use := func(n: Prop) -> void:
+		level.P.x = n.p.x + .8
+		level.P.y = n.p.y + .8
+		var ok: bool = level.theme.interact(n)
+		print("TW ", n.p.type, " ", ok, " ", n.p.get("open", ""), n.p.get("on", ""), n.p.get("used", ""), " hp ", roundi(Game.hp))
+	for n in by.get("twplaque", []):
+		use.call(n)
+	if S and S.has("order"):
+		var lv: Array = by.get("twlever", [])
+		var wrong = lv.filter(func(n): return n.p.gem != S.order[0]).front()
+		if wrong:
+			use.call(wrong)
+			await get_tree().create_timer(.8).timeout
+		for g in S.order:
+			for n in lv:
+				if n.p.gem == g:
+					use.call(n)
+		print("TW gelöst ", S.get("solved"))
+	for k in ["twvault", "twaltar", "twaltar", "twcage", "twlift"]:
+		for n in by.get(k, []):
+			if k != "twlift" or n.p.get("low"):
+				use.call(n)
+	for n in by.get("twlift", []):
+		if not n.p.get("low"):
+			use.call(n)
+	for n in by.get("twtrial", []):
+		use.call(n)
+		for t in 14:
+			level.P.iframe = 99
+			await get_tree().create_timer(.5).timeout
+			print("TW Welle ", S.get("wave"), " lebend ", S.pack.filter(func(e): return not e.dead).size(), " hp ", roundi(Game.hp), " tot ", level.P.dead, " next ", S.next)
+			for e in S.pack.duplicate():
+				if not e.dead:
+					level.kill_enemy(e)
+	print("TW Segen ", Game.bless_t, " fertig ", Game.tw.done)
