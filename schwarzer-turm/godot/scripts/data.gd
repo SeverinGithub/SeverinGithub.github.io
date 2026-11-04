@@ -19,6 +19,7 @@ var icons: Dictionary = {}        # item name → {file, size}
 var figures: Dictionary = {}      # "enemy_skel" → {cell, anchor, dirs, walk, attack, idle}
 var loot: Dictionary = {}         # slot weights and codes, rarity colours, junk kinds and families (tools/godot-export-items.js)
 var item_rules: Dictionary = {}   # per base: implicit mods of class gear, whose kit it is, who may wield it; dragon pieces; staff elements
+var skill_info: Dictionary = {}   # every skill: name, req, cd, mana and description per level, icons, weapon sets, elements (tools/godot-export-skills.js)
 var ground: Dictionary = {}       # picture key → ground picture (pxCanvas): base name, "U:" + unique, "Junk:" + kind, potL, potM
 
 func _ready() -> void:
@@ -40,6 +41,7 @@ func _ready() -> void:
 	loot = _load("loot")
 	item_rules = _load("item_rules")
 	ground = _load("ground")
+	skill_info = _load("skill_info")
 	print("Daten geladen: %d Grundteile, %d Unikate, %d Gegnerarten, %d Figuren" % [items.size(), uniques.size(), variants.size(), figures.size()])
 
 func _load(name: String) -> Variant:

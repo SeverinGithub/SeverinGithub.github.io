@@ -28,6 +28,8 @@ var glut := 0
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
 var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
 var hand = null                  # the item held on the mouse
+var slv := [1, 0, 0, 0, 0, 0]    # skill levels per slot 1–6: a point stays with its slot, whichever skill fills it (640-weapon-arts.js)
+var sel := 0                     # the slot right click repeats
 signal gear_changed
 signal drop_item(it)             # the level lays it at the hero's feet
 var hp := 1.0
@@ -66,6 +68,8 @@ func start_new(c: String) -> void:
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
 	inv = []
 	hand = null
+	slv = [1, 0, 0, 0, 0, 0]
+	sel = 0
 	flask_max = 3
 	flasks = 3
 	recalc()
@@ -126,6 +130,7 @@ func recalc() -> void:
 		"regen": m.get("regen", 0), "mregen": m.get("mregen", 0), "dmgred": m.get("dmgred", 0), "thorns": m.get("thorns", 0),
 		"xp": m.get("xp", 0), "glutf": m.get("glutf", 0), "potPow": m.get("potPow", 0), "flaskH": m.get("flaskH", 0),
 		"lok": m.get("lok", 0), "mok": m.get("mok", 0), "mf": m.get("mf", 0),
+		"spellMul": 1 + s.ene * .02 + m.get("spell", 0) / 100.0, "cdr": minf(40, m.get("cdr", 0)), "mcost": minf(40, m.get("mcost", 0)), "allsk": int(m.get("allsk", 0)),
 		"reach": 1.5 if wc == "spear" else (1.25 if wc == "great" else 1.05), "wcls": wc,
 	}
 	var cb: Dictionary = CBON.get(cls, {})
@@ -198,6 +203,68 @@ func use_potion(it: Dictionary) -> float:
 	else:
 		inv.erase(it)
 	return heal
+
+# ---------- skills (040-classes.js, 640-weapon-arts.js, 070-player-stats.js) ----------
+
+## the weapon set the weapon in hand brings, if the class may wield it: dual, great, hammer, spear or ""
+func wset_key() -> String:
+	var w = eq.get("weapon")
+	if not w or not cls in Data.item_rules.wok.get(w.b, [cls]):
+		return ""
+	return Data.skill_info.wset.get(w.b, "")
+
+## the six skills in slots 1–6: the class's own, or the weapon set's
+func sk_ids() -> Array:
+	var k := wset_key()
+	return Data.skill_info.sets[k].ids if k != "" else Data.classes[cls].skills
+
+func sk_lvl(i: int) -> int:
+	return slv[i] + d.allsk if slv[i] > 0 else 0
+
+## a slot can be learned from the level its class skill asks for
+func sk_req(i: int) -> int:
+	return int(Data.skill_info.skills[Data.classes[cls].skills[i]].req)
+
+func learn(i: int) -> bool:
+	if spts <= 0 or lvl < sk_req(i) or slv[i] >= 20:
+		return false
+	slv[i] += 1
+	spts -= 1
+	return true
+
+## the staff's element, for the mage's spells
+func m_elem():
+	var w = eq.get("weapon")
+	if w and w.cls == "staff" and cls in Data.item_rules.wok.get(w.b, [cls]):
+		return w.get("elem", "fire")
+	return null
+
+func sk_name(id: String) -> String:
+	var s: Dictionary = Data.skill_info.skills[id]
+	if s.has("byElem"):
+		var e = m_elem()
+		return s.byElem[e if e else "none"].n
+	return s.n
+
+func sk_desc(id: String, l: int) -> String:
+	var s: Dictionary = Data.skill_info.skills[id]
+	var arr: Array = s.desc
+	if s.has("byElem"):
+		var e = m_elem()
+		arr = s.byElem[e if e else "none"].desc
+	return arr[clampi(l, 1, arr.size()) - 1]
+
+func sk_icon(id: String) -> Texture2D:
+	var key := id
+	if Data.skill_info.skills[id].has("byElem"):
+		var e = m_elem()
+		key = id + "_" + (e if e else "none")
+	var f = Data.skill_info.icons.get(key)
+	return Data.tex("skills/" + f) if f else null
+
+func sk_mana(id: String, l: int) -> int:
+	var m: Array = Data.skill_info.skills[id].mana
+	return maxi(1, roundi(m[mini(l, m.size() - 1)] * (1 - d.mcost / 100.0)))
 
 func gain_xp(x: float) -> void:
 	xp += roundi(x * (1 + d.xp / 100.0))

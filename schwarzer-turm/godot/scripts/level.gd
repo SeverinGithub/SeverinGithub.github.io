@@ -67,6 +67,7 @@ var hover_o: Prop = null
 var items: Array = []            # on the ground: {it, x, y, t}
 var labels: Array = []           # their name plates this frame: {r: Rect2 in world screen space, gi}
 var hover_i = null               # the ground item whose plate is under the mouse
+var sk: Skills                   # the hero's skills and what they leave behind
 var glutmal = null
 
 static var _glow_tex: Texture2D
@@ -125,6 +126,8 @@ func build(map: Dictionary) -> void:
 			n.set_meta("light", _light(Iso.to_screen(Vector2(o.x, o.y)), 280 if n.lit else 120, .9))
 		elif o.type == "stairs":
 			_light(Iso.to_screen(Vector2(o.x, o.y)), 140, .6)
+	sk = Skills.new(self)
+	add_child(sk)
 	hero = Hero.new()
 	hero.cls = Game.cls
 	_dress()
@@ -750,6 +753,10 @@ func _unhandled_input(ev: InputEvent) -> void:
 			KEY_F: _drink_flask()
 			KEY_Q, KEY_Y: _quick_potion("life")
 			KEY_X: _quick_potion("mana")
+			KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6:
+				_cast_at_mouse(ev.keycode - KEY_1)
+	elif ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_RIGHT:
+		_cast_at_mouse(Game.sel)
 
 func _set_move() -> void:
 	var mw := _mouse_w()
@@ -785,6 +792,8 @@ func _update_hero(dt: float) -> void:
 	var spd: float = 4.2 * (1 + d.frw / 100.0) * (.65 if P.chill > 0 else 1.0) * (.4 if P.flaskT > 0 else 1.0)
 	var moving := false
 	var mouse_down := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not _over_ui() and P.get("cast", 0) <= 0 and not Game.hand:
+		_cast_at_mouse(Game.sel)
 	var pp := Vector2(P.x, P.y)
 	if P.roll > 0:
 		P.roll -= dt
@@ -792,6 +801,11 @@ func _update_hero(dt: float) -> void:
 		moving = true
 		if R.next() < .4:
 			_smoke(pp, 1)
+	elif sk.hero_motion(dt):
+		pp = Vector2(P.x, P.y)
+		moving = true
+	elif P.get("cast", 0) > 0:
+		pass
 	elif P.atkT > 0:
 		P.atkT -= dt
 		if not P.hitDone and P.atkT < P.atkDur * .55:
@@ -908,6 +922,14 @@ func _over_ui() -> bool:
 	var c := get_viewport().gui_get_hovered_control()
 	return c != null and c.mouse_filter == Control.MOUSE_FILTER_STOP
 
+## a skill towards the foe under the mouse, or the ground under it
+func _cast_at_mouse(i: int) -> void:
+	if P.dead:
+		return
+	_hover()
+	var t := hover_e.world if hover_e else _mouse_w()
+	sk.cast(i, t.x, t.y)
+
 ## the first potion of its kind in the bag (quickPotion)
 func _quick_potion(kind: String) -> void:
 	if P.dead:
@@ -969,7 +991,7 @@ func _interact(o: Prop) -> void:
 # ---------- combat (170-combat.js) ----------
 
 func hurt_player(dmg: float, elem, src) -> bool:
-	if P.dead or P.iframe > 0:
+	if P.dead or P.iframe > 0 or P.get("dash"):
 		return false
 	var d := Game.d
 	if elem == null and d.block > 0 and R.next() * 100 < d.block:
@@ -981,6 +1003,16 @@ func hurt_player(dmg: float, elem, src) -> bool:
 	else:
 		dmg *= 1 - d.def / (d.def + 45.0 + Game.mlvl * 14)
 	dmg = maxf(1, dmg - d.dmgred)
+	if P.get("oathT", 0) > 0:
+		dmg *= .85
+	if P.get("ward", 0) > 0:
+		# the bone ward or blade wall takes what it can
+		var a0: float = minf(P.ward, dmg)
+		P.ward -= a0
+		dmg -= a0
+		if dmg <= 0:
+			ftext(Vector2(P.x, P.y), "absorbiert", Color("#e8e2d0"))
+			return false
 	if elem == null and src is Enemy and not src.dead and d.thorns:
 		hit_enemy(src, d.thorns, {"col": Color("#a6e08a")})
 	Game.hp -= dmg
@@ -1043,7 +1075,17 @@ func _update_glutmal() -> void:
 func hit_enemy(e: Enemy, dmg: float, o := {}) -> void:
 	if e.dead:
 		return
+	if P.get("oathT", 0) > 0 and dmg > 0 and e.type in Data.skill_info.undead:
+		dmg *= 1 + P.oathB / 100.0
+		Game.hp = minf(Game.d.life, Game.hp + Game.d.life * .01)
 	dmg *= e.dmg_taken
+	if dmg <= 0:
+		# a push only
+		var a0: float = o.get("from", atan2(e.world.y - P.y, e.world.x - P.x))
+		if o.get("kb", 0) and not e.boss:
+			e.kv += Vector2(cos(a0), sin(a0)) * o.kb * 16 / e.scale_f
+		e.aggro = true
+		return
 	e.hp -= dmg
 	e.flash = .1
 	e.hit_t = .22
@@ -1065,7 +1107,9 @@ func hit_enemy(e: Enemy, dmg: float, o := {}) -> void:
 func weapon_hit(e: Enemy, mult := 1.0) -> void:
 	var d := Game.d
 	var dmg: float = R.rnd(d.dmin, d.dmax) * mult + d.ele
-	var crit: bool = R.next() * 100 < d.crit
+	if P.get("cryT", 0) > 0:
+		dmg *= 1 + P.cryB / 100.0
+	var crit: bool = R.next() * 100 < d.crit + (P.shadowB if P.get("shadowT", 0) > 0 else 0)
 	if crit:
 		dmg *= 1.9
 	var a := atan2(e.world.y - P.y, e.world.x - P.x)
@@ -1076,6 +1120,9 @@ func weapon_hit(e: Enemy, mult := 1.0) -> void:
 	kick(a, 4.5 if crit else 2.2)
 	if crit:
 		shake = maxf(shake, 4)
+	if P.get("venomT", 0) > 0:
+		e.dot_t = 3.0
+		e.dot_d = maxf(e.dot_d, dmg * P.venomB / 300.0)
 	hit_enemy(e, dmg, {"crit": crit, "kb": .28, "from": a})
 	if d.ls > 0:
 		Game.hp = minf(d.life, Game.hp + dmg * d.ls / 100.0)
@@ -1234,6 +1281,14 @@ func _upd_enemy(e: Enemy, dt: float) -> void:
 	var sp := e.spd * (.5 if e.slow > 0 else 1.0)
 	if P.dead:
 		e.aggro = false
+	if P.get("veilT", 0) > 0 and not e.boss and d > 1.4:
+		# in the shadow step's veil they lose the hero
+		if e.aggro:
+			e.aggro = false
+			ftext(e.world - Vector2(0, .3), "?", Color("#b8b0d8"))
+		if e.anim == "walk":
+			e.play("idle")
+		return
 	if not e.aggro and not P.dead and d < (9.0 if e.boss else 7.5) and e_los(e, 0):
 		e.aggro = true
 		for p in e.pack:
@@ -1478,13 +1533,23 @@ func _update_proj(dt: float) -> void:
 		p.x += p.vx * dt
 		p.y += p.vy * dt
 		p.life -= dt
+		if p.owner == "p" and p.kind == "flask" and p.life <= 0:
+			sk.explode(p)
+			continue
 		if not walkable(p.x, p.y):
 			p.life = 0
-			if p.kind == "arrow":
+			if p.get("aoe") and p.owner == "p":
+				sk.explode(p)
+			elif p.kind == "arrow":
 				sparks(Vector2(p.x, p.y), .5, atan2(-p.vy, -p.vx), 5, [Color.WHITE, Color("#d8d0bc")], 3)
 			else:
 				burst(Vector2(p.x, p.y), Color("#ff9a30") if p.kind in ["fire", "glut"] else Color("#c8e4ff"), 8, 1.5)
-		elif p.owner == "e" and not P.dead and Vector2(P.x, P.y).distance_to(Vector2(p.x, p.y)) < P.r + p.r and not P.iframe:
+		elif p.owner == "p":
+			for e in enemies:
+				if not e.dead and e.world.distance_to(Vector2(p.x, p.y)) < e.r + p.r and sk.proj_hit(p, e):
+					p.life = 0
+					break
+		elif p.owner == "e" and not P.dead and not P.get("dash") and Vector2(P.x, P.y).distance_to(Vector2(p.x, p.y)) < P.r + p.r and not P.iframe:
 			p.life = 0
 			hurt_player(p.dmg, null if p.kind == "arrow" else p.kind, {"x": p.x - p.vx, "y": p.y - p.vy})
 		elif p.kind in ["fire", "glut"] and R.next() < .5:
@@ -1515,6 +1580,16 @@ func _update_fx(dt: float) -> void:
 	slashes = slashes.filter(func(s): return s.t < s.life)
 	for r in rings:
 		r.r += r.v * dt
+		if r.get("dmg", 0) > 0:
+			# a ring that does harm strikes each foe once as it passes
+			for e in enemies:
+				if e.dead or r.hit.has(e):
+					continue
+				if absf(e.world.distance_to(Vector2(r.x, r.y)) - r.r) < .5 + e.r:
+					r.hit[e] = true
+					hit_enemy(e, r.dmg * R.rnd(.85, 1.15), {"col": r.get("hcol", Color("#cfe8ff")), "slow": r.get("slow", 0)})
+					if r.get("on_hit"):
+						r.on_hit.call(e)
 	rings = rings.filter(func(r): return r.r < r.max)
 	for f in flashes:
 		f.t += dt

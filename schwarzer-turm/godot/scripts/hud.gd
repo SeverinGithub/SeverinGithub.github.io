@@ -42,6 +42,7 @@ func _draw() -> void:
 	_bar(Rect2(x0, sz.y - 13, x1 - x0, 4), float(Game.xp) / Game.xp_next(Game.lvl), Color("#a080e0"))
 	_text(Vector2(x0, sz.y - 28), "Stufe %d · Flakon %d/%d · %d Glut" % [Game.lvl, Game.flasks, Game.flask_max, Game.glut], 11, Color("#ece4cf"))
 	_text_r(Vector2(sz.x - 10, 18), "Ebene %d" % Game.floor_no, 14, Color("#ece4cf"))
+	_belt(sz)
 	# the foe under the mouse, or the one you strike
 	var e: Enemy = null
 	if level:
@@ -113,3 +114,49 @@ func _text_c(at: Vector2, s: String, size: int, col: Color) -> void:
 func _text_r(at: Vector2, s: String, size: int, col: Color) -> void:
 	var w := ThemeDB.fallback_font.get_string_size(s, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
 	_text(at - Vector2(w, 0), s, size, col)
+
+## the skill belt above the bars (buildBelt in 260-ui.js): six slots with their keys, cooldown shade and mana, then the flask;
+## running buffs sit small above it
+func _belt(sz: Vector2) -> void:
+	var ids: Array = Game.sk_ids()
+	var n := ids.size() + 1
+	var cw := 30.0
+	var x0 := sz.x / 2 - (n * cw + 8) / 2
+	var y0 := sz.y - 66
+	for i in ids.size():
+		var id: String = ids[i]
+		var r := Rect2(x0 + i * cw, y0, 28, 28)
+		draw_rect(r.grow(1), Color("#0c0a08"))
+		var tex := Game.sk_icon(id)
+		var l := Game.sk_lvl(i)
+		if tex:
+			draw_texture_rect(tex, r, false, Color(1, 1, 1, 1) if l > 0 else Color(.35, .35, .35, 1))
+		if l > 0 and level and level.sk:
+			var f := level.sk.cd_frac(i)
+			if f > 0:
+				draw_rect(Rect2(r.position.x, r.position.y + r.size.y * (1 - f), r.size.x, r.size.y * f), Color(0, 0, 0, .6))
+			if Game.mp < Game.sk_mana(id, l):
+				draw_rect(r, Color(.1, .2, .6, .35))
+		draw_rect(r, Color("#e8c878") if i == Game.sel else Color("#3a3226"), false, 1.5 if i == Game.sel else 1.0)
+		_text(r.position + Vector2(2, 9), str(i + 1), 9, Color("#ece4cf"))
+	var fr := Rect2(x0 + ids.size() * cw + 8, y0, 28, 28)
+	draw_rect(fr.grow(1), Color("#0c0a08"))
+	var ft = Data.skill_info.icons.get("flask")
+	if ft:
+		draw_texture_rect(Data.tex("skills/" + ft), fr, false)
+	draw_rect(fr, Color("#3a3226"), false, 1)
+	_text(fr.position + Vector2(2, 9), "F", 9, Color("#ece4cf"))
+	_text_r(fr.end - Vector2(2, 2), str(Game.flasks), 10, Color("#ffd88a"))
+	if Game.spts > 0:
+		_text_c(Vector2(sz.x / 2, y0 - 6), "%d Fertigkeitspunkt%s frei (K)" % [Game.spts, "" if Game.spts == 1 else "e"], 10, Color("#e8c878"))
+	# buffs
+	if level and level.sk:
+		var bx := x0
+		for b in Skills.BUFFS:
+			var v: float = level.P.get(b[0], 0)
+			if v > 0:
+				var bt := Game.sk_icon(b[1]) if Data.skill_info.skills.has(b[1]) else null
+				if bt:
+					draw_texture_rect(bt, Rect2(bx, y0 - 34, 16, 16), false)
+				_text(Vector2(bx + 18, y0 - 22), str(ceili(v)), 9, Color("#ece4cf"))
+				bx += 40

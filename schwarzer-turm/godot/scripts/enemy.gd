@@ -40,6 +40,8 @@ var moves: Array = []
 var p2 := false
 var summoned := false
 var lc := {}                     # sight-line cache (eLos)
+var dot_t := 0.0                 # poison or bleeding: seconds left, damage per second
+var dot_d := 0.0
 
 static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = null) -> Enemy:
 	if R == null:

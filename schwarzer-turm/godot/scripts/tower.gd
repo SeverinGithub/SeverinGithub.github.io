@@ -7,6 +7,7 @@ extends Node
 var level: Level
 var hud: Hud
 var inv_panel: Inventory
+var sk_panel: SkillPanel
 var args := {}
 
 func _ready() -> void:
@@ -33,8 +34,25 @@ func _ready() -> void:
 	layer.add_child(hud)
 	inv_panel = Inventory.new()
 	layer.add_child(inv_panel)
+	sk_panel = SkillPanel.new()
+	layer.add_child(sk_panel)
 	enter_floor(int(args.get("floor", "1")))
-	Game.log_msg("Klicke auf den Boden, um zu gehen, auf Feinde, um zuzuschlagen. Leertaste rollt, F trinkt aus dem Flakon, Q und X Tränke, I öffnet das Inventar.")
+	Game.log_msg("Klicke auf den Boden, um zu gehen, auf Feinde, um zuzuschlagen. Leertaste rollt, F trinkt aus dem Flakon, Q und X Tränke, 1–6 Fertigkeiten, I Inventar, K Fertigkeiten.")
+	if args.has("lvl"):
+		# test: a hero of this level with all six slots learned
+		Game.lvl = int(args.lvl)
+		for i in 6:
+			Game.slv[i] = maxi(1, Game.lvl / 3)
+		Game.recalc()
+		Game.hp = Game.d.life
+		Game.mp = Game.d.mana
+	if args.has("weapon"):
+		var w := Game.item_of(args.weapon)
+		if w.cls == "staff":
+			w.elem = args.get("elem", "fire")
+		Game.eq.weapon = w
+		Game._gear()
+		Game.mp = Game.d.mana
 	if args.has("loot"):
 		# test: a heap of items around the hero, the bag filled, the panel open
 		var ilvl := int(args.get("ilvl", "20"))
@@ -47,6 +65,8 @@ func _ready() -> void:
 			Items.inv_add(Items.junk_for(null, 3))
 		for gi in level.items:
 			gi.t = 1.0
+	if args.has("skp"):
+		sk_panel.visible = true
 	if args.has("inv"):
 		inv_panel.visible = true
 		var it = Game.inv.filter(func(i): return i.slot != "potion" and i.slot != "junk").front()
@@ -119,5 +139,11 @@ func _bot() -> void:
 				level.P.pick = null
 		if level.P.target == null and level.P.pick == null:
 			level.P.target = near.call()
+		if args.has("cast") and level.P.target:
+			# cycle through the six skills at the nearest foe
+			Game.mp = Game.d.mana
+			var i := int(Game.t * 2) % 6
+			level.sk.cast(i, level.P.target.world.x, level.P.target.world.y)
+			print("Zauber: ", Game.sk_name(Game.sk_ids()[i]), " · Zonen %d · Geschosse %d · Ringe %d" % [level.sk.zones.size(), level.proj.size(), level.rings.size()])
 		var kills := level.enemies.filter(func(e): return e.dead).size()
 		print("Bot: Leben %d/%d · Stufe %d · Erfahrung %d · Glut %d · erledigt %d von %d · Boden %d · Tasche %s" % [Game.hp, Game.d.life, Game.lvl, Game.xp, Game.glut, kills, level.enemies.size(), level.items.size(), ", ".join(Game.inv.map(func(i): return i.name + ("×%d" % i.n if i.get("n", 1) > 1 else "")))])
