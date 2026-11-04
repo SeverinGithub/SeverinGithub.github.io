@@ -28,9 +28,38 @@ func _tx(key: String) -> Texture2D:
 		_tex[key] = Data.sprite(key)
 	return _tex[key]
 
+var guide := {}                  # the trail of lights a signpost lays (G.hvGuide)
+var _sign_menu: PopupMenu
+var _look := false
+
 func _process(_dt: float) -> void:
 	queue_redraw()
 	_grass()
+	if not guide.is_empty() and not HillVillage.guide_tick(guide, _dt, Vector2(L.P.x, L.P.y)):
+		guide = {}
+	if _sign_menu and _sign_menu.visible and _sign_menu.get_meta("at").distance_to(Vector2(L.P.x, L.P.y)) > 3.5:
+		_sign_menu.hide()
+	if not _look and wg.home.get("hvDeck") and wg.home.hvDeck.has(int(floor(L.P.y)) * wg.w + int(floor(L.P.x))):
+		_look = true
+		Game.log_msg("Vom Steg aus sieht man weit über die Inseln.", Color("#c8d8e8"))
+
+## a signpost was clicked: a small list of every place of the village; picking one lays a trail of lights there
+func sign_open(o: Dictionary) -> void:
+	if _sign_menu == null:
+		_sign_menu = PopupMenu.new()
+		_sign_menu.add_theme_font_size_override("font_size", 11)
+		_sign_menu.id_pressed.connect(func(i):
+			var g := HillVillage.guide(L, wg.home.hvDest[i])
+			if not g.is_empty():
+				guide = g)
+		L.get_parent().add_child(_sign_menu)
+	_sign_menu.clear()
+	_sign_menu.title = "Wegweiser"
+	for e in HillVillage.dests(wg, o, Vector2(L.P.x, L.P.y)):
+		_sign_menu.add_item(e[1], e[0])
+	_sign_menu.set_meta("at", Vector2(L.P.x, L.P.y))
+	var vp := get_viewport()
+	_sign_menu.popup(Rect2i(Vector2i(vp.get_mouse_position()) + Vector2i(12, 0), Vector2i.ZERO))
 
 # ---------- what is awake ----------
 
@@ -74,6 +103,13 @@ func tick(force := false) -> void:
 		Game.log_msg("Du betrittst das Revier von %s." % WorldGen.WB[I.wb].n, Color("#ff8a6a"))
 
 func _build_home() -> void:
+	# the hill grows with every fallen guardian of the deep (hvTick)
+	var was = wg.home.get("hvG")
+	if was != null and was != HillVillage.grow():
+		HillVillage.build(wg, HillVillage.grow())
+		if wg.home.hvG > was:
+			Game.log_msg("Der Hügel wächst: " + HillVillage.HVGROW[wg.home.hvG], Color("#e8d8b0"))
+			Game.banner.emit("Der Hügel wächst", HillVillage.HVGROW[wg.home.hvG], "")
 	_tower = Sprite2D.new()
 	_tower.texture = _tx("tower")
 	_tower.centered = false
@@ -391,6 +427,9 @@ func _draw() -> void:
 				var tex := _tx("gdk/%d" % ((hh >> 8) % 12))
 				var dp := Iso.to_screen(Vector2(i + ((hh >> 12) & 255) / 300.0 + .08, j + ((hh >> 20) & 255) / 300.0 + .08))
 				draw_texture(tex, (dp - tex.get_size() / 2).round())
+	# the signpost's trail of lights lies on the ground (hvGuideDraw)
+	if not guide.is_empty():
+		HillVillage.guide_draw(self, guide, Game.t)
 
 ## clouds drifting under the islands, moving against the camera (drawClouds in 210-render.js)
 class Clouds extends Node2D:

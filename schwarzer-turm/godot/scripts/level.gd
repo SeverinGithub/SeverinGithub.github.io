@@ -1107,6 +1107,9 @@ func _interact(o: Prop) -> void:
 			_rest(o)
 		"door":
 			get_parent().call_deferred("enter_floor", Game.top_floor(), true)
+		"hvsign":
+			if ow:
+				ow.sign_open(o.p)
 		"merchant", "stash", "colossus":
 			Game.log_msg({"merchant": "Handel", "stash": "Die bodenlose Truhe", "colossus": "Die Arena"}[o.p.type] + " kommt mit dem nächsten Schritt nach Godot.", Color("#a39b88"))
 		"shrine":

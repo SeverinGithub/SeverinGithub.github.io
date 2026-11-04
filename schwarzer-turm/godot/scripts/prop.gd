@@ -34,9 +34,20 @@ func setup(d: Dictionary, obj := false) -> Prop:
 	return self
 
 func animated() -> bool:
-	return is_obj or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder", "ftwin", "ftglass", "ftbars", "ftgear", "ftcandle", "ftcruc", "ftcold"]
+	return is_obj or _hv() or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder", "ftwin", "ftglass", "ftbars", "ftgear", "ftcandle", "ftcruc", "ftcold"]
+
+## a piece of the hill village (988): drawn by HillVillage
+func _hv() -> bool:
+	var k := String(p.get("k", ""))
+	return k.begins_with("hv") or k == "ydflower"
 
 func _process(_dt: float) -> void:
+	if not is_obj and p.k == "hvfolk":
+		# villagers walk their rounds; the node goes with them, so they sort right
+		var L = get_parent().get_parent()
+		if L is Level and Vector2(L.P.x, L.P.y).distance_to(Vector2(p.x, p.y)) < 60:
+			HillVillage.walk(p, _dt, Vector2(L.P.x, L.P.y), L)
+		position = Iso.to_screen(Vector2(p.x, p.y))
 	if not is_obj and p.k == "dcboulder":
 		# the boulder rolls: the node goes with it, so it sorts right
 		p.x = p.trap.x
@@ -50,6 +61,10 @@ func _draw() -> void:
 	var sx := o.x
 	var sy := o.y
 	var t := Game.t
+	if _hv():
+		var L = get_parent().get_parent()
+		HillVillage.draw(self, p, sx, sy, t, Vector2(L.P.x, L.P.y) if L is Level else Vector2(-1e4, -1e4), Game.get("night") == true)
+		return
 	if is_obj:
 		if String(p.type).begins_with("tw"):
 			ThemeDraw.obj(self, p, sx, sy, t, ThemeRun.room, Game.tw.lift.has(Game.floor_no))

@@ -60,6 +60,13 @@ func _ready() -> void:
 			print("  Geheim %s · Felsen %s · Kram %d %d %s" % [sec, " ".join(m.boulders.map(func(b): return "%.1f,%.1f/%.2f/%.1f/%.3f" % [b.x0, b.y0, b.ang, b.len, b.cd])), dc.size(), _sh(" ".join(dc)), " ".join(dc.slice(0, 3))])
 		get_tree().quit()
 		return
+	if args.has("hillhash"):
+		var wh := WorldGen.new(int(args.get("seed", "4242")))
+		HillVillage.build(wh, int(args.hillhash) if args.hillhash != "1" else 0)
+		for l in HillVillage.hash_lines(wh):
+			print(l)
+		get_tree().quit()
+		return
 	if args.has("worldhash"):
 		print(world_hash(int(args.get("seed", "4242"))))
 		get_tree().quit()
@@ -71,6 +78,7 @@ func _ready() -> void:
 		# test: start somewhere else in the sky, at a chunk "cx,cy"
 		var ab: PackedStringArray = args.at.split(",")
 		wg = WorldGen.new(Game.seed_value)
+		HillVillage.build(wg, HillVillage.grow())
 		var I = wg.island_of(int(ab[0]), int(ab[1]))
 		if I != null:
 			wg.start = {"x": I.x, "y": I.y}
@@ -130,6 +138,13 @@ func _ready() -> void:
 				level._open_chest(o)
 	if args.has("tw"):
 		_tw_test()
+	if args.has("guide") and level.ow:
+		# test: the trail of lights to place n of the signposts (H.hvDest), and what a signpost offers
+		for n in level.obj_nodes:
+			if n.p.type == "hvsign":
+				print("Wegweiser: ", HillVillage.dests(wg, n.p, Vector2(level.P.x, level.P.y)).map(func(e): return e[1]))
+				break
+		level.ow.guide = HillVillage.guide(level, wg.home.hvDest[int(args.guide)])
 	if args.has("skp"):
 		sk_panel.visible = true
 	if args.has("inv"):
@@ -157,6 +172,7 @@ func enter_floor(f: int, by_door := false) -> void:
 	if f == 0:
 		if wg == null:
 			wg = WorldGen.new(Game.seed_value)
+			HillVillage.build(wg, HillVillage.grow())
 		level.build({"world": true, "wg": wg, "floor": 0, "w": wg.w, "h": wg.h, "t": wg.t, "under": wg.under, "start": wg.start, "objs": [], "props": [], "deco": []})
 	else:
 		if not Game.maps.has(f):

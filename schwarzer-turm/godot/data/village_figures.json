@@ -1,0 +1,172 @@
+{
+ "folk_lehrling": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Lehrling Tam"
+ },
+ "folk_lehrling_ore": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Lehrling Tam"
+ },
+ "folk_magd": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Magd Wilma"
+ },
+ "folk_magd_bucket": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Magd Wilma"
+ },
+ "folk_kind": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Pim"
+ },
+ "folk_kind2": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Lotte"
+ },
+ "folk_wache": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Wache Gernot"
+ },
+ "folk_wache_spear": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Wache Gernot"
+ },
+ "folk_gaertnerin": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Gärtnerin Hedda"
+ },
+ "folk_gaertnerin_basket": {
+  "cell": 96,
+  "anchor": [
+   48,
+   82
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "idle": [
+   8,
+   1
+  ],
+  "name": "Gärtnerin Hedda"
+ }
+}
