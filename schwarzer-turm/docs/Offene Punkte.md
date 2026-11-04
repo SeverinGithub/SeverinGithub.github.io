@@ -3,7 +3,7 @@ tags: [todo]
 ---
 # Offene Punkte
 
-- [ ] **Godot-Umstieg**: Turmebenen mit Kampf laufen in Godot (2026-11-04). Weiter mit Schritt 3 (Gegenstände, Beute, Inventar); dazu die Schichten aus 982/984 und Boss-Bögen nachziehen. Offen: soll die GitHub-Pages-Fassung bleiben, bis Godot alles kann? Siehe [[Godot-Umstieg]].
+- [ ] **Godot-Umstieg**: Turmebenen mit Kampf laufen in Godot (2026-11-04). Weiter mit Schritt 3 (Gegenstände, Beute, Inventar); dazu die Schichten aus 982/984 und Boss-Bögen nachziehen. Die Browser-Fassung ist eingefroren in `schwarzer-turm-browser/`. Siehe [[Godot-Umstieg]].
 
 - [ ] **Mit `?perf` auf dem iPad messen** (auf dem Mac ist auch der große Kampf nur halb ausgelastet, Messung 2026-11-03 abends) (Oberwelt mit vielen Gegnern, Turm, Multiplayer) – Grundlage für den GPU-Renderer, siehe [[Performance]].
 - [ ] **GPU-Renderer** (Texturatlas, instanziertes Zeichnen, Licht als Shader, Boden-Chunks) als umschaltbares Modul neben dem alten bauen.

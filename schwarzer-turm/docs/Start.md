@@ -7,7 +7,8 @@ Ein isometrisches Action-RPG im Browser (Diablo-artig): Turm mit Ebenen, endlose
 
 - Live: GitHub Pages des Repos `SeverinGithub/SeverinGithub.github.io`, Pfad `/schwarzer-turm/`
 - Artefakt (Vorschau auf claude.ai): die alte Adresse RyXp68BqnpmdkzTHnvAd8z ist nicht mehr erreichbar (2026-11-02) – neues Artefakt nur nach Rückfrage
-- Wiki: `turm-wiki/index.html` im selben Repo, liest Daten und Bilder live aus dem Spiel (siehe [[Turm-Wiki]])
+- **Abgeschlossene Browser-Fassung** (2026-11-04): eingefroren in `schwarzer-turm-browser/`, Pages-Pfad `/schwarzer-turm-browser/`, nie anfassen. Weiter geht es nur in Godot (`godot/`, [[Godot-Umstieg]]).
+- Wiki: `turm-wiki/index.html` im selben Repo, liest Daten und Bilder aus der eingefrorenen Browser-Fassung (siehe [[Turm-Wiki]])
 - Letzter Stand: siehe [[Changelog]] bzw. `git log` (Stand 2026-11-03: Themen-Stockwerke, Flüche, Sonderräume, Abkürzungen und Insel-Landmarken)
 
 ## Zum Einstieg in einer neuen Session

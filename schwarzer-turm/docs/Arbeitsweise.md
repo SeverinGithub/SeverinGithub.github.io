@@ -5,6 +5,11 @@ tags: [regeln]
 
 Diese Regeln hat der Nutzer im Lauf der Sessions festgelegt. Sie gelten weiter.
 
+## Browser-Fassung abgeschlossen (2026-11-04)
+- Die fertige Browser-Fassung liegt eingefroren in `schwarzer-turm-browser/` im Repo-Stamm (`index.html`, `music/`, `sfx/`, README), auf GitHub Pages unter `/schwarzer-turm-browser/`. **Nie anfassen**, sie bekommt keine Updates mehr – Wunsch des Nutzers: das Browser-Spiel für immer behalten.
+- Weiterentwickelt wird nur die Godot-Fassung (`godot/`, siehe [[Godot-Umstieg]]). `src/` bleibt als Vorlage für die Übersetzung und für den Export; Änderungen dort nur, wenn der Export sie braucht.
+- Das Turm-Wiki liest seine Daten und Bilder seitdem aus der eingefrorenen Kopie.
+
 ## Veröffentlichen
 - **Push nach `main` nur mit Freigabe.** Nach jedem Commit fragen; gepusht wird erst, wenn der Nutzer „Ja, live schalten“ antwortet (oder es in derselben Anfrage vorab erlaubt). Eine Freigabe gilt nur für diesen einen Push.
 - Die Memory-Regel „kleine Änderungen direkt deployen“ gilt **nur für e-reading**, nicht für den Schwarzen Turm.

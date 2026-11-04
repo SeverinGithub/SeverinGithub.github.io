@@ -70,11 +70,11 @@ body.open #scrim{opacity:1;pointer-events:auto}body.open #dr{transform:none}
 (()=>{
 /* the wiki owns no data of its own: it opens the game hidden, reads every table and lets the game draw its own pictures */
 let GW=null,D=null;const $=s=>document.querySelector(s),esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-async function loadGame(){const src=await (await fetch('../schwarzer-turm/index.html',{cache:'no-cache'})).text(),i=src.lastIndexOf('})();');
+async function loadGame(){const src=await (await fetch('../schwarzer-turm-browser/index.html',{cache:'no-cache'})).text(),i=src.lastIndexOf('})();');
   const html=src.slice(0,i)+';window.__ev=s=>eval(s);'+src.slice(i);
   const f=document.createElement('iframe');f.setAttribute('aria-hidden','true');f.tabIndex=-1;f.style.cssText='position:fixed;left:-3000px;top:0;width:1280px;height:800px;border:0;pointer-events:none';
   // the hidden game never gets a frame: no loop, no music, no saving, only its tables and its brushes
-  f.srcdoc=html.replace('<head>','<head><base href="../schwarzer-turm/"><script>window.requestAnimationFrame=()=>0;window.setInterval=()=>0<\/script>');document.body.appendChild(f);await new Promise(r=>f.onload=r);
+  f.srcdoc=html.replace('<head>','<head><base href="../schwarzer-turm-browser/"><script>window.requestAnimationFrame=()=>0;window.setInterval=()=>0<\/script>');document.body.appendChild(f);await new Promise(r=>f.onload=r);
   return f.contentWindow}
 
 /* runs inside the game: everything here sees the game's own names */

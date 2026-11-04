@@ -73,7 +73,7 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 
 ## Offene Entscheidungen
 - ~~Ausrüstung am Helden~~: entschieden 2026-11-03, Ebenen backen (siehe oben).
-- **Web-Fassung:** Godot kann ins Web exportieren, aber größer und mit längerer Ladezeit. Soll die GitHub-Pages-Fassung bleiben, bis Godot alles kann?
+- ~~Web-Fassung~~: entschieden 2026-11-04: die Browser-Fassung bleibt für immer, eingefroren in `schwarzer-turm-browser/` (keine Updates mehr). Was später unter `/schwarzer-turm/` läuft (etwa ein Godot-Web-Export), ist offen.
 - ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar · 4. Fertigkeiten der vier Klassen · 5. Oberwelt mit Inseln und Dorf · 6. Händler, Schmiede, Runen · 7. Mehrspieler · 8. Export iPad/PC.
 
 ## Aufwand, ehrlich
