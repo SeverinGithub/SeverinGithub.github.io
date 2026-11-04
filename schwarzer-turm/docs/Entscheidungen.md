@@ -44,6 +44,8 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-04 | Godot: Fertigkeitsstufen am Platz (`slv`), Beschreibungen als exportierte Grundwerte | Wie im Browser bleibt ein Punkt beim Platz, wenn die Waffe den Satz wechselt; die Beschreibungen hängen an vielen Laufzeitwerten, als Text je Stufe sind sie sicher gleich wie im Browser |
 | 2026-11-04 | Godot: Oberwelt in Teilschritten, zuerst die Grundwelt aus 300 (mit 820, 310, 510 soweit sie Inseln und Brücken ändern), geprüft gegen die unverpackten Browser-Funktionen | Die Welt hängt an über zehn Modulen; so stimmt der Kern nachweislich, die Schichten (Dorf, Gras, Sehenswürdigkeiten) folgen einzeln |
 | 2026-11-04 | Godot: der Himmelsboden wird jedes Bild neu gezeichnet statt in festen Kacheln | Wie im Browser; Felskanten und Brückenseiten hängen weit über ihr Feld hinaus und müssen in der Reihenfolge i+j liegen |
+| 2026-11-04 | Godot: Grasbüschel als Sprites mit Vertex-Shader statt jedes Bild neu gezeichnet | Tausende Büschel; der Shader biegt sie im Wind und unter Läufern ohne Rechenzeit im Skript, das Bild bleibt wie im Browser |
+| 2026-11-04 | Godot: `dungeonChests` läuft schon beim Erzeugen der Ebene statt beim ersten `populate` | Sie hat ihren eigenen festen Zufall und hängt nur an Karte und Objekten; so prüft `--maphash` die Truhen gleich mit |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

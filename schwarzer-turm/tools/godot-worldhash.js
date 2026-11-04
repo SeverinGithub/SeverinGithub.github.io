@@ -1,6 +1,6 @@
 // Godot check, sky: prints the same numbers as `godot ... -- --worldhash` (tower.gd) for seed 4242. Runs like
-// tools/godot-export.js (test build, through __ev). Uses the plain functions of 300-endless-sky.js, without what later
-// modules add to the islands' content (chests, sights, living isles, dead lands), because Godot has not got those yet.
+// tools/godot-export.js (test build, through __ev). Uses the functions of 300-endless-sky.js with the island content up to
+// the chests and small things of 760/770 (_owContentI), without the sights and living isles, because Godot has not got those yet.
 (() => {
   const S = 4242, keep = G.seed; G.seed = S; WBC = null; RG.seed = null;
   const sh = s => { let h = 0; for (const c of new TextEncoder().encode(s)) h = (h * 31 + c) % 1000000007; return h };
@@ -15,7 +15,7 @@
     for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) _owIslandR(m, cx + dx, cy + dy);
     const want = [];
     for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) { const a = cx + dx, b = cy + dy; owBridge(m, a, b, a + 1, b); owBridge(m, a, b, a, b + 1); owBridge(m, a - 1, b, a, b); owBridge(m, a, b - 1, a, b); want.push([a, b]) }
-    const cd = want.map(([a, b]) => [a + ',' + b, _owContentR(m, a, b)]);
+    const cd = want.map(([a, b]) => [a + ',' + b, _owContentI(m, a, b)]);
     let h = 0;
     for (let j = 35 * 32; j < 44 * 32; j++) for (let i = 35 * 32; i < 44 * 32; i++) { const k = j * m.w + i; h = (h * 31 + m.t[k] * 7 + m.under[k]) % 1000000007 }
     out.push('Kacheln ' + h);
@@ -27,6 +27,9 @@
     }
     let bb = 0; for (const L of m.bblocks.values()) for (const b of L) bb = (bb * 31 + b.i * 3 + b.j * 5 + b.v) % 1000000007;
     out.push('Geländer ' + bb);
+    for (const [key, c] of cd) if (['37,37', '37,38', '37,39'].includes(key))
+      out.push(key + ' Kram ' + c.props.filter(p => p.k && p.k.startsWith('dc')).map(p => p.k + '@' + p.x.toFixed(2) + ',' + p.y.toFixed(2) + (p.f ? 'f' : '')).join(' ')
+        + ' Truhen ' + c.objs.filter(o => o.type === 'chest').map(o => o.ct + '@' + o.x.toFixed(2) + ',' + o.y.toFixed(2)).join(' '));
     out.push('Heimat: Deko ' + m.home.deco.length + ' Blöcke ' + m.home.blocks.length + ' Objekte ' + m.home.objs.length);
     out.push('Inselherren ' + WB.map(b => b.cx + ',' + b.cy).join(' '));
     // the whole sky, and the ground around four far places
@@ -40,6 +43,7 @@
       far.push(fh);
     }
     out.push('Alle ' + all.length + ' ' + sh(all.join(' ')) + ' Felder ' + far.join(' '));
+    out.push('Wiese ' + gh(1234, 1250, 77) + ' ' + gh(1240, 1290, 36) + ' ' + gh(7, 9, 404) + ' ' + meadow(1234, 1250).toFixed(6));
   } finally { G.seed = keep; WBC = null; RG.seed = null }
   return out.join('\n');
 })()

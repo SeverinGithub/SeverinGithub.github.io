@@ -31,6 +31,7 @@ var xp := 0
 var pts := 0
 var spts := 1
 var glut := 0
+var keys := 0                    # chest keys for the locked chests (770-chests.js)
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
 var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
 var hand = null                  # the item held on the mouse
@@ -83,6 +84,7 @@ func start_new(c: String) -> void:
 	pts = 0
 	spts = 1
 	glut = 0
+	keys = 0
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
 	inv = []
 	hand = null

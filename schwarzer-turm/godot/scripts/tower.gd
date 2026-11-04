@@ -24,7 +24,7 @@ func _ready() -> void:
 			var hsh := 0
 			for v in m.t:
 				hsh = (hsh * 31 + v) % 1000000007
-			print("Ebene %d: Karte %d · %d Stücke Deko · %d Requisiten · Objekte %s" % [f, hsh, m.deco.size(), m.props.size(), m.objs.map(func(o): return "%s@%.1f,%.1f" % [o.type, o.x, o.y])])
+			print("Ebene %d: Karte %d · %d Stücke Deko · %d Requisiten · Objekte %s" % [f, hsh, m.deco.size(), m.props.size(), m.objs.map(func(o): return "%s@%.2f,%.2f" % [o.get("ct", o.type), o.x, o.y])])
 		get_tree().quit()
 		return
 	if args.has("worldhash"):
@@ -79,6 +79,22 @@ func _ready() -> void:
 			Items.inv_add(Items.junk_for(null, 3))
 		for gi in level.items:
 			gi.t = 1.0
+	if args.has("pos"):
+		# test: stand somewhere else on the floor, "x,y" in tiles
+		var xy: PackedStringArray = args.pos.split(",")
+		level.P.x = float(xy[0])
+		level.P.y = float(xy[1])
+		if args.has("why"):
+			for o in level.obj_nodes:
+				if Vector2(o.p.x, o.p.y).distance_to(Vector2(level.P.x, level.P.y)) < 8:
+					print(o.p.get("ct", o.p.type), " ", o.p.x, ",", o.p.y, " ", o.visible, " ", o.position, " ", o.get_parent().name)
+	if args.has("open"):
+		# test: open every chest within six steps, with keys at hand and the trial's seal broken
+		Game.keys = 3
+		for o in level.obj_nodes:
+			if o.p.type == "chest" and Vector2(o.p.x, o.p.y).distance_to(Vector2(level.P.x, level.P.y)) < 6:
+				o.p.sealed = false
+				level._open_chest(o)
 	if args.has("skp"):
 		sk_panel.visible = true
 	if args.has("inv"):
@@ -248,6 +264,11 @@ static func world_hash(s: int) -> String:
 		for b in wg.bblocks[key]:
 			bb = (bb * 31 + b.i * 3 + b.j * 5 + b.v) % 1000000007
 	out.append("Geländer %d" % bb)
+	for key in ["37,37", "37,38", "37,39"]:
+		if wg.cdata.has(key):
+			var c: Dictionary = wg.cdata[key]
+			out.append("%s Kram %s Truhen %s" % [key, " ".join(c.props.filter(func(p): return p.has("k") and String(p.k).begins_with("dc")).map(func(p): return "%s@%.2f,%.2f%s" % [p.k, p.x, p.y, "f" if p.f else ""])),
+				" ".join(c.objs.filter(func(o): return o.type == "chest").map(func(o): return "%s@%.2f,%.2f" % [o.ct, o.x, o.y]))])
 	out.append("Heimat: Deko %d Blöcke %d Objekte %d" % [wg.home.deco.size(), wg.home.blocks.size(), wg.home.objs.size()])
 	out.append("Inselherren " + " ".join(wg.wb_at.map(func(v): return "%d,%d" % [v.x, v.y])))
 	# the whole sky, and the ground around four far places
@@ -277,6 +298,7 @@ static func world_hash(s: int) -> String:
 				fh = (fh * 31 + wg.t[k] * 7 + wg.under[k]) % 1000000007
 		far.append(str(fh))
 	out.append("Alle %d %d Felder %s" % [all.size(), _sh(" ".join(all)), " ".join(far)])
+	out.append("Wiese %d %d %d %.6f" % [Overworld.gh(1234, 1250, 77), Overworld.gh(1240, 1290, 36), Overworld.gh(7, 9, 404), Overworld.meadow(1234, 1250)])
 	return "\n".join(out)
 
 static func _sh(s: String) -> int:

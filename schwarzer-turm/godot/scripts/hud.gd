@@ -58,6 +58,7 @@ func _draw() -> void:
 		var o: Prop = level.hover_o
 		var s := get_viewport().get_canvas_transform() * Iso.to_screen(Vector2(o.p.x, o.p.y))
 		var txt := ""
+		var col := Color("#ffd88a") if o.p.type == "shrine" else Color("#ece4cf")
 		match o.p.type:
 			"shrine": txt = o.p.get("name", "Leuchtfeuer") + ("" if o.lit else " (erloschen)")
 			"door": txt = "Den Turm betreten · Ebene %d" % Game.top_floor() if Game.top_floor() > 1 else "Den Turm betreten"
@@ -65,9 +66,16 @@ func _draw() -> void:
 			"stash": txt = "Bodenlose Truhe"
 			"colossus": txt = "Wächter der Arena · erwacht ab Ebene 20"
 			"stairs": txt = "Hinab zu Ebene %d" % (Game.floor_no + 1)
-			"chest": txt = "" if o.p.open else "Truhe"
+			"chest":
+				var ci := Chests.info(o.p)
+				txt = "" if o.p.open else ci.n
+				col = Color(ci.get("col", "#ece4cf"))
+				if Chests.look(o.p) == "vault":
+					txt += " · Schlüssel nötig (du hast %d)" % Game.keys
+				elif Chests.look(o.p) == "trial":
+					txt += " · versiegelt, besiege die Wächter des Raums" if o.p.get("sealed") != false else " · bereit"
 		if txt != "":
-			_text_c(s - Vector2(0, {"door": 120, "colossus": 290, "merchant": 66, "stash": 48, "shrine": 58}.get(o.p.type, 46)), txt, 12, Color("#ffd88a") if o.p.type == "shrine" else Color("#ece4cf"))
+			_text_c(s - Vector2(0, {"door": 120, "colossus": 290, "merchant": 66, "stash": 48, "shrine": 58, "chest": 36}.get(o.p.type, 46)), txt, 12, col)
 	# messages
 	var y := sz.y - 96.0
 	for i in range(msgs.size() - 1, -1, -1):

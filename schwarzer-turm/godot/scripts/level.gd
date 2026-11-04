@@ -53,6 +53,7 @@ var rings: Array = []
 var flashes: Array = []          # short lights: {x, y, r, a, t, life}
 var click_fx = null
 var shake := 0.0
+var lootq: Array = []            # treasure of a fine chest still to fall out (LOOTQ)
 var kick_v := Vector2.ZERO
 var hitstop := 0.0
 
@@ -78,6 +79,7 @@ const PALETTE := preload("res://shaders/palette.gdshader")
 
 func build(map: Dictionary) -> void:
 	m = map
+	lootq.clear()
 	w = m.w
 	h = m.h
 	t = m.t
@@ -251,6 +253,7 @@ func _sky() -> void:
 	r.set_anchors_preset(Control.PRESET_FULL_RECT)
 	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	bg.add_child(r)
+	bg.add_child(Overworld.Clouds.new(self))
 
 ## a light cut into the darkness at a point on the floor (light() in render: ten pixels above it, see darkness.gdshader)
 func _light(pos: Vector2, r: float, a: float) -> Dictionary:
@@ -642,6 +645,23 @@ func populate() -> void:
 		for e in pack:
 			e.pack = pack
 			_add_enemy(e)
+	# every visit the guards of an unfinished trial stand ready again
+	for o in m.objs:
+		if o.get("ct") != "trial" or o.open:
+			continue
+		var pool := enemies.filter(func(e): return not e.dead and not e.boss)
+		if pool.is_empty():
+			continue
+		var kind: Enemy = pool[randi() % pool.size()]
+		for k in R.rint(3, 4):
+			var x: float = o.rx + R.rnd(2, o.rw - 2)
+			var y: float = o.ry + R.rnd(2, o.rh - 2)
+			if not walkable(x, y):
+				continue
+			var e := Enemy.make(kind.vid, Vector2(x, y), "champ" if k == 0 or R.next() < .4 else "normal", ml, R)
+			e.trial = true
+			_add_enemy(e)
+		o.erase("sealed")
 
 func _add_enemy(e: Enemy) -> void:
 	world.add_child(e)
@@ -690,6 +710,8 @@ func _process(dt: float) -> void:
 	_update_proj(dt)
 	_update_fx(dt)
 	_update_glutmal()
+	_loot_q(dt)
+	_trial_tick()
 	for e in enemies:
 		if e.wb != "" and not e.aggro and not e.dead and e.world.distance_to(Vector2(P.x, P.y)) < 11:
 			e.aggro = true
@@ -1035,18 +1057,79 @@ func _interact(o: Prop) -> void:
 			get_parent().call_deferred("enter_floor", Game.floor_no + 1)
 		"chest":
 			if not o.p.open:
-				o.p.open = true
-				var cl := Game.mlvl
-				for k in R.rint(1, 3):
-					drop_item(Items.junk_for(null, cl), o.p.x, o.p.y)
-				if R.next() < .18:
-					drop_item(Items.make(cl, {"mf": Game.d.mf}), o.p.x, o.p.y)
-				if R.next() < .25:
-					drop_item(Items.potion("life", Game.floor_no), o.p.x, o.p.y)
-				var gl := R.rint(3, 8) * cl
-				Game.glut += gl
-				ftext(Vector2(o.p.x, o.p.y), "+%d Glut" % gl, Color("#ff9a3a"))
-				burst(Vector2(o.p.x, o.p.y), Color("#c8a050"), 10, 1.5)
+				_open_chest(o)
+
+# ---------- chests (770-chests.js) ----------
+
+## open a chest: a key for the locked ones, broken seals for the trial; the finer ones give up their treasure one by one
+func _open_chest(o: Prop) -> void:
+	var lk := Chests.look(o.p)
+	var s := Chests.info(o.p)
+	var at := Vector2(o.p.x, o.p.y)
+	if lk == "vault":
+		if Game.keys <= 0:
+			Game.log_msg("Verschlossen. Ein Truhenschlüssel öffnet sie – Odalinde und die fahrenden Händler verkaufen welche.", Color("#e8b060"))
+			return
+		Game.keys -= 1
+		Game.log_msg("Der Schlüssel dreht sich. Noch %d Schlüssel übrig." % Game.keys, Color("#e8b060"))
+	if lk == "trial" and o.p.get("sealed") != false:
+		var n := trial_left(o.p)
+		Game.log_msg("Die Truhe ist versiegelt. Besiege die Wächter dieses Raums" + (" (%d übrig)" % n if n else "") + ".", Color("#c8a0ff"))
+		return
+	o.p.open = true
+	if s.get("junk"):
+		_smoke(at, 5)
+		burst(at, Color("#7a4a24"), 10, 2)
+	else:
+		sparks(at, .5, -1.57, 24 if s.get("shine") else 10, [Color.WHITE, Color("#fff0a0"), Color(s.col)] if s.get("shine") else [Color("#ffe0a0"), Color("#c8a050")], 5)
+	if s.get("shine"):
+		Game.banner.emit("EINE GOLDENE TRUHE" if lk == "gold" else "EINE SMARAGDTRUHE", "Ein seltener Fund", "boss")
+		shake = maxf(shake, 4)
+	if lk == "trial":
+		Game.banner.emit("DIE PRÜFUNGSTRUHE", "Deine Belohnung", "")
+	var L := Chests.loot(o.p, Game.mlvl, Game.d.mf, Game.floor_no)
+	var step := .32 if lk == "trial" or s.get("shine") or lk == "vault" else 0.0
+	for i in L.out.size():
+		if step == 0:
+			drop_item(L.out[i], at.x, at.y)
+		else:
+			lootq.append({"t": .25 + i * step, "it": L.out[i], "x": at.x, "y": at.y})
+	Game.glut += L.gl
+	ftext(at - Vector2(0, .3), "+%d Glut" % L.gl, Color("#ff9a3a"), step > 0)
+
+## the treasure of a fine chest, falling out piece by piece (lootQTick)
+func _loot_q(dt: float) -> void:
+	for i in range(lootq.size() - 1, -1, -1):
+		var q: Dictionary = lootq[i]
+		q.t -= dt
+		if q.t > 0:
+			continue
+		lootq.remove_at(i)
+		drop_item(q.it, q.x, q.y)
+		var col: Array = {"unique": [Color("#ffd040"), Color("#fff0a0")], "rare": [Color("#ffff60"), Color("#ffffc0")], "magic": [Color("#6a8aff"), Color("#c0d0ff")]}.get(q.it.rar, [Color("#e8e0d0"), Color.WHITE])
+		sparks(Vector2(q.x, q.y), .6, -1.57, 14, col, 7)
+		_flash(Vector2(q.x, q.y), .45)
+
+## guards still standing in a trial chest's room (trialLeft)
+func trial_left(o: Dictionary) -> int:
+	var n := 0
+	for e in enemies:
+		if not e.dead and e.world.x >= o.rx - .5 and e.world.x <= o.rx + o.rw + .5 and e.world.y >= o.ry - .5 and e.world.y <= o.ry + o.rh + .5:
+			n += 1
+	return n
+
+## the seal breaks once the hero stands in the room and no guard is left (trialTick)
+func _trial_tick() -> void:
+	if ow:
+		return
+	for o in m.objs:
+		if o.get("ct") != "trial" or o.open or o.get("sealed") == false:
+			continue
+		if P.x < o.rx - 3 or P.x > o.rx + o.rw + 3 or P.y < o.ry - 3 or P.y > o.ry + o.rh + 3 or trial_left(o):
+			continue
+		o.sealed = false
+		Game.banner.emit("PRÜFUNG BESTANDEN", "Die Prüfungstruhe öffnet ihr Siegel", "")
+		_flash(Vector2(o.x, o.y), 1.5)
 
 # ---------- combat (170-combat.js) ----------
 

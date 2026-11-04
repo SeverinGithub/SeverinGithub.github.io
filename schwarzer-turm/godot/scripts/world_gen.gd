@@ -629,6 +629,9 @@ func ow_content(cx: int, cy: int) -> Dictionary:
 				var p = spot.call(0, 3)
 				if p != null:
 					chest.call(p)
+	# what lies about and the barrels, crates and finer chests (owContent wrappers of 760-tower-2.js and 770-chests.js)
+	Chests.island_decor(self, c, I, cx, cy)
+	Chests.island_chests(self, c, I, cx, cy)
 	return c
 
 static func var_pool(f: int) -> Array:

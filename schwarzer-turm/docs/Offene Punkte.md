@@ -3,7 +3,7 @@ tags: [todo]
 ---
 # Offene Punkte
 
-- [ ] **Godot-Umstieg**: Turmebenen mit Kampf, Beute, Inventar und Klassenfertigkeiten laufen in Godot, dazu die Himmelswelt mit Inseln, Brücken, Leuchtfeuern, Gegnern und Turmtür (Schritt 5a, 2026-11-04). Weiter mit Schritt 5b (Hügeldorf 988, Gras 820, Sehenswürdigkeiten 986, lebendige Inseln 989, Inseltruhen 770, Totenlande 520, Wolken, Tag und Nacht); dazu die Schichten aus 982/984 und Boss-Bögen nachziehen. Die Browser-Fassung ist eingefroren in `schwarzer-turm-browser/`. Siehe [[Godot-Umstieg]].
+- [ ] **Godot-Umstieg**: Turmebenen mit Kampf, Beute, Inventar und Klassenfertigkeiten laufen in Godot, dazu die Himmelswelt mit Inseln, Brücken, Leuchtfeuern, Gegnern und Turmtür (Schritt 5a, 2026-11-04). Wiese, Grasbüschel, Wolken, Truhen in Turm und auf Inseln und Insel-Kleinkram stehen (Schritt 5b Teil 1). Weiter mit Dungeon-Deko, Geheimnissen und Felsbrocken (760), Hügeldorf 988, Sehenswürdigkeiten 986, lebendigen Inseln 989, Totenlanden 520, Tag und Nacht; dazu die Schichten aus 982/984 und Boss-Bögen nachziehen. Die Browser-Fassung ist eingefroren in `schwarzer-turm-browser/`. Siehe [[Godot-Umstieg]].
 
 - [ ] **Mit `?perf` auf dem iPad messen** (auf dem Mac ist auch der große Kampf nur halb ausgelastet, Messung 2026-11-03 abends) (Oberwelt mit vielen Gegnern, Turm, Multiplayer) – Grundlage für den GPU-Renderer, siehe [[Performance]].
 - [ ] **GPU-Renderer** (Texturatlas, instanziertes Zeichnen, Licht als Shader, Boden-Chunks) als umschaltbares Modul neben dem alten bauen.

@@ -15,11 +15,16 @@ var h := 96
 var t := PackedByteArray()
 
 static func generate(seed_value: int, f: int) -> Dictionary:
+	var m := {}
 	for tr in 16:
-		var m := DungeonGen.new()._try(seed_value, f, tr, false)
+		m = DungeonGen.new()._try(seed_value, f, tr, false)
 		if not m.is_empty():
-			return m
-	return DungeonGen.new()._try(seed_value, f, 99, true)
+			break
+	if m.is_empty():
+		m = DungeonGen.new()._try(seed_value, f, 99, true)
+	# barrels, crates and finer chests (dungeonChests, run by populate in the browser with its own seeded random)
+	Chests.dungeon(m, seed_value)
+	return m
 
 func T(i: int, j: int) -> int:
 	return 0 if i < 0 or j < 0 or i >= w or j >= h else t[j * w + i]
