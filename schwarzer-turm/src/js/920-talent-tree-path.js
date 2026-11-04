@@ -1,7 +1,7 @@
-/* ---------- the great talent tree: eight branches, four rings each, a milestone at every gate · four for the classes, four for every hero ---------- */
-// A branch: a core path (centre lane) between two themes (A on the left lanes, B on the right). Small nodes repeat their theme, a notable sits on
-// each theme twice per ring, and a milestone closes every ring: you must take it to walk on. The last milestone opens two keystones.
-const TRING=['Grundlagen','Fortgeschritten','Meisterschaft','Legende'],TMUL=[1,1.4,1.8,2.3];
+/* ---------- the talent path: every class climbs its own tree upwards, four tiers and two keystones · higher tiers cost more points ---------- */
+// One trunk winds up from the class root; on both sides short twigs reach out to the class's two themes and end in a notable.
+// Once per tier a fork carries the wanderer's gifts (bag rows, flasks, stacks). A milestone closes every tier: take it to climb on.
+const TRING=['Grundlagen','Fortgeschritten','Meisterschaft','Legende'],TCOST=[1,2,3,4],TKEYC=5,TMUL=[1,1.8,2.6,3.4];
 const TB8=[
  {id:'kr',n:'Krieger',col:'#d0583a',cls:'krieger',C:[{ed:4},{str:4},{ias:2}],
   A:{n:'Schlächter',m:[{ed:5},{crit:1}],x:{ls:1},names:['Fleischhauer','Schlachtruf','Klingenrausch','Knochenbrecher','Blutbad','Schlächtermeister','Henkerstreich','Endloses Gemetzel']},
@@ -43,29 +43,31 @@ const TB8=[
   B:{n:'Eisenhaut',m:[{res:3},{life:8}],x:{thorns:6},names:['Dornenpanzer','Feuerfest','Sturmfest','Zähe Natur','Unberührbar','Dornenkrone','Elementarschild','Schwur des Wächters']},
   M:[['Wachposten',{life:30,tdef:15}],['Schildbruder',{res:8,block:4,life:40}],['Bastion',{dmgred:4,lifeP:8,tdef:25}],['Unerschütterlich',{dmgred:8,lifeP:15,res:10}]],
   K:[['Lebende Festung',{dmgred:12,lifeP:25,frw:-15,ias:-8}],['Dornenherz',{thorns:120,res:15,ed:-15}]]}];
-// geometry: lanes fan out with the radius so the outer rings breathe; every ring is nine steps, then its gate
-const TG={R0:340,D:60,RING:660,lanes:5,steps:9,W:r=>30+r*.09},tRing=t=>TG.R0+t*TG.RING;
+// each class: its own branch above, and one of the four general branches for the small steps of its gift fork
+const TCLS={krieger:'kr',jaegerin:'ja',alchemist:'al',magier:'ma'},TGEN={krieger:'wc',jaegerin:'wa',alchemist:'bp',magier:'el'};
+const TUTIL=[['Tiefe Taschen',{invRows:1,glutf:10}],['Trankgürtel',{flask:1,flaskH:10}],['Trankstapel',{potStack:2,shopDisc:10}],['Weltentasche',{invRows:1,mf:20}]];
+// geometry: y grows downwards, so the tree climbs into negative y; five trunk steps per tier, the sixth is its milestone
+const TG={D:90,steps:5,tier:6},tY=(t,s)=>-(t*TG.tier+s+1)*TG.D,tX=(t,s)=>Math.round(Math.sin((t*TG.tier+s)*.9)*28),tTop=()=>tY(3,TG.steps)-170;
 const tScale=(m,f)=>{const o={};for(const k in m){const v=m[k]*f;o[k]=v<0?Math.round(v):Math.max(1,Math.round(v))}return o},tMerge=(...ms)=>{const o={};for(const m of ms)for(const k in m)o[k]=(o[k]||0)+m[k];return o};
-(function(){TB.length=0;for(const b of TB8)TB.push(b);for(const k in TREE)delete TREE[k];TEDGE.length=0;
-  const add=(id,x,y,o)=>TREE[id]=Object.assign({id,x,y,adj:[]},o),link=(a,b)=>{TREE[a].adj.push(b);TREE[b].adj.push(a);TEDGE.push([a,b])};
-  add('o',0,0,{k:'origin',n:'Ursprung',m:{},b:-1});
-  const N=TB.length,at=(bi,r,lat)=>{const th=-Math.PI/2+bi*2*Math.PI/N,ax=Math.cos(th),ay=Math.sin(th);return[ax*r-ay*lat,ay*r+ax*lat]};
-  const lid=(b,t,l,s)=>b.id+'t'+t+'l'+l+'s'+s;
-  TB.forEach((b,bi)=>{const sk=b.cls&&CLS[b.cls]?CLS[b.cls].skills:[];
-    // the root: the class starts here for free; the others are one step from the centre
-    add(b.id+'s0',...at(bi,TG.R0-110,0),{k:'root',b:bi,n:b.n,m:tScale(b.C[0],2)});link('o',b.id+'s0');let gate=b.id+'s0';
-    for(let t=0;t<4;t++){const R=tRing(t),f=TMUL[t];
-      for(let l=0;l<TG.lanes;l++)for(let s=0;s<TG.steps;s++){const r=R+s*TG.D,id=lid(b,t,l,s),th=l<2?b.A:l>2?b.B:null,pool=th?th.m:b.C;
-        // notables: theme A on lanes 0/1, theme B on lanes 4/3, the second one further out and stronger
-        const nb=(l===0&&s===3)||(l===4&&s===3)?1:(l===1&&s===7)||(l===3&&s===7)?2:0;
-        if(nb){const T=l<2?b.A:b.B,k=t*2+nb-1;add(id,...at(bi,r,(l-2)*TG.W(r)),{k:'not',b:bi,n:T.names[k],th:T.n,m:tScale(nb===1?tMerge(...T.m):tMerge(...T.m,...T.m,T.x),f*(nb===1?2.2:2.6))})}
-        else add(id,...at(bi,r,(l-2)*TG.W(r)),{k:'small',b:bi,m:tScale(pool[(s+l)%pool.length],f)});
-        if(s===0)link(gate,id);else link(lid(b,t,l,s-1),id);
-        if(l>0&&(s+l)%3===1)link(lid(b,t,l-1,s),id)}
-      const mi=b.id+'M'+t,mm=b.M[t][1],m=Object.assign({},mm);if(sk[t])m['sk_'+sk[t]]=1;
-      add(mi,...at(bi,R+TG.steps*TG.D+20,0),{k:'mile',b:bi,n:b.M[t][0],ring:t,m});for(let l=0;l<TG.lanes;l++)link(lid(b,t,l,TG.steps-1),mi);gate=mi}
-    b.K.forEach(([n,m0],ki)=>{const m=Object.assign({},m0);if(sk[4+ki])m['sk_'+sk[4+ki]]=1;const r=tRing(3)+TG.steps*TG.D+190,id=b.id+'K'+ki;add(id,...at(bi,r,(ki?1:-1)*TG.W(r)*1.3),{k:'key',b:bi,n,m});link(gate,id)})});
-  // bridges: halfway through every ring the outer lane of one branch reaches across to the next
-  TB.forEach((b,bi)=>{const c=TB[(bi+1)%N];for(let t=0;t<4;t++){const A=TREE[lid(b,t,4,4)],C=TREE[lid(c,t,0,4)],f=TMUL[t];let pr=A.id;
-    for(let j=1;j<=2;j++){const id='br'+bi+'t'+t+'n'+j,q=j/3;add(id,A.x+(C.x-A.x)*q,A.y+(C.y-A.y)*q,{k:'small',b:-1,m:tScale(j===1?b.C[0]:c.C[0],f*1.5)});link(pr,id);pr=id}link(pr,C.id)}})})();
+(function(){for(const k in TREE)delete TREE[k];TEDGE.length=0;
+  const add=(id,x,y,o)=>TREE[id]=Object.assign({id,x,y,adj:[]},o),link=(a,b)=>{TREE[a].adj.push(b);TREE[b].adj.push(a);TEDGE.push([a,b,TREE[a].cls])};
+  for(const cls in TCLS){const b=TB8.find(x=>x.id===TCLS[cls]),g=TB8.find(x=>x.id===TGEN[cls]),sk=CLS[cls]?CLS[cls].skills:[],base={cls,col:b.col};
+    // the root is where the class starts, free of charge
+    add(b.id+'s0',0,0,{...base,k:'root',n:b.n,m:tScale(b.C[0],2),c:0,t:-1});let gate=b.id+'s0';
+    for(let t=0;t<4;t++){const f=TMUL[t],c=TCOST[t],tid=x=>b.id+'t'+t+x;let prev=gate;
+      for(let s=0;s<TG.steps;s++){const id=tid('c'+s),x0=tX(t,s),y0=tY(t,s);add(id,x0,y0,{...base,k:'small',m:tScale(b.C[(s+t)%3],f),c,t});link(prev,id);prev=id;
+        if(s!==1&&s!==3)continue;const hi=s===3?1:0;
+        for(const side of[-1,1]){const T=side<0?b.A:b.B,sd=side<0?'L':'R',tc={...base,col:side<0?'#d8a860':'#7fa8d8'};let p=id;
+          // a twig: two small steps outwards and a notable at its end, the upper one stronger
+          for(let j=0;j<3;j++){const tw=tid(sd+hi+'n'+j),x=x0+side*(95+j*85),y=y0-20-j*32;
+            if(j<2)add(tw,x,y,{...tc,k:'small',m:tScale(T.m[j],f),c,t,th:T.n});
+            else add(tw,x,y,{...base,k:'not',n:T.names[t*2+hi],th:T.n,m:tScale(hi?tMerge(...T.m,...T.m,T.x):tMerge(...T.m),f*(hi?2.6:2.2)),c,t});
+            link(p,tw);p=tw}
+          if(hi&&side===(t%2?1:-1)){const j1=TREE[tid(sd+'1n1')],u0=tid('u0'),u1=tid('u1');
+            add(u0,j1.x+side*25,j1.y-80,{...base,col:'#e3c04b',k:'small',m:tScale(g.C[t%3],f),c,t,th:g.n});
+            add(u1,j1.x+side*50,j1.y-160,{...base,col:'#e3c04b',k:'not',n:TUTIL[t][0],th:g.n,m:{...TUTIL[t][1]},c,t});link(j1.id,u0);link(u0,u1)}}}
+      const mi=b.id+'M'+t,m=Object.assign({},b.M[t][1]);if(sk[t])m['sk_'+sk[t]]=1;
+      add(mi,0,tY(t,TG.steps),{...base,k:'mile',n:b.M[t][0],ring:t,m,c,t});link(prev,mi);gate=mi}
+    b.K.forEach(([n,m0],ki)=>{const m=Object.assign({},m0);if(sk[4+ki])m['sk_'+sk[4+ki]]=1;const id=b.id+'K'+ki;
+      add(id,(ki?1:-1)*150,tTop(),{...base,k:'key',n,m,c:TKEYC,t:4});link(gate,id)})}})();
 const tMiles=()=>(P.tree||[]).filter(id=>TREE[id]&&TREE[id].k==='mile').length;

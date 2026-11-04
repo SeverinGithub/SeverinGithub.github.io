@@ -12,7 +12,8 @@ function frame(now){const dt=Math.max(0,Math.min(.05,(now-last)/1000));last=Math
   try{sane();
     if(G.state==='play'){let ud=dt;if(G.hitstop>0){G.hitstop-=dt;ud=dt*.06}update(ud);render();updHUD()}
     else if(G.state==='paused'||OVL.has(G.state)){render();updHUD()}
-    else{G.t+=dt;camX+=Math.sin(G.t*.1)*.004;render()}loopErr=0}
+    // the talent tree covers the world, so the world is not drawn behind it
+    else if(G.state!=='tree'){G.t+=dt;camX+=Math.sin(G.t*.1)*.004;render()}loopErr=0}
   catch(err){console.error(err);ctx=wctx;try{wctx.restore()}catch(_){}if(++loopErr===30)log('Grafikfehler abgefangen. Mit R lädt das Spiel die Grafik neu.','#ff9a3a')}
   requestAnimationFrame(frame)}
 // R or the pause menu: rebuild the graphics pipeline without losing anything

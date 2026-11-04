@@ -194,10 +194,9 @@ button:disabled{opacity:.45;cursor:default}
 #tsvg .tn{cursor:pointer}#tsvg .tn .tr{fill:none;stroke:#000;stroke-width:3}
 #tsvg .tn.av .tr{stroke:#ffd88a;stroke-width:2;stroke-dasharray:4 3}#tsvg .tn.on .tr{stroke:#ffe8b0;stroke-width:2}
 #tsvg .tn:hover .tr{stroke:#fff;stroke-width:3}
-#tsvg .tlab{font-family:var(--f-display);font-size:120px;paint-order:stroke;stroke:#000;stroke-width:10}
-#tsvg .tring{fill:none;stroke:#e3b04b;stroke-opacity:.16;stroke-width:3;stroke-dasharray:18 14}#tsvg .tringl{font-family:var(--f-sc);font-size:30px;fill:#c8a868;fill-opacity:.7;paint-order:stroke;stroke:#000;stroke-width:5}
+#tsvg .tband{fill:#e3b04b;fill-opacity:.035}#tsvg .tband.odd{fill-opacity:.07}#tsvg .tbandl{font-family:var(--f-sc);font-size:26px;fill:#c8a868;fill-opacity:.8}#tsvg .tbandc{font-family:var(--f-sc);font-size:17px;fill:#a89878}
 #tsvg .tnl{font-family:var(--f-sc);font-size:15px;fill:#a89878;paint-order:stroke;stroke:#000;stroke-width:4;pointer-events:none}#tsvg .tnl.on{fill:#f0dca8}#tsvg .tnl.mile{font-size:21px;fill:#e3b04b}#tsvg .tnl.key{font-size:21px;fill:#ffb347}#tsvg .tnl.root{font-size:18px}
-#tsvg.mid .tnl.not,#tsvg.mid .tnl.root{display:none}#tsvg.far .tnl{display:none}#tsvg.far .tringl{font-size:60px}
+#tsvg.mid .tnl.not{display:none}#tsvg.far .tnl{display:none}
 #pTree .tmls b{color:#ffe08a}@media (max-width:1500px){#pTree .thint{display:none}}#pTree .thead button[data-tzoom]{min-width:40px}
 @media (max-width:700px){#pTree .thint{display:none}#pTree .thead{gap:8px;padding:0 8px}#pTree h2{font-size:22px}}
 .iitem .n{position:absolute;right:2px;bottom:0;font-family:var(--f-sc);font-size:13px;color:#f4e6c4;text-shadow:0 1px 0 #000,0 0 2px #000;pointer-events:none}
@@ -3237,50 +3236,57 @@ const TMOD={str:' Stärke',dex:' Geschick',vit:' Vitalität',ene:' Energie',ed:'
   tdef:'% Verteidigung',res:'% alle Widerstände',block:'% Blockchance',thorns:' Dornenschaden',dmgred:' Schadensreduktion',frw:'% Lauftempo',stam:' Ausdauer',glutf:'% mehr Glut',mf:'% magische Funde',xp:'% Erfahrung',
   cdr:'% schnellere Abklingzeiten',mcost:'% weniger Manakosten',potPow:'% stärkere Tränke',flask:' Flakon-Ladung',flaskH:'% Flakon-Heilung',potStack:' Tränke pro Stapel',invRows:' Inventarreihe',shopDisc:'% Rabatt bei Händlern',sellB:'% mehr Verkaufserlös'};
 const tmodTxt=(k,v)=>k.startsWith('sk_')?`+${v} auf ${SKBY[k.slice(3)].n}`:(v>0?'+':'')+v+TMOD[k];
-// the branches themselves are laid out by the great tree (920-talent-tree-eight.js)
-const TB=[],TREE={},TEDGE=[];
-const tHas=id=>id==='o'||id===clsStart()||(P.tree||[]).includes(id);
-const tPts=()=>Math.max(0,P.lvl-1+(P.tbonus||0)-(P.tree||[]).length);
-const tCan=id=>!tHas(id)&&tPts()>0&&TREE[id].adj.some(tHas);
+// the trees themselves are laid out by the talent path (920-talent-tree-path.js); each node knows its class and its price c
+const TREE={},TEDGE=[];
+const tHas=id=>id===clsStart()||(P.tree||[]).includes(id);
+const tCost=id=>(TREE[id]&&TREE[id].c)||0,tSpent=()=>(P.tree||[]).reduce((a,id)=>a+tCost(id),0);
+const tPts=()=>Math.max(0,P.lvl-1+(P.tbonus||0)-tSpent());
+const tCan=id=>{const n=TREE[id];return!!n&&n.cls===P.cls&&!tHas(id)&&tPts()>=n.c&&n.adj.some(tHas)};
 const tResetCost=()=>25*P.lvl;
 let TV=null,TKEY='';
-const tVH=()=>innerHeight-64,tSMax=()=>7400/Math.min(innerWidth,tVH()),tSMin=.25;
-function toggleTree(){if(G.state==='tree')closeTree();else{ovClose();closeAll();G.state='tree';G.stepS=stopLoop(G.stepS);$('pTree').hidden=false;if(!TV)tCenter();TKEY='';buildTree()}}
+const tVH=()=>innerHeight-64,tSMin=.45,tSMax=()=>Math.max(1.2,(200-tTop())/tVH());
+function toggleTree(){if(G.state==='tree')closeTree();else{ovClose();closeAll();G.state='tree';G.stepS=stopLoop(G.stepS);$('pTree').hidden=false;if(!TV||TV.cls!==P.cls)tCenter();TKEY='';buildTree()}}
 function closeTree(){$('pTree').hidden=true;hideTip();G.state='play';buildBelt()}
-// the view starts on your own class's root, close enough to read the first ring
-function tCenter(){const r=TREE[clsStart()]||TREE.o;TV={x:r.x*.6,y:r.y*.6,s:clamp(1300/Math.min(innerWidth,tVH()),tSMin,tSMax())}}
-function tSetVB(){const svg=$('tsvg');if(!svg||!TV)return;TV.s=clamp(TV.s,tSMin,tSMax());const vw=innerWidth,vh=tVH();svg.setAttribute('viewBox',[TV.x-vw*TV.s/2,TV.y-vh*TV.s/2,vw*TV.s,vh*TV.s].join(' '));
-  svg.classList.toggle('far',TV.s>3.2);svg.classList.toggle('mid',TV.s>1.6)}
-const NR={origin:16,root:13,small:9,not:15,mile:22,key:24};
+// the view starts just above the highest talent you hold, wide enough to see both twigs
+function tCenter(){let top=TREE[clsStart()];for(const id of P.tree||[]){const n=TREE[id];if(n&&n.cls===P.cls&&n.y<top.y)top=n}
+  TV={cls:P.cls,x:0,y:top.y-tVH()*.2*clamp(1150/Math.min(innerWidth,tVH()*1.6),tSMin,tSMax()),s:clamp(1150/Math.min(innerWidth,tVH()*1.6),tSMin,tSMax())}}
+function tSetVB(){const svg=$('tsvg');if(!svg||!TV)return;TV.s=clamp(TV.s,tSMin,tSMax());const vw=innerWidth,vh=tVH();
+  // never scroll past the root or above the keystones; zoomed out fully the tree sits in the middle
+  const hh=vh*TV.s/2,lo=tTop()-200+hh,hi=180-hh;TV.x=clamp(TV.x,-420,420);TV.y=lo<=hi?clamp(TV.y,lo,hi):(lo+hi)/2;
+  svg.setAttribute('viewBox',[TV.x-vw*TV.s/2,TV.y-vh*TV.s/2,vw*TV.s,vh*TV.s].join(' '));svg.classList.toggle('far',TV.s>2.2);svg.classList.toggle('mid',TV.s>1.4)}
+const NR={root:15,small:10,not:15,mile:22,key:24};
 const hexPts=(x,y,r)=>[0,1,2,3,4,5].map(k=>{const a=Math.PI/6+k*Math.PI/3;return(x+Math.cos(a)*r).toFixed(1)+','+(y+Math.sin(a)*r).toFixed(1)}).join(' ');
+// only your own class is drawn: about eighty nodes, no gradients, rebuilt only when something was learnt
 function buildTree(){if(!TV||$('pTree').hidden)return;
-  // zooming and panning only move the view; the whole tree is drawn again only when something was learnt
-  const key=(P.tree||[]).join(',')+'|'+tPts()+'|'+P.glut;if(key===TKEY&&$('tsvg')){tSetVB();return}TKEY=key;
-  let s=`<svg id="tsvg" xmlns="http://www.w3.org/2000/svg"><defs><radialGradient id="tglow"><stop offset="0" stop-color="#ffd88a" stop-opacity=".55"/><stop offset="1" stop-color="#ffd88a" stop-opacity="0"/></radialGradient></defs>`;
-  TRING.forEach((n,t)=>{const r=tRing(t)+TG.steps*TG.D+20,a=-Math.PI/2+Math.PI/TB.length;s+=`<circle cx="0" cy="0" r="${r}" class="tring"/><text x="${Math.cos(a)*(r+34)}" y="${Math.sin(a)*(r+34)}" text-anchor="middle" class="tringl">${t+1}. Ring · ${n}</text>`});
-  TB.forEach((b,bi)=>{const th=-Math.PI/2+bi*2*Math.PI/TB.length,r=tRing(3)+TG.steps*TG.D+380;s+=`<text x="${Math.cos(th)*r}" y="${Math.sin(th)*r+14}" text-anchor="${Math.cos(th)>.4?'start':Math.cos(th)<-.4?'end':'middle'}" class="tlab" fill="${b.col}">${b.n}</text>`});
-  for(const[a,b]of TEDGE){const A=TREE[a],B=TREE[b],on=tHas(a)&&tHas(b),av=(tHas(a)&&tCan(b))||(tHas(b)&&tCan(a));s+=`<line x1="${A.x|0}" y1="${A.y|0}" x2="${B.x|0}" y2="${B.y|0}" class="te${on?' on':av?' av':''}"/>`}
+  const key=P.cls+'|'+(P.tree||[]).join(',')+'|'+tPts()+'|'+P.glut;if(key===TKEY&&$('tsvg')){tSetVB();return}TKEY=key;
+  const C=P.cls,cc=TREE[clsStart()].col;let s='<svg id="tsvg" xmlns="http://www.w3.org/2000/svg">';
+  // the tiers as bands, each saying what a talent costs there
+  for(let t=0;t<=4;t++){const y1=t<4?tY(t,0)+TG.D*.55:tY(3,TG.steps)-TG.D*.55,y0=t<4?tY(t,TG.steps)-TG.D*.55:tTop()-TG.D*.8,c=t<4?TCOST[t]:TKEYC;
+    s+=`<rect x="-560" y="${y0}" width="1120" height="${y1-y0}" class="tband${t%2?' odd':''}"/><text x="-540" y="${y1-38}" class="tbandl">${t<4?(t+1)+'. '+TRING[t]:'Schlusssteine'}</text><text x="-540" y="${y1-14}" class="tbandc">${c} ${c>1?'Punkte':'Punkt'} je Talent</text>`}
+  for(const[a,b,c]of TEDGE){if(c!==C)continue;const A=TREE[a],B=TREE[b],on=tHas(a)&&tHas(b),av=(tHas(a)&&tCan(b))||(tHas(b)&&tCan(a));s+=`<line x1="${A.x}" y1="${A.y}" x2="${B.x}" y2="${B.y}" class="te${on?' on':av?' av':''}"/>`}
   let lab='';
-  for(const id in TREE){const n=TREE[id];if(id==='__para')continue;const r=NR[n.k]||9,has=tHas(id),can=tCan(id),col=n.b>=0?TB[n.b].col:'#c8b898',x=n.x|0,y=n.y|0,fill=has?col:'#1a140e';
-    if(has&&n.k!=='small')s+=`<circle cx="${x}" cy="${y}" r="${r*2.4}" fill="url(#tglow)"/>`;
+  for(const id in TREE){const n=TREE[id];if(n.cls!==C)continue;const r=NR[n.k]||10,has=tHas(id),can=tCan(id),x=n.x,y=n.y,col=n.k==='mile'||n.k==='key'?cc:n.col,fill=has?col:'#1a140e';
+    if(has&&n.k!=='small')s+=`<circle cx="${x}" cy="${y}" r="${r*1.9}" fill="${col}" opacity=".22"/>`;
     s+=`<g data-tn="${id}" class="tn${has?' on':can?' av':''}"><circle cx="${x}" cy="${y}" r="${r+3}" class="tr"/>`+
       (n.k==='key'?`<rect x="${x-r*.62}" y="${y-r*.62}" width="${r*1.24}" height="${r*1.24}" transform="rotate(45 ${x} ${y})" fill="${fill}" stroke="${col}" stroke-width="3"/>`:
        n.k==='mile'?`<polygon points="${hexPts(x,y,r)}" fill="${has?'#e3b04b':'#1a140e'}" stroke="${has?'#fff2c0':'#e3b04b'}" stroke-width="3.5"/><polygon points="${hexPts(x,y,r*.55)}" fill="${has?'#fff2c0':col}" opacity="${has?1:.7}"/>`:
        `<circle cx="${x}" cy="${y}" r="${r}" fill="${fill}" stroke="${has||can?col:'#4a3a24'}" stroke-width="${n.k==='small'?2.5:4}"/>`)+'</g>';
-    if(n.n&&n.k!=='origin')lab+=`<text x="${x}" y="${y+r+(n.k==='not'?17:24)}" text-anchor="middle" class="tnl ${n.k}${has?' on':''}">${n.n}</text>`}
+    if(n.n)lab+=`<text x="${x}" y="${y+r+(n.k==='not'?19:26)}" text-anchor="middle" class="tnl ${n.k}${has?' on':''}">${n.n}</text>`}
   s+=lab+'</svg>';const p=tPts(),ml=tMiles();
-  $('pTree').innerHTML=`<div class="thead"><h2>Talentbaum</h2><span class="tpts">${p?`<b>${p}</b> Talentpunkte frei`:'Keine freien Talentpunkte'} · ${(P.tree||[]).length} vergeben · <span class="tmls">Meilensteine <b>${ml}</b>/${TB.length*4}</span></span><span class="thint">Ziehen verschiebt · Mausrad oder zwei Finger zoomen · goldene Sechsecke sind Meilensteine: wer sie nimmt, betritt den nächsten Ring</span><button data-tzoom="1">+</button><button data-tzoom="-1">−</button><button data-tzoom="0">Mitte</button><button data-treset>Zurücksetzen · ${tResetCost()} Glut</button><button data-tclose>Schließen (P)</button></div>${s}`;
+  $('pTree').innerHTML=`<div class="thead"><h2>Talentbaum · ${CLS[C].n}</h2><span class="tpts">${p?`<b>${p}</b> Talentpunkte frei`:'Keine freien Talentpunkte'} · ${tSpent()} vergeben · <span class="tmls">Meilensteine <b>${ml}</b>/4</span></span><span class="thint">Der Pfad führt nach oben · je höher, desto teurer · goldene Sechsecke öffnen die nächste Stufe</span><button data-tzoom="1">+</button><button data-tzoom="-1">−</button><button data-tzoom="0">Mitte</button><button data-treset>Zurücksetzen · ${tResetCost()} Glut</button><button data-tclose>Schließen (P)</button></div>${s}`;
   tSetVB()}
-function treeTip(id){const n=TREE[id],b=n.b>=0?TB[n.b]:null,name=n.n||(b?b.n:'Brücke');let h=`<div class="nm" style="color:${n.k==='key'?'#ffb347':n.k==='mile'?'#ffe08a':n.k==='not'?'var(--gold)':b?b.col:'#e8dcc0'}">${name}</div>`;
-  if(n.k==='key')h+=`<div class="base">Schlussstein · ${b.n}</div>`;else if(n.k==='mile')h+=`<div class="base">Meilenstein · ${b.n} · Tor zum ${n.ring<3?(n.ring+2)+'. Ring ('+TRING[n.ring+1]+')':'Schlussstein'}</div>`;
-  else if(n.k==='not')h+=`<div class="base">Großer Knoten · ${b.n} · ${n.th}</div>`;else if(n.k==='root')h+=`<div class="base">Wurzel des Zweigs ${b.n}${b.cls&&P.cls===b.cls?' · deine Klasse beginnt hier':''}</div>`;
-  else if(b&&n.ring==null){const t=+((id.match(/t(\d)l/)||[])[1]);if(!isNaN(t))h+=`<div class="base">${b.n} · ${TRING[t]}</div>`}
+function treeTip(id){const n=TREE[id],cn=TREE[clsStart()].n,tier=n.t>=0&&n.t<4?TRING[n.t]:'';
+  let h=`<div class="nm" style="color:${n.k==='key'?'#ffb347':n.k==='mile'?'#ffe08a':n.k==='not'?'var(--gold)':n.col}">${n.n||n.th||cn}</div>`;
+  if(n.k==='key')h+=`<div class="base">Schlussstein · ${cn}</div>`;else if(n.k==='mile')h+=`<div class="base">Meilenstein · ${tier} · Tor zur Stufe ${n.ring<3?'„'+TRING[n.ring+1]+'“':'der Schlusssteine'}</div>`;
+  else if(n.k==='not')h+=`<div class="base">Großes Talent · ${n.th} · ${tier}</div>`;else if(n.k==='root')h+=`<div class="base">Wurzel · hier beginnt dein Weg</div>`;
+  else h+=`<div class="base">${n.th||cn} · ${tier}</div>`;
   for(const k in n.m)h+=`<div style="color:${n.m[k]<0?'#ff7a5a':'#9ab8ff'}">${tmodTxt(k,n.m[k])}</div>`;
   if(n.m.potStack)h+='<div class="base">Gleiche Tränke stapeln sich im Inventar.</div>';if(n.m.invRows)h+='<div class="base">Das Inventar wächst um eine Reihe.</div>';
-  h+=`<div class="act">${tHas(id)?(id==='o'?'Hier beginnt jeder Weg':'Erlernt'):tCan(id)?'Klick: erlernen':tPts()?'Nur neben erlernten Knoten':'Kein Talentpunkt frei'}</div>`;return h}
+  const has=tHas(id),c=n.c||0;
+  h+=`<div class="act">${has?(n.k==='root'?'Hier beginnt jeder Weg':'Erlernt'):tCan(id)?`Klick: erlernen · ${c} ${c>1?'Punkte':'Punkt'}`:!n.adj.some(tHas)?`Nur neben erlernten Talenten · kostet ${c}`:`Kostet ${c} Talentpunkte, frei: ${tPts()}`}</div>`;return h}
 function stackPots(){if(!P.d||P.d.potStack<2)return;for(const it of P.inv.slice()){if(it.slot!=='potion'||!P.inv.includes(it))continue;for(const o of P.inv){if(o===it||o.slot!=='potion'||o.kind!==it.kind||!P.inv.includes(o))continue;if((o.n||1)+(it.n||1)<=P.d.potStack&&P.inv.indexOf(o)<P.inv.indexOf(it)){o.n=(o.n||1)+(it.n||1);o.amt=Math.max(o.amt,it.amt);invDel(it);break}}}}
 function treeLearn(id){if(!tCan(id))return;P.tree=P.tree||[];P.tree.push(id);const n=TREE[id];const hp=P.hp/P.d.life;recalc();if(n.m.flask)P.flasks+=n.m.flask;if(n.m.lifeP)P.hp=Math.round(hp*P.d.life);if(n.m.potStack)stackPots();
-  const big=n.k==='not'||n.k==='key'||n.k==='mile';sfx(big?'lvl':'pick');if(big)banner(n.n.toUpperCase(),n.k==='key'?'Schlussstein erlernt':n.k==='mile'?`Meilenstein ${tMiles()}/${TB.length*4} · ${n.ring<3?'der '+(n.ring+2)+'. Ring öffnet sich':'die Schlusssteine öffnen sich'}`:'Großer Knoten erlernt',n.k==='mile'?'boss':'',n.k==='mile'?2400:1600);buildTree();save()}
+  const big=n.k==='not'||n.k==='key'||n.k==='mile';sfx(big?'lvl':'pick');if(big)banner(n.n.toUpperCase(),n.k==='key'?'Schlussstein erlernt':n.k==='mile'?`Meilenstein ${tMiles()}/4 · ${n.ring<3?'„'+TRING[n.ring+1]+'“ öffnet sich, '+TCOST[n.ring+1]+' Punkte je Talent':'die Schlusssteine öffnen sich'}`:'Großes Talent erlernt',n.k==='mile'?'boss':'',n.k==='mile'?2400:1600);buildTree();save()}
 // clearing the tree: split stacked potions, move anything out of rows that vanish, give back no more flasks than fit
 function treeClear(){P.tree=[];recalc();for(const it of P.inv.slice())if(it.slot==='potion'&&(it.n||1)>1){const extra=it.n-1;it.n=1;for(let k=0;k<extra;k++){const q=Object.assign({},it,{id:UID++,n:1});if(!invAdd(q))dropItem(q,P.x,P.y)}}
   const rows=5+(P.d.invRows||0);for(const it of P.inv.slice())if(it.gy+isz(it)[1]>rows){invDel(it);if(!invAdd(it))dropItem(it,P.x,P.y)}
@@ -8129,10 +8135,10 @@ function alIcons(){const mk=f=>{const c=document.createElement('canvas');c.width
   SKIC.a_oil=mk(g=>{plate(g,'#2a1c10','#060302');glow(g,16,16,15,'rgba(255,220,160,.45)');ELK.forEach((k,i)=>{g.fillStyle=EL[k].c[1];g.beginPath();g.arc(9+i*4.6,24-((i%2)*2),2.2,0,7);g.fill()});
     g.strokeStyle='#d8c8a8';g.lineWidth=2;g.beginPath();g.moveTo(6,26);g.lineTo(24,8);g.stroke();g.fillStyle='#e8e8f0';g.beginPath();g.moveTo(27,5);g.lineTo(20,8);g.lineTo(24,12);g.fill();g.fillStyle='#8a3a2a';g.fillRect(5,24,4,4)})}
 
-/* ---------- the great talent tree: eight branches, four rings each, a milestone at every gate · four for the classes, four for every hero ---------- */
-// A branch: a core path (centre lane) between two themes (A on the left lanes, B on the right). Small nodes repeat their theme, a notable sits on
-// each theme twice per ring, and a milestone closes every ring: you must take it to walk on. The last milestone opens two keystones.
-const TRING=['Grundlagen','Fortgeschritten','Meisterschaft','Legende'],TMUL=[1,1.4,1.8,2.3];
+/* ---------- the talent path: every class climbs its own tree upwards, four tiers and two keystones · higher tiers cost more points ---------- */
+// One trunk winds up from the class root; on both sides short twigs reach out to the class's two themes and end in a notable.
+// Once per tier a fork carries the wanderer's gifts (bag rows, flasks, stacks). A milestone closes every tier: take it to climb on.
+const TRING=['Grundlagen','Fortgeschritten','Meisterschaft','Legende'],TCOST=[1,2,3,4],TKEYC=5,TMUL=[1,1.8,2.6,3.4];
 const TB8=[
  {id:'kr',n:'Krieger',col:'#d0583a',cls:'krieger',C:[{ed:4},{str:4},{ias:2}],
   A:{n:'Schlächter',m:[{ed:5},{crit:1}],x:{ls:1},names:['Fleischhauer','Schlachtruf','Klingenrausch','Knochenbrecher','Blutbad','Schlächtermeister','Henkerstreich','Endloses Gemetzel']},
@@ -8174,31 +8180,33 @@ const TB8=[
   B:{n:'Eisenhaut',m:[{res:3},{life:8}],x:{thorns:6},names:['Dornenpanzer','Feuerfest','Sturmfest','Zähe Natur','Unberührbar','Dornenkrone','Elementarschild','Schwur des Wächters']},
   M:[['Wachposten',{life:30,tdef:15}],['Schildbruder',{res:8,block:4,life:40}],['Bastion',{dmgred:4,lifeP:8,tdef:25}],['Unerschütterlich',{dmgred:8,lifeP:15,res:10}]],
   K:[['Lebende Festung',{dmgred:12,lifeP:25,frw:-15,ias:-8}],['Dornenherz',{thorns:120,res:15,ed:-15}]]}];
-// geometry: lanes fan out with the radius so the outer rings breathe; every ring is nine steps, then its gate
-const TG={R0:340,D:60,RING:660,lanes:5,steps:9,W:r=>30+r*.09},tRing=t=>TG.R0+t*TG.RING;
+// each class: its own branch above, and one of the four general branches for the small steps of its gift fork
+const TCLS={krieger:'kr',jaegerin:'ja',alchemist:'al',magier:'ma'},TGEN={krieger:'wc',jaegerin:'wa',alchemist:'bp',magier:'el'};
+const TUTIL=[['Tiefe Taschen',{invRows:1,glutf:10}],['Trankgürtel',{flask:1,flaskH:10}],['Trankstapel',{potStack:2,shopDisc:10}],['Weltentasche',{invRows:1,mf:20}]];
+// geometry: y grows downwards, so the tree climbs into negative y; five trunk steps per tier, the sixth is its milestone
+const TG={D:90,steps:5,tier:6},tY=(t,s)=>-(t*TG.tier+s+1)*TG.D,tX=(t,s)=>Math.round(Math.sin((t*TG.tier+s)*.9)*28),tTop=()=>tY(3,TG.steps)-170;
 const tScale=(m,f)=>{const o={};for(const k in m){const v=m[k]*f;o[k]=v<0?Math.round(v):Math.max(1,Math.round(v))}return o},tMerge=(...ms)=>{const o={};for(const m of ms)for(const k in m)o[k]=(o[k]||0)+m[k];return o};
-(function(){TB.length=0;for(const b of TB8)TB.push(b);for(const k in TREE)delete TREE[k];TEDGE.length=0;
-  const add=(id,x,y,o)=>TREE[id]=Object.assign({id,x,y,adj:[]},o),link=(a,b)=>{TREE[a].adj.push(b);TREE[b].adj.push(a);TEDGE.push([a,b])};
-  add('o',0,0,{k:'origin',n:'Ursprung',m:{},b:-1});
-  const N=TB.length,at=(bi,r,lat)=>{const th=-Math.PI/2+bi*2*Math.PI/N,ax=Math.cos(th),ay=Math.sin(th);return[ax*r-ay*lat,ay*r+ax*lat]};
-  const lid=(b,t,l,s)=>b.id+'t'+t+'l'+l+'s'+s;
-  TB.forEach((b,bi)=>{const sk=b.cls&&CLS[b.cls]?CLS[b.cls].skills:[];
-    // the root: the class starts here for free; the others are one step from the centre
-    add(b.id+'s0',...at(bi,TG.R0-110,0),{k:'root',b:bi,n:b.n,m:tScale(b.C[0],2)});link('o',b.id+'s0');let gate=b.id+'s0';
-    for(let t=0;t<4;t++){const R=tRing(t),f=TMUL[t];
-      for(let l=0;l<TG.lanes;l++)for(let s=0;s<TG.steps;s++){const r=R+s*TG.D,id=lid(b,t,l,s),th=l<2?b.A:l>2?b.B:null,pool=th?th.m:b.C;
-        // notables: theme A on lanes 0/1, theme B on lanes 4/3, the second one further out and stronger
-        const nb=(l===0&&s===3)||(l===4&&s===3)?1:(l===1&&s===7)||(l===3&&s===7)?2:0;
-        if(nb){const T=l<2?b.A:b.B,k=t*2+nb-1;add(id,...at(bi,r,(l-2)*TG.W(r)),{k:'not',b:bi,n:T.names[k],th:T.n,m:tScale(nb===1?tMerge(...T.m):tMerge(...T.m,...T.m,T.x),f*(nb===1?2.2:2.6))})}
-        else add(id,...at(bi,r,(l-2)*TG.W(r)),{k:'small',b:bi,m:tScale(pool[(s+l)%pool.length],f)});
-        if(s===0)link(gate,id);else link(lid(b,t,l,s-1),id);
-        if(l>0&&(s+l)%3===1)link(lid(b,t,l-1,s),id)}
-      const mi=b.id+'M'+t,mm=b.M[t][1],m=Object.assign({},mm);if(sk[t])m['sk_'+sk[t]]=1;
-      add(mi,...at(bi,R+TG.steps*TG.D+20,0),{k:'mile',b:bi,n:b.M[t][0],ring:t,m});for(let l=0;l<TG.lanes;l++)link(lid(b,t,l,TG.steps-1),mi);gate=mi}
-    b.K.forEach(([n,m0],ki)=>{const m=Object.assign({},m0);if(sk[4+ki])m['sk_'+sk[4+ki]]=1;const r=tRing(3)+TG.steps*TG.D+190,id=b.id+'K'+ki;add(id,...at(bi,r,(ki?1:-1)*TG.W(r)*1.3),{k:'key',b:bi,n,m});link(gate,id)})});
-  // bridges: halfway through every ring the outer lane of one branch reaches across to the next
-  TB.forEach((b,bi)=>{const c=TB[(bi+1)%N];for(let t=0;t<4;t++){const A=TREE[lid(b,t,4,4)],C=TREE[lid(c,t,0,4)],f=TMUL[t];let pr=A.id;
-    for(let j=1;j<=2;j++){const id='br'+bi+'t'+t+'n'+j,q=j/3;add(id,A.x+(C.x-A.x)*q,A.y+(C.y-A.y)*q,{k:'small',b:-1,m:tScale(j===1?b.C[0]:c.C[0],f*1.5)});link(pr,id);pr=id}link(pr,C.id)}})})();
+(function(){for(const k in TREE)delete TREE[k];TEDGE.length=0;
+  const add=(id,x,y,o)=>TREE[id]=Object.assign({id,x,y,adj:[]},o),link=(a,b)=>{TREE[a].adj.push(b);TREE[b].adj.push(a);TEDGE.push([a,b,TREE[a].cls])};
+  for(const cls in TCLS){const b=TB8.find(x=>x.id===TCLS[cls]),g=TB8.find(x=>x.id===TGEN[cls]),sk=CLS[cls]?CLS[cls].skills:[],base={cls,col:b.col};
+    // the root is where the class starts, free of charge
+    add(b.id+'s0',0,0,{...base,k:'root',n:b.n,m:tScale(b.C[0],2),c:0,t:-1});let gate=b.id+'s0';
+    for(let t=0;t<4;t++){const f=TMUL[t],c=TCOST[t],tid=x=>b.id+'t'+t+x;let prev=gate;
+      for(let s=0;s<TG.steps;s++){const id=tid('c'+s),x0=tX(t,s),y0=tY(t,s);add(id,x0,y0,{...base,k:'small',m:tScale(b.C[(s+t)%3],f),c,t});link(prev,id);prev=id;
+        if(s!==1&&s!==3)continue;const hi=s===3?1:0;
+        for(const side of[-1,1]){const T=side<0?b.A:b.B,sd=side<0?'L':'R',tc={...base,col:side<0?'#d8a860':'#7fa8d8'};let p=id;
+          // a twig: two small steps outwards and a notable at its end, the upper one stronger
+          for(let j=0;j<3;j++){const tw=tid(sd+hi+'n'+j),x=x0+side*(95+j*85),y=y0-20-j*32;
+            if(j<2)add(tw,x,y,{...tc,k:'small',m:tScale(T.m[j],f),c,t,th:T.n});
+            else add(tw,x,y,{...base,k:'not',n:T.names[t*2+hi],th:T.n,m:tScale(hi?tMerge(...T.m,...T.m,T.x):tMerge(...T.m),f*(hi?2.6:2.2)),c,t});
+            link(p,tw);p=tw}
+          if(hi&&side===(t%2?1:-1)){const j1=TREE[tid(sd+'1n1')],u0=tid('u0'),u1=tid('u1');
+            add(u0,j1.x+side*25,j1.y-80,{...base,col:'#e3c04b',k:'small',m:tScale(g.C[t%3],f),c,t,th:g.n});
+            add(u1,j1.x+side*50,j1.y-160,{...base,col:'#e3c04b',k:'not',n:TUTIL[t][0],th:g.n,m:{...TUTIL[t][1]},c,t});link(j1.id,u0);link(u0,u1)}}}
+      const mi=b.id+'M'+t,m=Object.assign({},b.M[t][1]);if(sk[t])m['sk_'+sk[t]]=1;
+      add(mi,0,tY(t,TG.steps),{...base,k:'mile',n:b.M[t][0],ring:t,m,c,t});link(prev,mi);gate=mi}
+    b.K.forEach(([n,m0],ki)=>{const m=Object.assign({},m0);if(sk[4+ki])m['sk_'+sk[4+ki]]=1;const id=b.id+'K'+ki;
+      add(id,(ki?1:-1)*150,tTop(),{...base,k:'key',n,m,c:TKEYC,t:4});link(gate,id)})}})();
 const tMiles=()=>(P.tree||[]).filter(id=>TREE[id]&&TREE[id].k==='mile').length;
 /* ---------- old heroes: the tree is replanted for everyone, the huntress learns her new blades, and a wanderer chooses a new way ---------- */
 function skReset(){const sum=(Array.isArray(P.slv)?P.slv:Object.values(P.sk||{})).reduce((a,b)=>a+(b||0),0);P.slv=[1,0,0,0,0,0];P.sk={};P._ska=null;P.cds={};P.spts+=Math.max(0,sum-1);P.sel=CLS[P.cls].skills[0];return Math.max(0,sum-1)}
@@ -8214,14 +8222,14 @@ function clsPick(){const d=$('dialog');G.clsPick=1;
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-clspick]');if(!b||!P)return;e.stopPropagation();G.clsPick=0;closeDialog();clsSwitch(b.dataset.clspick)},true);
 const _skMigrateK=skMigrate;skMigrate=function(){_skMigrateK();if(!P||G.state!=='play')return;
   if(!Object.keys(CLS).includes(P.cls)){if($('dialog').hidden||!G.clsPick)clsPick();return}
-  // the great tree (eight branches, four rings): old nodes no longer exist, so every point comes back once
-  if((P.tv||0)<2){const had=(P.tree||[]).length;P.tv=2;if(had){treeClear();log(`Der Talentbaum ist gewaltig gewachsen: acht Zweige, vier Ringe, Meilensteine. Deine ${had} Talentpunkte sind zurück (P).`,'#e8c878')}}
+  // the talent path (one tree per class, upwards, rising prices): old nodes no longer exist, so every point comes back once
+  if((P.tv||0)<3){const had=(P.tree||[]).length;P.tv=3;if(had){treeClear();log(`Der Talentbaum ist neu gewachsen: ein Pfad nach oben nur für deine Klasse, höhere Talente kosten mehr Punkte. Deine ${had} Talente sind zurückgegeben (P).`,'#e8c878')}}
   if((P.clv||0)>=1)return;P.clv=1;let msg='Der Talentbaum ist neu gewachsen, alle Talentpunkte sind zurück (T).';if((P.tree||[]).length)P.tree=[];
   if(P.cls==='jaegerin'){const sb=skReset();msg+=` Die Jägerin kämpft jetzt mit Klingen: ${sb} Fertigkeitspunkte zurück (K).`}
   WSC_clear();recalc();updatePanels();log(msg,'#e8c878')};
 // the mage still starts with his oak staff; the little wand is found, not given
 const _startWeaponK=startWeapon;startWeapon=function(c){if(c==='staff'){const it=_startWeaponK(c);if(isWandW(it)&&BASE['Eichenstab']){const b=BASE['Eichenstab'];Object.assign(it,{b:b.n,name:b.n,dmg:b.dmg.slice(),speed:b.speed,twoH:b.twoH});it.mods.spell=10+b.lvl*2}return it}return _startWeaponK(c)};
-const _startNewK=startNew;startNew=function(c){const r=_startNewK(c);if(P){P.clv=1;P.tv=2}return r};
+const _startNewK=startNew;startNew=function(c){const r=_startNewK(c);if(P){P.clv=1;P.tv=3}return r};
 const _saveDataK=saveData;saveData=function(){const d=_saveDataK();if(d&&P){d.p.clv=P.clv||0;d.p.tv=P.tv||0}return d};
 
 /* ---------- the huntress: a hooded mantle, a cloth over the mouth, quiet leather · the alchemist: an apron, goggles, a strap of glowing vials ---------- */
@@ -9671,7 +9679,8 @@ function frame(now){const dt=Math.max(0,Math.min(.05,(now-last)/1000));last=Math
   try{sane();
     if(G.state==='play'){let ud=dt;if(G.hitstop>0){G.hitstop-=dt;ud=dt*.06}update(ud);render();updHUD()}
     else if(G.state==='paused'||OVL.has(G.state)){render();updHUD()}
-    else{G.t+=dt;camX+=Math.sin(G.t*.1)*.004;render()}loopErr=0}
+    // the talent tree covers the world, so the world is not drawn behind it
+    else if(G.state!=='tree'){G.t+=dt;camX+=Math.sin(G.t*.1)*.004;render()}loopErr=0}
   catch(err){console.error(err);ctx=wctx;try{wctx.restore()}catch(_){}if(++loopErr===30)log('Grafikfehler abgefangen. Mit R lädt das Spiel die Grafik neu.','#ff9a3a')}
   requestAnimationFrame(frame)}
 // R or the pause menu: rebuild the graphics pipeline without losing anything

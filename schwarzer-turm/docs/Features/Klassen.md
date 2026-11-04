@@ -32,7 +32,7 @@ Wunsch des Nutzers (2026-11-02): Die Klassen sollen sich deutlich unterscheiden 
 - Der Magier startet weiter mit dem Eichenstab (`startWeapon`-Wrapper).
 
 ## Talentbaum
-- Seit 2026-11-03 der große Baum mit 8 Zweigen, siehe [[Talentbaum]].
+- Seit 2026-11-04 ein eigener Pfad nach oben je Klasse mit steigenden Kosten, siehe [[Talentbaum]].
 
 ## Aussehen
 - `heroLook` setzt `R.hunt` bzw. `R.alch`, `humanoid`-Wrapper hängt `torsoFx/armFx/head` ein (Muster wie die Magierrobe).

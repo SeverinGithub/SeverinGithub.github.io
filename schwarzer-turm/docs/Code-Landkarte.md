@@ -38,7 +38,7 @@ Fundorte in `schwarzer-turm/src/js/` (Dateiname). Die vollständige, automatisch
 | 820-meadow.js | `function bigIsland` | Rieseninseln, siehe [[Overworld Inseln und Brücken]] |
 | 840-title.js | `function titleCam` | Titelbildschirm, siehe [[Titelbildschirm]] |
 | 850-names-arena-grindstone.js | Modul „names on the ground, the statue's arena, what others cast, the grindstone“ | Tab-Namen, `kvOf`, `summonArena`, `MPOLD`, `visProxy`, `visRun`, Schleifstein (`grindItem`, `openGrind`, `drawGrind`, `grindTick`) |
-| 860–940 | Modul „four ways up the tower“ | Klassen, Waffen pro Klasse, Bögen/Armbrüste/Holzzauberstab, Alchemist-Phiolen, großer Talentbaum (`920-talent-tree-eight.js`, siehe [[Talentbaum]]), Spielstand-Übernahme, Jägerin-/Alchemist-Aussehen, siehe [[Klassen]] |
+| 860–940 | Modul „four ways up the tower“ | Klassen, Waffen pro Klasse, Bögen/Armbrüste/Holzzauberstab, Alchemist-Phiolen, Talentpfad je Klasse (`920-talent-tree-path.js`, siehe [[Talentbaum]]), Spielstand-Übernahme, Jägerin-/Alchemist-Aussehen, siehe [[Klassen]] |
 | 950-adaptive-map-collision.js | Modul „the tower measures you“ | Karten-Pinch-Zoom und +/−, Spieler-Analyse (`PW`, `myPow`, `teamPow`), adaptive Bosse (`adaptBoss`) und Gegner (`adaptFoe`), Boss-Kombos/Trank-Bestrafung, feste Kartenobjekte (`SOLID`, `moveEnt`-Wrapper) |
 | 999-boot-loop.js | Init-Zeile `expandItems();buildPalette();…` + Spielschleife `frame` | neue Module bekommen eine Nummer **vor** 999 |
 
