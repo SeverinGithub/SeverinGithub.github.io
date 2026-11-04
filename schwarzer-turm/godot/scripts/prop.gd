@@ -34,9 +34,14 @@ func setup(d: Dictionary, obj := false) -> Prop:
 	return self
 
 func animated() -> bool:
-	return is_obj or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand"]
+	return is_obj or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder"]
 
 func _process(_dt: float) -> void:
+	if not is_obj and p.k == "dcboulder":
+		# the boulder rolls: the node goes with it, so it sorts right
+		p.x = p.trap.x
+		p.y = p.trap.y
+		position = Iso.to_screen(Vector2(p.x, p.y))
 	if animated():
 		queue_redraw()
 
@@ -64,6 +69,9 @@ func _draw() -> void:
 			flame(self, sx, sy - 19, 10, p.ph, t)
 			return
 		"shaft", "fog":
+			return
+		"dcboulder":
+			_draw_boulder(sx, sy, t)
 			return
 		"fire":
 			# an open fire: two crossed logs, three flames and a warm glow (drawProp in 230-environment.js)
@@ -150,6 +158,27 @@ func _draw_obj(sx: float, sy: float, t: float) -> void:
 			draw_texture(c, Vector2(sx - 85, sy - 268), Color(1, 1, 1, .45 if behind else 1.0))
 		"chest":
 			_draw_chest(sx, sy, t)
+
+## a rolling boulder (drawBoulder in 760-tower-2.js): its lane glows red while it rumbles, it grows back after it broke
+func _draw_boulder(sx: float, sy: float, _t: float) -> void:
+	var b: Dictionary = p.trap
+	var re: float = maxf(0, 1 - b.cd / 1.2) if b.st == 0 and b.cd > 0 else 1.0
+	var sh: float = sin(b.t * 60) * 1.5 if b.st == 1 else 0.0
+	if b.st == 1:
+		var e := Iso.to_screen(Vector2(b.x0 + cos(b.ang) * b.len, b.y0 + sin(b.ang) * b.len)) - position
+		draw_line(Vector2(sx, sy), e, Color(1, .35, .24, .25 + b.t * .5), 18)
+		draw_circle(Vector2(sx, sy), 9, Color(1, .35, .24, .25 + b.t * .5))
+		draw_circle(e, 9, Color(1, .35, .24, .25 + b.t * .5))
+	if re <= 0:
+		return
+	ellipse(self, sx, sy, 18, 8, Color(0, 0, 0, .45 * re))
+	var c := Vector2(roundf(sx + sh), roundf(sy - 15))
+	draw_circle(c, 16, Color(Color("#3a362e"), re))
+	draw_circle(c + Vector2(-1, -1), 13, Color(Color("#6a6258"), re))
+	draw_circle(c + Vector2(-4, -5), 6, Color(Color("#9a9284"), re))
+	var rot: float = b.rot * (1.0 if cos(b.ang) >= 0 else -1.0)
+	for k in 3:
+		draw_arc(c, 9 + k * 2.5, k * 2 + rot, k * 2 + 1.6 + rot, 8, Color(Color("#2a2620"), re), 1.2)
 
 ## a chest by its kind (drawChest in 770-chests.js): glow for the fine ones, a ring and a cross while a trial is sealed,
 ## and a shine running across gold and emerald now and then

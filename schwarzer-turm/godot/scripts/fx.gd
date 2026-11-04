@@ -204,6 +204,7 @@ func _skill_ground(S: Skills) -> void:
 				_ellipse_line(c, rr.x, rr.y, Color(.7, .78, 1, .3), 1)
 			"mcloud":
 				_fill_ellipse(c, rr, Color(.55, .85, .3, .14))
+	_draw_map_traps()
 	for t in S.traps:
 		var c := Iso.to_screen(Vector2(t.x, t.y))
 		var a := .5 if t.arm > 0 else 1.0
@@ -240,3 +241,32 @@ func _skill_world(S: Skills) -> void:
 			var a := Game.t * 3 + k * 1.047
 			var c := h + Vector2(cos(a) * 17, -18 + sin(a) * 8 + sin(Game.t * 4 + k) * 2)
 			draw_line(c - Vector2(2.6, -.6), c + Vector2(2.6, -.6), Color("#ece4cf"), 2)
+
+## the tower's traps (drawMapTraps in 390-combat-roles.js): spike plates and the nozzles of fire spouts
+func _draw_map_traps() -> void:
+	if level.ow:
+		return
+	for t in level.m.get("traps", []):
+		var c := Iso.to_screen(Vector2(t.x, t.y))
+		if t.k == "spike":
+			var dia := PackedVector2Array([c + Vector2(0, -9), c + Vector2(17, 0), c + Vector2(0, 9), c + Vector2(-17, 0)])
+			draw_colored_polygon(dia, Color("#1c1a18"))
+			dia.append(dia[0])
+			draw_polyline(dia, Color("#3e3a34"), 1)
+			var up := 0.0
+			if t.st == 2:
+				up = minf(1, t.t / .06) * (maxf(0, 1 - (t.t - 1) / .4) if t.t > 1 else 1.0)
+			elif t.st == 1:
+				up = .12
+			for i in range(-1, 2):
+				for j in range(-1, 2):
+					var q := c + Vector2((i - j) * 5, (i + j) * 2.5)
+					draw_rect(Rect2(q.x - 1, q.y - .5, 2, 1.2), Color("#050403"))
+					if up > 0:
+						draw_colored_polygon(PackedVector2Array([q + Vector2(-1.2, 0), q + Vector2(0, -9 * up), q + Vector2(1.2, 0)]), Color("#b8b0a0"))
+		else:
+			var f := Enemy._scr_dir(t.ang)
+			var hot: bool = t.t > t.per - .9
+			draw_rect(Rect2(c.x - 5, c.y - 14, 10, 12), Color("#24201c"))
+			draw_rect(Rect2(c.x - 2.5 + f.x * 3, c.y - 9 + f.y * 2, 5, 4), Color(1, (120 + sin(Game.t * 30) * 60) / 255.0, 30 / 255.0, .95) if hot else Color("#4a2410"))
+

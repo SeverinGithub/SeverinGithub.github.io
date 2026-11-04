@@ -31,6 +31,8 @@ var xp := 0
 var pts := 0
 var spts := 1
 var glut := 0
+var maps := {}                   # floor → its map, kept while you play (G.maps)
+var no_traps := false            # test: no spike plates and fire spouts, so floors can be compared with the browser
 var keys := 0                    # chest keys for the locked chests (770-chests.js)
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
 var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
@@ -85,6 +87,7 @@ func start_new(c: String) -> void:
 	spts = 1
 	glut = 0
 	keys = 0
+	maps = {}
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
 	inv = []
 	hand = null

@@ -45,6 +45,8 @@ var dot_d := 0.0
 var ck := ""                     # the sky chunk it belongs to
 var wb := ""                     # an island lord's id
 var trial := false               # a guard of a trial room (770-chests.js)
+var wall := false                # a cracked wall in front of a hidden chamber (760-tower-2.js)
+var cracks: Array = []           # its cracks: x, y, angle, length
 
 static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = null) -> Enemy:
 	if R == null:
@@ -155,11 +157,46 @@ static func make_wboss(i: int, at: Vector2, ml: int) -> Enemy:
 	e.max_hp = e.hp
 	return e
 
+func _ready() -> void:
+	super._ready()
+	if wall:
+		_spr.visible = false
+
 func _process(dt: float) -> void:
 	if dead:
 		die_t += dt
 	super._process(dt)
+	if wall:
+		visible = not dead
+		position += Vector2(randf_range(-1, 1), 0) if hit_t > 0 else Vector2.ZERO
+		queue_redraw()
+		return
 	_pose()
+
+## a cracked wall: a warm glow behind, cracks that widen with every blow, rubble at its foot (drawWall in 760-tower-2.js)
+func _draw() -> void:
+	if not wall:
+		return
+	var p := 1 - hp / max_hp
+	var t := Game.t
+	var g := .15 + p * .2 + sin(t * 2) * .05
+	for k in 5:
+		draw_circle(Vector2(0, -26), 30 * (1 - k / 5.0), Color(1, .75, .43, g * .3))
+	var n := ceili(3 + p * 4)
+	for k in mini(n, cracks.size()):
+		var c: Array = cracks[k]
+		var pts := PackedVector2Array([Vector2(c[0], c[1])])
+		var cx: float = c[0]
+		var cy: float = c[1]
+		for s in 4:
+			var a: float = c[2] + (.6 if s % 2 else -.5)
+			cx += cos(a) * c[3] / 4
+			cy += sin(a) * c[3] / 4
+			pts.append(Vector2(cx, cy))
+		draw_polyline(pts, Color("#fff4d0") if flash > 0 else Color("#120d08"), 1.6)
+		draw_polyline(pts, Color(1, .78, .47, .25 + p * .5), .7)
+	for k in 6:
+		draw_rect(Rect2(-12 + k * 4.5, -2 + k % 3, 3 + k % 2, 2), Color("#5a544a") if k % 2 else Color("#3e3a34"))
 
 ## squash when struck, lean into the lunge, fall over when slain (drawEnemy in 220-figures.js)
 func _pose() -> void:

@@ -13,6 +13,7 @@ const PLIGHT := {
 	"altar": {"r": 150, "a": .6, "col": Color8(255, 40, 20), "f": 6, "h": 20},
 	"shaft": {"r": 150, "a": .85, "col": null, "f": 0, "h": 0},
 	"mushrooms": {"r": 95, "a": .55, "col": Color8(64, 224, 208), "f": 2, "h": 8},
+	"dccand": {"r": 90, "a": .6, "col": Color8(255, 170, 80), "f": 4, "h": 12},
 }
 const GORE := {
 	"blood": [Color("#5a0a08"), Color("#8a1410"), Color("#b81c14")],
@@ -115,15 +116,7 @@ func build(map: Dictionary) -> void:
 	if not ow:
 		_walls()
 	for p in m.props:
-		world.add_child(Prop.new().setup(p))
-		var L = PLIGHT.get(p.k)
-		if L:
-			var pos := Iso.to_screen(Vector2(p.x, p.y))
-			var l := _light(pos, L.r, L.a)
-			l.f = float(L.f)
-			l.ph = float(p.ph)
-			if L.col != null:
-				_glow(pos - Vector2(0, L.h), L.r * .78, L.col, .17)
+		_add_prop(p)
 	for r in m.get("runes", []):
 		_light(Iso.to_screen(r), 140, .38)
 		_glow(Iso.to_screen(r), 110, Color(1, .12, .04), .2)
@@ -261,6 +254,18 @@ func _light(pos: Vector2, r: float, a: float) -> Dictionary:
 	lights.append(l)
 	return l
 
+## a prop on the floor, with its light if it has one
+func _add_prop(p: Dictionary) -> void:
+	world.add_child(Prop.new().setup(p))
+	var L = PLIGHT.get(p.k)
+	if L:
+		var pos := Iso.to_screen(Vector2(p.x, p.y))
+		var l := _light(pos, L.r, L.a)
+		l.f = float(L.f)
+		l.ph = float(p.get("ph", 0.0))
+		if L.col != null:
+			_glow(pos - Vector2(0, L.h), L.r * .78, L.col, .17)
+
 ## the warm colour around a flame, added on top of the light
 func _glow(pos: Vector2, r: float, col: Color, a: float) -> Sprite2D:
 	var s := Sprite2D.new()
@@ -284,20 +289,23 @@ func _walls() -> void:
 		for i in w:
 			if t[j * w + i] != 2:
 				continue
-			# the node stands on the tile's middle, where x+y equals the browser's depth i+j+1
-			var s := Sprite2D.new()
-			s.texture = wall_tex[(i * 3 + j * 5) % 4]
-			s.centered = false
-			s.offset = Vector2(-32, -16 - WH)
-			s.position = Iso.to_screen(Vector2(i + .5, j + .5))
-			if wov.size() and wov[j * w + i]:
-				var mo := Sprite2D.new()
-				mo.texture = Data.sprite("wallmoss/%d" % (wov[j * w + i] - 1))
-				mo.centered = false
-				mo.offset = s.offset
-				s.add_child(mo)
-			world.add_child(s)
-			walls[j * w + i] = s
+			_wall_sprite(i, j, wall_tex, wov)
+
+func _wall_sprite(i: int, j: int, wall_tex: Array[Texture2D], wov: PackedByteArray) -> void:
+	# the node stands on the tile's middle, where x+y equals the browser's depth i+j+1
+	var s := Sprite2D.new()
+	s.texture = wall_tex[(i * 3 + j * 5) % 4]
+	s.centered = false
+	s.offset = Vector2(-32, -16 - WH)
+	s.position = Iso.to_screen(Vector2(i + .5, j + .5))
+	if wov.size() and wov[j * w + i]:
+		var mo := Sprite2D.new()
+		mo.texture = Data.sprite("wallmoss/%d" % (wov[j * w + i] - 1))
+		mo.centered = false
+		mo.offset = s.offset
+		s.add_child(mo)
+	world.add_child(s)
+	walls[j * w + i] = s
 
 ## the floor and its flat dressing in tiles of 16×16, each its own canvas item so lights and culling stay cheap
 class Chunk extends Node2D:
@@ -645,11 +653,19 @@ func populate() -> void:
 		for e in pack:
 			e.pack = pack
 			_add_enemy(e)
+	# traps anew on every visit, then the second pass: the secret wall, boulders and what lies about (760-tower-2.js)
+	m.traps = [] if Game.no_traps else TowerTwo.traps(m, free_at)
+	var np: int = m.props.size()
+	var wall := TowerTwo.populate(m, Game.seed_value, ml)
+	for k in range(np, m.props.size()):
+		_add_prop(m.props[k])
+	if wall:
+		_add_enemy(wall)
 	# every visit the guards of an unfinished trial stand ready again
 	for o in m.objs:
 		if o.get("ct") != "trial" or o.open:
 			continue
-		var pool := enemies.filter(func(e): return not e.dead and not e.boss)
+		var pool := enemies.filter(func(e): return not e.dead and not e.boss and not e.wall)
 		if pool.is_empty():
 			continue
 		var kind: Enemy = pool[randi() % pool.size()]
@@ -699,7 +715,7 @@ func _process(dt: float) -> void:
 	if not P.dead and not P.roll:
 		var pp := Vector2(P.x, P.y)
 		for a in enemies:
-			if a.dead:
+			if a.dead or a.wall:
 				continue
 			var dv := a.world - pp
 			var dd := dv.length()
@@ -712,6 +728,7 @@ func _process(dt: float) -> void:
 	_update_glutmal()
 	_loot_q(dt)
 	_trial_tick()
+	_upd_traps(dt)
 	for e in enemies:
 		if e.wb != "" and not e.aggro and not e.dead and e.world.distance_to(Vector2(P.x, P.y)) < 11:
 			e.aggro = true
@@ -1096,6 +1113,16 @@ func _open_chest(o: Prop) -> void:
 			lootq.append({"t": .25 + i * step, "it": L.out[i], "x": at.x, "y": at.y})
 	Game.glut += L.gl
 	ftext(at - Vector2(0, .3), "+%d Glut" % L.gl, Color("#ff9a3a"), step > 0)
+	if o.p.get("secret"):
+		# a hidden chamber's chest gives more (the interact wrapper of 760-tower-2.js)
+		var ml := Game.mlvl + 2
+		for k in 2:
+			drop_item(Items.make(ml, {"rarity": "rare" if randf() < .6 else "magic", "boost": .4}), at.x, at.y)
+		if randf() < .25:
+			drop_item(Items.make(ml, {"rarity": "unique"}), at.x, at.y)
+		var g2 := roundi(25 * Game.mlvl)
+		Game.glut += g2
+		ftext(at - Vector2(0, .4), "+%d Glut" % g2, Color("#ff9a3a"))
 
 ## the treasure of a fine chest, falling out piece by piece (lootQTick)
 func _loot_q(dt: float) -> void:
@@ -1114,7 +1141,7 @@ func _loot_q(dt: float) -> void:
 func trial_left(o: Dictionary) -> int:
 	var n := 0
 	for e in enemies:
-		if not e.dead and e.world.x >= o.rx - .5 and e.world.x <= o.rx + o.rw + .5 and e.world.y >= o.ry - .5 and e.world.y <= o.ry + o.rh + .5:
+		if not e.dead and not e.wall and e.world.x >= o.rx - .5 and e.world.x <= o.rx + o.rw + .5 and e.world.y >= o.ry - .5 and e.world.y <= o.ry + o.rh + .5:
 			n += 1
 	return n
 
@@ -1130,6 +1157,128 @@ func _trial_tick() -> void:
 		o.sealed = false
 		Game.banner.emit("PRÜFUNG BESTANDEN", "Die Prüfungstruhe öffnet ihr Siegel", "")
 		_flash(Vector2(o.x, o.y), 1.5)
+
+# ---------- the tower's second pass (760-tower-2.js) and its traps (390-combat-roles.js) ----------
+
+## the cracked wall breaks: the chamber behind becomes floor with walls of its own and a chest between two candles
+func _secret_open(e: Enemy) -> void:
+	var S: Dictionary = m.secret
+	if S.open:
+		return
+	var got := TowerTwo.secret_open(m)
+	t = m.t
+	var wall_tex: Array[Texture2D] = []
+	for k in 4:
+		wall_tex.append(Data.sprite("wall/%d" % k))
+	for p in S.box:
+		var k: int = p.y * w + p.x
+		if walls.has(k):
+			walls[k].queue_free()
+			walls.erase(k)
+	for p in S.ring:
+		if t[p.y * w + p.x] == 2 and not walls.has(p.y * w + p.x):
+			_wall_sprite(p.x, p.y, wall_tex, PackedByteArray())
+	for g in ["floor", "deco"]:
+		for c in get_node(g).get_children():
+			c.queue_redraw()
+	var n := Prop.new().setup(got.chest, true)
+	world.add_child(n)
+	obj_nodes.append(n)
+	for c in got.cands:
+		_add_prop(c)
+	flow_t = 0
+	compute_flow()
+	for k in 26:
+		parts.append({"k": "gore", "x": e.world.x + R.rnd(-.6, .6), "y": e.world.y + R.rnd(-.6, .6), "z": R.rnd(.3, 1.4), "vx": R.rnd(-2, 2) - S.dir.x, "vy": R.rnd(-2, 2) - S.dir.y, "vz": R.rnd(1, 4), "t": 0.0, "life": R.rnd(.8, 1.6), "col": R.pick([Color("#6a6258"), Color("#8a8274"), Color("#4a443c"), Color("#a8a090")]), "s": R.rnd(1.5, 3.5), "g": 1.0})
+	_smoke(e.world, 14)
+	shake = maxf(shake, 7)
+	Game.banner.emit("EIN GEHEIMER RAUM", "Hinter der Wand liegt eine Kammer", "")
+	Game.log_msg("Die Wand bricht. Dahinter liegt eine verborgene Kammer.", Color("#ffd88a"))
+
+func trap_dmg() -> float:
+	return 6 + Game.mlvl * 3
+
+## spike plates spring when someone steps on them, fire spouts breathe on their beat, boulders roll when you walk their lane
+func _upd_traps(dt: float) -> void:
+	if ow:
+		return
+	for tr in m.get("traps", []):
+		if absf(tr.x - P.x) > 14 or absf(tr.y - P.y) > 14:
+			continue
+		if tr.k == "spike":
+			if tr.st == 0:
+				var on: bool = Vector2(P.x - tr.x, P.y - tr.y).length() < .5 or enemies.any(func(e): return not e.dead and e.world.distance_to(Vector2(tr.x, tr.y)) < .45)
+				if on:
+					tr.st = 1
+					tr.t = 0.0
+			elif tr.st == 1:
+				tr.t += dt
+				if tr.t >= .45:
+					tr.st = 2
+					tr.t = 0.0
+					tele.append({"shape": "circle", "x": tr.x, "y": tr.y, "r": .62, "t": 0.0, "dur": .01, "dmg": trap_dmg(), "owner": null, "on_done": "trap", "quiet": true})
+					sparks(Vector2(tr.x, tr.y), .3, -1.57, 6, [Color("#d8d0bc"), Color("#8a8478")], 3)
+			else:
+				tr.t += dt
+				if tr.t > 1.4:
+					tr.st = 0
+					tr.t = 0.0
+		else:
+			tr.t += dt
+			if tr.t >= tr.per:
+				tr.t = 0.0
+				tele.append({"shape": "line", "x": tr.x, "y": tr.y, "ang": tr.ang, "len": tr.len, "w": .9, "t": 0.0, "dur": .75, "dmg": trap_dmg() * 1.2, "elem": "fire", "owner": null, "on_done": "trap"})
+	for b in m.get("boulders", []):
+		if absf(b.x0 - P.x) < 24 and absf(b.y0 - P.y) < 24:
+			_boulder(b, dt)
+
+## a boulder: waits in its niche, rumbles when you step into its lane, rolls it down and breaks at the end (boulderTick)
+func _boulder(b: Dictionary, dt: float) -> void:
+	var ca := cos(b.ang)
+	var sa := sin(b.ang)
+	b.cd -= dt
+	if b.st == 0:
+		b.x = b.x0
+		b.y = b.y0
+		if b.cd > 0:
+			return
+		var dx: float = P.x - b.x0
+		var dy: float = P.y - b.y0
+		var along := dx * ca + dy * sa
+		var side := absf(-dx * sa + dy * ca)
+		if along > 1.5 and along < b.len and side < .9 and not P.dead:
+			b.st = 1
+			b.t = 0.0
+			shake = maxf(shake, 2)
+		return
+	b.t += dt
+	if b.st == 1:
+		if b.t > .85:
+			b.st = 2
+			b.t = 0.0
+			b.p = 0.0
+			b.hit = {}
+		return
+	b.p += dt * 8.5
+	b.rot += dt * 8.5 / .45
+	b.x = b.x0 + ca * b.p
+	b.y = b.y0 + sa * b.p
+	if randf() < .5:
+		_smoke(Vector2(b.x - ca * .4, b.y - sa * .4), 1)
+	shake = maxf(shake, 1.2)
+	if not b.hit.has("P") and not P.dead and P.iframe <= 0 and Vector2(P.x - b.x, P.y - b.y).length() < .85:
+		b.hit["P"] = true
+		hurt_player(trap_dmg() * 1.9, null, null)
+		shake = 6
+	for e in enemies:
+		if not e.dead and not e.wall and not b.hit.has(e.get_instance_id()) and e.world.distance_to(Vector2(b.x, b.y)) < .75 + e.r * .5:
+			b.hit[e.get_instance_id()] = true
+			hit_enemy(e, trap_dmg() * 3, {"col": Color("#c8b898")})
+	if b.p >= b.len - .5:
+		b.st = 0
+		b.cd = R.rnd(6, 9)
+		_smoke(Vector2(b.x, b.y), 12)
+		shake = maxf(shake, 5)
 
 # ---------- combat (170-combat.js) ----------
 
@@ -1226,6 +1375,11 @@ func hit_enemy(e: Enemy, dmg: float, o := {}) -> void:
 		dmg *= 1 + P.oathB / 100.0
 		Game.hp = minf(Game.d.life, Game.hp + Game.d.life * .01)
 	dmg *= e.dmg_taken
+	if e.wall:
+		o = o.duplicate()
+		o.kb = 0
+		for k in 5:
+			parts.append({"k": "gore", "x": e.world.x + R.rnd(-.3, .3), "y": e.world.y + R.rnd(-.3, .3), "z": R.rnd(.4, 1.4), "vx": R.rnd(-1.5, 1.5), "vy": R.rnd(-1.5, 1.5), "vz": R.rnd(1, 3), "t": 0.0, "life": R.rnd(.5, 1), "col": R.pick([Color("#6a6258"), Color("#8a8274"), Color("#a8a090")]), "s": R.rnd(1, 2.5), "g": 1.0})
 	if dmg <= 0:
 		# a push only
 		var a0: float = o.get("from", atan2(e.world.y - P.y, e.world.x - P.x))
@@ -1275,6 +1429,11 @@ func weapon_hit(e: Enemy, mult := 1.0) -> void:
 		Game.hp = minf(d.life, Game.hp + dmg * d.ls / 100.0)
 
 func kill_enemy(e: Enemy, a := INF) -> void:
+	if e.wall:
+		e.dead = true
+		e.die_t = 99
+		_secret_open(e)
+		return
 	e.dead = true
 	e.die_t = 0
 	e.fall_a = a if a != INF else atan2(e.world.y - P.y, e.world.x - P.x)
@@ -1462,6 +1621,10 @@ func _drop_dead() -> void:
 
 func _upd_enemy(e: Enemy, dt: float) -> void:
 	e.flash = maxf(0, e.flash - dt)
+	if e.wall:
+		e.hit_t = maxf(0, e.hit_t - dt)
+		e.aggro = false
+		return
 	e.slow = maxf(0, e.slow - dt)
 	e.hit_t = maxf(0, e.hit_t - dt)
 	e.lunge_t = maxf(0, e.lunge_t - dt)
@@ -1640,7 +1803,7 @@ func _boss_update(e: Enemy, dt: float, d: float, busy: bool, sp: float) -> void:
 func _sep_enemies() -> void:
 	var A: Array[Enemy] = []
 	for e in enemies:
-		if not e.dead:
+		if not e.dead and not e.wall:
 			A.append(e)
 	var cells := {}
 	var cs := .8
@@ -1702,6 +1865,10 @@ func _update_tele(dt: float) -> void:
 				ow.lunge_t = .22
 			var c := Vector2(tl.x, tl.y)
 			match tl.get("on_done", ""):
+				"trap":
+					for e in enemies:
+						if not e.dead and not e.wall and in_shape(tl, e.world, e.r):
+							hit_enemy(e, tl.dmg * 1.5, {"col": Color("#ffb070")})
 				"charge":
 					for k in 45:
 						var np: Vector2 = ow.world + Vector2(cos(tl.ang), sin(tl.ang)) * .2

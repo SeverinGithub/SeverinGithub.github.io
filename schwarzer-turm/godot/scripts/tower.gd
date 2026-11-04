@@ -17,6 +17,14 @@ func _ready() -> void:
 	for a in OS.get_cmdline_user_args():
 		var kv := a.trim_prefix("--").split("=", true, 1)
 		args[kv[0]] = kv[1] if kv.size() > 1 else "1"
+	if args.has("shuf"):
+		var R := Rng.new(4242 * 6151 + 4 * 92821)
+		R.next()
+		var a := [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+		TowerTwo.v8_shuffle(a, R)
+		print(a, " ", R.next())
+		get_tree().quit()
+		return
 	if args.has("maphash"):
 		# compare with the browser: the same seed must give the same floors (see docs/Godot-Umstieg.md)
 		for f in range(1, 5):
@@ -25,6 +33,15 @@ func _ready() -> void:
 			for v in m.t:
 				hsh = (hsh * 31 + v) % 1000000007
 			print("Ebene %d: Karte %d · %d Stücke Deko · %d Requisiten · Objekte %s" % [f, hsh, m.deco.size(), m.props.size(), m.objs.map(func(o): return "%s@%.2f,%.2f" % [o.get("ct", o.type), o.x, o.y])])
+			if args.has("why"):
+				print("  Räume ", " ".join(m.rooms.map(func(r): return "%d,%d%s%s" % [r.cx, r.cy, "S" if r == m.startRoom else "", "E" if r == m.endRoom else ""])))
+			# the second pass (760) without the unseeded traps: secret, boulders, what lies about
+			var e := TowerTwo.populate(m, int(args.get("seed", "4242")), 1)
+			if e:
+				e.free()
+			var sec: String = "-" if m.secret == null else "%d,%d %d,%d" % [m.secret.fi, m.secret.fj, m.secret.dir.x, m.secret.dir.y]
+			var dc: Array = m.props.filter(func(p): return String(p.k).begins_with("dc")).map(func(p): return "%s@%.2f,%.2f%s" % [p.k, p.x, p.y, "f" if p.get("f") else ""])
+			print("  Geheim %s · Felsen %s · Kram %d %d %s" % [sec, " ".join(m.boulders.map(func(b): return "%.1f,%.1f/%.2f/%.1f/%.3f" % [b.x0, b.y0, b.ang, b.len, b.cd])), dc.size(), _sh(" ".join(dc)), " ".join(dc.slice(0, 3))])
 		get_tree().quit()
 		return
 	if args.has("worldhash"):
@@ -124,7 +141,9 @@ func enter_floor(f: int, by_door := false) -> void:
 			wg = WorldGen.new(Game.seed_value)
 		level.build({"world": true, "wg": wg, "floor": 0, "w": wg.w, "h": wg.h, "t": wg.t, "under": wg.under, "start": wg.start, "objs": [], "props": [], "deco": []})
 	else:
-		level.build(DungeonGen.generate(Game.seed_value, f))
+		if not Game.maps.has(f):
+			Game.maps[f] = DungeonGen.generate(Game.seed_value, f)
+		level.build(Game.maps[f])
 		if by_door and f > 1:
 			for o in level.m.objs:
 				if o.type == "shrine":

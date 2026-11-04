@@ -94,6 +94,19 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 - Testschalter: `--pos=x,y` (Held auf diese Stelle der Ebene), `--open` (öffnet alle Truhen in sechs Schritten, mit Schlüsseln und gebrochenem Siegel).
 - Noch nicht (Schritt 5b, Teil 2 und später): Dungeon-Deko, Geheimnisse und Felsbrocken aus 760 in den Turmebenen, das Hügeldorf (988), Insel-Sehenswürdigkeiten (986), lebendige Inseln (989), die Totenlande selbst (520), Krähen und Glühwürmchen, Tag und Nacht, Wetter, Reisen zwischen Leuchtfeuern, Arena und Koloss, Händler, Schlüsselkauf und Truhe (Schritt 6).
 
+## Stand 2026-11-04: Turm, zweite Schicht (Schritt 5b, Teil 2)
+- `scripts/tower_two.gd` (`TowerTwo`) übersetzt `760-tower-2.js`: rissige Wand vor einer Geheimkammer (`secret_spot`, `secret_wall`, `secret_open`; die Wand ist ein Gegner mit `wall`, der Risse und Glut zeichnet, die Kammer hat eine bessere Truhe), rollende Felsbrocken in langen Räumen (`boulder_spot`), Kram (Knochen, Schädel, Urnen, Kerzen, Schutt, Schwerter, Bücher, Käfige, Banner, `DCK`) und die Fallen aus `390-combat-roles.js` (Stachelplatten, Feuerdüsen, `traps`), weil der Kram ihnen ausweicht. Der Browser mischt Räume mit `sort(()=>R()-.5)`; `v8_shuffle` spielt nach, wie V8 dabei würfelt (TimSort, unter 64 Elementen binäres Einfügen).
+- `level.gd`: Fallen bei jedem Besuch neu, Stachelplatten springen beim Betreten, Feuerdüsen atmen im Takt, Felsbrocken grollen, wenn man ihre Bahn betritt, rollen und zerbrechen am Ende (`_upd_traps`, `_boulder`), Schaden nach `trap_dmg()`; die gebrochene Wand öffnet die Kammer (`_secret_open`). Kerzen leuchten.
+- `game.gd`: `maps` hält jede Ebene, solange man spielt (`G.maps`), eine verlassene Ebene sieht beim Zurückkommen gleich aus. `DungeonGen.generate` merkt sich `objs0`, weil der Kram im Browser vor den Fässern läuft.
+- `--maphash` gibt je Ebene Geheimwand, Felsbrocken und Kram (Anzahl, Prüfzahl, die ersten drei) aus; die ungeseedeten Fallen bleiben außen vor (`Game.no_traps`). `--maphash --why` listet die Räume, `--shuf` prüft das Mischen. Der Vergleich dieser Zeilen mit dem Browser ist noch nicht festgehalten.
+
+## Stand 2026-11-04: Bildschirm, Vollbild, Breitbild
+- `scripts/screen.gd` (Autoload `Screen`): das Bild bleibt beim Pixelraster des Browsers (etwa 430 Zeilen hoch). Jeder Spielpixel wird ein ganzer Block von k×k Bildschirmpixeln, k so gewählt, dass die Höhe möglichst nah an 430 Zeilen liegt (`round(Höhe/430)`); die Breite folgt dem Monitor. Ein 21:9-Monitor zeigt also links und rechts mehr, nichts wird gestreckt, verkleinert oder unscharf. Projekt: `stretch/mode=viewport`, `aspect=expand`, `scale_mode=integer`.
+- Beispiele: 1920×1080 → 640×360 (×3), 2560×1080 → 853×360 (×3), 2560×1440 → 853×480 (×3), 3440×1440 → 1146×480 (×3), 3840×2160 → 768×432 (×5), Fenster 1520×860 → 760×430 (×2).
+- **F11** oder **Alt+Enter** schaltet Vollbild, **Strg+Plus/Minus** macht die Pixel größer oder kleiner, **Strg+0** zurück; beides steht in `user://screen.cfg`. Nie unter 300 Zeilen oder 520 Spalten.
+- HUD, Dunkelheit, Wolken und Nachladen richten sich schon nach der Bildgröße.
+- Testschalter `--screen=3440x1440` tut so, als wäre es dieser Monitor (das Fenster ist dann genau ein Spielbild groß, `--shot` zeigt das Bild).
+
 ## Wie die Browser-Module in Godot aufgehen
 | Browser | Godot |
 |---|---|
