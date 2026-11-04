@@ -117,8 +117,54 @@ func _where() -> String:
 ## top left: the place and the glut (#topinfo)
 func _top_info() -> void:
 	var f := Ui.font("sc")
+	# a soft dark veil behind it, so the words stay readable over bright grass
+	for k in 12:
+		var q := k / 12.0
+		draw_rect(Rect2(0, 0, 420 * (1 - q * .5), 104 * (1 - q * .4)), Color(0, 0, 0, .045))
 	_shadow_text(f, Vector2(14, 26), _where(), 16, Ui.PAPER)
 	_shadow_text(f, Vector2(14, 46), "%d Glut" % Game.glut, 16, Ui.EMBER)
+	_quest_track()
+
+## under it the chronicle's active quest and where it points: an arrow on the screen's diagonal grid and the steps
+## to go, or in the tower how deep it still is (#qtrack)
+func _quest_track() -> void:
+	var f := Ui.font("sc")
+	var q = Quests.cur()
+	if q == null:
+		_shadow_text(f, Vector2(14, 72), "◆ Die Chronik ist vollendet", 15, Color("#ffd88a"))
+		return
+	var p := Quests.prog(q)
+	var head: String = "◆ " + q.t
+	_shadow_text(f, Vector2(14, 72), head, 15, Color("#ff8a6a") if q.get("boss") else Color("#ffd88a"))
+	if p[1] > 1:
+		var hw := f.get_string_size(head, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x
+		_shadow_text(f, Vector2(14 + hw + 8, 72), "%d / %d" % [mini(p[0], p[1]), p[1]], 14, Ui.PAPER)
+	var it := Ui.font("italic")
+	var t = Quests.tgt
+	if t and level and level.ow:
+		var dx: float = t.x - level.P.x
+		var dy: float = t.y - level.P.y
+		var dd := roundi(Vector2(dx, dy).length())
+		if dd < 6:
+			_shadow_text(it, Vector2(14, 92), "◎ %s · hier" % t.l, 13, Ui.PAPER)
+		else:
+			var a := atan2((dx + dy) / 2, dx - dy)
+			var c := Vector2(21, 87)
+			var u := Vector2(cos(a), sin(a))
+			var n := Vector2(-u.y, u.x)
+			var tri := PackedVector2Array([c + u * 7, c - u * 5 + n * 5, c - u * 2, c - u * 5 - n * 5])
+			draw_colored_polygon(tri, Color("#ffd88a"))
+			tri.append(tri[0])
+			draw_polyline(tri, Color.BLACK, 1.2, true)
+			_shadow_text(it, Vector2(34, 92), "%s · %d Schritte" % [t.l, dd], 13, Ui.PAPER)
+	elif level and not level.ow:
+		var s := ""
+		if q.ty in ["floor", "dboss"]:
+			s = ("Steig weiter hinab · Ebene %d von %d" % [Game.floor_no, q.f]) if Game.floor_no < q.f else ("Der Hüter wartet auf dieser Ebene" if Game.floor_no == q.f else "Der Hüter haust auf Ebene %d" % q.f)
+		elif q.ty == "wboss":
+			s = "Kehre über ein Leuchtfeuer zu den Himmelsinseln zurück"
+		if s != "":
+			_shadow_text(it, Vector2(14, 92), s, 13, Ui.PAPER)
 
 ## a bar in a socket: 4 px iron round it, dark inside, the fill from the left
 func _sock_bar(r: Rect2, f: float, col_top: Color, col_bot: Color, gold := false) -> void:
@@ -338,7 +384,7 @@ class Belt extends Control:
 		mouse_filter = Control.MOUSE_FILTER_STOP
 		tooltip_text = " "
 	func sig() -> String:
-		return "%s|%d|%d" % [Game.sk_ids(), Game.pts, Game.spts]
+		return "%s|%d|%d|%d" % [Game.sk_ids(), Game.pts, Game.spts, Talents.points()]
 	func fit() -> void:
 		last = sig()
 		items.clear()
@@ -355,7 +401,7 @@ class Belt extends Control:
 		x += 8
 		items.append(["flask", "", Rect2(x, y, 46, 46), "F"])
 		x += 48 + 8
-		for m in [["C", "char", "Charakter (C)"], ["I", "inv", "Inventar (I)"], ["K", "skills", "Fertigkeiten (K)"], ["≡", "menu", "Menü (Esc)"]]:
+		for m in [["C", "char", "Charakter (C)"], ["I", "inv", "Inventar (I)"], ["K", "skills", "Fertigkeiten (K)"], ["P", "tree", "Talentbaum (P)"], ["J", "coll", "Sammlung (J)"], ["M", "map", "Karte (M)"], ["L", "quests", "Chronik (L)"], ["≡", "menu", "Menü (Esc)"]]:
 			items.append(["mini", m[1], Rect2(x, y + 6, 34, 34), m[0], m[2]])
 			x += 36
 		size = Vector2(x - 2, 82)
@@ -370,7 +416,7 @@ class Belt extends Control:
 			return ""
 		match it[0]:
 			"pot": return "Heiltrank (Y)" if it[1] == "life" else "Manatrank (X)"
-			"flask": return "Heilflakon (F) · %d von %d" % [Game.flasks, Game.flask_max]
+			"flask": return "Heilflakon (F) · %d von %d" % [Game.flasks, Game.fmax()]
 			"mini": return it[4]
 			"skill":
 				var id: String = Game.sk_ids()[it[1]]
@@ -424,7 +470,7 @@ class Belt extends Control:
 			var hot := r.has_point(_m)
 			if it[0] == "mini":
 				draw_style_box(Ui.box("btnh" if hot else "btn", 8, 0), r)
-				var dot: bool = (it[1] == "char" and Game.pts > 0) or (it[1] == "skills" and Game.spts > 0)
+				var dot: bool = (it[1] == "char" and Game.pts > 0) or (it[1] == "skills" and Game.spts > 0) or (it[1] == "tree" and Talents.points() > 0)
 				var c := Ui.BTN_HOVER if hot else Ui.BTN_TXT
 				draw_string(fsc, Vector2(r.position.x, r.position.y + 22), it[3], HORIZONTAL_ALIGNMENT_CENTER, r.size.x, 14, c)
 				if dot:

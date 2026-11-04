@@ -92,7 +92,7 @@ func _build() -> void:
 		["Verteidigung", str(d.def)], ["Blockchance", "%d %%" % roundi(d.block)], ["Widerstände", "%d %%" % d.res],
 		["Leben", "%d / %d" % [roundi(Game.hp), d.life]], ["Mana", "%d / %d" % [roundi(Game.mp), d.mana]], ["Ausdauer", str(d.stam)],
 		["Zauberschaden", "+%d %%" % roundi((d.spellMul - 1) * 100)], ["Lebensraub", "%s %%" % str(d.ls)], ["Laufgeschwindigkeit", "+%d %%" % d.frw],
-		["Magiefund", "%d %%" % d.mf], ["Heilflakon", "%d / %d · %d %%" % [Game.flasks, Game.flask_max, 45 + Game.flask_pow * 8 + d.flaskH]]]))
+		["Magiefund", "%d %%" % d.mf], ["Heilflakon", "%d / %d · %d %%" % [Game.flasks, Game.fmax(), 45 + Game.flask_pow * 8 + d.flaskH]]]))
 
 ## two columns, names left, values right (.derived)
 func _grid(rows: Array) -> Control:

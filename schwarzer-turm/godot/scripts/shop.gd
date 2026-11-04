@@ -56,6 +56,7 @@ static func sell(it: Dictionary) -> void:
 	var v := sell_price(it)
 	Game.glut += v
 	Game.inv.erase(it)
+	Quests.inc("sell")
 	Game.log_msg("%s für %d Glut verkauft." % [it.name, v], Color("#ff9a3a"))
 
 func _f() -> int:
@@ -110,6 +111,8 @@ func _buy_stock(i: int) -> void:
 		return
 	st.remove_at(i)
 	Game.glut -= c
+	Game.discover(it)
+	Quests.inc("buy")
 	_hover = null
 	Game.log_msg("Gekauft: " + it.name, Items.RCOL.get(it.rar, Ui.PAPER))
 
@@ -123,16 +126,20 @@ func _buy(k: String) -> void:
 				Game.log_msg("Das Inventar ist voll.", Ui.BAD)
 				return
 			Game.glut -= _potion_cost()
+			Quests.inc("buy")
 		"flask":
 			if Game.flask_max < 8 and _pay(_flask_cost()):
 				Game.flask_max += 1
 				Game.flasks += 1
+				Quests.inc("buy")
 		"pow":
 			if Game.flask_pow < 6 and _pay(_pow_cost()):
 				Game.flask_pow += 1
+				Quests.inc("buy")
 		"key":
 			if _pay(_key_cost()):
 				Game.keys += 1
+				Quests.inc("buy")
 				Game.log_msg("Gekauft: Truhenschlüssel (%d)" % Game.keys, Color("#e8b060"))
 
 ## a piece of the chosen kind at your level: mostly magic, sometimes rare, very seldom unique
@@ -147,6 +154,8 @@ func _gamble(slot: String) -> void:
 		Game.log_msg("Kein Platz im Inventar für diesen Gegenstand.", Ui.BAD)
 		return
 	Game.glut -= c
+	Game.discover(it)
+	Quests.inc("buy")
 	Game.log_msg("Erwürfelt: " + it.name, Items.RCOL.get(it.rar, Ui.PAPER))
 
 # ---------- the window ----------

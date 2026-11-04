@@ -757,6 +757,10 @@ func _process(dt: float) -> void:
 			respawn()
 	else:
 		_update_hero(dt)
+	if not ow:
+		_explore()
+	if Game.in_play and title_cam == null:
+		Quests.tick(dt, self)
 	flow_t -= dt
 	if flow_t <= 0:
 		flow_t = .3
@@ -800,6 +804,33 @@ func _process(dt: float) -> void:
 	if ow:
 		ow.tick()
 		ow.fade()
+
+## what the hero has seen of this floor, as a picture one pixel a tile in the big map's colours: twelve tiles around
+## him are marked whenever he steps onto a new tile (the explored ring in 200-update.js). It stays with the map.
+const MCOL := {1: Color8(92, 84, 72), 2: Color8(170, 158, 132), 3: Color8(74, 70, 64), 4: Color8(58, 92, 36), 5: Color8(40, 36, 44),
+	6: Color8(30, 26, 24), 7: Color8(110, 104, 94), 8: Color8(122, 92, 56), 9: Color8(34, 30, 26)}
+var _ex_at := Vector2i(-1, -1)
+
+func _explore() -> void:
+	var at := Vector2i(int(floor(P.x)), int(floor(P.y)))
+	if at == _ex_at:
+		return
+	_ex_at = at
+	if not m.has("explored"):
+		m.explored = Image.create(w, h, false, Image.FORMAT_RGBA8)
+	var img: Image = m.explored
+	for j in range(maxi(0, at.y - 12), mini(h, at.y + 13)):
+		for i in range(maxi(0, at.x - 12), mini(w, at.x + 13)):
+			if (i - at.x) * (i - at.x) + (j - at.y) * (j - at.y) < 144:
+				var tt := t[j * w + i]
+				if tt:
+					img.set_pixel(i, j, MCOL.get(tt, MCOL[1]))
+
+func explored(x: float, y: float) -> bool:
+	var img = m.get("explored")
+	var i := int(floor(x))
+	var j := int(floor(y))
+	return img != null and i >= 0 and j >= 0 and i < w and j < h and img.get_pixel(i, j).a > 0
 
 func _camera(dt: float) -> void:
 	# the camera follows by time, not by frame: with uneven frame times a fixed share per frame made the hero jump
@@ -1109,6 +1140,7 @@ func _interact(o: Prop) -> void:
 			if o.p.get("ow"):
 				if not Game.ow_fires.has(o.p.key):
 					Game.ow_fires[o.p.key] = {"x": o.p.x, "y": o.p.y, "name": o.p.name}
+					Game.tbonus += 1
 					Game.log_msg("+1 Talentpunkt (P)", Color("#e8c878"))
 					Game.banner.emit("LEUCHTFEUER ENTZÜNDET", o.p.name, "boss")
 					o.lit = true
@@ -1152,6 +1184,8 @@ func _open_chest(o: Prop) -> void:
 		Game.log_msg("Die Truhe ist versiegelt. Besiege die Wächter dieses Raums" + (" (%d übrig)" % n if n else "") + ".", Color("#c8a0ff"))
 		return
 	o.p.open = true
+	if not s.get("junk"):
+		Quests.inc("chest")
 	if s.get("junk"):
 		_smoke(at, 5)
 		burst(at, Color("#7a4a24"), 10, 2)
@@ -1415,7 +1449,7 @@ func respawn() -> void:
 	Game.hp = Game.d.life
 	Game.mp = Game.d.mana
 	Game.st = Game.d.stam
-	Game.flasks = Game.flask_max
+	Game.flasks = Game.fmax()
 	tele.clear()
 	proj.clear()
 	Game.log_msg("Du erwachst am Leuchtfeuer.", Color("#ffd88a"))
@@ -1504,6 +1538,8 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 		return
 	e.dead = true
 	e.die_t = 0
+	Quests.inc("k_" + e.type)
+	Quests.inc("kill")
 	e.fall_a = a if a != INF else atan2(e.world.y - P.y, e.world.x - P.x)
 	e.kv = Vector2.ZERO
 	e.play("idle")
@@ -1531,11 +1567,13 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	if e.wb != "":
 		if not Game.ow_boss.has(e.wb):
 			Game.ow_boss[e.wb] = 1
+			Game.tbonus += 2
 			Game.log_msg("+2 Talentpunkte (P)", Color("#e8c878"))
 		Game.banner.emit("FEIND BEZWUNGEN", e.e_name, "boss")
 		shake = 14
 	elif e.boss:
 		if not Game.boss_dead.get(Game.floor_no, false):
+			Game.tbonus += 2
 			Game.log_msg("+2 Talentpunkte (P)", Color("#e8c878"))
 		Game.boss_dead[Game.floor_no] = true
 		var r: Dictionary = m.endRoom
@@ -1557,7 +1595,7 @@ func rest_at(o: Prop) -> void:
 	Game.respawn_floor = Game.floor_no
 	Game.hp = Game.d.life
 	Game.mp = Game.d.mana
-	Game.flasks = Game.flask_max
+	Game.flasks = Game.fmax()
 	populate()
 	Game.log_msg("Du rastest am Leuchtfeuer. Die Feinde dieser Ebene erheben sich erneut.", Color("#ffd88a"))
 
@@ -1568,7 +1606,7 @@ func _rest(o: Prop) -> void:
 	Game.recalc()
 	Game.hp = Game.d.life
 	Game.mp = Game.d.mana
-	Game.flasks = Game.flask_max
+	Game.flasks = Game.fmax()
 	ow.tick(true)
 	Game.log_msg("Du rastest am Leuchtfeuer. Die Feinde kehren zurück.", Color("#ffd88a"))
 
@@ -1660,6 +1698,7 @@ func pickup(gi: Dictionary) -> void:
 		Game.log_msg("Das Inventar ist voll.", Color("#ff5a4a"))
 		return
 	items.erase(gi)
+	Game.discover(gi.it)
 
 ## the name plates of everything on the ground, stacked so none covers another (drawLabels in 230-environment.js)
 func _labels() -> void:

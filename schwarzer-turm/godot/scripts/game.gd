@@ -36,6 +36,7 @@ var boss_seen := {}
 var ow_fires := {}               # bonfires lit in the sky: chunk key → {x, y, name}
 var ow_clear := {}               # chunks whose foes are slain, until the next rest
 var ow_boss := {}                # island lords slain: id → 1
+var ow_seen := {}                # sky chunks walked on, beyond the hill: "cx,cy" → 1 (G.owSeen)
 var ow_respawn = null            # the sky's bonfire you rested at last: {x, y}
 var place := ""                  # where in the sky the hero stands (floorName)
 var hero_at := Vector2.ZERO      # where the hero stands, for pictures that fade when he walks behind them
@@ -57,6 +58,12 @@ var keys := 0                    # chest keys for the locked chests (770-chests.
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
 var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
 var stash: Array = []            # the bottomless chest on the hill, ten columns wide (Stash)
+var tree: Array = []             # talents learnt (Talents), the class root is free
+var tbonus := 0                  # talent points beyond one per level: beacons, lords, bosses
+var qi := 0                      # the chronicle: index of the active quest (P.qi)
+var qb := 0                      # its counter when it began (P.qb)
+var qc := {}                     # counters: kill, k_<kind>, buy, sell, chest (P.qc)
+var found := {}                  # the collection: base names, "u:<unique>" (discover in 260-ui.js)
 var hand = null                  # the item held on the mouse
 var slv := [1, 0, 0, 0, 0, 0]    # skill levels per slot 1–6: a point stays with its slot, whichever skill fills it (640-weapon-arts.js)
 var sel := 0                     # the slot right click repeats
@@ -96,6 +103,7 @@ func start_new(c: String) -> void:
 	ow_fires = {}
 	ow_clear = {}
 	ow_boss = {}
+	ow_seen = {}
 	ow_respawn = null
 	max_floor = 0
 	respawn_floor = 1
@@ -114,6 +122,12 @@ func start_new(c: String) -> void:
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
 	inv = []
 	stash = []
+	tree = []
+	qi = 0
+	qb = 0
+	qc = {}
+	tbonus = 0
+	found = {}
 	hand = null
 	slv = [1, 0, 0, 0, 0, 0]
 	sel = 0
@@ -151,6 +165,9 @@ func recalc() -> void:
 	for it in eq.values():
 		for k in it.mods:
 			m[k] = m.get(k, 0) + it.mods[k]
+	var tm := Talents.mods()
+	for k in tm:
+		m[k] = m.get(k, 0) + tm[k]
 	var s := {}
 	for k in ["str", "dex", "vit", "ene"]:
 		s[k] = stats[k] + m.get(k, 0)
@@ -168,7 +185,10 @@ func recalc() -> void:
 		"life": roundi((40 + s.vit * 4 + lvl * 5 + m.get("life", 0)) * (1 + m.get("lifeP", 0) / 100.0)),
 		"mana": roundi((15 + s.ene * 2 + lvl * 1.5 + m.get("mana", 0)) * (1 + m.get("manaP", 0) / 100.0)),
 		"stam": roundi(70 + s.dex * .6 + s.vit * .4 + m.get("stam", 0)),
-		"dmin": maxi(1, roundi(base[0] * mult)), "dmax": maxi(2, roundi(base[1] * mult)), "ele": 0,
+		"dmin": maxi(1, roundi(base[0] * mult)), "dmax": maxi(2, roundi(base[1] * mult)),
+		"ele": m.get("fire", 0) + m.get("cold", 0) + m.get("light", 0) + m.get("poison", 0),
+		"flask": m.get("flask", 0), "potStack": 1 + mini(4, m.get("potStack", 0)), "invRows": mini(3, m.get("invRows", 0)),
+		"shopDisc": mini(30, m.get("shopDisc", 0)), "sellB": m.get("sellB", 0),
 		"aspd": (w.speed if w else 1.5) * (1 + m.get("ias", 0) / 100.0),
 		"crit": minf(60, 5 + s.dex * .05 + m.get("crit", 0)),
 		"def": roundi(def),
@@ -186,9 +206,28 @@ func recalc() -> void:
 	if cb.has("aspd"): d.aspd *= cb.aspd
 	for k in ["frw", "crit", "potPow", "flaskH"]:
 		if cb.has(k): d[k] += cb[k]
+	Items.IH = 5 + d.invRows
 	hp = minf(hp, d.life)
 	mp = minf(mp, d.mana)
 	st = minf(st, d.stam)
+
+## a new find goes into the collection, with a word in the log (discover in 260-ui.js)
+func discover(it) -> void:
+	if it == null or it.slot in ["potion", "junk"]:
+		return
+	var neu: bool = not found.has(it.b)
+	found[it.b] = 1
+	if it.rar == "unique":
+		var u: String = String(it.name).split(" +")[0]
+		if not found.has("u:" + u):
+			log_msg("Neu in der Sammlung: " + u, Color("#e8973a"))
+		found["u:" + u] = 1
+	elif neu:
+		log_msg("Neu in der Sammlung: " + it.b, Color("#a39b88"))
+
+## flask charges: bought ones and those of the talents (fMax)
+func fmax() -> int:
+	return flask_max + int(d.get("flask", 0))
 
 ## put on an item from the bag (equip in 260-ui.js); what it replaces goes into the bag, or into the hand
 func equip(it: Dictionary) -> bool:
@@ -266,7 +305,12 @@ func sk_ids() -> Array:
 	return Data.skill_info.sets[k].ids if k != "" else Data.classes[cls].skills
 
 func sk_lvl(i: int) -> int:
-	return slv[i] + d.allsk if slv[i] > 0 else 0
+	if slv[i] <= 0:
+		return 0
+	# a milestone or keystone adds to the class skill of its slot
+	var cs: Array = Data.classes.get(cls, {}).get("skills", [])
+	var tb: int = int(d.m.get("sk_" + cs[i], 0)) if i < cs.size() and d.has("m") else 0
+	return slv[i] + d.allsk + tb
 
 ## a slot can be learned from the level its class skill asks for
 func sk_req(i: int) -> int:

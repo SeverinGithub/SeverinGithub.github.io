@@ -6,7 +6,7 @@ class_name Items
 ## Sockets and runes come with the smithy step.
 
 const IW := 10                   # inventory columns
-const IH := 5                    # inventory rows
+static var IH := 5               # inventory rows: 5, more with talents (invRows)
 const RCOL := {"normal": Color("#ece4cf"), "magic": Color("#7aa4ff"), "rare": Color("#ffd94f"), "unique": Color("#e8973a"), "junk": Color("#9a9282"), "rune": Color("#f0b25a"), "runeword": Color("#cdbf94")}
 const SLOTNAME := {"weapon": "Waffe", "offhand": "Schild", "helm": "Helm", "armor": "Rüstung", "gloves": "Handschuhe", "boots": "Stiefel", "belt": "Gürtel", "ring": "Ring", "amulet": "Amulett"}
 const RARTXT := {"magic": "Magisch", "rare": "Selten", "unique": "Einzigartig", "runeword": "Runenwort"}
@@ -186,6 +186,13 @@ static func inv_fits(x: int, y: int, w: int, h: int) -> bool:
 
 ## put it in the first free place, column by column; junk fills up stacks of its kind first (invAdd, 240 and 570)
 static func inv_add(it: Dictionary) -> bool:
+	# like potions stack when a talent allows it (invAdd in 240-pixel-art.js)
+	if it.slot == "potion" and Game.d.get("potStack", 1) > 1:
+		for o in Game.inv:
+			if o.slot == "potion" and o.kind == it.kind and o.get("n", 1) + it.get("n", 1) <= Game.d.potStack:
+				o.n = o.get("n", 1) + it.get("n", 1)
+				o.amt = maxi(o.amt, it.amt)
+				return true
 	if it.slot == "junk":
 		var left: int = it.get("n", 1)
 		var jmax: int = Data.loot.jmax
@@ -207,6 +214,22 @@ static func inv_add(it: Dictionary) -> bool:
 				Game.inv.append(it)
 				return true
 	return false
+
+## after a stacking talent: like potions in the bag join up (stackPots)
+static func stack_potions() -> void:
+	if Game.d.get("potStack", 1) < 2:
+		return
+	for it in Game.inv.duplicate():
+		if it.slot != "potion" or not Game.inv.has(it):
+			continue
+		for o in Game.inv:
+			if o == it or o.slot != "potion" or o.kind != it.kind:
+				continue
+			if o.get("n", 1) + it.get("n", 1) <= Game.d.potStack and Game.inv.find(o) < Game.inv.find(it):
+				o.n = o.get("n", 1) + it.get("n", 1)
+				o.amt = maxi(o.amt, it.amt)
+				Game.inv.erase(it)
+				break
 
 # ---------- the tooltip, as lines: [text, colour] (itemTipHTML in 260-ui.js) ----------
 

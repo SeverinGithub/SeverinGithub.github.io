@@ -17,6 +17,10 @@ var hud_layer: CanvasLayer
 var char_panel: CharPanel
 var shop_panel: Shop
 var stash_panel: Stash
+var tree_view: TalentView
+var coll_panel: Collection
+var map_view: MapView
+var chron_view: Chronicle
 var title: TitleScreen
 var _menu := ""                  # the open menu, "" when none
 var world_box: SubViewportContainer   # the world, drawn at the game picture's size and blown up pixel for pixel
@@ -120,6 +124,21 @@ func _ready() -> void:
 	stash_panel.host = self
 	ui.add_panel(stash_panel)
 	inv_panel.stash = stash_panel
+	tree_view = TalentView.new()
+	tree_view.ui = ui
+	tree_view.host = self
+	ui.add_panel(tree_view)
+	map_view = MapView.new()
+	map_view.ui = ui
+	map_view.host = self
+	ui.add_panel(map_view)
+	chron_view = Chronicle.new()
+	chron_view.ui = ui
+	chron_view.host = self
+	ui.add_panel(chron_view)
+	coll_panel = Collection.new()
+	coll_panel.ui = ui
+	ui.add_panel(coll_panel)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	world_box.process_mode = Node.PROCESS_MODE_PAUSABLE
 	var save_t := Timer.new()
@@ -196,6 +215,56 @@ func _ready() -> void:
 		inv_panel.toggle()
 		var it = Game.inv.filter(func(i): return i.slot != "potion" and i.slot != "junk").front()
 		inv_panel.pin = it
+	if args.has("tree"):
+		# test: the talent tree with points to spend, n of them already learnt along the trunk
+		Game.lvl = 30
+		Game.recalc()
+		Talents.build()
+		var want := int(args.tree)
+		while want > 0:
+			var nxt := ""
+			for id in Talents.TREE:
+				if Talents.can(id) and Talents.TREE[id].k != "key":
+					nxt = id
+					break
+			if nxt == "":
+				break
+			Talents.learn(nxt)
+			want -= 1
+		print("Talente: ", Game.tree.size(), " vergeben ", Talents.spent(), " frei ", Talents.points(), " Leben ", Game.d.life, " Reihen ", Items.IH)
+		tree_view.open()
+	if args.has("quests"):
+		# test: the chronicle with n quests behind you (a few kills counted for the active one)
+		Game.qi = int(String(args.quests).trim_suffix("hud"))
+		Quests.start()
+		for k in 3:
+			Quests.inc("kill")
+			Quests.inc("k_spider")
+		Quests.tick(1, level)
+		var q = Quests.cur()
+		print("Quest ", Game.qi, ": ", q.t if q else "-", " ", Quests.prog(q) if q else [], " Ziel ", Quests.tgt)
+		if not String(args.quests).ends_with("hud"):
+			chron_view.open()
+	if args.has("map"):
+		# test: the big map after a walk; in the sky a few islands are counted as seen
+		if level.ow:
+			for k in ["40,38", "41,38", "42,39"]:
+				Game.ow_seen[k] = 1
+		else:
+			for q in 40:
+				level.P.x = level.m.start.x + randf_range(-14, 14)
+				level.P.y = level.m.start.y + randf_range(-14, 14)
+				level._explore()
+			level.P.x = level.m.start.x
+			level.P.y = level.m.start.y
+		map_view.open()
+	if args.has("coll"):
+		# test: the collection with a few finds, one of them unique
+		for k in ["weapon", "helm", "ring"]:
+			Game.discover(Items.make(5, {"slot": k}))
+		Game.discover(Items.make(20, {"rarity": "unique"}))
+		print("Sammlung: ", Game.found.keys())
+		coll_panel.toggle()
 	if args.has("shop"):
 		# test: Odalinde's window with glut to spend, the bag beside it
 		Game.glut = 5000
@@ -417,6 +486,10 @@ func panel_button(k: String) -> void:
 		"char": char_panel.toggle()
 		"inv": inv_panel.toggle()
 		"skills": sk_panel.toggle()
+		"tree": tree_view.toggle()
+		"coll": coll_panel.toggle()
+		"map": map_view.toggle()
+		"quests": chron_view.toggle()
 		"menu":
 			save_game()
 			show_menu("pause")
@@ -458,7 +531,7 @@ func _unhandled_input(ev: InputEvent) -> void:
 			return
 		if not playing():
 			return
-		if char_panel.visible or inv_panel.visible or sk_panel.visible or shop_panel.visible or stash_panel.visible:
+		if inv_panel.visible or get_tree().get_nodes_in_group("left_panel").any(func(n): return n.visible):
 			_close_panels()
 			return
 		save_game()

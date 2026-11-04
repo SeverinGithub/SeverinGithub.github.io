@@ -99,7 +99,11 @@ func tick(force := false) -> void:
 	var I = wg.island_of(int(floor(L.P.x / WorldGen.CH)), int(floor(L.P.y / WorldGen.CH)))
 	Game.place = wg.place_name(L.P.x, L.P.y)
 	Game.mlvl = 1 if I == null or I.kind == "home" else WorldGen.lvl_at(I.x, I.y)
-	if I != null and I.kind == "boss" and not Game.ow_boss.has(WorldGen.WB[I.wb].id):
+	var here := "%d,%d" % [int(floor(L.P.x / WorldGen.CH)), int(floor(L.P.y / WorldGen.CH))]
+	if I == null or I.kind == "home" or Game.ow_seen.has(here):
+		return
+	Game.ow_seen[here] = 1
+	if I.kind == "boss" and not Game.ow_boss.has(WorldGen.WB[I.wb].id):
 		Game.log_msg("Du betrittst das Revier von %s." % WorldGen.WB[I.wb].n, Color("#ff8a6a"))
 
 func _build_home() -> void:

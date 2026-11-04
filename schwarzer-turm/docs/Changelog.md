@@ -217,3 +217,6 @@ Schwarzer Turm: Themen, Flüche und Turmräume in Godot – floor_themes.gd, the
 
 ### db4065d · 2026-11-04
 Schwarzer Turm: Hügeldorf in Godot – hill_village.gd übersetzt hvBuild aus 988-hill-village.js mit Dorfplatz, Markt, Werkstatt, Friedhof, Aussichtssteg, Wachstum je Wächter, laufenden Dorfbewohnern und Wegweisern mit Lichterspur; mit Seed 4242 stimmt das Dorf bei Stufe 0 und 8 genau mit dem Browser
+
+### c8a052f · 2026-11-04
+Schwarzer Turm: die ganze Oberfläche in Godot – Welt im SubViewport mit harten Pixeln, Fenster scharf auf der UI-Ebene mit Browser-Texturen und -Schriften; Titel, Pause, Einstellungen, Steuerung, Heldenwahl und Heldenliste; jeder Held speichert sich selbst mit Standort; neues HUD mit Orbs, Gürtel, Banner und Meldungen; Charakter, Fertigkeiten, Inventar, Händler, Bodenlose Truhe und Leuchtfeuer-Fenster
