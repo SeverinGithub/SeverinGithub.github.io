@@ -3,209 +3,570 @@
   "k": "ed",
   "p": 1,
   "s": "W",
+  "minT": 0,
   "n": [
    "Scharfe",
    "Grausame",
    "Brutale",
    "Mörderische"
+  ],
+  "r": [
+   [
+    15,
+    30
+   ],
+   [
+    35,
+    65
+   ],
+   [
+    55,
+    100
+   ],
+   [
+    75,
+    135
+   ]
   ]
  },
  {
   "k": "fire",
   "p": 1,
   "s": "WRMG",
+  "minT": 0,
   "n": [
    "Glimmende",
    "Brennende",
    "Lodernde",
    "Höllische"
+  ],
+  "r": [
+   [
+    2,
+    5
+   ],
+   [
+    6,
+    14
+   ],
+   [
+    10,
+    23
+   ],
+   [
+    14,
+    32
+   ]
   ]
  },
  {
   "k": "cold",
   "p": 1,
   "s": "WRMG",
+  "minT": 0,
   "n": [
    "Kalte",
    "Frostige",
    "Eisige",
    "Gletscherne"
+  ],
+  "r": [
+   [
+    2,
+    4
+   ],
+   [
+    5,
+    12
+   ],
+   [
+    8,
+    20
+   ],
+   [
+    11,
+    28
+   ]
   ]
  },
  {
   "k": "light",
   "p": 1,
   "s": "WRMG",
+  "minT": 0,
   "n": [
    "Knisternde",
    "Funkende",
    "Donnernde",
    "Sturmgeborene"
+  ],
+  "r": [
+   [
+    1,
+    6
+   ],
+   [
+    4,
+    17
+   ],
+   [
+    7,
+    28
+   ],
+   [
+    10,
+    39
+   ]
   ]
  },
  {
   "k": "edef",
   "p": 1,
   "s": "OHAGBE",
+  "minT": 0,
   "n": [
    "Feste",
    "Stabile",
    "Gehärtete",
    "Göttliche"
+  ],
+  "r": [
+   [
+    15,
+    30
+   ],
+   [
+    30,
+    60
+   ],
+   [
+    45,
+    90
+   ],
+   [
+    60,
+    120
+   ]
   ]
  },
  {
   "k": "life",
   "p": 1,
   "s": "HAOEMR",
+  "minT": 0,
   "n": [
    "Rote",
    "Rubinrote",
    "Blutrote",
    "Titanische"
+  ],
+  "r": [
+   [
+    5,
+    15
+   ],
+   [
+    15,
+    30
+   ],
+   [
+    25,
+    45
+   ],
+   [
+    35,
+    60
+   ]
   ]
  },
  {
   "k": "mana",
   "p": 1,
   "s": "HAMRW",
+  "minT": 0,
   "n": [
    "Blaue",
    "Saphirne",
    "Azurne",
    "Astrale"
+  ],
+  "r": [
+   [
+    5,
+    12
+   ],
+   [
+    13,
+    24
+   ],
+   [
+    21,
+    36
+   ],
+   [
+    29,
+    48
+   ]
   ]
  },
  {
   "k": "mf",
   "p": 1,
   "s": "HRMGB",
+  "minT": 0,
   "n": [
    "Glückliche",
    "Funkelnde",
    "Gesegnete",
    "Schicksalhafte"
+  ],
+  "r": [
+   [
+    5,
+    12
+   ],
+   [
+    11,
+    22
+   ],
+   [
+    17,
+    32
+   ],
+   [
+    23,
+    42
+   ]
   ]
  },
  {
   "k": "res",
   "p": 1,
   "s": "AHOBRME",
+  "minT": 0,
   "n": [
    "Beschützte",
    "Geweihte",
    "Bewahrte",
    "Unbeugsame"
+  ],
+  "r": [
+   [
+    4,
+    10
+   ],
+   [
+    9,
+    17
+   ],
+   [
+    14,
+    24
+   ],
+   [
+    19,
+    31
+   ]
   ]
  },
  {
   "k": "spell",
   "p": 1,
   "s": "WRMH",
+  "minT": 0,
   "n": [
    "Mystische",
    "Arkane",
    "Gelehrte",
    "Ewige"
+  ],
+  "r": [
+   [
+    8,
+    15
+   ],
+   [
+    18,
+    30
+   ],
+   [
+    28,
+    45
+   ],
+   [
+    38,
+    60
+   ]
   ]
  },
  {
   "k": "str",
   "p": 0,
   "s": "WOHAGBERM",
+  "minT": 0,
   "n": [
    "der Kraft",
    "des Riesen",
    "des Titanen",
    "des Kolosses"
+  ],
+  "r": [
+   [
+    2,
+    5
+   ],
+   [
+    5,
+    10
+   ],
+   [
+    8,
+    15
+   ],
+   [
+    11,
+    20
+   ]
   ]
  },
  {
   "k": "dex",
   "p": 0,
   "s": "WOHAGBERM",
+  "minT": 0,
   "n": [
    "der Gewandtheit",
    "des Fuchses",
    "des Falken",
    "des Schattens"
+  ],
+  "r": [
+   [
+    2,
+    5
+   ],
+   [
+    5,
+    10
+   ],
+   [
+    8,
+    15
+   ],
+   [
+    11,
+    20
+   ]
   ]
  },
  {
   "k": "vit",
   "p": 0,
   "s": "WOHAGBERM",
+  "minT": 0,
   "n": [
    "der Ausdauer",
    "des Bären",
    "des Mammuts",
    "des Berges"
+  ],
+  "r": [
+   [
+    2,
+    5
+   ],
+   [
+    5,
+    10
+   ],
+   [
+    8,
+    15
+   ],
+   [
+    11,
+    20
+   ]
   ]
  },
  {
   "k": "ene",
   "p": 0,
   "s": "WOHAGBERM",
+  "minT": 0,
   "n": [
    "des Geistes",
    "der Zauberei",
    "des Weisen",
    "des Orakels"
+  ],
+  "r": [
+   [
+    2,
+    5
+   ],
+   [
+    5,
+    10
+   ],
+   [
+    8,
+    15
+   ],
+   [
+    11,
+    20
+   ]
   ]
  },
  {
   "k": "ls",
   "p": 0,
   "s": "WRG",
+  "minT": 0,
   "n": [
    "des Egels",
    "des Blutegels",
    "des Vampirs",
    "des Blutfürsten"
+  ],
+  "r": [
+   [
+    2,
+    4
+   ],
+   [
+    3,
+    6
+   ],
+   [
+    4,
+    8
+   ],
+   [
+    5,
+    10
+   ]
   ]
  },
  {
   "k": "ias",
   "p": 0,
   "s": "WG",
+  "minT": 0,
   "n": [
    "der Eile",
    "der Schnelligkeit",
    "des Sturms",
    "des Blitzes"
+  ],
+  "r": [
+   [
+    5,
+    10
+   ],
+   [
+    10,
+    18
+   ],
+   [
+    15,
+    26
+   ],
+   [
+    20,
+    34
+   ]
   ]
  },
  {
   "k": "frw",
   "p": 0,
   "s": "B",
+  "minT": 0,
   "n": [
    "des Wanderers",
    "des Windes",
    "des Hirsches",
    "des Geparden"
+  ],
+  "r": [
+   [
+    5,
+    10
+   ],
+   [
+    10,
+    17
+   ],
+   [
+    15,
+    24
+   ],
+   [
+    20,
+    31
+   ]
   ]
  },
  {
   "k": "crit",
   "p": 0,
   "s": "WGRM",
+  "minT": 0,
   "n": [
    "der Präzision",
    "des Jägers",
    "des Henkers",
    "des Todes"
+  ],
+  "r": [
+   [
+    2,
+    4
+   ],
+   [
+    4,
+    7
+   ],
+   [
+    6,
+    10
+   ],
+   [
+    8,
+    13
+   ]
   ]
  },
  {
   "k": "regen",
   "p": 0,
   "s": "AHRBEM",
+  "minT": 0,
   "n": [
    "der Heilung",
    "der Erneuerung",
    "des Trolls",
    "der Unsterblichkeit"
+  ],
+  "r": [
+   [
+    1,
+    3
+   ],
+   [
+    2,
+    5
+   ],
+   [
+    3,
+    7
+   ],
+   [
+    4,
+    9
+   ]
   ]
  },
  {
@@ -218,94 +579,264 @@
    "der Meisterschaft",
    "der Meisterschaft",
    "der Erleuchtung"
+  ],
+  "r": [
+   [
+    1,
+    1
+   ],
+   [
+    1,
+    1
+   ],
+   [
+    1,
+    1
+   ],
+   [
+    1,
+    2
+   ]
   ]
  },
  {
   "k": "stam",
   "p": 0,
   "s": "ABEH",
+  "minT": 0,
   "n": [
    "der Zähigkeit",
    "des Läufers",
    "des Ochsen",
    "des Unermüdlichen"
+  ],
+  "r": [
+   [
+    5,
+    10
+   ],
+   [
+    10,
+    18
+   ],
+   [
+    15,
+    26
+   ],
+   [
+    20,
+    34
+   ]
   ]
  },
  {
   "k": "poison",
   "p": 1,
   "s": "WGR",
+  "minT": 0,
   "n": [
    "Giftige",
    "Ätzende",
    "Verderbliche",
    "Pestilente"
+  ],
+  "r": [
+   [
+    2,
+    5
+   ],
+   [
+    6,
+    15
+   ],
+   [
+    10,
+    25
+   ],
+   [
+    14,
+    35
+   ]
   ]
  },
  {
   "k": "glutf",
   "p": 1,
   "s": "HRMBE",
+  "minT": 0,
   "n": [
    "Habgierige",
    "Gierige",
    "Raffende",
    "Unersättliche"
+  ],
+  "r": [
+   [
+    8,
+    15
+   ],
+   [
+    16,
+    30
+   ],
+   [
+    24,
+    45
+   ],
+   [
+    32,
+    60
+   ]
   ]
  },
  {
   "k": "block",
   "p": 1,
   "s": "O",
+  "minT": 0,
   "n": [
    "Wehrhafte",
    "Abwehrende",
    "Trutzige",
    "Unerschütterliche"
+  ],
+  "r": [
+   [
+    3,
+    5
+   ],
+   [
+    5,
+    9
+   ],
+   [
+    7,
+    13
+   ],
+   [
+    9,
+    17
+   ]
   ]
  },
  {
   "k": "thorns",
   "p": 0,
   "s": "AOHE",
+  "minT": 0,
   "n": [
    "der Dornen",
    "des Igels",
    "der Stacheln",
    "der Vergeltung"
+  ],
+  "r": [
+   [
+    2,
+    6
+   ],
+   [
+    6,
+    16
+   ],
+   [
+    10,
+    26
+   ],
+   [
+    14,
+    36
+   ]
   ]
  },
  {
   "k": "xp",
   "p": 0,
   "s": "HMR",
+  "minT": 0,
   "n": [
    "des Lernens",
    "des Schülers",
    "des Meisters",
    "der Weisheit"
+  ],
+  "r": [
+   [
+    3,
+    6
+   ],
+   [
+    5,
+    10
+   ],
+   [
+    7,
+    14
+   ],
+   [
+    9,
+    18
+   ]
   ]
  },
  {
   "k": "mregen",
   "p": 0,
   "s": "MRHW",
+  "minT": 0,
   "n": [
    "der Sammlung",
    "der Klarheit",
    "der Meditation",
    "der Andacht"
+  ],
+  "r": [
+   [
+    1,
+    2
+   ],
+   [
+    2,
+    4
+   ],
+   [
+    3,
+    6
+   ],
+   [
+    4,
+    8
+   ]
   ]
  },
  {
   "k": "dmgred",
   "p": 0,
   "s": "AHOB",
+  "minT": 0,
   "n": [
    "der Härte",
    "des Ambosses",
    "des Felsens",
    "der Festung"
+  ],
+  "r": [
+   [
+    1,
+    3
+   ],
+   [
+    3,
+    6
+   ],
+   [
+    5,
+    9
+   ],
+   [
+    7,
+    12
+   ]
   ]
  }
 ]

@@ -17,6 +17,8 @@ func _draw() -> void:
 		_draw_texts()
 		return
 	if mode == "ground":
+		for gi in level.items:
+			_ground_item(gi)
 		for t in level.tele:
 			if t.t >= 0:
 				_tele(t)
@@ -46,8 +48,26 @@ func _draw() -> void:
 		Prop.glow(self, Iso.to_screen(Vector2(level.glutmal.x, level.glutmal.y)) - Vector2(0, 6), 10, Color(1, .55, .2, .8))
 		Prop.flame(self, Iso.to_screen(Vector2(level.glutmal.x, level.glutmal.y)).x, Iso.to_screen(Vector2(level.glutmal.x, level.glutmal.y)).y - 2, 4, 0, Game.t)
 
+## an item on the floor: a soft glow of its rarity under it, its picture hopping once as it lands (drawGroundItem)
+func _ground_item(gi: Dictionary) -> void:
+	var s := Iso.to_screen(Vector2(gi.x, gi.y))
+	var it: Dictionary = gi.it
+	if it.rar != "normal" and it.rar != "junk":
+		Prop.ellipse(self, s.x, s.y, 16, 8, Color(Items.RCOL[it.rar], .25 + sin(gi.t * 4) * .1))
+	var tex := Items.ground_pic(it)
+	if tex:
+		var hop: float = sin(gi.t / .4 * PI) * 14 if gi.t < .4 else 0.0
+		draw_texture(tex, s + Vector2(-17, -28 - hop))
+
 func _draw_texts() -> void:
 	var font := ThemeDB.fallback_font
+	for l in level.labels:
+		var r: Rect2 = l.r
+		draw_rect(r, Color(40 / 255.0, 40 / 255.0, 60 / 255.0, .95) if l.gi == level.hover_i else Color(0, 0, 0, .72))
+		var it: Dictionary = l.gi.it
+		var nm: String = it.name + (" (%d)" % it.n if it.get("n", 1) > 1 else "")
+		var tw := font.get_string_size(nm, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
+		draw_string(font, Vector2(r.position.x + (r.size.x - tw) / 2, r.position.y + 11), nm, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Items.RCOL.get(it.rar, Items.RCOL.normal))
 	for t in level.texts:
 		var sp := Iso.to_screen(Vector2(t.x, t.y)) - Vector2(0, t.z * 34)
 		var pop: float = 1 + (1 - t.t / .12) * .8 if t.t < .12 else 1.0

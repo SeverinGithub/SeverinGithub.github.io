@@ -6,6 +6,7 @@ extends Node
 
 var level: Level
 var hud: Hud
+var inv_panel: Inventory
 var args := {}
 
 func _ready() -> void:
@@ -30,8 +31,26 @@ func _ready() -> void:
 	add_child(layer)
 	hud = Hud.new()
 	layer.add_child(hud)
+	inv_panel = Inventory.new()
+	layer.add_child(inv_panel)
 	enter_floor(int(args.get("floor", "1")))
-	Game.log_msg("Klicke auf den Boden, um zu gehen, auf Feinde, um zuzuschlagen. Leertaste rollt, F trinkt aus dem Flakon.")
+	Game.log_msg("Klicke auf den Boden, um zu gehen, auf Feinde, um zuzuschlagen. Leertaste rollt, F trinkt aus dem Flakon, Q und X Tränke, I öffnet das Inventar.")
+	if args.has("loot"):
+		# test: a heap of items around the hero, the bag filled, the panel open
+		var ilvl := int(args.get("ilvl", "20"))
+		for k in int(args.loot):
+			var rar: String = ["normal", "magic", "rare", "unique"][k % 4]
+			level.drop_item(Items.make(ilvl, {"rarity": rar}), level.P.x + 1.5, level.P.y + 1.5)
+		for k in 6:
+			Items.inv_add(Items.make(ilvl, {"rarity": ["magic", "rare", "unique"][k % 3]}))
+		for k in 3:
+			Items.inv_add(Items.junk_for(null, 3))
+		for gi in level.items:
+			gi.t = 1.0
+	if args.has("inv"):
+		inv_panel.visible = true
+		var it = Game.inv.filter(func(i): return i.slot != "potion" and i.slot != "junk").front()
+		inv_panel._hover_it = it
 	if args.has("bot"):
 		_bot()
 	if args.has("shot"):
@@ -51,6 +70,7 @@ func enter_floor(f: int) -> void:
 	move_child(level, 0)
 	level.build(DungeonGen.generate(Game.seed_value, f))
 	hud.level = level
+	inv_panel.level = level
 	Game.floor_changed.emit(f)
 	Game.log_msg("Ebene %d · Monsterstufe %d" % [f, Game.mlvl], Color("#a39b88"))
 
@@ -86,7 +106,18 @@ func _bot() -> void:
 		await get_tree().create_timer(.3).timeout
 		if level.P.dead:
 			continue
-		if level.P.target == null:
+		if level.P.target == null and level.P.pick == null and level.items.size():
+			# loot first: the nearest thing on the ground
+			var gi = level.items[0]
+			for g in level.items:
+				if level.hero.world.distance_to(Vector2(g.x, g.y)) < level.hero.world.distance_to(Vector2(gi.x, gi.y)):
+					gi = g
+			level.P.pick = gi
+			level.P.path = level.find_path(level.hero.world, Vector2(gi.x, gi.y))
+			if level.P.path.is_empty():
+				level.items.erase(gi)
+				level.P.pick = null
+		if level.P.target == null and level.P.pick == null:
 			level.P.target = near.call()
 		var kills := level.enemies.filter(func(e): return e.dead).size()
-		print("Bot: Leben %d/%d · Stufe %d · Erfahrung %d · Glut %d · erledigt %d von %d" % [Game.hp, Game.d.life, Game.lvl, Game.xp, Game.glut, kills, level.enemies.size()])
+		print("Bot: Leben %d/%d · Stufe %d · Erfahrung %d · Glut %d · erledigt %d von %d · Boden %d · Tasche %s" % [Game.hp, Game.d.life, Game.lvl, Game.xp, Game.glut, kills, level.enemies.size(), level.items.size(), ", ".join(Game.inv.map(func(i): return i.name + ("×%d" % i.n if i.get("n", 1) > 1 else "")))])

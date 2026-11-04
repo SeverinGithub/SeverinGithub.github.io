@@ -1,0 +1,6987 @@
+{
+ "Kurzschwert": {
+  "file": "kurzschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dolch": {
+  "file": "dolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Keule": {
+  "file": "keule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Handaxt": {
+  "file": "handaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Eichenstab": {
+  "file": "eichenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Krummsäbel": {
+  "file": "krummsaebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Langschwert": {
+  "file": "langschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Speer": {
+  "file": "speer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Morgenstern": {
+  "file": "morgenstern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegsaxt": {
+  "file": "kriegsaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Zweihänder": {
+  "file": "zweihaender.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenklinge": {
+  "file": "runenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Hellebarde": {
+  "file": "hellebarde.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattendolch": {
+  "file": "schattendolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegshammer": {
+  "file": "kriegshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Aschestab": {
+  "file": "aschestab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Henkersbeil": {
+  "file": "henkersbeil.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsichel": {
+  "file": "mondsichel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Bluthacke": {
+  "file": "bluthacke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenzahn": {
+  "file": "drachenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kolossklinge": {
+  "file": "kolossklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstab": {
+  "file": "sternenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seelenspieß": {
+  "file": "seelenspiess.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtzahn": {
+  "file": "nachtzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Lederkappe": {
+  "file": "lederkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Eisenhelm": {
+  "file": "eisenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Topfhelm": {
+  "file": "topfhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Hornhelm": {
+  "file": "hornhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Totenkrone": {
+  "file": "totenkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Lederwams": {
+  "file": "lederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kettenhemd": {
+  "file": "kettenhemd.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schuppenpanzer": {
+  "file": "schuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Plattenharnisch": {
+  "file": "plattenharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzer Harnisch": {
+  "file": "schwarzer_harnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Lederhandschuhe": {
+  "file": "lederhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kettenhandschuhe": {
+  "file": "kettenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Panzerhandschuhe": {
+  "file": "panzerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Klauenhandschuhe": {
+  "file": "klauenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Stiefel": {
+  "file": "stiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kettenstiefel": {
+  "file": "kettenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Plattenstiefel": {
+  "file": "plattenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattentreter": {
+  "file": "schattentreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schärpe": {
+  "file": "schaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Ledergürtel": {
+  "file": "lederguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegsgürtel": {
+  "file": "kriegsguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kettengürtel": {
+  "file": "kettenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rundschild": {
+  "file": "rundschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Turmschild": {
+  "file": "turmschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wappenschild": {
+  "file": "wappenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Grabsteinschild": {
+  "file": "grabsteinschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Ring": {
+  "file": "ring.png",
+  "w": 34,
+  "h": 34
+ },
+ "Amulett": {
+  "file": "amulett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kurzschwert": {
+  "file": "obsidian_kurzschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kurzschwert": {
+  "file": "blutstahl_kurzschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kurzschwert": {
+  "file": "mondsilber_kurzschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kurzschwert": {
+  "file": "sternenstahl_kurzschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kurzschwert": {
+  "file": "leerenstahl_kurzschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kurzschwert": {
+  "file": "drachenglas_kurzschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Dolch": {
+  "file": "obsidian_dolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Dolch": {
+  "file": "blutstahl_dolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Dolch": {
+  "file": "mondsilber_dolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Dolch": {
+  "file": "sternenstahl_dolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Dolch": {
+  "file": "leerenstahl_dolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Dolch": {
+  "file": "drachenglas_dolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Keule": {
+  "file": "obsidian_keule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Keule": {
+  "file": "blutstahl_keule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Keule": {
+  "file": "mondsilber_keule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Keule": {
+  "file": "sternenstahl_keule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Keule": {
+  "file": "leerenstahl_keule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Keule": {
+  "file": "drachenglas_keule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Handaxt": {
+  "file": "obsidian_handaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Handaxt": {
+  "file": "blutstahl_handaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Handaxt": {
+  "file": "mondsilber_handaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Handaxt": {
+  "file": "sternenstahl_handaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Handaxt": {
+  "file": "leerenstahl_handaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Handaxt": {
+  "file": "drachenglas_handaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Eichenstab": {
+  "file": "obsidian_eichenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Eichenstab": {
+  "file": "blutstahl_eichenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Eichenstab": {
+  "file": "mondsilber_eichenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Eichenstab": {
+  "file": "sternenstahl_eichenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Eichenstab": {
+  "file": "leerenstahl_eichenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Eichenstab": {
+  "file": "drachenglas_eichenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Krummsäbel": {
+  "file": "obsidian_krummsaebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Krummsäbel": {
+  "file": "blutstahl_krummsaebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Krummsäbel": {
+  "file": "mondsilber_krummsaebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Krummsäbel": {
+  "file": "sternenstahl_krummsaebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Krummsäbel": {
+  "file": "leerenstahl_krummsaebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Krummsäbel": {
+  "file": "drachenglas_krummsaebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Langschwert": {
+  "file": "obsidian_langschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Langschwert": {
+  "file": "blutstahl_langschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Langschwert": {
+  "file": "mondsilber_langschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Langschwert": {
+  "file": "sternenstahl_langschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Langschwert": {
+  "file": "leerenstahl_langschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Langschwert": {
+  "file": "drachenglas_langschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Speer": {
+  "file": "obsidian_speer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Speer": {
+  "file": "blutstahl_speer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Speer": {
+  "file": "mondsilber_speer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Speer": {
+  "file": "sternenstahl_speer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Speer": {
+  "file": "leerenstahl_speer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Speer": {
+  "file": "drachenglas_speer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Morgenstern": {
+  "file": "obsidian_morgenstern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Morgenstern": {
+  "file": "blutstahl_morgenstern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Morgenstern": {
+  "file": "mondsilber_morgenstern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Morgenstern": {
+  "file": "sternenstahl_morgenstern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Morgenstern": {
+  "file": "leerenstahl_morgenstern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Morgenstern": {
+  "file": "drachenglas_morgenstern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kriegsaxt": {
+  "file": "obsidian_kriegsaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kriegsaxt": {
+  "file": "blutstahl_kriegsaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kriegsaxt": {
+  "file": "mondsilber_kriegsaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kriegsaxt": {
+  "file": "sternenstahl_kriegsaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kriegsaxt": {
+  "file": "leerenstahl_kriegsaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kriegsaxt": {
+  "file": "drachenglas_kriegsaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Zweihänder": {
+  "file": "obsidian_zweihaender.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Zweihänder": {
+  "file": "blutstahl_zweihaender.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Zweihänder": {
+  "file": "mondsilber_zweihaender.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Zweihänder": {
+  "file": "sternenstahl_zweihaender.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Zweihänder": {
+  "file": "leerenstahl_zweihaender.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Zweihänder": {
+  "file": "drachenglas_zweihaender.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Runenklinge": {
+  "file": "obsidian_runenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Runenklinge": {
+  "file": "blutstahl_runenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Runenklinge": {
+  "file": "mondsilber_runenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Runenklinge": {
+  "file": "sternenstahl_runenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Runenklinge": {
+  "file": "leerenstahl_runenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Runenklinge": {
+  "file": "drachenglas_runenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Hellebarde": {
+  "file": "obsidian_hellebarde.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Hellebarde": {
+  "file": "blutstahl_hellebarde.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Hellebarde": {
+  "file": "mondsilber_hellebarde.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Hellebarde": {
+  "file": "sternenstahl_hellebarde.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Hellebarde": {
+  "file": "leerenstahl_hellebarde.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Hellebarde": {
+  "file": "drachenglas_hellebarde.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Schattendolch": {
+  "file": "obsidian_schattendolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Schattendolch": {
+  "file": "blutstahl_schattendolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Schattendolch": {
+  "file": "mondsilber_schattendolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Schattendolch": {
+  "file": "sternenstahl_schattendolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Schattendolch": {
+  "file": "leerenstahl_schattendolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Schattendolch": {
+  "file": "drachenglas_schattendolch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kriegshammer": {
+  "file": "obsidian_kriegshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kriegshammer": {
+  "file": "blutstahl_kriegshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kriegshammer": {
+  "file": "mondsilber_kriegshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kriegshammer": {
+  "file": "sternenstahl_kriegshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kriegshammer": {
+  "file": "leerenstahl_kriegshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kriegshammer": {
+  "file": "drachenglas_kriegshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Aschestab": {
+  "file": "obsidian_aschestab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Aschestab": {
+  "file": "blutstahl_aschestab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Aschestab": {
+  "file": "mondsilber_aschestab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Aschestab": {
+  "file": "sternenstahl_aschestab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Aschestab": {
+  "file": "leerenstahl_aschestab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Aschestab": {
+  "file": "drachenglas_aschestab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Henkersbeil": {
+  "file": "obsidian_henkersbeil.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Henkersbeil": {
+  "file": "blutstahl_henkersbeil.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Henkersbeil": {
+  "file": "mondsilber_henkersbeil.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Henkersbeil": {
+  "file": "sternenstahl_henkersbeil.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Henkersbeil": {
+  "file": "leerenstahl_henkersbeil.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Henkersbeil": {
+  "file": "drachenglas_henkersbeil.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Mondsichel": {
+  "file": "obsidian_mondsichel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Mondsichel": {
+  "file": "blutstahl_mondsichel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Mondsichel": {
+  "file": "mondsilber_mondsichel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Mondsichel": {
+  "file": "sternenstahl_mondsichel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Mondsichel": {
+  "file": "leerenstahl_mondsichel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Mondsichel": {
+  "file": "drachenglas_mondsichel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Bluthacke": {
+  "file": "obsidian_bluthacke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Bluthacke": {
+  "file": "blutstahl_bluthacke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Bluthacke": {
+  "file": "mondsilber_bluthacke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Bluthacke": {
+  "file": "sternenstahl_bluthacke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Bluthacke": {
+  "file": "leerenstahl_bluthacke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Bluthacke": {
+  "file": "drachenglas_bluthacke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Drachenzahn": {
+  "file": "obsidian_drachenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Drachenzahn": {
+  "file": "blutstahl_drachenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Drachenzahn": {
+  "file": "mondsilber_drachenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Drachenzahn": {
+  "file": "sternenstahl_drachenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Drachenzahn": {
+  "file": "leerenstahl_drachenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Drachenzahn": {
+  "file": "drachenglas_drachenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kolossklinge": {
+  "file": "obsidian_kolossklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kolossklinge": {
+  "file": "blutstahl_kolossklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kolossklinge": {
+  "file": "mondsilber_kolossklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kolossklinge": {
+  "file": "sternenstahl_kolossklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kolossklinge": {
+  "file": "leerenstahl_kolossklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kolossklinge": {
+  "file": "drachenglas_kolossklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Sternenstab": {
+  "file": "obsidian_sternenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Sternenstab": {
+  "file": "blutstahl_sternenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Sternenstab": {
+  "file": "mondsilber_sternenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Sternenstab": {
+  "file": "sternenstahl_sternenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Sternenstab": {
+  "file": "leerenstahl_sternenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Sternenstab": {
+  "file": "drachenglas_sternenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Seelenspieß": {
+  "file": "obsidian_seelenspiess.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Seelenspieß": {
+  "file": "blutstahl_seelenspiess.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Seelenspieß": {
+  "file": "mondsilber_seelenspiess.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Seelenspieß": {
+  "file": "sternenstahl_seelenspiess.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Seelenspieß": {
+  "file": "leerenstahl_seelenspiess.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Seelenspieß": {
+  "file": "drachenglas_seelenspiess.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Nachtzahn": {
+  "file": "obsidian_nachtzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Nachtzahn": {
+  "file": "blutstahl_nachtzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Nachtzahn": {
+  "file": "mondsilber_nachtzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Nachtzahn": {
+  "file": "sternenstahl_nachtzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Nachtzahn": {
+  "file": "leerenstahl_nachtzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Nachtzahn": {
+  "file": "drachenglas_nachtzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Lederkappe": {
+  "file": "obsidian_lederkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Lederkappe": {
+  "file": "blutstahl_lederkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Lederkappe": {
+  "file": "mondsilber_lederkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Lederkappe": {
+  "file": "sternenstahl_lederkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Lederkappe": {
+  "file": "leerenstahl_lederkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Lederkappe": {
+  "file": "drachenglas_lederkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Eisenhelm": {
+  "file": "obsidian_eisenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Eisenhelm": {
+  "file": "blutstahl_eisenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Eisenhelm": {
+  "file": "mondsilber_eisenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Eisenhelm": {
+  "file": "sternenstahl_eisenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Eisenhelm": {
+  "file": "leerenstahl_eisenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Eisenhelm": {
+  "file": "drachenglas_eisenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Topfhelm": {
+  "file": "obsidian_topfhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Topfhelm": {
+  "file": "blutstahl_topfhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Topfhelm": {
+  "file": "mondsilber_topfhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Topfhelm": {
+  "file": "sternenstahl_topfhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Topfhelm": {
+  "file": "leerenstahl_topfhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Topfhelm": {
+  "file": "drachenglas_topfhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Hornhelm": {
+  "file": "obsidian_hornhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Hornhelm": {
+  "file": "blutstahl_hornhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Hornhelm": {
+  "file": "mondsilber_hornhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Hornhelm": {
+  "file": "sternenstahl_hornhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Hornhelm": {
+  "file": "leerenstahl_hornhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Hornhelm": {
+  "file": "drachenglas_hornhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Totenkrone": {
+  "file": "obsidian_totenkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Totenkrone": {
+  "file": "blutstahl_totenkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Totenkrone": {
+  "file": "mondsilber_totenkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Totenkrone": {
+  "file": "sternenstahl_totenkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Totenkrone": {
+  "file": "leerenstahl_totenkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Totenkrone": {
+  "file": "drachenglas_totenkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Lederwams": {
+  "file": "obsidian_lederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Lederwams": {
+  "file": "blutstahl_lederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Lederwams": {
+  "file": "mondsilber_lederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Lederwams": {
+  "file": "sternenstahl_lederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Lederwams": {
+  "file": "leerenstahl_lederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Lederwams": {
+  "file": "drachenglas_lederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kettenhemd": {
+  "file": "obsidian_kettenhemd.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kettenhemd": {
+  "file": "blutstahl_kettenhemd.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kettenhemd": {
+  "file": "mondsilber_kettenhemd.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kettenhemd": {
+  "file": "sternenstahl_kettenhemd.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kettenhemd": {
+  "file": "leerenstahl_kettenhemd.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kettenhemd": {
+  "file": "drachenglas_kettenhemd.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Schuppenpanzer": {
+  "file": "obsidian_schuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Schuppenpanzer": {
+  "file": "blutstahl_schuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Schuppenpanzer": {
+  "file": "mondsilber_schuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Schuppenpanzer": {
+  "file": "sternenstahl_schuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Schuppenpanzer": {
+  "file": "leerenstahl_schuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Schuppenpanzer": {
+  "file": "drachenglas_schuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Plattenharnisch": {
+  "file": "obsidian_plattenharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Plattenharnisch": {
+  "file": "blutstahl_plattenharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Plattenharnisch": {
+  "file": "mondsilber_plattenharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Plattenharnisch": {
+  "file": "sternenstahl_plattenharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Plattenharnisch": {
+  "file": "leerenstahl_plattenharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Plattenharnisch": {
+  "file": "drachenglas_plattenharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Schwarzer Harnisch": {
+  "file": "obsidian_schwarzer_harnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Schwarzer Harnisch": {
+  "file": "blutstahl_schwarzer_harnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Schwarzer Harnisch": {
+  "file": "mondsilber_schwarzer_harnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Schwarzer Harnisch": {
+  "file": "sternenstahl_schwarzer_harnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Schwarzer Harnisch": {
+  "file": "leerenstahl_schwarzer_harnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Schwarzer Harnisch": {
+  "file": "drachenglas_schwarzer_harnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Lederhandschuhe": {
+  "file": "obsidian_lederhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Lederhandschuhe": {
+  "file": "blutstahl_lederhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Lederhandschuhe": {
+  "file": "mondsilber_lederhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Lederhandschuhe": {
+  "file": "sternenstahl_lederhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Lederhandschuhe": {
+  "file": "leerenstahl_lederhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Lederhandschuhe": {
+  "file": "drachenglas_lederhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kettenhandschuhe": {
+  "file": "obsidian_kettenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kettenhandschuhe": {
+  "file": "blutstahl_kettenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kettenhandschuhe": {
+  "file": "mondsilber_kettenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kettenhandschuhe": {
+  "file": "sternenstahl_kettenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kettenhandschuhe": {
+  "file": "leerenstahl_kettenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kettenhandschuhe": {
+  "file": "drachenglas_kettenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Panzerhandschuhe": {
+  "file": "obsidian_panzerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Panzerhandschuhe": {
+  "file": "blutstahl_panzerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Panzerhandschuhe": {
+  "file": "mondsilber_panzerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Panzerhandschuhe": {
+  "file": "sternenstahl_panzerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Panzerhandschuhe": {
+  "file": "leerenstahl_panzerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Panzerhandschuhe": {
+  "file": "drachenglas_panzerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Klauenhandschuhe": {
+  "file": "obsidian_klauenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Klauenhandschuhe": {
+  "file": "blutstahl_klauenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Klauenhandschuhe": {
+  "file": "mondsilber_klauenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Klauenhandschuhe": {
+  "file": "sternenstahl_klauenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Klauenhandschuhe": {
+  "file": "leerenstahl_klauenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Klauenhandschuhe": {
+  "file": "drachenglas_klauenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Stiefel": {
+  "file": "obsidian_stiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Stiefel": {
+  "file": "blutstahl_stiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Stiefel": {
+  "file": "mondsilber_stiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Stiefel": {
+  "file": "sternenstahl_stiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Stiefel": {
+  "file": "leerenstahl_stiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Stiefel": {
+  "file": "drachenglas_stiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kettenstiefel": {
+  "file": "obsidian_kettenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kettenstiefel": {
+  "file": "blutstahl_kettenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kettenstiefel": {
+  "file": "mondsilber_kettenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kettenstiefel": {
+  "file": "sternenstahl_kettenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kettenstiefel": {
+  "file": "leerenstahl_kettenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kettenstiefel": {
+  "file": "drachenglas_kettenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Plattenstiefel": {
+  "file": "obsidian_plattenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Plattenstiefel": {
+  "file": "blutstahl_plattenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Plattenstiefel": {
+  "file": "mondsilber_plattenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Plattenstiefel": {
+  "file": "sternenstahl_plattenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Plattenstiefel": {
+  "file": "leerenstahl_plattenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Plattenstiefel": {
+  "file": "drachenglas_plattenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Schattentreter": {
+  "file": "obsidian_schattentreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Schattentreter": {
+  "file": "blutstahl_schattentreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Schattentreter": {
+  "file": "mondsilber_schattentreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Schattentreter": {
+  "file": "sternenstahl_schattentreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Schattentreter": {
+  "file": "leerenstahl_schattentreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Schattentreter": {
+  "file": "drachenglas_schattentreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Schärpe": {
+  "file": "obsidian_schaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Schärpe": {
+  "file": "blutstahl_schaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Schärpe": {
+  "file": "mondsilber_schaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Schärpe": {
+  "file": "sternenstahl_schaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Schärpe": {
+  "file": "leerenstahl_schaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Schärpe": {
+  "file": "drachenglas_schaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Ledergürtel": {
+  "file": "obsidian_lederguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Ledergürtel": {
+  "file": "blutstahl_lederguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Ledergürtel": {
+  "file": "mondsilber_lederguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Ledergürtel": {
+  "file": "sternenstahl_lederguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Ledergürtel": {
+  "file": "leerenstahl_lederguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Ledergürtel": {
+  "file": "drachenglas_lederguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kriegsgürtel": {
+  "file": "obsidian_kriegsguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kriegsgürtel": {
+  "file": "blutstahl_kriegsguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kriegsgürtel": {
+  "file": "mondsilber_kriegsguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kriegsgürtel": {
+  "file": "sternenstahl_kriegsguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kriegsgürtel": {
+  "file": "leerenstahl_kriegsguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kriegsgürtel": {
+  "file": "drachenglas_kriegsguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kettengürtel": {
+  "file": "obsidian_kettenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kettengürtel": {
+  "file": "blutstahl_kettenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kettengürtel": {
+  "file": "mondsilber_kettenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kettengürtel": {
+  "file": "sternenstahl_kettenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kettengürtel": {
+  "file": "leerenstahl_kettenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kettengürtel": {
+  "file": "drachenglas_kettenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Rundschild": {
+  "file": "obsidian_rundschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Rundschild": {
+  "file": "blutstahl_rundschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Rundschild": {
+  "file": "mondsilber_rundschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Rundschild": {
+  "file": "sternenstahl_rundschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Rundschild": {
+  "file": "leerenstahl_rundschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Rundschild": {
+  "file": "drachenglas_rundschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Turmschild": {
+  "file": "obsidian_turmschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Turmschild": {
+  "file": "blutstahl_turmschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Turmschild": {
+  "file": "mondsilber_turmschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Turmschild": {
+  "file": "sternenstahl_turmschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Turmschild": {
+  "file": "leerenstahl_turmschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Turmschild": {
+  "file": "drachenglas_turmschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Wappenschild": {
+  "file": "obsidian_wappenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Wappenschild": {
+  "file": "blutstahl_wappenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Wappenschild": {
+  "file": "mondsilber_wappenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Wappenschild": {
+  "file": "sternenstahl_wappenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Wappenschild": {
+  "file": "leerenstahl_wappenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Wappenschild": {
+  "file": "drachenglas_wappenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Grabsteinschild": {
+  "file": "obsidian_grabsteinschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Grabsteinschild": {
+  "file": "blutstahl_grabsteinschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Grabsteinschild": {
+  "file": "mondsilber_grabsteinschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Grabsteinschild": {
+  "file": "sternenstahl_grabsteinschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Grabsteinschild": {
+  "file": "leerenstahl_grabsteinschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Grabsteinschild": {
+  "file": "drachenglas_grabsteinschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rubinring": {
+  "file": "rubinring.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rubinamulett": {
+  "file": "rubinamulett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Saphirring": {
+  "file": "saphirring.png",
+  "w": 34,
+  "h": 34
+ },
+ "Saphiramulett": {
+  "file": "saphiramulett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Smaragdring": {
+  "file": "smaragdring.png",
+  "w": 34,
+  "h": 34
+ },
+ "Smaragdamulett": {
+  "file": "smaragdamulett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Amethystring": {
+  "file": "amethystring.png",
+  "w": 34,
+  "h": 34
+ },
+ "Amethystamulett": {
+  "file": "amethystamulett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Topasring": {
+  "file": "topasring.png",
+  "w": 34,
+  "h": 34
+ },
+ "Topasamulett": {
+  "file": "topasamulett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seelenring": {
+  "file": "seelenring.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seelenamulett": {
+  "file": "seelenamulett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Zwillingsdolche": {
+  "file": "zwillingsdolche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Zwillingsdolche": {
+  "file": "obsidian_zwillingsdolche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Zwillingsdolche": {
+  "file": "blutstahl_zwillingsdolche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Zwillingsdolche": {
+  "file": "mondsilber_zwillingsdolche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Zwillingsdolche": {
+  "file": "sternenstahl_zwillingsdolche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Zwillingsdolche": {
+  "file": "leerenstahl_zwillingsdolche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Zwillingsdolche": {
+  "file": "drachenglas_zwillingsdolche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Klingenpaar": {
+  "file": "klingenpaar.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Klingenpaar": {
+  "file": "obsidian_klingenpaar.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Klingenpaar": {
+  "file": "blutstahl_klingenpaar.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Klingenpaar": {
+  "file": "mondsilber_klingenpaar.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Klingenpaar": {
+  "file": "sternenstahl_klingenpaar.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Klingenpaar": {
+  "file": "leerenstahl_klingenpaar.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Klingenpaar": {
+  "file": "drachenglas_klingenpaar.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sichelzwillinge": {
+  "file": "sichelzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Sichelzwillinge": {
+  "file": "obsidian_sichelzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Sichelzwillinge": {
+  "file": "blutstahl_sichelzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Sichelzwillinge": {
+  "file": "mondsilber_sichelzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Sichelzwillinge": {
+  "file": "sternenstahl_sichelzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Sichelzwillinge": {
+  "file": "leerenstahl_sichelzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Sichelzwillinge": {
+  "file": "drachenglas_sichelzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattenzwillinge": {
+  "file": "schattenzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Schattenzwillinge": {
+  "file": "obsidian_schattenzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Schattenzwillinge": {
+  "file": "blutstahl_schattenzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Schattenzwillinge": {
+  "file": "mondsilber_schattenzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Schattenzwillinge": {
+  "file": "sternenstahl_schattenzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Schattenzwillinge": {
+  "file": "leerenstahl_schattenzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Schattenzwillinge": {
+  "file": "drachenglas_schattenzwillinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondklingen": {
+  "file": "mondklingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Mondklingen": {
+  "file": "obsidian_mondklingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Mondklingen": {
+  "file": "blutstahl_mondklingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Mondklingen": {
+  "file": "mondsilber_mondklingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Mondklingen": {
+  "file": "sternenstahl_mondklingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Mondklingen": {
+  "file": "leerenstahl_mondklingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Mondklingen": {
+  "file": "drachenglas_mondklingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Zwillingszähne": {
+  "file": "zwillingszaehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Zwillingszähne": {
+  "file": "obsidian_zwillingszaehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Zwillingszähne": {
+  "file": "blutstahl_zwillingszaehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Zwillingszähne": {
+  "file": "mondsilber_zwillingszaehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Zwillingszähne": {
+  "file": "sternenstahl_zwillingszaehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Zwillingszähne": {
+  "file": "leerenstahl_zwillingszaehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Zwillingszähne": {
+  "file": "drachenglas_zwillingszaehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtschwingen": {
+  "file": "nachtschwingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Nachtschwingen": {
+  "file": "obsidian_nachtschwingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Nachtschwingen": {
+  "file": "blutstahl_nachtschwingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Nachtschwingen": {
+  "file": "mondsilber_nachtschwingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Nachtschwingen": {
+  "file": "sternenstahl_nachtschwingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Nachtschwingen": {
+  "file": "leerenstahl_nachtschwingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Nachtschwingen": {
+  "file": "drachenglas_nachtschwingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Filzhut": {
+  "file": "filzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Filzhut": {
+  "file": "seiden_filzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Filzhut": {
+  "file": "mondseiden_filzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Filzhut": {
+  "file": "sternenseiden_filzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Spitzhut": {
+  "file": "spitzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Spitzhut": {
+  "file": "seiden_spitzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Spitzhut": {
+  "file": "mondseiden_spitzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Spitzhut": {
+  "file": "sternenseiden_spitzhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenhut": {
+  "file": "runenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Runenhut": {
+  "file": "seiden_runenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Runenhut": {
+  "file": "mondseiden_runenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Runenhut": {
+  "file": "sternenseiden_runenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenhut": {
+  "file": "sternenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Sternenhut": {
+  "file": "seiden_sternenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Sternenhut": {
+  "file": "mondseiden_sternenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Sternenhut": {
+  "file": "sternenseiden_sternenhut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Aschehaube": {
+  "file": "aschehaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Aschehaube": {
+  "file": "seiden_aschehaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Aschehaube": {
+  "file": "mondseiden_aschehaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Aschehaube": {
+  "file": "sternenseiden_aschehaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leinenrobe": {
+  "file": "leinenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Leinenrobe": {
+  "file": "seiden_leinenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Leinenrobe": {
+  "file": "mondseiden_leinenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Leinenrobe": {
+  "file": "sternenseiden_leinenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Novizenrobe": {
+  "file": "novizenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Novizenrobe": {
+  "file": "seiden_novizenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Novizenrobe": {
+  "file": "mondseiden_novizenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Novizenrobe": {
+  "file": "sternenseiden_novizenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenrobe": {
+  "file": "runenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Runenrobe": {
+  "file": "seiden_runenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Runenrobe": {
+  "file": "mondseiden_runenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Runenrobe": {
+  "file": "sternenseiden_runenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenrobe": {
+  "file": "sternenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Sternenrobe": {
+  "file": "seiden_sternenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Sternenrobe": {
+  "file": "mondseiden_sternenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Sternenrobe": {
+  "file": "sternenseiden_sternenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Aschenrobe": {
+  "file": "aschenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Aschenrobe": {
+  "file": "seiden_aschenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Aschenrobe": {
+  "file": "mondseiden_aschenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Aschenrobe": {
+  "file": "sternenseiden_aschenrobe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seidenhandschuhe": {
+  "file": "seidenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Seidenhandschuhe": {
+  "file": "seiden_seidenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Seidenhandschuhe": {
+  "file": "mondseiden_seidenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Seidenhandschuhe": {
+  "file": "sternenseiden_seidenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenhandschuhe": {
+  "file": "runenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Runenhandschuhe": {
+  "file": "seiden_runenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Runenhandschuhe": {
+  "file": "mondseiden_runenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Runenhandschuhe": {
+  "file": "sternenseiden_runenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenhandschuhe": {
+  "file": "sternenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Sternenhandschuhe": {
+  "file": "seiden_sternenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Sternenhandschuhe": {
+  "file": "mondseiden_sternenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Sternenhandschuhe": {
+  "file": "sternenseiden_sternenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sandalen": {
+  "file": "sandalen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Sandalen": {
+  "file": "seiden_sandalen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Sandalen": {
+  "file": "mondseiden_sandalen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Sandalen": {
+  "file": "sternenseiden_sandalen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Pilgerschuhe": {
+  "file": "pilgerschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Pilgerschuhe": {
+  "file": "seiden_pilgerschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Pilgerschuhe": {
+  "file": "mondseiden_pilgerschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Pilgerschuhe": {
+  "file": "sternenseiden_pilgerschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenschritt": {
+  "file": "leerenschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Leerenschritt": {
+  "file": "seiden_leerenschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Leerenschritt": {
+  "file": "mondseiden_leerenschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Leerenschritt": {
+  "file": "sternenseiden_leerenschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kordel": {
+  "file": "kordel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Kordel": {
+  "file": "seiden_kordel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Kordel": {
+  "file": "mondseiden_kordel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Kordel": {
+  "file": "sternenseiden_kordel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenschärpe": {
+  "file": "runenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Runenschärpe": {
+  "file": "seiden_runenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Runenschärpe": {
+  "file": "mondseiden_runenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Runenschärpe": {
+  "file": "sternenseiden_runenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternengurt": {
+  "file": "sternengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Sternengurt": {
+  "file": "seiden_sternengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Sternengurt": {
+  "file": "mondseiden_sternengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Sternengurt": {
+  "file": "sternenseiden_sternengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Zauberfibel": {
+  "file": "zauberfibel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Zauberfibel": {
+  "file": "seiden_zauberfibel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Zauberfibel": {
+  "file": "mondseiden_zauberfibel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Zauberfibel": {
+  "file": "sternenseiden_zauberfibel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Grimoire": {
+  "file": "grimoire.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Grimoire": {
+  "file": "seiden_grimoire.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Grimoire": {
+  "file": "mondseiden_grimoire.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Grimoire": {
+  "file": "sternenseiden_grimoire.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenfolio": {
+  "file": "sternenfolio.png",
+  "w": 34,
+  "h": 34
+ },
+ "Seiden-Sternenfolio": {
+  "file": "seiden_sternenfolio.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondseiden-Sternenfolio": {
+  "file": "mondseiden_sternenfolio.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenseiden-Sternenfolio": {
+  "file": "sternenseiden_sternenfolio.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppenhelm": {
+  "file": "drachenschuppenhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppenpanzer": {
+  "file": "drachenschuppenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenklauen": {
+  "file": "drachenklauen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppenstiefel": {
+  "file": "drachenschuppenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachengurt": {
+  "file": "drachengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschild": {
+  "file": "drachenschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kurzbogen": {
+  "file": "kurzbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kurzbogen": {
+  "file": "obsidian_kurzbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kurzbogen": {
+  "file": "blutstahl_kurzbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kurzbogen": {
+  "file": "mondsilber_kurzbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kurzbogen": {
+  "file": "sternenstahl_kurzbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kurzbogen": {
+  "file": "leerenstahl_kurzbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kurzbogen": {
+  "file": "drachenglas_kurzbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Jagdbogen": {
+  "file": "jagdbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Jagdbogen": {
+  "file": "obsidian_jagdbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Jagdbogen": {
+  "file": "blutstahl_jagdbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Jagdbogen": {
+  "file": "mondsilber_jagdbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Jagdbogen": {
+  "file": "sternenstahl_jagdbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Jagdbogen": {
+  "file": "leerenstahl_jagdbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Jagdbogen": {
+  "file": "drachenglas_jagdbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Langbogen": {
+  "file": "langbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Langbogen": {
+  "file": "obsidian_langbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Langbogen": {
+  "file": "blutstahl_langbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Langbogen": {
+  "file": "mondsilber_langbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Langbogen": {
+  "file": "sternenstahl_langbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Langbogen": {
+  "file": "leerenstahl_langbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Langbogen": {
+  "file": "drachenglas_langbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kompositbogen": {
+  "file": "kompositbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kompositbogen": {
+  "file": "obsidian_kompositbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kompositbogen": {
+  "file": "blutstahl_kompositbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kompositbogen": {
+  "file": "mondsilber_kompositbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kompositbogen": {
+  "file": "sternenstahl_kompositbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kompositbogen": {
+  "file": "leerenstahl_kompositbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kompositbogen": {
+  "file": "drachenglas_kompositbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Knochenbogen": {
+  "file": "knochenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Knochenbogen": {
+  "file": "obsidian_knochenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Knochenbogen": {
+  "file": "blutstahl_knochenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Knochenbogen": {
+  "file": "mondsilber_knochenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Knochenbogen": {
+  "file": "sternenstahl_knochenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Knochenbogen": {
+  "file": "leerenstahl_knochenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Knochenbogen": {
+  "file": "drachenglas_knochenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenbogen": {
+  "file": "drachenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Drachenbogen": {
+  "file": "obsidian_drachenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Drachenbogen": {
+  "file": "blutstahl_drachenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Drachenbogen": {
+  "file": "mondsilber_drachenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Drachenbogen": {
+  "file": "sternenstahl_drachenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Drachenbogen": {
+  "file": "leerenstahl_drachenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Drachenbogen": {
+  "file": "drachenglas_drachenbogen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leichte Armbrust": {
+  "file": "leichte_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Leichte Armbrust": {
+  "file": "obsidian_leichte_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Leichte Armbrust": {
+  "file": "blutstahl_leichte_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Leichte Armbrust": {
+  "file": "mondsilber_leichte_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Leichte Armbrust": {
+  "file": "sternenstahl_leichte_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Leichte Armbrust": {
+  "file": "leerenstahl_leichte_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Leichte Armbrust": {
+  "file": "drachenglas_leichte_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Armbrust": {
+  "file": "armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Armbrust": {
+  "file": "obsidian_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Armbrust": {
+  "file": "blutstahl_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Armbrust": {
+  "file": "mondsilber_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Armbrust": {
+  "file": "sternenstahl_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Armbrust": {
+  "file": "leerenstahl_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Armbrust": {
+  "file": "drachenglas_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwere Armbrust": {
+  "file": "schwere_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Schwere Armbrust": {
+  "file": "obsidian_schwere_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Schwere Armbrust": {
+  "file": "blutstahl_schwere_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Schwere Armbrust": {
+  "file": "mondsilber_schwere_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Schwere Armbrust": {
+  "file": "sternenstahl_schwere_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Schwere Armbrust": {
+  "file": "leerenstahl_schwere_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Schwere Armbrust": {
+  "file": "drachenglas_schwere_armbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Belagerungsarmbrust": {
+  "file": "belagerungsarmbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Belagerungsarmbrust": {
+  "file": "obsidian_belagerungsarmbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Belagerungsarmbrust": {
+  "file": "blutstahl_belagerungsarmbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Belagerungsarmbrust": {
+  "file": "mondsilber_belagerungsarmbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Belagerungsarmbrust": {
+  "file": "sternenstahl_belagerungsarmbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Belagerungsarmbrust": {
+  "file": "leerenstahl_belagerungsarmbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Belagerungsarmbrust": {
+  "file": "drachenglas_belagerungsarmbrust.png",
+  "w": 34,
+  "h": 34
+ },
+ "Holzzauberstab": {
+  "file": "holzzauberstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Holzzauberstab": {
+  "file": "obsidian_holzzauberstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Holzzauberstab": {
+  "file": "blutstahl_holzzauberstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Holzzauberstab": {
+  "file": "mondsilber_holzzauberstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Holzzauberstab": {
+  "file": "sternenstahl_holzzauberstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Holzzauberstab": {
+  "file": "leerenstahl_holzzauberstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Holzzauberstab": {
+  "file": "drachenglas_holzzauberstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Stoffmaske": {
+  "file": "stoffmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Stoffmaske": {
+  "file": "nachtleder_stoffmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Stoffmaske": {
+  "file": "daemmerseiden_stoffmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Stoffmaske": {
+  "file": "schwarzdiamant_stoffmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Lederkapuze": {
+  "file": "lederkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Lederkapuze": {
+  "file": "nachtleder_lederkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Lederkapuze": {
+  "file": "daemmerseiden_lederkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Lederkapuze": {
+  "file": "schwarzdiamant_lederkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Pirschkapuze": {
+  "file": "pirschkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Pirschkapuze": {
+  "file": "nachtleder_pirschkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Pirschkapuze": {
+  "file": "daemmerseiden_pirschkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Pirschkapuze": {
+  "file": "schwarzdiamant_pirschkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattenkapuze": {
+  "file": "schattenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Schattenkapuze": {
+  "file": "nachtleder_schattenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Schattenkapuze": {
+  "file": "daemmerseiden_schattenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Schattenkapuze": {
+  "file": "schwarzdiamant_schattenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rabenkapuze": {
+  "file": "rabenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Rabenkapuze": {
+  "file": "nachtleder_rabenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Rabenkapuze": {
+  "file": "daemmerseiden_rabenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Rabenkapuze": {
+  "file": "schwarzdiamant_rabenkapuze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtschleier": {
+  "file": "nachtschleier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Nachtschleier": {
+  "file": "nachtleder_nachtschleier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Nachtschleier": {
+  "file": "daemmerseiden_nachtschleier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Nachtschleier": {
+  "file": "schwarzdiamant_nachtschleier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Lederweste": {
+  "file": "lederweste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Lederweste": {
+  "file": "nachtleder_lederweste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Lederweste": {
+  "file": "daemmerseiden_lederweste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Lederweste": {
+  "file": "schwarzdiamant_lederweste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wildlederwams": {
+  "file": "wildlederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Wildlederwams": {
+  "file": "nachtleder_wildlederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Wildlederwams": {
+  "file": "daemmerseiden_wildlederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Wildlederwams": {
+  "file": "schwarzdiamant_wildlederwams.png",
+  "w": 34,
+  "h": 34
+ },
+ "Pirschmantel": {
+  "file": "pirschmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Pirschmantel": {
+  "file": "nachtleder_pirschmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Pirschmantel": {
+  "file": "daemmerseiden_pirschmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Pirschmantel": {
+  "file": "schwarzdiamant_pirschmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattenmantel": {
+  "file": "schattenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Schattenmantel": {
+  "file": "nachtleder_schattenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Schattenmantel": {
+  "file": "daemmerseiden_schattenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Schattenmantel": {
+  "file": "schwarzdiamant_schattenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rabenmantel": {
+  "file": "rabenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Rabenmantel": {
+  "file": "nachtleder_rabenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Rabenmantel": {
+  "file": "daemmerseiden_rabenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Rabenmantel": {
+  "file": "schwarzdiamant_rabenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtumhang": {
+  "file": "nachtumhang.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Nachtumhang": {
+  "file": "nachtleder_nachtumhang.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Nachtumhang": {
+  "file": "daemmerseiden_nachtumhang.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Nachtumhang": {
+  "file": "schwarzdiamant_nachtumhang.png",
+  "w": 34,
+  "h": 34
+ },
+ "Fingerlinge": {
+  "file": "fingerlinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Fingerlinge": {
+  "file": "nachtleder_fingerlinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Fingerlinge": {
+  "file": "daemmerseiden_fingerlinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Fingerlinge": {
+  "file": "schwarzdiamant_fingerlinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Messerhandschuhe": {
+  "file": "messerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Messerhandschuhe": {
+  "file": "nachtleder_messerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Messerhandschuhe": {
+  "file": "daemmerseiden_messerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Messerhandschuhe": {
+  "file": "schwarzdiamant_messerhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattengriffe": {
+  "file": "schattengriffe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Schattengriffe": {
+  "file": "nachtleder_schattengriffe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Schattengriffe": {
+  "file": "daemmerseiden_schattengriffe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Schattengriffe": {
+  "file": "schwarzdiamant_schattengriffe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Krallenhandschuhe": {
+  "file": "krallenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Krallenhandschuhe": {
+  "file": "nachtleder_krallenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Krallenhandschuhe": {
+  "file": "daemmerseiden_krallenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Krallenhandschuhe": {
+  "file": "schwarzdiamant_krallenhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schleichschuhe": {
+  "file": "schleichschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Schleichschuhe": {
+  "file": "nachtleder_schleichschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Schleichschuhe": {
+  "file": "daemmerseiden_schleichschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Schleichschuhe": {
+  "file": "schwarzdiamant_schleichschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wildlederstiefel": {
+  "file": "wildlederstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Wildlederstiefel": {
+  "file": "nachtleder_wildlederstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Wildlederstiefel": {
+  "file": "daemmerseiden_wildlederstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Wildlederstiefel": {
+  "file": "schwarzdiamant_wildlederstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattensohlen": {
+  "file": "schattensohlen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Schattensohlen": {
+  "file": "nachtleder_schattensohlen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Schattensohlen": {
+  "file": "daemmerseiden_schattensohlen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Schattensohlen": {
+  "file": "schwarzdiamant_schattensohlen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nebelläufer": {
+  "file": "nebellaeufer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Nebelläufer": {
+  "file": "nachtleder_nebellaeufer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Nebelläufer": {
+  "file": "daemmerseiden_nebellaeufer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Nebelläufer": {
+  "file": "schwarzdiamant_nebellaeufer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Messergurt": {
+  "file": "messergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Messergurt": {
+  "file": "nachtleder_messergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Messergurt": {
+  "file": "daemmerseiden_messergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Messergurt": {
+  "file": "schwarzdiamant_messergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dolchgurt": {
+  "file": "dolchgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Dolchgurt": {
+  "file": "nachtleder_dolchgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Dolchgurt": {
+  "file": "daemmerseiden_dolchgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Dolchgurt": {
+  "file": "schwarzdiamant_dolchgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schattenschärpe": {
+  "file": "schattenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Schattenschärpe": {
+  "file": "nachtleder_schattenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Schattenschärpe": {
+  "file": "daemmerseiden_schattenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Schattenschärpe": {
+  "file": "schwarzdiamant_schattenschaerpe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Klingengurt": {
+  "file": "klingengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nachtleder-Klingengurt": {
+  "file": "nachtleder_klingengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Dämmerseiden-Klingengurt": {
+  "file": "daemmerseiden_klingengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzdiamant-Klingengurt": {
+  "file": "schwarzdiamant_klingengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schutzbrille": {
+  "file": "schutzbrille.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Schutzbrille": {
+  "file": "wachsleder_schutzbrille.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Schutzbrille": {
+  "file": "basiliskenleder_schutzbrille.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Schutzbrille": {
+  "file": "drachenschuppen_schutzbrille.png",
+  "w": 34,
+  "h": 34
+ },
+ "Laborkappe": {
+  "file": "laborkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Laborkappe": {
+  "file": "wachsleder_laborkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Laborkappe": {
+  "file": "basiliskenleder_laborkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Laborkappe": {
+  "file": "drachenschuppen_laborkappe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rauchmaske": {
+  "file": "rauchmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Rauchmaske": {
+  "file": "wachsleder_rauchmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Rauchmaske": {
+  "file": "basiliskenleder_rauchmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Rauchmaske": {
+  "file": "drachenschuppen_rauchmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schnabelmaske": {
+  "file": "schnabelmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Schnabelmaske": {
+  "file": "wachsleder_schnabelmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Schnabelmaske": {
+  "file": "basiliskenleder_schnabelmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Schnabelmaske": {
+  "file": "drachenschuppen_schnabelmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Pestmaske": {
+  "file": "pestmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Pestmaske": {
+  "file": "wachsleder_pestmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Pestmaske": {
+  "file": "basiliskenleder_pestmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Pestmaske": {
+  "file": "drachenschuppen_pestmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "Alchemistenhaube": {
+  "file": "alchemistenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Alchemistenhaube": {
+  "file": "wachsleder_alchemistenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Alchemistenhaube": {
+  "file": "basiliskenleder_alchemistenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Alchemistenhaube": {
+  "file": "drachenschuppen_alchemistenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Lederschürze": {
+  "file": "lederschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Lederschürze": {
+  "file": "wachsleder_lederschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Lederschürze": {
+  "file": "basiliskenleder_lederschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Lederschürze": {
+  "file": "drachenschuppen_lederschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Laborkittel": {
+  "file": "laborkittel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Laborkittel": {
+  "file": "wachsleder_laborkittel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Laborkittel": {
+  "file": "basiliskenleder_laborkittel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Laborkittel": {
+  "file": "drachenschuppen_laborkittel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsmantel": {
+  "file": "wachsmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Wachsmantel": {
+  "file": "wachsleder_wachsmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Wachsmantel": {
+  "file": "basiliskenleder_wachsmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Wachsmantel": {
+  "file": "drachenschuppen_wachsmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Säureschürze": {
+  "file": "saeureschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Säureschürze": {
+  "file": "wachsleder_saeureschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Säureschürze": {
+  "file": "basiliskenleder_saeureschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Säureschürze": {
+  "file": "drachenschuppen_saeureschuerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Pestmantel": {
+  "file": "pestmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Pestmantel": {
+  "file": "wachsleder_pestmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Pestmantel": {
+  "file": "basiliskenleder_pestmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Pestmantel": {
+  "file": "drachenschuppen_pestmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Elixierkutte": {
+  "file": "elixierkutte.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Elixierkutte": {
+  "file": "wachsleder_elixierkutte.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Elixierkutte": {
+  "file": "basiliskenleder_elixierkutte.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Elixierkutte": {
+  "file": "drachenschuppen_elixierkutte.png",
+  "w": 34,
+  "h": 34
+ },
+ "Säurehandschuhe": {
+  "file": "saeurehandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Säurehandschuhe": {
+  "file": "wachsleder_saeurehandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Säurehandschuhe": {
+  "file": "basiliskenleder_saeurehandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Säurehandschuhe": {
+  "file": "drachenschuppen_saeurehandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Tiegelhandschuhe": {
+  "file": "tiegelhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Tiegelhandschuhe": {
+  "file": "wachsleder_tiegelhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Tiegelhandschuhe": {
+  "file": "basiliskenleder_tiegelhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Tiegelhandschuhe": {
+  "file": "drachenschuppen_tiegelhandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Glutgreifer": {
+  "file": "glutgreifer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Glutgreifer": {
+  "file": "wachsleder_glutgreifer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Glutgreifer": {
+  "file": "basiliskenleder_glutgreifer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Glutgreifer": {
+  "file": "drachenschuppen_glutgreifer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Elixierhände": {
+  "file": "elixierhaende.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Elixierhände": {
+  "file": "wachsleder_elixierhaende.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Elixierhände": {
+  "file": "basiliskenleder_elixierhaende.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Elixierhände": {
+  "file": "drachenschuppen_elixierhaende.png",
+  "w": 34,
+  "h": 34
+ },
+ "Holzschuhe": {
+  "file": "holzschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Holzschuhe": {
+  "file": "wachsleder_holzschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Holzschuhe": {
+  "file": "basiliskenleder_holzschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Holzschuhe": {
+  "file": "drachenschuppen_holzschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Laborstiefel": {
+  "file": "laborstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Laborstiefel": {
+  "file": "wachsleder_laborstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Laborstiefel": {
+  "file": "basiliskenleder_laborstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Laborstiefel": {
+  "file": "drachenschuppen_laborstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Aschestiefel": {
+  "file": "aschestiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Aschestiefel": {
+  "file": "wachsleder_aschestiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Aschestiefel": {
+  "file": "basiliskenleder_aschestiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Aschestiefel": {
+  "file": "drachenschuppen_aschestiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Quecksilberschritt": {
+  "file": "quecksilberschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Quecksilberschritt": {
+  "file": "wachsleder_quecksilberschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Quecksilberschritt": {
+  "file": "basiliskenleder_quecksilberschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Quecksilberschritt": {
+  "file": "drachenschuppen_quecksilberschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Phiolengurt": {
+  "file": "phiolengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Phiolengurt": {
+  "file": "wachsleder_phiolengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Phiolengurt": {
+  "file": "basiliskenleder_phiolengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Phiolengurt": {
+  "file": "drachenschuppen_phiolengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Trankgurt": {
+  "file": "trankgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Trankgurt": {
+  "file": "wachsleder_trankgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Trankgurt": {
+  "file": "basiliskenleder_trankgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Trankgurt": {
+  "file": "drachenschuppen_trankgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Elixiergurt": {
+  "file": "elixiergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Elixiergurt": {
+  "file": "wachsleder_elixiergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Elixiergurt": {
+  "file": "basiliskenleder_elixiergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Elixiergurt": {
+  "file": "drachenschuppen_elixiergurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kolbengürtel": {
+  "file": "kolbenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Wachsleder-Kolbengürtel": {
+  "file": "wachsleder_kolbenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Basiliskenleder-Kolbengürtel": {
+  "file": "basiliskenleder_kolbenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenschuppen-Kolbengürtel": {
+  "file": "drachenschuppen_kolbenguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Stilett": {
+  "file": "stilett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Stilett": {
+  "file": "obsidian_stilett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Stilett": {
+  "file": "blutstahl_stilett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Stilett": {
+  "file": "mondsilber_stilett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Stilett": {
+  "file": "sternenstahl_stilett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Stilett": {
+  "file": "leerenstahl_stilett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Stilett": {
+  "file": "drachenglas_stilett.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kris": {
+  "file": "kris.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kris": {
+  "file": "obsidian_kris.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kris": {
+  "file": "blutstahl_kris.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kris": {
+  "file": "mondsilber_kris.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kris": {
+  "file": "sternenstahl_kris.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kris": {
+  "file": "leerenstahl_kris.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kris": {
+  "file": "drachenglas_kris.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rabenschnabel": {
+  "file": "rabenschnabel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Rabenschnabel": {
+  "file": "obsidian_rabenschnabel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Rabenschnabel": {
+  "file": "blutstahl_rabenschnabel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Rabenschnabel": {
+  "file": "mondsilber_rabenschnabel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Rabenschnabel": {
+  "file": "sternenstahl_rabenschnabel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Rabenschnabel": {
+  "file": "leerenstahl_rabenschnabel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Rabenschnabel": {
+  "file": "drachenglas_rabenschnabel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Giftzahn": {
+  "file": "giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Giftzahn": {
+  "file": "obsidian_giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Giftzahn": {
+  "file": "blutstahl_giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Giftzahn": {
+  "file": "mondsilber_giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Giftzahn": {
+  "file": "sternenstahl_giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Giftzahn": {
+  "file": "leerenstahl_giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Giftzahn": {
+  "file": "drachenglas_giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Knotenstab": {
+  "file": "knotenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Knotenstab": {
+  "file": "obsidian_knotenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Knotenstab": {
+  "file": "blutstahl_knotenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Knotenstab": {
+  "file": "mondsilber_knotenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Knotenstab": {
+  "file": "sternenstahl_knotenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Knotenstab": {
+  "file": "leerenstahl_knotenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Knotenstab": {
+  "file": "drachenglas_knotenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kampfstab": {
+  "file": "kampfstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kampfstab": {
+  "file": "obsidian_kampfstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kampfstab": {
+  "file": "blutstahl_kampfstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kampfstab": {
+  "file": "mondsilber_kampfstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kampfstab": {
+  "file": "sternenstahl_kampfstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kampfstab": {
+  "file": "leerenstahl_kampfstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kampfstab": {
+  "file": "drachenglas_kampfstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Zauberrute": {
+  "file": "zauberrute.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Zauberrute": {
+  "file": "obsidian_zauberrute.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Zauberrute": {
+  "file": "blutstahl_zauberrute.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Zauberrute": {
+  "file": "mondsilber_zauberrute.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Zauberrute": {
+  "file": "sternenstahl_zauberrute.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Zauberrute": {
+  "file": "leerenstahl_zauberrute.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Zauberrute": {
+  "file": "drachenglas_zauberrute.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kristallstab": {
+  "file": "kristallstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kristallstab": {
+  "file": "obsidian_kristallstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kristallstab": {
+  "file": "blutstahl_kristallstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kristallstab": {
+  "file": "mondsilber_kristallstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kristallstab": {
+  "file": "sternenstahl_kristallstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kristallstab": {
+  "file": "leerenstahl_kristallstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kristallstab": {
+  "file": "drachenglas_kristallstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Knochenstab": {
+  "file": "knochenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Knochenstab": {
+  "file": "obsidian_knochenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Knochenstab": {
+  "file": "blutstahl_knochenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Knochenstab": {
+  "file": "mondsilber_knochenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Knochenstab": {
+  "file": "sternenstahl_knochenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Knochenstab": {
+  "file": "leerenstahl_knochenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Knochenstab": {
+  "file": "drachenglas_knochenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstab": {
+  "file": "runenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Runenstab": {
+  "file": "obsidian_runenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Runenstab": {
+  "file": "blutstahl_runenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Runenstab": {
+  "file": "mondsilber_runenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Runenstab": {
+  "file": "sternenstahl_runenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Runenstab": {
+  "file": "leerenstahl_runenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Runenstab": {
+  "file": "drachenglas_runenstab.png",
+  "w": 34,
+  "h": 34
+ },
+ "Weltenast": {
+  "file": "weltenast.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Weltenast": {
+  "file": "obsidian_weltenast.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Weltenast": {
+  "file": "blutstahl_weltenast.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Weltenast": {
+  "file": "mondsilber_weltenast.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Weltenast": {
+  "file": "sternenstahl_weltenast.png",
+  "w": 34,
+  "h": 34
+ },
+ "Gladius": {
+  "file": "gladius.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Gladius": {
+  "file": "obsidian_gladius.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Gladius": {
+  "file": "blutstahl_gladius.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Gladius": {
+  "file": "mondsilber_gladius.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Gladius": {
+  "file": "sternenstahl_gladius.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Gladius": {
+  "file": "leerenstahl_gladius.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Gladius": {
+  "file": "drachenglas_gladius.png",
+  "w": 34,
+  "h": 34
+ },
+ "Falchion": {
+  "file": "falchion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Falchion": {
+  "file": "obsidian_falchion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Falchion": {
+  "file": "blutstahl_falchion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Falchion": {
+  "file": "mondsilber_falchion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Falchion": {
+  "file": "sternenstahl_falchion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Falchion": {
+  "file": "leerenstahl_falchion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Falchion": {
+  "file": "drachenglas_falchion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rapier": {
+  "file": "rapier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Rapier": {
+  "file": "obsidian_rapier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Rapier": {
+  "file": "blutstahl_rapier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Rapier": {
+  "file": "mondsilber_rapier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Rapier": {
+  "file": "sternenstahl_rapier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Rapier": {
+  "file": "leerenstahl_rapier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Rapier": {
+  "file": "drachenglas_rapier.png",
+  "w": 34,
+  "h": 34
+ },
+ "Bastardschwert": {
+  "file": "bastardschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Bastardschwert": {
+  "file": "obsidian_bastardschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Bastardschwert": {
+  "file": "blutstahl_bastardschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Bastardschwert": {
+  "file": "mondsilber_bastardschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Bastardschwert": {
+  "file": "sternenstahl_bastardschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Bastardschwert": {
+  "file": "leerenstahl_bastardschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Bastardschwert": {
+  "file": "drachenglas_bastardschwert.png",
+  "w": 34,
+  "h": 34
+ },
+ "Estoc": {
+  "file": "estoc.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Estoc": {
+  "file": "obsidian_estoc.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Estoc": {
+  "file": "blutstahl_estoc.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Estoc": {
+  "file": "mondsilber_estoc.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Estoc": {
+  "file": "sternenstahl_estoc.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Estoc": {
+  "file": "leerenstahl_estoc.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Estoc": {
+  "file": "drachenglas_estoc.png",
+  "w": 34,
+  "h": 34
+ },
+ "Katana": {
+  "file": "katana.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Katana": {
+  "file": "obsidian_katana.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Katana": {
+  "file": "blutstahl_katana.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Katana": {
+  "file": "mondsilber_katana.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Katana": {
+  "file": "sternenstahl_katana.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Katana": {
+  "file": "leerenstahl_katana.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Katana": {
+  "file": "drachenglas_katana.png",
+  "w": 34,
+  "h": 34
+ },
+ "Flamberge": {
+  "file": "flamberge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Flamberge": {
+  "file": "obsidian_flamberge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Flamberge": {
+  "file": "blutstahl_flamberge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Flamberge": {
+  "file": "mondsilber_flamberge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Flamberge": {
+  "file": "sternenstahl_flamberge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Flamberge": {
+  "file": "leerenstahl_flamberge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Flamberge": {
+  "file": "drachenglas_flamberge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Claymore": {
+  "file": "claymore.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Claymore": {
+  "file": "obsidian_claymore.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Claymore": {
+  "file": "blutstahl_claymore.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Claymore": {
+  "file": "mondsilber_claymore.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Claymore": {
+  "file": "sternenstahl_claymore.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Claymore": {
+  "file": "leerenstahl_claymore.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Claymore": {
+  "file": "drachenglas_claymore.png",
+  "w": 34,
+  "h": 34
+ },
+ "Bartaxt": {
+  "file": "bartaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Bartaxt": {
+  "file": "obsidian_bartaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Bartaxt": {
+  "file": "blutstahl_bartaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Bartaxt": {
+  "file": "mondsilber_bartaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Bartaxt": {
+  "file": "sternenstahl_bartaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Bartaxt": {
+  "file": "leerenstahl_bartaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Bartaxt": {
+  "file": "drachenglas_bartaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Doppelaxt": {
+  "file": "doppelaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Doppelaxt": {
+  "file": "obsidian_doppelaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Doppelaxt": {
+  "file": "blutstahl_doppelaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Doppelaxt": {
+  "file": "mondsilber_doppelaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Doppelaxt": {
+  "file": "sternenstahl_doppelaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Doppelaxt": {
+  "file": "leerenstahl_doppelaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Doppelaxt": {
+  "file": "drachenglas_doppelaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Breitaxt": {
+  "file": "breitaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Breitaxt": {
+  "file": "obsidian_breitaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Breitaxt": {
+  "file": "blutstahl_breitaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Breitaxt": {
+  "file": "mondsilber_breitaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Breitaxt": {
+  "file": "sternenstahl_breitaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Breitaxt": {
+  "file": "leerenstahl_breitaxt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Flanschkolben": {
+  "file": "flanschkolben.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Flanschkolben": {
+  "file": "obsidian_flanschkolben.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Flanschkolben": {
+  "file": "blutstahl_flanschkolben.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Flanschkolben": {
+  "file": "mondsilber_flanschkolben.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Flanschkolben": {
+  "file": "sternenstahl_flanschkolben.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Flanschkolben": {
+  "file": "leerenstahl_flanschkolben.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Flanschkolben": {
+  "file": "drachenglas_flanschkolben.png",
+  "w": 34,
+  "h": 34
+ },
+ "Zepter": {
+  "file": "zepter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Zepter": {
+  "file": "obsidian_zepter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Zepter": {
+  "file": "blutstahl_zepter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Zepter": {
+  "file": "mondsilber_zepter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Zepter": {
+  "file": "sternenstahl_zepter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Zepter": {
+  "file": "leerenstahl_zepter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Zepter": {
+  "file": "drachenglas_zepter.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kettenflegel": {
+  "file": "kettenflegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kettenflegel": {
+  "file": "obsidian_kettenflegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kettenflegel": {
+  "file": "blutstahl_kettenflegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kettenflegel": {
+  "file": "mondsilber_kettenflegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kettenflegel": {
+  "file": "sternenstahl_kettenflegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kettenflegel": {
+  "file": "leerenstahl_kettenflegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kettenflegel": {
+  "file": "drachenglas_kettenflegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegspicke": {
+  "file": "kriegspicke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Kriegspicke": {
+  "file": "obsidian_kriegspicke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Kriegspicke": {
+  "file": "blutstahl_kriegspicke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Kriegspicke": {
+  "file": "mondsilber_kriegspicke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Kriegspicke": {
+  "file": "sternenstahl_kriegspicke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Kriegspicke": {
+  "file": "leerenstahl_kriegspicke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Kriegspicke": {
+  "file": "drachenglas_kriegspicke.png",
+  "w": 34,
+  "h": 34
+ },
+ "Großhammer": {
+  "file": "grosshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Großhammer": {
+  "file": "obsidian_grosshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Großhammer": {
+  "file": "blutstahl_grosshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Großhammer": {
+  "file": "mondsilber_grosshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Großhammer": {
+  "file": "sternenstahl_grosshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Großhammer": {
+  "file": "leerenstahl_grosshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenglas-Großhammer": {
+  "file": "drachenglas_grosshammer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Riesenkeule": {
+  "file": "riesenkeule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Obsidian-Riesenkeule": {
+  "file": "obsidian_riesenkeule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Blutstahl-Riesenkeule": {
+  "file": "blutstahl_riesenkeule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Mondsilber-Riesenkeule": {
+  "file": "mondsilber_riesenkeule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Sternenstahl-Riesenkeule": {
+  "file": "sternenstahl_riesenkeule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Leerenstahl-Riesenkeule": {
+  "file": "leerenstahl_riesenkeule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kettenhaube": {
+  "file": "kettenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Kettenhaube": {
+  "file": "schwarzeisen_kettenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Kettenhaube": {
+  "file": "runenstahl_kettenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Kettenhaube": {
+  "file": "drachenstahl_kettenhaube.png",
+  "w": 34,
+  "h": 34
+ },
+ "Nasalhelm": {
+  "file": "nasalhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Nasalhelm": {
+  "file": "schwarzeisen_nasalhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Nasalhelm": {
+  "file": "runenstahl_nasalhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Nasalhelm": {
+  "file": "drachenstahl_nasalhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schaller": {
+  "file": "schaller.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Schaller": {
+  "file": "schwarzeisen_schaller.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Schaller": {
+  "file": "runenstahl_schaller.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Schaller": {
+  "file": "drachenstahl_schaller.png",
+  "w": 34,
+  "h": 34
+ },
+ "Barbuta": {
+  "file": "barbuta.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Barbuta": {
+  "file": "schwarzeisen_barbuta.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Barbuta": {
+  "file": "runenstahl_barbuta.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Barbuta": {
+  "file": "drachenstahl_barbuta.png",
+  "w": 34,
+  "h": 34
+ },
+ "Widderhelm": {
+  "file": "widderhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Widderhelm": {
+  "file": "schwarzeisen_widderhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Widderhelm": {
+  "file": "runenstahl_widderhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Widderhelm": {
+  "file": "drachenstahl_widderhelm.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegskrone": {
+  "file": "kriegskrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Kriegskrone": {
+  "file": "schwarzeisen_kriegskrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Kriegskrone": {
+  "file": "runenstahl_kriegskrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Kriegskrone": {
+  "file": "drachenstahl_kriegskrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Gambeson": {
+  "file": "gambeson.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Gambeson": {
+  "file": "schwarzeisen_gambeson.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Gambeson": {
+  "file": "runenstahl_gambeson.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Gambeson": {
+  "file": "drachenstahl_gambeson.png",
+  "w": 34,
+  "h": 34
+ },
+ "Ringpanzer": {
+  "file": "ringpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Ringpanzer": {
+  "file": "schwarzeisen_ringpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Ringpanzer": {
+  "file": "runenstahl_ringpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Ringpanzer": {
+  "file": "drachenstahl_ringpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Lamellenpanzer": {
+  "file": "lamellenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Lamellenpanzer": {
+  "file": "schwarzeisen_lamellenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Lamellenpanzer": {
+  "file": "runenstahl_lamellenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Lamellenpanzer": {
+  "file": "drachenstahl_lamellenpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Brigantine": {
+  "file": "brigantine.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Brigantine": {
+  "file": "schwarzeisen_brigantine.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Brigantine": {
+  "file": "runenstahl_brigantine.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Brigantine": {
+  "file": "drachenstahl_brigantine.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegsharnisch": {
+  "file": "kriegsharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Kriegsharnisch": {
+  "file": "schwarzeisen_kriegsharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Kriegsharnisch": {
+  "file": "runenstahl_kriegsharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Kriegsharnisch": {
+  "file": "drachenstahl_kriegsharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Ritterharnisch": {
+  "file": "ritterharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Ritterharnisch": {
+  "file": "schwarzeisen_ritterharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Ritterharnisch": {
+  "file": "runenstahl_ritterharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Ritterharnisch": {
+  "file": "drachenstahl_ritterharnisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Fausthandschuhe": {
+  "file": "fausthandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Fausthandschuhe": {
+  "file": "schwarzeisen_fausthandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Fausthandschuhe": {
+  "file": "runenstahl_fausthandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Fausthandschuhe": {
+  "file": "drachenstahl_fausthandschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schuppenfäuste": {
+  "file": "schuppenfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Schuppenfäuste": {
+  "file": "schwarzeisen_schuppenfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Schuppenfäuste": {
+  "file": "runenstahl_schuppenfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Schuppenfäuste": {
+  "file": "drachenstahl_schuppenfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Stahlfäuste": {
+  "file": "stahlfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Stahlfäuste": {
+  "file": "schwarzeisen_stahlfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Stahlfäuste": {
+  "file": "runenstahl_stahlfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Stahlfäuste": {
+  "file": "drachenstahl_stahlfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegsfäuste": {
+  "file": "kriegsfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Kriegsfäuste": {
+  "file": "schwarzeisen_kriegsfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Kriegsfäuste": {
+  "file": "runenstahl_kriegsfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Kriegsfäuste": {
+  "file": "drachenstahl_kriegsfaeuste.png",
+  "w": 34,
+  "h": 34
+ },
+ "Marschstiefel": {
+  "file": "marschstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Marschstiefel": {
+  "file": "schwarzeisen_marschstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Marschstiefel": {
+  "file": "runenstahl_marschstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Marschstiefel": {
+  "file": "drachenstahl_marschstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schienenstiefel": {
+  "file": "schienenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Schienenstiefel": {
+  "file": "schwarzeisen_schienenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Schienenstiefel": {
+  "file": "runenstahl_schienenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Schienenstiefel": {
+  "file": "drachenstahl_schienenstiefel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Stahlschuhe": {
+  "file": "stahlschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Stahlschuhe": {
+  "file": "schwarzeisen_stahlschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Stahlschuhe": {
+  "file": "runenstahl_stahlschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Stahlschuhe": {
+  "file": "drachenstahl_stahlschuhe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Kriegsschritt": {
+  "file": "kriegsschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Kriegsschritt": {
+  "file": "schwarzeisen_kriegsschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Kriegsschritt": {
+  "file": "runenstahl_kriegsschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Kriegsschritt": {
+  "file": "drachenstahl_kriegsschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Waffengurt": {
+  "file": "waffengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Waffengurt": {
+  "file": "schwarzeisen_waffengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Waffengurt": {
+  "file": "runenstahl_waffengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Waffengurt": {
+  "file": "drachenstahl_waffengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwertgurt": {
+  "file": "schwertgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Schwertgurt": {
+  "file": "schwarzeisen_schwertgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Schwertgurt": {
+  "file": "runenstahl_schwertgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Schwertgurt": {
+  "file": "drachenstahl_schwertgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Eisengurt": {
+  "file": "eisengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Eisengurt": {
+  "file": "schwarzeisen_eisengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Eisengurt": {
+  "file": "runenstahl_eisengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Eisengurt": {
+  "file": "drachenstahl_eisengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Titanengurt": {
+  "file": "titanengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Schwarzeisen-Titanengurt": {
+  "file": "schwarzeisen_titanengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Runenstahl-Titanengurt": {
+  "file": "runenstahl_titanengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "Drachenstahl-Titanengurt": {
+  "file": "drachenstahl_titanengurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Hügelwacht": {
+  "file": "u_huegelwacht.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grünes Blut": {
+  "file": "u_gruenes_blut.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Der Erste Stein": {
+  "file": "u_der_erste_stein.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wächterrund": {
+  "file": "u_waechterrund.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grasläufer": {
+  "file": "u_graslaeufer.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschenwurzel": {
+  "file": "u_aschenwurzel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Himmelsriss": {
+  "file": "u_himmelsriss.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mantel des Hügels": {
+  "file": "u_mantel_des_huegels.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Ring der Blauen Stunde": {
+  "file": "u_ring_der_blauen_stunde.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Turmglocke": {
+  "file": "u_turmglocke.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Fäuste des Steinmetzes": {
+  "file": "u_faeuste_des_steinmetzes.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolkenbrecher": {
+  "file": "u_wolkenbrecher.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Krone der Zinnen": {
+  "file": "u_krone_der_zinnen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutring": {
+  "file": "u_blutring.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Auge des Turms": {
+  "file": "u_auge_des_turms.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmtreter": {
+  "file": "u_sturmtreter.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Gürtel der Ewigen Wache": {
+  "file": "u_guertel_der_ewigen_wache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Stab des Blauen Mittags": {
+  "file": "u_stab_des_blauen_mittags.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Kargsteins Ende": {
+  "file": "u_kargsteins_ende.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondsichel des Schweigens": {
+  "file": "u_mondsichel_des_schweigens.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabsteinwall": {
+  "file": "u_grabsteinwall.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Drachenzahn Vaels": {
+  "file": "u_drachenzahn_vaels.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Totenmaske": {
+  "file": "u_totenmaske.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Schwarze Haut": {
+  "file": "u_schwarze_haut.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtgesang": {
+  "file": "u_nachtgesang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschehand": {
+  "file": "u_aschehand.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabtor": {
+  "file": "u_grabtor.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenfaust": {
+  "file": "u_eisenfaust.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenfluch": {
+  "file": "u_sonnenfluch.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frosthunger": {
+  "file": "u_frosthunger.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftbiss": {
+  "file": "u_giftbiss.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftwall des Aschenmeers": {
+  "file": "u_giftwall_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenzahn": {
+  "file": "u_sonnenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Gifthunger der Weberin": {
+  "file": "u_gifthunger_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmwache": {
+  "file": "u_sturmwache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenpfad des Bleichen Ritters": {
+  "file": "u_rabenpfad_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Ascheband": {
+  "file": "u_ascheband.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutzorn der Tiefe": {
+  "file": "u_glutzorn_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenwache": {
+  "file": "u_seelenwache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinwache": {
+  "file": "u_steinwache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostspalter des Letzten Lichts": {
+  "file": "u_frostspalter_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelendorn": {
+  "file": "u_seelendorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenruf": {
+  "file": "u_seelenruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dorndorn": {
+  "file": "u_dorndorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutzange": {
+  "file": "u_blutzange.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenruf der Krähen": {
+  "file": "u_seelenruf_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfsschritt des Ewigen Winters": {
+  "file": "u_wolfsschritt_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steintor": {
+  "file": "u_steintor.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinspalter": {
+  "file": "u_steinspalter.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftwall des Ewigen Winters": {
+  "file": "u_giftwall_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostspalter": {
+  "file": "u_frostspalter.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfskrone": {
+  "file": "u_wolfskrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelendorn des Stummen Wächters": {
+  "file": "u_seelendorn_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornspalter des Bleichen Ritters": {
+  "file": "u_dornspalter_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenschwur": {
+  "file": "u_sonnenschwur.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenschwur des Letzten Lichts": {
+  "file": "u_seelenschwur_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenruf des Letzten Lichts": {
+  "file": "u_seelenruf_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenwache": {
+  "file": "u_rabenwache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisentrutz des Verlorenen": {
+  "file": "u_eisentrutz_des_verlorenen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondruf": {
+  "file": "u_mondruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostzahn": {
+  "file": "u_frostzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinhunger": {
+  "file": "u_steinhunger.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondspalter des Stummen Wächters": {
+  "file": "u_mondspalter_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutgang": {
+  "file": "u_blutgang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschegurt": {
+  "file": "u_aschegurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabhunger": {
+  "file": "u_grabhunger.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenschwur des Ewigen Winters": {
+  "file": "u_rabenschwur_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenwache des Ewigen Winters": {
+  "file": "u_seelenwache_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftgürtel": {
+  "file": "u_giftguertel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornpanzer": {
+  "file": "u_dornpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtzorn": {
+  "file": "u_nachtzorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutstirn des Aschenmeers": {
+  "file": "u_glutstirn_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornklaue": {
+  "file": "u_dornklaue.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenschritt": {
+  "file": "u_eisenschritt.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabschild": {
+  "file": "u_grabschild.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtruf": {
+  "file": "u_nachtruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenfluch des Hügeltyrannen": {
+  "file": "u_seelenfluch_des_huegeltyrannen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabsiegel": {
+  "file": "u_grabsiegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornruf": {
+  "file": "u_dornruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenwache des Schwarzen Turms": {
+  "file": "u_rabenwache_des_schwarzen_turms.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschedorn des Bleichen Ritters": {
+  "file": "u_aschedorn_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabwehr": {
+  "file": "u_grabwehr.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmklinge": {
+  "file": "u_sturmklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondschwur der Weberin": {
+  "file": "u_mondschwur_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenpanzer der Krähen": {
+  "file": "u_seelenpanzer_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftdorn": {
+  "file": "u_giftdorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutzorn des Letzten Lichts": {
+  "file": "u_glutzorn_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornblick des Letzten Lichts": {
+  "file": "u_dornblick_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondwehr": {
+  "file": "u_mondwehr.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenmantel": {
+  "file": "u_eisenmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftzorn": {
+  "file": "u_giftzorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfszahn": {
+  "file": "u_wolfszahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenwall": {
+  "file": "u_rabenwall.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutbiss": {
+  "file": "u_glutbiss.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinklinge": {
+  "file": "u_steinklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabgriff des Aschenmeers": {
+  "file": "u_grabgriff_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtbiss": {
+  "file": "u_nachtbiss.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondmantel": {
+  "file": "u_mondmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmtor": {
+  "file": "u_sturmtor.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostklinge": {
+  "file": "u_frostklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinstirn": {
+  "file": "u_steinstirn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostwache": {
+  "file": "u_frostwache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostfaust": {
+  "file": "u_frostfaust.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenblick der Weberin": {
+  "file": "u_rabenblick_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtsiegel des Bleichen Ritters": {
+  "file": "u_nachtsiegel_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabspalter des Ewigen Winters": {
+  "file": "u_grabspalter_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabensang": {
+  "file": "u_rabensang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftfaust des Ewigen Winters": {
+  "file": "u_giftfaust_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmschwur": {
+  "file": "u_sturmschwur.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutschwur der Tiefe": {
+  "file": "u_blutschwur_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschewache": {
+  "file": "u_aschewache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenfaust": {
+  "file": "u_seelenfaust.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenschnur": {
+  "file": "u_rabenschnur.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Gifthunger": {
+  "file": "u_gifthunger.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostbiss des Hügeltyrannen": {
+  "file": "u_frostbiss_des_huegeltyrannen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Monddorn": {
+  "file": "u_monddorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftreif": {
+  "file": "u_giftreif.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenklinge": {
+  "file": "u_sonnenklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnensang": {
+  "file": "u_sonnensang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenschwur": {
+  "file": "u_rabenschwur.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenblick der Tiefe": {
+  "file": "u_sonnenblick_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftruf": {
+  "file": "u_giftruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtband": {
+  "file": "u_nachtband.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutsohle": {
+  "file": "u_glutsohle.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfszorn des Roten Mondes": {
+  "file": "u_wolfszorn_des_roten_mondes.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostzange": {
+  "file": "u_frostzange.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenband": {
+  "file": "u_seelenband.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutmantel": {
+  "file": "u_glutmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornschwur des Stummen Wächters": {
+  "file": "u_dornschwur_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfsauge": {
+  "file": "u_wolfsauge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmwache der Krähen": {
+  "file": "u_sturmwache_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabtrutz des Bleichen Ritters": {
+  "file": "u_grabtrutz_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutfluch des Letzten Lichts": {
+  "file": "u_glutfluch_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondhunger": {
+  "file": "u_mondhunger.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftschnur des Aschenmeers": {
+  "file": "u_giftschnur_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutschritt des Wanderers": {
+  "file": "u_glutschritt_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfsklinge": {
+  "file": "u_wolfsklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmklinge der Krähen": {
+  "file": "u_sturmklinge_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabwache": {
+  "file": "u_grabwache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinruf": {
+  "file": "u_steinruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenschritt des Ewigen Winters": {
+  "file": "u_seelenschritt_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Bluthunger": {
+  "file": "u_bluthunger.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftklinge des Ersten Königs": {
+  "file": "u_giftklinge_des_ersten_koenigs.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutpfad des Ersten Königs": {
+  "file": "u_blutpfad_des_ersten_koenigs.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinschwur des Bleichen Ritters": {
+  "file": "u_steinschwur_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschesang": {
+  "file": "u_aschesang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondwehr des Ewigen Winters": {
+  "file": "u_mondwehr_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondspalter des Hügeltyrannen": {
+  "file": "u_mondspalter_des_huegeltyrannen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftbiss des Bleichen Ritters": {
+  "file": "u_giftbiss_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondklinge der Krähen": {
+  "file": "u_mondklinge_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenbiss": {
+  "file": "u_rabenbiss.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabklinge der Krähen": {
+  "file": "u_grabklinge_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabschnur des Stummen Wächters": {
+  "file": "u_grabschnur_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnensang des Letzten Lichts": {
+  "file": "u_sonnensang_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutfluch des Roten Mondes": {
+  "file": "u_glutfluch_des_roten_mondes.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinkrone des Wanderers": {
+  "file": "u_steinkrone_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftkreis der Tiefe": {
+  "file": "u_giftkreis_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabband": {
+  "file": "u_grabband.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenfaust": {
+  "file": "u_sonnenfaust.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenschnur des Bleichen Ritters": {
+  "file": "u_sonnenschnur_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenwehr des Hügeltyrannen": {
+  "file": "u_rabenwehr_des_huegeltyrannen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfsspalter der Weberin": {
+  "file": "u_wolfsspalter_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondklinge": {
+  "file": "u_mondklinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtfluch des Roten Mondes": {
+  "file": "u_nachtfluch_des_roten_mondes.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisengang des Ersten Königs": {
+  "file": "u_eisengang_des_ersten_koenigs.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostband": {
+  "file": "u_frostband.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabhand": {
+  "file": "u_grabhand.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabensang der Krähen": {
+  "file": "u_rabensang_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondkrone des Bleichen Ritters": {
+  "file": "u_mondkrone_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschezorn": {
+  "file": "u_aschezorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Gluttrutz": {
+  "file": "u_gluttrutz.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschegurt des Hügeltyrannen": {
+  "file": "u_aschegurt_des_huegeltyrannen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschezahn": {
+  "file": "u_aschezahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftsang des Wanderers": {
+  "file": "u_giftsang_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frosthand": {
+  "file": "u_frosthand.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabzahn": {
+  "file": "u_grabzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinsiegel des Ewigen Winters": {
+  "file": "u_steinsiegel_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutgriff": {
+  "file": "u_glutgriff.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelensang": {
+  "file": "u_seelensang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtwehr": {
+  "file": "u_nachtwehr.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabbiss der Tiefe": {
+  "file": "u_grabbiss_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenfaust der Weberin": {
+  "file": "u_rabenfaust_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondbiss": {
+  "file": "u_mondbiss.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftmantel": {
+  "file": "u_giftmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenkrone des Bleichen Ritters": {
+  "file": "u_eisenkrone_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornschädel des Aschenmeers": {
+  "file": "u_dornschaedel_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenpfad": {
+  "file": "u_seelenpfad.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinfluch des Wanderers": {
+  "file": "u_steinfluch_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtwache des Letzten Lichts": {
+  "file": "u_nachtwache_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steintritt des Bleichen Ritters": {
+  "file": "u_steintritt_des_bleichen_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steindorn der Weberin": {
+  "file": "u_steindorn_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Gifttrutz des Wanderers": {
+  "file": "u_gifttrutz_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinschwur des Letzten Lichts": {
+  "file": "u_steinschwur_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostruf": {
+  "file": "u_frostruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondhaut": {
+  "file": "u_mondhaut.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Ascheblick": {
+  "file": "u_ascheblick.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfsbiss des Aschenmeers": {
+  "file": "u_wolfsbiss_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutgurt": {
+  "file": "u_glutgurt.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutband": {
+  "file": "u_blutband.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabruf": {
+  "file": "u_grabruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutruf der Weberin": {
+  "file": "u_blutruf_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutbiss des Wanderers": {
+  "file": "u_glutbiss_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenbiss des Verlorenen": {
+  "file": "u_eisenbiss_des_verlorenen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschezange des Stummen Wächters": {
+  "file": "u_aschezange_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondhülle": {
+  "file": "u_mondhuelle.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostmantel": {
+  "file": "u_frostmantel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mondhaube des Aschenmeers": {
+  "file": "u_mondhaube_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenbiss des Aschenmeers": {
+  "file": "u_eisenbiss_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenschädel des Ersten Königs": {
+  "file": "u_sonnenschaedel_des_ersten_koenigs.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Ascheklinge des Stummen Wächters": {
+  "file": "u_ascheklinge_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinbiss": {
+  "file": "u_steinbiss.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmgurt des Wanderers": {
+  "file": "u_sturmgurt_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutfluch": {
+  "file": "u_blutfluch.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftklaue": {
+  "file": "u_giftklaue.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenzahn": {
+  "file": "u_rabenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftkrone des Hügeltyrannen": {
+  "file": "u_giftkrone_des_huegeltyrannen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenwehr": {
+  "file": "u_seelenwehr.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutpfad des Letzten Lichts": {
+  "file": "u_glutpfad_des_letzten_lichts.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinschwur": {
+  "file": "u_steinschwur.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutruf": {
+  "file": "u_glutruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmwache des Aschenmeers": {
+  "file": "u_sturmwache_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschepfad des Stummen Wächters": {
+  "file": "u_aschepfad_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Ascheschädel": {
+  "file": "u_ascheschaedel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutdorn": {
+  "file": "u_glutdorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenruf": {
+  "file": "u_sonnenruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmwall der Krähen": {
+  "file": "u_sturmwall_der_kraehen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmmantel der Tiefe": {
+  "file": "u_sturmmantel_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelentritt des Aschenmeers": {
+  "file": "u_seelentritt_des_aschenmeers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornbiss des Schwarzen Turms": {
+  "file": "u_dornbiss_des_schwarzen_turms.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenfluch des Ewigen Winters": {
+  "file": "u_seelenfluch_des_ewigen_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornschritt des Ersten Königs": {
+  "file": "u_dornschritt_des_ersten_koenigs.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenspalter": {
+  "file": "u_rabenspalter.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtfluch des Wanderers": {
+  "file": "u_nachtfluch_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenwache": {
+  "file": "u_sonnenwache.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftpanzer": {
+  "file": "u_giftpanzer.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfswache der Weberin": {
+  "file": "u_wolfswache_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabendorn": {
+  "file": "u_rabendorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornschwur": {
+  "file": "u_dornschwur.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sonnenstirn": {
+  "file": "u_sonnenstirn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenpanzer der Tiefe": {
+  "file": "u_eisenpanzer_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutschnur": {
+  "file": "u_blutschnur.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dorngriff": {
+  "file": "u_dorngriff.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschegurt der Weberin": {
+  "file": "u_aschegurt_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grabtor des Wanderers": {
+  "file": "u_grabtor_des_wanderers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabengang": {
+  "file": "u_rabengang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sturmdorn": {
+  "file": "u_sturmdorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinkrone": {
+  "file": "u_steinkrone.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostwache des Schwarzen Turms": {
+  "file": "u_frostwache_des_schwarzen_turms.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Steinzahn": {
+  "file": "u_steinzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutsang der Weberin": {
+  "file": "u_blutsang_der_weberin.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutblick der Tiefe": {
+  "file": "u_glutblick_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Frostschädel": {
+  "file": "u_frostschaedel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutspalter": {
+  "file": "u_glutspalter.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Giftzahn": {
+  "file": "u_giftzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Dornsang": {
+  "file": "u_dornsang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wolfstor": {
+  "file": "u_wolfstor.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenruf": {
+  "file": "u_eisenruf.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Blutschädel des Schwarzen Turms": {
+  "file": "u_blutschaedel_des_schwarzen_turms.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtschädel des Verlorenen": {
+  "file": "u_nachtschaedel_des_verlorenen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glutwehr des Stummen Wächters": {
+  "file": "u_glutwehr_des_stummen_waechters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nachtgang": {
+  "file": "u_nachtgang.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschefluch": {
+  "file": "u_aschefluch.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seelenklaue": {
+  "file": "u_seelenklaue.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisenblick": {
+  "file": "u_eisenblick.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Aschewehr": {
+  "file": "u_aschewehr.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Sehne des Morgens": {
+  "file": "u_sehne_des_morgens.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Kesselbrecher": {
+  "file": "u_kesselbrecher.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Ast der Alten Eiche": {
+  "file": "u_ast_der_alten_eiche.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Nebelsänger": {
+  "file": "u_nebelsaenger.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Bolzenwerk des Meisters": {
+  "file": "u_bolzenwerk_des_meisters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenschwinge": {
+  "file": "u_rabenschwinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Hornruf der Tiefe": {
+  "file": "u_hornruf_der_tiefe.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mauerfall": {
+  "file": "u_mauerfall.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Zweig der Weisen": {
+  "file": "u_zweig_der_weisen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Vyrthrax' Sehne": {
+  "file": "u_vyrthrax_sehne.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Belagerer": {
+  "file": "u_belagerer.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Flüsternde Naht": {
+  "file": "u_fluesternde_naht.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Seidengriff": {
+  "file": "u_seidengriff.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mantel der Ersten Jagd": {
+  "file": "u_mantel_der_ersten_jagd.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Rabenfeder": {
+  "file": "u_rabenfeder.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Schritte im Nebel": {
+  "file": "u_schritte_im_nebel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Gurt der Sieben Klingen": {
+  "file": "u_gurt_der_sieben_klingen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Schleier der Mondlosen Nacht": {
+  "file": "u_schleier_der_mondlosen_nacht.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Stich der Elster": {
+  "file": "u_stich_der_elster.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Krähenkris": {
+  "file": "u_kraehenkris.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Schnabel der Morrigan": {
+  "file": "u_schnabel_der_morrigan.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Witwenzahn": {
+  "file": "u_witwenzahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glasaugen des Lehrlings": {
+  "file": "u_glasaugen_des_lehrlings.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Kittel des Meisters Halvard": {
+  "file": "u_kittel_des_meisters_halvard.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Schnabel des Doktors": {
+  "file": "u_schnabel_des_doktors.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Tiegelfaust": {
+  "file": "u_tiegelfaust.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Atem der Seuche": {
+  "file": "u_atem_der_seuche.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Großer Kessel": {
+  "file": "u_grosser_kessel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Mantel des Steins der Weisen": {
+  "file": "u_mantel_des_steins_der_weisen.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glimmwurz": {
+  "file": "u_glimmwurz.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eisherz des Winters": {
+  "file": "u_eisherz_des_winters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Der lachende Schädel": {
+  "file": "u_der_lachende_schaedel.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Wurzel der Welt": {
+  "file": "u_wurzel_der_welt.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Zunge des Legionärs": {
+  "file": "u_zunge_des_legionaers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Morgentau": {
+  "file": "u_morgentau.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Zorn des Feuerbergs": {
+  "file": "u_zorn_des_feuerbergs.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Grimmbart": {
+  "file": "u_grimmbart.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Glockenschlag": {
+  "file": "u_glockenschlag.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Erdbrecher": {
+  "file": "u_erdbrecher.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Widderstirn": {
+  "file": "u_widderstirn.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Eiserne Wacht": {
+  "file": "u_eiserne_wacht.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Fäuste des Schmieds": {
+  "file": "u_faeuste_des_schmieds.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Gurt des Bannerträgers": {
+  "file": "u_gurt_des_bannertraegers.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Schwur des Ritters": {
+  "file": "u_schwur_des_ritters.png",
+  "w": 34,
+  "h": 34
+ },
+ "U:Erster Schritt der Legion": {
+  "file": "u_erster_schritt_der_legion.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:holz": {
+  "file": "junk_holz.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:knochen": {
+  "file": "junk_knochen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:schaedel": {
+  "file": "junk_schaedel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:klinge": {
+  "file": "junk_klinge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:nagel": {
+  "file": "junk_nagel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:fleisch": {
+  "file": "junk_fleisch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:auge": {
+  "file": "junk_auge.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:seide": {
+  "file": "junk_seide.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:zahn": {
+  "file": "junk_zahn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:fetzen": {
+  "file": "junk_fetzen.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:feder": {
+  "file": "junk_feder.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:fluegel": {
+  "file": "junk_fluegel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:kerze": {
+  "file": "junk_kerze.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:scherbe": {
+  "file": "junk_scherbe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:asche": {
+  "file": "junk_asche.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:pilz": {
+  "file": "junk_pilz.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:schuppe": {
+  "file": "junk_schuppe.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:stachel": {
+  "file": "junk_stachel.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:brocken": {
+  "file": "junk_brocken.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:stein": {
+  "file": "junk_stein.png",
+  "w": 34,
+  "h": 34
+ },
+ "Junk:schleim": {
+  "file": "junk_schleim.png",
+  "w": 34,
+  "h": 34
+ },
+ "potL": {
+  "file": "potl.png",
+  "w": 34,
+  "h": 34
+ },
+ "potM": {
+  "file": "potm.png",
+  "w": 34,
+  "h": 34
+ }
+}

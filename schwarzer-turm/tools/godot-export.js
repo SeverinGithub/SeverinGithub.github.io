@@ -25,7 +25,7 @@
   await json('bosses.json', BOSSES);
   await json('skills.json', SKILLS);
   await json('classes.json', CLS);
-  await json('affixes.json', AFF);
+  await json('affixes.json', AFF.map(a => ({k: a.k, p: a.p, s: a.s, minT: a.minT || 0, n: a.n, r: [0, 1, 2, 3].map(t => a.r(t))})));
   await json('mod_text.json', Object.fromEntries(Object.keys(MODTXT).map(k => [k, MODTXT[k]('{v}')])));
   await json('mod_order.json', MODORDER);
   await json('palette.json', {ramps: PXM, figure: RP, monster: RMP, elements: typeof EL !== 'undefined' ? EL : null, slots: SLOTNAME, rare1: RARE1, rare2: RARE2});

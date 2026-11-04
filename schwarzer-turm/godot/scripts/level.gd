@@ -64,6 +64,9 @@ var flow_t := 0.0
 const FW := 80
 var hover_e: Enemy = null
 var hover_o: Prop = null
+var items: Array = []            # on the ground: {it, x, y, t}
+var labels: Array = []           # their name plates this frame: {r: Rect2 in world screen space, gi}
+var hover_i = null               # the ground item whose plate is under the mouse
 var glutmal = null
 
 static var _glow_tex: Texture2D
@@ -124,19 +127,36 @@ func build(map: Dictionary) -> void:
 			_light(Iso.to_screen(Vector2(o.x, o.y)), 140, .6)
 	hero = Hero.new()
 	hero.cls = Game.cls
-	for slot in Game.eq:
-		hero.gear[slot] = Game.eq[slot].b
+	_dress()
 	world.add_child(hero)
+	Game.gear_changed.connect(_on_gear)
+	Game.drop_item.connect(_on_drop)
 	cam = Camera2D.new()
 	add_child(cam)
 	cam.make_current()
 	reset_hero(Vector2(m.start.x, m.start.y))
 	populate()
 
+## the hero wears what is equipped; a unique keeps its own colours
+func _dress() -> void:
+	hero.gear.clear()
+	hero.unique.clear()
+	for slot in Game.eq:
+		var it: Dictionary = Game.eq[slot]
+		hero.gear[slot] = it.b
+		hero.unique[slot] = it.name if it.rar == "unique" else ""
+
+func _on_drop(it: Dictionary) -> void:
+	drop_item(it, P.x, P.y)
+
+func _on_gear() -> void:
+	_dress()
+	hero.rebuild()
+
 func reset_hero(at: Vector2) -> void:
 	P = {"x": at.x, "y": at.y, "r": .28, "face": .8, "path": [], "target": null, "interact": null, "atkT": 0.0, "atkDur": 0.0, "hitDone": true,
 		"roll": 0.0, "rollA": 0.0, "iframe": 0.0, "stDelay": 0.0, "dead": false, "deathT": 0.0, "heal": 0.0, "poisonT": 0.0, "poisonD": 0.0,
-		"chill": 0.0, "flaskT": 0.0, "hurt": 0.0, "repath": 0.0, "standAtk": null, "moving": false}
+		"chill": 0.0, "flaskT": 0.0, "hurt": 0.0, "repath": 0.0, "standAtk": null, "moving": false, "pick": null}
 	hero.world = at
 	cam_w = at
 
@@ -599,6 +619,9 @@ func _process(dt: float) -> void:
 		_camera(dt)
 		return
 	Game.t += dt
+	for gi in items:
+		gi.t += dt
+	_labels()
 	shake = maxf(0, shake - dt * 30)
 	kick_v *= pow(.0005, dt)
 	_hover()
@@ -669,6 +692,12 @@ func _hover() -> void:
 			if d < bd:
 				bd = d
 				hover_e = e
+	hover_i = null
+	for l in labels:
+		if l.r.has_point(ms):
+			hover_i = l.gi
+	if hover_i:
+		hover_e = null
 	hover_o = null
 	for o in obj_nodes:
 		var s := Iso.to_screen(Vector2(o.p.x, o.p.y))
@@ -687,11 +716,24 @@ func _unhandled_input(ev: InputEvent) -> void:
 			P.path = []
 			P.target = null
 			return
+		if Game.hand:
+			# an item held on the mouse falls to the ground beside the hero
+			drop_item(Game.hand, P.x, P.y)
+			Game.hand = null
+			return
+		if hover_i:
+			P.pick = hover_i
+			P.target = null
+			P.interact = null
+			P.path = find_path(Vector2(P.x, P.y), Vector2(hover_i.x, hover_i.y))
+			return
 		if hover_e:
+			P.pick = null
 			P.target = hover_e
 			P.interact = null
 			P.repath = 0
 			return
+		P.pick = null
 		if hover_o:
 			P.interact = hover_o
 			P.target = null
@@ -706,6 +748,8 @@ func _unhandled_input(ev: InputEvent) -> void:
 		match ev.keycode:
 			KEY_SPACE: _do_roll()
 			KEY_F: _drink_flask()
+			KEY_Q, KEY_Y: _quick_potion("life")
+			KEY_X: _quick_potion("mana")
 
 func _set_move() -> void:
 	var mw := _mouse_w()
@@ -772,11 +816,16 @@ func _update_hero(dt: float) -> void:
 					if P.repath <= 0:
 						P.repath = .25
 						P.path = [e.world] if los(pp, e.world, P.r) else find_path(pp, e.world)
-		elif mouse_down and not P.interact:
+		elif mouse_down and not P.interact and not P.pick and not _over_ui():
 			P.repath -= dt
 			if P.repath <= 0:
 				P.repath = .12
 				_set_move()
+		if P.get("pick") and pp.distance_to(Vector2(P.pick.x, P.pick.y)) < 1.0:
+			var gi: Dictionary = P.pick
+			P.pick = null
+			P.path = []
+			pickup(gi)
 		if P.interact and pp.distance_to(Vector2(P.interact.p.x, P.interact.p.y)) < 1.4:
 			var o: Prop = P.interact
 			P.interact = null
@@ -854,6 +903,26 @@ func _do_roll() -> void:
 	P.path = []
 	_smoke(Vector2(P.x, P.y), 4)
 
+## the mouse is over an open panel: holding the button there does not walk
+func _over_ui() -> bool:
+	var c := get_viewport().gui_get_hovered_control()
+	return c != null and c.mouse_filter == Control.MOUSE_FILTER_STOP
+
+## the first potion of its kind in the bag (quickPotion)
+func _quick_potion(kind: String) -> void:
+	if P.dead:
+		return
+	for it in Game.inv:
+		if it.slot == "potion" and it.kind == kind:
+			drink(it)
+			return
+	Game.log_msg("Kein %s im Inventar." % ("Heiltrank" if kind == "life" else "Manatrank"), Color("#a39b88"))
+
+func drink(it: Dictionary) -> void:
+	if it.kind == "life":
+		P.poisonT = 0.0
+	P.heal += Game.use_potion(it)
+
 func _drink_flask() -> void:
 	if P.dead or Game.flasks <= 0 or P.flaskT > 0:
 		if Game.flasks <= 0:
@@ -886,6 +955,12 @@ func _interact(o: Prop) -> void:
 			if not o.p.open:
 				o.p.open = true
 				var cl := Game.mlvl
+				for k in R.rint(1, 3):
+					drop_item(Items.junk_for(null, cl), o.p.x, o.p.y)
+				if R.next() < .18:
+					drop_item(Items.make(cl, {"mf": Game.d.mf}), o.p.x, o.p.y)
+				if R.next() < .25:
+					drop_item(Items.potion("life", Game.floor_no), o.p.x, o.p.y)
 				var gl := R.rint(3, 8) * cl
 				Game.glut += gl
 				ftext(Vector2(o.p.x, o.p.y), "+%d Glut" % gl, Color("#ff9a3a"))
@@ -1020,6 +1095,7 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	if d.mok:
 		Game.mp = minf(d.mana, Game.mp + d.mok)
 	Game.gain_xp(e.xp)
+	_loot(e)
 	var rm: float = {"boss": 25.0, "unique": 6.0, "champ": 2.5}.get(e.rank, 1.0)
 	var gl := roundi((3 + Game.mlvl * 1.6) * R.rnd(.8, 1.25) * rm * (1 + d.glutf / 100.0))
 	Game.glut += gl
@@ -1039,6 +1115,89 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 		_light(Iso.to_screen(Vector2(st.x, st.y)), 140, .6)
 		Game.banner.emit("FEIND BEZWUNGEN", e.e_name, "boss")
 		shake = 14
+
+## lay an item near a point, somewhere one can stand (dropItem in 170-combat.js)
+func drop_item(it: Dictionary, x: float, y: float) -> void:
+	for k in 12:
+		var a := R.next() * 7
+		var r := R.next() * 1.1
+		var nx := x + cos(a) * r
+		var ny := y + sin(a) * r
+		if walkable(nx, ny):
+			x = nx
+			y = ny
+			break
+	items.append({"it": it, "x": x, "y": y, "t": 0.0})
+	if it.rar == "unique":
+		Game.log_msg("Einzigartig: " + it.name, Items.RCOL.unique)
+
+## what a slain foe leaves (killEnemy in 170-combat.js): gear now and then, junk often, potions sometimes
+func _loot(e: Enemy) -> void:
+	var ilvl: int = Game.mlvl + {"boss": 3, "unique": 2, "champ": 1}.get(e.rank, 0)
+	var mf: float = Game.d.mf
+	var n := 0
+	var boost := 0.0
+	var nj := 0
+	match e.rank:
+		"boss":
+			n = 2
+			boost = .6
+			nj = R.rint(3, 5)
+		"unique":
+			n = R.rint(1, 2)
+			boost = .3
+			nj = R.rint(2, 3)
+		"champ":
+			n = 1 if R.next() < .3 else 0
+			boost = .12
+			nj = R.rint(1, 2)
+		_:
+			n = 1 if R.next() < .045 else 0
+			nj = 1 if R.next() < .42 else 0
+	if e.summoned:
+		n = 0
+		nj = 0
+	for k in n:
+		var o := {"mf": mf, "boost": boost}
+		if e.boss and k < 1:
+			o.rarity = "unique" if R.next() < .06 else ("rare" if R.next() < .4 else "magic")
+		drop_item(Items.make(ilvl, o), e.world.x, e.world.y)
+	for k in nj:
+		drop_item(Items.junk_for(e, Game.mlvl), e.world.x, e.world.y)
+	if R.next() < 1e-4:
+		drop_item(Items.make(ilvl + 22, {"rarity": "unique", "mf": mf}), e.world.x, e.world.y)
+		Game.banner.emit("EIN WUNDER", "Das Schicksal lächelt dir zu", "boss")
+	if R.next() < (.06 if e.rank == "normal" else .35):
+		drop_item(Items.potion("life" if R.next() < .65 else "mana", Game.floor_no), e.world.x, e.world.y)
+
+func pickup(gi: Dictionary) -> void:
+	if not items.has(gi):
+		return
+	if not Items.inv_add(gi.it):
+		Game.log_msg("Das Inventar ist voll.", Color("#ff5a4a"))
+		return
+	items.erase(gi)
+
+## the name plates of everything on the ground, stacked so none covers another (drawLabels in 230-environment.js)
+func _labels() -> void:
+	labels.clear()
+	var font := ThemeDB.fallback_font
+	var sorted := items.duplicate()
+	sorted.sort_custom(func(a, b): return a.x + a.y < b.x + b.y)
+	for gi in sorted:
+		var s := Iso.to_screen(Vector2(gi.x, gi.y))
+		var tw := font.get_string_size(gi.it.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 10
+		var r := Rect2(s.x - tw / 2, s.y - 42, tw, 15)
+		for g in 12:
+			var hit = null
+			for l in labels:
+				if l.r.intersects(r):
+					hit = l
+					break
+			if hit == null:
+				break
+			r.position.y = hit.r.position.y - r.size.y - 1
+		labels.append({"r": r, "gi": gi})
 
 func _gore_of(e: Enemy) -> String:
 	match e.type:

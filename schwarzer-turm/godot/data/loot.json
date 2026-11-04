@@ -1,0 +1,225 @@
+{
+ "slotw": [
+  [
+   "weapon",
+   30
+  ],
+  [
+   "offhand",
+   7
+  ],
+  [
+   "helm",
+   10
+  ],
+  [
+   "armor",
+   10
+  ],
+  [
+   "gloves",
+   8
+  ],
+  [
+   "boots",
+   8
+  ],
+  [
+   "belt",
+   7
+  ],
+  [
+   "ring",
+   8
+  ],
+  [
+   "amulet",
+   5
+  ]
+ ],
+ "slotcode": {
+  "weapon": "W",
+  "offhand": "O",
+  "helm": "H",
+  "armor": "A",
+  "gloves": "G",
+  "boots": "B",
+  "belt": "E",
+  "ring": "R",
+  "amulet": "M"
+ },
+ "rcol": {
+  "normal": "#ece4cf",
+  "magic": "#7aa4ff",
+  "rare": "#ffd94f",
+  "unique": "#e8973a",
+  "rune": "#f0b25a",
+  "runeword": "#cdbf94",
+  "junk": "#9a9282"
+ },
+ "jmax": 20,
+ "junk": {
+  "holz": {
+   "n": "Morsches Holz",
+   "v": 1,
+   "d": "Taugt nicht einmal zum Feuer."
+  },
+  "knochen": {
+   "n": "Knochen",
+   "v": 1,
+   "d": "Abgenagt. Von wem, will man nicht wissen."
+  },
+  "schaedel": {
+   "n": "Schädelsplitter",
+   "v": 2,
+   "d": "Ein Stück von jemandem, der hier nicht mehr wohnt."
+  },
+  "klinge": {
+   "n": "Zerbrochene Klinge",
+   "v": 4,
+   "d": "Der bessere Teil fehlt."
+  },
+  "nagel": {
+   "n": "Rostige Nägel",
+   "v": 1,
+   "d": "Aus einem Sarg gezogen."
+  },
+  "fleisch": {
+   "n": "Verrottetes Fleisch",
+   "v": 1,
+   "d": "Riecht so, wie es aussieht."
+  },
+  "auge": {
+   "n": "Spinnenauge",
+   "v": 3,
+   "d": "Es sieht dich noch an."
+  },
+  "seide": {
+   "n": "Spinnenseide",
+   "v": 2,
+   "d": "Klebt an allem, nur nicht an Glück."
+  },
+  "zahn": {
+   "n": "Fauler Zahn",
+   "v": 2,
+   "d": "Schwarz bis zur Wurzel."
+  },
+  "fetzen": {
+   "n": "Stofffetzen",
+   "v": 1,
+   "d": "Einmal war das ein Gewand."
+  },
+  "feder": {
+   "n": "Krähenfeder",
+   "v": 1,
+   "d": "Die Krähen waren zuerst hier."
+  },
+  "fluegel": {
+   "n": "Fledermausflügel",
+   "v": 2,
+   "d": "Ledrig und kalt."
+  },
+  "kerze": {
+   "n": "Kerzenstummel",
+   "v": 1,
+   "d": "Brannte für ein Gebet, das niemand hörte."
+  },
+  "scherbe": {
+   "n": "Tonscherbe",
+   "v": 1,
+   "d": "Ein Krug, der zu oft fiel."
+  },
+  "asche": {
+   "n": "Grabstaub",
+   "v": 2,
+   "d": "Ein Beutel voll von dem, was übrig bleibt."
+  },
+  "pilz": {
+   "n": "Modriger Pilz",
+   "v": 1,
+   "d": "Wächst, wo Licht nie hinkommt."
+  },
+  "schuppe": {
+   "n": "Panzerschuppe",
+   "v": 2,
+   "d": "Hart wie Horn, dünn wie Papier."
+  },
+  "stachel": {
+   "n": "Giftstachel",
+   "v": 3,
+   "d": "Trocken. Meistens."
+  },
+  "brocken": {
+   "n": "Steinbrocken",
+   "v": 1,
+   "d": "Schwer und völlig wertlos."
+  },
+  "stein": {
+   "n": "Zeichenloser Stein",
+   "v": 2,
+   "d": "Glatt wie eine Rune, doch ohne Zeichen."
+  },
+  "schleim": {
+   "n": "Schleimklumpen",
+   "v": 1,
+   "d": "Zuckt noch ein wenig."
+  }
+ },
+ "jfam": {
+  "skel": [
+   "knochen",
+   "knochen",
+   "schaedel",
+   "klinge",
+   "nagel"
+  ],
+  "archer": [
+   "knochen",
+   "schaedel",
+   "feder",
+   "nagel"
+  ],
+  "ghoul": [
+   "fleisch",
+   "fleisch",
+   "zahn",
+   "fetzen"
+  ],
+  "spider": [
+   "auge",
+   "auge",
+   "seide"
+  ],
+  "cult": [
+   "kerze",
+   "fetzen",
+   "asche"
+  ],
+  "wraith": [
+   "asche",
+   "fetzen",
+   "kerze"
+  ],
+  "golem": [
+   "brocken",
+   "brocken",
+   "scherbe"
+  ],
+  "scorp": [
+   "schuppe",
+   "stachel"
+  ],
+  "x": [
+   "holz",
+   "holz",
+   "nagel",
+   "scherbe",
+   "pilz",
+   "feder",
+   "fetzen",
+   "fluegel",
+   "schleim",
+   "knochen"
+  ]
+ }
+}

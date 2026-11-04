@@ -1,0 +1,8200 @@
+{
+ "implicit": {
+  "Filzhut": {
+   "mana": 9,
+   "spell": 5
+  },
+  "Seiden-Filzhut": {
+   "mana": 18,
+   "spell": 11
+  },
+  "Mondseiden-Filzhut": {
+   "mana": 28,
+   "spell": 17
+  },
+  "Sternenseiden-Filzhut": {
+   "mana": 38,
+   "spell": 23
+  },
+  "Spitzhut": {
+   "mana": 14,
+   "spell": 8
+  },
+  "Seiden-Spitzhut": {
+   "mana": 23,
+   "spell": 14
+  },
+  "Mondseiden-Spitzhut": {
+   "mana": 33,
+   "spell": 20
+  },
+  "Sternenseiden-Spitzhut": {
+   "mana": 42,
+   "spell": 26
+  },
+  "Runenhut": {
+   "mana": 19,
+   "spell": 11
+  },
+  "Seiden-Runenhut": {
+   "mana": 29,
+   "spell": 17
+  },
+  "Mondseiden-Runenhut": {
+   "mana": 38,
+   "spell": 23
+  },
+  "Sternenseiden-Runenhut": {
+   "mana": 48,
+   "spell": 29
+  },
+  "Sternenhut": {
+   "mana": 26,
+   "spell": 15
+  },
+  "Seiden-Sternenhut": {
+   "mana": 35,
+   "spell": 21
+  },
+  "Mondseiden-Sternenhut": {
+   "mana": 45,
+   "spell": 27
+  },
+  "Sternenseiden-Sternenhut": {
+   "mana": 54,
+   "spell": 33
+  },
+  "Aschehaube": {
+   "mana": 32,
+   "spell": 19
+  },
+  "Seiden-Aschehaube": {
+   "mana": 42,
+   "spell": 25
+  },
+  "Mondseiden-Aschehaube": {
+   "mana": 51,
+   "spell": 31
+  },
+  "Sternenseiden-Aschehaube": {
+   "mana": 61,
+   "spell": 37
+  },
+  "Leinenrobe": {
+   "mana": 13,
+   "spell": 7,
+   "mregen": 1
+  },
+  "Seiden-Leinenrobe": {
+   "mana": 28,
+   "spell": 15,
+   "mregen": 2
+  },
+  "Mondseiden-Leinenrobe": {
+   "mana": 42,
+   "spell": 24,
+   "mregen": 3
+  },
+  "Sternenseiden-Leinenrobe": {
+   "mana": 56,
+   "spell": 32,
+   "mregen": 3
+  },
+  "Novizenrobe": {
+   "mana": 19,
+   "spell": 10,
+   "mregen": 1
+  },
+  "Seiden-Novizenrobe": {
+   "mana": 34,
+   "spell": 19,
+   "mregen": 2
+  },
+  "Mondseiden-Novizenrobe": {
+   "mana": 48,
+   "spell": 27,
+   "mregen": 3
+  },
+  "Sternenseiden-Novizenrobe": {
+   "mana": 62,
+   "spell": 35,
+   "mregen": 4
+  },
+  "Runenrobe": {
+   "mana": 28,
+   "spell": 15,
+   "mregen": 2
+  },
+  "Seiden-Runenrobe": {
+   "mana": 42,
+   "spell": 24,
+   "mregen": 3
+  },
+  "Mondseiden-Runenrobe": {
+   "mana": 56,
+   "spell": 32,
+   "mregen": 3
+  },
+  "Sternenseiden-Runenrobe": {
+   "mana": 71,
+   "spell": 40,
+   "mregen": 4
+  },
+  "Sternenrobe": {
+   "mana": 37,
+   "spell": 21,
+   "mregen": 2
+  },
+  "Seiden-Sternenrobe": {
+   "mana": 52,
+   "spell": 29,
+   "mregen": 3
+  },
+  "Mondseiden-Sternenrobe": {
+   "mana": 66,
+   "spell": 38,
+   "mregen": 4
+  },
+  "Sternenseiden-Sternenrobe": {
+   "mana": 80,
+   "spell": 46,
+   "mregen": 4
+  },
+  "Aschenrobe": {
+   "mana": 47,
+   "spell": 26,
+   "mregen": 3
+  },
+  "Seiden-Aschenrobe": {
+   "mana": 61,
+   "spell": 35,
+   "mregen": 3
+  },
+  "Mondseiden-Aschenrobe": {
+   "mana": 76,
+   "spell": 43,
+   "mregen": 4
+  },
+  "Sternenseiden-Aschenrobe": {
+   "mana": 90,
+   "spell": 52,
+   "mregen": 5
+  },
+  "Seidenhandschuhe": {
+   "spell": 6,
+   "mregen": 1
+  },
+  "Seiden-Seidenhandschuhe": {
+   "spell": 12,
+   "mregen": 2
+  },
+  "Mondseiden-Seidenhandschuhe": {
+   "spell": 18,
+   "mregen": 2
+  },
+  "Sternenseiden-Seidenhandschuhe": {
+   "spell": 24,
+   "mregen": 3
+  },
+  "Runenhandschuhe": {
+   "spell": 11,
+   "mregen": 2
+  },
+  "Seiden-Runenhandschuhe": {
+   "spell": 17,
+   "mregen": 2
+  },
+  "Mondseiden-Runenhandschuhe": {
+   "spell": 23,
+   "mregen": 3
+  },
+  "Sternenseiden-Runenhandschuhe": {
+   "spell": 29,
+   "mregen": 4
+  },
+  "Sternenhandschuhe": {
+   "spell": 17,
+   "mregen": 2
+  },
+  "Seiden-Sternenhandschuhe": {
+   "spell": 23,
+   "mregen": 3
+  },
+  "Mondseiden-Sternenhandschuhe": {
+   "spell": 29,
+   "mregen": 4
+  },
+  "Sternenseiden-Sternenhandschuhe": {
+   "spell": 35,
+   "mregen": 4
+  },
+  "Sandalen": {
+   "frw": 5,
+   "mregen": 1
+  },
+  "Seiden-Sandalen": {
+   "frw": 7,
+   "mregen": 2
+  },
+  "Mondseiden-Sandalen": {
+   "frw": 9,
+   "mregen": 2
+  },
+  "Sternenseiden-Sandalen": {
+   "frw": 11,
+   "mregen": 3
+  },
+  "Pilgerschuhe": {
+   "frw": 7,
+   "mregen": 2
+  },
+  "Seiden-Pilgerschuhe": {
+   "frw": 9,
+   "mregen": 2
+  },
+  "Mondseiden-Pilgerschuhe": {
+   "frw": 10,
+   "mregen": 3
+  },
+  "Sternenseiden-Pilgerschuhe": {
+   "frw": 12,
+   "mregen": 3
+  },
+  "Leerenschritt": {
+   "frw": 9,
+   "mregen": 2
+  },
+  "Seiden-Leerenschritt": {
+   "frw": 11,
+   "mregen": 3
+  },
+  "Mondseiden-Leerenschritt": {
+   "frw": 12,
+   "mregen": 3
+  },
+  "Sternenseiden-Leerenschritt": {
+   "frw": 14,
+   "mregen": 4
+  },
+  "Kordel": {
+   "mana": 13,
+   "ene": 3
+  },
+  "Seiden-Kordel": {
+   "mana": 25,
+   "ene": 5
+  },
+  "Mondseiden-Kordel": {
+   "mana": 37,
+   "ene": 7
+  },
+  "Sternenseiden-Kordel": {
+   "mana": 49,
+   "ene": 10
+  },
+  "Runenschärpe": {
+   "mana": 25,
+   "ene": 5
+  },
+  "Seiden-Runenschärpe": {
+   "mana": 37,
+   "ene": 7
+  },
+  "Mondseiden-Runenschärpe": {
+   "mana": 49,
+   "ene": 10
+  },
+  "Sternenseiden-Runenschärpe": {
+   "mana": 61,
+   "ene": 12
+  },
+  "Sternengurt": {
+   "mana": 37,
+   "ene": 7
+  },
+  "Seiden-Sternengurt": {
+   "mana": 49,
+   "ene": 10
+  },
+  "Mondseiden-Sternengurt": {
+   "mana": 61,
+   "ene": 12
+  },
+  "Sternenseiden-Sternengurt": {
+   "mana": 73,
+   "ene": 15
+  },
+  "Zauberfibel": {
+   "spell": 9,
+   "mana": 11
+  },
+  "Seiden-Zauberfibel": {
+   "spell": 18,
+   "mana": 23
+  },
+  "Mondseiden-Zauberfibel": {
+   "spell": 28,
+   "mana": 35
+  },
+  "Sternenseiden-Zauberfibel": {
+   "spell": 38,
+   "mana": 47
+  },
+  "Grimoire": {
+   "spell": 18,
+   "mana": 22
+  },
+  "Seiden-Grimoire": {
+   "spell": 27,
+   "mana": 34
+  },
+  "Mondseiden-Grimoire": {
+   "spell": 37,
+   "mana": 46
+  },
+  "Sternenseiden-Grimoire": {
+   "spell": 46,
+   "mana": 58
+  },
+  "Sternenfolio": {
+   "spell": 29,
+   "mana": 36
+  },
+  "Seiden-Sternenfolio": {
+   "spell": 38,
+   "mana": 48
+  },
+  "Mondseiden-Sternenfolio": {
+   "spell": 48,
+   "mana": 60
+  },
+  "Sternenseiden-Sternenfolio": {
+   "spell": 58,
+   "mana": 72
+  },
+  "Stoffmaske": {
+   "dex": 4,
+   "crit": 2
+  },
+  "Nachtleder-Stoffmaske": {
+   "dex": 10,
+   "crit": 5
+  },
+  "Dämmerseiden-Stoffmaske": {
+   "dex": 16,
+   "crit": 7
+  },
+  "Schwarzdiamant-Stoffmaske": {
+   "dex": 22,
+   "crit": 9
+  },
+  "Lederkapuze": {
+   "dex": 6,
+   "crit": 3
+  },
+  "Nachtleder-Lederkapuze": {
+   "dex": 12,
+   "crit": 5
+  },
+  "Dämmerseiden-Lederkapuze": {
+   "dex": 18,
+   "crit": 8
+  },
+  "Schwarzdiamant-Lederkapuze": {
+   "dex": 24,
+   "crit": 10
+  },
+  "Pirschkapuze": {
+   "dex": 9,
+   "crit": 4
+  },
+  "Nachtleder-Pirschkapuze": {
+   "dex": 15,
+   "crit": 7
+  },
+  "Dämmerseiden-Pirschkapuze": {
+   "dex": 21,
+   "crit": 9
+  },
+  "Schwarzdiamant-Pirschkapuze": {
+   "dex": 27,
+   "crit": 11
+  },
+  "Schattenkapuze": {
+   "dex": 12,
+   "crit": 6
+  },
+  "Nachtleder-Schattenkapuze": {
+   "dex": 18,
+   "crit": 8
+  },
+  "Dämmerseiden-Schattenkapuze": {
+   "dex": 24,
+   "crit": 10
+  },
+  "Schwarzdiamant-Schattenkapuze": {
+   "dex": 30,
+   "crit": 13
+  },
+  "Rabenkapuze": {
+   "dex": 16,
+   "crit": 7
+  },
+  "Nachtleder-Rabenkapuze": {
+   "dex": 22,
+   "crit": 9
+  },
+  "Dämmerseiden-Rabenkapuze": {
+   "dex": 28,
+   "crit": 12
+  },
+  "Schwarzdiamant-Rabenkapuze": {
+   "dex": 34,
+   "crit": 14
+  },
+  "Nachtschleier": {
+   "dex": 19,
+   "crit": 8
+  },
+  "Nachtleder-Nachtschleier": {
+   "dex": 25,
+   "crit": 11
+  },
+  "Dämmerseiden-Nachtschleier": {
+   "dex": 31,
+   "crit": 13
+  },
+  "Schwarzdiamant-Nachtschleier": {
+   "dex": 37,
+   "crit": 16
+  },
+  "Lederweste": {
+   "dex": 5,
+   "life": 12,
+   "frw": 3
+  },
+  "Nachtleder-Lederweste": {
+   "dex": 12,
+   "life": 30,
+   "frw": 5
+  },
+  "Dämmerseiden-Lederweste": {
+   "dex": 19,
+   "life": 48,
+   "frw": 7
+  },
+  "Schwarzdiamant-Lederweste": {
+   "dex": 26,
+   "life": 66,
+   "frw": 9
+  },
+  "Wildlederwams": {
+   "dex": 8,
+   "life": 19,
+   "frw": 4
+  },
+  "Nachtleder-Wildlederwams": {
+   "dex": 15,
+   "life": 37,
+   "frw": 6
+  },
+  "Dämmerseiden-Wildlederwams": {
+   "dex": 22,
+   "life": 55,
+   "frw": 8
+  },
+  "Schwarzdiamant-Wildlederwams": {
+   "dex": 29,
+   "life": 73,
+   "frw": 9
+  },
+  "Pirschmantel": {
+   "dex": 11,
+   "life": 28,
+   "frw": 5
+  },
+  "Nachtleder-Pirschmantel": {
+   "dex": 18,
+   "life": 46,
+   "frw": 7
+  },
+  "Dämmerseiden-Pirschmantel": {
+   "dex": 26,
+   "life": 64,
+   "frw": 8
+  },
+  "Schwarzdiamant-Pirschmantel": {
+   "dex": 33,
+   "life": 82,
+   "frw": 10
+  },
+  "Schattenmantel": {
+   "dex": 15,
+   "life": 39,
+   "frw": 6
+  },
+  "Nachtleder-Schattenmantel": {
+   "dex": 23,
+   "life": 57,
+   "frw": 8
+  },
+  "Dämmerseiden-Schattenmantel": {
+   "dex": 30,
+   "life": 75,
+   "frw": 9
+  },
+  "Schwarzdiamant-Schattenmantel": {
+   "dex": 37,
+   "life": 93,
+   "frw": 11
+  },
+  "Rabenmantel": {
+   "dex": 20,
+   "life": 49,
+   "frw": 7
+  },
+  "Nachtleder-Rabenmantel": {
+   "dex": 27,
+   "life": 67,
+   "frw": 9
+  },
+  "Dämmerseiden-Rabenmantel": {
+   "dex": 34,
+   "life": 85,
+   "frw": 11
+  },
+  "Schwarzdiamant-Rabenmantel": {
+   "dex": 41,
+   "life": 103,
+   "frw": 12
+  },
+  "Nachtumhang": {
+   "dex": 24,
+   "life": 60,
+   "frw": 8
+  },
+  "Nachtleder-Nachtumhang": {
+   "dex": 31,
+   "life": 78,
+   "frw": 10
+  },
+  "Dämmerseiden-Nachtumhang": {
+   "dex": 38,
+   "life": 96,
+   "frw": 12
+  },
+  "Schwarzdiamant-Nachtumhang": {
+   "dex": 45,
+   "life": 114,
+   "frw": 13
+  },
+  "Fingerlinge": {
+   "ias": 6,
+   "crit": 1
+  },
+  "Nachtleder-Fingerlinge": {
+   "ias": 9,
+   "crit": 3
+  },
+  "Dämmerseiden-Fingerlinge": {
+   "ias": 13,
+   "crit": 5
+  },
+  "Schwarzdiamant-Fingerlinge": {
+   "ias": 16,
+   "crit": 7
+  },
+  "Messerhandschuhe": {
+   "ias": 8,
+   "crit": 3
+  },
+  "Nachtleder-Messerhandschuhe": {
+   "ias": 12,
+   "crit": 4
+  },
+  "Dämmerseiden-Messerhandschuhe": {
+   "ias": 15,
+   "crit": 6
+  },
+  "Schwarzdiamant-Messerhandschuhe": {
+   "ias": 19,
+   "crit": 8
+  },
+  "Schattengriffe": {
+   "ias": 11,
+   "crit": 4
+  },
+  "Nachtleder-Schattengriffe": {
+   "ias": 15,
+   "crit": 6
+  },
+  "Dämmerseiden-Schattengriffe": {
+   "ias": 18,
+   "crit": 8
+  },
+  "Schwarzdiamant-Schattengriffe": {
+   "ias": 22,
+   "crit": 9
+  },
+  "Krallenhandschuhe": {
+   "ias": 14,
+   "crit": 6
+  },
+  "Nachtleder-Krallenhandschuhe": {
+   "ias": 18,
+   "crit": 7
+  },
+  "Dämmerseiden-Krallenhandschuhe": {
+   "ias": 21,
+   "crit": 9
+  },
+  "Schwarzdiamant-Krallenhandschuhe": {
+   "ias": 25,
+   "crit": 11
+  },
+  "Schleichschuhe": {
+   "frw": 6,
+   "dex": 3
+  },
+  "Nachtleder-Schleichschuhe": {
+   "frw": 9,
+   "dex": 6
+  },
+  "Dämmerseiden-Schleichschuhe": {
+   "frw": 11,
+   "dex": 10
+  },
+  "Schwarzdiamant-Schleichschuhe": {
+   "frw": 14,
+   "dex": 13
+  },
+  "Wildlederstiefel": {
+   "frw": 8,
+   "dex": 5
+  },
+  "Nachtleder-Wildlederstiefel": {
+   "frw": 10,
+   "dex": 9
+  },
+  "Dämmerseiden-Wildlederstiefel": {
+   "frw": 13,
+   "dex": 12
+  },
+  "Schwarzdiamant-Wildlederstiefel": {
+   "frw": 15,
+   "dex": 16
+  },
+  "Schattensohlen": {
+   "frw": 10,
+   "dex": 8
+  },
+  "Nachtleder-Schattensohlen": {
+   "frw": 12,
+   "dex": 12
+  },
+  "Dämmerseiden-Schattensohlen": {
+   "frw": 15,
+   "dex": 15
+  },
+  "Schwarzdiamant-Schattensohlen": {
+   "frw": 17,
+   "dex": 19
+  },
+  "Nebelläufer": {
+   "frw": 12,
+   "dex": 11
+  },
+  "Nachtleder-Nebelläufer": {
+   "frw": 14,
+   "dex": 15
+  },
+  "Dämmerseiden-Nebelläufer": {
+   "frw": 17,
+   "dex": 18
+  },
+  "Schwarzdiamant-Nebelläufer": {
+   "frw": 19,
+   "dex": 22
+  },
+  "Messergurt": {
+   "life": 11,
+   "crit": 1
+  },
+  "Nachtleder-Messergurt": {
+   "life": 23,
+   "crit": 3
+  },
+  "Dämmerseiden-Messergurt": {
+   "life": 35,
+   "crit": 4
+  },
+  "Schwarzdiamant-Messergurt": {
+   "life": 47,
+   "crit": 6
+  },
+  "Dolchgurt": {
+   "life": 21,
+   "crit": 3
+  },
+  "Nachtleder-Dolchgurt": {
+   "life": 33,
+   "crit": 4
+  },
+  "Dämmerseiden-Dolchgurt": {
+   "life": 45,
+   "crit": 5
+  },
+  "Schwarzdiamant-Dolchgurt": {
+   "life": 57,
+   "crit": 7
+  },
+  "Schattenschärpe": {
+   "life": 31,
+   "crit": 4
+  },
+  "Nachtleder-Schattenschärpe": {
+   "life": 43,
+   "crit": 5
+  },
+  "Dämmerseiden-Schattenschärpe": {
+   "life": 55,
+   "crit": 7
+  },
+  "Schwarzdiamant-Schattenschärpe": {
+   "life": 67,
+   "crit": 8
+  },
+  "Klingengurt": {
+   "life": 39,
+   "crit": 5
+  },
+  "Nachtleder-Klingengurt": {
+   "life": 51,
+   "crit": 6
+  },
+  "Dämmerseiden-Klingengurt": {
+   "life": 63,
+   "crit": 8
+  },
+  "Schwarzdiamant-Klingengurt": {
+   "life": 75,
+   "crit": 9
+  },
+  "Schutzbrille": {
+   "potPow": 7,
+   "res": 3
+  },
+  "Wachsleder-Schutzbrille": {
+   "potPow": 14,
+   "res": 8
+  },
+  "Basiliskenleder-Schutzbrille": {
+   "potPow": 21,
+   "res": 13
+  },
+  "Drachenschuppen-Schutzbrille": {
+   "potPow": 28,
+   "res": 18
+  },
+  "Laborkappe": {
+   "potPow": 9,
+   "res": 5
+  },
+  "Wachsleder-Laborkappe": {
+   "potPow": 16,
+   "res": 10
+  },
+  "Basiliskenleder-Laborkappe": {
+   "potPow": 23,
+   "res": 15
+  },
+  "Drachenschuppen-Laborkappe": {
+   "potPow": 31,
+   "res": 19
+  },
+  "Rauchmaske": {
+   "potPow": 13,
+   "res": 7
+  },
+  "Wachsleder-Rauchmaske": {
+   "potPow": 20,
+   "res": 12
+  },
+  "Basiliskenleder-Rauchmaske": {
+   "potPow": 27,
+   "res": 17
+  },
+  "Drachenschuppen-Rauchmaske": {
+   "potPow": 34,
+   "res": 22
+  },
+  "Schnabelmaske": {
+   "potPow": 17,
+   "res": 10
+  },
+  "Wachsleder-Schnabelmaske": {
+   "potPow": 24,
+   "res": 15
+  },
+  "Basiliskenleder-Schnabelmaske": {
+   "potPow": 31,
+   "res": 20
+  },
+  "Drachenschuppen-Schnabelmaske": {
+   "potPow": 38,
+   "res": 25
+  },
+  "Pestmaske": {
+   "potPow": 21,
+   "res": 13
+  },
+  "Wachsleder-Pestmaske": {
+   "potPow": 28,
+   "res": 18
+  },
+  "Basiliskenleder-Pestmaske": {
+   "potPow": 35,
+   "res": 23
+  },
+  "Drachenschuppen-Pestmaske": {
+   "potPow": 43,
+   "res": 27
+  },
+  "Alchemistenhaube": {
+   "potPow": 25,
+   "res": 16
+  },
+  "Wachsleder-Alchemistenhaube": {
+   "potPow": 32,
+   "res": 21
+  },
+  "Basiliskenleder-Alchemistenhaube": {
+   "potPow": 40,
+   "res": 25
+  },
+  "Drachenschuppen-Alchemistenhaube": {
+   "potPow": 47,
+   "res": 30
+  },
+  "Lederschürze": {
+   "potPow": 9,
+   "res": 5,
+   "life": 11
+  },
+  "Wachsleder-Lederschürze": {
+   "potPow": 18,
+   "res": 11,
+   "life": 28
+  },
+  "Basiliskenleder-Lederschürze": {
+   "potPow": 28,
+   "res": 17,
+   "life": 45
+  },
+  "Drachenschuppen-Lederschürze": {
+   "potPow": 38,
+   "res": 23,
+   "life": 62
+  },
+  "Laborkittel": {
+   "potPow": 13,
+   "res": 7,
+   "life": 18
+  },
+  "Wachsleder-Laborkittel": {
+   "potPow": 22,
+   "res": 13,
+   "life": 35
+  },
+  "Basiliskenleder-Laborkittel": {
+   "potPow": 32,
+   "res": 19,
+   "life": 52
+  },
+  "Drachenschuppen-Laborkittel": {
+   "potPow": 42,
+   "res": 25,
+   "life": 69
+  },
+  "Wachsmantel": {
+   "potPow": 18,
+   "res": 10,
+   "life": 27
+  },
+  "Wachsleder-Wachsmantel": {
+   "potPow": 27,
+   "res": 16,
+   "life": 44
+  },
+  "Basiliskenleder-Wachsmantel": {
+   "potPow": 37,
+   "res": 22,
+   "life": 60
+  },
+  "Drachenschuppen-Wachsmantel": {
+   "potPow": 46,
+   "res": 28,
+   "life": 77
+  },
+  "Säureschürze": {
+   "potPow": 23,
+   "res": 14,
+   "life": 37
+  },
+  "Wachsleder-Säureschürze": {
+   "potPow": 33,
+   "res": 20,
+   "life": 53
+  },
+  "Basiliskenleder-Säureschürze": {
+   "potPow": 42,
+   "res": 26,
+   "life": 70
+  },
+  "Drachenschuppen-Säureschürze": {
+   "potPow": 52,
+   "res": 32,
+   "life": 87
+  },
+  "Pestmantel": {
+   "potPow": 29,
+   "res": 17,
+   "life": 46
+  },
+  "Wachsleder-Pestmantel": {
+   "potPow": 38,
+   "res": 23,
+   "life": 63
+  },
+  "Basiliskenleder-Pestmantel": {
+   "potPow": 48,
+   "res": 29,
+   "life": 80
+  },
+  "Drachenschuppen-Pestmantel": {
+   "potPow": 58,
+   "res": 35,
+   "life": 97
+  },
+  "Elixierkutte": {
+   "potPow": 34,
+   "res": 21,
+   "life": 56
+  },
+  "Wachsleder-Elixierkutte": {
+   "potPow": 44,
+   "res": 27,
+   "life": 73
+  },
+  "Basiliskenleder-Elixierkutte": {
+   "potPow": 54,
+   "res": 33,
+   "life": 90
+  },
+  "Drachenschuppen-Elixierkutte": {
+   "potPow": 63,
+   "res": 39,
+   "life": 107
+  },
+  "Säurehandschuhe": {
+   "poison": 3,
+   "potPow": 5
+  },
+  "Wachsleder-Säurehandschuhe": {
+   "poison": 8,
+   "potPow": 10
+  },
+  "Basiliskenleder-Säurehandschuhe": {
+   "poison": 12,
+   "potPow": 14
+  },
+  "Drachenschuppen-Säurehandschuhe": {
+   "poison": 17,
+   "potPow": 19
+  },
+  "Tiegelhandschuhe": {
+   "poison": 6,
+   "potPow": 8
+  },
+  "Wachsleder-Tiegelhandschuhe": {
+   "poison": 11,
+   "potPow": 13
+  },
+  "Basiliskenleder-Tiegelhandschuhe": {
+   "poison": 16,
+   "potPow": 18
+  },
+  "Drachenschuppen-Tiegelhandschuhe": {
+   "poison": 20,
+   "potPow": 22
+  },
+  "Glutgreifer": {
+   "poison": 10,
+   "potPow": 12
+  },
+  "Wachsleder-Glutgreifer": {
+   "poison": 15,
+   "potPow": 17
+  },
+  "Basiliskenleder-Glutgreifer": {
+   "poison": 20,
+   "potPow": 22
+  },
+  "Drachenschuppen-Glutgreifer": {
+   "poison": 24,
+   "potPow": 26
+  },
+  "Elixierhände": {
+   "poison": 14,
+   "potPow": 16
+  },
+  "Wachsleder-Elixierhände": {
+   "poison": 19,
+   "potPow": 21
+  },
+  "Basiliskenleder-Elixierhände": {
+   "poison": 24,
+   "potPow": 26
+  },
+  "Drachenschuppen-Elixierhände": {
+   "poison": 28,
+   "potPow": 30
+  },
+  "Holzschuhe": {
+   "frw": 5,
+   "res": 3
+  },
+  "Wachsleder-Holzschuhe": {
+   "frw": 7,
+   "res": 6
+  },
+  "Basiliskenleder-Holzschuhe": {
+   "frw": 9,
+   "res": 10
+  },
+  "Drachenschuppen-Holzschuhe": {
+   "frw": 11,
+   "res": 13
+  },
+  "Laborstiefel": {
+   "frw": 7,
+   "res": 5
+  },
+  "Wachsleder-Laborstiefel": {
+   "frw": 8,
+   "res": 9
+  },
+  "Basiliskenleder-Laborstiefel": {
+   "frw": 10,
+   "res": 12
+  },
+  "Drachenschuppen-Laborstiefel": {
+   "frw": 12,
+   "res": 16
+  },
+  "Aschestiefel": {
+   "frw": 8,
+   "res": 8
+  },
+  "Wachsleder-Aschestiefel": {
+   "frw": 10,
+   "res": 12
+  },
+  "Basiliskenleder-Aschestiefel": {
+   "frw": 12,
+   "res": 15
+  },
+  "Drachenschuppen-Aschestiefel": {
+   "frw": 13,
+   "res": 19
+  },
+  "Quecksilberschritt": {
+   "frw": 10,
+   "res": 11
+  },
+  "Wachsleder-Quecksilberschritt": {
+   "frw": 11,
+   "res": 15
+  },
+  "Basiliskenleder-Quecksilberschritt": {
+   "frw": 13,
+   "res": 18
+  },
+  "Drachenschuppen-Quecksilberschritt": {
+   "frw": 15,
+   "res": 22
+  },
+  "Phiolengurt": {
+   "flaskH": 8,
+   "mana": 11
+  },
+  "Wachsleder-Phiolengurt": {
+   "flaskH": 14,
+   "mana": 23
+  },
+  "Basiliskenleder-Phiolengurt": {
+   "flaskH": 20,
+   "mana": 35
+  },
+  "Drachenschuppen-Phiolengurt": {
+   "flaskH": 26,
+   "mana": 47
+  },
+  "Trankgurt": {
+   "flaskH": 13,
+   "mana": 21
+  },
+  "Wachsleder-Trankgurt": {
+   "flaskH": 19,
+   "mana": 33
+  },
+  "Basiliskenleder-Trankgurt": {
+   "flaskH": 25,
+   "mana": 45
+  },
+  "Drachenschuppen-Trankgurt": {
+   "flaskH": 31,
+   "mana": 57
+  },
+  "Elixiergurt": {
+   "flaskH": 18,
+   "mana": 31
+  },
+  "Wachsleder-Elixiergurt": {
+   "flaskH": 24,
+   "mana": 43
+  },
+  "Basiliskenleder-Elixiergurt": {
+   "flaskH": 30,
+   "mana": 55
+  },
+  "Drachenschuppen-Elixiergurt": {
+   "flaskH": 36,
+   "mana": 67
+  },
+  "Kolbengürtel": {
+   "flaskH": 22,
+   "mana": 39
+  },
+  "Wachsleder-Kolbengürtel": {
+   "flaskH": 28,
+   "mana": 51
+  },
+  "Basiliskenleder-Kolbengürtel": {
+   "flaskH": 34,
+   "mana": 63
+  },
+  "Drachenschuppen-Kolbengürtel": {
+   "flaskH": 40,
+   "mana": 75
+  },
+  "Knotenstab": {
+   "spell": 5
+  },
+  "Obsidian-Knotenstab": {
+   "spell": 5
+  },
+  "Blutstahl-Knotenstab": {
+   "spell": 5
+  },
+  "Mondsilber-Knotenstab": {
+   "spell": 5
+  },
+  "Sternenstahl-Knotenstab": {
+   "spell": 5
+  },
+  "Leerenstahl-Knotenstab": {
+   "spell": 5
+  },
+  "Drachenglas-Knotenstab": {
+   "spell": 5
+  },
+  "Kampfstab": {
+   "ias": 17
+  },
+  "Obsidian-Kampfstab": {
+   "ias": 18
+  },
+  "Blutstahl-Kampfstab": {
+   "ias": 20
+  },
+  "Mondsilber-Kampfstab": {
+   "ias": 22
+  },
+  "Sternenstahl-Kampfstab": {
+   "ias": 24
+  },
+  "Leerenstahl-Kampfstab": {
+   "ias": 26
+  },
+  "Drachenglas-Kampfstab": {
+   "ias": 27
+  },
+  "Zauberrute": {
+   "mregen": 1,
+   "spell": 6
+  },
+  "Obsidian-Zauberrute": {
+   "mregen": 2,
+   "spell": 8
+  },
+  "Blutstahl-Zauberrute": {
+   "mregen": 2,
+   "spell": 10
+  },
+  "Mondsilber-Zauberrute": {
+   "mregen": 2,
+   "spell": 12
+  },
+  "Sternenstahl-Zauberrute": {
+   "mregen": 3,
+   "spell": 14
+  },
+  "Leerenstahl-Zauberrute": {
+   "mregen": 3,
+   "spell": 15
+  },
+  "Drachenglas-Zauberrute": {
+   "mregen": 3,
+   "spell": 17
+  },
+  "Kristallstab": {
+   "cold": 7
+  },
+  "Obsidian-Kristallstab": {
+   "cold": 9
+  },
+  "Blutstahl-Kristallstab": {
+   "cold": 11
+  },
+  "Mondsilber-Kristallstab": {
+   "cold": 13
+  },
+  "Sternenstahl-Kristallstab": {
+   "cold": 15
+  },
+  "Leerenstahl-Kristallstab": {
+   "cold": 16
+  },
+  "Drachenglas-Kristallstab": {
+   "cold": 18
+  },
+  "Knochenstab": {
+   "life": 32
+  },
+  "Obsidian-Knochenstab": {
+   "life": 38
+  },
+  "Blutstahl-Knochenstab": {
+   "life": 44
+  },
+  "Mondsilber-Knochenstab": {
+   "life": 50
+  },
+  "Sternenstahl-Knochenstab": {
+   "life": 56
+  },
+  "Leerenstahl-Knochenstab": {
+   "life": 62
+  },
+  "Drachenglas-Knochenstab": {
+   "life": 68
+  },
+  "Runenstab": {
+   "allsk": 1
+  },
+  "Obsidian-Runenstab": {
+   "allsk": 1
+  },
+  "Blutstahl-Runenstab": {
+   "allsk": 1
+  },
+  "Mondsilber-Runenstab": {
+   "allsk": 1
+  },
+  "Sternenstahl-Runenstab": {
+   "allsk": 1
+  },
+  "Leerenstahl-Runenstab": {
+   "allsk": 1
+  },
+  "Drachenglas-Runenstab": {
+   "allsk": 1
+  },
+  "Weltenast": {
+   "poison": 23,
+   "regen": 5
+  },
+  "Obsidian-Weltenast": {
+   "poison": 25,
+   "regen": 5
+  },
+  "Blutstahl-Weltenast": {
+   "poison": 27,
+   "regen": 5
+  },
+  "Mondsilber-Weltenast": {
+   "poison": 28,
+   "regen": 5
+  },
+  "Sternenstahl-Weltenast": {
+   "poison": 30,
+   "regen": 6
+  },
+  "Gladius": {
+   "crit": 5
+  },
+  "Obsidian-Gladius": {
+   "crit": 6
+  },
+  "Blutstahl-Gladius": {
+   "crit": 7
+  },
+  "Mondsilber-Gladius": {
+   "crit": 8
+  },
+  "Sternenstahl-Gladius": {
+   "crit": 9
+  },
+  "Leerenstahl-Gladius": {
+   "crit": 10
+  },
+  "Drachenglas-Gladius": {
+   "crit": 11
+  },
+  "Falchion": {
+   "ed": 13
+  },
+  "Obsidian-Falchion": {
+   "ed": 16
+  },
+  "Blutstahl-Falchion": {
+   "ed": 19
+  },
+  "Mondsilber-Falchion": {
+   "ed": 22
+  },
+  "Sternenstahl-Falchion": {
+   "ed": 25
+  },
+  "Leerenstahl-Falchion": {
+   "ed": 28
+  },
+  "Drachenglas-Falchion": {
+   "ed": 31
+  },
+  "Rapier": {
+   "ias": 10,
+   "crit": 3
+  },
+  "Obsidian-Rapier": {
+   "ias": 11,
+   "crit": 3
+  },
+  "Blutstahl-Rapier": {
+   "ias": 12,
+   "crit": 3
+  },
+  "Mondsilber-Rapier": {
+   "ias": 14,
+   "crit": 3
+  },
+  "Sternenstahl-Rapier": {
+   "ias": 15,
+   "crit": 3
+  },
+  "Leerenstahl-Rapier": {
+   "ias": 16,
+   "crit": 3
+  },
+  "Drachenglas-Rapier": {
+   "ias": 17,
+   "crit": 3
+  },
+  "Bastardschwert": {
+   "str": 6
+  },
+  "Obsidian-Bastardschwert": {
+   "str": 8
+  },
+  "Blutstahl-Bastardschwert": {
+   "str": 9
+  },
+  "Mondsilber-Bastardschwert": {
+   "str": 10
+  },
+  "Sternenstahl-Bastardschwert": {
+   "str": 11
+  },
+  "Leerenstahl-Bastardschwert": {
+   "str": 12
+  },
+  "Drachenglas-Bastardschwert": {
+   "str": 14
+  },
+  "Estoc": {
+   "crit": 6
+  },
+  "Obsidian-Estoc": {
+   "crit": 7
+  },
+  "Blutstahl-Estoc": {
+   "crit": 7
+  },
+  "Mondsilber-Estoc": {
+   "crit": 8
+  },
+  "Sternenstahl-Estoc": {
+   "crit": 8
+  },
+  "Leerenstahl-Estoc": {
+   "crit": 9
+  },
+  "Drachenglas-Estoc": {
+   "crit": 10
+  },
+  "Katana": {
+   "crit": 6,
+   "ias": 5
+  },
+  "Obsidian-Katana": {
+   "crit": 6,
+   "ias": 5
+  },
+  "Blutstahl-Katana": {
+   "crit": 7,
+   "ias": 5
+  },
+  "Mondsilber-Katana": {
+   "crit": 7,
+   "ias": 5
+  },
+  "Sternenstahl-Katana": {
+   "crit": 8,
+   "ias": 5
+  },
+  "Leerenstahl-Katana": {
+   "crit": 9,
+   "ias": 5
+  },
+  "Drachenglas-Katana": {
+   "crit": 9,
+   "ias": 5
+  },
+  "Flamberge": {
+   "ed": 33
+  },
+  "Obsidian-Flamberge": {
+   "ed": 37
+  },
+  "Blutstahl-Flamberge": {
+   "ed": 40
+  },
+  "Mondsilber-Flamberge": {
+   "ed": 44
+  },
+  "Sternenstahl-Flamberge": {
+   "ed": 47
+  },
+  "Leerenstahl-Flamberge": {
+   "ed": 51
+  },
+  "Drachenglas-Flamberge": {
+   "ed": 55
+  },
+  "Claymore": {
+   "life": 57
+  },
+  "Obsidian-Claymore": {
+   "life": 64
+  },
+  "Blutstahl-Claymore": {
+   "life": 71
+  },
+  "Mondsilber-Claymore": {
+   "life": 79
+  },
+  "Sternenstahl-Claymore": {
+   "life": 86
+  },
+  "Leerenstahl-Claymore": {
+   "life": 93
+  },
+  "Drachenglas-Claymore": {
+   "life": 100
+  },
+  "Bartaxt": {
+   "str": 4
+  },
+  "Obsidian-Bartaxt": {
+   "str": 5
+  },
+  "Blutstahl-Bartaxt": {
+   "str": 6
+  },
+  "Mondsilber-Bartaxt": {
+   "str": 7
+  },
+  "Sternenstahl-Bartaxt": {
+   "str": 9
+  },
+  "Leerenstahl-Bartaxt": {
+   "str": 10
+  },
+  "Drachenglas-Bartaxt": {
+   "str": 11
+  },
+  "Doppelaxt": {
+   "ed": 18
+  },
+  "Obsidian-Doppelaxt": {
+   "ed": 20
+  },
+  "Blutstahl-Doppelaxt": {
+   "ed": 23
+  },
+  "Mondsilber-Doppelaxt": {
+   "ed": 25
+  },
+  "Sternenstahl-Doppelaxt": {
+   "ed": 28
+  },
+  "Leerenstahl-Doppelaxt": {
+   "ed": 30
+  },
+  "Drachenglas-Doppelaxt": {
+   "ed": 32
+  },
+  "Breitaxt": {
+   "ed": 40
+  },
+  "Obsidian-Breitaxt": {
+   "ed": 43
+  },
+  "Blutstahl-Breitaxt": {
+   "ed": 46
+  },
+  "Mondsilber-Breitaxt": {
+   "ed": 49
+  },
+  "Sternenstahl-Breitaxt": {
+   "ed": 52
+  },
+  "Leerenstahl-Breitaxt": {
+   "ed": 55
+  },
+  "Zepter": {
+   "spell": 18,
+   "light": 5
+  },
+  "Obsidian-Zepter": {
+   "spell": 23,
+   "light": 7
+  },
+  "Blutstahl-Zepter": {
+   "spell": 28,
+   "light": 9
+  },
+  "Mondsilber-Zepter": {
+   "spell": 32,
+   "light": 10
+  },
+  "Sternenstahl-Zepter": {
+   "spell": 37,
+   "light": 12
+  },
+  "Leerenstahl-Zepter": {
+   "spell": 42,
+   "light": 14
+  },
+  "Drachenglas-Zepter": {
+   "spell": 47,
+   "light": 16
+  },
+  "Kriegspicke": {
+   "crit": 5
+  },
+  "Obsidian-Kriegspicke": {
+   "crit": 5
+  },
+  "Blutstahl-Kriegspicke": {
+   "crit": 6
+  },
+  "Mondsilber-Kriegspicke": {
+   "crit": 7
+  },
+  "Sternenstahl-Kriegspicke": {
+   "crit": 7
+  },
+  "Leerenstahl-Kriegspicke": {
+   "crit": 8
+  },
+  "Drachenglas-Kriegspicke": {
+   "crit": 8
+  },
+  "Großhammer": {
+   "str": 14
+  },
+  "Obsidian-Großhammer": {
+   "str": 15
+  },
+  "Blutstahl-Großhammer": {
+   "str": 17
+  },
+  "Mondsilber-Großhammer": {
+   "str": 18
+  },
+  "Sternenstahl-Großhammer": {
+   "str": 20
+  },
+  "Leerenstahl-Großhammer": {
+   "str": 21
+  },
+  "Drachenglas-Großhammer": {
+   "str": 23
+  },
+  "Riesenkeule": {
+   "life": 88
+  },
+  "Obsidian-Riesenkeule": {
+   "life": 97
+  },
+  "Blutstahl-Riesenkeule": {
+   "life": 106
+  },
+  "Mondsilber-Riesenkeule": {
+   "life": 115
+  },
+  "Sternenstahl-Riesenkeule": {
+   "life": 124
+  },
+  "Leerenstahl-Riesenkeule": {
+   "life": 133
+  },
+  "Kettenhaube": {
+   "str": 2,
+   "life": 7
+  },
+  "Schwarzeisen-Kettenhaube": {
+   "str": 7,
+   "life": 19
+  },
+  "Runenstahl-Kettenhaube": {
+   "str": 11,
+   "life": 31
+  },
+  "Drachenstahl-Kettenhaube": {
+   "str": 15,
+   "life": 43
+  },
+  "Nasalhelm": {
+   "str": 4,
+   "life": 12
+  },
+  "Schwarzeisen-Nasalhelm": {
+   "str": 8,
+   "life": 24
+  },
+  "Runenstahl-Nasalhelm": {
+   "str": 13,
+   "life": 36
+  },
+  "Drachenstahl-Nasalhelm": {
+   "str": 17,
+   "life": 48
+  },
+  "Schaller": {
+   "str": 6,
+   "life": 18
+  },
+  "Schwarzeisen-Schaller": {
+   "str": 10,
+   "life": 30
+  },
+  "Runenstahl-Schaller": {
+   "str": 15,
+   "life": 42
+  },
+  "Drachenstahl-Schaller": {
+   "str": 19,
+   "life": 54
+  },
+  "Barbuta": {
+   "str": 9,
+   "life": 25
+  },
+  "Schwarzeisen-Barbuta": {
+   "str": 13,
+   "life": 37
+  },
+  "Runenstahl-Barbuta": {
+   "str": 17,
+   "life": 49
+  },
+  "Drachenstahl-Barbuta": {
+   "str": 21,
+   "life": 61
+  },
+  "Widderhelm": {
+   "str": 11,
+   "life": 32
+  },
+  "Schwarzeisen-Widderhelm": {
+   "str": 15,
+   "life": 44
+  },
+  "Runenstahl-Widderhelm": {
+   "str": 20,
+   "life": 56
+  },
+  "Drachenstahl-Widderhelm": {
+   "str": 24,
+   "life": 68
+  },
+  "Kriegskrone": {
+   "str": 14,
+   "life": 39
+  },
+  "Schwarzeisen-Kriegskrone": {
+   "str": 18,
+   "life": 51
+  },
+  "Runenstahl-Kriegskrone": {
+   "str": 22,
+   "life": 63
+  },
+  "Drachenstahl-Kriegskrone": {
+   "str": 26,
+   "life": 75
+  },
+  "Gambeson": {
+   "life": 14,
+   "dmgred": 1,
+   "edef": 17
+  },
+  "Schwarzeisen-Gambeson": {
+   "life": 33,
+   "dmgred": 3,
+   "edef": 35
+  },
+  "Runenstahl-Gambeson": {
+   "life": 52,
+   "dmgred": 4,
+   "edef": 53
+  },
+  "Drachenstahl-Gambeson": {
+   "life": 71,
+   "dmgred": 5,
+   "edef": 71
+  },
+  "Ringpanzer": {
+   "life": 22,
+   "dmgred": 2,
+   "edef": 24
+  },
+  "Schwarzeisen-Ringpanzer": {
+   "life": 41,
+   "dmgred": 3,
+   "edef": 42
+  },
+  "Runenstahl-Ringpanzer": {
+   "life": 60,
+   "dmgred": 5,
+   "edef": 60
+  },
+  "Drachenstahl-Ringpanzer": {
+   "life": 79,
+   "dmgred": 6,
+   "edef": 78
+  },
+  "Lamellenpanzer": {
+   "life": 31,
+   "dmgred": 2,
+   "edef": 33
+  },
+  "Schwarzeisen-Lamellenpanzer": {
+   "life": 50,
+   "dmgred": 4,
+   "edef": 51
+  },
+  "Runenstahl-Lamellenpanzer": {
+   "life": 70,
+   "dmgred": 5,
+   "edef": 69
+  },
+  "Drachenstahl-Lamellenpanzer": {
+   "life": 89,
+   "dmgred": 7,
+   "edef": 87
+  },
+  "Brigantine": {
+   "life": 42,
+   "dmgred": 3,
+   "edef": 44
+  },
+  "Schwarzeisen-Brigantine": {
+   "life": 62,
+   "dmgred": 5,
+   "edef": 62
+  },
+  "Runenstahl-Brigantine": {
+   "life": 81,
+   "dmgred": 6,
+   "edef": 80
+  },
+  "Drachenstahl-Brigantine": {
+   "life": 100,
+   "dmgred": 8,
+   "edef": 98
+  },
+  "Kriegsharnisch": {
+   "life": 54,
+   "dmgred": 4,
+   "edef": 54
+  },
+  "Schwarzeisen-Kriegsharnisch": {
+   "life": 73,
+   "dmgred": 6,
+   "edef": 72
+  },
+  "Runenstahl-Kriegsharnisch": {
+   "life": 92,
+   "dmgred": 7,
+   "edef": 90
+  },
+  "Drachenstahl-Kriegsharnisch": {
+   "life": 111,
+   "dmgred": 8,
+   "edef": 108
+  },
+  "Ritterharnisch": {
+   "life": 65,
+   "dmgred": 5,
+   "edef": 65
+  },
+  "Schwarzeisen-Ritterharnisch": {
+   "life": 84,
+   "dmgred": 6,
+   "edef": 83
+  },
+  "Runenstahl-Ritterharnisch": {
+   "life": 103,
+   "dmgred": 8,
+   "edef": 101
+  },
+  "Drachenstahl-Ritterharnisch": {
+   "life": 122,
+   "dmgred": 9,
+   "edef": 119
+  },
+  "Fausthandschuhe": {
+   "str": 3,
+   "ias": 3
+  },
+  "Schwarzeisen-Fausthandschuhe": {
+   "str": 6,
+   "ias": 6
+  },
+  "Runenstahl-Fausthandschuhe": {
+   "str": 10,
+   "ias": 8
+  },
+  "Drachenstahl-Fausthandschuhe": {
+   "str": 13,
+   "ias": 11
+  },
+  "Schuppenfäuste": {
+   "str": 5,
+   "ias": 5
+  },
+  "Schwarzeisen-Schuppenfäuste": {
+   "str": 9,
+   "ias": 7
+  },
+  "Runenstahl-Schuppenfäuste": {
+   "str": 12,
+   "ias": 10
+  },
+  "Drachenstahl-Schuppenfäuste": {
+   "str": 16,
+   "ias": 12
+  },
+  "Stahlfäuste": {
+   "str": 8,
+   "ias": 7
+  },
+  "Schwarzeisen-Stahlfäuste": {
+   "str": 12,
+   "ias": 9
+  },
+  "Runenstahl-Stahlfäuste": {
+   "str": 15,
+   "ias": 12
+  },
+  "Drachenstahl-Stahlfäuste": {
+   "str": 19,
+   "ias": 14
+  },
+  "Kriegsfäuste": {
+   "str": 11,
+   "ias": 9
+  },
+  "Schwarzeisen-Kriegsfäuste": {
+   "str": 15,
+   "ias": 11
+  },
+  "Runenstahl-Kriegsfäuste": {
+   "str": 18,
+   "ias": 14
+  },
+  "Drachenstahl-Kriegsfäuste": {
+   "str": 22,
+   "ias": 16
+  },
+  "Marschstiefel": {
+   "frw": 4,
+   "life": 7
+  },
+  "Schwarzeisen-Marschstiefel": {
+   "frw": 6,
+   "life": 16
+  },
+  "Runenstahl-Marschstiefel": {
+   "frw": 8,
+   "life": 26
+  },
+  "Drachenstahl-Marschstiefel": {
+   "frw": 10,
+   "life": 35
+  },
+  "Schienenstiefel": {
+   "frw": 6,
+   "life": 13
+  },
+  "Schwarzeisen-Schienenstiefel": {
+   "frw": 7,
+   "life": 23
+  },
+  "Runenstahl-Schienenstiefel": {
+   "frw": 9,
+   "life": 32
+  },
+  "Drachenstahl-Schienenstiefel": {
+   "frw": 11,
+   "life": 42
+  },
+  "Stahlschuhe": {
+   "frw": 7,
+   "life": 21
+  },
+  "Schwarzeisen-Stahlschuhe": {
+   "frw": 9,
+   "life": 31
+  },
+  "Runenstahl-Stahlschuhe": {
+   "frw": 11,
+   "life": 40
+  },
+  "Drachenstahl-Stahlschuhe": {
+   "frw": 12,
+   "life": 50
+  },
+  "Kriegsschritt": {
+   "frw": 9,
+   "life": 29
+  },
+  "Schwarzeisen-Kriegsschritt": {
+   "frw": 10,
+   "life": 39
+  },
+  "Runenstahl-Kriegsschritt": {
+   "frw": 12,
+   "life": 48
+  },
+  "Drachenstahl-Kriegsschritt": {
+   "frw": 14,
+   "life": 58
+  },
+  "Waffengurt": {
+   "life": 11,
+   "str": 2
+  },
+  "Schwarzeisen-Waffengurt": {
+   "life": 25,
+   "str": 5
+  },
+  "Runenstahl-Waffengurt": {
+   "life": 38,
+   "str": 8
+  },
+  "Drachenstahl-Waffengurt": {
+   "life": 51,
+   "str": 11
+  },
+  "Schwertgurt": {
+   "life": 22,
+   "str": 4
+  },
+  "Schwarzeisen-Schwertgurt": {
+   "life": 36,
+   "str": 7
+  },
+  "Runenstahl-Schwertgurt": {
+   "life": 49,
+   "str": 10
+  },
+  "Drachenstahl-Schwertgurt": {
+   "life": 62,
+   "str": 13
+  },
+  "Eisengurt": {
+   "life": 33,
+   "str": 7
+  },
+  "Schwarzeisen-Eisengurt": {
+   "life": 47,
+   "str": 10
+  },
+  "Runenstahl-Eisengurt": {
+   "life": 60,
+   "str": 13
+  },
+  "Drachenstahl-Eisengurt": {
+   "life": 73,
+   "str": 16
+  },
+  "Titanengurt": {
+   "life": 42,
+   "str": 9
+  },
+  "Schwarzeisen-Titanengurt": {
+   "life": 55,
+   "str": 12
+  },
+  "Runenstahl-Titanengurt": {
+   "life": 69,
+   "str": 15
+  },
+  "Drachenstahl-Titanengurt": {
+   "life": 82,
+   "str": 18
+  }
+ },
+ "owner": {
+  "Filzhut": "magier",
+  "Seiden-Filzhut": "magier",
+  "Mondseiden-Filzhut": "magier",
+  "Sternenseiden-Filzhut": "magier",
+  "Spitzhut": "magier",
+  "Seiden-Spitzhut": "magier",
+  "Mondseiden-Spitzhut": "magier",
+  "Sternenseiden-Spitzhut": "magier",
+  "Runenhut": "magier",
+  "Seiden-Runenhut": "magier",
+  "Mondseiden-Runenhut": "magier",
+  "Sternenseiden-Runenhut": "magier",
+  "Sternenhut": "magier",
+  "Seiden-Sternenhut": "magier",
+  "Mondseiden-Sternenhut": "magier",
+  "Sternenseiden-Sternenhut": "magier",
+  "Aschehaube": "magier",
+  "Seiden-Aschehaube": "magier",
+  "Mondseiden-Aschehaube": "magier",
+  "Sternenseiden-Aschehaube": "magier",
+  "Leinenrobe": "magier",
+  "Seiden-Leinenrobe": "magier",
+  "Mondseiden-Leinenrobe": "magier",
+  "Sternenseiden-Leinenrobe": "magier",
+  "Novizenrobe": "magier",
+  "Seiden-Novizenrobe": "magier",
+  "Mondseiden-Novizenrobe": "magier",
+  "Sternenseiden-Novizenrobe": "magier",
+  "Runenrobe": "magier",
+  "Seiden-Runenrobe": "magier",
+  "Mondseiden-Runenrobe": "magier",
+  "Sternenseiden-Runenrobe": "magier",
+  "Sternenrobe": "magier",
+  "Seiden-Sternenrobe": "magier",
+  "Mondseiden-Sternenrobe": "magier",
+  "Sternenseiden-Sternenrobe": "magier",
+  "Aschenrobe": "magier",
+  "Seiden-Aschenrobe": "magier",
+  "Mondseiden-Aschenrobe": "magier",
+  "Sternenseiden-Aschenrobe": "magier",
+  "Seidenhandschuhe": "magier",
+  "Seiden-Seidenhandschuhe": "magier",
+  "Mondseiden-Seidenhandschuhe": "magier",
+  "Sternenseiden-Seidenhandschuhe": "magier",
+  "Runenhandschuhe": "magier",
+  "Seiden-Runenhandschuhe": "magier",
+  "Mondseiden-Runenhandschuhe": "magier",
+  "Sternenseiden-Runenhandschuhe": "magier",
+  "Sternenhandschuhe": "magier",
+  "Seiden-Sternenhandschuhe": "magier",
+  "Mondseiden-Sternenhandschuhe": "magier",
+  "Sternenseiden-Sternenhandschuhe": "magier",
+  "Sandalen": "magier",
+  "Seiden-Sandalen": "magier",
+  "Mondseiden-Sandalen": "magier",
+  "Sternenseiden-Sandalen": "magier",
+  "Pilgerschuhe": "magier",
+  "Seiden-Pilgerschuhe": "magier",
+  "Mondseiden-Pilgerschuhe": "magier",
+  "Sternenseiden-Pilgerschuhe": "magier",
+  "Leerenschritt": "magier",
+  "Seiden-Leerenschritt": "magier",
+  "Mondseiden-Leerenschritt": "magier",
+  "Sternenseiden-Leerenschritt": "magier",
+  "Kordel": "magier",
+  "Seiden-Kordel": "magier",
+  "Mondseiden-Kordel": "magier",
+  "Sternenseiden-Kordel": "magier",
+  "Runenschärpe": "magier",
+  "Seiden-Runenschärpe": "magier",
+  "Mondseiden-Runenschärpe": "magier",
+  "Sternenseiden-Runenschärpe": "magier",
+  "Sternengurt": "magier",
+  "Seiden-Sternengurt": "magier",
+  "Mondseiden-Sternengurt": "magier",
+  "Sternenseiden-Sternengurt": "magier",
+  "Zauberfibel": "magier",
+  "Seiden-Zauberfibel": "magier",
+  "Mondseiden-Zauberfibel": "magier",
+  "Sternenseiden-Zauberfibel": "magier",
+  "Grimoire": "magier",
+  "Seiden-Grimoire": "magier",
+  "Mondseiden-Grimoire": "magier",
+  "Sternenseiden-Grimoire": "magier",
+  "Sternenfolio": "magier",
+  "Seiden-Sternenfolio": "magier",
+  "Mondseiden-Sternenfolio": "magier",
+  "Sternenseiden-Sternenfolio": "magier",
+  "Stoffmaske": "jaegerin",
+  "Nachtleder-Stoffmaske": "jaegerin",
+  "Dämmerseiden-Stoffmaske": "jaegerin",
+  "Schwarzdiamant-Stoffmaske": "jaegerin",
+  "Lederkapuze": "jaegerin",
+  "Nachtleder-Lederkapuze": "jaegerin",
+  "Dämmerseiden-Lederkapuze": "jaegerin",
+  "Schwarzdiamant-Lederkapuze": "jaegerin",
+  "Pirschkapuze": "jaegerin",
+  "Nachtleder-Pirschkapuze": "jaegerin",
+  "Dämmerseiden-Pirschkapuze": "jaegerin",
+  "Schwarzdiamant-Pirschkapuze": "jaegerin",
+  "Schattenkapuze": "jaegerin",
+  "Nachtleder-Schattenkapuze": "jaegerin",
+  "Dämmerseiden-Schattenkapuze": "jaegerin",
+  "Schwarzdiamant-Schattenkapuze": "jaegerin",
+  "Rabenkapuze": "jaegerin",
+  "Nachtleder-Rabenkapuze": "jaegerin",
+  "Dämmerseiden-Rabenkapuze": "jaegerin",
+  "Schwarzdiamant-Rabenkapuze": "jaegerin",
+  "Nachtschleier": "jaegerin",
+  "Nachtleder-Nachtschleier": "jaegerin",
+  "Dämmerseiden-Nachtschleier": "jaegerin",
+  "Schwarzdiamant-Nachtschleier": "jaegerin",
+  "Lederweste": "jaegerin",
+  "Nachtleder-Lederweste": "jaegerin",
+  "Dämmerseiden-Lederweste": "jaegerin",
+  "Schwarzdiamant-Lederweste": "jaegerin",
+  "Wildlederwams": "jaegerin",
+  "Nachtleder-Wildlederwams": "jaegerin",
+  "Dämmerseiden-Wildlederwams": "jaegerin",
+  "Schwarzdiamant-Wildlederwams": "jaegerin",
+  "Pirschmantel": "jaegerin",
+  "Nachtleder-Pirschmantel": "jaegerin",
+  "Dämmerseiden-Pirschmantel": "jaegerin",
+  "Schwarzdiamant-Pirschmantel": "jaegerin",
+  "Schattenmantel": "jaegerin",
+  "Nachtleder-Schattenmantel": "jaegerin",
+  "Dämmerseiden-Schattenmantel": "jaegerin",
+  "Schwarzdiamant-Schattenmantel": "jaegerin",
+  "Rabenmantel": "jaegerin",
+  "Nachtleder-Rabenmantel": "jaegerin",
+  "Dämmerseiden-Rabenmantel": "jaegerin",
+  "Schwarzdiamant-Rabenmantel": "jaegerin",
+  "Nachtumhang": "jaegerin",
+  "Nachtleder-Nachtumhang": "jaegerin",
+  "Dämmerseiden-Nachtumhang": "jaegerin",
+  "Schwarzdiamant-Nachtumhang": "jaegerin",
+  "Fingerlinge": "jaegerin",
+  "Nachtleder-Fingerlinge": "jaegerin",
+  "Dämmerseiden-Fingerlinge": "jaegerin",
+  "Schwarzdiamant-Fingerlinge": "jaegerin",
+  "Messerhandschuhe": "jaegerin",
+  "Nachtleder-Messerhandschuhe": "jaegerin",
+  "Dämmerseiden-Messerhandschuhe": "jaegerin",
+  "Schwarzdiamant-Messerhandschuhe": "jaegerin",
+  "Schattengriffe": "jaegerin",
+  "Nachtleder-Schattengriffe": "jaegerin",
+  "Dämmerseiden-Schattengriffe": "jaegerin",
+  "Schwarzdiamant-Schattengriffe": "jaegerin",
+  "Krallenhandschuhe": "jaegerin",
+  "Nachtleder-Krallenhandschuhe": "jaegerin",
+  "Dämmerseiden-Krallenhandschuhe": "jaegerin",
+  "Schwarzdiamant-Krallenhandschuhe": "jaegerin",
+  "Schleichschuhe": "jaegerin",
+  "Nachtleder-Schleichschuhe": "jaegerin",
+  "Dämmerseiden-Schleichschuhe": "jaegerin",
+  "Schwarzdiamant-Schleichschuhe": "jaegerin",
+  "Wildlederstiefel": "jaegerin",
+  "Nachtleder-Wildlederstiefel": "jaegerin",
+  "Dämmerseiden-Wildlederstiefel": "jaegerin",
+  "Schwarzdiamant-Wildlederstiefel": "jaegerin",
+  "Schattensohlen": "jaegerin",
+  "Nachtleder-Schattensohlen": "jaegerin",
+  "Dämmerseiden-Schattensohlen": "jaegerin",
+  "Schwarzdiamant-Schattensohlen": "jaegerin",
+  "Nebelläufer": "jaegerin",
+  "Nachtleder-Nebelläufer": "jaegerin",
+  "Dämmerseiden-Nebelläufer": "jaegerin",
+  "Schwarzdiamant-Nebelläufer": "jaegerin",
+  "Messergurt": "jaegerin",
+  "Nachtleder-Messergurt": "jaegerin",
+  "Dämmerseiden-Messergurt": "jaegerin",
+  "Schwarzdiamant-Messergurt": "jaegerin",
+  "Dolchgurt": "jaegerin",
+  "Nachtleder-Dolchgurt": "jaegerin",
+  "Dämmerseiden-Dolchgurt": "jaegerin",
+  "Schwarzdiamant-Dolchgurt": "jaegerin",
+  "Schattenschärpe": "jaegerin",
+  "Nachtleder-Schattenschärpe": "jaegerin",
+  "Dämmerseiden-Schattenschärpe": "jaegerin",
+  "Schwarzdiamant-Schattenschärpe": "jaegerin",
+  "Klingengurt": "jaegerin",
+  "Nachtleder-Klingengurt": "jaegerin",
+  "Dämmerseiden-Klingengurt": "jaegerin",
+  "Schwarzdiamant-Klingengurt": "jaegerin",
+  "Schutzbrille": "alchemist",
+  "Wachsleder-Schutzbrille": "alchemist",
+  "Basiliskenleder-Schutzbrille": "alchemist",
+  "Drachenschuppen-Schutzbrille": "alchemist",
+  "Laborkappe": "alchemist",
+  "Wachsleder-Laborkappe": "alchemist",
+  "Basiliskenleder-Laborkappe": "alchemist",
+  "Drachenschuppen-Laborkappe": "alchemist",
+  "Rauchmaske": "alchemist",
+  "Wachsleder-Rauchmaske": "alchemist",
+  "Basiliskenleder-Rauchmaske": "alchemist",
+  "Drachenschuppen-Rauchmaske": "alchemist",
+  "Schnabelmaske": "alchemist",
+  "Wachsleder-Schnabelmaske": "alchemist",
+  "Basiliskenleder-Schnabelmaske": "alchemist",
+  "Drachenschuppen-Schnabelmaske": "alchemist",
+  "Pestmaske": "alchemist",
+  "Wachsleder-Pestmaske": "alchemist",
+  "Basiliskenleder-Pestmaske": "alchemist",
+  "Drachenschuppen-Pestmaske": "alchemist",
+  "Alchemistenhaube": "alchemist",
+  "Wachsleder-Alchemistenhaube": "alchemist",
+  "Basiliskenleder-Alchemistenhaube": "alchemist",
+  "Drachenschuppen-Alchemistenhaube": "alchemist",
+  "Lederschürze": "alchemist",
+  "Wachsleder-Lederschürze": "alchemist",
+  "Basiliskenleder-Lederschürze": "alchemist",
+  "Drachenschuppen-Lederschürze": "alchemist",
+  "Laborkittel": "alchemist",
+  "Wachsleder-Laborkittel": "alchemist",
+  "Basiliskenleder-Laborkittel": "alchemist",
+  "Drachenschuppen-Laborkittel": "alchemist",
+  "Wachsmantel": "alchemist",
+  "Wachsleder-Wachsmantel": "alchemist",
+  "Basiliskenleder-Wachsmantel": "alchemist",
+  "Drachenschuppen-Wachsmantel": "alchemist",
+  "Säureschürze": "alchemist",
+  "Wachsleder-Säureschürze": "alchemist",
+  "Basiliskenleder-Säureschürze": "alchemist",
+  "Drachenschuppen-Säureschürze": "alchemist",
+  "Pestmantel": "alchemist",
+  "Wachsleder-Pestmantel": "alchemist",
+  "Basiliskenleder-Pestmantel": "alchemist",
+  "Drachenschuppen-Pestmantel": "alchemist",
+  "Elixierkutte": "alchemist",
+  "Wachsleder-Elixierkutte": "alchemist",
+  "Basiliskenleder-Elixierkutte": "alchemist",
+  "Drachenschuppen-Elixierkutte": "alchemist",
+  "Säurehandschuhe": "alchemist",
+  "Wachsleder-Säurehandschuhe": "alchemist",
+  "Basiliskenleder-Säurehandschuhe": "alchemist",
+  "Drachenschuppen-Säurehandschuhe": "alchemist",
+  "Tiegelhandschuhe": "alchemist",
+  "Wachsleder-Tiegelhandschuhe": "alchemist",
+  "Basiliskenleder-Tiegelhandschuhe": "alchemist",
+  "Drachenschuppen-Tiegelhandschuhe": "alchemist",
+  "Glutgreifer": "alchemist",
+  "Wachsleder-Glutgreifer": "alchemist",
+  "Basiliskenleder-Glutgreifer": "alchemist",
+  "Drachenschuppen-Glutgreifer": "alchemist",
+  "Elixierhände": "alchemist",
+  "Wachsleder-Elixierhände": "alchemist",
+  "Basiliskenleder-Elixierhände": "alchemist",
+  "Drachenschuppen-Elixierhände": "alchemist",
+  "Holzschuhe": "alchemist",
+  "Wachsleder-Holzschuhe": "alchemist",
+  "Basiliskenleder-Holzschuhe": "alchemist",
+  "Drachenschuppen-Holzschuhe": "alchemist",
+  "Laborstiefel": "alchemist",
+  "Wachsleder-Laborstiefel": "alchemist",
+  "Basiliskenleder-Laborstiefel": "alchemist",
+  "Drachenschuppen-Laborstiefel": "alchemist",
+  "Aschestiefel": "alchemist",
+  "Wachsleder-Aschestiefel": "alchemist",
+  "Basiliskenleder-Aschestiefel": "alchemist",
+  "Drachenschuppen-Aschestiefel": "alchemist",
+  "Quecksilberschritt": "alchemist",
+  "Wachsleder-Quecksilberschritt": "alchemist",
+  "Basiliskenleder-Quecksilberschritt": "alchemist",
+  "Drachenschuppen-Quecksilberschritt": "alchemist",
+  "Phiolengurt": "alchemist",
+  "Wachsleder-Phiolengurt": "alchemist",
+  "Basiliskenleder-Phiolengurt": "alchemist",
+  "Drachenschuppen-Phiolengurt": "alchemist",
+  "Trankgurt": "alchemist",
+  "Wachsleder-Trankgurt": "alchemist",
+  "Basiliskenleder-Trankgurt": "alchemist",
+  "Drachenschuppen-Trankgurt": "alchemist",
+  "Elixiergurt": "alchemist",
+  "Wachsleder-Elixiergurt": "alchemist",
+  "Basiliskenleder-Elixiergurt": "alchemist",
+  "Drachenschuppen-Elixiergurt": "alchemist",
+  "Kolbengürtel": "alchemist",
+  "Wachsleder-Kolbengürtel": "alchemist",
+  "Basiliskenleder-Kolbengürtel": "alchemist",
+  "Drachenschuppen-Kolbengürtel": "alchemist",
+  "Kettenhaube": "krieger",
+  "Schwarzeisen-Kettenhaube": "krieger",
+  "Runenstahl-Kettenhaube": "krieger",
+  "Drachenstahl-Kettenhaube": "krieger",
+  "Nasalhelm": "krieger",
+  "Schwarzeisen-Nasalhelm": "krieger",
+  "Runenstahl-Nasalhelm": "krieger",
+  "Drachenstahl-Nasalhelm": "krieger",
+  "Schaller": "krieger",
+  "Schwarzeisen-Schaller": "krieger",
+  "Runenstahl-Schaller": "krieger",
+  "Drachenstahl-Schaller": "krieger",
+  "Barbuta": "krieger",
+  "Schwarzeisen-Barbuta": "krieger",
+  "Runenstahl-Barbuta": "krieger",
+  "Drachenstahl-Barbuta": "krieger",
+  "Widderhelm": "krieger",
+  "Schwarzeisen-Widderhelm": "krieger",
+  "Runenstahl-Widderhelm": "krieger",
+  "Drachenstahl-Widderhelm": "krieger",
+  "Kriegskrone": "krieger",
+  "Schwarzeisen-Kriegskrone": "krieger",
+  "Runenstahl-Kriegskrone": "krieger",
+  "Drachenstahl-Kriegskrone": "krieger",
+  "Gambeson": "krieger",
+  "Schwarzeisen-Gambeson": "krieger",
+  "Runenstahl-Gambeson": "krieger",
+  "Drachenstahl-Gambeson": "krieger",
+  "Ringpanzer": "krieger",
+  "Schwarzeisen-Ringpanzer": "krieger",
+  "Runenstahl-Ringpanzer": "krieger",
+  "Drachenstahl-Ringpanzer": "krieger",
+  "Lamellenpanzer": "krieger",
+  "Schwarzeisen-Lamellenpanzer": "krieger",
+  "Runenstahl-Lamellenpanzer": "krieger",
+  "Drachenstahl-Lamellenpanzer": "krieger",
+  "Brigantine": "krieger",
+  "Schwarzeisen-Brigantine": "krieger",
+  "Runenstahl-Brigantine": "krieger",
+  "Drachenstahl-Brigantine": "krieger",
+  "Kriegsharnisch": "krieger",
+  "Schwarzeisen-Kriegsharnisch": "krieger",
+  "Runenstahl-Kriegsharnisch": "krieger",
+  "Drachenstahl-Kriegsharnisch": "krieger",
+  "Ritterharnisch": "krieger",
+  "Schwarzeisen-Ritterharnisch": "krieger",
+  "Runenstahl-Ritterharnisch": "krieger",
+  "Drachenstahl-Ritterharnisch": "krieger",
+  "Fausthandschuhe": "krieger",
+  "Schwarzeisen-Fausthandschuhe": "krieger",
+  "Runenstahl-Fausthandschuhe": "krieger",
+  "Drachenstahl-Fausthandschuhe": "krieger",
+  "Schuppenfäuste": "krieger",
+  "Schwarzeisen-Schuppenfäuste": "krieger",
+  "Runenstahl-Schuppenfäuste": "krieger",
+  "Drachenstahl-Schuppenfäuste": "krieger",
+  "Stahlfäuste": "krieger",
+  "Schwarzeisen-Stahlfäuste": "krieger",
+  "Runenstahl-Stahlfäuste": "krieger",
+  "Drachenstahl-Stahlfäuste": "krieger",
+  "Kriegsfäuste": "krieger",
+  "Schwarzeisen-Kriegsfäuste": "krieger",
+  "Runenstahl-Kriegsfäuste": "krieger",
+  "Drachenstahl-Kriegsfäuste": "krieger",
+  "Marschstiefel": "krieger",
+  "Schwarzeisen-Marschstiefel": "krieger",
+  "Runenstahl-Marschstiefel": "krieger",
+  "Drachenstahl-Marschstiefel": "krieger",
+  "Schienenstiefel": "krieger",
+  "Schwarzeisen-Schienenstiefel": "krieger",
+  "Runenstahl-Schienenstiefel": "krieger",
+  "Drachenstahl-Schienenstiefel": "krieger",
+  "Stahlschuhe": "krieger",
+  "Schwarzeisen-Stahlschuhe": "krieger",
+  "Runenstahl-Stahlschuhe": "krieger",
+  "Drachenstahl-Stahlschuhe": "krieger",
+  "Kriegsschritt": "krieger",
+  "Schwarzeisen-Kriegsschritt": "krieger",
+  "Runenstahl-Kriegsschritt": "krieger",
+  "Drachenstahl-Kriegsschritt": "krieger",
+  "Waffengurt": "krieger",
+  "Schwarzeisen-Waffengurt": "krieger",
+  "Runenstahl-Waffengurt": "krieger",
+  "Drachenstahl-Waffengurt": "krieger",
+  "Schwertgurt": "krieger",
+  "Schwarzeisen-Schwertgurt": "krieger",
+  "Runenstahl-Schwertgurt": "krieger",
+  "Drachenstahl-Schwertgurt": "krieger",
+  "Eisengurt": "krieger",
+  "Schwarzeisen-Eisengurt": "krieger",
+  "Runenstahl-Eisengurt": "krieger",
+  "Drachenstahl-Eisengurt": "krieger",
+  "Titanengurt": "krieger",
+  "Schwarzeisen-Titanengurt": "krieger",
+  "Runenstahl-Titanengurt": "krieger",
+  "Drachenstahl-Titanengurt": "krieger"
+ },
+ "wok": {
+  "Kurzschwert": [
+   "krieger"
+  ],
+  "Dolch": [
+   "jaegerin"
+  ],
+  "Keule": [
+   "krieger"
+  ],
+  "Handaxt": [
+   "krieger"
+  ],
+  "Eichenstab": [
+   "magier"
+  ],
+  "Krummsäbel": [
+   "krieger"
+  ],
+  "Langschwert": [
+   "krieger"
+  ],
+  "Speer": [
+   "krieger"
+  ],
+  "Morgenstern": [
+   "krieger"
+  ],
+  "Kriegsaxt": [
+   "krieger"
+  ],
+  "Zweihänder": [
+   "krieger"
+  ],
+  "Runenklinge": [
+   "krieger"
+  ],
+  "Hellebarde": [
+   "krieger"
+  ],
+  "Schattendolch": [
+   "jaegerin"
+  ],
+  "Kriegshammer": [
+   "krieger"
+  ],
+  "Aschestab": [
+   "magier"
+  ],
+  "Henkersbeil": [
+   "krieger"
+  ],
+  "Mondsichel": [
+   "krieger"
+  ],
+  "Bluthacke": [
+   "krieger"
+  ],
+  "Drachenzahn": [
+   "krieger"
+  ],
+  "Kolossklinge": [
+   "krieger"
+  ],
+  "Sternenstab": [
+   "magier"
+  ],
+  "Seelenspieß": [
+   "krieger"
+  ],
+  "Nachtzahn": [
+   "jaegerin"
+  ],
+  "Obsidian-Kurzschwert": [
+   "krieger"
+  ],
+  "Blutstahl-Kurzschwert": [
+   "krieger"
+  ],
+  "Mondsilber-Kurzschwert": [
+   "krieger"
+  ],
+  "Sternenstahl-Kurzschwert": [
+   "krieger"
+  ],
+  "Leerenstahl-Kurzschwert": [
+   "krieger"
+  ],
+  "Drachenglas-Kurzschwert": [
+   "krieger"
+  ],
+  "Obsidian-Dolch": [
+   "jaegerin"
+  ],
+  "Blutstahl-Dolch": [
+   "jaegerin"
+  ],
+  "Mondsilber-Dolch": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Dolch": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Dolch": [
+   "jaegerin"
+  ],
+  "Drachenglas-Dolch": [
+   "jaegerin"
+  ],
+  "Obsidian-Keule": [
+   "krieger"
+  ],
+  "Blutstahl-Keule": [
+   "krieger"
+  ],
+  "Mondsilber-Keule": [
+   "krieger"
+  ],
+  "Sternenstahl-Keule": [
+   "krieger"
+  ],
+  "Leerenstahl-Keule": [
+   "krieger"
+  ],
+  "Drachenglas-Keule": [
+   "krieger"
+  ],
+  "Obsidian-Handaxt": [
+   "krieger"
+  ],
+  "Blutstahl-Handaxt": [
+   "krieger"
+  ],
+  "Mondsilber-Handaxt": [
+   "krieger"
+  ],
+  "Sternenstahl-Handaxt": [
+   "krieger"
+  ],
+  "Leerenstahl-Handaxt": [
+   "krieger"
+  ],
+  "Drachenglas-Handaxt": [
+   "krieger"
+  ],
+  "Obsidian-Eichenstab": [
+   "magier"
+  ],
+  "Blutstahl-Eichenstab": [
+   "magier"
+  ],
+  "Mondsilber-Eichenstab": [
+   "magier"
+  ],
+  "Sternenstahl-Eichenstab": [
+   "magier"
+  ],
+  "Leerenstahl-Eichenstab": [
+   "magier"
+  ],
+  "Drachenglas-Eichenstab": [
+   "magier"
+  ],
+  "Obsidian-Krummsäbel": [
+   "krieger"
+  ],
+  "Blutstahl-Krummsäbel": [
+   "krieger"
+  ],
+  "Mondsilber-Krummsäbel": [
+   "krieger"
+  ],
+  "Sternenstahl-Krummsäbel": [
+   "krieger"
+  ],
+  "Leerenstahl-Krummsäbel": [
+   "krieger"
+  ],
+  "Drachenglas-Krummsäbel": [
+   "krieger"
+  ],
+  "Obsidian-Langschwert": [
+   "krieger"
+  ],
+  "Blutstahl-Langschwert": [
+   "krieger"
+  ],
+  "Mondsilber-Langschwert": [
+   "krieger"
+  ],
+  "Sternenstahl-Langschwert": [
+   "krieger"
+  ],
+  "Leerenstahl-Langschwert": [
+   "krieger"
+  ],
+  "Drachenglas-Langschwert": [
+   "krieger"
+  ],
+  "Obsidian-Speer": [
+   "krieger"
+  ],
+  "Blutstahl-Speer": [
+   "krieger"
+  ],
+  "Mondsilber-Speer": [
+   "krieger"
+  ],
+  "Sternenstahl-Speer": [
+   "krieger"
+  ],
+  "Leerenstahl-Speer": [
+   "krieger"
+  ],
+  "Drachenglas-Speer": [
+   "krieger"
+  ],
+  "Obsidian-Morgenstern": [
+   "krieger"
+  ],
+  "Blutstahl-Morgenstern": [
+   "krieger"
+  ],
+  "Mondsilber-Morgenstern": [
+   "krieger"
+  ],
+  "Sternenstahl-Morgenstern": [
+   "krieger"
+  ],
+  "Leerenstahl-Morgenstern": [
+   "krieger"
+  ],
+  "Drachenglas-Morgenstern": [
+   "krieger"
+  ],
+  "Obsidian-Kriegsaxt": [
+   "krieger"
+  ],
+  "Blutstahl-Kriegsaxt": [
+   "krieger"
+  ],
+  "Mondsilber-Kriegsaxt": [
+   "krieger"
+  ],
+  "Sternenstahl-Kriegsaxt": [
+   "krieger"
+  ],
+  "Leerenstahl-Kriegsaxt": [
+   "krieger"
+  ],
+  "Drachenglas-Kriegsaxt": [
+   "krieger"
+  ],
+  "Obsidian-Zweihänder": [
+   "krieger"
+  ],
+  "Blutstahl-Zweihänder": [
+   "krieger"
+  ],
+  "Mondsilber-Zweihänder": [
+   "krieger"
+  ],
+  "Sternenstahl-Zweihänder": [
+   "krieger"
+  ],
+  "Leerenstahl-Zweihänder": [
+   "krieger"
+  ],
+  "Drachenglas-Zweihänder": [
+   "krieger"
+  ],
+  "Obsidian-Runenklinge": [
+   "krieger"
+  ],
+  "Blutstahl-Runenklinge": [
+   "krieger"
+  ],
+  "Mondsilber-Runenklinge": [
+   "krieger"
+  ],
+  "Sternenstahl-Runenklinge": [
+   "krieger"
+  ],
+  "Leerenstahl-Runenklinge": [
+   "krieger"
+  ],
+  "Drachenglas-Runenklinge": [
+   "krieger"
+  ],
+  "Obsidian-Hellebarde": [
+   "krieger"
+  ],
+  "Blutstahl-Hellebarde": [
+   "krieger"
+  ],
+  "Mondsilber-Hellebarde": [
+   "krieger"
+  ],
+  "Sternenstahl-Hellebarde": [
+   "krieger"
+  ],
+  "Leerenstahl-Hellebarde": [
+   "krieger"
+  ],
+  "Drachenglas-Hellebarde": [
+   "krieger"
+  ],
+  "Obsidian-Schattendolch": [
+   "jaegerin"
+  ],
+  "Blutstahl-Schattendolch": [
+   "jaegerin"
+  ],
+  "Mondsilber-Schattendolch": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Schattendolch": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Schattendolch": [
+   "jaegerin"
+  ],
+  "Drachenglas-Schattendolch": [
+   "jaegerin"
+  ],
+  "Obsidian-Kriegshammer": [
+   "krieger"
+  ],
+  "Blutstahl-Kriegshammer": [
+   "krieger"
+  ],
+  "Mondsilber-Kriegshammer": [
+   "krieger"
+  ],
+  "Sternenstahl-Kriegshammer": [
+   "krieger"
+  ],
+  "Leerenstahl-Kriegshammer": [
+   "krieger"
+  ],
+  "Drachenglas-Kriegshammer": [
+   "krieger"
+  ],
+  "Obsidian-Aschestab": [
+   "magier"
+  ],
+  "Blutstahl-Aschestab": [
+   "magier"
+  ],
+  "Mondsilber-Aschestab": [
+   "magier"
+  ],
+  "Sternenstahl-Aschestab": [
+   "magier"
+  ],
+  "Leerenstahl-Aschestab": [
+   "magier"
+  ],
+  "Drachenglas-Aschestab": [
+   "magier"
+  ],
+  "Obsidian-Henkersbeil": [
+   "krieger"
+  ],
+  "Blutstahl-Henkersbeil": [
+   "krieger"
+  ],
+  "Mondsilber-Henkersbeil": [
+   "krieger"
+  ],
+  "Sternenstahl-Henkersbeil": [
+   "krieger"
+  ],
+  "Leerenstahl-Henkersbeil": [
+   "krieger"
+  ],
+  "Drachenglas-Henkersbeil": [
+   "krieger"
+  ],
+  "Obsidian-Mondsichel": [
+   "krieger"
+  ],
+  "Blutstahl-Mondsichel": [
+   "krieger"
+  ],
+  "Mondsilber-Mondsichel": [
+   "krieger"
+  ],
+  "Sternenstahl-Mondsichel": [
+   "krieger"
+  ],
+  "Leerenstahl-Mondsichel": [
+   "krieger"
+  ],
+  "Drachenglas-Mondsichel": [
+   "krieger"
+  ],
+  "Obsidian-Bluthacke": [
+   "krieger"
+  ],
+  "Blutstahl-Bluthacke": [
+   "krieger"
+  ],
+  "Mondsilber-Bluthacke": [
+   "krieger"
+  ],
+  "Sternenstahl-Bluthacke": [
+   "krieger"
+  ],
+  "Leerenstahl-Bluthacke": [
+   "krieger"
+  ],
+  "Drachenglas-Bluthacke": [
+   "krieger"
+  ],
+  "Obsidian-Drachenzahn": [
+   "krieger"
+  ],
+  "Blutstahl-Drachenzahn": [
+   "krieger"
+  ],
+  "Mondsilber-Drachenzahn": [
+   "krieger"
+  ],
+  "Sternenstahl-Drachenzahn": [
+   "krieger"
+  ],
+  "Leerenstahl-Drachenzahn": [
+   "krieger"
+  ],
+  "Drachenglas-Drachenzahn": [
+   "krieger"
+  ],
+  "Obsidian-Kolossklinge": [
+   "krieger"
+  ],
+  "Blutstahl-Kolossklinge": [
+   "krieger"
+  ],
+  "Mondsilber-Kolossklinge": [
+   "krieger"
+  ],
+  "Sternenstahl-Kolossklinge": [
+   "krieger"
+  ],
+  "Leerenstahl-Kolossklinge": [
+   "krieger"
+  ],
+  "Drachenglas-Kolossklinge": [
+   "krieger"
+  ],
+  "Obsidian-Sternenstab": [
+   "magier"
+  ],
+  "Blutstahl-Sternenstab": [
+   "magier"
+  ],
+  "Mondsilber-Sternenstab": [
+   "magier"
+  ],
+  "Sternenstahl-Sternenstab": [
+   "magier"
+  ],
+  "Leerenstahl-Sternenstab": [
+   "magier"
+  ],
+  "Drachenglas-Sternenstab": [
+   "magier"
+  ],
+  "Obsidian-Seelenspieß": [
+   "krieger"
+  ],
+  "Blutstahl-Seelenspieß": [
+   "krieger"
+  ],
+  "Mondsilber-Seelenspieß": [
+   "krieger"
+  ],
+  "Sternenstahl-Seelenspieß": [
+   "krieger"
+  ],
+  "Leerenstahl-Seelenspieß": [
+   "krieger"
+  ],
+  "Drachenglas-Seelenspieß": [
+   "krieger"
+  ],
+  "Obsidian-Nachtzahn": [
+   "jaegerin"
+  ],
+  "Blutstahl-Nachtzahn": [
+   "jaegerin"
+  ],
+  "Mondsilber-Nachtzahn": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Nachtzahn": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Nachtzahn": [
+   "jaegerin"
+  ],
+  "Drachenglas-Nachtzahn": [
+   "jaegerin"
+  ],
+  "Zwillingsdolche": [
+   "jaegerin"
+  ],
+  "Obsidian-Zwillingsdolche": [
+   "jaegerin"
+  ],
+  "Blutstahl-Zwillingsdolche": [
+   "jaegerin"
+  ],
+  "Mondsilber-Zwillingsdolche": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Zwillingsdolche": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Zwillingsdolche": [
+   "jaegerin"
+  ],
+  "Drachenglas-Zwillingsdolche": [
+   "jaegerin"
+  ],
+  "Klingenpaar": [
+   "jaegerin"
+  ],
+  "Obsidian-Klingenpaar": [
+   "jaegerin"
+  ],
+  "Blutstahl-Klingenpaar": [
+   "jaegerin"
+  ],
+  "Mondsilber-Klingenpaar": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Klingenpaar": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Klingenpaar": [
+   "jaegerin"
+  ],
+  "Drachenglas-Klingenpaar": [
+   "jaegerin"
+  ],
+  "Sichelzwillinge": [
+   "jaegerin"
+  ],
+  "Obsidian-Sichelzwillinge": [
+   "jaegerin"
+  ],
+  "Blutstahl-Sichelzwillinge": [
+   "jaegerin"
+  ],
+  "Mondsilber-Sichelzwillinge": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Sichelzwillinge": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Sichelzwillinge": [
+   "jaegerin"
+  ],
+  "Drachenglas-Sichelzwillinge": [
+   "jaegerin"
+  ],
+  "Schattenzwillinge": [
+   "jaegerin"
+  ],
+  "Obsidian-Schattenzwillinge": [
+   "jaegerin"
+  ],
+  "Blutstahl-Schattenzwillinge": [
+   "jaegerin"
+  ],
+  "Mondsilber-Schattenzwillinge": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Schattenzwillinge": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Schattenzwillinge": [
+   "jaegerin"
+  ],
+  "Drachenglas-Schattenzwillinge": [
+   "jaegerin"
+  ],
+  "Mondklingen": [
+   "jaegerin"
+  ],
+  "Obsidian-Mondklingen": [
+   "jaegerin"
+  ],
+  "Blutstahl-Mondklingen": [
+   "jaegerin"
+  ],
+  "Mondsilber-Mondklingen": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Mondklingen": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Mondklingen": [
+   "jaegerin"
+  ],
+  "Drachenglas-Mondklingen": [
+   "jaegerin"
+  ],
+  "Zwillingszähne": [
+   "jaegerin"
+  ],
+  "Obsidian-Zwillingszähne": [
+   "jaegerin"
+  ],
+  "Blutstahl-Zwillingszähne": [
+   "jaegerin"
+  ],
+  "Mondsilber-Zwillingszähne": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Zwillingszähne": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Zwillingszähne": [
+   "jaegerin"
+  ],
+  "Drachenglas-Zwillingszähne": [
+   "jaegerin"
+  ],
+  "Nachtschwingen": [
+   "jaegerin"
+  ],
+  "Obsidian-Nachtschwingen": [
+   "jaegerin"
+  ],
+  "Blutstahl-Nachtschwingen": [
+   "jaegerin"
+  ],
+  "Mondsilber-Nachtschwingen": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Nachtschwingen": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Nachtschwingen": [
+   "jaegerin"
+  ],
+  "Drachenglas-Nachtschwingen": [
+   "jaegerin"
+  ],
+  "Kurzbogen": [
+   "alchemist"
+  ],
+  "Obsidian-Kurzbogen": [
+   "alchemist"
+  ],
+  "Blutstahl-Kurzbogen": [
+   "alchemist"
+  ],
+  "Mondsilber-Kurzbogen": [
+   "alchemist"
+  ],
+  "Sternenstahl-Kurzbogen": [
+   "alchemist"
+  ],
+  "Leerenstahl-Kurzbogen": [
+   "alchemist"
+  ],
+  "Drachenglas-Kurzbogen": [
+   "alchemist"
+  ],
+  "Jagdbogen": [
+   "alchemist"
+  ],
+  "Obsidian-Jagdbogen": [
+   "alchemist"
+  ],
+  "Blutstahl-Jagdbogen": [
+   "alchemist"
+  ],
+  "Mondsilber-Jagdbogen": [
+   "alchemist"
+  ],
+  "Sternenstahl-Jagdbogen": [
+   "alchemist"
+  ],
+  "Leerenstahl-Jagdbogen": [
+   "alchemist"
+  ],
+  "Drachenglas-Jagdbogen": [
+   "alchemist"
+  ],
+  "Langbogen": [
+   "alchemist"
+  ],
+  "Obsidian-Langbogen": [
+   "alchemist"
+  ],
+  "Blutstahl-Langbogen": [
+   "alchemist"
+  ],
+  "Mondsilber-Langbogen": [
+   "alchemist"
+  ],
+  "Sternenstahl-Langbogen": [
+   "alchemist"
+  ],
+  "Leerenstahl-Langbogen": [
+   "alchemist"
+  ],
+  "Drachenglas-Langbogen": [
+   "alchemist"
+  ],
+  "Kompositbogen": [
+   "alchemist"
+  ],
+  "Obsidian-Kompositbogen": [
+   "alchemist"
+  ],
+  "Blutstahl-Kompositbogen": [
+   "alchemist"
+  ],
+  "Mondsilber-Kompositbogen": [
+   "alchemist"
+  ],
+  "Sternenstahl-Kompositbogen": [
+   "alchemist"
+  ],
+  "Leerenstahl-Kompositbogen": [
+   "alchemist"
+  ],
+  "Drachenglas-Kompositbogen": [
+   "alchemist"
+  ],
+  "Knochenbogen": [
+   "alchemist"
+  ],
+  "Obsidian-Knochenbogen": [
+   "alchemist"
+  ],
+  "Blutstahl-Knochenbogen": [
+   "alchemist"
+  ],
+  "Mondsilber-Knochenbogen": [
+   "alchemist"
+  ],
+  "Sternenstahl-Knochenbogen": [
+   "alchemist"
+  ],
+  "Leerenstahl-Knochenbogen": [
+   "alchemist"
+  ],
+  "Drachenglas-Knochenbogen": [
+   "alchemist"
+  ],
+  "Drachenbogen": [
+   "alchemist"
+  ],
+  "Obsidian-Drachenbogen": [
+   "alchemist"
+  ],
+  "Blutstahl-Drachenbogen": [
+   "alchemist"
+  ],
+  "Mondsilber-Drachenbogen": [
+   "alchemist"
+  ],
+  "Sternenstahl-Drachenbogen": [
+   "alchemist"
+  ],
+  "Leerenstahl-Drachenbogen": [
+   "alchemist"
+  ],
+  "Drachenglas-Drachenbogen": [
+   "alchemist"
+  ],
+  "Leichte Armbrust": [
+   "alchemist"
+  ],
+  "Obsidian-Leichte Armbrust": [
+   "alchemist"
+  ],
+  "Blutstahl-Leichte Armbrust": [
+   "alchemist"
+  ],
+  "Mondsilber-Leichte Armbrust": [
+   "alchemist"
+  ],
+  "Sternenstahl-Leichte Armbrust": [
+   "alchemist"
+  ],
+  "Leerenstahl-Leichte Armbrust": [
+   "alchemist"
+  ],
+  "Drachenglas-Leichte Armbrust": [
+   "alchemist"
+  ],
+  "Armbrust": [
+   "alchemist"
+  ],
+  "Obsidian-Armbrust": [
+   "alchemist"
+  ],
+  "Blutstahl-Armbrust": [
+   "alchemist"
+  ],
+  "Mondsilber-Armbrust": [
+   "alchemist"
+  ],
+  "Sternenstahl-Armbrust": [
+   "alchemist"
+  ],
+  "Leerenstahl-Armbrust": [
+   "alchemist"
+  ],
+  "Drachenglas-Armbrust": [
+   "alchemist"
+  ],
+  "Schwere Armbrust": [
+   "alchemist"
+  ],
+  "Obsidian-Schwere Armbrust": [
+   "alchemist"
+  ],
+  "Blutstahl-Schwere Armbrust": [
+   "alchemist"
+  ],
+  "Mondsilber-Schwere Armbrust": [
+   "alchemist"
+  ],
+  "Sternenstahl-Schwere Armbrust": [
+   "alchemist"
+  ],
+  "Leerenstahl-Schwere Armbrust": [
+   "alchemist"
+  ],
+  "Drachenglas-Schwere Armbrust": [
+   "alchemist"
+  ],
+  "Belagerungsarmbrust": [
+   "alchemist"
+  ],
+  "Obsidian-Belagerungsarmbrust": [
+   "alchemist"
+  ],
+  "Blutstahl-Belagerungsarmbrust": [
+   "alchemist"
+  ],
+  "Mondsilber-Belagerungsarmbrust": [
+   "alchemist"
+  ],
+  "Sternenstahl-Belagerungsarmbrust": [
+   "alchemist"
+  ],
+  "Leerenstahl-Belagerungsarmbrust": [
+   "alchemist"
+  ],
+  "Drachenglas-Belagerungsarmbrust": [
+   "alchemist"
+  ],
+  "Holzzauberstab": [
+   "magier",
+   "alchemist"
+  ],
+  "Obsidian-Holzzauberstab": [
+   "magier",
+   "alchemist"
+  ],
+  "Blutstahl-Holzzauberstab": [
+   "magier",
+   "alchemist"
+  ],
+  "Mondsilber-Holzzauberstab": [
+   "magier",
+   "alchemist"
+  ],
+  "Sternenstahl-Holzzauberstab": [
+   "magier",
+   "alchemist"
+  ],
+  "Leerenstahl-Holzzauberstab": [
+   "magier",
+   "alchemist"
+  ],
+  "Drachenglas-Holzzauberstab": [
+   "magier",
+   "alchemist"
+  ],
+  "Stilett": [
+   "jaegerin"
+  ],
+  "Obsidian-Stilett": [
+   "jaegerin"
+  ],
+  "Blutstahl-Stilett": [
+   "jaegerin"
+  ],
+  "Mondsilber-Stilett": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Stilett": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Stilett": [
+   "jaegerin"
+  ],
+  "Drachenglas-Stilett": [
+   "jaegerin"
+  ],
+  "Kris": [
+   "jaegerin"
+  ],
+  "Obsidian-Kris": [
+   "jaegerin"
+  ],
+  "Blutstahl-Kris": [
+   "jaegerin"
+  ],
+  "Mondsilber-Kris": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Kris": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Kris": [
+   "jaegerin"
+  ],
+  "Drachenglas-Kris": [
+   "jaegerin"
+  ],
+  "Rabenschnabel": [
+   "jaegerin"
+  ],
+  "Obsidian-Rabenschnabel": [
+   "jaegerin"
+  ],
+  "Blutstahl-Rabenschnabel": [
+   "jaegerin"
+  ],
+  "Mondsilber-Rabenschnabel": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Rabenschnabel": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Rabenschnabel": [
+   "jaegerin"
+  ],
+  "Drachenglas-Rabenschnabel": [
+   "jaegerin"
+  ],
+  "Giftzahn": [
+   "jaegerin"
+  ],
+  "Obsidian-Giftzahn": [
+   "jaegerin"
+  ],
+  "Blutstahl-Giftzahn": [
+   "jaegerin"
+  ],
+  "Mondsilber-Giftzahn": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Giftzahn": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Giftzahn": [
+   "jaegerin"
+  ],
+  "Drachenglas-Giftzahn": [
+   "jaegerin"
+  ],
+  "Knotenstab": [
+   "magier"
+  ],
+  "Obsidian-Knotenstab": [
+   "magier"
+  ],
+  "Blutstahl-Knotenstab": [
+   "magier"
+  ],
+  "Mondsilber-Knotenstab": [
+   "magier"
+  ],
+  "Sternenstahl-Knotenstab": [
+   "magier"
+  ],
+  "Leerenstahl-Knotenstab": [
+   "magier"
+  ],
+  "Drachenglas-Knotenstab": [
+   "magier"
+  ],
+  "Kampfstab": [
+   "magier"
+  ],
+  "Obsidian-Kampfstab": [
+   "magier"
+  ],
+  "Blutstahl-Kampfstab": [
+   "magier"
+  ],
+  "Mondsilber-Kampfstab": [
+   "magier"
+  ],
+  "Sternenstahl-Kampfstab": [
+   "magier"
+  ],
+  "Leerenstahl-Kampfstab": [
+   "magier"
+  ],
+  "Drachenglas-Kampfstab": [
+   "magier"
+  ],
+  "Zauberrute": [
+   "magier"
+  ],
+  "Obsidian-Zauberrute": [
+   "magier"
+  ],
+  "Blutstahl-Zauberrute": [
+   "magier"
+  ],
+  "Mondsilber-Zauberrute": [
+   "magier"
+  ],
+  "Sternenstahl-Zauberrute": [
+   "magier"
+  ],
+  "Leerenstahl-Zauberrute": [
+   "magier"
+  ],
+  "Drachenglas-Zauberrute": [
+   "magier"
+  ],
+  "Kristallstab": [
+   "magier"
+  ],
+  "Obsidian-Kristallstab": [
+   "magier"
+  ],
+  "Blutstahl-Kristallstab": [
+   "magier"
+  ],
+  "Mondsilber-Kristallstab": [
+   "magier"
+  ],
+  "Sternenstahl-Kristallstab": [
+   "magier"
+  ],
+  "Leerenstahl-Kristallstab": [
+   "magier"
+  ],
+  "Drachenglas-Kristallstab": [
+   "magier"
+  ],
+  "Knochenstab": [
+   "magier"
+  ],
+  "Obsidian-Knochenstab": [
+   "magier"
+  ],
+  "Blutstahl-Knochenstab": [
+   "magier"
+  ],
+  "Mondsilber-Knochenstab": [
+   "magier"
+  ],
+  "Sternenstahl-Knochenstab": [
+   "magier"
+  ],
+  "Leerenstahl-Knochenstab": [
+   "magier"
+  ],
+  "Drachenglas-Knochenstab": [
+   "magier"
+  ],
+  "Runenstab": [
+   "magier"
+  ],
+  "Obsidian-Runenstab": [
+   "magier"
+  ],
+  "Blutstahl-Runenstab": [
+   "magier"
+  ],
+  "Mondsilber-Runenstab": [
+   "magier"
+  ],
+  "Sternenstahl-Runenstab": [
+   "magier"
+  ],
+  "Leerenstahl-Runenstab": [
+   "magier"
+  ],
+  "Drachenglas-Runenstab": [
+   "magier"
+  ],
+  "Weltenast": [
+   "magier"
+  ],
+  "Obsidian-Weltenast": [
+   "magier"
+  ],
+  "Blutstahl-Weltenast": [
+   "magier"
+  ],
+  "Mondsilber-Weltenast": [
+   "magier"
+  ],
+  "Sternenstahl-Weltenast": [
+   "magier"
+  ],
+  "Gladius": [
+   "krieger"
+  ],
+  "Obsidian-Gladius": [
+   "krieger"
+  ],
+  "Blutstahl-Gladius": [
+   "krieger"
+  ],
+  "Mondsilber-Gladius": [
+   "krieger"
+  ],
+  "Sternenstahl-Gladius": [
+   "krieger"
+  ],
+  "Leerenstahl-Gladius": [
+   "krieger"
+  ],
+  "Drachenglas-Gladius": [
+   "krieger"
+  ],
+  "Falchion": [
+   "krieger"
+  ],
+  "Obsidian-Falchion": [
+   "krieger"
+  ],
+  "Blutstahl-Falchion": [
+   "krieger"
+  ],
+  "Mondsilber-Falchion": [
+   "krieger"
+  ],
+  "Sternenstahl-Falchion": [
+   "krieger"
+  ],
+  "Leerenstahl-Falchion": [
+   "krieger"
+  ],
+  "Drachenglas-Falchion": [
+   "krieger"
+  ],
+  "Rapier": [
+   "jaegerin"
+  ],
+  "Obsidian-Rapier": [
+   "jaegerin"
+  ],
+  "Blutstahl-Rapier": [
+   "jaegerin"
+  ],
+  "Mondsilber-Rapier": [
+   "jaegerin"
+  ],
+  "Sternenstahl-Rapier": [
+   "jaegerin"
+  ],
+  "Leerenstahl-Rapier": [
+   "jaegerin"
+  ],
+  "Drachenglas-Rapier": [
+   "jaegerin"
+  ],
+  "Bastardschwert": [
+   "krieger"
+  ],
+  "Obsidian-Bastardschwert": [
+   "krieger"
+  ],
+  "Blutstahl-Bastardschwert": [
+   "krieger"
+  ],
+  "Mondsilber-Bastardschwert": [
+   "krieger"
+  ],
+  "Sternenstahl-Bastardschwert": [
+   "krieger"
+  ],
+  "Leerenstahl-Bastardschwert": [
+   "krieger"
+  ],
+  "Drachenglas-Bastardschwert": [
+   "krieger"
+  ],
+  "Estoc": [
+   "krieger"
+  ],
+  "Obsidian-Estoc": [
+   "krieger"
+  ],
+  "Blutstahl-Estoc": [
+   "krieger"
+  ],
+  "Mondsilber-Estoc": [
+   "krieger"
+  ],
+  "Sternenstahl-Estoc": [
+   "krieger"
+  ],
+  "Leerenstahl-Estoc": [
+   "krieger"
+  ],
+  "Drachenglas-Estoc": [
+   "krieger"
+  ],
+  "Katana": [
+   "krieger"
+  ],
+  "Obsidian-Katana": [
+   "krieger"
+  ],
+  "Blutstahl-Katana": [
+   "krieger"
+  ],
+  "Mondsilber-Katana": [
+   "krieger"
+  ],
+  "Sternenstahl-Katana": [
+   "krieger"
+  ],
+  "Leerenstahl-Katana": [
+   "krieger"
+  ],
+  "Drachenglas-Katana": [
+   "krieger"
+  ],
+  "Flamberge": [
+   "krieger"
+  ],
+  "Obsidian-Flamberge": [
+   "krieger"
+  ],
+  "Blutstahl-Flamberge": [
+   "krieger"
+  ],
+  "Mondsilber-Flamberge": [
+   "krieger"
+  ],
+  "Sternenstahl-Flamberge": [
+   "krieger"
+  ],
+  "Leerenstahl-Flamberge": [
+   "krieger"
+  ],
+  "Drachenglas-Flamberge": [
+   "krieger"
+  ],
+  "Claymore": [
+   "krieger"
+  ],
+  "Obsidian-Claymore": [
+   "krieger"
+  ],
+  "Blutstahl-Claymore": [
+   "krieger"
+  ],
+  "Mondsilber-Claymore": [
+   "krieger"
+  ],
+  "Sternenstahl-Claymore": [
+   "krieger"
+  ],
+  "Leerenstahl-Claymore": [
+   "krieger"
+  ],
+  "Drachenglas-Claymore": [
+   "krieger"
+  ],
+  "Bartaxt": [
+   "krieger"
+  ],
+  "Obsidian-Bartaxt": [
+   "krieger"
+  ],
+  "Blutstahl-Bartaxt": [
+   "krieger"
+  ],
+  "Mondsilber-Bartaxt": [
+   "krieger"
+  ],
+  "Sternenstahl-Bartaxt": [
+   "krieger"
+  ],
+  "Leerenstahl-Bartaxt": [
+   "krieger"
+  ],
+  "Drachenglas-Bartaxt": [
+   "krieger"
+  ],
+  "Doppelaxt": [
+   "krieger"
+  ],
+  "Obsidian-Doppelaxt": [
+   "krieger"
+  ],
+  "Blutstahl-Doppelaxt": [
+   "krieger"
+  ],
+  "Mondsilber-Doppelaxt": [
+   "krieger"
+  ],
+  "Sternenstahl-Doppelaxt": [
+   "krieger"
+  ],
+  "Leerenstahl-Doppelaxt": [
+   "krieger"
+  ],
+  "Drachenglas-Doppelaxt": [
+   "krieger"
+  ],
+  "Breitaxt": [
+   "krieger"
+  ],
+  "Obsidian-Breitaxt": [
+   "krieger"
+  ],
+  "Blutstahl-Breitaxt": [
+   "krieger"
+  ],
+  "Mondsilber-Breitaxt": [
+   "krieger"
+  ],
+  "Sternenstahl-Breitaxt": [
+   "krieger"
+  ],
+  "Leerenstahl-Breitaxt": [
+   "krieger"
+  ],
+  "Flanschkolben": [
+   "krieger"
+  ],
+  "Obsidian-Flanschkolben": [
+   "krieger"
+  ],
+  "Blutstahl-Flanschkolben": [
+   "krieger"
+  ],
+  "Mondsilber-Flanschkolben": [
+   "krieger"
+  ],
+  "Sternenstahl-Flanschkolben": [
+   "krieger"
+  ],
+  "Leerenstahl-Flanschkolben": [
+   "krieger"
+  ],
+  "Drachenglas-Flanschkolben": [
+   "krieger"
+  ],
+  "Zepter": [
+   "krieger"
+  ],
+  "Obsidian-Zepter": [
+   "krieger"
+  ],
+  "Blutstahl-Zepter": [
+   "krieger"
+  ],
+  "Mondsilber-Zepter": [
+   "krieger"
+  ],
+  "Sternenstahl-Zepter": [
+   "krieger"
+  ],
+  "Leerenstahl-Zepter": [
+   "krieger"
+  ],
+  "Drachenglas-Zepter": [
+   "krieger"
+  ],
+  "Kettenflegel": [
+   "krieger"
+  ],
+  "Obsidian-Kettenflegel": [
+   "krieger"
+  ],
+  "Blutstahl-Kettenflegel": [
+   "krieger"
+  ],
+  "Mondsilber-Kettenflegel": [
+   "krieger"
+  ],
+  "Sternenstahl-Kettenflegel": [
+   "krieger"
+  ],
+  "Leerenstahl-Kettenflegel": [
+   "krieger"
+  ],
+  "Drachenglas-Kettenflegel": [
+   "krieger"
+  ],
+  "Kriegspicke": [
+   "krieger"
+  ],
+  "Obsidian-Kriegspicke": [
+   "krieger"
+  ],
+  "Blutstahl-Kriegspicke": [
+   "krieger"
+  ],
+  "Mondsilber-Kriegspicke": [
+   "krieger"
+  ],
+  "Sternenstahl-Kriegspicke": [
+   "krieger"
+  ],
+  "Leerenstahl-Kriegspicke": [
+   "krieger"
+  ],
+  "Drachenglas-Kriegspicke": [
+   "krieger"
+  ],
+  "Großhammer": [
+   "krieger"
+  ],
+  "Obsidian-Großhammer": [
+   "krieger"
+  ],
+  "Blutstahl-Großhammer": [
+   "krieger"
+  ],
+  "Mondsilber-Großhammer": [
+   "krieger"
+  ],
+  "Sternenstahl-Großhammer": [
+   "krieger"
+  ],
+  "Leerenstahl-Großhammer": [
+   "krieger"
+  ],
+  "Drachenglas-Großhammer": [
+   "krieger"
+  ],
+  "Riesenkeule": [
+   "krieger"
+  ],
+  "Obsidian-Riesenkeule": [
+   "krieger"
+  ],
+  "Blutstahl-Riesenkeule": [
+   "krieger"
+  ],
+  "Mondsilber-Riesenkeule": [
+   "krieger"
+  ],
+  "Sternenstahl-Riesenkeule": [
+   "krieger"
+  ],
+  "Leerenstahl-Riesenkeule": [
+   "krieger"
+  ]
+ },
+ "dragon": [
+  "Drachenschuppenhelm",
+  "Drachenschuppenpanzer",
+  "Drachenklauen",
+  "Drachenschuppenstiefel",
+  "Drachengurt",
+  "Drachenschild"
+ ],
+ "elements": [
+  "fire",
+  "frost",
+  "light",
+  "poison"
+ ],
+ "sizes": {
+  "Kurzschwert": [
+   1,
+   3
+  ],
+  "Dolch": [
+   1,
+   2
+  ],
+  "Keule": [
+   1,
+   3
+  ],
+  "Handaxt": [
+   1,
+   3
+  ],
+  "Eichenstab": [
+   1,
+   4
+  ],
+  "Krummsäbel": [
+   1,
+   3
+  ],
+  "Langschwert": [
+   1,
+   4
+  ],
+  "Speer": [
+   2,
+   4
+  ],
+  "Morgenstern": [
+   2,
+   3
+  ],
+  "Kriegsaxt": [
+   2,
+   3
+  ],
+  "Zweihänder": [
+   2,
+   4
+  ],
+  "Runenklinge": [
+   1,
+   4
+  ],
+  "Hellebarde": [
+   2,
+   4
+  ],
+  "Schattendolch": [
+   1,
+   2
+  ],
+  "Kriegshammer": [
+   2,
+   3
+  ],
+  "Aschestab": [
+   2,
+   4
+  ],
+  "Henkersbeil": [
+   2,
+   4
+  ],
+  "Mondsichel": [
+   1,
+   4
+  ],
+  "Bluthacke": [
+   2,
+   3
+  ],
+  "Drachenzahn": [
+   2,
+   4
+  ],
+  "Kolossklinge": [
+   2,
+   5
+  ],
+  "Sternenstab": [
+   2,
+   5
+  ],
+  "Seelenspieß": [
+   2,
+   5
+  ],
+  "Nachtzahn": [
+   1,
+   3
+  ],
+  "Lederkappe": [
+   2,
+   2
+  ],
+  "Eisenhelm": [
+   2,
+   2
+  ],
+  "Topfhelm": [
+   2,
+   2
+  ],
+  "Hornhelm": [
+   2,
+   2
+  ],
+  "Totenkrone": [
+   2,
+   2
+  ],
+  "Lederwams": [
+   2,
+   2
+  ],
+  "Kettenhemd": [
+   2,
+   3
+  ],
+  "Schuppenpanzer": [
+   2,
+   3
+  ],
+  "Plattenharnisch": [
+   2,
+   3
+  ],
+  "Schwarzer Harnisch": [
+   2,
+   3
+  ],
+  "Lederhandschuhe": [
+   2,
+   2
+  ],
+  "Kettenhandschuhe": [
+   2,
+   2
+  ],
+  "Panzerhandschuhe": [
+   2,
+   2
+  ],
+  "Klauenhandschuhe": [
+   2,
+   2
+  ],
+  "Stiefel": [
+   2,
+   2
+  ],
+  "Kettenstiefel": [
+   2,
+   2
+  ],
+  "Plattenstiefel": [
+   2,
+   2
+  ],
+  "Schattentreter": [
+   2,
+   2
+  ],
+  "Schärpe": [
+   2,
+   1
+  ],
+  "Ledergürtel": [
+   2,
+   1
+  ],
+  "Kriegsgürtel": [
+   2,
+   1
+  ],
+  "Kettengürtel": [
+   2,
+   1
+  ],
+  "Rundschild": [
+   2,
+   2
+  ],
+  "Turmschild": [
+   2,
+   3
+  ],
+  "Wappenschild": [
+   2,
+   3
+  ],
+  "Grabsteinschild": [
+   2,
+   4
+  ],
+  "Ring": [
+   1,
+   1
+  ],
+  "Amulett": [
+   1,
+   1
+  ],
+  "Obsidian-Kurzschwert": [
+   1,
+   3
+  ],
+  "Blutstahl-Kurzschwert": [
+   1,
+   3
+  ],
+  "Mondsilber-Kurzschwert": [
+   1,
+   3
+  ],
+  "Sternenstahl-Kurzschwert": [
+   1,
+   3
+  ],
+  "Leerenstahl-Kurzschwert": [
+   1,
+   3
+  ],
+  "Drachenglas-Kurzschwert": [
+   1,
+   3
+  ],
+  "Obsidian-Dolch": [
+   1,
+   2
+  ],
+  "Blutstahl-Dolch": [
+   1,
+   2
+  ],
+  "Mondsilber-Dolch": [
+   1,
+   2
+  ],
+  "Sternenstahl-Dolch": [
+   1,
+   2
+  ],
+  "Leerenstahl-Dolch": [
+   1,
+   2
+  ],
+  "Drachenglas-Dolch": [
+   1,
+   2
+  ],
+  "Obsidian-Keule": [
+   1,
+   3
+  ],
+  "Blutstahl-Keule": [
+   1,
+   3
+  ],
+  "Mondsilber-Keule": [
+   1,
+   3
+  ],
+  "Sternenstahl-Keule": [
+   1,
+   3
+  ],
+  "Leerenstahl-Keule": [
+   1,
+   3
+  ],
+  "Drachenglas-Keule": [
+   1,
+   3
+  ],
+  "Obsidian-Handaxt": [
+   1,
+   3
+  ],
+  "Blutstahl-Handaxt": [
+   1,
+   3
+  ],
+  "Mondsilber-Handaxt": [
+   1,
+   3
+  ],
+  "Sternenstahl-Handaxt": [
+   1,
+   3
+  ],
+  "Leerenstahl-Handaxt": [
+   1,
+   3
+  ],
+  "Drachenglas-Handaxt": [
+   1,
+   3
+  ],
+  "Obsidian-Eichenstab": [
+   1,
+   4
+  ],
+  "Blutstahl-Eichenstab": [
+   1,
+   4
+  ],
+  "Mondsilber-Eichenstab": [
+   1,
+   4
+  ],
+  "Sternenstahl-Eichenstab": [
+   1,
+   4
+  ],
+  "Leerenstahl-Eichenstab": [
+   1,
+   4
+  ],
+  "Drachenglas-Eichenstab": [
+   1,
+   4
+  ],
+  "Obsidian-Krummsäbel": [
+   1,
+   3
+  ],
+  "Blutstahl-Krummsäbel": [
+   1,
+   3
+  ],
+  "Mondsilber-Krummsäbel": [
+   1,
+   3
+  ],
+  "Sternenstahl-Krummsäbel": [
+   1,
+   3
+  ],
+  "Leerenstahl-Krummsäbel": [
+   1,
+   3
+  ],
+  "Drachenglas-Krummsäbel": [
+   1,
+   3
+  ],
+  "Obsidian-Langschwert": [
+   1,
+   4
+  ],
+  "Blutstahl-Langschwert": [
+   1,
+   4
+  ],
+  "Mondsilber-Langschwert": [
+   1,
+   4
+  ],
+  "Sternenstahl-Langschwert": [
+   1,
+   4
+  ],
+  "Leerenstahl-Langschwert": [
+   1,
+   4
+  ],
+  "Drachenglas-Langschwert": [
+   1,
+   4
+  ],
+  "Obsidian-Speer": [
+   2,
+   4
+  ],
+  "Blutstahl-Speer": [
+   2,
+   4
+  ],
+  "Mondsilber-Speer": [
+   2,
+   4
+  ],
+  "Sternenstahl-Speer": [
+   2,
+   4
+  ],
+  "Leerenstahl-Speer": [
+   2,
+   4
+  ],
+  "Drachenglas-Speer": [
+   2,
+   4
+  ],
+  "Obsidian-Morgenstern": [
+   2,
+   3
+  ],
+  "Blutstahl-Morgenstern": [
+   2,
+   3
+  ],
+  "Mondsilber-Morgenstern": [
+   2,
+   3
+  ],
+  "Sternenstahl-Morgenstern": [
+   2,
+   3
+  ],
+  "Leerenstahl-Morgenstern": [
+   2,
+   3
+  ],
+  "Drachenglas-Morgenstern": [
+   2,
+   3
+  ],
+  "Obsidian-Kriegsaxt": [
+   2,
+   3
+  ],
+  "Blutstahl-Kriegsaxt": [
+   2,
+   3
+  ],
+  "Mondsilber-Kriegsaxt": [
+   2,
+   3
+  ],
+  "Sternenstahl-Kriegsaxt": [
+   2,
+   3
+  ],
+  "Leerenstahl-Kriegsaxt": [
+   2,
+   3
+  ],
+  "Drachenglas-Kriegsaxt": [
+   2,
+   3
+  ],
+  "Obsidian-Zweihänder": [
+   2,
+   4
+  ],
+  "Blutstahl-Zweihänder": [
+   2,
+   4
+  ],
+  "Mondsilber-Zweihänder": [
+   2,
+   4
+  ],
+  "Sternenstahl-Zweihänder": [
+   2,
+   4
+  ],
+  "Leerenstahl-Zweihänder": [
+   2,
+   4
+  ],
+  "Drachenglas-Zweihänder": [
+   2,
+   4
+  ],
+  "Obsidian-Runenklinge": [
+   1,
+   4
+  ],
+  "Blutstahl-Runenklinge": [
+   1,
+   4
+  ],
+  "Mondsilber-Runenklinge": [
+   1,
+   4
+  ],
+  "Sternenstahl-Runenklinge": [
+   1,
+   4
+  ],
+  "Leerenstahl-Runenklinge": [
+   1,
+   4
+  ],
+  "Drachenglas-Runenklinge": [
+   1,
+   4
+  ],
+  "Obsidian-Hellebarde": [
+   2,
+   4
+  ],
+  "Blutstahl-Hellebarde": [
+   2,
+   4
+  ],
+  "Mondsilber-Hellebarde": [
+   2,
+   4
+  ],
+  "Sternenstahl-Hellebarde": [
+   2,
+   4
+  ],
+  "Leerenstahl-Hellebarde": [
+   2,
+   4
+  ],
+  "Drachenglas-Hellebarde": [
+   2,
+   4
+  ],
+  "Obsidian-Schattendolch": [
+   1,
+   2
+  ],
+  "Blutstahl-Schattendolch": [
+   1,
+   2
+  ],
+  "Mondsilber-Schattendolch": [
+   1,
+   2
+  ],
+  "Sternenstahl-Schattendolch": [
+   1,
+   2
+  ],
+  "Leerenstahl-Schattendolch": [
+   1,
+   2
+  ],
+  "Drachenglas-Schattendolch": [
+   1,
+   2
+  ],
+  "Obsidian-Kriegshammer": [
+   2,
+   3
+  ],
+  "Blutstahl-Kriegshammer": [
+   2,
+   3
+  ],
+  "Mondsilber-Kriegshammer": [
+   2,
+   3
+  ],
+  "Sternenstahl-Kriegshammer": [
+   2,
+   3
+  ],
+  "Leerenstahl-Kriegshammer": [
+   2,
+   3
+  ],
+  "Drachenglas-Kriegshammer": [
+   2,
+   3
+  ],
+  "Obsidian-Aschestab": [
+   2,
+   4
+  ],
+  "Blutstahl-Aschestab": [
+   2,
+   4
+  ],
+  "Mondsilber-Aschestab": [
+   2,
+   4
+  ],
+  "Sternenstahl-Aschestab": [
+   2,
+   4
+  ],
+  "Leerenstahl-Aschestab": [
+   2,
+   4
+  ],
+  "Drachenglas-Aschestab": [
+   2,
+   4
+  ],
+  "Obsidian-Henkersbeil": [
+   2,
+   4
+  ],
+  "Blutstahl-Henkersbeil": [
+   2,
+   4
+  ],
+  "Mondsilber-Henkersbeil": [
+   2,
+   4
+  ],
+  "Sternenstahl-Henkersbeil": [
+   2,
+   4
+  ],
+  "Leerenstahl-Henkersbeil": [
+   2,
+   4
+  ],
+  "Drachenglas-Henkersbeil": [
+   2,
+   4
+  ],
+  "Obsidian-Mondsichel": [
+   1,
+   4
+  ],
+  "Blutstahl-Mondsichel": [
+   1,
+   4
+  ],
+  "Mondsilber-Mondsichel": [
+   1,
+   4
+  ],
+  "Sternenstahl-Mondsichel": [
+   1,
+   4
+  ],
+  "Leerenstahl-Mondsichel": [
+   1,
+   4
+  ],
+  "Drachenglas-Mondsichel": [
+   1,
+   4
+  ],
+  "Obsidian-Bluthacke": [
+   2,
+   3
+  ],
+  "Blutstahl-Bluthacke": [
+   2,
+   3
+  ],
+  "Mondsilber-Bluthacke": [
+   2,
+   3
+  ],
+  "Sternenstahl-Bluthacke": [
+   2,
+   3
+  ],
+  "Leerenstahl-Bluthacke": [
+   2,
+   3
+  ],
+  "Drachenglas-Bluthacke": [
+   2,
+   3
+  ],
+  "Obsidian-Drachenzahn": [
+   2,
+   4
+  ],
+  "Blutstahl-Drachenzahn": [
+   2,
+   4
+  ],
+  "Mondsilber-Drachenzahn": [
+   2,
+   4
+  ],
+  "Sternenstahl-Drachenzahn": [
+   2,
+   4
+  ],
+  "Leerenstahl-Drachenzahn": [
+   2,
+   4
+  ],
+  "Drachenglas-Drachenzahn": [
+   2,
+   4
+  ],
+  "Obsidian-Kolossklinge": [
+   2,
+   5
+  ],
+  "Blutstahl-Kolossklinge": [
+   2,
+   5
+  ],
+  "Mondsilber-Kolossklinge": [
+   2,
+   5
+  ],
+  "Sternenstahl-Kolossklinge": [
+   2,
+   5
+  ],
+  "Leerenstahl-Kolossklinge": [
+   2,
+   5
+  ],
+  "Drachenglas-Kolossklinge": [
+   2,
+   5
+  ],
+  "Obsidian-Sternenstab": [
+   2,
+   5
+  ],
+  "Blutstahl-Sternenstab": [
+   2,
+   5
+  ],
+  "Mondsilber-Sternenstab": [
+   2,
+   5
+  ],
+  "Sternenstahl-Sternenstab": [
+   2,
+   5
+  ],
+  "Leerenstahl-Sternenstab": [
+   2,
+   5
+  ],
+  "Drachenglas-Sternenstab": [
+   2,
+   5
+  ],
+  "Obsidian-Seelenspieß": [
+   2,
+   5
+  ],
+  "Blutstahl-Seelenspieß": [
+   2,
+   5
+  ],
+  "Mondsilber-Seelenspieß": [
+   2,
+   5
+  ],
+  "Sternenstahl-Seelenspieß": [
+   2,
+   5
+  ],
+  "Leerenstahl-Seelenspieß": [
+   2,
+   5
+  ],
+  "Drachenglas-Seelenspieß": [
+   2,
+   5
+  ],
+  "Obsidian-Nachtzahn": [
+   1,
+   3
+  ],
+  "Blutstahl-Nachtzahn": [
+   1,
+   3
+  ],
+  "Mondsilber-Nachtzahn": [
+   1,
+   3
+  ],
+  "Sternenstahl-Nachtzahn": [
+   1,
+   3
+  ],
+  "Leerenstahl-Nachtzahn": [
+   1,
+   3
+  ],
+  "Drachenglas-Nachtzahn": [
+   1,
+   3
+  ],
+  "Obsidian-Lederkappe": [
+   2,
+   2
+  ],
+  "Blutstahl-Lederkappe": [
+   2,
+   2
+  ],
+  "Mondsilber-Lederkappe": [
+   2,
+   2
+  ],
+  "Sternenstahl-Lederkappe": [
+   2,
+   2
+  ],
+  "Leerenstahl-Lederkappe": [
+   2,
+   2
+  ],
+  "Drachenglas-Lederkappe": [
+   2,
+   2
+  ],
+  "Obsidian-Eisenhelm": [
+   2,
+   2
+  ],
+  "Blutstahl-Eisenhelm": [
+   2,
+   2
+  ],
+  "Mondsilber-Eisenhelm": [
+   2,
+   2
+  ],
+  "Sternenstahl-Eisenhelm": [
+   2,
+   2
+  ],
+  "Leerenstahl-Eisenhelm": [
+   2,
+   2
+  ],
+  "Drachenglas-Eisenhelm": [
+   2,
+   2
+  ],
+  "Obsidian-Topfhelm": [
+   2,
+   2
+  ],
+  "Blutstahl-Topfhelm": [
+   2,
+   2
+  ],
+  "Mondsilber-Topfhelm": [
+   2,
+   2
+  ],
+  "Sternenstahl-Topfhelm": [
+   2,
+   2
+  ],
+  "Leerenstahl-Topfhelm": [
+   2,
+   2
+  ],
+  "Drachenglas-Topfhelm": [
+   2,
+   2
+  ],
+  "Obsidian-Hornhelm": [
+   2,
+   2
+  ],
+  "Blutstahl-Hornhelm": [
+   2,
+   2
+  ],
+  "Mondsilber-Hornhelm": [
+   2,
+   2
+  ],
+  "Sternenstahl-Hornhelm": [
+   2,
+   2
+  ],
+  "Leerenstahl-Hornhelm": [
+   2,
+   2
+  ],
+  "Drachenglas-Hornhelm": [
+   2,
+   2
+  ],
+  "Obsidian-Totenkrone": [
+   2,
+   2
+  ],
+  "Blutstahl-Totenkrone": [
+   2,
+   2
+  ],
+  "Mondsilber-Totenkrone": [
+   2,
+   2
+  ],
+  "Sternenstahl-Totenkrone": [
+   2,
+   2
+  ],
+  "Leerenstahl-Totenkrone": [
+   2,
+   2
+  ],
+  "Drachenglas-Totenkrone": [
+   2,
+   2
+  ],
+  "Obsidian-Lederwams": [
+   2,
+   2
+  ],
+  "Blutstahl-Lederwams": [
+   2,
+   2
+  ],
+  "Mondsilber-Lederwams": [
+   2,
+   2
+  ],
+  "Sternenstahl-Lederwams": [
+   2,
+   2
+  ],
+  "Leerenstahl-Lederwams": [
+   2,
+   2
+  ],
+  "Drachenglas-Lederwams": [
+   2,
+   2
+  ],
+  "Obsidian-Kettenhemd": [
+   2,
+   3
+  ],
+  "Blutstahl-Kettenhemd": [
+   2,
+   3
+  ],
+  "Mondsilber-Kettenhemd": [
+   2,
+   3
+  ],
+  "Sternenstahl-Kettenhemd": [
+   2,
+   3
+  ],
+  "Leerenstahl-Kettenhemd": [
+   2,
+   3
+  ],
+  "Drachenglas-Kettenhemd": [
+   2,
+   3
+  ],
+  "Obsidian-Schuppenpanzer": [
+   2,
+   3
+  ],
+  "Blutstahl-Schuppenpanzer": [
+   2,
+   3
+  ],
+  "Mondsilber-Schuppenpanzer": [
+   2,
+   3
+  ],
+  "Sternenstahl-Schuppenpanzer": [
+   2,
+   3
+  ],
+  "Leerenstahl-Schuppenpanzer": [
+   2,
+   3
+  ],
+  "Drachenglas-Schuppenpanzer": [
+   2,
+   3
+  ],
+  "Obsidian-Plattenharnisch": [
+   2,
+   3
+  ],
+  "Blutstahl-Plattenharnisch": [
+   2,
+   3
+  ],
+  "Mondsilber-Plattenharnisch": [
+   2,
+   3
+  ],
+  "Sternenstahl-Plattenharnisch": [
+   2,
+   3
+  ],
+  "Leerenstahl-Plattenharnisch": [
+   2,
+   3
+  ],
+  "Drachenglas-Plattenharnisch": [
+   2,
+   3
+  ],
+  "Obsidian-Schwarzer Harnisch": [
+   2,
+   3
+  ],
+  "Blutstahl-Schwarzer Harnisch": [
+   2,
+   3
+  ],
+  "Mondsilber-Schwarzer Harnisch": [
+   2,
+   3
+  ],
+  "Sternenstahl-Schwarzer Harnisch": [
+   2,
+   3
+  ],
+  "Leerenstahl-Schwarzer Harnisch": [
+   2,
+   3
+  ],
+  "Drachenglas-Schwarzer Harnisch": [
+   2,
+   3
+  ],
+  "Obsidian-Lederhandschuhe": [
+   2,
+   2
+  ],
+  "Blutstahl-Lederhandschuhe": [
+   2,
+   2
+  ],
+  "Mondsilber-Lederhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenstahl-Lederhandschuhe": [
+   2,
+   2
+  ],
+  "Leerenstahl-Lederhandschuhe": [
+   2,
+   2
+  ],
+  "Drachenglas-Lederhandschuhe": [
+   2,
+   2
+  ],
+  "Obsidian-Kettenhandschuhe": [
+   2,
+   2
+  ],
+  "Blutstahl-Kettenhandschuhe": [
+   2,
+   2
+  ],
+  "Mondsilber-Kettenhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenstahl-Kettenhandschuhe": [
+   2,
+   2
+  ],
+  "Leerenstahl-Kettenhandschuhe": [
+   2,
+   2
+  ],
+  "Drachenglas-Kettenhandschuhe": [
+   2,
+   2
+  ],
+  "Obsidian-Panzerhandschuhe": [
+   2,
+   2
+  ],
+  "Blutstahl-Panzerhandschuhe": [
+   2,
+   2
+  ],
+  "Mondsilber-Panzerhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenstahl-Panzerhandschuhe": [
+   2,
+   2
+  ],
+  "Leerenstahl-Panzerhandschuhe": [
+   2,
+   2
+  ],
+  "Drachenglas-Panzerhandschuhe": [
+   2,
+   2
+  ],
+  "Obsidian-Klauenhandschuhe": [
+   2,
+   2
+  ],
+  "Blutstahl-Klauenhandschuhe": [
+   2,
+   2
+  ],
+  "Mondsilber-Klauenhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenstahl-Klauenhandschuhe": [
+   2,
+   2
+  ],
+  "Leerenstahl-Klauenhandschuhe": [
+   2,
+   2
+  ],
+  "Drachenglas-Klauenhandschuhe": [
+   2,
+   2
+  ],
+  "Obsidian-Stiefel": [
+   2,
+   2
+  ],
+  "Blutstahl-Stiefel": [
+   2,
+   2
+  ],
+  "Mondsilber-Stiefel": [
+   2,
+   2
+  ],
+  "Sternenstahl-Stiefel": [
+   2,
+   2
+  ],
+  "Leerenstahl-Stiefel": [
+   2,
+   2
+  ],
+  "Drachenglas-Stiefel": [
+   2,
+   2
+  ],
+  "Obsidian-Kettenstiefel": [
+   2,
+   2
+  ],
+  "Blutstahl-Kettenstiefel": [
+   2,
+   2
+  ],
+  "Mondsilber-Kettenstiefel": [
+   2,
+   2
+  ],
+  "Sternenstahl-Kettenstiefel": [
+   2,
+   2
+  ],
+  "Leerenstahl-Kettenstiefel": [
+   2,
+   2
+  ],
+  "Drachenglas-Kettenstiefel": [
+   2,
+   2
+  ],
+  "Obsidian-Plattenstiefel": [
+   2,
+   2
+  ],
+  "Blutstahl-Plattenstiefel": [
+   2,
+   2
+  ],
+  "Mondsilber-Plattenstiefel": [
+   2,
+   2
+  ],
+  "Sternenstahl-Plattenstiefel": [
+   2,
+   2
+  ],
+  "Leerenstahl-Plattenstiefel": [
+   2,
+   2
+  ],
+  "Drachenglas-Plattenstiefel": [
+   2,
+   2
+  ],
+  "Obsidian-Schattentreter": [
+   2,
+   2
+  ],
+  "Blutstahl-Schattentreter": [
+   2,
+   2
+  ],
+  "Mondsilber-Schattentreter": [
+   2,
+   2
+  ],
+  "Sternenstahl-Schattentreter": [
+   2,
+   2
+  ],
+  "Leerenstahl-Schattentreter": [
+   2,
+   2
+  ],
+  "Drachenglas-Schattentreter": [
+   2,
+   2
+  ],
+  "Obsidian-Schärpe": [
+   2,
+   1
+  ],
+  "Blutstahl-Schärpe": [
+   2,
+   1
+  ],
+  "Mondsilber-Schärpe": [
+   2,
+   1
+  ],
+  "Sternenstahl-Schärpe": [
+   2,
+   1
+  ],
+  "Leerenstahl-Schärpe": [
+   2,
+   1
+  ],
+  "Drachenglas-Schärpe": [
+   2,
+   1
+  ],
+  "Obsidian-Ledergürtel": [
+   2,
+   1
+  ],
+  "Blutstahl-Ledergürtel": [
+   2,
+   1
+  ],
+  "Mondsilber-Ledergürtel": [
+   2,
+   1
+  ],
+  "Sternenstahl-Ledergürtel": [
+   2,
+   1
+  ],
+  "Leerenstahl-Ledergürtel": [
+   2,
+   1
+  ],
+  "Drachenglas-Ledergürtel": [
+   2,
+   1
+  ],
+  "Obsidian-Kriegsgürtel": [
+   2,
+   1
+  ],
+  "Blutstahl-Kriegsgürtel": [
+   2,
+   1
+  ],
+  "Mondsilber-Kriegsgürtel": [
+   2,
+   1
+  ],
+  "Sternenstahl-Kriegsgürtel": [
+   2,
+   1
+  ],
+  "Leerenstahl-Kriegsgürtel": [
+   2,
+   1
+  ],
+  "Drachenglas-Kriegsgürtel": [
+   2,
+   1
+  ],
+  "Obsidian-Kettengürtel": [
+   2,
+   1
+  ],
+  "Blutstahl-Kettengürtel": [
+   2,
+   1
+  ],
+  "Mondsilber-Kettengürtel": [
+   2,
+   1
+  ],
+  "Sternenstahl-Kettengürtel": [
+   2,
+   1
+  ],
+  "Leerenstahl-Kettengürtel": [
+   2,
+   1
+  ],
+  "Drachenglas-Kettengürtel": [
+   2,
+   1
+  ],
+  "Obsidian-Rundschild": [
+   2,
+   2
+  ],
+  "Blutstahl-Rundschild": [
+   2,
+   2
+  ],
+  "Mondsilber-Rundschild": [
+   2,
+   2
+  ],
+  "Sternenstahl-Rundschild": [
+   2,
+   2
+  ],
+  "Leerenstahl-Rundschild": [
+   2,
+   2
+  ],
+  "Drachenglas-Rundschild": [
+   2,
+   2
+  ],
+  "Obsidian-Turmschild": [
+   2,
+   3
+  ],
+  "Blutstahl-Turmschild": [
+   2,
+   3
+  ],
+  "Mondsilber-Turmschild": [
+   2,
+   3
+  ],
+  "Sternenstahl-Turmschild": [
+   2,
+   3
+  ],
+  "Leerenstahl-Turmschild": [
+   2,
+   3
+  ],
+  "Drachenglas-Turmschild": [
+   2,
+   3
+  ],
+  "Obsidian-Wappenschild": [
+   2,
+   3
+  ],
+  "Blutstahl-Wappenschild": [
+   2,
+   3
+  ],
+  "Mondsilber-Wappenschild": [
+   2,
+   3
+  ],
+  "Sternenstahl-Wappenschild": [
+   2,
+   3
+  ],
+  "Leerenstahl-Wappenschild": [
+   2,
+   3
+  ],
+  "Drachenglas-Wappenschild": [
+   2,
+   3
+  ],
+  "Obsidian-Grabsteinschild": [
+   2,
+   4
+  ],
+  "Blutstahl-Grabsteinschild": [
+   2,
+   4
+  ],
+  "Mondsilber-Grabsteinschild": [
+   2,
+   4
+  ],
+  "Sternenstahl-Grabsteinschild": [
+   2,
+   4
+  ],
+  "Leerenstahl-Grabsteinschild": [
+   2,
+   4
+  ],
+  "Drachenglas-Grabsteinschild": [
+   2,
+   4
+  ],
+  "Rubinring": [
+   1,
+   1
+  ],
+  "Rubinamulett": [
+   1,
+   1
+  ],
+  "Saphirring": [
+   1,
+   1
+  ],
+  "Saphiramulett": [
+   1,
+   1
+  ],
+  "Smaragdring": [
+   1,
+   1
+  ],
+  "Smaragdamulett": [
+   1,
+   1
+  ],
+  "Amethystring": [
+   1,
+   1
+  ],
+  "Amethystamulett": [
+   1,
+   1
+  ],
+  "Topasring": [
+   1,
+   1
+  ],
+  "Topasamulett": [
+   1,
+   1
+  ],
+  "Seelenring": [
+   1,
+   1
+  ],
+  "Seelenamulett": [
+   1,
+   1
+  ],
+  "Zwillingsdolche": [
+   2,
+   3
+  ],
+  "Obsidian-Zwillingsdolche": [
+   2,
+   3
+  ],
+  "Blutstahl-Zwillingsdolche": [
+   2,
+   3
+  ],
+  "Mondsilber-Zwillingsdolche": [
+   2,
+   3
+  ],
+  "Sternenstahl-Zwillingsdolche": [
+   2,
+   3
+  ],
+  "Leerenstahl-Zwillingsdolche": [
+   2,
+   3
+  ],
+  "Drachenglas-Zwillingsdolche": [
+   2,
+   3
+  ],
+  "Klingenpaar": [
+   2,
+   3
+  ],
+  "Obsidian-Klingenpaar": [
+   2,
+   3
+  ],
+  "Blutstahl-Klingenpaar": [
+   2,
+   3
+  ],
+  "Mondsilber-Klingenpaar": [
+   2,
+   3
+  ],
+  "Sternenstahl-Klingenpaar": [
+   2,
+   3
+  ],
+  "Leerenstahl-Klingenpaar": [
+   2,
+   3
+  ],
+  "Drachenglas-Klingenpaar": [
+   2,
+   3
+  ],
+  "Sichelzwillinge": [
+   2,
+   3
+  ],
+  "Obsidian-Sichelzwillinge": [
+   2,
+   3
+  ],
+  "Blutstahl-Sichelzwillinge": [
+   2,
+   3
+  ],
+  "Mondsilber-Sichelzwillinge": [
+   2,
+   3
+  ],
+  "Sternenstahl-Sichelzwillinge": [
+   2,
+   3
+  ],
+  "Leerenstahl-Sichelzwillinge": [
+   2,
+   3
+  ],
+  "Drachenglas-Sichelzwillinge": [
+   2,
+   3
+  ],
+  "Schattenzwillinge": [
+   2,
+   3
+  ],
+  "Obsidian-Schattenzwillinge": [
+   2,
+   3
+  ],
+  "Blutstahl-Schattenzwillinge": [
+   2,
+   3
+  ],
+  "Mondsilber-Schattenzwillinge": [
+   2,
+   3
+  ],
+  "Sternenstahl-Schattenzwillinge": [
+   2,
+   3
+  ],
+  "Leerenstahl-Schattenzwillinge": [
+   2,
+   3
+  ],
+  "Drachenglas-Schattenzwillinge": [
+   2,
+   3
+  ],
+  "Mondklingen": [
+   2,
+   3
+  ],
+  "Obsidian-Mondklingen": [
+   2,
+   3
+  ],
+  "Blutstahl-Mondklingen": [
+   2,
+   3
+  ],
+  "Mondsilber-Mondklingen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Mondklingen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Mondklingen": [
+   2,
+   3
+  ],
+  "Drachenglas-Mondklingen": [
+   2,
+   3
+  ],
+  "Zwillingszähne": [
+   2,
+   3
+  ],
+  "Obsidian-Zwillingszähne": [
+   2,
+   3
+  ],
+  "Blutstahl-Zwillingszähne": [
+   2,
+   3
+  ],
+  "Mondsilber-Zwillingszähne": [
+   2,
+   3
+  ],
+  "Sternenstahl-Zwillingszähne": [
+   2,
+   3
+  ],
+  "Leerenstahl-Zwillingszähne": [
+   2,
+   3
+  ],
+  "Drachenglas-Zwillingszähne": [
+   2,
+   3
+  ],
+  "Nachtschwingen": [
+   2,
+   3
+  ],
+  "Obsidian-Nachtschwingen": [
+   2,
+   3
+  ],
+  "Blutstahl-Nachtschwingen": [
+   2,
+   3
+  ],
+  "Mondsilber-Nachtschwingen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Nachtschwingen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Nachtschwingen": [
+   2,
+   3
+  ],
+  "Drachenglas-Nachtschwingen": [
+   2,
+   3
+  ],
+  "Filzhut": [
+   2,
+   2
+  ],
+  "Seiden-Filzhut": [
+   2,
+   2
+  ],
+  "Mondseiden-Filzhut": [
+   2,
+   2
+  ],
+  "Sternenseiden-Filzhut": [
+   2,
+   2
+  ],
+  "Spitzhut": [
+   2,
+   2
+  ],
+  "Seiden-Spitzhut": [
+   2,
+   2
+  ],
+  "Mondseiden-Spitzhut": [
+   2,
+   2
+  ],
+  "Sternenseiden-Spitzhut": [
+   2,
+   2
+  ],
+  "Runenhut": [
+   2,
+   2
+  ],
+  "Seiden-Runenhut": [
+   2,
+   2
+  ],
+  "Mondseiden-Runenhut": [
+   2,
+   2
+  ],
+  "Sternenseiden-Runenhut": [
+   2,
+   2
+  ],
+  "Sternenhut": [
+   2,
+   2
+  ],
+  "Seiden-Sternenhut": [
+   2,
+   2
+  ],
+  "Mondseiden-Sternenhut": [
+   2,
+   2
+  ],
+  "Sternenseiden-Sternenhut": [
+   2,
+   2
+  ],
+  "Aschehaube": [
+   2,
+   2
+  ],
+  "Seiden-Aschehaube": [
+   2,
+   2
+  ],
+  "Mondseiden-Aschehaube": [
+   2,
+   2
+  ],
+  "Sternenseiden-Aschehaube": [
+   2,
+   2
+  ],
+  "Leinenrobe": [
+   2,
+   3
+  ],
+  "Seiden-Leinenrobe": [
+   2,
+   3
+  ],
+  "Mondseiden-Leinenrobe": [
+   2,
+   3
+  ],
+  "Sternenseiden-Leinenrobe": [
+   2,
+   3
+  ],
+  "Novizenrobe": [
+   2,
+   3
+  ],
+  "Seiden-Novizenrobe": [
+   2,
+   3
+  ],
+  "Mondseiden-Novizenrobe": [
+   2,
+   3
+  ],
+  "Sternenseiden-Novizenrobe": [
+   2,
+   3
+  ],
+  "Runenrobe": [
+   2,
+   3
+  ],
+  "Seiden-Runenrobe": [
+   2,
+   3
+  ],
+  "Mondseiden-Runenrobe": [
+   2,
+   3
+  ],
+  "Sternenseiden-Runenrobe": [
+   2,
+   3
+  ],
+  "Sternenrobe": [
+   2,
+   3
+  ],
+  "Seiden-Sternenrobe": [
+   2,
+   3
+  ],
+  "Mondseiden-Sternenrobe": [
+   2,
+   3
+  ],
+  "Sternenseiden-Sternenrobe": [
+   2,
+   3
+  ],
+  "Aschenrobe": [
+   2,
+   3
+  ],
+  "Seiden-Aschenrobe": [
+   2,
+   3
+  ],
+  "Mondseiden-Aschenrobe": [
+   2,
+   3
+  ],
+  "Sternenseiden-Aschenrobe": [
+   2,
+   3
+  ],
+  "Seidenhandschuhe": [
+   2,
+   2
+  ],
+  "Seiden-Seidenhandschuhe": [
+   2,
+   2
+  ],
+  "Mondseiden-Seidenhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenseiden-Seidenhandschuhe": [
+   2,
+   2
+  ],
+  "Runenhandschuhe": [
+   2,
+   2
+  ],
+  "Seiden-Runenhandschuhe": [
+   2,
+   2
+  ],
+  "Mondseiden-Runenhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenseiden-Runenhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenhandschuhe": [
+   2,
+   2
+  ],
+  "Seiden-Sternenhandschuhe": [
+   2,
+   2
+  ],
+  "Mondseiden-Sternenhandschuhe": [
+   2,
+   2
+  ],
+  "Sternenseiden-Sternenhandschuhe": [
+   2,
+   2
+  ],
+  "Sandalen": [
+   2,
+   2
+  ],
+  "Seiden-Sandalen": [
+   2,
+   2
+  ],
+  "Mondseiden-Sandalen": [
+   2,
+   2
+  ],
+  "Sternenseiden-Sandalen": [
+   2,
+   2
+  ],
+  "Pilgerschuhe": [
+   2,
+   2
+  ],
+  "Seiden-Pilgerschuhe": [
+   2,
+   2
+  ],
+  "Mondseiden-Pilgerschuhe": [
+   2,
+   2
+  ],
+  "Sternenseiden-Pilgerschuhe": [
+   2,
+   2
+  ],
+  "Leerenschritt": [
+   2,
+   2
+  ],
+  "Seiden-Leerenschritt": [
+   2,
+   2
+  ],
+  "Mondseiden-Leerenschritt": [
+   2,
+   2
+  ],
+  "Sternenseiden-Leerenschritt": [
+   2,
+   2
+  ],
+  "Kordel": [
+   2,
+   1
+  ],
+  "Seiden-Kordel": [
+   2,
+   1
+  ],
+  "Mondseiden-Kordel": [
+   2,
+   1
+  ],
+  "Sternenseiden-Kordel": [
+   2,
+   1
+  ],
+  "Runenschärpe": [
+   2,
+   1
+  ],
+  "Seiden-Runenschärpe": [
+   2,
+   1
+  ],
+  "Mondseiden-Runenschärpe": [
+   2,
+   1
+  ],
+  "Sternenseiden-Runenschärpe": [
+   2,
+   1
+  ],
+  "Sternengurt": [
+   2,
+   1
+  ],
+  "Seiden-Sternengurt": [
+   2,
+   1
+  ],
+  "Mondseiden-Sternengurt": [
+   2,
+   1
+  ],
+  "Sternenseiden-Sternengurt": [
+   2,
+   1
+  ],
+  "Zauberfibel": [
+   2,
+   2
+  ],
+  "Seiden-Zauberfibel": [
+   2,
+   2
+  ],
+  "Mondseiden-Zauberfibel": [
+   2,
+   2
+  ],
+  "Sternenseiden-Zauberfibel": [
+   2,
+   2
+  ],
+  "Grimoire": [
+   2,
+   2
+  ],
+  "Seiden-Grimoire": [
+   2,
+   2
+  ],
+  "Mondseiden-Grimoire": [
+   2,
+   2
+  ],
+  "Sternenseiden-Grimoire": [
+   2,
+   2
+  ],
+  "Sternenfolio": [
+   2,
+   2
+  ],
+  "Seiden-Sternenfolio": [
+   2,
+   2
+  ],
+  "Mondseiden-Sternenfolio": [
+   2,
+   2
+  ],
+  "Sternenseiden-Sternenfolio": [
+   2,
+   2
+  ],
+  "Drachenschuppenhelm": [
+   2,
+   2
+  ],
+  "Drachenschuppenpanzer": [
+   2,
+   3
+  ],
+  "Drachenklauen": [
+   2,
+   2
+  ],
+  "Drachenschuppenstiefel": [
+   2,
+   2
+  ],
+  "Drachengurt": [
+   2,
+   1
+  ],
+  "Drachenschild": [
+   2,
+   4
+  ],
+  "Kurzbogen": [
+   2,
+   3
+  ],
+  "Obsidian-Kurzbogen": [
+   2,
+   3
+  ],
+  "Blutstahl-Kurzbogen": [
+   2,
+   3
+  ],
+  "Mondsilber-Kurzbogen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Kurzbogen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Kurzbogen": [
+   2,
+   3
+  ],
+  "Drachenglas-Kurzbogen": [
+   2,
+   3
+  ],
+  "Jagdbogen": [
+   2,
+   3
+  ],
+  "Obsidian-Jagdbogen": [
+   2,
+   3
+  ],
+  "Blutstahl-Jagdbogen": [
+   2,
+   3
+  ],
+  "Mondsilber-Jagdbogen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Jagdbogen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Jagdbogen": [
+   2,
+   3
+  ],
+  "Drachenglas-Jagdbogen": [
+   2,
+   3
+  ],
+  "Langbogen": [
+   2,
+   3
+  ],
+  "Obsidian-Langbogen": [
+   2,
+   3
+  ],
+  "Blutstahl-Langbogen": [
+   2,
+   3
+  ],
+  "Mondsilber-Langbogen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Langbogen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Langbogen": [
+   2,
+   3
+  ],
+  "Drachenglas-Langbogen": [
+   2,
+   3
+  ],
+  "Kompositbogen": [
+   2,
+   3
+  ],
+  "Obsidian-Kompositbogen": [
+   2,
+   3
+  ],
+  "Blutstahl-Kompositbogen": [
+   2,
+   3
+  ],
+  "Mondsilber-Kompositbogen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Kompositbogen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Kompositbogen": [
+   2,
+   3
+  ],
+  "Drachenglas-Kompositbogen": [
+   2,
+   3
+  ],
+  "Knochenbogen": [
+   2,
+   3
+  ],
+  "Obsidian-Knochenbogen": [
+   2,
+   3
+  ],
+  "Blutstahl-Knochenbogen": [
+   2,
+   3
+  ],
+  "Mondsilber-Knochenbogen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Knochenbogen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Knochenbogen": [
+   2,
+   3
+  ],
+  "Drachenglas-Knochenbogen": [
+   2,
+   3
+  ],
+  "Drachenbogen": [
+   2,
+   3
+  ],
+  "Obsidian-Drachenbogen": [
+   2,
+   3
+  ],
+  "Blutstahl-Drachenbogen": [
+   2,
+   3
+  ],
+  "Mondsilber-Drachenbogen": [
+   2,
+   3
+  ],
+  "Sternenstahl-Drachenbogen": [
+   2,
+   3
+  ],
+  "Leerenstahl-Drachenbogen": [
+   2,
+   3
+  ],
+  "Drachenglas-Drachenbogen": [
+   2,
+   3
+  ],
+  "Leichte Armbrust": [
+   2,
+   3
+  ],
+  "Obsidian-Leichte Armbrust": [
+   2,
+   3
+  ],
+  "Blutstahl-Leichte Armbrust": [
+   2,
+   3
+  ],
+  "Mondsilber-Leichte Armbrust": [
+   2,
+   3
+  ],
+  "Sternenstahl-Leichte Armbrust": [
+   2,
+   3
+  ],
+  "Leerenstahl-Leichte Armbrust": [
+   2,
+   3
+  ],
+  "Drachenglas-Leichte Armbrust": [
+   2,
+   3
+  ],
+  "Armbrust": [
+   2,
+   3
+  ],
+  "Obsidian-Armbrust": [
+   2,
+   3
+  ],
+  "Blutstahl-Armbrust": [
+   2,
+   3
+  ],
+  "Mondsilber-Armbrust": [
+   2,
+   3
+  ],
+  "Sternenstahl-Armbrust": [
+   2,
+   3
+  ],
+  "Leerenstahl-Armbrust": [
+   2,
+   3
+  ],
+  "Drachenglas-Armbrust": [
+   2,
+   3
+  ],
+  "Schwere Armbrust": [
+   2,
+   3
+  ],
+  "Obsidian-Schwere Armbrust": [
+   2,
+   3
+  ],
+  "Blutstahl-Schwere Armbrust": [
+   2,
+   3
+  ],
+  "Mondsilber-Schwere Armbrust": [
+   2,
+   3
+  ],
+  "Sternenstahl-Schwere Armbrust": [
+   2,
+   3
+  ],
+  "Leerenstahl-Schwere Armbrust": [
+   2,
+   3
+  ],
+  "Drachenglas-Schwere Armbrust": [
+   2,
+   3
+  ],
+  "Belagerungsarmbrust": [
+   2,
+   3
+  ],
+  "Obsidian-Belagerungsarmbrust": [
+   2,
+   3
+  ],
+  "Blutstahl-Belagerungsarmbrust": [
+   2,
+   3
+  ],
+  "Mondsilber-Belagerungsarmbrust": [
+   2,
+   3
+  ],
+  "Sternenstahl-Belagerungsarmbrust": [
+   2,
+   3
+  ],
+  "Leerenstahl-Belagerungsarmbrust": [
+   2,
+   3
+  ],
+  "Drachenglas-Belagerungsarmbrust": [
+   2,
+   3
+  ],
+  "Holzzauberstab": [
+   1,
+   2
+  ],
+  "Obsidian-Holzzauberstab": [
+   1,
+   2
+  ],
+  "Blutstahl-Holzzauberstab": [
+   1,
+   2
+  ],
+  "Mondsilber-Holzzauberstab": [
+   1,
+   2
+  ],
+  "Sternenstahl-Holzzauberstab": [
+   1,
+   2
+  ],
+  "Leerenstahl-Holzzauberstab": [
+   1,
+   2
+  ],
+  "Drachenglas-Holzzauberstab": [
+   1,
+   2
+  ],
+  "Stoffmaske": [
+   2,
+   2
+  ],
+  "Nachtleder-Stoffmaske": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Stoffmaske": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Stoffmaske": [
+   2,
+   2
+  ],
+  "Lederkapuze": [
+   2,
+   2
+  ],
+  "Nachtleder-Lederkapuze": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Lederkapuze": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Lederkapuze": [
+   2,
+   2
+  ],
+  "Pirschkapuze": [
+   2,
+   2
+  ],
+  "Nachtleder-Pirschkapuze": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Pirschkapuze": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Pirschkapuze": [
+   2,
+   2
+  ],
+  "Schattenkapuze": [
+   2,
+   2
+  ],
+  "Nachtleder-Schattenkapuze": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Schattenkapuze": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Schattenkapuze": [
+   2,
+   2
+  ],
+  "Rabenkapuze": [
+   2,
+   2
+  ],
+  "Nachtleder-Rabenkapuze": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Rabenkapuze": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Rabenkapuze": [
+   2,
+   2
+  ],
+  "Nachtschleier": [
+   2,
+   2
+  ],
+  "Nachtleder-Nachtschleier": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Nachtschleier": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Nachtschleier": [
+   2,
+   2
+  ],
+  "Lederweste": [
+   2,
+   3
+  ],
+  "Nachtleder-Lederweste": [
+   2,
+   3
+  ],
+  "Dämmerseiden-Lederweste": [
+   2,
+   3
+  ],
+  "Schwarzdiamant-Lederweste": [
+   2,
+   3
+  ],
+  "Wildlederwams": [
+   2,
+   3
+  ],
+  "Nachtleder-Wildlederwams": [
+   2,
+   3
+  ],
+  "Dämmerseiden-Wildlederwams": [
+   2,
+   3
+  ],
+  "Schwarzdiamant-Wildlederwams": [
+   2,
+   3
+  ],
+  "Pirschmantel": [
+   2,
+   3
+  ],
+  "Nachtleder-Pirschmantel": [
+   2,
+   3
+  ],
+  "Dämmerseiden-Pirschmantel": [
+   2,
+   3
+  ],
+  "Schwarzdiamant-Pirschmantel": [
+   2,
+   3
+  ],
+  "Schattenmantel": [
+   2,
+   3
+  ],
+  "Nachtleder-Schattenmantel": [
+   2,
+   3
+  ],
+  "Dämmerseiden-Schattenmantel": [
+   2,
+   3
+  ],
+  "Schwarzdiamant-Schattenmantel": [
+   2,
+   3
+  ],
+  "Rabenmantel": [
+   2,
+   3
+  ],
+  "Nachtleder-Rabenmantel": [
+   2,
+   3
+  ],
+  "Dämmerseiden-Rabenmantel": [
+   2,
+   3
+  ],
+  "Schwarzdiamant-Rabenmantel": [
+   2,
+   3
+  ],
+  "Nachtumhang": [
+   2,
+   3
+  ],
+  "Nachtleder-Nachtumhang": [
+   2,
+   3
+  ],
+  "Dämmerseiden-Nachtumhang": [
+   2,
+   3
+  ],
+  "Schwarzdiamant-Nachtumhang": [
+   2,
+   3
+  ],
+  "Fingerlinge": [
+   2,
+   2
+  ],
+  "Nachtleder-Fingerlinge": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Fingerlinge": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Fingerlinge": [
+   2,
+   2
+  ],
+  "Messerhandschuhe": [
+   2,
+   2
+  ],
+  "Nachtleder-Messerhandschuhe": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Messerhandschuhe": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Messerhandschuhe": [
+   2,
+   2
+  ],
+  "Schattengriffe": [
+   2,
+   2
+  ],
+  "Nachtleder-Schattengriffe": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Schattengriffe": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Schattengriffe": [
+   2,
+   2
+  ],
+  "Krallenhandschuhe": [
+   2,
+   2
+  ],
+  "Nachtleder-Krallenhandschuhe": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Krallenhandschuhe": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Krallenhandschuhe": [
+   2,
+   2
+  ],
+  "Schleichschuhe": [
+   2,
+   2
+  ],
+  "Nachtleder-Schleichschuhe": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Schleichschuhe": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Schleichschuhe": [
+   2,
+   2
+  ],
+  "Wildlederstiefel": [
+   2,
+   2
+  ],
+  "Nachtleder-Wildlederstiefel": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Wildlederstiefel": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Wildlederstiefel": [
+   2,
+   2
+  ],
+  "Schattensohlen": [
+   2,
+   2
+  ],
+  "Nachtleder-Schattensohlen": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Schattensohlen": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Schattensohlen": [
+   2,
+   2
+  ],
+  "Nebelläufer": [
+   2,
+   2
+  ],
+  "Nachtleder-Nebelläufer": [
+   2,
+   2
+  ],
+  "Dämmerseiden-Nebelläufer": [
+   2,
+   2
+  ],
+  "Schwarzdiamant-Nebelläufer": [
+   2,
+   2
+  ],
+  "Messergurt": [
+   2,
+   1
+  ],
+  "Nachtleder-Messergurt": [
+   2,
+   1
+  ],
+  "Dämmerseiden-Messergurt": [
+   2,
+   1
+  ],
+  "Schwarzdiamant-Messergurt": [
+   2,
+   1
+  ],
+  "Dolchgurt": [
+   2,
+   1
+  ],
+  "Nachtleder-Dolchgurt": [
+   2,
+   1
+  ],
+  "Dämmerseiden-Dolchgurt": [
+   2,
+   1
+  ],
+  "Schwarzdiamant-Dolchgurt": [
+   2,
+   1
+  ],
+  "Schattenschärpe": [
+   2,
+   1
+  ],
+  "Nachtleder-Schattenschärpe": [
+   2,
+   1
+  ],
+  "Dämmerseiden-Schattenschärpe": [
+   2,
+   1
+  ],
+  "Schwarzdiamant-Schattenschärpe": [
+   2,
+   1
+  ],
+  "Klingengurt": [
+   2,
+   1
+  ],
+  "Nachtleder-Klingengurt": [
+   2,
+   1
+  ],
+  "Dämmerseiden-Klingengurt": [
+   2,
+   1
+  ],
+  "Schwarzdiamant-Klingengurt": [
+   2,
+   1
+  ],
+  "Schutzbrille": [
+   2,
+   2
+  ],
+  "Wachsleder-Schutzbrille": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Schutzbrille": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Schutzbrille": [
+   2,
+   2
+  ],
+  "Laborkappe": [
+   2,
+   2
+  ],
+  "Wachsleder-Laborkappe": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Laborkappe": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Laborkappe": [
+   2,
+   2
+  ],
+  "Rauchmaske": [
+   2,
+   2
+  ],
+  "Wachsleder-Rauchmaske": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Rauchmaske": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Rauchmaske": [
+   2,
+   2
+  ],
+  "Schnabelmaske": [
+   2,
+   2
+  ],
+  "Wachsleder-Schnabelmaske": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Schnabelmaske": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Schnabelmaske": [
+   2,
+   2
+  ],
+  "Pestmaske": [
+   2,
+   2
+  ],
+  "Wachsleder-Pestmaske": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Pestmaske": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Pestmaske": [
+   2,
+   2
+  ],
+  "Alchemistenhaube": [
+   2,
+   2
+  ],
+  "Wachsleder-Alchemistenhaube": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Alchemistenhaube": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Alchemistenhaube": [
+   2,
+   2
+  ],
+  "Lederschürze": [
+   2,
+   3
+  ],
+  "Wachsleder-Lederschürze": [
+   2,
+   3
+  ],
+  "Basiliskenleder-Lederschürze": [
+   2,
+   3
+  ],
+  "Drachenschuppen-Lederschürze": [
+   2,
+   3
+  ],
+  "Laborkittel": [
+   2,
+   3
+  ],
+  "Wachsleder-Laborkittel": [
+   2,
+   3
+  ],
+  "Basiliskenleder-Laborkittel": [
+   2,
+   3
+  ],
+  "Drachenschuppen-Laborkittel": [
+   2,
+   3
+  ],
+  "Wachsmantel": [
+   2,
+   3
+  ],
+  "Wachsleder-Wachsmantel": [
+   2,
+   3
+  ],
+  "Basiliskenleder-Wachsmantel": [
+   2,
+   3
+  ],
+  "Drachenschuppen-Wachsmantel": [
+   2,
+   3
+  ],
+  "Säureschürze": [
+   2,
+   3
+  ],
+  "Wachsleder-Säureschürze": [
+   2,
+   3
+  ],
+  "Basiliskenleder-Säureschürze": [
+   2,
+   3
+  ],
+  "Drachenschuppen-Säureschürze": [
+   2,
+   3
+  ],
+  "Pestmantel": [
+   2,
+   3
+  ],
+  "Wachsleder-Pestmantel": [
+   2,
+   3
+  ],
+  "Basiliskenleder-Pestmantel": [
+   2,
+   3
+  ],
+  "Drachenschuppen-Pestmantel": [
+   2,
+   3
+  ],
+  "Elixierkutte": [
+   2,
+   3
+  ],
+  "Wachsleder-Elixierkutte": [
+   2,
+   3
+  ],
+  "Basiliskenleder-Elixierkutte": [
+   2,
+   3
+  ],
+  "Drachenschuppen-Elixierkutte": [
+   2,
+   3
+  ],
+  "Säurehandschuhe": [
+   2,
+   2
+  ],
+  "Wachsleder-Säurehandschuhe": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Säurehandschuhe": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Säurehandschuhe": [
+   2,
+   2
+  ],
+  "Tiegelhandschuhe": [
+   2,
+   2
+  ],
+  "Wachsleder-Tiegelhandschuhe": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Tiegelhandschuhe": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Tiegelhandschuhe": [
+   2,
+   2
+  ],
+  "Glutgreifer": [
+   2,
+   2
+  ],
+  "Wachsleder-Glutgreifer": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Glutgreifer": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Glutgreifer": [
+   2,
+   2
+  ],
+  "Elixierhände": [
+   2,
+   2
+  ],
+  "Wachsleder-Elixierhände": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Elixierhände": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Elixierhände": [
+   2,
+   2
+  ],
+  "Holzschuhe": [
+   2,
+   2
+  ],
+  "Wachsleder-Holzschuhe": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Holzschuhe": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Holzschuhe": [
+   2,
+   2
+  ],
+  "Laborstiefel": [
+   2,
+   2
+  ],
+  "Wachsleder-Laborstiefel": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Laborstiefel": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Laborstiefel": [
+   2,
+   2
+  ],
+  "Aschestiefel": [
+   2,
+   2
+  ],
+  "Wachsleder-Aschestiefel": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Aschestiefel": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Aschestiefel": [
+   2,
+   2
+  ],
+  "Quecksilberschritt": [
+   2,
+   2
+  ],
+  "Wachsleder-Quecksilberschritt": [
+   2,
+   2
+  ],
+  "Basiliskenleder-Quecksilberschritt": [
+   2,
+   2
+  ],
+  "Drachenschuppen-Quecksilberschritt": [
+   2,
+   2
+  ],
+  "Phiolengurt": [
+   2,
+   1
+  ],
+  "Wachsleder-Phiolengurt": [
+   2,
+   1
+  ],
+  "Basiliskenleder-Phiolengurt": [
+   2,
+   1
+  ],
+  "Drachenschuppen-Phiolengurt": [
+   2,
+   1
+  ],
+  "Trankgurt": [
+   2,
+   1
+  ],
+  "Wachsleder-Trankgurt": [
+   2,
+   1
+  ],
+  "Basiliskenleder-Trankgurt": [
+   2,
+   1
+  ],
+  "Drachenschuppen-Trankgurt": [
+   2,
+   1
+  ],
+  "Elixiergurt": [
+   2,
+   1
+  ],
+  "Wachsleder-Elixiergurt": [
+   2,
+   1
+  ],
+  "Basiliskenleder-Elixiergurt": [
+   2,
+   1
+  ],
+  "Drachenschuppen-Elixiergurt": [
+   2,
+   1
+  ],
+  "Kolbengürtel": [
+   2,
+   1
+  ],
+  "Wachsleder-Kolbengürtel": [
+   2,
+   1
+  ],
+  "Basiliskenleder-Kolbengürtel": [
+   2,
+   1
+  ],
+  "Drachenschuppen-Kolbengürtel": [
+   2,
+   1
+  ],
+  "Stilett": [
+   1,
+   2
+  ],
+  "Obsidian-Stilett": [
+   1,
+   2
+  ],
+  "Blutstahl-Stilett": [
+   1,
+   2
+  ],
+  "Mondsilber-Stilett": [
+   1,
+   2
+  ],
+  "Sternenstahl-Stilett": [
+   1,
+   2
+  ],
+  "Leerenstahl-Stilett": [
+   1,
+   2
+  ],
+  "Drachenglas-Stilett": [
+   1,
+   2
+  ],
+  "Kris": [
+   1,
+   2
+  ],
+  "Obsidian-Kris": [
+   1,
+   2
+  ],
+  "Blutstahl-Kris": [
+   1,
+   2
+  ],
+  "Mondsilber-Kris": [
+   1,
+   2
+  ],
+  "Sternenstahl-Kris": [
+   1,
+   2
+  ],
+  "Leerenstahl-Kris": [
+   1,
+   2
+  ],
+  "Drachenglas-Kris": [
+   1,
+   2
+  ],
+  "Rabenschnabel": [
+   1,
+   2
+  ],
+  "Obsidian-Rabenschnabel": [
+   1,
+   2
+  ],
+  "Blutstahl-Rabenschnabel": [
+   1,
+   2
+  ],
+  "Mondsilber-Rabenschnabel": [
+   1,
+   2
+  ],
+  "Sternenstahl-Rabenschnabel": [
+   1,
+   2
+  ],
+  "Leerenstahl-Rabenschnabel": [
+   1,
+   2
+  ],
+  "Drachenglas-Rabenschnabel": [
+   1,
+   2
+  ],
+  "Giftzahn": [
+   1,
+   2
+  ],
+  "Obsidian-Giftzahn": [
+   1,
+   2
+  ],
+  "Blutstahl-Giftzahn": [
+   1,
+   2
+  ],
+  "Mondsilber-Giftzahn": [
+   1,
+   2
+  ],
+  "Sternenstahl-Giftzahn": [
+   1,
+   2
+  ],
+  "Leerenstahl-Giftzahn": [
+   1,
+   2
+  ],
+  "Drachenglas-Giftzahn": [
+   1,
+   2
+  ],
+  "Knotenstab": [
+   1,
+   4
+  ],
+  "Obsidian-Knotenstab": [
+   1,
+   4
+  ],
+  "Blutstahl-Knotenstab": [
+   1,
+   4
+  ],
+  "Mondsilber-Knotenstab": [
+   1,
+   4
+  ],
+  "Sternenstahl-Knotenstab": [
+   1,
+   4
+  ],
+  "Leerenstahl-Knotenstab": [
+   1,
+   4
+  ],
+  "Drachenglas-Knotenstab": [
+   1,
+   4
+  ],
+  "Kampfstab": [
+   1,
+   4
+  ],
+  "Obsidian-Kampfstab": [
+   1,
+   4
+  ],
+  "Blutstahl-Kampfstab": [
+   1,
+   4
+  ],
+  "Mondsilber-Kampfstab": [
+   1,
+   4
+  ],
+  "Sternenstahl-Kampfstab": [
+   1,
+   4
+  ],
+  "Leerenstahl-Kampfstab": [
+   1,
+   4
+  ],
+  "Drachenglas-Kampfstab": [
+   1,
+   4
+  ],
+  "Zauberrute": [
+   1,
+   3
+  ],
+  "Obsidian-Zauberrute": [
+   1,
+   3
+  ],
+  "Blutstahl-Zauberrute": [
+   1,
+   3
+  ],
+  "Mondsilber-Zauberrute": [
+   1,
+   3
+  ],
+  "Sternenstahl-Zauberrute": [
+   1,
+   3
+  ],
+  "Leerenstahl-Zauberrute": [
+   1,
+   3
+  ],
+  "Drachenglas-Zauberrute": [
+   1,
+   3
+  ],
+  "Kristallstab": [
+   2,
+   4
+  ],
+  "Obsidian-Kristallstab": [
+   2,
+   4
+  ],
+  "Blutstahl-Kristallstab": [
+   2,
+   4
+  ],
+  "Mondsilber-Kristallstab": [
+   2,
+   4
+  ],
+  "Sternenstahl-Kristallstab": [
+   2,
+   4
+  ],
+  "Leerenstahl-Kristallstab": [
+   2,
+   4
+  ],
+  "Drachenglas-Kristallstab": [
+   2,
+   4
+  ],
+  "Knochenstab": [
+   2,
+   4
+  ],
+  "Obsidian-Knochenstab": [
+   2,
+   4
+  ],
+  "Blutstahl-Knochenstab": [
+   2,
+   4
+  ],
+  "Mondsilber-Knochenstab": [
+   2,
+   4
+  ],
+  "Sternenstahl-Knochenstab": [
+   2,
+   4
+  ],
+  "Leerenstahl-Knochenstab": [
+   2,
+   4
+  ],
+  "Drachenglas-Knochenstab": [
+   2,
+   4
+  ],
+  "Runenstab": [
+   2,
+   5
+  ],
+  "Obsidian-Runenstab": [
+   2,
+   5
+  ],
+  "Blutstahl-Runenstab": [
+   2,
+   5
+  ],
+  "Mondsilber-Runenstab": [
+   2,
+   5
+  ],
+  "Sternenstahl-Runenstab": [
+   2,
+   5
+  ],
+  "Leerenstahl-Runenstab": [
+   2,
+   5
+  ],
+  "Drachenglas-Runenstab": [
+   2,
+   5
+  ],
+  "Weltenast": [
+   2,
+   5
+  ],
+  "Obsidian-Weltenast": [
+   2,
+   5
+  ],
+  "Blutstahl-Weltenast": [
+   2,
+   5
+  ],
+  "Mondsilber-Weltenast": [
+   2,
+   5
+  ],
+  "Sternenstahl-Weltenast": [
+   2,
+   5
+  ],
+  "Gladius": [
+   1,
+   3
+  ],
+  "Obsidian-Gladius": [
+   1,
+   3
+  ],
+  "Blutstahl-Gladius": [
+   1,
+   3
+  ],
+  "Mondsilber-Gladius": [
+   1,
+   3
+  ],
+  "Sternenstahl-Gladius": [
+   1,
+   3
+  ],
+  "Leerenstahl-Gladius": [
+   1,
+   3
+  ],
+  "Drachenglas-Gladius": [
+   1,
+   3
+  ],
+  "Falchion": [
+   1,
+   3
+  ],
+  "Obsidian-Falchion": [
+   1,
+   3
+  ],
+  "Blutstahl-Falchion": [
+   1,
+   3
+  ],
+  "Mondsilber-Falchion": [
+   1,
+   3
+  ],
+  "Sternenstahl-Falchion": [
+   1,
+   3
+  ],
+  "Leerenstahl-Falchion": [
+   1,
+   3
+  ],
+  "Drachenglas-Falchion": [
+   1,
+   3
+  ],
+  "Rapier": [
+   1,
+   4
+  ],
+  "Obsidian-Rapier": [
+   1,
+   4
+  ],
+  "Blutstahl-Rapier": [
+   1,
+   4
+  ],
+  "Mondsilber-Rapier": [
+   1,
+   4
+  ],
+  "Sternenstahl-Rapier": [
+   1,
+   4
+  ],
+  "Leerenstahl-Rapier": [
+   1,
+   4
+  ],
+  "Drachenglas-Rapier": [
+   1,
+   4
+  ],
+  "Bastardschwert": [
+   1,
+   4
+  ],
+  "Obsidian-Bastardschwert": [
+   1,
+   4
+  ],
+  "Blutstahl-Bastardschwert": [
+   1,
+   4
+  ],
+  "Mondsilber-Bastardschwert": [
+   1,
+   4
+  ],
+  "Sternenstahl-Bastardschwert": [
+   1,
+   4
+  ],
+  "Leerenstahl-Bastardschwert": [
+   1,
+   4
+  ],
+  "Drachenglas-Bastardschwert": [
+   1,
+   4
+  ],
+  "Estoc": [
+   1,
+   5
+  ],
+  "Obsidian-Estoc": [
+   1,
+   5
+  ],
+  "Blutstahl-Estoc": [
+   1,
+   5
+  ],
+  "Mondsilber-Estoc": [
+   1,
+   5
+  ],
+  "Sternenstahl-Estoc": [
+   1,
+   5
+  ],
+  "Leerenstahl-Estoc": [
+   1,
+   5
+  ],
+  "Drachenglas-Estoc": [
+   1,
+   5
+  ],
+  "Katana": [
+   1,
+   4
+  ],
+  "Obsidian-Katana": [
+   1,
+   4
+  ],
+  "Blutstahl-Katana": [
+   1,
+   4
+  ],
+  "Mondsilber-Katana": [
+   1,
+   4
+  ],
+  "Sternenstahl-Katana": [
+   1,
+   4
+  ],
+  "Leerenstahl-Katana": [
+   1,
+   4
+  ],
+  "Drachenglas-Katana": [
+   1,
+   4
+  ],
+  "Flamberge": [
+   2,
+   5
+  ],
+  "Obsidian-Flamberge": [
+   2,
+   5
+  ],
+  "Blutstahl-Flamberge": [
+   2,
+   5
+  ],
+  "Mondsilber-Flamberge": [
+   2,
+   5
+  ],
+  "Sternenstahl-Flamberge": [
+   2,
+   5
+  ],
+  "Leerenstahl-Flamberge": [
+   2,
+   5
+  ],
+  "Drachenglas-Flamberge": [
+   2,
+   5
+  ],
+  "Claymore": [
+   2,
+   5
+  ],
+  "Obsidian-Claymore": [
+   2,
+   5
+  ],
+  "Blutstahl-Claymore": [
+   2,
+   5
+  ],
+  "Mondsilber-Claymore": [
+   2,
+   5
+  ],
+  "Sternenstahl-Claymore": [
+   2,
+   5
+  ],
+  "Leerenstahl-Claymore": [
+   2,
+   5
+  ],
+  "Drachenglas-Claymore": [
+   2,
+   5
+  ],
+  "Bartaxt": [
+   1,
+   3
+  ],
+  "Obsidian-Bartaxt": [
+   1,
+   3
+  ],
+  "Blutstahl-Bartaxt": [
+   1,
+   3
+  ],
+  "Mondsilber-Bartaxt": [
+   1,
+   3
+  ],
+  "Sternenstahl-Bartaxt": [
+   1,
+   3
+  ],
+  "Leerenstahl-Bartaxt": [
+   1,
+   3
+  ],
+  "Drachenglas-Bartaxt": [
+   1,
+   3
+  ],
+  "Doppelaxt": [
+   2,
+   4
+  ],
+  "Obsidian-Doppelaxt": [
+   2,
+   4
+  ],
+  "Blutstahl-Doppelaxt": [
+   2,
+   4
+  ],
+  "Mondsilber-Doppelaxt": [
+   2,
+   4
+  ],
+  "Sternenstahl-Doppelaxt": [
+   2,
+   4
+  ],
+  "Leerenstahl-Doppelaxt": [
+   2,
+   4
+  ],
+  "Drachenglas-Doppelaxt": [
+   2,
+   4
+  ],
+  "Breitaxt": [
+   2,
+   4
+  ],
+  "Obsidian-Breitaxt": [
+   2,
+   4
+  ],
+  "Blutstahl-Breitaxt": [
+   2,
+   4
+  ],
+  "Mondsilber-Breitaxt": [
+   2,
+   4
+  ],
+  "Sternenstahl-Breitaxt": [
+   2,
+   4
+  ],
+  "Leerenstahl-Breitaxt": [
+   2,
+   4
+  ],
+  "Flanschkolben": [
+   1,
+   3
+  ],
+  "Obsidian-Flanschkolben": [
+   1,
+   3
+  ],
+  "Blutstahl-Flanschkolben": [
+   1,
+   3
+  ],
+  "Mondsilber-Flanschkolben": [
+   1,
+   3
+  ],
+  "Sternenstahl-Flanschkolben": [
+   1,
+   3
+  ],
+  "Leerenstahl-Flanschkolben": [
+   1,
+   3
+  ],
+  "Drachenglas-Flanschkolben": [
+   1,
+   3
+  ],
+  "Zepter": [
+   1,
+   3
+  ],
+  "Obsidian-Zepter": [
+   1,
+   3
+  ],
+  "Blutstahl-Zepter": [
+   1,
+   3
+  ],
+  "Mondsilber-Zepter": [
+   1,
+   3
+  ],
+  "Sternenstahl-Zepter": [
+   1,
+   3
+  ],
+  "Leerenstahl-Zepter": [
+   1,
+   3
+  ],
+  "Drachenglas-Zepter": [
+   1,
+   3
+  ],
+  "Kettenflegel": [
+   2,
+   3
+  ],
+  "Obsidian-Kettenflegel": [
+   2,
+   3
+  ],
+  "Blutstahl-Kettenflegel": [
+   2,
+   3
+  ],
+  "Mondsilber-Kettenflegel": [
+   2,
+   3
+  ],
+  "Sternenstahl-Kettenflegel": [
+   2,
+   3
+  ],
+  "Leerenstahl-Kettenflegel": [
+   2,
+   3
+  ],
+  "Drachenglas-Kettenflegel": [
+   2,
+   3
+  ],
+  "Kriegspicke": [
+   1,
+   3
+  ],
+  "Obsidian-Kriegspicke": [
+   1,
+   3
+  ],
+  "Blutstahl-Kriegspicke": [
+   1,
+   3
+  ],
+  "Mondsilber-Kriegspicke": [
+   1,
+   3
+  ],
+  "Sternenstahl-Kriegspicke": [
+   1,
+   3
+  ],
+  "Leerenstahl-Kriegspicke": [
+   1,
+   3
+  ],
+  "Drachenglas-Kriegspicke": [
+   1,
+   3
+  ],
+  "Großhammer": [
+   2,
+   4
+  ],
+  "Obsidian-Großhammer": [
+   2,
+   4
+  ],
+  "Blutstahl-Großhammer": [
+   2,
+   4
+  ],
+  "Mondsilber-Großhammer": [
+   2,
+   4
+  ],
+  "Sternenstahl-Großhammer": [
+   2,
+   4
+  ],
+  "Leerenstahl-Großhammer": [
+   2,
+   4
+  ],
+  "Drachenglas-Großhammer": [
+   2,
+   4
+  ],
+  "Riesenkeule": [
+   2,
+   4
+  ],
+  "Obsidian-Riesenkeule": [
+   2,
+   4
+  ],
+  "Blutstahl-Riesenkeule": [
+   2,
+   4
+  ],
+  "Mondsilber-Riesenkeule": [
+   2,
+   4
+  ],
+  "Sternenstahl-Riesenkeule": [
+   2,
+   4
+  ],
+  "Leerenstahl-Riesenkeule": [
+   2,
+   4
+  ],
+  "Kettenhaube": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Kettenhaube": [
+   2,
+   2
+  ],
+  "Runenstahl-Kettenhaube": [
+   2,
+   2
+  ],
+  "Drachenstahl-Kettenhaube": [
+   2,
+   2
+  ],
+  "Nasalhelm": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Nasalhelm": [
+   2,
+   2
+  ],
+  "Runenstahl-Nasalhelm": [
+   2,
+   2
+  ],
+  "Drachenstahl-Nasalhelm": [
+   2,
+   2
+  ],
+  "Schaller": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Schaller": [
+   2,
+   2
+  ],
+  "Runenstahl-Schaller": [
+   2,
+   2
+  ],
+  "Drachenstahl-Schaller": [
+   2,
+   2
+  ],
+  "Barbuta": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Barbuta": [
+   2,
+   2
+  ],
+  "Runenstahl-Barbuta": [
+   2,
+   2
+  ],
+  "Drachenstahl-Barbuta": [
+   2,
+   2
+  ],
+  "Widderhelm": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Widderhelm": [
+   2,
+   2
+  ],
+  "Runenstahl-Widderhelm": [
+   2,
+   2
+  ],
+  "Drachenstahl-Widderhelm": [
+   2,
+   2
+  ],
+  "Kriegskrone": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Kriegskrone": [
+   2,
+   2
+  ],
+  "Runenstahl-Kriegskrone": [
+   2,
+   2
+  ],
+  "Drachenstahl-Kriegskrone": [
+   2,
+   2
+  ],
+  "Gambeson": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Gambeson": [
+   2,
+   2
+  ],
+  "Runenstahl-Gambeson": [
+   2,
+   2
+  ],
+  "Drachenstahl-Gambeson": [
+   2,
+   2
+  ],
+  "Ringpanzer": [
+   2,
+   3
+  ],
+  "Schwarzeisen-Ringpanzer": [
+   2,
+   3
+  ],
+  "Runenstahl-Ringpanzer": [
+   2,
+   3
+  ],
+  "Drachenstahl-Ringpanzer": [
+   2,
+   3
+  ],
+  "Lamellenpanzer": [
+   2,
+   3
+  ],
+  "Schwarzeisen-Lamellenpanzer": [
+   2,
+   3
+  ],
+  "Runenstahl-Lamellenpanzer": [
+   2,
+   3
+  ],
+  "Drachenstahl-Lamellenpanzer": [
+   2,
+   3
+  ],
+  "Brigantine": [
+   2,
+   3
+  ],
+  "Schwarzeisen-Brigantine": [
+   2,
+   3
+  ],
+  "Runenstahl-Brigantine": [
+   2,
+   3
+  ],
+  "Drachenstahl-Brigantine": [
+   2,
+   3
+  ],
+  "Kriegsharnisch": [
+   2,
+   3
+  ],
+  "Schwarzeisen-Kriegsharnisch": [
+   2,
+   3
+  ],
+  "Runenstahl-Kriegsharnisch": [
+   2,
+   3
+  ],
+  "Drachenstahl-Kriegsharnisch": [
+   2,
+   3
+  ],
+  "Ritterharnisch": [
+   2,
+   3
+  ],
+  "Schwarzeisen-Ritterharnisch": [
+   2,
+   3
+  ],
+  "Runenstahl-Ritterharnisch": [
+   2,
+   3
+  ],
+  "Drachenstahl-Ritterharnisch": [
+   2,
+   3
+  ],
+  "Fausthandschuhe": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Fausthandschuhe": [
+   2,
+   2
+  ],
+  "Runenstahl-Fausthandschuhe": [
+   2,
+   2
+  ],
+  "Drachenstahl-Fausthandschuhe": [
+   2,
+   2
+  ],
+  "Schuppenfäuste": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Schuppenfäuste": [
+   2,
+   2
+  ],
+  "Runenstahl-Schuppenfäuste": [
+   2,
+   2
+  ],
+  "Drachenstahl-Schuppenfäuste": [
+   2,
+   2
+  ],
+  "Stahlfäuste": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Stahlfäuste": [
+   2,
+   2
+  ],
+  "Runenstahl-Stahlfäuste": [
+   2,
+   2
+  ],
+  "Drachenstahl-Stahlfäuste": [
+   2,
+   2
+  ],
+  "Kriegsfäuste": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Kriegsfäuste": [
+   2,
+   2
+  ],
+  "Runenstahl-Kriegsfäuste": [
+   2,
+   2
+  ],
+  "Drachenstahl-Kriegsfäuste": [
+   2,
+   2
+  ],
+  "Marschstiefel": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Marschstiefel": [
+   2,
+   2
+  ],
+  "Runenstahl-Marschstiefel": [
+   2,
+   2
+  ],
+  "Drachenstahl-Marschstiefel": [
+   2,
+   2
+  ],
+  "Schienenstiefel": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Schienenstiefel": [
+   2,
+   2
+  ],
+  "Runenstahl-Schienenstiefel": [
+   2,
+   2
+  ],
+  "Drachenstahl-Schienenstiefel": [
+   2,
+   2
+  ],
+  "Stahlschuhe": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Stahlschuhe": [
+   2,
+   2
+  ],
+  "Runenstahl-Stahlschuhe": [
+   2,
+   2
+  ],
+  "Drachenstahl-Stahlschuhe": [
+   2,
+   2
+  ],
+  "Kriegsschritt": [
+   2,
+   2
+  ],
+  "Schwarzeisen-Kriegsschritt": [
+   2,
+   2
+  ],
+  "Runenstahl-Kriegsschritt": [
+   2,
+   2
+  ],
+  "Drachenstahl-Kriegsschritt": [
+   2,
+   2
+  ],
+  "Waffengurt": [
+   2,
+   1
+  ],
+  "Schwarzeisen-Waffengurt": [
+   2,
+   1
+  ],
+  "Runenstahl-Waffengurt": [
+   2,
+   1
+  ],
+  "Drachenstahl-Waffengurt": [
+   2,
+   1
+  ],
+  "Schwertgurt": [
+   2,
+   1
+  ],
+  "Schwarzeisen-Schwertgurt": [
+   2,
+   1
+  ],
+  "Runenstahl-Schwertgurt": [
+   2,
+   1
+  ],
+  "Drachenstahl-Schwertgurt": [
+   2,
+   1
+  ],
+  "Eisengurt": [
+   2,
+   1
+  ],
+  "Schwarzeisen-Eisengurt": [
+   2,
+   1
+  ],
+  "Runenstahl-Eisengurt": [
+   2,
+   1
+  ],
+  "Drachenstahl-Eisengurt": [
+   2,
+   1
+  ],
+  "Titanengurt": [
+   2,
+   1
+  ],
+  "Schwarzeisen-Titanengurt": [
+   2,
+   1
+  ],
+  "Runenstahl-Titanengurt": [
+   2,
+   1
+  ],
+  "Drachenstahl-Titanengurt": [
+   2,
+   1
+  ]
+ }
+}

@@ -25,7 +25,11 @@ var xp := 0
 var pts := 0
 var spts := 1
 var glut := 0
-var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}
+var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
+var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
+var hand = null                  # the item held on the mouse
+signal gear_changed
+signal drop_item(it)             # the level lays it at the hero's feet
 var hp := 1.0
 var mp := 1.0
 var st := 1.0
@@ -60,12 +64,16 @@ func start_new(c: String) -> void:
 	spts = 1
 	glut = 0
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
+	inv = []
+	hand = null
 	flask_max = 3
 	flasks = 3
 	recalc()
 	hp = d.life
 	mp = d.mana
 	st = d.stam
+	for k in ["life", "life", "mana"]:
+		Items.inv_add(Items.potion(k, 1))
 
 ## the class's first weapon (startWeapon in 040-classes.js)
 func start_weapon(wc: String) -> Dictionary:
@@ -117,7 +125,7 @@ func recalc() -> void:
 		"res": minf(75, m.get("res", 0)), "ls": minf(25, m.get("ls", 0)), "frw": minf(60, m.get("frw", 0)),
 		"regen": m.get("regen", 0), "mregen": m.get("mregen", 0), "dmgred": m.get("dmgred", 0), "thorns": m.get("thorns", 0),
 		"xp": m.get("xp", 0), "glutf": m.get("glutf", 0), "potPow": m.get("potPow", 0), "flaskH": m.get("flaskH", 0),
-		"lok": m.get("lok", 0), "mok": m.get("mok", 0),
+		"lok": m.get("lok", 0), "mok": m.get("mok", 0), "mf": m.get("mf", 0),
 		"reach": 1.5 if wc == "spear" else (1.25 if wc == "great" else 1.05), "wcls": wc,
 	}
 	var cb: Dictionary = CBON.get(cls, {})
@@ -129,6 +137,67 @@ func recalc() -> void:
 	hp = minf(hp, d.life)
 	mp = minf(mp, d.mana)
 	st = minf(st, d.stam)
+
+## put on an item from the bag (equip in 260-ui.js); what it replaces goes into the bag, or into the hand
+func equip(it: Dictionary) -> bool:
+	var slot: String = it.slot
+	if slot == "ring":
+		slot = "ring1" if not eq.get("ring1") else ("ring2" if not eq.get("ring2") else "ring1")
+	return equip_to(it, slot)
+
+func equip_to(it: Dictionary, slot: String) -> bool:
+	if not Items.can_use(it):
+		log_msg("Anforderungen nicht erfüllt.", Color("#ff5a4a"))
+		return false
+	var prev = eq.get(slot)
+	inv.erase(it)
+	eq[slot] = it
+	if prev and not Items.inv_add(prev):
+		hand = prev
+	# a two-handed weapon and a shield do not go together: the other one goes into the bag
+	var other := ""
+	if slot == "weapon" and it.get("twoH"):
+		other = "offhand"
+	elif slot == "offhand" and eq.get("weapon") and eq.weapon.get("twoH"):
+		other = "weapon"
+	if other and eq.get(other):
+		var o = eq[other]
+		eq.erase(other)
+		if not Items.inv_add(o):
+			if hand == null:
+				hand = o
+			else:
+				drop_item.emit(o)
+	_gear()
+	return true
+
+func unequip(slot: String) -> void:
+	var it = eq.get(slot)
+	if not it:
+		return
+	if not Items.inv_add(it):
+		log_msg("Das Inventar ist voll.", Color("#ff5a4a"))
+		return
+	eq.erase(slot)
+	_gear()
+
+func _gear() -> void:
+	recalc()
+	gear_changed.emit()
+
+## drink a potion from the bag (usePotion in 170-combat.js); heal runs over time in the level
+func use_potion(it: Dictionary) -> float:
+	var a := roundi(it.amt * (1 + d.potPow / 100.0))
+	var heal := 0.0
+	if it.kind == "life":
+		heal = a
+	else:
+		mp = minf(d.mana, mp + a)
+	if it.get("n", 1) > 1:
+		it.n -= 1
+	else:
+		inv.erase(it)
+	return heal
 
 func gain_xp(x: float) -> void:
 	xp += roundi(x * (1 + d.xp / 100.0))

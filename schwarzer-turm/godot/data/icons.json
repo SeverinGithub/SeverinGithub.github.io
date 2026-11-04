@@ -7446,5 +7446,2336 @@
    2,
    1
   ]
+ },
+ "Junk:holz": {
+  "file": "junk_holz.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:knochen": {
+  "file": "junk_knochen.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:schaedel": {
+  "file": "junk_schaedel.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:klinge": {
+  "file": "junk_klinge.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:nagel": {
+  "file": "junk_nagel.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:fleisch": {
+  "file": "junk_fleisch.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:auge": {
+  "file": "junk_auge.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:seide": {
+  "file": "junk_seide.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:zahn": {
+  "file": "junk_zahn.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:fetzen": {
+  "file": "junk_fetzen.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:feder": {
+  "file": "junk_feder.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:fluegel": {
+  "file": "junk_fluegel.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:kerze": {
+  "file": "junk_kerze.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:scherbe": {
+  "file": "junk_scherbe.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:asche": {
+  "file": "junk_asche.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:pilz": {
+  "file": "junk_pilz.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:schuppe": {
+  "file": "junk_schuppe.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:stachel": {
+  "file": "junk_stachel.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:brocken": {
+  "file": "junk_brocken.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:stein": {
+  "file": "junk_stein.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "Junk:schleim": {
+  "file": "junk_schleim.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "potL": {
+  "file": "potl.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "potM": {
+  "file": "potm.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Hügelwacht": {
+  "file": "u_huegelwacht.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Grünes Blut": {
+  "file": "u_gruenes_blut.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Der Erste Stein": {
+  "file": "u_der_erste_stein.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Wächterrund": {
+  "file": "u_waechterrund.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Grasläufer": {
+  "file": "u_graslaeufer.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Aschenwurzel": {
+  "file": "u_aschenwurzel.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Himmelsriss": {
+  "file": "u_himmelsriss.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Mantel des Hügels": {
+  "file": "u_mantel_des_huegels.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Ring der Blauen Stunde": {
+  "file": "u_ring_der_blauen_stunde.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Turmglocke": {
+  "file": "u_turmglocke.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Fäuste des Steinmetzes": {
+  "file": "u_faeuste_des_steinmetzes.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Wolkenbrecher": {
+  "file": "u_wolkenbrecher.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Krone der Zinnen": {
+  "file": "u_krone_der_zinnen.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Blutring": {
+  "file": "u_blutring.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Auge des Turms": {
+  "file": "u_auge_des_turms.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Sturmtreter": {
+  "file": "u_sturmtreter.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Gürtel der Ewigen Wache": {
+  "file": "u_guertel_der_ewigen_wache.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Stab des Blauen Mittags": {
+  "file": "u_stab_des_blauen_mittags.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Kargsteins Ende": {
+  "file": "u_kargsteins_ende.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Mondsichel des Schweigens": {
+  "file": "u_mondsichel_des_schweigens.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Grabsteinwall": {
+  "file": "u_grabsteinwall.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Drachenzahn Vaels": {
+  "file": "u_drachenzahn_vaels.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Totenmaske": {
+  "file": "u_totenmaske.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Schwarze Haut": {
+  "file": "u_schwarze_haut.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Nachtgesang": {
+  "file": "u_nachtgesang.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Aschehand": {
+  "file": "u_aschehand.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Grabtor": {
+  "file": "u_grabtor.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Eisenfaust": {
+  "file": "u_eisenfaust.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Sonnenfluch": {
+  "file": "u_sonnenfluch.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Frosthunger": {
+  "file": "u_frosthunger.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Giftbiss": {
+  "file": "u_giftbiss.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Giftwall des Aschenmeers": {
+  "file": "u_giftwall_des_aschenmeers.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Sonnenzahn": {
+  "file": "u_sonnenzahn.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Gifthunger der Weberin": {
+  "file": "u_gifthunger_der_weberin.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Sturmwache": {
+  "file": "u_sturmwache.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Rabenpfad des Bleichen Ritters": {
+  "file": "u_rabenpfad_des_bleichen_ritters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Ascheband": {
+  "file": "u_ascheband.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Glutzorn der Tiefe": {
+  "file": "u_glutzorn_der_tiefe.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Seelenwache": {
+  "file": "u_seelenwache.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Steinwache": {
+  "file": "u_steinwache.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Frostspalter des Letzten Lichts": {
+  "file": "u_frostspalter_des_letzten_lichts.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Seelendorn": {
+  "file": "u_seelendorn.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Seelenruf": {
+  "file": "u_seelenruf.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Dorndorn": {
+  "file": "u_dorndorn.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Blutzange": {
+  "file": "u_blutzange.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seelenruf der Krähen": {
+  "file": "u_seelenruf_der_kraehen.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Wolfsschritt des Ewigen Winters": {
+  "file": "u_wolfsschritt_des_ewigen_winters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Steintor": {
+  "file": "u_steintor.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Steinspalter": {
+  "file": "u_steinspalter.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Giftwall des Ewigen Winters": {
+  "file": "u_giftwall_des_ewigen_winters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Frostspalter": {
+  "file": "u_frostspalter.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Wolfskrone": {
+  "file": "u_wolfskrone.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seelendorn des Stummen Wächters": {
+  "file": "u_seelendorn_des_stummen_waechters.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Dornspalter des Bleichen Ritters": {
+  "file": "u_dornspalter_des_bleichen_ritters.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Sonnenschwur": {
+  "file": "u_sonnenschwur.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Seelenschwur des Letzten Lichts": {
+  "file": "u_seelenschwur_des_letzten_lichts.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Seelenruf des Letzten Lichts": {
+  "file": "u_seelenruf_des_letzten_lichts.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Rabenwache": {
+  "file": "u_rabenwache.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Eisentrutz des Verlorenen": {
+  "file": "u_eisentrutz_des_verlorenen.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Mondruf": {
+  "file": "u_mondruf.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Frostzahn": {
+  "file": "u_frostzahn.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Steinhunger": {
+  "file": "u_steinhunger.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Mondspalter des Stummen Wächters": {
+  "file": "u_mondspalter_des_stummen_waechters.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Blutgang": {
+  "file": "u_blutgang.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Aschegurt": {
+  "file": "u_aschegurt.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Grabhunger": {
+  "file": "u_grabhunger.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Rabenschwur des Ewigen Winters": {
+  "file": "u_rabenschwur_des_ewigen_winters.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Seelenwache des Ewigen Winters": {
+  "file": "u_seelenwache_des_ewigen_winters.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Giftgürtel": {
+  "file": "u_giftguertel.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Dornpanzer": {
+  "file": "u_dornpanzer.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Nachtzorn": {
+  "file": "u_nachtzorn.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Glutstirn des Aschenmeers": {
+  "file": "u_glutstirn_des_aschenmeers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Dornklaue": {
+  "file": "u_dornklaue.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Eisenschritt": {
+  "file": "u_eisenschritt.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Grabschild": {
+  "file": "u_grabschild.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Nachtruf": {
+  "file": "u_nachtruf.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Seelenfluch des Hügeltyrannen": {
+  "file": "u_seelenfluch_des_huegeltyrannen.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Grabsiegel": {
+  "file": "u_grabsiegel.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Dornruf": {
+  "file": "u_dornruf.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Rabenwache des Schwarzen Turms": {
+  "file": "u_rabenwache_des_schwarzen_turms.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Aschedorn des Bleichen Ritters": {
+  "file": "u_aschedorn_des_bleichen_ritters.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Grabwehr": {
+  "file": "u_grabwehr.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Sturmklinge": {
+  "file": "u_sturmklinge.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Mondschwur der Weberin": {
+  "file": "u_mondschwur_der_weberin.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Seelenpanzer der Krähen": {
+  "file": "u_seelenpanzer_der_kraehen.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Giftdorn": {
+  "file": "u_giftdorn.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Glutzorn des Letzten Lichts": {
+  "file": "u_glutzorn_des_letzten_lichts.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Dornblick des Letzten Lichts": {
+  "file": "u_dornblick_des_letzten_lichts.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Mondwehr": {
+  "file": "u_mondwehr.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Eisenmantel": {
+  "file": "u_eisenmantel.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Giftzorn": {
+  "file": "u_giftzorn.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Wolfszahn": {
+  "file": "u_wolfszahn.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Rabenwall": {
+  "file": "u_rabenwall.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Glutbiss": {
+  "file": "u_glutbiss.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Steinklinge": {
+  "file": "u_steinklinge.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Grabgriff des Aschenmeers": {
+  "file": "u_grabgriff_des_aschenmeers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Nachtbiss": {
+  "file": "u_nachtbiss.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Mondmantel": {
+  "file": "u_mondmantel.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Sturmtor": {
+  "file": "u_sturmtor.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Frostklinge": {
+  "file": "u_frostklinge.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Steinstirn": {
+  "file": "u_steinstirn.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Frostwache": {
+  "file": "u_frostwache.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Frostfaust": {
+  "file": "u_frostfaust.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Rabenblick der Weberin": {
+  "file": "u_rabenblick_der_weberin.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Nachtsiegel des Bleichen Ritters": {
+  "file": "u_nachtsiegel_des_bleichen_ritters.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Grabspalter des Ewigen Winters": {
+  "file": "u_grabspalter_des_ewigen_winters.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Rabensang": {
+  "file": "u_rabensang.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Giftfaust des Ewigen Winters": {
+  "file": "u_giftfaust_des_ewigen_winters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Sturmschwur": {
+  "file": "u_sturmschwur.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Blutschwur der Tiefe": {
+  "file": "u_blutschwur_der_tiefe.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Aschewache": {
+  "file": "u_aschewache.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Seelenfaust": {
+  "file": "u_seelenfaust.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Rabenschnur": {
+  "file": "u_rabenschnur.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Gifthunger": {
+  "file": "u_gifthunger.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Frostbiss des Hügeltyrannen": {
+  "file": "u_frostbiss_des_huegeltyrannen.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Monddorn": {
+  "file": "u_monddorn.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Giftreif": {
+  "file": "u_giftreif.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Sonnenklinge": {
+  "file": "u_sonnenklinge.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Sonnensang": {
+  "file": "u_sonnensang.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Rabenschwur": {
+  "file": "u_rabenschwur.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Sonnenblick der Tiefe": {
+  "file": "u_sonnenblick_der_tiefe.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Giftruf": {
+  "file": "u_giftruf.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Nachtband": {
+  "file": "u_nachtband.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Glutsohle": {
+  "file": "u_glutsohle.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Wolfszorn des Roten Mondes": {
+  "file": "u_wolfszorn_des_roten_mondes.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Frostzange": {
+  "file": "u_frostzange.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seelenband": {
+  "file": "u_seelenband.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Glutmantel": {
+  "file": "u_glutmantel.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Dornschwur des Stummen Wächters": {
+  "file": "u_dornschwur_des_stummen_waechters.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Wolfsauge": {
+  "file": "u_wolfsauge.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Sturmwache der Krähen": {
+  "file": "u_sturmwache_der_kraehen.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Grabtrutz des Bleichen Ritters": {
+  "file": "u_grabtrutz_des_bleichen_ritters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Glutfluch des Letzten Lichts": {
+  "file": "u_glutfluch_des_letzten_lichts.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Mondhunger": {
+  "file": "u_mondhunger.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Giftschnur des Aschenmeers": {
+  "file": "u_giftschnur_des_aschenmeers.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Glutschritt des Wanderers": {
+  "file": "u_glutschritt_des_wanderers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Wolfsklinge": {
+  "file": "u_wolfsklinge.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Sturmklinge der Krähen": {
+  "file": "u_sturmklinge_der_kraehen.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Grabwache": {
+  "file": "u_grabwache.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Steinruf": {
+  "file": "u_steinruf.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Seelenschritt des Ewigen Winters": {
+  "file": "u_seelenschritt_des_ewigen_winters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Bluthunger": {
+  "file": "u_bluthunger.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Giftklinge des Ersten Königs": {
+  "file": "u_giftklinge_des_ersten_koenigs.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Blutpfad des Ersten Königs": {
+  "file": "u_blutpfad_des_ersten_koenigs.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Steinschwur des Bleichen Ritters": {
+  "file": "u_steinschwur_des_bleichen_ritters.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Aschesang": {
+  "file": "u_aschesang.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Mondwehr des Ewigen Winters": {
+  "file": "u_mondwehr_des_ewigen_winters.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Mondspalter des Hügeltyrannen": {
+  "file": "u_mondspalter_des_huegeltyrannen.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Giftbiss des Bleichen Ritters": {
+  "file": "u_giftbiss_des_bleichen_ritters.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Mondklinge der Krähen": {
+  "file": "u_mondklinge_der_kraehen.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Rabenbiss": {
+  "file": "u_rabenbiss.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Grabklinge der Krähen": {
+  "file": "u_grabklinge_der_kraehen.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Grabschnur des Stummen Wächters": {
+  "file": "u_grabschnur_des_stummen_waechters.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Sonnensang des Letzten Lichts": {
+  "file": "u_sonnensang_des_letzten_lichts.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Glutfluch des Roten Mondes": {
+  "file": "u_glutfluch_des_roten_mondes.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Steinkrone des Wanderers": {
+  "file": "u_steinkrone_des_wanderers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Giftkreis der Tiefe": {
+  "file": "u_giftkreis_der_tiefe.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Grabband": {
+  "file": "u_grabband.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Sonnenfaust": {
+  "file": "u_sonnenfaust.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Sonnenschnur des Bleichen Ritters": {
+  "file": "u_sonnenschnur_des_bleichen_ritters.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Rabenwehr des Hügeltyrannen": {
+  "file": "u_rabenwehr_des_huegeltyrannen.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Wolfsspalter der Weberin": {
+  "file": "u_wolfsspalter_der_weberin.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Mondklinge": {
+  "file": "u_mondklinge.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Nachtfluch des Roten Mondes": {
+  "file": "u_nachtfluch_des_roten_mondes.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Eisengang des Ersten Königs": {
+  "file": "u_eisengang_des_ersten_koenigs.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Frostband": {
+  "file": "u_frostband.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Grabhand": {
+  "file": "u_grabhand.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Rabensang der Krähen": {
+  "file": "u_rabensang_der_kraehen.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Mondkrone des Bleichen Ritters": {
+  "file": "u_mondkrone_des_bleichen_ritters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Aschezorn": {
+  "file": "u_aschezorn.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Gluttrutz": {
+  "file": "u_gluttrutz.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Aschegurt des Hügeltyrannen": {
+  "file": "u_aschegurt_des_huegeltyrannen.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Aschezahn": {
+  "file": "u_aschezahn.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Giftsang des Wanderers": {
+  "file": "u_giftsang_des_wanderers.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Frosthand": {
+  "file": "u_frosthand.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Grabzahn": {
+  "file": "u_grabzahn.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Steinsiegel des Ewigen Winters": {
+  "file": "u_steinsiegel_des_ewigen_winters.png",
+  "size": [
+   1,
+   1
+  ]
+ },
+ "U:Glutgriff": {
+  "file": "u_glutgriff.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seelensang": {
+  "file": "u_seelensang.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Nachtwehr": {
+  "file": "u_nachtwehr.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Grabbiss der Tiefe": {
+  "file": "u_grabbiss_der_tiefe.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Rabenfaust der Weberin": {
+  "file": "u_rabenfaust_der_weberin.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Mondbiss": {
+  "file": "u_mondbiss.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Giftmantel": {
+  "file": "u_giftmantel.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Eisenkrone des Bleichen Ritters": {
+  "file": "u_eisenkrone_des_bleichen_ritters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Dornschädel des Aschenmeers": {
+  "file": "u_dornschaedel_des_aschenmeers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seelenpfad": {
+  "file": "u_seelenpfad.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Steinfluch des Wanderers": {
+  "file": "u_steinfluch_des_wanderers.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Nachtwache des Letzten Lichts": {
+  "file": "u_nachtwache_des_letzten_lichts.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Steintritt des Bleichen Ritters": {
+  "file": "u_steintritt_des_bleichen_ritters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Steindorn der Weberin": {
+  "file": "u_steindorn_der_weberin.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Gifttrutz des Wanderers": {
+  "file": "u_gifttrutz_des_wanderers.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Steinschwur des Letzten Lichts": {
+  "file": "u_steinschwur_des_letzten_lichts.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Frostruf": {
+  "file": "u_frostruf.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Mondhaut": {
+  "file": "u_mondhaut.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Ascheblick": {
+  "file": "u_ascheblick.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Wolfsbiss des Aschenmeers": {
+  "file": "u_wolfsbiss_des_aschenmeers.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Glutgurt": {
+  "file": "u_glutgurt.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Blutband": {
+  "file": "u_blutband.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Grabruf": {
+  "file": "u_grabruf.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Blutruf der Weberin": {
+  "file": "u_blutruf_der_weberin.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Glutbiss des Wanderers": {
+  "file": "u_glutbiss_des_wanderers.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Eisenbiss des Verlorenen": {
+  "file": "u_eisenbiss_des_verlorenen.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Aschezange des Stummen Wächters": {
+  "file": "u_aschezange_des_stummen_waechters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Mondhülle": {
+  "file": "u_mondhuelle.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Frostmantel": {
+  "file": "u_frostmantel.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Mondhaube des Aschenmeers": {
+  "file": "u_mondhaube_des_aschenmeers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Eisenbiss des Aschenmeers": {
+  "file": "u_eisenbiss_des_aschenmeers.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Sonnenschädel des Ersten Königs": {
+  "file": "u_sonnenschaedel_des_ersten_koenigs.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Ascheklinge des Stummen Wächters": {
+  "file": "u_ascheklinge_des_stummen_waechters.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Steinbiss": {
+  "file": "u_steinbiss.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Sturmgurt des Wanderers": {
+  "file": "u_sturmgurt_des_wanderers.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Blutfluch": {
+  "file": "u_blutfluch.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Giftklaue": {
+  "file": "u_giftklaue.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Rabenzahn": {
+  "file": "u_rabenzahn.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Giftkrone des Hügeltyrannen": {
+  "file": "u_giftkrone_des_huegeltyrannen.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seelenwehr": {
+  "file": "u_seelenwehr.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Glutpfad des Letzten Lichts": {
+  "file": "u_glutpfad_des_letzten_lichts.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Steinschwur": {
+  "file": "u_steinschwur.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Glutruf": {
+  "file": "u_glutruf.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Sturmwache des Aschenmeers": {
+  "file": "u_sturmwache_des_aschenmeers.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Aschepfad des Stummen Wächters": {
+  "file": "u_aschepfad_des_stummen_waechters.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Ascheschädel": {
+  "file": "u_ascheschaedel.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Glutdorn": {
+  "file": "u_glutdorn.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Sonnenruf": {
+  "file": "u_sonnenruf.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Sturmwall der Krähen": {
+  "file": "u_sturmwall_der_kraehen.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Sturmmantel der Tiefe": {
+  "file": "u_sturmmantel_der_tiefe.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seelentritt des Aschenmeers": {
+  "file": "u_seelentritt_des_aschenmeers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Dornbiss des Schwarzen Turms": {
+  "file": "u_dornbiss_des_schwarzen_turms.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Seelenfluch des Ewigen Winters": {
+  "file": "u_seelenfluch_des_ewigen_winters.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Dornschritt des Ersten Königs": {
+  "file": "u_dornschritt_des_ersten_koenigs.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Rabenspalter": {
+  "file": "u_rabenspalter.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Nachtfluch des Wanderers": {
+  "file": "u_nachtfluch_des_wanderers.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Sonnenwache": {
+  "file": "u_sonnenwache.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Giftpanzer": {
+  "file": "u_giftpanzer.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Wolfswache der Weberin": {
+  "file": "u_wolfswache_der_weberin.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Rabendorn": {
+  "file": "u_rabendorn.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Dornschwur": {
+  "file": "u_dornschwur.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Sonnenstirn": {
+  "file": "u_sonnenstirn.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Eisenpanzer der Tiefe": {
+  "file": "u_eisenpanzer_der_tiefe.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Blutschnur": {
+  "file": "u_blutschnur.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Dorngriff": {
+  "file": "u_dorngriff.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Aschegurt der Weberin": {
+  "file": "u_aschegurt_der_weberin.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Grabtor des Wanderers": {
+  "file": "u_grabtor_des_wanderers.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Rabengang": {
+  "file": "u_rabengang.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Sturmdorn": {
+  "file": "u_sturmdorn.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Steinkrone": {
+  "file": "u_steinkrone.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Frostwache des Schwarzen Turms": {
+  "file": "u_frostwache_des_schwarzen_turms.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Steinzahn": {
+  "file": "u_steinzahn.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Blutsang der Weberin": {
+  "file": "u_blutsang_der_weberin.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Glutblick der Tiefe": {
+  "file": "u_glutblick_der_tiefe.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Frostschädel": {
+  "file": "u_frostschaedel.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Glutspalter": {
+  "file": "u_glutspalter.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Giftzahn": {
+  "file": "u_giftzahn.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Dornsang": {
+  "file": "u_dornsang.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Wolfstor": {
+  "file": "u_wolfstor.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Eisenruf": {
+  "file": "u_eisenruf.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Blutschädel des Schwarzen Turms": {
+  "file": "u_blutschaedel_des_schwarzen_turms.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Nachtschädel des Verlorenen": {
+  "file": "u_nachtschaedel_des_verlorenen.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Glutwehr des Stummen Wächters": {
+  "file": "u_glutwehr_des_stummen_waechters.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Nachtgang": {
+  "file": "u_nachtgang.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Aschefluch": {
+  "file": "u_aschefluch.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Seelenklaue": {
+  "file": "u_seelenklaue.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Eisenblick": {
+  "file": "u_eisenblick.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Aschewehr": {
+  "file": "u_aschewehr.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Sehne des Morgens": {
+  "file": "u_sehne_des_morgens.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Kesselbrecher": {
+  "file": "u_kesselbrecher.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Ast der Alten Eiche": {
+  "file": "u_ast_der_alten_eiche.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Nebelsänger": {
+  "file": "u_nebelsaenger.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Bolzenwerk des Meisters": {
+  "file": "u_bolzenwerk_des_meisters.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Rabenschwinge": {
+  "file": "u_rabenschwinge.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Hornruf der Tiefe": {
+  "file": "u_hornruf_der_tiefe.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Mauerfall": {
+  "file": "u_mauerfall.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Zweig der Weisen": {
+  "file": "u_zweig_der_weisen.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Vyrthrax' Sehne": {
+  "file": "u_vyrthrax_sehne.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Belagerer": {
+  "file": "u_belagerer.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Flüsternde Naht": {
+  "file": "u_fluesternde_naht.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Seidengriff": {
+  "file": "u_seidengriff.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Mantel der Ersten Jagd": {
+  "file": "u_mantel_der_ersten_jagd.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Rabenfeder": {
+  "file": "u_rabenfeder.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Schritte im Nebel": {
+  "file": "u_schritte_im_nebel.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Gurt der Sieben Klingen": {
+  "file": "u_gurt_der_sieben_klingen.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Schleier der Mondlosen Nacht": {
+  "file": "u_schleier_der_mondlosen_nacht.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Stich der Elster": {
+  "file": "u_stich_der_elster.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Krähenkris": {
+  "file": "u_kraehenkris.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Schnabel der Morrigan": {
+  "file": "u_schnabel_der_morrigan.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Witwenzahn": {
+  "file": "u_witwenzahn.png",
+  "size": [
+   1,
+   2
+  ]
+ },
+ "U:Glasaugen des Lehrlings": {
+  "file": "u_glasaugen_des_lehrlings.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Kittel des Meisters Halvard": {
+  "file": "u_kittel_des_meisters_halvard.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Schnabel des Doktors": {
+  "file": "u_schnabel_des_doktors.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Tiegelfaust": {
+  "file": "u_tiegelfaust.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Atem der Seuche": {
+  "file": "u_atem_der_seuche.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Großer Kessel": {
+  "file": "u_grosser_kessel.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Mantel des Steins der Weisen": {
+  "file": "u_mantel_des_steins_der_weisen.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Glimmwurz": {
+  "file": "u_glimmwurz.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Eisherz des Winters": {
+  "file": "u_eisherz_des_winters.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Der lachende Schädel": {
+  "file": "u_der_lachende_schaedel.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Wurzel der Welt": {
+  "file": "u_wurzel_der_welt.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Zunge des Legionärs": {
+  "file": "u_zunge_des_legionaers.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Morgentau": {
+  "file": "u_morgentau.png",
+  "size": [
+   1,
+   4
+  ]
+ },
+ "U:Zorn des Feuerbergs": {
+  "file": "u_zorn_des_feuerbergs.png",
+  "size": [
+   2,
+   5
+  ]
+ },
+ "U:Grimmbart": {
+  "file": "u_grimmbart.png",
+  "size": [
+   1,
+   3
+  ]
+ },
+ "U:Glockenschlag": {
+  "file": "u_glockenschlag.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Erdbrecher": {
+  "file": "u_erdbrecher.png",
+  "size": [
+   2,
+   4
+  ]
+ },
+ "U:Widderstirn": {
+  "file": "u_widderstirn.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Eiserne Wacht": {
+  "file": "u_eiserne_wacht.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Fäuste des Schmieds": {
+  "file": "u_faeuste_des_schmieds.png",
+  "size": [
+   2,
+   2
+  ]
+ },
+ "U:Gurt des Bannerträgers": {
+  "file": "u_gurt_des_bannertraegers.png",
+  "size": [
+   2,
+   1
+  ]
+ },
+ "U:Schwur des Ritters": {
+  "file": "u_schwur_des_ritters.png",
+  "size": [
+   2,
+   3
+  ]
+ },
+ "U:Erster Schritt der Legion": {
+  "file": "u_erster_schritt_der_legion.png",
+  "size": [
+   2,
+   2
+  ]
  }
 }
