@@ -11,6 +11,7 @@ var cam: Camera2D
 var grass: Array[Texture2D] = []
 
 func _ready() -> void:
+	y_sort_enabled = true
 	for i in 6:
 		grass.append(Data.sprite("grass/%d" % i))
 	hero = Hero.new()

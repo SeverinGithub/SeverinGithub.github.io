@@ -37,6 +37,8 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-03 | Startinsel: Stationen behalten ihre Module, ein Plan in 988 versetzt sie nur an feste Plätze; Straßen sind Steinboden (Feld 7) | Kein Umbau von sieben Modulen nötig; Brücken werden zur Laufzeit gesucht, damit es für jeden Seed passt |
 | 2026-11-03 | Einbahntür als Aufzug: unten entriegeln, oben bis dahin verschlossen | Ein Objekt statt Tür-Kacheln, gleiche Wirkung wie in Elden Ring |
 | 2026-11-04 | Talentbaum: ein Pfad nach oben je Klasse, Kosten 1–4 je Stufe, Schlussstein 5 | Wunsch des Nutzers; 83 statt 1.561 Knoten, übersichtlich und schnell; Reset für alle (`tv=3`) |
+| 2026-11-04 | Godot: Dunkelheit als eigener Shader statt `Light2D`, Palette als Nachbearbeitung | Gleiches Bild wie im Browser (Lichter schneiden aus der Dunkelheit, 139 Farben mit Dithering); `Light2D` hellte gezeichnete Böden anders auf als Sprites |
+| 2026-11-04 | Godot: Karten aus demselben Zufall wie im Browser (mulberry32, gleiche Reihenfolge der Würfe) | Gleicher Seed, gleiche Ebene; nötig für Mehrspieler zwischen beiden Fassungen und zum Prüfen |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

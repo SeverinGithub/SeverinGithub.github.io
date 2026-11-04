@@ -2,6 +2,7 @@ class_name Figure
 extends Node2D
 ## A baked figure from assets/figures/<key>.png: 8 rows of directions, columns for walk, attack and idle (see Data.figures).
 ## Position is the figure's world point in screen space (Iso.to_screen); the sheet's anchor sits on it.
+## Its parent sorts by y (y_sort_enabled): screen y is (x+y)·16, so that is the browser's depth order by x+y.
 
 @export var key := "hero_krieger"
 var world := Vector2.ZERO        # tile coordinates, like e.x/e.y in the browser game
@@ -34,7 +35,6 @@ func _process(dt: float) -> void:
 	if anim == "attack" and _t * FPS.attack >= float(_meta.get("attack", [0, 1])[1]):
 		play("idle")
 	position = Iso.to_screen(world)
-	z_index = int((world.x + world.y) * 10.0)  # the browser sorts by x+y as well
 	_apply()
 
 func _apply() -> void:

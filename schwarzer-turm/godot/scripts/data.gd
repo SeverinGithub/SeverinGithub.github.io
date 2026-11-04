@@ -50,8 +50,13 @@ func mod_line(key: String, value) -> String:
 	var t: String = mod_text.get(key, key + " {v}")
 	return t.replace("{v}", str(value))
 
+## A world picture. Kept here once loaded: a texture drawn with draw_texture() must outlive the draw call,
+## or the floor turns white once nothing else holds it.
+var _spr_cache := {}
 func sprite(path: String) -> Texture2D:
-	return load("res://assets/sprites/%s.png" % path)
+	if not _spr_cache.has(path):
+		_spr_cache[path] = load("res://assets/sprites/%s.png" % path)
+	return _spr_cache[path]
 
 func icon(item_name: String) -> Texture2D:
 	var i: Dictionary = icons.get(item_name, {})

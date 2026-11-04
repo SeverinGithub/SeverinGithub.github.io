@@ -1,0 +1,150 @@
+extends Node
+## Game state shared by every scene, as G and P in the browser game (050-state.js, 070-player-stats.js).
+## Reached everywhere as the autoload `Game`. The level (scripts/level.gd) runs the world, this holds what outlives a floor.
+
+signal floor_changed(f: int)
+signal message(text: String, col: Color)
+signal banner(title: String, sub: String, kind: String)
+
+# ---------- G ----------
+var seed_value := 1
+var floor_no := 1
+var max_floor := 0
+var respawn_floor := 1
+var mlvl := 1                    # monster level of the current floor
+var lit := {}                    # floor → bonfire lit
+var boss_dead := {}
+var boss_seen := {}
+var t := 0.0
+
+# ---------- P ----------
+var cls := "krieger"
+var stats := {"str": 15, "dex": 15, "vit": 15, "ene": 10}
+var lvl := 1
+var xp := 0
+var pts := 0
+var spts := 1
+var glut := 0
+var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}
+var hp := 1.0
+var mp := 1.0
+var st := 1.0
+var flask_max := 3
+var flasks := 3
+var flask_pow := 0
+var d := {}                      # derived values, see recalc()
+
+const CBON := {
+	"krieger": {"life": 1.25, "mana": .7},
+	"jaegerin": {"aspd": 1.15, "frw": 10, "crit": 5},
+	"magier": {"life": .85, "mana": 1.3},
+	"alchemist": {"potPow": 40, "flaskH": 15},
+}
+
+static func xp_next(l: int) -> int:
+	return int(floor(80 * pow(l, 1.75)))
+
+func start_new(c: String) -> void:
+	seed_value = randi() % 1000000000
+	lit = {}
+	boss_dead = {}
+	boss_seen = {}
+	max_floor = 0
+	respawn_floor = 1
+	cls = c
+	var C: Dictionary = Data.classes.get(c, Data.classes.krieger)
+	stats = C.stats.duplicate()
+	lvl = 1
+	xp = 0
+	pts = 0
+	spts = 1
+	glut = 0
+	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
+	flask_max = 3
+	flasks = 3
+	recalc()
+	hp = d.life
+	mp = d.mana
+	st = d.stam
+
+## the class's first weapon (startWeapon in 040-classes.js)
+func start_weapon(wc: String) -> Dictionary:
+	var best := {}
+	for b in Data.items.values():
+		if b.slot == "weapon" and b.get("cls") == wc and (best.is_empty() or b.lvl < best.lvl):
+			best = b
+	var it := item_of(best.n)
+	if it.cls == "staff":
+		it.mods["spell"] = 10 + best.lvl * 2
+	return it
+
+## a plain item of a base, no affixes yet
+func item_of(base_name: String) -> Dictionary:
+	var b: Dictionary = Data.items[base_name]
+	var it := {"b": b.n, "name": b.n, "slot": b.slot, "cls": b.get("cls", ""), "rar": "normal", "ilvl": 1, "mods": {}, "req": {"lvl": 1, "str": 0, "dex": 0}}
+	for k in ["dmg", "speed", "twoH", "def", "block"]:
+		if b.has(k):
+			it[k] = b[k].duplicate() if b[k] is Array else b[k]
+	return it
+
+func recalc() -> void:
+	var m := {}
+	for it in eq.values():
+		for k in it.mods:
+			m[k] = m.get(k, 0) + it.mods[k]
+	var s := {}
+	for k in ["str", "dex", "vit", "ene"]:
+		s[k] = stats[k] + m.get(k, 0)
+	var w = eq.get("weapon")
+	var sh = eq.get("offhand")
+	var base: Array = w.dmg if w else [1, 3]
+	var mult: float = 1 + m.get("ed", 0) / 100.0 + s.str * .008 + s.dex * .004
+	var def: float = s.dex * .25
+	for it in eq.values():
+		def += round(it.get("def", 0) * (1 + it.mods.get("edef", 0) / 100.0))
+	def *= maxf(.1, 1 + m.get("tdef", 0) / 100.0)
+	var wc: String = w.cls if w else "fist"
+	d = {
+		"s": s, "m": m,
+		"life": roundi((40 + s.vit * 4 + lvl * 5 + m.get("life", 0)) * (1 + m.get("lifeP", 0) / 100.0)),
+		"mana": roundi((15 + s.ene * 2 + lvl * 1.5 + m.get("mana", 0)) * (1 + m.get("manaP", 0) / 100.0)),
+		"stam": roundi(70 + s.dex * .6 + s.vit * .4 + m.get("stam", 0)),
+		"dmin": maxi(1, roundi(base[0] * mult)), "dmax": maxi(2, roundi(base[1] * mult)), "ele": 0,
+		"aspd": (w.speed if w else 1.5) * (1 + m.get("ias", 0) / 100.0),
+		"crit": minf(60, 5 + s.dex * .05 + m.get("crit", 0)),
+		"def": roundi(def),
+		"block": minf(75, sh.get("block", 0) + s.dex * .05 + m.get("block", 0)) if sh else 0.0,
+		"res": minf(75, m.get("res", 0)), "ls": minf(25, m.get("ls", 0)), "frw": minf(60, m.get("frw", 0)),
+		"regen": m.get("regen", 0), "mregen": m.get("mregen", 0), "dmgred": m.get("dmgred", 0), "thorns": m.get("thorns", 0),
+		"xp": m.get("xp", 0), "glutf": m.get("glutf", 0), "potPow": m.get("potPow", 0), "flaskH": m.get("flaskH", 0),
+		"lok": m.get("lok", 0), "mok": m.get("mok", 0),
+		"reach": 1.5 if wc == "spear" else (1.25 if wc == "great" else 1.05), "wcls": wc,
+	}
+	var cb: Dictionary = CBON.get(cls, {})
+	if cb.has("life"): d.life = roundi(d.life * cb.life)
+	if cb.has("mana"): d.mana = roundi(d.mana * cb.mana)
+	if cb.has("aspd"): d.aspd *= cb.aspd
+	for k in ["frw", "crit", "potPow", "flaskH"]:
+		if cb.has(k): d[k] += cb[k]
+	hp = minf(hp, d.life)
+	mp = minf(mp, d.mana)
+	st = minf(st, d.stam)
+
+func gain_xp(x: float) -> void:
+	xp += roundi(x * (1 + d.xp / 100.0))
+	while xp >= xp_next(lvl):
+		xp -= xp_next(lvl)
+		lvl += 1
+		pts += 5
+		spts += 1
+		recalc()
+		hp = d.life
+		mp = d.mana
+		banner.emit("Stufe %d" % lvl, "5 Attributpunkte · 1 Fertigkeitspunkt", "")
+
+## the monster level of a tower floor (enterFloor in 150-music.js)
+static func mlvl_of(f: int) -> int:
+	return 1 if f == 0 else 1 + (f - 1) * 2
+
+func log_msg(text: String, col := Color("#ece4cf")) -> void:
+	message.emit(text, col)

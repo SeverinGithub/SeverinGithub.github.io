@@ -40,7 +40,22 @@ Neu exportieren (nach Änderungen am Browser-Spiel):
 - `scripts/figure.gd`: spielt einen gebackenen Bogen ab (`play("walk")`, Richtung aus `face`, Tiefe nach x+y).
 - `scripts/hero.gd` + `shaders/ramp_map.gdshader`: der Held aus Ebenen (siehe oben).
 - `scenes/main.tscn`: Testszene mit Grasinsel, der Held läuft per Klick, Tasten 1–4 wechseln Klasse und Ausrüstung, Leertaste schlägt zu; sechs Gegnerarten streifen umher und schlagen zu.
-- Noch nicht in Godot geöffnet: Godot ist auf diesem Mac nicht installiert. Beim ersten Öffnen importiert der Editor alle Bilder, das dauert etwas.
+- Godot 4.7.2 ist installiert (`/opt/homebrew/bin/godot`), das Projekt ist importiert. `scenes/main.tscn` bleibt als Testszene für Figuren und Ausrüstung.
+
+## Stand 2026-11-04: Turmebenen spielbar (Schritt 1 und 2)
+Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick zum Gehen, Klick auf Feinde zum Zuschlagen, Umschalt+Klick schlägt im Stand, Leertaste rollt, F trinkt aus dem Flakon. Über die Treppe geht es tiefer, jede dritte Ebene hat einen Boss.
+- `scripts/rng.gd` (`Rng`): mulberry32 aus `020-utils.js` mit `rnd`, `rint`, `pick`, `wpick`.
+- `scripts/dungeon_gen.gd` (`DungeonGen`): `tryDungeon` (080) und `decorate` (230) Zeile für Zeile. **Gleicher Seed, gleiche Ebene wie im Browser**: geprüft mit `--maphash` gegen `_genDungeonF(f)` im Browser, Ebenen 1–4 mit Seed 4242 stimmen in Kacheln, Deko, Requisiten und Objekten exakt überein.
+- `scripts/game.gd` (Autoload `Game`): was eine Ebene überdauert (`G`/`P`): Seed, Ebene, Leuchtfeuer, Bosse, Klasse, Werte, Stufe, Erfahrung, Glut, Flakon, Ausrüstung; `recalc()` aus `070-player-stats.js` mit Klassenboni (`CBON`), `start_new()` wie `startNew` (Startwaffe der Klasse, Lederwams).
+- `scripts/level.gd` (`Level`): eine Ebene im Spiel. Boden und Deko in 16×16-Feldern gezeichnet, Wände, Requisiten, Objekte, Gegner und Held in einem nach y sortierten Knoten (Bildschirm-y = (x+y)·16, also dieselbe Tiefenordnung wie im Browser); Wände vor dem Helden werden durchsichtig. Darin übersetzt: `walkable`/`free`/`los`/`eLos`/`moveEnt`, A* (`findPath`) und Flussfeld der Gegner (090), `populate` und `varPool`, `update` (Held, Gegner, Warnflächen, Geschosse), `updEnemy`/`chase`/`fireProj`/`bossUpdate`/`sepEnemies` (200), `hurtPlayer`/`hitEnemy`/`weaponHit`/`killEnemy`/`startAttack`/`resolveSwing`/`doRoll`/`drinkFlask` (170), `interact` für Leuchtfeuer (Rasten: heilen, Flakon füllen, Feinde erheben sich), Treppe und Truhe (Glut), Tod mit Glut-Mal und Erwachen am Leuchtfeuer.
+- `scripts/enemy.gd` (`Enemy`, erbt `Figure`): `makeEnemy`/`makeBoss` mit Rängen (Champion, Gefolge, Einzigartige mit Elite-Eigenschaften), Treffer-Stauchen, Ausfallschritt, Umfallen beim Tod.
+- `scripts/prop.gd` (`Prop`): Requisiten aus den Weltbildern (Wandbilder geschert wie im Browser) und die gemalten Dinge (`drawProp`/`drawObj`): Fackel, Feuerschale, Flammen, Leuchtfeuer, Treppe, Truhe.
+- `scripts/fx.gd` (`Fx`): Warnflächen und Klickring am Boden, Funken, Blut, Hiebe, Geschosse, schwebende Zahlen.
+- `scripts/hud.gd` (`Hud`): Lebens- und Manakugel, Ausdauer, Erfahrung, Flakon, Glut, Ebene, Gegner unter der Maus mit Lebensbalken, Meldungen, Banner.
+- **Bild wie im Browser**: `shaders/darkness.gdshader` legt die Dunkelheit über die Ebene und schneidet jedes Licht als weiche Ellipse heraus (wie `destination-out` in `render()`), farbiges Leuchten wird danach addiert, und `shaders/palette.gdshader` macht zum Schluss, was `present()` per WebGL macht: Bayer-Dithering und Abbildung auf die 139 Farben der Palette (`assets/palette_lut.png`, erzeugt mit `node tools/godot-palette.mjs`). Zahlen und HUD liegen außerhalb.
+- Testschalter (nach `--`): `--seed=4242 --floor=3 --class=jaegerin`, `--shot=/pfad.png --shot-after=3` (Bildschirmfoto, dann Ende), `--bot` (`=near`, `=boss`, `=stairs`: spielt selbst und schreibt Leben, Stufe, Erfahrung in die Konsole), `--raw` (ohne Dunkelheit und Palette), `--maphash` (Prüfsummen der Ebenen 1–4). Beispiel: `godot --path godot -- --bot=boss --floor=3 --shot=/tmp/boss.png --shot-after=8`.
+- Stolperstein: Texturen, die nur in `_draw()` mit `draw_texture()` benutzt werden, müssen festgehalten werden, sonst werden sie freigegeben und zeichnen weiß. `Data.sprite()` hält deshalb alle geladenen Weltbilder.
+- Noch nicht drin: die späteren Schichten der Turmebenen (Themen-Stockwerke und Flüche aus 982, Sonderräume aus 984), Gegenstände und Beute (Schritt 3), Fertigkeiten (Schritt 4), Klänge, Karte, Speichern, Titelbild. Bosse haben noch keine eigenen Bögen (Platzhalter: Grabritter, Brutmutter, Koloss), Kerzen haben drei geschätzte Dochte (`candlesTop` fehlt im Export), Lichtschächte, Ratten, Staub und Sporen fehlen.
 
 ## Wie die Browser-Module in Godot aufgehen
 | Browser | Godot |
@@ -59,7 +74,7 @@ Neu exportieren (nach Änderungen am Browser-Spiel):
 ## Offene Entscheidungen
 - ~~Ausrüstung am Helden~~: entschieden 2026-11-03, Ebenen backen (siehe oben).
 - **Web-Fassung:** Godot kann ins Web exportieren, aber größer und mit längerer Ladezeit. Soll die GitHub-Pages-Fassung bleiben, bis Godot alles kann?
-- **Reihenfolge:** Vorschlag 1. Laufen, Kamera, eine Turmebene aus `080-maps.js` · 2. Kampf mit einer Gegnerart · 3. Gegenstände, Beute, Inventar · 4. Fertigkeiten der vier Klassen · 5. Oberwelt mit Inseln und Dorf · 6. Händler, Schmiede, Runen · 7. Mehrspieler · 8. Export iPad/PC.
+- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar · 4. Fertigkeiten der vier Klassen · 5. Oberwelt mit Inseln und Dorf · 6. Händler, Schmiede, Runen · 7. Mehrspieler · 8. Export iPad/PC.
 
 ## Aufwand, ehrlich
 Das Browser-Spiel hat 107 Module und etwa 1,2 MB Code. Die Daten und Bilder sind jetzt mitnehmbar, die Logik muss übersetzt werden. Das sind eher Monate als Wochen, wenn alles wieder drin sein soll.

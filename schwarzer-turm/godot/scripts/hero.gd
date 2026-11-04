@@ -12,6 +12,7 @@ var anim := "idle"
 var gear := {}                   # slot → item base name
 var unique := {}                 # slot → unique name, for its own colours
 var _t := 0.0
+var rate := 1.0                  # animation speed: an attack plays out in exactly one swing time
 var _sprites: Array[Sprite2D] = []
 static var _L: Dictionary = {}
 const SHADER := preload("res://shaders/ramp_map.gdshader")
@@ -33,10 +34,15 @@ func equip(slot: String, item: String, unique_name := "") -> void:
 	if is_inside_tree():
 		rebuild()
 
-func play(name: String) -> void:
-	if anim != name:
+func play(name: String, speed := 1.0) -> void:
+	if anim != name or name == "attack":
 		anim = name
 		_t = 0.0
+	rate = speed
+
+## seconds one attack takes at normal speed
+func attack_time() -> float:
+	return float(_L.attack[1]) / FPS.attack if not _L.is_empty() else .4
 
 ## The body follows the weapon: a bow, a crossbow or the warrior's great weapons, hammers and spears move the arms differently.
 ## Under most helms mage, huntress and alchemist wear hood and collar differently: then the helmed version (_h) of body and armour.
@@ -136,11 +142,10 @@ func _add(path: String, mat: ShaderMaterial) -> void:
 	_sprites.append(s)
 
 func _process(dt: float) -> void:
-	_t += dt
+	_t += dt * rate
 	if anim == "attack" and _t * FPS.attack >= float(_L.attack[1]):
 		play("idle")
 	position = Iso.to_screen(world)
-	z_index = int((world.x + world.y) * 10.0)
 	_apply()
 
 func _apply() -> void:
