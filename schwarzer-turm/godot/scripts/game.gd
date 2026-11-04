@@ -6,6 +6,24 @@ signal floor_changed(f: int)
 signal message(text: String, col: Color)
 signal banner(title: String, sub: String, kind: String)
 
+# ---------- settings (CFG in 440-menus.js), kept in user://settings.cfg ----------
+var cfg := {"music": 70, "sfx": 80, "voice": 80, "mute": false, "shake": true, "hitstop": true, "numbers": true}
+
+func _ready() -> void:
+	var c := ConfigFile.new()
+	if c.load("user://settings.cfg") == OK:
+		for k in cfg:
+			cfg[k] = c.get_value("cfg", k, cfg[k])
+
+func save_cfg() -> void:
+	var c := ConfigFile.new()
+	for k in cfg:
+		c.set_value("cfg", k, cfg[k])
+	c.save("user://settings.cfg")
+
+var in_play := false             # a hero plays (not the title)
+var ow_at = null                 # where to stand when the sky is entered next (travel, a save)
+
 # ---------- G ----------
 var seed_value := 1
 var floor_no := 1
@@ -38,6 +56,7 @@ var bless_t := 0.0               # the blood altar's blessing: +30 % damage whil
 var keys := 0                    # chest keys for the locked chests (770-chests.js)
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
 var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
+var stash: Array = []            # the bottomless chest on the hill, ten columns wide (Stash)
 var hand = null                  # the item held on the mouse
 var slv := [1, 0, 0, 0, 0, 0]    # skill levels per slot 1–6: a point stays with its slot, whichever skill fills it (640-weapon-arts.js)
 var sel := 0                     # the slot right click repeats
@@ -94,6 +113,7 @@ func start_new(c: String) -> void:
 	bless_t = 0.0
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}
 	inv = []
+	stash = []
 	hand = null
 	slv = [1, 0, 0, 0, 0, 0]
 	sel = 0

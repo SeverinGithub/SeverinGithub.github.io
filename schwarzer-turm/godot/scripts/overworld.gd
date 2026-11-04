@@ -52,13 +52,13 @@ func sign_open(o: Dictionary) -> void:
 			var g := HillVillage.guide(L, wg.home.hvDest[i])
 			if not g.is_empty():
 				guide = g)
-		L.get_parent().add_child(_sign_menu)
+		get_tree().current_scene.add_child(_sign_menu)
 	_sign_menu.clear()
 	_sign_menu.title = "Wegweiser"
 	for e in HillVillage.dests(wg, o, Vector2(L.P.x, L.P.y)):
 		_sign_menu.add_item(e[1], e[0])
 	_sign_menu.set_meta("at", Vector2(L.P.x, L.P.y))
-	var vp := get_viewport()
+	var vp := get_tree().root
 	_sign_menu.popup(Rect2i(Vector2i(vp.get_mouse_position()) + Vector2i(12, 0), Vector2i.ZERO))
 
 # ---------- what is awake ----------

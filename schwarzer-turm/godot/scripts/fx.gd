@@ -14,7 +14,7 @@ func _draw() -> void:
 	if level == null:
 		return
 	if mode == "text":
-		_draw_texts()
+		pass  # the name plates and the numbers are drawn sharp by the HUD (Hud._world_texts)
 		return
 	if mode == "ground":
 		for gi in level.items:
@@ -62,25 +62,6 @@ func _ground_item(gi: Dictionary) -> void:
 	if tex:
 		var hop: float = sin(gi.t / .4 * PI) * 14 if gi.t < .4 else 0.0
 		draw_texture(tex, s + Vector2(-17, -28 - hop))
-
-func _draw_texts() -> void:
-	var font := ThemeDB.fallback_font
-	for l in level.labels:
-		var r: Rect2 = l.r
-		draw_rect(r, Color(40 / 255.0, 40 / 255.0, 60 / 255.0, .95) if l.gi == level.hover_i else Color(0, 0, 0, .72))
-		var it: Dictionary = l.gi.it
-		var nm: String = it.name + (" (%d)" % it.n if it.get("n", 1) > 1 else "")
-		var tw := font.get_string_size(nm, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
-		draw_string(font, Vector2(r.position.x + (r.size.x - tw) / 2, r.position.y + 11), nm, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Items.RCOL.get(it.rar, Items.RCOL.normal))
-	for t in level.texts:
-		var sp := Iso.to_screen(Vector2(t.x, t.y)) - Vector2(0, t.z * 34)
-		var pop: float = 1 + (1 - t.t / .12) * .8 if t.t < .12 else 1.0
-		var size := int(round((15 if t.big else 11) * pop))
-		var w := font.get_string_size(t.txt, HORIZONTAL_ALIGNMENT_LEFT, -1, size).x
-		var col: Color = t.col
-		col.a = 1 - t.t * t.t
-		draw_string_outline(font, sp - Vector2(w / 2, 0), t.txt, HORIZONTAL_ALIGNMENT_LEFT, -1, size, 3, Color(0, 0, 0, .85 * col.a))
-		draw_string(font, sp - Vector2(w / 2, 0), t.txt, HORIZONTAL_ALIGNMENT_LEFT, -1, size, col)
 
 func _ellipse_line(c: Vector2, rx: float, ry: float, col: Color, wdt: float) -> void:
 	var pts := PackedVector2Array()

@@ -285,7 +285,7 @@ static func flame(ci: CanvasItem, x: float, y: float, sz: float, ph: float, t: f
 	ci.draw_colored_polygon(inner, Color("#ffe2a0"))
 
 static func label(ci: CanvasItem, at: Vector2, text: String, col: Color) -> void:
-	var font := ThemeDB.fallback_font
+	var font := Ui.font("sc")
 	var w := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x
 	ci.draw_string_outline(font, at - Vector2(w / 2, 0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, 3, Color(0, 0, 0, .85))
 	ci.draw_string(font, at - Vector2(w / 2, 0), text, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, col)

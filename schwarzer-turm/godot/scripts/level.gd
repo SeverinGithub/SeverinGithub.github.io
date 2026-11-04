@@ -33,6 +33,7 @@ var world: Node2D                # y-sorted: walls, props, objects, foes, hero
 var hero: Hero
 var cam: Camera2D
 var cam_w := Vector2.ZERO
+var title_cam = null              # on the title the camera holds this spot and only sways a little (titleCam in 840), no input
 var enemies: Array[Enemy] = []
 var obj_nodes: Array[Prop] = []
 var walls := {}                  # tile index → Sprite2D
@@ -737,6 +738,8 @@ func _add_enemy(e: Enemy) -> void:
 
 func _process(dt: float) -> void:
 	dt = minf(dt, .05)
+	if hitstop > 0 and not Game.cfg.hitstop:
+		hitstop = 0
 	if hitstop > 0:
 		hitstop -= dt
 		_camera(dt)
@@ -801,9 +804,13 @@ func _process(dt: float) -> void:
 func _camera(dt: float) -> void:
 	# the camera follows by time, not by frame: with uneven frame times a fixed share per frame made the hero jump
 	var ck := 1 - pow(.85, dt * 60)
-	cam_w += (Vector2(P.x, P.y) - cam_w) * ck
-	var sh := Vector2(R.rnd(-shake, shake), R.rnd(-shake, shake)) if shake > 0 else Vector2.ZERO
-	cam.position = (Iso.to_screen(cam_w) + Vector2(0, 40) + sh + kick_v).round()
+	if title_cam != null:
+		var sw := sin(Game.t * .12) * .5
+		cam_w = title_cam + Vector2(sw, -sw)
+	else:
+		cam_w += (Vector2(P.x, P.y) - cam_w) * ck
+	var sh := Vector2(R.rnd(-shake, shake), R.rnd(-shake, shake)) if shake > 0 and Game.cfg.shake else Vector2.ZERO
+	cam.position = (Iso.to_screen(cam_w) + Vector2(0, 40) + sh + (kick_v if Game.cfg.shake else Vector2.ZERO)).round()
 	hero.world = Vector2(P.x, P.y)
 	hero.face = P.face
 	Game.hero_at = hero.world
@@ -844,6 +851,8 @@ func _hover() -> void:
 			break
 
 func _unhandled_input(ev: InputEvent) -> void:
+	if title_cam != null:
+		return
 	if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT:
 		if P.dead:
 			return
@@ -927,8 +936,8 @@ func _update_hero(dt: float) -> void:
 		Game.st = minf(d.stam, Game.st + d.stam * .45 * dt)
 	var spd: float = 4.2 * (1 + d.frw / 100.0) * (.65 if P.chill > 0 else 1.0) * (.4 if P.flaskT > 0 else 1.0) * (theme.floor_spd() if theme else 1.0)
 	var moving := false
-	var mouse_down := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not _over_ui() and P.get("cast", 0) <= 0 and not Game.hand:
+	var mouse_down := Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and title_cam == null
+	if title_cam == null and Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) and not _over_ui() and P.get("cast", 0) <= 0 and not Game.hand:
 		_cast_at_mouse(Game.sel)
 	var pp := Vector2(P.x, P.y)
 	if P.roll > 0:
@@ -1055,8 +1064,9 @@ func _do_roll() -> void:
 
 ## the mouse is over an open panel: holding the button there does not walk
 func _over_ui() -> bool:
-	var c := get_viewport().gui_get_hovered_control()
-	return c != null and c.mouse_filter == Control.MOUSE_FILTER_STOP
+	# the panels live above the world's own picture, in the window's root
+	var c := get_tree().root.gui_get_hovered_control()
+	return c != null and c.mouse_filter == Control.MOUSE_FILTER_STOP and not c is SubViewportContainer
 
 ## a skill towards the foe under the mouse, or the ground under it
 func _cast_at_mouse(i: int) -> void:
@@ -1094,42 +1104,32 @@ func _drink_flask() -> void:
 
 func _interact(o: Prop) -> void:
 	match o.p.type:
-		"shrine" when o.p.get("ow"):
-			if not Game.ow_fires.has(o.p.key):
-				Game.ow_fires[o.p.key] = {"x": o.p.x, "y": o.p.y, "name": o.p.name}
-				Game.log_msg("+1 Talentpunkt (P)", Color("#e8c878"))
-				Game.banner.emit("LEUCHTFEUER ENTZÜNDET", o.p.name, "boss")
-				o.lit = true
-			_rest(o)
-		"shrine" when ow:
-			Game.lit[0] = true
-			o.lit = true
-			_rest(o)
-		"door":
-			get_parent().call_deferred("enter_floor", Game.top_floor(), true)
-		"hvsign":
-			if ow:
-				ow.sign_open(o.p)
-		"merchant", "stash", "colossus":
-			Game.log_msg({"merchant": "Handel", "stash": "Die bodenlose Truhe", "colossus": "Die Arena"}[o.p.type] + " kommt mit dem nächsten Schritt nach Godot.", Color("#a39b88"))
 		"shrine":
-			if not Game.lit.get(Game.floor_no, false):
+			# lighting it is free; then the bonfire's window: rest here or travel (openShrine)
+			if o.p.get("ow"):
+				if not Game.ow_fires.has(o.p.key):
+					Game.ow_fires[o.p.key] = {"x": o.p.x, "y": o.p.y, "name": o.p.name}
+					Game.log_msg("+1 Talentpunkt (P)", Color("#e8c878"))
+					Game.banner.emit("LEUCHTFEUER ENTZÜNDET", o.p.name, "boss")
+					o.lit = true
+			elif ow:
+				Game.lit[0] = true
+				o.lit = true
+			elif not Game.lit.get(Game.floor_no, false):
 				Game.lit[Game.floor_no] = true
 				Game.banner.emit("LEUCHTFEUER ENTZÜNDET", "", "boss")
 				o.lit = true
 				o.get_meta("light").r = 280.0
-			# resting: heals, fills the flask, sets your return here, and the floor's foes rise again
-			Game.respawn_floor = Game.floor_no
-			Game.hp = Game.d.life
-			Game.mp = Game.d.mana
-			Game.flasks = Game.flask_max
-			populate()
-			Game.log_msg("Du rastest am Leuchtfeuer. Die Feinde dieser Ebene erheben sich erneut.", Color("#ffd88a"))
+			get_tree().current_scene.open_bonfire(o)
 		"stairs":
-			get_parent().call_deferred("enter_floor", Game.floor_no + 1)
+			get_tree().current_scene.call_deferred("enter_floor", Game.floor_no + 1)
 		"chest":
 			if not o.p.open:
 				_open_chest(o)
+		"merchant":
+			get_tree().current_scene.open_shop(o.p)
+		"stash":
+			get_tree().current_scene.open_stash()
 		_:
 			if theme:
 				theme.interact(o)
@@ -1549,6 +1549,18 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 		shake = 14
 
 ## resting at a bonfire in the sky: whole again, and every chunk's foes rise anew (rest in 150-music.js)
+## Rasten at a bonfire: heals, fills the flask, sets your return here, and the foes rise again
+func rest_at(o: Prop) -> void:
+	if ow:
+		_rest(o)
+		return
+	Game.respawn_floor = Game.floor_no
+	Game.hp = Game.d.life
+	Game.mp = Game.d.mana
+	Game.flasks = Game.flask_max
+	populate()
+	Game.log_msg("Du rastest am Leuchtfeuer. Die Feinde dieser Ebene erheben sich erneut.", Color("#ffd88a"))
+
 func _rest(o: Prop) -> void:
 	Game.respawn_floor = 0
 	Game.ow_respawn = {"x": o.p.x, "y": o.p.y} if o.p.get("ow") else null
@@ -1569,7 +1581,7 @@ func _home() -> void:
 				ow.tick(true)
 				Game.banner.emit("Der Hügel", "", "")
 			else:
-				get_parent().call_deferred("enter_floor", 0)
+				get_tree().current_scene.call_deferred("enter_floor", 0)
 			return
 	Game.log_msg("Heimkehr (H) gelingt nur neben einem brennenden Leuchtfeuer.", Color("#a39b88"))
 
@@ -1652,13 +1664,14 @@ func pickup(gi: Dictionary) -> void:
 ## the name plates of everything on the ground, stacked so none covers another (drawLabels in 230-environment.js)
 func _labels() -> void:
 	labels.clear()
-	var font := ThemeDB.fallback_font
+	var font := Ui.font("body")
 	var sorted := items.duplicate()
 	sorted.sort_custom(func(a, b): return a.x + a.y < b.x + b.y)
 	for gi in sorted:
 		var s := Iso.to_screen(Vector2(gi.x, gi.y))
-		var tw := font.get_string_size(gi.it.name, HORIZONTAL_ALIGNMENT_LEFT, -1, 11).x + 10
-		var r := Rect2(s.x - tw / 2, s.y - 42, tw, 15)
+		var nm: String = gi.it.name + (" (%d)" % gi.it.n if gi.it.get("n", 1) > 1 else "")
+		var tw := font.get_string_size(nm, HORIZONTAL_ALIGNMENT_LEFT, -1, 9).x + 8
+		var r := Rect2(s.x - tw / 2, s.y - 42, tw, 12)
 		for g in 12:
 			var hit = null
 			for l in labels:
@@ -2041,6 +2054,9 @@ func _update_fx(dt: float) -> void:
 		parts = parts.slice(parts.size() - 1500)
 
 func ftext(at: Vector2, txt: String, col: Color, big := false) -> void:
+	# Schadenszahlen off in the settings: no numbers over heads (CFG.numbers)
+	if not Game.cfg.numbers and (txt.trim_suffix("!").is_valid_int() or txt in ["Vergiftet", "?", "Geblockt"]):
+		return
 	texts.append({"x": at.x, "y": at.y, "z": .8, "txt": txt, "col": col, "t": 0.0, "big": big})
 
 func sparks(at: Vector2, z: float, a: float, n: int, cols: Array, sp: float) -> void:

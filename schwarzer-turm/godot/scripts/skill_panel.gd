@@ -1,89 +1,143 @@
 class_name SkillPanel
-extends Control
-## The skills window (pSkill, buildSkills in 260-ui.js): the six skills of the slots with level, description and mana,
-## a + to spend a skill point. K or T opens it. The weapon in hand decides which six skills fill the slots;
-## the points stay with the slots.
+extends PanelContainer
+## The skills window (pSkill, buildSkills in 260-ui.js): a stone plate on the left with the six skills of the slots,
+## each in an iron socket row: its picture with the key, name and what it does at its level with the mana it costs,
+## the level (with the bonus of the gear in blue) and a + to spend a skill point. K or T opens it. The weapon in hand
+## decides which six skills fill the slots; the points stay with the slots. A click on a picture chooses it for the
+## right mouse button.
 
-const PW := 330
-const ROW := 50
+var ui: UiLayer
+var _v: VBoxContainer
+var _sig := ""
 
 func _ready() -> void:
+	add_theme_stylebox_override("panel", Ui.plate_box(Vector4(16, 12, 16, 14)))
+	var sc := ScrollContainer.new()
+	sc.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(sc)
+	_v = VBoxContainer.new()
+	_v.add_theme_constant_override("separation", 8)
+	_v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	sc.add_child(_v)
 	visible = false
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	position = Vector2(8, 22)
-	size = Vector2(PW, 40 + ROW * 6)
+	add_to_group("left_panel")
 
-func _process(_dt: float) -> void:
+func place() -> void:
+	var a := ui.area()
+	position = Vector2(12, 12)
+	size = Vector2(minf(420, a.x / 2 - 24), a.y - 12 - 140)
+
+func toggle() -> void:
+	visible = not visible
 	if visible:
-		queue_redraw()
+		for n in get_tree().get_nodes_in_group("left_panel"):
+			if n != self:
+				n.visible = false
+		place()
+		_sig = ""
+		_build()
 
 func _unhandled_key_input(ev: InputEvent) -> void:
-	if ev is InputEventKey and ev.pressed and not ev.echo and ev.keycode in [KEY_K, KEY_T]:
-		visible = not visible
+	if Game.in_play and not get_tree().paused and ev is InputEventKey and ev.pressed and not ev.echo and ev.keycode in [KEY_K, KEY_T]:
+		toggle()
 		get_viewport().set_input_as_handled()
 
-func _plus(i: int) -> Rect2:
-	return Rect2(PW - 30, 36 + i * ROW + 12, 20, 20)
+func _process(_dt: float) -> void:
+	if not visible:
+		return
+	var effs := []
+	for i in 6:
+		effs.append(Game.sk_lvl(i))
+	var sig := "%d|%d|%s|%s|%d|%s" % [Game.spts, Game.lvl, Game.slv, effs, Game.sel, Game.sk_ids()]
+	if sig != _sig:
+		_sig = sig
+		_build()
 
-func _gui_input(ev: InputEvent) -> void:
-	if ev is InputEventMouseButton and ev.pressed:
-		accept_event()
-		if ev.button_index != MOUSE_BUTTON_LEFT:
-			return
-		for i in 6:
-			if _plus(i).has_point(ev.position):
-				Game.learn(i)
-			elif Rect2(10, 36 + i * ROW, 32, 32).has_point(ev.position) and Game.slv[i] > 0:
-				Game.sel = i
-
-func _draw() -> void:
-	var font := ThemeDB.fallback_font
-	draw_rect(Rect2(Vector2.ZERO, size), Color(6 / 255.0, 5 / 255.0, 4 / 255.0, .94))
-	draw_rect(Rect2(Vector2.ZERO, size), Color("#5a4a30"), false, 2)
-	_text(Vector2(10, 16), "Fertigkeiten", 14, Color("#e8c878"))
+func _build() -> void:
+	Ui.clear(_v)
+	var h := Ui.heading("Fertigkeiten", 30)
+	var close := Ui.button("Schließen", func(): visible = false, 13)
+	close.custom_minimum_size = Vector2(0, 30)
+	h.get_node("row").add_child(close)
+	_v.add_child(h)
 	var k := Game.wset_key()
-	var sub: String = ("%d Punkte frei" % Game.spts if Game.spts else "Keine freien Punkte") + (" · " + Data.skill_info.sets[k].n if k != "" else "")
-	_text(Vector2(10, 29), sub + " · Taste 1–6 wirkt, Rechtsklick wiederholt", 9, Color("#e8c878") if Game.spts else Color("#a39b88"))
+	var sub := Ui.sub((("1 Punkt frei" if Game.spts == 1 else "%d Punkte frei" % Game.spts) if Game.spts else "Keine freien Punkte") + " · Taste 1–6 wirkt, Rechtsklick wiederholt")
+	if Game.spts:
+		(sub.get_child(0) as Label).add_theme_color_override("font_color", Ui.GOLD)
+	_v.add_child(sub)
+	if k != "":
+		_v.add_child(Ui.hint("Die Waffe in der Hand bringt eigene Fertigkeiten: " + Data.skill_info.sets[k].n + "."))
 	var ids: Array = Game.sk_ids()
 	for i in ids.size():
-		var id: String = ids[i]
-		var y := 36.0 + i * ROW
-		var lv: int = Game.slv[i]
-		var eff := Game.sk_lvl(i)
+		_v.add_child(_row(i, ids[i]))
+
+## one skill (.skill): the socket with its picture, name and text, level and +
+func _row(i: int, id: String) -> Control:
+	var lv: int = Game.slv[i]
+	var eff := Game.sk_lvl(i)
+	var req := Game.sk_req(i)
+	var box := PanelContainer.new()
+	var sb := Ui.box("sock", 4, 8)
+	sb.draw_center = false
+	box.add_theme_stylebox_override("panel", sb)
+	box.draw.connect(func(): box.draw_rect(Rect2(Vector2(4, 4), box.size - Vector2(8, 8)), Color(10 / 255.0, 8 / 255.0, 6 / 255.0, .7)))
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 10)
+	box.add_child(row)
+	var slot := SkillSlot.new()
+	slot.id = id
+	slot.i = i
+	slot.custom_minimum_size = Vector2(46, 46)
+	slot.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	slot.tooltip_text = "Für die rechte Maustaste wählen" if lv else ""
+	row.add_child(slot)
+	var tv := VBoxContainer.new()
+	tv.add_theme_constant_override("separation", 1)
+	tv.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	tv.add_child(Ui.label(Game.sk_name(id), 16, Ui.HEAD if lv else Ui.PAPER_DIM, "sc"))
+	var d := (Game.sk_desc(id, eff) + " Mana: %d." % Game.sk_mana(id, eff)) if lv else ("Erlernbar ab Stufe %d. " % req + Game.sk_desc(id, 1))
+	var dl := Ui.label(d, 13, Ui.PAPER_DIM)
+	dl.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	tv.add_child(dl)
+	row.add_child(tv)
+	var rv := VBoxContainer.new()
+	rv.alignment = BoxContainer.ALIGNMENT_CENTER
+	rv.add_theme_constant_override("separation", 2)
+	var lr := HBoxContainer.new()
+	lr.alignment = BoxContainer.ALIGNMENT_CENTER
+	lr.add_theme_constant_override("separation", 1)
+	lr.add_child(Ui.label(str(lv), 18, Ui.PAPER, "sc"))
+	if eff > lv:
+		lr.add_child(Ui.label("+%d" % (eff - lv), 13, Ui.RAR.magic, "sc"))
+	lr.custom_minimum_size = Vector2(36, 0)
+	rv.add_child(lr)
+	var plus := Ui.button("+", func(): Game.learn(i), 15)
+	plus.custom_minimum_size = Vector2(32, 30)
+	plus.disabled = not (Game.spts > 0 and Game.lvl >= req and lv < 20)
+	plus.tooltip_text = "%s verbessern" % Game.sk_name(id)
+	rv.add_child(plus)
+	row.add_child(rv)
+	return box
+
+## the picture in its socket, the key in the corner, gold when it is the chosen one
+class SkillSlot extends Control:
+	var id := ""
+	var i := 0
+	func _ready() -> void:
+		mouse_filter = Control.MOUSE_FILTER_STOP
+		mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	func _gui_input(ev: InputEvent) -> void:
+		if ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_LEFT and Game.slv[i] > 0:
+			Game.sel = i
+	func _draw() -> void:
+		var r := Rect2(Vector2.ZERO, size)
+		var a := 1.0 if Game.slv[i] > 0 else .3
+		draw_rect(r.grow(-2), Color("#070504"))
 		var tex := Game.sk_icon(id)
 		if tex:
-			draw_texture_rect(tex, Rect2(10, y, 32, 32), false, Color.WHITE if lv else Color(.35, .35, .35))
-		draw_rect(Rect2(10, y, 32, 32), Color("#e8c878") if i == Game.sel else Color("#3a3226"), false, 1)
-		_text(Vector2(12, y + 9), str(i + 1), 9, Color("#ece4cf"))
-		_text(Vector2(50, y + 10), Game.sk_name(id), 12, Color("#ece4cf") if lv else Color("#8a8272"))
-		var req := Game.sk_req(i)
-		var d := (Game.sk_desc(id, eff) + " Mana: %d." % Game.sk_mana(id, eff)) if lv else ("Erlernbar ab Stufe %d. " % req + Game.sk_desc(id, 1))
-		var lines := _wrap(d, PW - 124, 9)
-		for j in mini(3, lines.size()):
-			draw_string(font, Vector2(50, y + 22 + j * 10), lines[j], HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color("#a39b88"))
-		_text(Vector2(PW - 56, y + 26), str(lv) + ("+%d" % (eff - lv) if eff > lv else ""), 12, Color("#ece4cf"))
-		var can: bool = Game.spts > 0 and Game.lvl >= req and lv < 20
-		var pr := _plus(i)
-		draw_rect(pr, Color(.5, .4, .2, .5) if can else Color(1, 1, 1, .05))
-		draw_rect(pr, Color("#e8c878") if can else Color("#3a3226"), false, 1)
-		_text(pr.position + Vector2(6, 15), "+", 13, Color("#ffe08a") if can else Color("#5a5244"))
-
-func _wrap(t: String, w: float, fs: int) -> Array:
-	var font := ThemeDB.fallback_font
-	var out := []
-	var cur := ""
-	for word in t.split(" "):
-		var nxt := word if cur == "" else cur + " " + word
-		if font.get_string_size(nxt, HORIZONTAL_ALIGNMENT_LEFT, -1, fs).x > w and cur != "":
-			out.append(cur)
-			cur = word
-		else:
-			cur = nxt
-	if cur != "":
-		out.append(cur)
-	return out
-
-func _text(at: Vector2, s: String, sz: int, col: Color) -> void:
-	var font := ThemeDB.fallback_font
-	draw_string_outline(font, at, s, HORIZONTAL_ALIGNMENT_LEFT, -1, sz, 3, Color(0, 0, 0, .85))
-	draw_string(font, at, s, HORIZONTAL_ALIGNMENT_LEFT, -1, sz, col)
+			draw_texture_rect(tex, Rect2(r.get_center() - Vector2(19, 19), Vector2(38, 38)), false, Color(1, 1, 1, a))
+		draw_style_box(Ui.box("sockg" if i == Game.sel else "sock", 4, 0, false), r)
+		var f := Ui.font("sc")
+		draw_string(f, Vector2(5, 14), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0, 0, 0, a))
+		draw_string(f, Vector2(5, 13), str(i + 1), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("#c8a860", a))

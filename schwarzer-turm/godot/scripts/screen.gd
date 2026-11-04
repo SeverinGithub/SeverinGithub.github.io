@@ -14,11 +14,14 @@ const CFG := "user://screen.cfg"
 var zoom := 0                      # steps away from the default k: +1 bigger pixels, -1 smaller
 var fake := Vector2i.ZERO          # --screen: the monitor we pretend to have
 var k := 1                         # screen pixels per game pixel, now
+signal resized                     # the game picture changed size (the world's SubViewport follows)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	var root := get_tree().root
-	root.content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
+	# the root draws at full resolution (sharp text and panels); the world itself is drawn in its own SubViewport
+	# at the game picture's size and blown up pixel for pixel (tower.gd, world_vp)
+	root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
 	root.content_scale_aspect = Window.CONTENT_SCALE_ASPECT_EXPAND
 	root.content_scale_stretch = Window.CONTENT_SCALE_STRETCH_INTEGER
 	for a in OS.get_cmdline_user_args():
@@ -51,9 +54,11 @@ func _fit() -> void:
 		if DisplayServer.window_get_size() != game:
 			DisplayServer.window_set_size(game)
 		root.content_scale_size = game
+		resized.emit()
 		return
 	if root.content_scale_size != game:
 		root.content_scale_size = game
+		resized.emit()
 		print("Bildschirm: Fenster %s → Spielbild %s, Pixel ×%d" % [sz, game, k])
 
 func _input(ev: InputEvent) -> void:
@@ -73,6 +78,14 @@ func _input(ev: InputEvent) -> void:
 	else:
 		return
 	get_viewport().set_input_as_handled()
+	_zoomed()
+
+## one step bigger (+1) or smaller (-1) pixels, from the settings
+func step_zoom(d: int) -> void:
+	zoom += d
+	_zoomed()
+
+func _zoomed() -> void:
 	# keep zoom within what this screen allows
 	var sz := get_tree().root.size
 	var base := maxi(1, roundi(sz.y / ROWS))

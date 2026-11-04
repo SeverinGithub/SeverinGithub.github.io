@@ -211,3 +211,9 @@ Schwarzer Turm: Wiese, Wolken und Truhen in Godot – overworld.gd färbt das Gr
 
 ### dcaff20 · 2026-11-04
 Schwarzer Turm: zweite Turmschicht und Bildschirm in Godot – tower_two.gd übersetzt 760-tower-2.js (Geheimwand und -kammer, Felsbrocken, Kram, Stachelplatten und Feuerdüsen), v8_shuffle spielt V8s Mischen nach; das Autoload screen.gd hält das Bild bei etwa 430 Zeilen mit ganzzahligen Pixeln, Breitbild zeigt mehr, F11 oder Alt+Enter schaltet Vollbild, Strg+Plus/Minus ändert die Pixelgröße
+
+### 4ce25ad · 2026-11-04
+Schwarzer Turm: Themen, Flüche und Turmräume in Godot – floor_themes.gd, theme_run.gd und theme_draw.gd übersetzen 982-floor-themes.js und 984-tower-rooms.js (sechs Themen, Flüche, Schatzkammer, Prüfung, Blutaltar, Gefangener, Fässer, Kronleuchter, Platten, Risse, Aufzug); mit Seed 4242 stimmen die meisten Ebenen genau mit dem Browser
+
+### db4065d · 2026-11-04
+Schwarzer Turm: Hügeldorf in Godot – hill_village.gd übersetzt hvBuild aus 988-hill-village.js mit Dorfplatz, Markt, Werkstatt, Friedhof, Aussichtssteg, Wachstum je Wächter, laufenden Dorfbewohnern und Wegweisern mit Lichterspur; mit Seed 4242 stimmt das Dorf bei Stufe 0 und 8 genau mit dem Browser

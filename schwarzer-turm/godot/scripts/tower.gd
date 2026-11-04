@@ -12,6 +12,15 @@ var inv_panel: Inventory
 var sk_panel: SkillPanel
 var args := {}
 var wg: WorldGen                 # the sky stays as it was while you are in the tower (G.maps[0])
+var ui: UiLayer                  # title, menus, dialogs and panels, sharp at the screen's resolution
+var hud_layer: CanvasLayer
+var char_panel: CharPanel
+var shop_panel: Shop
+var stash_panel: Stash
+var title: TitleScreen
+var _menu := ""                  # the open menu, "" when none
+var world_box: SubViewportContainer   # the world, drawn at the game picture's size and blown up pixel for pixel
+var world_vp: SubViewport
 
 func _ready() -> void:
 	for a in OS.get_cmdline_user_args():
@@ -82,15 +91,51 @@ func _ready() -> void:
 		var I = wg.island_of(int(ab[0]), int(ab[1]))
 		if I != null:
 			wg.start = {"x": I.x, "y": I.y}
+	_make_world_view()
 	var layer := CanvasLayer.new()
 	layer.layer = 10
 	add_child(layer)
+	hud_layer = layer
+	ui = UiLayer.new()
+	ui.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(ui)
 	hud = Hud.new()
-	layer.add_child(hud)
-	inv_panel = Inventory.new()
-	layer.add_child(inv_panel)
+	hud.host = self
+	ui.add_panel(hud)
 	sk_panel = SkillPanel.new()
-	layer.add_child(sk_panel)
+	sk_panel.ui = ui
+	ui.add_panel(sk_panel)
+	inv_panel = Inventory.new()
+	inv_panel.ui = ui
+	ui.add_panel(inv_panel)
+	char_panel = CharPanel.new()
+	char_panel.ui = ui
+	ui.add_panel(char_panel)
+	shop_panel = Shop.new()
+	shop_panel.ui = ui
+	shop_panel.host = self
+	ui.add_panel(shop_panel)
+	stash_panel = Stash.new()
+	stash_panel.ui = ui
+	stash_panel.host = self
+	ui.add_panel(stash_panel)
+	inv_panel.stash = stash_panel
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	world_box.process_mode = Node.PROCESS_MODE_PAUSABLE
+	var save_t := Timer.new()
+	save_t.wait_time = 30
+	save_t.autostart = true
+	save_t.timeout.connect(save_game)
+	add_child(save_t)
+	# without test switches the game opens on the title (with --title as well)
+	if args.has("title") or args.keys().all(func(k): return k in ["screen", "shot", "shot-after", "seed"]):
+		show_title()
+		if args.has("uiflow"):
+			_ui_flow()
+		elif args.has("shot"):
+			_shot()
+		return
+	Game.in_play = true
 	enter_floor(int(args.get("floor", "0")))
 	Game.log_msg("Klicke auf den Boden, um zu gehen, auf Feinde, um zuzuschlagen. Leertaste rollt, F trinkt aus dem Flakon, Q und X Tränke, 1–6 Fertigkeiten, I Inventar, K Fertigkeiten.")
 	if args.has("lvl"):
@@ -146,18 +191,300 @@ func _ready() -> void:
 				break
 		level.ow.guide = HillVillage.guide(level, wg.home.hvDest[int(args.guide)])
 	if args.has("skp"):
-		sk_panel.visible = true
+		sk_panel.toggle()
 	if args.has("inv"):
-		inv_panel.visible = true
+		inv_panel.toggle()
 		var it = Game.inv.filter(func(i): return i.slot != "potion" and i.slot != "junk").front()
-		inv_panel._hover_it = it
+		inv_panel.pin = it
+	if args.has("shop"):
+		# test: Odalinde's window with glut to spend, the bag beside it
+		Game.glut = 5000
+		open_shop({"type": "merchant", "lvl": 5})
+		if args.shop == "buy":
+			var n0 := Game.inv.size()
+			shop_panel._buy("life")
+			shop_panel._buy("flask")
+			shop_panel._buy("key")
+			shop_panel._buy_stock(0)
+			shop_panel._gamble("ring")
+			print("gekauft: %d Teile, Glut %d, Flakon %d, Schlüssel %d, Vorrat %d" % [Game.inv.size() - n0, Game.glut, Game.flask_max, Game.keys, shop_panel.stock().size()])
+			var it = Game.inv.back()
+			Shop.sell(it)
+			print("verkauft: ", it.name, " → Glut ", Game.glut)
+	if args.has("stash"):
+		# test: the bottomless chest with a heap in it
+		for k in 14:
+			Stash.add(Items.make(10, {"rarity": ["normal", "magic", "rare", "unique"][k % 4]}))
+		open_stash()
 	if args.has("bot"):
 		_bot()
 	if args.has("shot"):
-		await get_tree().create_timer(float(args.get("shot-after", "2.0"))).timeout
+		_shot()
+
+func _shot() -> void:
+	await get_tree().create_timer(float(args.get("shot-after", "2.0"))).timeout
+	if args.has("menu"):
+		show_menu(args.menu)
+		await get_tree().create_timer(.6).timeout
+	await RenderingServer.frame_post_draw
+	get_viewport().get_texture().get_image().save_png(args.shot)
+	get_tree().quit()
+
+## test --uiflow=<dir>: a new hero from the title, the character panel, saved, back to the title, the heroes, continue,
+## the bonfire window on floor 1; screenshots ui1…ui4.png into dir; the test hero is deleted afterwards
+func _ui_flow() -> void:
+	var dir: String = args.uiflow
+	var snap := func(n: String) -> void:
 		await RenderingServer.frame_post_draw
-		get_viewport().get_texture().get_image().save_png(args.shot)
-		get_tree().quit()
+		get_viewport().get_texture().get_image().save_png("%s/%s.png" % [dir, n])
+	await get_tree().create_timer(1.0).timeout
+	start_game("jaegerin" if Data.classes.has("jaegerin") else Data.classes.keys()[1])
+	var id := Save.current()
+	await get_tree().create_timer(1.0).timeout
+	char_panel.toggle()
+	await get_tree().create_timer(.5).timeout
+	await snap.call("ui1")
+	char_panel.toggle()
+	level.P.x += 2
+	var at := Vector2(level.P.x, level.P.y)
+	print("gespeichert: ", save_game(), " bei ", at)
+	to_title()
+	show_menu("heroes")
+	await get_tree().create_timer(1.0).timeout
+	await snap.call("ui2")
+	continue_game()
+	await get_tree().create_timer(.5).timeout
+	print("fortgesetzt: Ebene ", Game.floor_no, " bei ", Vector2(level.P.x, level.P.y), " Klasse ", Game.cls)
+	show_menu("pause")
+	await get_tree().create_timer(.5).timeout
+	await snap.call("ui3")
+	close_menu()
+	Game.lit[1] = true
+	enter_floor(1)
+	await get_tree().create_timer(.5).timeout
+	for o in level.obj_nodes:
+		if o.p.type == "shrine":
+			open_bonfire(o)
+			break
+	await get_tree().create_timer(.6).timeout
+	await snap.call("ui4")
+	Save.delete(id)
+	print("Testheld gelöscht")
+	get_tree().quit()
+
+# ---------- title, heroes, saving, menus ----------
+
+## the title over the hill at dusk: the village of seed 4242, the hero of the last save before the tower
+func show_title() -> void:
+	Game.in_play = false
+	get_tree().paused = false
+	ui.close_modal()
+	_menu = ""
+	_close_panels()
+	var last := Save.read(Save.current())
+	Game.start_new(last.get("cls", "krieger"))
+	Game.seed_value = 4242
+	wg = WorldGen.new(4242)
+	HillVillage.build(wg, 0)
+	enter_floor(0)
+	var H := Vector2(WorldGen.HOX, WorldGen.HOY)
+	level.title_cam = H + Vector2(15.9, 20.3)
+	var at := level.near_walk(H.x + 23.2, H.y + 26.8)
+	level.reset_hero(at)
+	level.P.face = atan2(H.y + 24 - at.y, H.x + 24 - at.x)
+	hud_layer.visible = false
+	if title:
+		title.queue_free()
+	title = TitleScreen.new()
+	ui.root.add_child(title)
+	ui.root.move_child(title, 0)
+	title.pick.connect(_title_pick)
+
+func _title_pick(w: String) -> void:
+	if w == "continue":
+		continue_game()
+	elif w == "new":
+		show_menu("class")
+	else:
+		show_menu(w)
+
+func playing() -> bool:
+	return Game.in_play
+
+## a new hero of class c, with a save of their own from the first step
+func start_game(c: String) -> void:
+	ui.close_modal()
+	_menu = ""
+	get_tree().paused = false
+	if title:
+		title.queue_free()
+		title = null
+	Save.begin_new(c)
+	Game.start_new(c)
+	wg = null
+	Game.in_play = true
+	hud_layer.visible = true
+	enter_floor(0)
+	Game.log_msg("Klicke auf den Boden, um zu gehen. Der Eingang des Turms liegt vor dem Tor.", Color("#ece4cf"))
+	save_game()
+
+## back where you left off: in the sky the world grows around the spot, in the tower the floor is built from its seed
+func continue_game() -> void:
+	var d := Save.read(Save.current())
+	if d.is_empty():
+		show_menu("class")
+		return
+	ui.close_modal()
+	_menu = ""
+	get_tree().paused = false
+	if title:
+		title.queue_free()
+		title = null
+	var pos := Save.apply(d)
+	wg = null
+	Game.in_play = true
+	hud_layer.visible = true
+	var f: int = Game.respawn_floor
+	if pos.has("f") and int(pos.f) >= 0 and int(pos.f) <= Game.max_floor:
+		f = int(pos.f)
+	if f == 0 and pos.has("x"):
+		Game.ow_at = Vector2(pos.x, pos.y)
+	enter_floor(f)
+	if f > 0 and pos.has("x") and level.walkable(pos.x, pos.y):
+		level.reset_hero(Vector2(pos.x, pos.y))
+	Game.log_msg("Willkommen zurück, Wanderer.", Color("#ffd88a"))
+
+func play_hero(id: String) -> void:
+	if playing():
+		save_game()
+	Save.set_current(id)
+	continue_game()
+
+func save_game() -> bool:
+	if not playing() or level == null:
+		return false
+	return Save.write({"f": Game.floor_no, "x": level.P.x, "y": level.P.y})
+
+func to_title() -> void:
+	save_game()
+	show_title()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		save_game()
+
+## a menu in the box over a dark wash; in play the world stands still while it is open
+func show_menu(v: String, msg := "") -> void:
+	var c: Control
+	match v:
+		"pause": c = Menus.pause(self, msg)
+		"settings": c = Menus.settings(self)
+		"controls": c = Menus.controls(self)
+		"heroes": c = Menus.heroes(self, msg)
+		"class": c = Menus.classes(self)
+		_: return
+	_menu = v
+	if playing():
+		get_tree().paused = true
+	ui.open_modal(c, menu_back)
+
+## Zurück: in play back to the pause menu, on the title the box closes
+func menu_back() -> void:
+	if playing() and _menu != "pause":
+		show_menu("pause")
+	else:
+		close_menu()
+
+func close_menu() -> void:
+	ui.close_modal()
+	_menu = ""
+	get_tree().paused = false
+
+func _close_panels() -> void:
+	for n in get_tree().get_nodes_in_group("left_panel"):
+		n.visible = false
+	inv_panel.close()
+
+func open_shop(o: Dictionary) -> void:
+	shop_panel.open(o)
+
+func open_stash() -> void:
+	stash_panel.open()
+
+## the small buttons on the belt
+func panel_button(k: String) -> void:
+	match k:
+		"char": char_panel.toggle()
+		"inv": inv_panel.toggle()
+		"skills": sk_panel.toggle()
+		"menu":
+			save_game()
+			show_menu("pause")
+
+func open_bonfire(o: Prop) -> void:
+	_menu = "bonfire"
+	ui.open_modal(Bonfire.dialog(self, o), close_menu)
+
+func travel_home() -> void:
+	close_menu()
+	if Game.floor_no == 0:
+		level.reset_hero(level.near_walk(wg.start.x, wg.start.y))
+		level.ow.tick(true)
+		Game.banner.emit("Der Hügel", "", "")
+	else:
+		enter_floor(0)
+
+func travel_sky(at: Vector2) -> void:
+	close_menu()
+	if Game.floor_no == 0:
+		level.reset_hero(level.near_walk(at.x + 1, at.y + 1))
+		level.ow.tick(true)
+	else:
+		Game.ow_at = at + Vector2(1, 1)
+		enter_floor(0)
+
+func travel_floor(f: int) -> void:
+	close_menu()
+	enter_floor(f, true)
+
+func _unhandled_input(ev: InputEvent) -> void:
+	if not (ev is InputEventKey and ev.pressed and not ev.echo):
+		return
+	if ev.keycode == KEY_ESCAPE:
+		get_viewport().set_input_as_handled()
+		if _menu != "":
+			if ui.on_close.is_valid():
+				ui.on_close.call()
+			return
+		if not playing():
+			return
+		if char_panel.visible or inv_panel.visible or sk_panel.visible or shop_panel.visible or stash_panel.visible:
+			_close_panels()
+			return
+		save_game()
+		show_menu("pause")
+	elif ev.keycode == KEY_C and playing() and _menu == "":
+		get_viewport().set_input_as_handled()
+		char_panel.toggle()
+
+## the world's own picture: a SubViewport as big as the game picture (Screen), shown k times bigger with hard pixels,
+## so the world looks as before while text and panels above it are drawn sharp at the screen's own resolution
+func _make_world_view() -> void:
+	world_box = SubViewportContainer.new()
+	world_box.stretch = true
+	world_box.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	world_box.mouse_filter = Control.MOUSE_FILTER_PASS
+	add_child(world_box)
+	move_child(world_box, 0)
+	world_vp = SubViewport.new()
+	world_vp.handle_input_locally = true
+	world_vp.canvas_item_default_texture_filter = Viewport.DEFAULT_CANVAS_ITEM_TEXTURE_FILTER_NEAREST
+	world_vp.snap_2d_transforms_to_pixel = true
+	world_box.add_child(world_vp)
+	var fit := func() -> void:
+		world_box.size = get_viewport().get_visible_rect().size
+	Screen.resized.connect(fit)
+	fit.call()
 
 ## floor 0 is the sky with the hill; through the door you come to the deepest floor whose bonfire burns, beside it
 func enter_floor(f: int, by_door := false) -> void:
@@ -167,8 +494,7 @@ func enter_floor(f: int, by_door := false) -> void:
 	Game.max_floor = maxi(Game.max_floor, f)
 	Game.mlvl = Game.mlvl_of(f) if f > 0 else 1
 	level = Level.new()
-	add_child(level)
-	move_child(level, 0)
+	world_vp.add_child(level)
 	if f == 0:
 		if wg == null:
 			wg = WorldGen.new(Game.seed_value)
@@ -184,6 +510,12 @@ func enter_floor(f: int, by_door := false) -> void:
 					level.reset_hero(level.near_walk(o.x + 1, o.y + 1))
 	hud.level = level
 	inv_panel.level = level
+	if f == 0 and Game.ow_at != null:
+		level.reset_hero(level.near_walk(Game.ow_at.x, Game.ow_at.y))
+		Game.ow_at = null
+		level.ow.tick(true)
+	if playing():
+		save_game.call_deferred()
 	Game.floor_changed.emit(f)
 	if f > 0:
 		Game.log_msg("Ebene %d · Monsterstufe %d" % [f, Game.mlvl], Color("#a39b88"))

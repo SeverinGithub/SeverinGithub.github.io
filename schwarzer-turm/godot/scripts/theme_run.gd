@@ -331,7 +331,7 @@ func _fall() -> void:
 	var c: float = Game.d.life * .15
 	Game.hp = maxf(1, Game.hp - c)
 	Game.log_msg("Du stürzt durch den Boden – eine Ebene tiefer. (-%d Leben)" % roundi(c), Color("#ff9a6a"))
-	L.get_parent().call_deferred("enter_floor", Game.floor_no + 1)
+	L.get_tree().current_scene.call_deferred("enter_floor", Game.floor_no + 1)
 
 func _wave(S: Dictionary) -> void:
 	S.wave += 1
