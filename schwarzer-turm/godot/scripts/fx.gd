@@ -124,6 +124,8 @@ func _tele(t: Dictionary) -> void:
 	var ring := outer.duplicate()
 	ring.append(outer[0])
 	draw_polyline(ring, Color(col, .6), 1.5)
+	if t.shape == "line" and p < .02:
+		return                   # a line of no length yet has no area to fill
 	draw_colored_polygon(shape_pts(t, p if t.shape == "line" else maxf(.05, p)), Color(col, .18 + p * .25))
 
 func _slash(s: Dictionary) -> void:

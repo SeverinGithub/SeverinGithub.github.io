@@ -30,7 +30,7 @@ func setup(d: Dictionary, obj := false) -> Prop:
 	return self
 
 func animated() -> bool:
-	return is_obj or p.k in ["torch", "brazier", "candles", "altar"]
+	return is_obj or p.k in ["torch", "brazier", "candles", "altar", "fire"]
 
 func _process(_dt: float) -> void:
 	if animated():
@@ -60,6 +60,18 @@ func _draw() -> void:
 			flame(self, sx, sy - 19, 10, p.ph, t)
 			return
 		"shaft", "fog":
+			return
+		"fire":
+			# an open fire: two crossed logs, three flames and a warm glow (drawProp in 230-environment.js)
+			var s2: float = p.get("s", 1.0)
+			var y0: float = sy - p.get("h", 0.0)
+			if not p.get("h"):
+				draw_line(Vector2(sx - 7 * s2, sy - 1), Vector2(sx + 6 * s2, sy - 3), Color("#2a1a0c"), 3)
+				draw_line(Vector2(sx - 5 * s2, sy - 4), Vector2(sx + 7 * s2, sy), Color("#2a1a0c"), 3)
+			flame(self, sx, y0 - 2, 8 * s2, p.ph, t)
+			flame(self, sx + 4 * s2, y0, 5 * s2, p.ph + 1, t)
+			flame(self, sx - 4 * s2, y0, 5 * s2, p.ph + 2, t)
+			glow(self, Vector2(sx, y0 - 6), 46 * s2, Color(1, .59, .2, .28))
 			return
 	if _tex == null:
 		return
@@ -101,6 +113,25 @@ func _draw_obj(sx: float, sy: float, t: float) -> void:
 				draw_line(Vector2(sx - 22 + k * 6, sy - 3 + k * 3), Vector2(sx + 2 + k * 6, sy - 15 + k * 3 + 12), Color("#4a4c58"), 1.5)
 			dia.append(dia[0])
 			draw_polyline(dia, Color(122 / 255.0, 164 / 255.0, 1, .4 + sin(t * 3) * .2), 2)
+		"merchant":
+			# a hooded trader with a lantern (drawObj in 230-environment.js)
+			shadow(self, sx, sy, .4)
+			draw_colored_polygon(PackedVector2Array([Vector2(sx, sy - 40), Vector2(sx + 11, sy - 2), Vector2(sx - 11, sy - 2)]), Color("#2b1d12"))
+			draw_circle(Vector2(sx, sy - 38), 5, Color("#e8dcc0"))
+			ellipse(self, sx, sy - 42, 13, 3.5, Color("#141210"))
+			draw_colored_polygon(PackedVector2Array([Vector2(sx - 6, sy - 43), Vector2(sx, sy - 54), Vector2(sx + 6, sy - 43)]), Color("#141210"))
+			glow(self, Vector2(sx + 12, sy - 20), 14, Color(1, .86, .55, .9))
+			draw_rect(Rect2(sx + 10, sy - 23, 4, 6), Color("#ffe2a0"))
+		"stash":
+			var pl := .5 + sin(t * 2) * .25
+			glow(self, Vector2(sx, sy - 8), 46, Color(.47, .35, 1, .28 * pl))
+			var c := Data.sprite("prop/stash/0")
+			draw_texture(c, Vector2(sx - 40, sy - 44))
+		"colossus":
+			var c := Data.sprite("colossus")
+			var hp := Iso.to_screen(Game.hero_at)
+			var behind: bool = Game.hero_at.x + Game.hero_at.y < p.x + p.y and absf(hp.x - position.x) < 60 and hp.y < position.y
+			draw_texture(c, Vector2(sx - 85, sy - 268), Color(1, 1, 1, .45 if behind else 1.0))
 		"chest":
 			shadow(self, sx, sy, .4)
 			draw_rect(Rect2(sx - 13, sy - 16, 26, 14), Color("#2a1a0c"))

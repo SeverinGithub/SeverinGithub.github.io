@@ -42,6 +42,8 @@ var summoned := false
 var lc := {}                     # sight-line cache (eLos)
 var dot_t := 0.0                 # poison or bleeding: seconds left, damage per second
 var dot_d := 0.0
+var ck := ""                     # the sky chunk it belongs to
+var wb := ""                     # an island lord's id
 
 static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = null) -> Enemy:
 	if R == null:
@@ -122,6 +124,33 @@ static func make_boss(f: int, at: Vector2, ml: int) -> Enemy:
 	e.cd = 1.5
 	e.face = 2.3
 	e.xp = 420 * (1 + (ml - 1) * .35)
+	e.max_hp = e.hp
+	return e
+
+## an island lord (makeWBoss in 310-overworld-bosses.js); like the floor guardians a stand-in figure for now
+static func make_wboss(i: int, at: Vector2, ml: int) -> Enemy:
+	var b: Dictionary = WorldGen.WB[i]
+	var hs := 1 + (ml - 1) * .32
+	var ds := 1 + (ml - 1) * .2
+	var e := Enemy.new()
+	e.key = {"knight": "enemy_grabritter", "weaver": "enemy_brutmutter"}.get(b.look, "enemy_golem")
+	e.scale_f = (1.6 if e.key != "enemy_golem" else 1.3) * b.scale / 2.1
+	e.type = "boss"
+	e.boss = true
+	e.rank = "boss"
+	e.mon = {"kind": "boss", "range": 2}
+	e.moves = b.moves
+	e.world = at
+	e.r = .8
+	e.e_name = b.n
+	e.sub = "Herr der Himmelsinseln · Stufe %d" % ml
+	e.hp = 620 * hs
+	e.dmg = [13 * ds, 21 * ds]
+	e.spd = 2.3
+	e.cd = 1.5
+	e.face = 2.3
+	e.xp = 480 * (1 + (ml - 1) * .35)
+	e.wb = b.id
 	e.max_hp = e.hp
 	return e
 

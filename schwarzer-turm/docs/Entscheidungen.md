@@ -42,6 +42,8 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-04 | Browser-Fassung abgeschlossen, für immer eingefroren in `schwarzer-turm-browser/`; weiter nur in Godot | Nutzer: „für immer, dass ich immer auch das Browser-Game habe … bekommt keine Updates mehr“; eigener Ordner mit Musik und Klängen, damit nichts davon abhängt, was später unter `/schwarzer-turm/` liegt |
 | 2026-11-04 | Godot: feste Werte der Klassenausrüstung und Waffenregeln je Grundteil vorberechnet exportieren (`item_rules.json`) statt die Wrapper zu übersetzen | Die Formeln hängen nur an der Stufe des Grundteils; eine Tabelle ist einfacher und stimmt sicher mit dem Browser überein |
 | 2026-11-04 | Godot: Fertigkeitsstufen am Platz (`slv`), Beschreibungen als exportierte Grundwerte | Wie im Browser bleibt ein Punkt beim Platz, wenn die Waffe den Satz wechselt; die Beschreibungen hängen an vielen Laufzeitwerten, als Text je Stufe sind sie sicher gleich wie im Browser |
+| 2026-11-04 | Godot: Oberwelt in Teilschritten, zuerst die Grundwelt aus 300 (mit 820, 310, 510 soweit sie Inseln und Brücken ändern), geprüft gegen die unverpackten Browser-Funktionen | Die Welt hängt an über zehn Modulen; so stimmt der Kern nachweislich, die Schichten (Dorf, Gras, Sehenswürdigkeiten) folgen einzeln |
+| 2026-11-04 | Godot: der Himmelsboden wird jedes Bild neu gezeichnet statt in festen Kacheln | Wie im Browser; Felskanten und Brückenseiten hängen weit über ihr Feld hinaus und müssen in der Reihenfolge i+j liegen |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

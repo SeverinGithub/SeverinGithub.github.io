@@ -15,6 +15,12 @@ var mlvl := 1                    # monster level of the current floor
 var lit := {}                    # floor → bonfire lit
 var boss_dead := {}
 var boss_seen := {}
+var ow_fires := {}               # bonfires lit in the sky: chunk key → {x, y, name}
+var ow_clear := {}               # chunks whose foes are slain, until the next rest
+var ow_boss := {}                # island lords slain: id → 1
+var ow_respawn = null            # the sky's bonfire you rested at last: {x, y}
+var place := ""                  # where in the sky the hero stands (floorName)
+var hero_at := Vector2.ZERO      # where the hero stands, for pictures that fade when he walks behind them
 var t := 0.0
 
 # ---------- P ----------
@@ -50,11 +56,23 @@ const CBON := {
 static func xp_next(l: int) -> int:
 	return int(floor(80 * pow(l, 1.75)))
 
+## the door leads to the deepest floor whose bonfire is lit (topFloor in 180-interaction.js)
+func top_floor() -> int:
+	var f := 1
+	for k in lit:
+		if lit[k] and int(k) > f:
+			f = int(k)
+	return f
+
 func start_new(c: String) -> void:
 	seed_value = randi() % 1000000000
 	lit = {}
 	boss_dead = {}
 	boss_seen = {}
+	ow_fires = {}
+	ow_clear = {}
+	ow_boss = {}
+	ow_respawn = null
 	max_floor = 0
 	respawn_floor = 1
 	cls = c

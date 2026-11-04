@@ -41,7 +41,7 @@ func _draw() -> void:
 	_bar(Rect2(x0, sz.y - 22, x1 - x0, 5), Game.st / d.stam, Color("#c8b060"))
 	_bar(Rect2(x0, sz.y - 13, x1 - x0, 4), float(Game.xp) / Game.xp_next(Game.lvl), Color("#a080e0"))
 	_text(Vector2(x0, sz.y - 28), "Stufe %d · Flakon %d/%d · %d Glut" % [Game.lvl, Game.flasks, Game.flask_max, Game.glut], 11, Color("#ece4cf"))
-	_text_r(Vector2(sz.x - 10, 18), "Ebene %d" % Game.floor_no, 14, Color("#ece4cf"))
+	_text_r(Vector2(sz.x - 10, 18), Game.place if Game.floor_no == 0 else "Ebene %d" % Game.floor_no, 14, Color("#ece4cf"))
 	_belt(sz)
 	# the foe under the mouse, or the one you strike
 	var e: Enemy = null
@@ -59,11 +59,15 @@ func _draw() -> void:
 		var s := get_viewport().get_canvas_transform() * Iso.to_screen(Vector2(o.p.x, o.p.y))
 		var txt := ""
 		match o.p.type:
-			"shrine": txt = "Leuchtfeuer" + ("" if o.lit else " (erloschen)")
+			"shrine": txt = o.p.get("name", "Leuchtfeuer") + ("" if o.lit else " (erloschen)")
+			"door": txt = "Den Turm betreten · Ebene %d" % Game.top_floor() if Game.top_floor() > 1 else "Den Turm betreten"
+			"merchant": txt = o.p.get("name", "Odalinde") + ", Händler" + ("in" if not o.p.has("name") else "")
+			"stash": txt = "Bodenlose Truhe"
+			"colossus": txt = "Wächter der Arena · erwacht ab Ebene 20"
 			"stairs": txt = "Hinab zu Ebene %d" % (Game.floor_no + 1)
 			"chest": txt = "" if o.p.open else "Truhe"
 		if txt != "":
-			_text_c(s - Vector2(0, 46), txt, 12, Color("#ffd88a") if o.p.type == "shrine" else Color("#ece4cf"))
+			_text_c(s - Vector2(0, {"door": 120, "colossus": 290, "merchant": 66, "stash": 48, "shrine": 58}.get(o.p.type, 46)), txt, 12, Color("#ffd88a") if o.p.type == "shrine" else Color("#ece4cf"))
 	# messages
 	var y := sz.y - 96.0
 	for i in range(msgs.size() - 1, -1, -1):

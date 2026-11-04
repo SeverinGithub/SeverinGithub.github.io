@@ -68,6 +68,8 @@ var items: Array = []            # on the ground: {it, x, y, t}
 var labels: Array = []           # their name plates this frame: {r: Rect2 in world screen space, gi}
 var hover_i = null               # the ground item whose plate is under the mouse
 var sk: Skills                   # the hero's skills and what they leave behind
+var ow: Overworld = null         # floor 0: the sky, streamed around the hero
+var dark_layer: CanvasLayer
 var glutmal = null
 
 static var _glow_tex: Texture2D
@@ -81,7 +83,12 @@ func build(map: Dictionary) -> void:
 	t = m.t
 	_textures()
 	_layers()
-	for layer in ["floor", "deco"]:
+	if m.get("world"):
+		ow = Overworld.new(self, m.wg)
+		add_child(ow)
+		dark_layer.visible = false
+		_sky()
+	for layer in ([] if ow else ["floor", "deco"]):
 		var g := Node2D.new()
 		g.name = layer
 		add_child(g)
@@ -103,7 +110,8 @@ func build(map: Dictionary) -> void:
 	top_fx = Fx.new()
 	top_fx.level = self
 	add_child(top_fx)
-	_walls()
+	if not ow:
+		_walls()
 	for p in m.props:
 		world.add_child(Prop.new().setup(p))
 		var L = PLIGHT.get(p.k)
@@ -139,6 +147,8 @@ func build(map: Dictionary) -> void:
 	cam.make_current()
 	reset_hero(Vector2(m.start.x, m.start.y))
 	populate()
+	if ow:
+		ow.tick()
 
 ## the hero wears what is equipped; a unique keeps its own colours
 func _dress() -> void:
@@ -186,6 +196,7 @@ func _layers() -> void:
 	var dl := CanvasLayer.new()
 	dl.layer = 1
 	add_child(dl)
+	dark_layer = dl
 	var dr := ColorRect.new()
 	dr.set_anchors_preset(Control.PRESET_FULL_RECT)
 	dr.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -219,6 +230,27 @@ func _layers() -> void:
 	text_fx.mode = "text"
 	text_fx.level = self
 	tl.add_child(text_fx)
+
+## the blue behind the islands (render in 210-render.js: a gradient from #08306f over #1356b0 to #1d6bcc)
+func _sky() -> void:
+	var bg := CanvasLayer.new()
+	bg.layer = -1
+	add_child(bg)
+	var g := Gradient.new()
+	g.offsets = PackedFloat32Array([0, .55, 1])
+	g.colors = PackedColorArray([Color("#08306f"), Color("#1356b0"), Color("#1d6bcc")])
+	var gt := GradientTexture2D.new()
+	gt.gradient = g
+	gt.fill_from = Vector2(0, 0)
+	gt.fill_to = Vector2(0, 1)
+	gt.width = 4
+	gt.height = 256
+	var r := TextureRect.new()
+	r.texture = gt
+	r.stretch_mode = TextureRect.STRETCH_SCALE
+	r.set_anchors_preset(Control.PRESET_FULL_RECT)
+	r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	bg.add_child(r)
 
 ## a light cut into the darkness at a point on the floor (light() in render: ten pixels above it, see darkness.gdshader)
 func _light(pos: Vector2, r: float, a: float) -> Dictionary:
@@ -569,6 +601,8 @@ func var_pool(f: int) -> Array:
 	return L
 
 func populate() -> void:
+	if ow:
+		return
 	for e in enemies:
 		e.queue_free()
 	enemies.clear()
@@ -657,7 +691,10 @@ func _process(dt: float) -> void:
 	_update_fx(dt)
 	_update_glutmal()
 	for e in enemies:
-		if e.boss and not e.dead and not Game.boss_seen.get(Game.floor_no, false) and e.world.distance_to(Vector2(P.x, P.y)) < 11:
+		if e.wb != "" and not e.aggro and not e.dead and e.world.distance_to(Vector2(P.x, P.y)) < 11:
+			e.aggro = true
+			Game.banner.emit(e.e_name.to_upper(), "Herr der Himmelsinseln", "boss")
+		elif e.boss and e.wb == "" and not e.dead and not Game.boss_seen.get(Game.floor_no, false) and e.world.distance_to(Vector2(P.x, P.y)) < 11:
 			Game.boss_seen[Game.floor_no] = true
 			Game.banner.emit(e.e_name.to_upper(), "Hüter der Tiefe", "boss")
 			e.aggro = true
@@ -666,6 +703,9 @@ func _process(dt: float) -> void:
 	_camera(dt)
 	_lights()
 	_fade_walls()
+	if ow:
+		ow.tick()
+		ow.fade()
 
 func _camera(dt: float) -> void:
 	# the camera follows by time, not by frame: with uneven frame times a fixed share per frame made the hero jump
@@ -675,6 +715,7 @@ func _camera(dt: float) -> void:
 	cam.position = (Iso.to_screen(cam_w) + Vector2(0, 40) + sh + kick_v).round()
 	hero.world = Vector2(P.x, P.y)
 	hero.face = P.face
+	Game.hero_at = hero.world
 
 func _mouse_w() -> Vector2:
 	return Iso.to_world(get_global_mouse_position())
@@ -703,8 +744,11 @@ func _hover() -> void:
 		hover_e = null
 	hover_o = null
 	for o in obj_nodes:
+		# the door and the colossus are tall (hoverObj in 190-input.js)
 		var s := Iso.to_screen(Vector2(o.p.x, o.p.y))
-		if absf(ms.x - s.x) < 26 and absf(ms.y - (s.y - 16)) < 26:
+		var big: bool = o.p.type == "colossus"
+		var hy: float = 40.0 if o.p.type == "door" else (110.0 if big else 16.0)
+		if absf(ms.x - s.x) < (42 if big else 26) and absf(ms.y - (s.y - hy)) < (50.0 if o.p.type == "door" else (120.0 if big else 26.0)):
 			hover_o = o
 			break
 
@@ -750,6 +794,7 @@ func _unhandled_input(ev: InputEvent) -> void:
 	elif ev is InputEventKey and ev.pressed and not ev.echo:
 		match ev.keycode:
 			KEY_SPACE: _do_roll()
+			KEY_H: _home()
 			KEY_F: _drink_flask()
 			KEY_Q, KEY_Y: _quick_potion("life")
 			KEY_X: _quick_potion("mana")
@@ -958,6 +1003,21 @@ func _drink_flask() -> void:
 
 func _interact(o: Prop) -> void:
 	match o.p.type:
+		"shrine" when o.p.get("ow"):
+			if not Game.ow_fires.has(o.p.key):
+				Game.ow_fires[o.p.key] = {"x": o.p.x, "y": o.p.y, "name": o.p.name}
+				Game.log_msg("+1 Talentpunkt (P)", Color("#e8c878"))
+				Game.banner.emit("LEUCHTFEUER ENTZÜNDET", o.p.name, "boss")
+				o.lit = true
+			_rest(o)
+		"shrine" when ow:
+			Game.lit[0] = true
+			o.lit = true
+			_rest(o)
+		"door":
+			get_parent().call_deferred("enter_floor", Game.top_floor(), true)
+		"merchant", "stash", "colossus":
+			Game.log_msg({"merchant": "Handel", "stash": "Die bodenlose Truhe", "colossus": "Die Arena"}[o.p.type] + " kommt mit dem nächsten Schritt nach Godot.", Color("#a39b88"))
 		"shrine":
 			if not Game.lit.get(Game.floor_no, false):
 				Game.lit[Game.floor_no] = true
@@ -1055,7 +1115,11 @@ func respawn() -> void:
 	for o in m.objs:
 		if o.type == "shrine":
 			s = Vector2(o.x + 1, o.y + 1) if walkable(o.x + 1, o.y + 1) else Vector2(m.start.x, m.start.y)
+	if ow and Game.ow_respawn:
+		s = near_walk(Game.ow_respawn.x + 1, Game.ow_respawn.y + 1)
 	reset_hero(s)
+	if ow:
+		ow.tick(true)
 	hero.visible = true
 	Game.recalc()
 	Game.hp = Game.d.life
@@ -1149,7 +1213,16 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	ftext(e.world - Vector2(0, .3), "+%d Glut" % gl, Color("#ff9a3a"))
 	if "feuer" in e.aff:
 		tele.append({"shape": "circle", "x": e.world.x, "y": e.world.y, "r": 1.8, "t": 0.0, "dur": .6, "dmg": e.dmg[1] * 1.2, "elem": "fire", "owner": null})
-	if e.boss:
+	if e.ck != "" and ow and not enemies.any(func(o): return o.ck == e.ck and not o.dead):
+		Game.ow_clear[e.ck] = true
+		Game.log_msg("Gebiet befreit. Es bleibt ruhig, bis du an einem Leuchtfeuer rastest.", Color("#a39b88"))
+	if e.wb != "":
+		if not Game.ow_boss.has(e.wb):
+			Game.ow_boss[e.wb] = 1
+			Game.log_msg("+2 Talentpunkte (P)", Color("#e8c878"))
+		Game.banner.emit("FEIND BEZWUNGEN", e.e_name, "boss")
+		shake = 14
+	elif e.boss:
 		if not Game.boss_dead.get(Game.floor_no, false):
 			Game.log_msg("+2 Talentpunkte (P)", Color("#e8c878"))
 		Game.boss_dead[Game.floor_no] = true
@@ -1162,6 +1235,45 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 		_light(Iso.to_screen(Vector2(st.x, st.y)), 140, .6)
 		Game.banner.emit("FEIND BEZWUNGEN", e.e_name, "boss")
 		shake = 14
+
+## resting at a bonfire in the sky: whole again, and every chunk's foes rise anew (rest in 150-music.js)
+func _rest(o: Prop) -> void:
+	Game.respawn_floor = 0
+	Game.ow_respawn = {"x": o.p.x, "y": o.p.y} if o.p.get("ow") else null
+	Game.ow_clear.clear()
+	Game.recalc()
+	Game.hp = Game.d.life
+	Game.mp = Game.d.mana
+	Game.flasks = Game.flask_max
+	ow.tick(true)
+	Game.log_msg("Du rastest am Leuchtfeuer. Die Feinde kehren zurück.", Color("#ffd88a"))
+
+## H beside a burning bonfire: home to the hill (the shrine's way home in owTravel, 300-endless-sky.js)
+func _home() -> void:
+	for o in obj_nodes:
+		if o.p.type == "shrine" and o.lit and Vector2(o.p.x, o.p.y).distance_to(Vector2(P.x, P.y)) < 3:
+			if ow:
+				reset_hero(Vector2(m.start.x, m.start.y))
+				ow.tick(true)
+				Game.banner.emit("Der Hügel", "", "")
+			else:
+				get_parent().call_deferred("enter_floor", 0)
+			return
+	Game.log_msg("Heimkehr (H) gelingt nur neben einem brennenden Leuchtfeuer.", Color("#a39b88"))
+
+## the nearest spot one can stand on (nearWalk)
+func near_walk(x: float, y: float) -> Vector2:
+	var r := 0.0
+	while r < 6:
+		var a := 0.0
+		while a < 6.28:
+			var nx := x + cos(a) * r
+			var ny := y + sin(a) * r
+			if free_at(nx, ny, .3):
+				return Vector2(nx, ny)
+			a += .5
+		r += .5
+	return Vector2(x, y)
 
 ## lay an item near a point, somewhere one can stand (dropItem in 170-combat.js)
 func drop_item(it: Dictionary, x: float, y: float) -> void:
@@ -1435,6 +1547,7 @@ func _boss_update(e: Enemy, dt: float, d: float, busy: bool, sp: float) -> void:
 					var s := Enemy.make(R.pick(["spider", "skel"]), at, "normal", Game.mlvl, R)
 					s.aggro = true
 					s.summoned = true
+					s.ck = e.ck
 					s.xp *= .3
 					_add_enemy(s)
 					burst(at, Color("#ff7a2a"), 10, 2)

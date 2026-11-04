@@ -77,3 +77,13 @@ func tex(path: String) -> Texture2D:
 func icon(item_name: String) -> Texture2D:
 	var i: Dictionary = icons.get(item_name, {})
 	return tex("icons/" + i.file) if i.has("file") else null
+
+## how many pictures a sprite group has ("deco/tuft" → 4), like SPR.deco.tuft.length in the browser
+var _var_n := {}
+func variants_of(group: String) -> int:
+	if not _var_n.has(group):
+		var n := 0
+		while sprites.has("%s/%d" % [group, n]):
+			n += 1
+		_var_n[group] = n
+	return _var_n[group]
