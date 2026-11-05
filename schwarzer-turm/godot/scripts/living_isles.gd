@@ -5,13 +5,15 @@ extends Node2D
 ## graves, gnats and bees, stones crumbling off the edges into the deep, standing stones whose runes wake when you come near.
 ## This node lives in the sky level above everything standing (drawFxWorld); the ground is painted by the Overworld
 ## (drawDecals), the waking runes by a node in the glow layer (drawFxGlow).
-## Not yet: fireflies and moths (they wait for night), puddles that fill in the rain and the wind of the weather, the sounds.
+## After dark fireflies drift over the grass (most in the forests) and moths circle every warm light.
+## Not yet: puddles that fill in the rain and the wind of the weather, the sounds.
 
 const DIRS4 := [[1, 0], [-1, 0], [0, 1], [0, -1]]
 const NV := {"path": 6, "moss": 3, "clover": 3, "leaves": 3, "gravel": 3, "mud": 2}
 const RCOL := {"c": Color("#a0e8ff"), "g": Color("#b0ffc8"), "v": Color("#d0b0ff")}
 const RGLOW := {"c": Color("#7ae0ff"), "g": Color("#8affb0"), "v": Color("#b08aff")}
 
+static var ffly: Array = []        # fireflies after dark, around the hero (LV.ffly), glowing in the glow layer
 static var lv := {"tuft": [], "path": [], "patch": [], "rune": [], "crow": [], "gnat": [], "bee": []}
 
 # ---------- what each island gets, from the seed (the owContent wrapper) ----------
@@ -291,7 +293,7 @@ func _process(dt: float) -> void:
 	var P := L.P
 	var t := Game.t
 	var wg: WorldGen = L.ow.wg
-	var night := 1.0 if Game.get("night") == true else 0.0
+	var night := DayNight.a()
 	# wind, with gusts (the weather steers it once there is weather)
 	var ws := .35
 	wind.s += (ws * (1 + .35 * sin(t * .31) * sin(t * .13)) - wind.s) * minf(1, dt * .5)
@@ -420,6 +422,37 @@ func _process(dt: float) -> void:
 				c.y = c.hy
 			if d < 3.4:
 				c.st = 1
+	# fireflies after dark: many in the forests, few on bare rock; they shy from the hero and fade with the morning
+	var ff_w := (40 if kind == "forest" else (8 if kind == "rock" else 26)) if night > .4 else 0
+	if ffly.size() < ff_w and R.next() < dt * 6:
+		var a := R.rnd(0, 6.28)
+		var r := R.rnd(2, 11)
+		var x: float = P.x + cos(a) * r
+		var y: float = P.y + sin(a) * r
+		if land(x, y):
+			ffly.append({"x": x, "y": y, "z": R.rnd(.3, 1.4), "vx": 0.0, "vy": 0.0, "t": 0.0, "life": R.rnd(14, 28), "ph": R.rnd(0, 6), "sp": R.rnd(.9, 1.6)})
+	for f in ffly:
+		f.t += dt
+		var d := pp.distance_to(Vector2(f.x, f.y))
+		var ax: float = sin(t * .7 * f.sp + f.ph) * .6
+		var ay: float = cos(t * .53 * f.sp + f.ph * 1.3) * .6
+		if d < 1.6 and d > .001:
+			ax += (f.x - P.x) / d * 3
+			ay += (f.y - P.y) / d * 3
+		f.vx += (ax - f.vx) * dt * 2
+		f.vy += (ay - f.vy) * dt * 2
+		var nx: float = f.x + f.vx * dt
+		var ny: float = f.y + f.vy * dt
+		if land(nx, ny):
+			f.x = nx
+			f.y = ny
+		else:
+			f.vx *= -1
+			f.vy *= -1
+		f.z = clampf(f.z + sin(t * 1.1 + f.ph) * dt * .3, .2, 1.8)
+		if not ff_w:
+			f.life = minf(f.life, f.t + 1.5)
+	ffly = ffly.filter(func(f): return f.t < f.life and pp.distance_to(Vector2(f.x, f.y)) < 17)
 	queue_redraw()
 
 ## the wind as the ground needs it
@@ -436,7 +469,7 @@ func _draw() -> void:
 	if not L.ow:
 		return
 	var t := Game.t
-	var night := 1.0 if Game.get("night") == true else 0.0
+	var night := DayNight.a()
 	var pp := Vector2(L.P.x, L.P.y)
 	var near := func(x: float, y: float, r: float) -> bool: return absf(x - pp.x) < r and absf(y - pp.y) < r
 	for s in streak:
@@ -511,6 +544,23 @@ func _draw() -> void:
 				draw_rect(Rect2(x, y, 2, 1), Color("#e8c030"))
 				draw_rect(Rect2(x + 1, y, 1, 1), Color("#1a1408"))
 				draw_rect(Rect2(x, y - 1 - (1 if sin(t * 60) > 0 else 0), 1, 1), Color(1, 1, 1, .6))
+	# moths circle the warm lights after dark
+	if night > .4:
+		for p in L.ow.wg.live("props"):
+			if not near.call(p.x, p.y, 12) or p.k == "shaft":
+				continue
+			var Lp = L.prop_light(p)
+			if Lp == null or Lp.get("col") == null:
+				continue
+			var s0 := Iso.to_screen(Vector2(p.x, p.y))
+			var cy: float = s0.y - Lp.get("h", 14) - 6
+			for k in 3:
+				var q: float = t * (1.6 + k * .4) + k * 2.1 + p.get("ph", 0.0)
+				var x := roundf(s0.x + cos(q) * (8 + k * 3))
+				var y := roundf(cy + sin(q * 1.7) * (5 + k))
+				var fw := 2 if sin(t * 30 + k) > 0 else 1
+				draw_rect(Rect2(x - fw, y, fw, 1), Color(232 / 255.0, 224 / 255.0, 200 / 255.0, .85))
+				draw_rect(Rect2(x + 1, y, fw, 1), Color(232 / 255.0, 224 / 255.0, 200 / 255.0, .85))
 	for p in peb:
 		var sp := Iso.to_screen(Vector2(p.x, p.y)) - Vector2(0, p.z * 30)
 		draw_rect(Rect2(roundf(sp.x), roundf(sp.y), ceilf(p.s), ceilf(p.s * .8)), Color(p.c, minf(1, (2.4 - p.t) / 1.2)))
@@ -527,6 +577,14 @@ class Glow extends Node2D:
 
 	func _draw() -> void:
 		var t := Game.t
+		var na := DayNight.a()
+		for f in LivingIsles.ffly:
+			var sp := Iso.to_screen(Vector2(f.x, f.y)) - Vector2(0, f.z * 30)
+			var b: float = pow(maxf(0, sin(t * 1.4 * f.sp + f.ph)), 2) * minf(1, minf(f.t, f.life - f.t)) * minf(1, na * 1.6)
+			if b < .03:
+				continue
+			Prop.glow(self, sp, 9, Color(200 / 255.0, 248 / 255.0, 120 / 255.0, b * .6))
+			draw_rect(Rect2(roundf(sp.x), roundf(sp.y), 1, 1), Color(244 / 255.0, 1, 208 / 255.0, b))
 		for r in LivingIsles.lv.rune:
 			if r.w < .02:
 				continue

@@ -126,6 +126,7 @@ func build(map: Dictionary) -> void:
 		add_child(lvn)
 		glow_layer.add_child(LivingIsles.Glow.new())
 		glow_layer.add_child(DeadLands.Glow.new(self))
+		glow_layer.add_child(DayNight.Glow.new(self))
 	if not ow:
 		_walls()
 	for p in m.props:
@@ -216,6 +217,11 @@ func _layers() -> void:
 	glow_layer.layer = 2
 	glow_layer.follow_viewport_enabled = true
 	add_child(glow_layer)
+	# dusk and dawn wash over the world after the glows, still under the palette (drawWeather)
+	var wl := CanvasLayer.new()
+	wl.layer = 2
+	add_child(wl)
+	wl.add_child(DayNight.Dusk.new())
 	var pl := CanvasLayer.new()
 	pl.layer = 3
 	add_child(pl)
@@ -798,6 +804,7 @@ func _process(dt: float) -> void:
 	_loot_q(dt)
 	_trial_tick()
 	_upd_traps(dt)
+	DayNight.tick(self, dt)
 	if ow:
 		_stations(dt)
 		IslandSights.tick(self, dt)
@@ -1646,6 +1653,7 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 		theme.on_kill(e)
 	if ow:
 		RgPlay.on_kill(self, e)
+		DayNight.on_kill(self, e)
 	var rm: float = {"boss": 25.0, "unique": 6.0, "champ": 2.5}.get(e.rank, 1.0)
 	var gl := roundi((3 + Game.mlvl * 1.6) * R.rnd(.8, 1.25) * rm * (1 + d.glutf / 100.0))
 	Game.glut += gl
@@ -2328,14 +2336,18 @@ func kick(a: float, k: float) -> void:
 
 func _lights() -> void:
 	var want := []
-	# the dead lands' church and forest are dark by day: the darkness of the tower over the sky (rgDark, darkFill)
+	# the night over the sky, and the dead lands' church and forest, dark by day: the darkness of the tower (rgDark, darkFill)
 	var rd := DeadLands.dark if ow else 0.0
 	if ow:
-		dark_layer.visible = rd > .01
+		var na := DayNight.a()
+		dark_layer.visible = rd > .01 or na > .01
 		if not dark_layer.visible:
 			return
-		var dc := DeadLands.dark_color()
-		dark_mat.set_shader_parameter("dark_col", Vector4(dc.r, dc.g, dc.b, rd))
+		if rd > na * .8:
+			var dc := DeadLands.dark_color()
+			dark_mat.set_shader_parameter("dark_col", Vector4(dc.r, dc.g, dc.b, rd))
+		else:
+			dark_mat.set_shader_parameter("dark_col", Vector4(5 / 255.0, 8 / 255.0, 22 / 255.0, na * .8))
 	if not P.dead:
 		want.append([Iso.to_screen(Vector2(P.x, P.y)), (330 + sin(Game.t * 7) * 5) * (theme.pl_light() if theme else 1.0) * (1 - rd * .38), 1.0 - rd * .42])
 	for L in lights:

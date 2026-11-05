@@ -45,6 +45,8 @@ var ow_respawn = null            # the sky's bonfire you rested at last: {x, y}
 var place := ""                  # where in the sky the hero stands (floorName)
 var hero_at := Vector2.ZERO      # where the hero stands, for pictures that fade when he walks behind them
 var t := 0.0
+var day_t := 0.0                 # the sky's clock, eight minutes a day (G.dayT, see DayNight)
+var night := false               # deep night in the sky (G.night)
 
 # ---------- P ----------
 var cls := "krieger"
@@ -132,6 +134,8 @@ func start_new(c: String) -> void:
 	slate_e = 0
 	smith_met = 0
 	maps = {}
+	day_t = 0.0
+	night = false
 	tw = {"done": {}, "lift": {}, "crypt": {}, "seen": {}, "br": {}}
 	rg = {"seen": {}, "hut": {}}
 	crypt = null
@@ -231,6 +235,8 @@ func recalc() -> void:
 		if w.cls == "staff":
 			d.spellMul += w.up * .03
 	RgPlay.recalc(d)
+	if night:
+		d.mf += 50
 	Items.IH = 5 + d.invRows
 	hp = minf(hp, d.life)
 	mp = minf(mp, d.mana)

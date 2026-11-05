@@ -94,6 +94,11 @@ func _ready() -> void:
 	Game.start_new(args.get("class", "krieger"))
 	if args.has("seed"):
 		Game.seed_value = int(args.seed)
+	if args.has("hour"):
+		# test: the sky's clock at a phase of the day, 0–1 (.55 dusk, .7 night, .95 dawn); --hunt sends the night's hunters at once
+		Game.day_t = float(args.hour) * DayNight.DAYLEN
+	if args.has("hunt"):
+		DayNight.nt_t = 1.0
 	if args.has("at"):
 		# test: start somewhere else in the sky, at a chunk "cx,cy"
 		var ab: PackedStringArray = args.at.split(",")
@@ -233,6 +238,17 @@ func _ready() -> void:
 			for o in level.obj_nodes:
 				if Vector2(o.p.x, o.p.y).distance_to(Vector2(level.P.x, level.P.y)) < 8:
 					print(o.p.get("ct", o.p.type), " ", o.p.x, ",", o.p.y, " ", o.visible, " ", o.position, " ", o.get_parent().name)
+	if args.has("bonfire"):
+		# --bonfire: the nearest bonfire's window; --bonfire=night (or =day): rest there until that hour and print the clock
+		var best: Prop = null
+		for o in level.obj_nodes:
+			if o.p.type == "shrine" and (best == null or Vector2(o.p.x, o.p.y).distance_to(Vector2(level.P.x, level.P.y)) < Vector2(best.p.x, best.p.y).distance_to(Vector2(level.P.x, level.P.y))):
+				best = o
+		if best and args.bonfire in ["night", "day"]:
+			DayNight.rest_until(level, best, args.bonfire)
+			print("Gerastet bis ", args.bonfire, ": Uhr ", Game.day_t, " Phase ", DayNight.phase(), " Nacht ", Game.night, " Magiefund ", Game.d.mf)
+		elif best:
+			open_bonfire(best)
 	if args.has("open"):
 		# test: open every chest within six steps, with keys at hand and the trial's seal broken
 		Game.keys = 3

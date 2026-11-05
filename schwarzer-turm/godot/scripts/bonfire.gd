@@ -14,6 +14,17 @@ static func dialog(host, o: Prop) -> Control:
 	v.add_child(Ui.button("Rasten", func():
 		host.close_menu()
 		L.rest_at(o)))
+	# in the sky the fire also lets you choose the hour (740-rest-until-hour.js)
+	if L.ow:
+		var hb := HBoxContainer.new()
+		hb.add_theme_constant_override("separation", 6)
+		for k in ["day", "night"]:
+			var b := Ui.button("Rasten bis zum Morgen" if k == "day" else "Rasten bis zur Nacht", func():
+				host.close_menu()
+				DayNight.rest_until(L, o, k), 14)
+			b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+			hb.add_child(b)
+		v.add_child(hb)
 	var list := []
 	if here != "home":
 		list.append(["Der Hügel", func(): host.travel_home()])

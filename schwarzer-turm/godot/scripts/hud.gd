@@ -122,6 +122,7 @@ func _top_info() -> void:
 		var q := k / 12.0
 		draw_rect(Rect2(0, 0, 420 * (1 - q * .5), 104 * (1 - q * .4)), Color(0, 0, 0, .045))
 	_shadow_text(f, Vector2(14, 26), _where(), 16, Ui.PAPER)
+	_day(f, 14 + f.get_string_size(_where(), HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 16)
 	_shadow_text(f, Vector2(14, 46), "%d Glut" % Game.glut, 16, Ui.EMBER)
 	# the slates beside it, once there are any (slateHud in 460)
 	if Game.slate_g or Game.slate_e:
@@ -136,6 +137,23 @@ func _top_info() -> void:
 			_shadow_text(f, Vector2(x + 22, 46), str(n), 16, Runes.SLATE[k].col)
 			x += 22 + f.get_string_size(str(n), HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 12
 	_quest_track()
+
+## beside the place, in the sky: the hour with a little sun or moon, and that the night creatures are out (dayHUD in 370)
+func _day(f: Font, x: float) -> void:
+	if Game.floor_no != 0 or not level or not level.ow:
+		return
+	var nm := DayNight.hour_name()
+	var col := Color("#9ab0ff") if Game.night else Color("#e8d8a8")
+	var c := Vector2(x + 6, 20)
+	if Game.night:
+		draw_circle(c, 5.5, col)
+		draw_circle(c + Vector2(2.6, -1.6), 4.6, Color("#1a1a2a"))
+	else:
+		for k in 8:
+			var a := k * TAU / 8
+			draw_line(c + Vector2(cos(a), sin(a)) * 6, c + Vector2(cos(a), sin(a)) * 8.5, col, 1.5)
+		draw_circle(c, 4.2, col)
+	_shadow_text(f, Vector2(x + 17, 26), nm + (" · Nachtgestalten" if Game.night else ""), 14, col)
 
 ## under it the chronicle's active quest and where it points: an arrow on the screen's diagonal grid and the steps
 ## to go, or in the tower how deep it still is (#qtrack)

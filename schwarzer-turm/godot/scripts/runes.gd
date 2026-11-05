@@ -118,6 +118,8 @@ static func drops(e) -> Dictionary:
 	if ok():
 		var ch: float = 1.0 if e.wb != "" or e.rank == "boss" else ({"unique": .12, "champ": .035}.get(e.rank, .006))
 		var n := int(floor(ch)) + (1 if R.next() < fmod(ch, 1.0) else 0)
+		if Game.night and R.next() < .04:
+			n += 1
 		for k in n:
 			out.append(make(pick(Game.mlvl, e.boss or e.wb != "")))
 	var g := 0

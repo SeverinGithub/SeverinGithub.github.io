@@ -389,7 +389,7 @@ static func _lighthouse(ci: CanvasItem, p: Dictionary, sx: float, sy: float, t: 
 		ci.draw_rect(Rect2(sx + x, top - 9, 1.4, 6), Color("#4a453c"))
 		x += 4
 	ci.draw_rect(Rect2(sx - 15, top - 10, 30, 1.4), Color("#4a453c"))
-	var n := 1.0 if Game.get("night") == true else 0.0
+	var n := DayNight.a()
 	_grad_quad(ci, [Vector2(sx - 7, top - 24), Vector2(sx + 7, top - 24), Vector2(sx + 7, top - 7), Vector2(sx - 7, top - 7)],
 		[Color("#fff4c0"), Color("#fff4c0"), Color("#ffb050"), Color("#ffb050")])
 	ci.draw_rect(Rect2(sx - 1, top - 24, 2, 17), Color("#2a2622"))
@@ -575,7 +575,7 @@ static func draw_islets(ci: CanvasItem, cam_px: Vector2, vs: Vector2, t: float) 
 		var Rr := Rng.new(Game.seed_value * 11 + 5)
 		for k in 7:
 			_islets.append({"x": Rr.next() * 2400, "y": Rr.next() * 1500, "s": .45 + Rr.next() * .55, "v": 6 + Rr.next() * 10, "ph": Rr.next() * 6, "tex": islet_tex(k)})
-	var n := 1.0 if Game.get("night") == true else 0.0
+	var n := DayNight.a()
 	# CX, CY of the browser: where the world's origin lies on the screen
 	var CX := vs.x / 2 - cam_px.x
 	var CY := vs.y / 2 - cam_px.y - 40

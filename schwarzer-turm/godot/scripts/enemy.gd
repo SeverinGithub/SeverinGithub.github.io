@@ -52,6 +52,7 @@ var hz = null                    # its entry in the map's hazards
 var fuse := -1.0                 # the fuse burns (keg) or the chain gives (chandelier) once this is 0 or more
 var stun := 0.0                  # stunned by a falling chandelier
 var tw_wave := false             # a foe of the trial's waves
+var night := false               # a werewolf or night ghost that came with the dark (e.night in 720)
 var rgz := ""                    # the part of the dead lands it belongs to (e.rgz in 520)
 var sum_p: Array = []            # what a boss calls to its side (e.sumP); empty: spiders and skeletons
 var bsub := ""                   # the line under a lord's name when he wakes (e.bsub)
@@ -112,6 +113,7 @@ static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = nu
 		e.sub = " · ".join(e.aff.map(func(k): return ELITE_AFF[k]))
 	e.sub = (e.sub + " · " if e.sub != "" else "") + "Stufe %d" % ml
 	e.max_hp = e.hp
+	DayNight.buff(e)
 	return e
 
 ## a floor guardian (makeBoss). Bosses are not baked yet: a great stone figure stands in for all three.
@@ -243,6 +245,8 @@ func _pose() -> void:
 			off += Vector2(fd.x * l, fd.y * l * .5)
 		if flash > 0:
 			modulate = Color(2.2, 2.2, 2.2, 1)
+		if night and type == "wraith":
+			modulate.a = .78
 	position += off
 	rotation = rot
 	scale = sq * s
