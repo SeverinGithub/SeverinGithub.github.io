@@ -3,7 +3,7 @@ class_name Items
 ## the rarity of 570-loot-economy.js, the class re-roll of 870/970/992 (gear for another class is rolled once more),
 ## staff elements (470) and the implicit mods of class gear (650, 970, 991, 992, baked per base into item_rules.json).
 ## Also potions, junk, what an item is worth, and the inventory grid it is packed into (240-pixel-art.js).
-## Sockets and runes come with the smithy step.
+## Sockets, runes and the smith's +N live in Runes (runes.gd); they show here in value, damage, defence and the tooltip.
 
 const IW := 10                   # inventory columns
 static var IH := 5               # inventory rows: 5, more with talents (invRows)
@@ -42,7 +42,7 @@ static func make(ilvl: int, o := {}) -> Dictionary:
 		it.block = 0
 	if it.cls == "staff":
 		it.elem = R.pick(rules.elements)
-	return it
+	return Runes.roll_sockets(it)
 
 static func _make(ilvl: int, o: Dictionary) -> Dictionary:
 	ilvl = maxi(1, ilvl)
@@ -147,21 +147,31 @@ static func value(it: Dictionary) -> int:
 		return 4 * it.get("n", 1)
 	if it.slot == "junk":
 		return it.v * it.get("n", 1)
-	return roundi((it.ilvl * 3 + 6) * {"normal": 1, "magic": 3, "rare": 7, "unique": 15, "runeword": 20}.get(it.rar, 1))
+	if it.slot == "rune":
+		var r := Runes.by(it.rune)
+		return int(15 + r.l * 10 * (1 + Runes.idx(r.k) * .25))
+	if it.slot == "slate":
+		return 0
+	return roundi(roundi((it.ilvl * 3 + 6) * {"normal": 1, "magic": 3, "rare": 7, "unique": 15, "runeword": 20}.get(it.rar, 1)) * (1 + it.get("up", 0) * .15))
 
 static func dmg(it: Dictionary) -> Array:
 	var e: float = 1 + it.mods.get("ed", 0) / 100.0
-	return [roundi(it.dmg[0] * e), roundi(it.dmg[1] * e)]
+	var u: int = it.get("up", 0)
+	var r := [roundi(it.dmg[0] * e), roundi(it.dmg[1] * e)]
+	return [roundi(r[0] * (1 + u * .08)), roundi(r[1] * (1 + u * .08) + u * .5)] if u else r
 
+## defence with its enhanced share and the smith's steps (itemDef with the 450 wrapper)
 static func defense(it: Dictionary) -> int:
-	return roundi(it.get("def", 0) * (1 + it.mods.get("edef", 0) / 100.0))
+	var d := roundi(it.get("def", 0) * (1 + it.mods.get("edef", 0) / 100.0))
+	var u: int = it.get("up", 0)
+	return roundi(d * (1 + u * .08) + u * 2) if u else d
 
 static func can_use(it: Dictionary) -> bool:
 	return Game.lvl >= it.req.lvl and Game.d.s.str >= it.req.str and Game.d.s.dex >= it.req.dex
 
 ## the key of its pictures: a unique has its own, everything else its base's
 static func pic_key(it: Dictionary) -> String:
-	return "U:" + it.name if it.rar == "unique" else it.b
+	return "U:" + String(it.name).split(" +")[0] if it.rar == "unique" else it.b
 
 ## cells it takes in the inventory (isz)
 static func size(it: Dictionary) -> Vector2i:
@@ -242,6 +252,10 @@ static func tip(it: Dictionary, act := "") -> Array:
 		L.append(["Stellt %d %s wieder her" % [roundi(it.amt * (1 + Game.d.potPow / 100.0)), "Leben" if it.kind == "life" else "Mana"], grey])
 		L.append([act if act else "Rechtsklick: trinken", grey])
 		return L
+	if it.slot == "rune":
+		return Runes.rune_tip(it, act)
+	if it.slot == "slate":
+		return Runes.slate_tip(it)
 	if it.slot == "junk":
 		L.append([it.name, RCOL.junk])
 		L.append(["Ramsch" + (" · Stapel: %d / %d" % [it.n, Data.loot.jmax] if it.n > 1 else ""), grey])
@@ -275,6 +289,9 @@ static func tip(it: Dictionary, act := "") -> Array:
 			L.append([Data.mod_line(k, it.mods[k]), mod])
 	if it.has("elem"):
 		L.append(["Element: " + {"fire": "Feuer", "frost": "Frost", "light": "Blitz", "poison": "Gift"}.get(it.elem, it.elem), mod])
+	if it.get("up"):
+		L.append(["Geschmiedet +%d" % it.up, Color("#ffd88a")])
+	L.append_array(Runes.sock_lines(it))
 	var own = Data.item_rules.owner.get(it.b)
 	if own and it.slot != "weapon" and Data.classes.has(own):
 		L.append(["Ausrüstung: " + Data.classes[own].n, grey])

@@ -220,3 +220,6 @@ Schwarzer Turm: Hügeldorf in Godot – hill_village.gd übersetzt hvBuild aus 9
 
 ### c8a052f · 2026-11-04
 Schwarzer Turm: die ganze Oberfläche in Godot – Welt im SubViewport mit harten Pixeln, Fenster scharf auf der UI-Ebene mit Browser-Texturen und -Schriften; Titel, Pause, Einstellungen, Steuerung, Heldenwahl und Heldenliste; jeder Held speichert sich selbst mit Standort; neues HUD mit Orbs, Gürtel, Banner und Meldungen; Charakter, Fertigkeiten, Inventar, Händler, Bodenlose Truhe und Leuchtfeuer-Fenster
+
+### 20d0160 · 2026-11-05
+Schwarzer Turm: Talentbaum, Sammlung, große Karte und Chronik in Godot – Vollbild-Ansicht mit Ziehen und Zoomen, Talentbaum (P) Zeile für Zeile aus 920, Sammlung (J) mit Reitern, große Karte (M) mit erkundeten Gängen und Inseln, Chronik (L) mit fünfzig Quests in fünf Akten und Zielen am Himmel; Testschalter --tree, --coll, --map, --quests

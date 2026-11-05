@@ -7,7 +7,7 @@ const DIR := "user://heroes"
 const INDEX := "user://heroes/index.cfg"
 ## what of Game goes into a save
 const KEEP := ["seed_value", "max_floor", "respawn_floor", "lit", "boss_dead", "boss_seen", "ow_fires", "ow_boss", "ow_seen", "ow_respawn",
-	"cls", "stats", "lvl", "xp", "pts", "spts", "glut", "keys", "eq", "inv", "stash", "tree", "tbonus", "found", "qi", "qb", "qc", "slv", "sel", "flask_max", "flasks", "flask_pow", "tw"]
+	"cls", "stats", "lvl", "xp", "pts", "spts", "glut", "keys", "slate_g", "slate_e", "smith_met", "eq", "inv", "stash", "tree", "tbonus", "found", "qi", "qb", "qc", "slv", "sel", "flask_max", "flasks", "flask_pow", "tw"]
 
 static func _cfg() -> ConfigFile:
 	var c := ConfigFile.new()
@@ -109,6 +109,8 @@ static func read(id: String) -> Dictionary:
 ## put a save back into Game; returns where the hero stood
 static func apply(d: Dictionary) -> Dictionary:
 	Game.start_new(d.get("cls", "krieger"))
+	for k in ["slate_g", "slate_e", "smith_met"]:     # saves from before the forge
+		Game.set(k, 0)
 	for k in KEEP:
 		if d.has(k):
 			Game.set(k, d[k])

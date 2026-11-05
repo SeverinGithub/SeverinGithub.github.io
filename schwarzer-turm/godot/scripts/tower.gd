@@ -17,6 +17,8 @@ var hud_layer: CanvasLayer
 var char_panel: CharPanel
 var shop_panel: Shop
 var stash_panel: Stash
+var forge_panel: Forge
+var grind_panel: Grind
 var tree_view: TalentView
 var coll_panel: Collection
 var map_view: MapView
@@ -124,6 +126,14 @@ func _ready() -> void:
 	stash_panel.host = self
 	ui.add_panel(stash_panel)
 	inv_panel.stash = stash_panel
+	forge_panel = Forge.new()
+	forge_panel.ui = ui
+	forge_panel.host = self
+	ui.add_panel(forge_panel)
+	grind_panel = Grind.new()
+	grind_panel.ui = ui
+	grind_panel.host = self
+	ui.add_panel(grind_panel)
 	tree_view = TalentView.new()
 	tree_view.ui = ui
 	tree_view.host = self
@@ -265,6 +275,9 @@ func _ready() -> void:
 		Game.discover(Items.make(20, {"rarity": "unique"}))
 		print("Sammlung: ", Game.found.keys())
 		coll_panel.toggle()
+		if args.coll != "1":
+			coll_panel._tab = int(args.coll)
+			coll_panel._build()
 	if args.has("shop"):
 		# test: Odalinde's window with glut to spend, the bag beside it
 		Game.glut = 5000
@@ -285,10 +298,78 @@ func _ready() -> void:
 		for k in 14:
 			Stash.add(Items.make(10, {"rarity": ["normal", "magic", "rare", "unique"][k % 4]}))
 		open_stash()
+	if args.has("runes") or args.has("forge") or args.has("grind"):
+		_test_runes()
 	if args.has("bot"):
 		_bot()
 	if args.has("shot"):
 		_shot()
+
+## test: runes, sockets and runewords (--runes), Brannoc's forge (--forge, =strike hits three times) and the grindstone (--grind)
+func _test_runes() -> void:
+	for f in [3, 6, 9]:
+		Game.boss_dead[f] = true
+	Game.glut = 20000
+	Game.lvl = maxi(Game.lvl, 30)
+	Game.recalc()
+	# a plain sword with two sockets becomes Erster Funke; a helm gets one rune; one of every rune in the bag
+	var w := Game.item_of("Kurzschwert")
+	w.soc = 2
+	w.runes = []
+	Game.eq.weapon = w
+	Runes.insert(Runes.make("asch"), w)
+	Runes.insert(Runes.make("dorn"), w)
+	var hl := Game.item_of("Lederkappe") if Data.items.has("Lederkappe") else Items.make(5, {"slot": "helm", "rarity": "normal"})
+	hl.soc = 3
+	hl.runes = []
+	Items.inv_add(hl)
+	Runes.insert(Runes.make("fels"), hl)
+	for r in Runes.RUNES.slice(0, 6):
+		Items.inv_add(Runes.make(r.k))
+	var drops := {}
+	for k in 400:
+		var e := {"wb": "", "rank": ["normal", "champ", "unique", "boss"][k % 4], "boss": k % 4 == 3, "type": "skel"}
+		for it in Runes.drops(e).out:
+			drops[it.name] = drops.get(it.name, 0) + 1
+	var socks := 0
+	for k in 300:
+		if Items.make(10).has("soc"):
+			socks += 1
+	Game._gear()
+	print("Runenwort: ", w.name, " ", w.rar, " ", w.mods, " Stufe ", w.req.lvl)
+	print("Helm: ", hl.name, " ", hl.runes, " ", hl.mods)
+	print("Beute aus 400 Gegnern: ", drops)
+	print("Gesockelt: %d von 300 · Schaden %d–%d · Quest-Zähler %s" % [socks, Game.d.dmin, Game.d.dmax, Game.qc])
+	if args.has("forge"):
+		Game.slate_g = 30
+		Game.slate_e = 8
+		await get_tree().process_frame
+		for n in level.obj_nodes:
+			if n.p.type == "smith":
+				level.P.x = n.p.x + 1.6
+				level.P.y = n.p.y + 1.2
+		if args.forge == "look":
+			return
+		open_forge()
+		forge_panel.place_on_anvil(w)
+		if args.forge == "strike":
+			for k in 3:
+				forge_panel.strike()
+				await get_tree().create_timer(1.2).timeout
+			print("Geschmiedet: ", w.name, " +", w.get("up", 0), " Schaden ", Items.dmg(w), " Glut ", Game.glut, " Schiefer ", Game.slate_g, "/", Game.slate_e, " Held ", Game.d.dmin, "–", Game.d.dmax)
+	elif args.has("grind"):
+		await get_tree().process_frame
+		for n in level.obj_nodes:
+			if n.p.type == "grind":
+				level.P.x = n.p.x + 1.2
+				level.P.y = n.p.y + 1.2
+		open_grind()
+		if args.grind == "go":
+			grind_panel._grind(w)
+			print("Geschliffen: ", w.name, " ", w.rar, " ", w.mods, " Runen ", w.runes, " Stufe ", w.req.lvl, " Tasche ", Game.inv.filter(func(x): return x.slot == "rune").map(func(x): return x.name))
+	else:
+		inv_panel.toggle()
+		inv_panel.pin = hl
 
 func _shot() -> void:
 	await get_tree().create_timer(float(args.get("shot-after", "2.0"))).timeout
@@ -479,6 +560,12 @@ func open_shop(o: Dictionary) -> void:
 
 func open_stash() -> void:
 	stash_panel.open()
+
+func open_forge() -> void:
+	forge_panel.open()
+
+func open_grind() -> void:
+	grind_panel.open()
 
 ## the small buttons on the belt
 func panel_button(k: String) -> void:

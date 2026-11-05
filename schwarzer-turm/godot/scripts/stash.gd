@@ -145,6 +145,8 @@ func _gui_input(ev: InputEvent) -> void:
 			Game.hand = hit[0]
 			_hover = null
 		return
+	if Game.hand.slot == "rune" and hit.size() and Runes.try_hand(hit[0]):
+		return
 	var it: Dictionary = Game.hand
 	var t := _target(ev.position)
 	var in_way := at(t.position.x, t.position.y, t.size.x, t.size.y)
@@ -206,6 +208,7 @@ func _draw() -> void:
 		var tex := Items.icon(it)
 		if tex:
 			draw_texture_rect(tex, r, false)
+			Runes.draw_socks(self, it, r, cell)
 		if it == _hover:
 			draw_rect(r.grow(-1), Color("#c8962a"), false, 2)
 	if Game.hand and _in_grid(_m):

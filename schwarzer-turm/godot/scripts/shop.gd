@@ -163,13 +163,14 @@ func _gamble(slot: String) -> void:
 func _process(_dt: float) -> void:
 	if not visible:
 		return
-	var sig := "%d|%d|%d|%d|%d|%d" % [Game.glut, Game.flask_max, Game.flask_pow, Game.keys, stock().size(), Game.lvl]
+	var sig := "%d|%d|%d|%d|%d|%d|%d|%d" % [Game.glut, Game.flask_max, Game.flask_pow, Game.keys, stock().size(), Game.lvl, Game.inv.size(), Runes.sock_list().size()]
 	if sig != _sig:
 		_sig = sig
 		_build()
 	if _hover and Game.hand == null:
 		var lines := Items.tip(_hover, "")
-		lines.append(["Preis: %d Glut" % buy_price(_hover), Ui.EMBER, "small"])
+		if stock().has(_hover):
+			lines.append(["Preis: %d Glut" % buy_price(_hover), Ui.EMBER, "small"])
 		ui.overlay.tip(lines, ui.root.get_local_mouse_position())
 
 func _build() -> void:
@@ -202,6 +203,25 @@ func _build() -> void:
 	_v.add_child(_row("Flakon verstärken (+8% Heilung)", Ui.PAPER, "–" if Game.flask_pow >= 6 else str(_pow_cost()), _buy.bind("pow"), Game.flask_pow >= 6))
 	_v.add_child(_row("Truhenschlüssel · du hast %d" % Game.keys, Ui.PAPER, str(_key_cost()), _buy.bind("key")))
 	_v.add_child(Ui.hint("Öffnet eine verschlossene Truhe. Darin liegt immer etwas Einzigartiges."))
+	# runes and sockets (shopRuneHTML in 350, gated in 570)
+	_v.add_child(Ui.sub("Runen und Sockel"))
+	if Runes.ok():
+		_v.add_child(_row("Runenbeutel (eine Rune deiner Tiefe)", Runes.COL, str(Runes.bag_cost()), Runes.buy_bag))
+	else:
+		_v.add_child(Ui.hint("„Runen? Erst wenn drei Hüter gefallen sind, Wanderer.“"))
+	_v.add_child(Ui.hint("Odalinde schlägt Sockel in gewöhnliche Gegenstände ohne Sockel. Wie viele es werden, entscheidet der Stein."))
+	var sl := Runes.sock_list()
+	for e in sl:
+		var it: Dictionary = e[0]
+		var r := _row(it.name + (" (angelegt)" if e[1] else ""), Ui.PAPER, str(Runes.sock_cost(it)), Runes.buy_sockets.bind(it))
+		(r.get_child(2) as Button).text = "Sockeln"
+		r.mouse_entered.connect(func(): _hover = it)
+		r.mouse_exited.connect(func():
+			if _hover == it:
+				_hover = null)
+		_v.add_child(r)
+	if sl.is_empty():
+		_v.add_child(Ui.hint("Kein gewöhnlicher Gegenstand ohne Sockel dabei."))
 	_v.add_child(Ui.sub("Glücksspiel · %d Glut pro Wurf" % _gamble_cost()))
 	_v.add_child(Ui.hint("Ein unbekannter Gegenstand deiner Stufe. Meist magisch, manchmal selten, ganz selten einzigartig."))
 	var g := GridContainer.new()

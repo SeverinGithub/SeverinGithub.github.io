@@ -123,6 +123,18 @@ func _top_info() -> void:
 		draw_rect(Rect2(0, 0, 420 * (1 - q * .5), 104 * (1 - q * .4)), Color(0, 0, 0, .045))
 	_shadow_text(f, Vector2(14, 26), _where(), 16, Ui.PAPER)
 	_shadow_text(f, Vector2(14, 46), "%d Glut" % Game.glut, 16, Ui.EMBER)
+	# the slates beside it, once there are any (slateHud in 460)
+	if Game.slate_g or Game.slate_e:
+		var x := 14 + f.get_string_size("%d Glut" % Game.glut, HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 14
+		for k in ["g", "e"]:
+			var n: int = Game.slate_g if k == "g" else Game.slate_e
+			if k == "e" and n == 0:
+				continue
+			var t := Runes.icon("Slate:" + k)
+			if t:
+				draw_texture_rect(t, Rect2(x, 30, 20, 20), false)
+			_shadow_text(f, Vector2(x + 22, 46), str(n), 16, Runes.SLATE[k].col)
+			x += 22 + f.get_string_size(str(n), HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 12
 	_quest_track()
 
 ## under it the chronicle's active quest and where it points: an arrow on the screen's diagonal grid and the steps
@@ -224,6 +236,12 @@ func _hover_names() -> void:
 		"door": txt = "Den Turm betreten · Ebene %d" % Game.top_floor() if Game.top_floor() > 1 else "Den Turm betreten"
 		"merchant": txt = o.p.get("name", "Odalinde") + ", Händler" + ("in" if not o.p.has("name") else "")
 		"stash": txt = "Bodenlose Truhe"
+		"smith":
+			txt = "Brannoc, der Schmied"
+			col = Color("#ffd88a")
+		"grind":
+			txt = "Schleifstein"
+			col = Color("#e8c878")
 		"colossus": txt = "Wächter der Arena · erwacht ab Ebene 20"
 		"stairs": txt = "Hinab zu Ebene %d" % (Game.floor_no + 1)
 		"hvsign": txt = "Wegweiser"
@@ -240,7 +258,7 @@ func _hover_names() -> void:
 				txt += " · versiegelt, besiege die Wächter des Raums" if o.p.get("sealed") != false else " · bereit"
 	if txt == "":
 		return
-	var up: float = {"door": 120, "colossus": 290, "merchant": 66, "stash": 48, "shrine": 58, "chest": 36, "twlift": 80, "twcage": 66}.get(o.p.type, 58 if String(o.p.type).begins_with("tw") else 46)
+	var up: float = {"door": 120, "colossus": 290, "merchant": 66, "stash": 48, "smith": 100, "grind": 52, "shrine": 58, "chest": 36, "twlift": 80, "twcage": 66}.get(o.p.type, 58 if String(o.p.type).begins_with("tw") else 46)
 	var at := s - Vector2(0, up * level.get_viewport().get_canvas_transform().get_scale().x / k)
 	var f := Ui.font("sc")
 	var tw := f.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x

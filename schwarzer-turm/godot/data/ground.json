@@ -6983,5 +6983,85 @@
   "file": "potm.png",
   "w": 34,
   "h": 34
+ },
+ "Rune:asch": {
+  "file": "rune_asch.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:dorn": {
+  "file": "rune_dorn.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:frost": {
+  "file": "rune_frost.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:funk": {
+  "file": "rune_funk.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:blut": {
+  "file": "rune_blut.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:fels": {
+  "file": "rune_fels.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:wind": {
+  "file": "rune_wind.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:eule": {
+  "file": "rune_eule.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:baer": {
+  "file": "rune_baer.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:luchs": {
+  "file": "rune_luchs.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:gold": {
+  "file": "rune_gold.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:mond": {
+  "file": "rune_mond.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:kern": {
+  "file": "rune_kern.png",
+  "w": 34,
+  "h": 34
+ },
+ "Rune:krone": {
+  "file": "rune_krone.png",
+  "w": 34,
+  "h": 34
+ },
+ "Slate:g": {
+  "file": "slate_g.png",
+  "w": 34,
+  "h": 34
+ },
+ "Slate:e": {
+  "file": "slate_e.png",
+  "w": 34,
+  "h": 34
  }
 }

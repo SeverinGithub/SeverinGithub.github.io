@@ -179,6 +179,28 @@ func _draw_obj(sx: float, sy: float, t: float) -> void:
 			draw_texture(c, Vector2(sx - 85, sy - 268), Color(1, 1, 1, .45 if behind else 1.0))
 		"chest":
 			_draw_chest(sx, sy, t)
+		"smith":
+			_draw_sheet("smithy", int(fmod(t + p.get("off", 0.0), 12.0) * 15), sx, sy)
+			var gl: float = Game.smith_hit
+			if gl > 0:
+				glow(self, Vector2(sx - 9, sy - 13), 14, Color(1, .86, .55, minf(1, gl * 2)))
+		"grind":
+			var fx: float = p.get("fx", 0.0)
+			_draw_sheet("grind", int(fposmod(p.get("rot", 0.0), PI * 10 / 3) / (PI * 10 / 3) * 96), sx, sy)
+			if fx > 0:
+				glow(self, Vector2(sx - 6, sy - 16), 18, Color(1, .78, .47, .5 * fx))
+
+## one frame of a baked sheet (tools/godot-export-runes.js): frames of fw × fh in cols columns, anchor ax, ay
+func _draw_sheet(key: String, f: int, sx: float, sy: float) -> void:
+	var m: Dictionary = Data.sprites.get(key, {})
+	if m.is_empty():
+		return
+	var tex := Data.sprite(key)
+	f = posmod(f, int(m.n))
+	var fw := float(m.fw)
+	var fh := float(m.fh)
+	var src := Rect2((f % int(m.cols)) * fw, (f / int(m.cols)) * fh, fw, fh)
+	draw_texture_rect_region(tex, Rect2(roundf(sx - float(m.ax)), roundf(sy - float(m.ay)), fw, fh), src)
 
 ## a rolling boulder (drawBoulder in 760-tower-2.js): its lane glows red while it rumbles, it grows back after it broke
 func _draw_boulder(sx: float, sy: float, _t: float) -> void:

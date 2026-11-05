@@ -3,15 +3,15 @@ class_name Quests
 ## Counters (Game.qc) run all the time; a quest counts from where they stood when it began (Game.qb). Done gives glut,
 ## 12 % of a level's experience and, at the end of each act, a talent point. In the sky the quest points to a place
 ## (target), which the tracker top left, the map and the compass on the HUD show.
-## Runes, sockets and the arena's statue are not in Godot yet: their three quests wait in the line, marked, and are
-## passed over without reward (LATER) until those systems come.
+## The arena's statue is not in Godot yet: its quest waits in the line, marked, and is passed over without reward
+## (LATER) until the arena comes.
 
 const QACT := ["Akt I · Der Hügel", "Akt II · Die Himmelsinseln", "Akt III · Feuer und Nebel", "Akt IV · Die Tiefe", "Akt V · Der schwarze Himmel"]
 const FAMN := {"skel": "Skelette", "archer": "Knochenschützen", "ghoul": "Ghule", "spider": "Spinnen", "cult": "Kultisten", "wraith": "Klageseelen", "golem": "Kolosse", "scorp": "Skorpione"}
 const FAMK := {"skel": ["ruins", "grave", "village"], "archer": ["ruins", "grave"], "ghoul": ["grave", "forest"], "spider": ["forest"], "scorp": ["forest"],
 	"cult": ["grave", "village"], "wraith": ["ruins", "grave"], "golem": ["ruins"]}
 const KINDN := {"village": "brennendes Dorf", "ruins": "Ruinen", "grave": "Gräberinsel", "camp": "Lager", "forest": "Waldinsel", "wild": "wilde Insel", "rock": "Felsinsel", "boss": "Bossinsel"}
-const LATER := {"socket": "Kommt mit der Schmiede", "runeword": "Kommt mit der Schmiede", "arena": "Kommt mit der Arena"}
+const LATER := {"arena": "Kommt mit der Arena"}
 
 static var Q: Array = []
 static var _tc := {}             # the target, remembered per quest and chunk (G.qtc)
@@ -134,6 +134,14 @@ static func prog(q: Dictionary) -> Array:
 		"explore": return [seen_kind(null), q.n]
 		"fires": return [Game.ow_fires.size(), q.n]
 		"lvl": return [Game.lvl, q.n]
+		"socket":
+			var n := 0
+			for it in Game.eq.values() + Game.inv + Game.stash:
+				if it is Dictionary:
+					n += it.get("runes", []).size()
+			return [maxi(cnt("socket"), n), q.n]
+		"runeword":
+			return [maxi(cnt("runeword"), Game.found.keys().filter(func(k): return String(k).begins_with("rw:")).size()), q.n]
 		"talent": return [Game.tree.size(), q.n]
 		"unique":
 			var n := 0

@@ -268,7 +268,9 @@ static func loot(o: Dictionary, cl: int, mf: float, floor_no: int) -> Dictionary
 				it.call({"rarity": "unique", "up": 2})
 			pot = 2
 			gl = 30 * cl
-	# runes come with the smithy (step 6)
+	var rn = Runes.chest_rune(lk, cl)
+	if rn:
+		out.append(rn)
 	for k in pot:
 		out.append(Items.potion("life" if R.next() < .65 else "mana", floor_no))
 	return {"out": out, "gl": gl}

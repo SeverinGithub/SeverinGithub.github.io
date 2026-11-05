@@ -78,6 +78,16 @@ func _build() -> void:
 	for u in Data.uniques:
 		ut.append({"key": "U:" + u.n, "base": u.b, "name": u.n + " · " + u.b, "ok": Game.found.has("u:" + u.n), "u": true})
 	groups.append(["Einzigartig", ut])
+	var uq_i := groups.size() - 1
+	# runes and the runeword recipes (the buildColl wrapper in 350)
+	var rt := []
+	for r in Runes.RUNES:
+		rt.append({"key": "Rune:" + r.k, "name": "%s-Rune · ab Stufe %d · Waffe: %s · Rüstung: %s" % [r.n, r.l, Runes.txt(r.w), Runes.txt(r.a)], "ok": Game.found.has("r:" + r.k), "rune": true})
+	groups.append(["Runen", rt])
+	var wt := []
+	for w in Runes.RW:
+		wt.append({"w": w, "ok": Game.found.has("rw:" + w.n)})
+	groups.append(["Runenwörter", wt])
 	var tabs := GridContainer.new()
 	tabs.columns = 2
 	tabs.add_theme_constant_override("h_separation", 4)
@@ -94,15 +104,44 @@ func _build() -> void:
 			sb.content_margin_left = 12
 			sb.content_margin_right = 12
 			b.add_theme_stylebox_override("normal", sb)
-		if i == groups.size() - 1:
+		if i == uq_i:
 			b.add_theme_color_override("font_color", Ui.RAR.unique)
+		elif i > uq_i:
+			b.add_theme_color_override("font_color", Runes.COL if i == uq_i + 1 else Runes.RWCOL)
 		tabs.add_child(b)
 	_v.add_child(tabs)
 	var gs := Ui.sub(groups[_tab][0])
-	if _tab == groups.size() - 1:
+	if _tab == uq_i:
 		(gs.get_child(0) as Label).add_theme_color_override("font_color", Ui.RAR.unique)
 	_v.add_child(gs)
-	_v.add_child(Tiles.new(groups[_tab][1], ui))
+	if _tab == uq_i + 2:
+		_v.add_child(Ui.hint("Nur in gewöhnlichen Gegenständen mit genau so vielen Sockeln, Runen in dieser Reihenfolge."))
+		for t in groups[_tab][1]:
+			_v.add_child(_rw_row(t.w, t.ok))
+	else:
+		_v.add_child(Tiles.new(groups[_tab][1], ui))
+
+## a runeword recipe: name, where and from which level, its runes in order, what it gives; gold once forged
+func _rw_row(w: Dictionary, got: bool) -> Control:
+	var b := VBoxContainer.new()
+	b.add_theme_constant_override("separation", 0)
+	var head := HBoxContainer.new()
+	var n := Ui.label(w.n + ("  ✓" if got else ""), 16, Ui.HEAD if got else Ui.PAPER)
+	n.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	head.add_child(n)
+	var pl := []
+	for s in w.s:
+		pl.append(Runes.SLOTPL[s])
+	head.add_child(Ui.label("%s · %d Sockel · ab Stufe %d" % [", ".join(pl), w.r.size(), Runes.rw_lvl(w)], 12, Ui.PAPER_DIM))
+	b.add_child(head)
+	var rs := []
+	for k in w.r:
+		rs.append(Runes.by(k).n)
+	b.add_child(Ui.label(" + ".join(rs), 14, Runes.COL))
+	var m := Ui.label(Runes.txt(w.m), 13, Color("#7aa4ff"))
+	m.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	b.add_child(m)
+	return b
 
 ## a gold bar of how much is found
 class Progress extends Control:

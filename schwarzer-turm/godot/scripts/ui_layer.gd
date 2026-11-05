@@ -112,5 +112,6 @@ class Overlay extends Control:
 			if tex:
 				draw_texture_rect(tex, Rect2(r.position + Vector2(0, 6), r.size), false, Color(0, 0, 0, .55))
 				draw_texture_rect(tex, r, false)
+				Runes.draw_socks(self, Game.hand, r, cell)
 		elif _tip.size() and Engine.get_process_frames() - _tip_f <= 1:
 			Ui.draw_tip(self, _tip_at, _tip, Rect2(Vector2.ZERO, size), _tip_pic)

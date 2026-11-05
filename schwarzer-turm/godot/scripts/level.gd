@@ -786,6 +786,8 @@ func _process(dt: float) -> void:
 	_loot_q(dt)
 	_trial_tick()
 	_upd_traps(dt)
+	if ow:
+		_stations(dt)
 	if theme:
 		theme.tick(dt)
 	for e in enemies:
@@ -1162,6 +1164,10 @@ func _interact(o: Prop) -> void:
 			get_tree().current_scene.open_shop(o.p)
 		"stash":
 			get_tree().current_scene.open_stash()
+		"smith":
+			get_tree().current_scene.open_forge()
+		"grind":
+			get_tree().current_scene.open_grind()
 		_:
 			if theme:
 				theme.interact(o)
@@ -1651,6 +1657,8 @@ func drop_item(it: Dictionary, x: float, y: float) -> void:
 	items.append({"it": it, "x": x, "y": y, "t": 0.0})
 	if it.rar == "unique":
 		Game.log_msg("Einzigartig: " + it.name, Items.RCOL.unique)
+	elif it.slot == "rune":
+		Game.log_msg("Rune: " + it.name, Runes.COL)
 
 ## what a slain foe leaves (killEnemy in 170-combat.js): gear now and then, junk often, potions sometimes
 func _loot(e: Enemy) -> void:
@@ -1690,9 +1698,22 @@ func _loot(e: Enemy) -> void:
 		Game.banner.emit("EIN WUNDER", "Das Schicksal lächelt dir zu", "boss")
 	if R.next() < (.06 if e.rank == "normal" else .35):
 		drop_item(Items.potion("life" if R.next() < .65 else "mana", Game.floor_no), e.world.x, e.world.y)
+	# runes once three guardians have fallen, grave slate from the dead that walk, ember slate from the strong (350, 450)
+	for it in Runes.drops(e).out:
+		drop_item(it, e.world.x, e.world.y)
 
 func pickup(gi: Dictionary) -> void:
 	if not items.has(gi):
+		return
+	# a slate is no thing for the bag: it joins the count under the glut
+	if gi.it.slot == "slate":
+		items.erase(gi)
+		var e: bool = gi.it.slate == "e"
+		if e:
+			Game.slate_e += 1
+		else:
+			Game.slate_g += 1
+		ftext(Vector2(P.x, P.y - .5), "+1 " + gi.it.name, Runes.SLATE[gi.it.slate].col)
 		return
 	if not Items.inv_add(gi.it):
 		Game.log_msg("Das Inventar ist voll.", Color("#ff5a4a"))
@@ -2091,6 +2112,77 @@ func _update_fx(dt: float) -> void:
 			click_fx = null
 	if parts.size() > 1500:
 		parts = parts.slice(parts.size() - 1500)
+
+# ---------- the smithy and the grindstone on the hill (smithTick in 460, grindTick in 850) ----------
+
+## a point on screen relative to the smith (dx, dy where it shows, h how high it floats) back in the world (smW)
+static func _sm_w(o: Dictionary, dx: float, dy: float, h := 0.0) -> Vector3:
+	var u := dx / 32.0
+	var v := (dy + h) / 16.0
+	return Vector3(o.x + (u + v) / 2, o.y + (v - u) / 2, h / 30.0)
+
+func _ember(w: Vector3, sp: float, cols: Array) -> void:
+	parts.append({"k": "spark", "x": w.x + R.rnd(-.15, .15), "y": w.y + R.rnd(-.15, .15), "z": w.z, "vx": R.rnd(-.2, .2) * sp, "vy": R.rnd(-.2, .2) * sp, "vz": R.rnd(.8, 1.8) * sp,
+		"t": 0.0, "life": R.rnd(.5, 1), "col": Color(R.pick(cols)), "s": R.rnd(.8, 1.5), "g": -.4})
+
+func _puff(w: Vector3, col: Color, s0: float, life: float) -> void:
+	parts.append({"k": "smoke", "x": w.x + R.rnd(-.1, .1), "y": w.y + R.rnd(-.1, .1), "z": w.z, "vx": R.rnd(-.3, .3), "vy": R.rnd(-.3, .3), "vz": R.rnd(.8, 1.4),
+		"t": 0.0, "life": R.rnd(life * .7, life * 1.3), "col": col, "s": R.rnd(s0, s0 * 1.5), "g": -.3})
+
+var _sm_t := -1.0
+
+## the forge breathes with Brannoc's round: embers at the bellows, sparks on each blow, steam at the trough, smoke from the chimney
+func _stations(dt: float) -> void:
+	Game.smith_hit = maxf(0, Game.smith_hit - dt)
+	for n in obj_nodes:
+		var o: Dictionary = n.p
+		if o.type == "grind":
+			var fx: float = o.get("fx", 0.0)
+			o.rot = o.get("rot", 0.0) + (.4 + fx * 14) * dt
+			if fx > 0:
+				o.fx = maxf(0, fx - dt)
+				if R.next() < dt * 40:
+					sparks(Vector2(o.x - .2, o.y + .2), .6, -2.2 + R.rnd(-.5, .5), 2, [Color("#ffffff"), Color("#ffe0a0"), Color("#ffb050")], 5)
+			continue
+		if o.type != "smith" or Vector2(o.x - P.x, o.y - P.y).length() > 22:
+			continue
+		var t := fmod(Game.t + o.get("off", 0.0), 12.0)
+		var t0 := _sm_t if _sm_t >= 0 else t
+		_sm_t = t
+		var cross := func(a: float) -> bool: return (t0 < a and t >= a) if t0 <= t else (t0 < a or t >= a)
+		var F := _sm_w(o, 34, -29, 13)
+		var blow := t < 2.6
+		if R.next() < dt * (10 if blow else 3):
+			_ember(F, 2.0 if blow else 1.0, ["#ffc070", "#ff7a1a", "#fff0b0"])
+		if R.next() < dt * 1.6:
+			_puff(_sm_w(o, 38, -93, 76), Color(110 / 255.0, 104 / 255.0, 98 / 255.0, .5), 3.5, 1.2)
+		for a in [.255, 1.105, 1.955]:
+			if cross.call(a):
+				for k in 6:
+					_ember(F, 2.5, ["#fff0b0", "#ffc070"])
+		for b in 6:
+			if cross.call(3.3 + b * .7 + .62 * .7):
+				var heat := 1 - .55 * (t - 3.3) / 4.2
+				var w := _sm_w(o, -14 + 5, -4 - 10, 20)
+				sparks(Vector2(w.x, w.y), w.z, -1.57, roundi(4 + heat * 12), [Color("#fff4d0"), Color("#ffc070"), Color("#ff7a1a")], 4.5)
+		if t > 8.1 + 1.4 * .16 and t < 8.1 + 1.4 * .85 and R.next() < dt * 22:
+			_puff(_sm_w(o, -42, -13, 7), Color(235 / 255.0, 240 / 255.0, 245 / 255.0, .45), 2.5, 1.0)
+
+## the forge window struck: sparks over the anvil in the world too (forgeImpact)
+func forge_spark() -> void:
+	Game.smith_hit = .35
+	for n in obj_nodes:
+		if n.p.type == "smith":
+			var w := _sm_w(n.p, -11, -24, 18)
+			sparks(Vector2(w.x, w.y), w.z, -1.57, 20, [Color("#ffffff"), Color("#fff4d0"), Color("#ffc070"), Color("#ff7a1a")], 6)
+
+## the grindstone turned fast with sparks (the data-grind click)
+func grind_spark() -> void:
+	for n in obj_nodes:
+		if n.p.type == "grind":
+			n.p.fx = 1.1
+			sparks(Vector2(n.p.x, n.p.y), .8, -2.4, 22, [Color("#ffffff"), Color("#ffe8b0"), Color("#ffb050"), Color("#ff7a1a")], 6)
+			_flash(Vector2(n.p.x, n.p.y), .5)
 
 func ftext(at: Vector2, txt: String, col: Color, big := false) -> void:
 	# Schadenszahlen off in the settings: no numbers over heads (CFG.numbers)

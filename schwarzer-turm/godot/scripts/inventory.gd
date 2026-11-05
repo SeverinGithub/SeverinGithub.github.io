@@ -73,7 +73,7 @@ func _process(_dt: float) -> void:
 			lines.append(["Klick: verkaufen für %d Glut" % Shop.sell_price(it), Ui.EMBER, "small"])
 		elif mode == "stash" and not Game.eq.values().has(it):
 			lines.append(["Shift+Klick: in die Truhe legen", Ui.PAPER_DIM, "small"])
-		ui.overlay.tip(lines, at + position)
+		ui.overlay.tip(lines, at + position, Items.ground_pic(it) if it.slot == "rune" else null)
 
 func _unhandled_key_input(ev: InputEvent) -> void:
 	if Game.in_play and not get_tree().paused and ev is InputEventKey and ev.pressed and not ev.echo and ev.keycode in [KEY_I, KEY_B]:
@@ -168,7 +168,7 @@ func _use(it: Dictionary) -> void:
 	if it.slot == "potion":
 		if level:
 			level.drink(it)
-	elif it.slot != "junk":
+	elif not it.slot in ["junk", "rune", "slate"]:
 		Game.equip(it)
 
 func _click_grid(p: Vector2, shift: bool) -> void:
@@ -191,6 +191,12 @@ func _click_grid(p: Vector2, shift: bool) -> void:
 			Game.hand = it
 		_hover_it = null
 		return
+	# a rune in the hand goes into the socket of the item under the pointer (the gridClick wrapper in 350)
+	if Game.hand.slot == "rune":
+		var c := _fcell(p).floor()
+		var under := Items.inv_at(int(c.x), int(c.y), 1, 1)
+		if under.size() and Runes.try_hand(under[0]):
+			return
 	# put down where the ghost shows; one item in the way is swapped into the hand
 	var it: Dictionary = Game.hand
 	var t := _hand_target(p)
@@ -218,6 +224,12 @@ func _click_slot(slot: String) -> void:
 			Game.eq.erase(slot)
 			Game.hand = cur
 			Game._gear()
+		return
+	if Game.hand.slot == "rune":
+		if Game.eq.get(slot):
+			Runes.try_hand(Game.eq[slot])
+		else:
+			Game.log_msg("Leg die Rune auf einen Gegenstand mit freiem Sockel.", Ui.PAPER_DIM)
 		return
 	var it: Dictionary = Game.hand
 	var want: String = it.slot
@@ -301,7 +313,7 @@ func _panel() -> void:
 	Ui.shadow_text(self, Ui.font("sc"), Vector2(24, y), str(Game.glut), 14, Ui.EMBER, HORIZONTAL_ALIGNMENT_RIGHT, size.x - 48)
 	y += 12
 	var it_f := Ui.font("italic")
-	var hint := ("Klick: verkaufen" if mode == "shop" else "Klick: aufnehmen und ablegen") + " · Rechtsklick: anlegen oder trinken · Shift+Klick: " + ("in die Truhe" if mode == "stash" else "fallen lassen")
+	var hint := ("Klick: verkaufen" if mode == "shop" else ("Klick: Rune in einen Sockel setzen" if Game.hand and Game.hand.slot == "rune" else "Klick: aufnehmen und ablegen")) + " · Rechtsklick: anlegen oder trinken · Shift+Klick: " + ("in die Truhe" if mode == "stash" else "fallen lassen")
 	for l in Ui.wrap_text(it_f, hint, size.x - 48, 13):
 		y += 17
 		Ui.shadow_text(self, it_f, Vector2(24, y), l, 13, Ui.PAPER_DIM)
@@ -341,5 +353,7 @@ func _icon(it: Dictionary, r: Rect2, fit := false, mod := Color.WHITE) -> void:
 		k = floorf(k) if k >= 1 else k
 		var s := ts * k
 		draw_texture_rect(tex, Rect2((r.get_center() - s / 2).floor(), s), false, mod)
+		Runes.draw_socks(self, it, Rect2((r.get_center() - s / 2).floor(), s), s.x / Items.size(it).x)
 	else:
 		draw_texture_rect(tex, r, false, mod)
+		Runes.draw_socks(self, it, r, cell)

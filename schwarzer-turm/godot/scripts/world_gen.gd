@@ -787,7 +787,9 @@ func gen_town() -> Dictionary:
 			continue
 		tt[j * tw + i] = 3
 	var tm := {"w": tw, "h": th, "t": tt, "under": un, "blocks": blocks, "arena": {"x": ax + .5, "y": ay + .5, "r": 8}, "tower": {"x": c + .5, "y": c + .5}, "start": {"x": c + 6.5, "y": c + 8.5},
-		"objs": [{"type": "door", "x": c + 2.3, "y": c + 2.3}, {"type": "shrine", "x": c + 5.5, "y": c + 6.5}, {"type": "merchant", "x": c + 7.5, "y": c + 2.5}, {"type": "stash", "x": c + 3.5, "y": c + 7.0}, {"type": "colossus", "x": ax + 10.5, "y": ay + .5}]}
+		"objs": [{"type": "door", "x": c + 2.3, "y": c + 2.3}, {"type": "shrine", "x": c + 5.5, "y": c + 6.5}, {"type": "merchant", "x": c + 7.5, "y": c + 2.5}, {"type": "stash", "x": c + 3.5, "y": c + 7.0}, {"type": "colossus", "x": ax + 10.5, "y": ay + .5},
+			# Brannoc's smithy (460) and the grindstone (850): the village plan puts them in their quarters
+			{"type": "smith", "x": c + 12.1, "y": c + 6.3, "name": "Brannoc"}, {"type": "grind", "x": c + 1.0, "y": c + 8.0, "name": "Schleifstein"}]}
 	_decorate_town(tm)
 	return tm
 

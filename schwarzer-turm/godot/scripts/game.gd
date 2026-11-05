@@ -54,6 +54,10 @@ var maps := {}                   # floor → its map, kept while you play (G.map
 var no_traps := false            # test: no spike plates and fire spouts, so floors can be compared with the browser
 var tw := {"done": {}, "lift": {}}   # what the hero did in the tower: solved rooms, unlocked lifts (twS in 984)
 var bless_t := 0.0               # the blood altar's blessing: +30 % damage while it lasts
+var slate_g := 0                 # grave slate and ember slate for Brannoc's forge (P.slateG, P.slateE)
+var slate_e := 0
+var smith_met := 0               # Brannoc has said who he is
+var smith_hit := 0.0             # the anvil glows a moment after the forge window strikes (G.smithHit)
 var keys := 0                    # chest keys for the locked chests (770-chests.js)
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
 var inv: Array = []              # items in the bag, each with its cell gx, gy (see Items)
@@ -116,6 +120,9 @@ func start_new(c: String) -> void:
 	spts = 1
 	glut = 0
 	keys = 0
+	slate_g = 0
+	slate_e = 0
+	smith_met = 0
 	maps = {}
 	tw = {"done": {}, "lift": {}}
 	bless_t = 0.0
@@ -177,7 +184,7 @@ func recalc() -> void:
 	var mult: float = 1 + m.get("ed", 0) / 100.0 + s.str * .008 + s.dex * .004
 	var def: float = s.dex * .25
 	for it in eq.values():
-		def += round(it.get("def", 0) * (1 + it.mods.get("edef", 0) / 100.0))
+		def += Items.defense(it)
 	def *= maxf(.1, 1 + m.get("tdef", 0) / 100.0)
 	var wc: String = w.cls if w else "fist"
 	d = {
@@ -206,6 +213,13 @@ func recalc() -> void:
 	if cb.has("aspd"): d.aspd *= cb.aspd
 	for k in ["frw", "crit", "potPow", "flaskH"]:
 		if cb.has(k): d[k] += cb[k]
+	# the smith's steps on the weapon: +8 % damage each, the staff also gains spell power (the recalc wrapper in 450)
+	if w and w.get("up", 0):
+		var k: float = 1 + w.up * .08
+		d.dmin = roundi(d.dmin * k + w.up * .25)
+		d.dmax = roundi(d.dmax * k + w.up * .5)
+		if w.cls == "staff":
+			d.spellMul += w.up * .03
 	Items.IH = 5 + d.invRows
 	hp = minf(hp, d.life)
 	mp = minf(mp, d.mana)
@@ -213,7 +227,10 @@ func recalc() -> void:
 
 ## a new find goes into the collection, with a word in the log (discover in 260-ui.js)
 func discover(it) -> void:
-	if it == null or it.slot in ["potion", "junk"]:
+	if it == null or it.slot in ["potion", "junk", "slate"]:
+		return
+	if it.slot == "rune":
+		Runes.discover(it)
 		return
 	var neu: bool = not found.has(it.b)
 	found[it.b] = 1
