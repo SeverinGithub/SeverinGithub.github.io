@@ -156,6 +156,17 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 - Testschalter: `--craft` (Vereinungen und Glyphen ausgeben), `=merge`/`=ench` öffnen das Fenster, `=merge-go`/`=ench-go` schlagen auch zu, `=look` stellt nur den Helden davor und nennt die Stellen.
 - Dictionaries vergleichen in GDScript nach Inhalt: zwei gleiche Stücke sind mit `==`, `has` und `erase` nicht zu unterscheiden, deshalb arbeitet `craft.gd` mit `is_same`.
 
+## Stand 2026-11-05: Sehenswürdigkeiten der Inseln (986)
+- `scripts/island_sights.gd` (`IslandSights`) übersetzt 986-island-sights.js. `content` ist der owContent-Wrapper (läuft in `ow_content` nach den Truhen): auf etwa jeder fünften Insel ein Wahrzeichen (Leuchtturm auf Felsinseln, gestürzter Riese in Ruinen, Wasserfall ins Nichts auf Waldinseln), auf Gräber- und Ruineninseln oft eine Gruft, Brückensteine, wo zwei Nachbarinseln keine Brücke haben. Mit Seed 4242 stimmen alle 63 Sehenswürdigkeiten im Ausschnitt 29–51 und die Felder genau mit dem Browser (`--worldhash` und `tools/godot-worldhash.js`, die jetzt beide den Inhalt bis 986 rechnen).
+- Bilder wie `isProp`/`isObj`: Leuchtturm mit rot-weißen Ringen, Laterne und zwei kreisenden Lichtkegeln, Riese (Rumpf, Arm, Kopf mit Moos), Wasserfall mit Becken, Ringen, Strom über die Kante und Gischt; Gruft-Eingang mit grünem Schein und Lichtpunkten, Ausgang, Schatztruhe, Brückenstein mit Rune. Licht für Leuchtturm und Wasserfall (`prop_light`), Namen im HUD.
+- **Entdecken**: wer auf 5,5 Felder herankommt, bekommt Erfahrung (Stufe × 25), Banner „Entdeckt“ und einen Eintrag in `Game.tw.seen`.
+- **Brückensteine**: berühren lässt eine Brücke Feld für Feld über die Leere wachsen (45 Felder je Sekunde, Rauch, Funken, Wackeln), Geländer weichen; gemerkt in `Game.tw.br`, beim nächsten Besuch steht sie sofort.
+- **Grüfte** sind Ebene −1 (`Game.crypt`, `crypt_name`, `crypt_lvl`): `gen_crypt` übersetzt `genCrypt` (drei Räume, Gänge, Fackeln, grünes Licht und Kerzen am Schatz, Knochen, Kram aus 760) und stimmt genau mit dem Browser (`--sights`). Monsterstufe der Insel + 1, Thema „Gruft“ mit grünem Ton. Die Truhe gibt drei gute Stücke (wie die Schatzkammer), danach ist die Gruft leer (`Game.tw.crypt`). Wer in der Gruft fällt, behält seine Glut und erwacht am Leuchtfeuer im Himmel; die Gruft schließt sich hinter einem.
+- **Treibende Inselchen**: sieben kleine Inseln segeln weit hinter den Inseln vorbei (unter den Wolken, mit Parallaxe), ihre Bilder werden einmal aus denselben Formen gemalt.
+- **Turmlichter**: für jeden besiegten Hüter der Tiefe brennt ein blasses Licht im Turm, bei allen acht leuchtet die Spitze.
+- Testschalter `--sights` (Gruft 38,31 in Zahlen), `=islight`, `=isstatue`, `=isfall`, `=iscrypt`, `=isbstone` stellen den Helden davor, `=isbstone-go` weckt den Stein, `=iscrypt-go` steigt hinab, `=iscrypt-end` öffnet den Schatz; am besten mit `--seed=4242`.
+- Noch nicht: das Klima der Regionen (Regenmoor, Schneefelder, Aschenebene) und der Schnee, die warten auf Wetter und Tag und Nacht; Klänge.
+
 ## Wie die Browser-Module in Godot aufgehen
 | Browser | Godot |
 |---|---|
@@ -173,7 +184,7 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 ## Offene Entscheidungen
 - ~~Ausrüstung am Helden~~: entschieden 2026-11-03, Ebenen backen (siehe oben).
 - ~~Web-Fassung~~: entschieden 2026-11-04: die Browser-Fassung bleibt für immer, eingefroren in `schwarzer-turm-browser/` (keine Updates mehr). Was später unter `/schwarzer-turm/` läuft (etwa ein Godot-Web-Export), ist offen.
-- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen, Werkstatt ✓ · 7. Mehrspieler · 8. Export iPad/PC.
+- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen, Werkstatt ✓ (danach Sehenswürdigkeiten 986 ✓) · 7. Mehrspieler · 8. Export iPad/PC.
 
 ## Aufwand, ehrlich
 Das Browser-Spiel hat 107 Module und etwa 1,2 MB Code. Die Daten und Bilder sind jetzt mitnehmbar, die Logik muss übersetzt werden. Das sind eher Monate als Wochen, wenn alles wieder drin sein soll.

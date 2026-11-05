@@ -271,6 +271,7 @@ func prop_light(p: Dictionary):
 		"ftcruc": return {"r": 160, "a": .8, "col": Color8(255, 120, 40), "f": 7, "h": 16}
 		"ftcold": return {"r": 40, "a": .3, "col": Color8(255, 80, 30), "f": 1, "h": 14}
 		"twL": return null if p.get("off") else {"r": p.get("r", 130), "a": .7, "col": p.col, "f": 3, "h": p.get("h", 20)}
+		"islight", "isfall": return IslandSights.prop_light(p)
 	return PLIGHT.get(p.k)
 
 ## a prop on the floor, with its light if it has one
@@ -788,6 +789,7 @@ func _process(dt: float) -> void:
 	_upd_traps(dt)
 	if ow:
 		_stations(dt)
+		IslandSights.tick(self, dt)
 	if theme:
 		theme.tick(dt)
 	for e in enemies:
@@ -1170,6 +1172,8 @@ func _interact(o: Prop) -> void:
 			get_tree().current_scene.open_grind()
 		"anvil", "enchant":
 			get_tree().current_scene.open_craft("merge" if o.p.type == "anvil" else "ench")
+		"iscrypt", "iscryptexit", "iscryptchest", "isbstone":
+			IslandSights.interact(self, o)
 		_:
 			if theme:
 				theme.interact(o)
@@ -1435,6 +1439,13 @@ func _die() -> void:
 	P.deathT = 3.6
 	P.path = []
 	P.target = null
+	if Game.floor_no < 0:
+		# the crypt keeps no glut (the die wrapper of 986)
+		Game.banner.emit("DU BIST GEFALLEN", "", "death")
+		if Game.glut > 0:
+			Game.log_msg("Die Gruft behält deine Glut nicht. Sie bleibt bei dir.", IslandSights.GREEN)
+		hero.visible = false
+		return
 	Game.banner.emit("DU BIST GEFALLEN", "%d Glut bleibt hier zurück" % Game.glut if Game.glut > 0 else "", "death")
 	if Game.glut > 0:
 		glutmal = {"x": P.x, "y": P.y, "amt": Game.glut}
@@ -1442,6 +1453,10 @@ func _die() -> void:
 	hero.visible = false
 
 func respawn() -> void:
+	if Game.floor_no < 0:
+		# out of the crypt, back to the bonfire in the sky
+		Game.ow_at = Vector2(Game.ow_respawn.x + 1, Game.ow_respawn.y + 1) if Game.ow_respawn else null
+		get_tree().current_scene.call_deferred("enter_floor", 0)
 	populate()
 	var s := Vector2(m.start.x, m.start.y)
 	for o in m.objs:

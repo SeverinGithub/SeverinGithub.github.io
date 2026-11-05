@@ -120,6 +120,10 @@ func _build_home() -> void:
 	# the browser sorts the tower at x+y+1.2 and draws it 150 left, 550 up from its foot
 	_tower.position = Iso.to_screen(Vector2(wg.tower.x, wg.tower.y)) + Vector2(0, 1.2 * 16)
 	_tower.offset = Vector2(-150, 30 - 580 - 1.2 * 16)
+	# a pale light in the tower for every beaten guardian of the deep (986)
+	var tl := IslandSights.TowerLights.new()
+	tl.position = Vector2(0, 30 - 1.2 * 16)
+	_tower.add_child(tl)
 	L.world.add_child(_tower)
 	_fade.append([_tower, wg.tower.x + wg.tower.y + 1.2, "tower"])
 	for p in wg.home.props:
@@ -468,6 +472,7 @@ class Clouds extends Node2D:
 		var vs := get_viewport_rect().size
 		var cx: float = L.cam_w.x
 		var cy: float = L.cam_w.y
+		IslandSights.draw_islets(self, Iso.to_screen(L.cam_w), vs, Game.t)
 		for c in cl:
 			var px := fposmod(vs.x / 2 + c.x - (cx - cy) * 6 + 1400, 2800) - 1400
 			var py := fposmod(vs.y * .4 + c.y - (cx + cy) * 3 + 700, 1400) - 700

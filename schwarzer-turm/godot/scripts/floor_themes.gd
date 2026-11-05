@@ -36,6 +36,8 @@ static func theme_of(f: int):
 	return FTH[int((f - 1) / 3) % FTH.size()] if f > 0 else null
 
 static func title(f: int) -> String:
+	if f < 0:
+		return Game.crypt_name if Game.crypt_name != "" else "Gruft"
 	var th = theme_of(f)
 	if th == null:
 		return "Ebene %d" % f

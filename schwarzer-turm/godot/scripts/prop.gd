@@ -34,7 +34,7 @@ func setup(d: Dictionary, obj := false) -> Prop:
 	return self
 
 func animated() -> bool:
-	return is_obj or _hv() or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder", "ftwin", "ftglass", "ftbars", "ftgear", "ftcandle", "ftcruc", "ftcold"]
+	return is_obj or _hv() or IslandSights.ISN.has(p.get("k", "")) or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder", "ftwin", "ftglass", "ftbars", "ftgear", "ftcandle", "ftcruc", "ftcold"]
 
 ## a piece of the hill village (988): drawn by HillVillage
 func _hv() -> bool:
@@ -66,6 +66,9 @@ func _draw() -> void:
 		HillVillage.draw(self, p, sx, sy, t, Vector2(L.P.x, L.P.y) if L is Level else Vector2(-1e4, -1e4), Game.get("night") == true)
 		return
 	if is_obj:
+		if String(p.type).begins_with("is"):
+			IslandSights.obj(self, p, sx, sy, t)
+			return
 		if String(p.type).begins_with("tw"):
 			ThemeDraw.obj(self, p, sx, sy, t, ThemeRun.room, Game.tw.lift.has(Game.floor_no))
 			return
@@ -73,6 +76,9 @@ func _draw() -> void:
 		return
 	if String(p.k).begins_with("ft"):
 		ThemeDraw.prop(self, p, sx, sy, t)
+		return
+	if IslandSights.ISN.has(p.k):
+		IslandSights.prop(self, p, sx, sy, t)
 		return
 	match p.k:
 		"torch":

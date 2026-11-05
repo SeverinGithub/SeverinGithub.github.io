@@ -307,10 +307,78 @@ func _ready() -> void:
 		_test_runes()
 	if args.has("craft"):
 		_test_craft()
+	if args.has("sights"):
+		_test_sights()
 	if args.has("bot"):
 		_bot()
 	if args.has("shot"):
 		_shot()
+
+## test: the sights of 986 (--sights, best with --seed=4242). Plain: the crypt of 38,31 at level 6 in numbers, against genCrypt
+## in the browser. =islight, =isstatue, =isfall, =iscrypt, =isbstone stand the hero before the first of its kind;
+## =isbstone-go touches the stone, =iscrypt-go goes down, =iscrypt-end goes down and opens the treasure.
+func _test_sights() -> void:
+	var wg0 := WorldGen.new(Game.seed_value)
+	var c := IslandSights.gen_crypt(wg0, "38,31", 6)
+	var th := 0
+	for v in c.t:
+		th = (th * 31 + v) % 1000000007
+	print("Gruft t %d Räume %s Ebene %d Requisiten %d %d Deko %d %d Start %s,%s" % [th, " ".join(c.rooms.map(func(r): return "%s@%d,%d %dx%d" % [r.shape, r.x, r.y, r.w, r.h])), c.floor,
+		c.props.size(), _sh(" ".join(c.props.map(func(p): return "%s@%.2f,%.2f%s" % [p.k, p.x, p.y, p.get("face", "")]))), c.deco.size(),
+		_sh(" ".join(c.deco.map(func(d): return "%s@%.2f,%.2f:%d" % [d.k, d.x, d.y, d.v]))), c.start.x, c.start.y])
+	var want: String = String(args.sights).trim_suffix("-go").trim_suffix("-end")
+	if not want.begins_with("is"):
+		return
+	# find the first of its kind on a scratch sky, then go there in the real one
+	for dy in range(-12, 13):
+		for dx in range(-12, 13):
+			wg0.ow_island(40 + dx, 40 + dy)
+	for dy in range(-11, 12):
+		for dx in range(-11, 12):
+			wg0.ow_bridge(40 + dx, 40 + dy, 41 + dx, 40 + dy)
+			wg0.ow_bridge(40 + dx, 40 + dy, 40 + dx, 41 + dy)
+	var at = null
+	for cy in range(29, 52):
+		for cx in range(29, 52):
+			if at != null:
+				break
+			var cc := wg0.ow_content(cx, cy)
+			for q in cc.props + cc.objs:
+				if q.get("k", q.get("type")) == want:
+					at = Vector2(q.x, q.y)
+					break
+	if at == null:
+		print("Sicht: keine ", want)
+		return
+	await get_tree().process_frame
+	level.reset_hero(level.near_walk(at.x + 2, at.y + 2))
+	level.ow.tick()
+	level.reset_hero(level.near_walk(at.x + 2, at.y + 2))
+	for e in level.enemies:
+		e.queue_free()             # a hero of level 1 on an island of level 20 would not stand long enough to look
+	level.enemies.clear()
+	print("Sicht: %s bei %.1f,%.1f · Held bei %.1f,%.1f" % [want, at.x, at.y, level.P.x, level.P.y])
+	if not String(args.sights).ends_with("-go") and not String(args.sights).ends_with("-end"):
+		return
+	for n in level.obj_nodes:
+		if n.p.type == want:
+			level._interact(n)
+	await get_tree().create_timer(1.5).timeout
+	if Game.floor_no < 0:
+		print("Gruft: %s · Stufe %d · Gegner %d · Held bei %.1f,%.1f" % [Game.crypt_name, Game.mlvl, level.enemies.size(), level.P.x, level.P.y])
+		if String(args.sights).ends_with("-end"):
+			for e in level.enemies:
+				e.queue_free()
+			level.enemies.clear()
+			for n in level.obj_nodes:
+				if n.p.type == "iscryptchest":
+					level.reset_hero(level.near_walk(n.p.x + 1.5, n.p.y + 1.5))
+					level._interact(n)
+			await get_tree().create_timer(.5).timeout
+			print("Schatz: Boden %d · geplündert %s" % [level.items.size(), IslandSights.S().crypt.keys()])
+	elif want == "isbstone":
+		await get_tree().create_timer(2).timeout
+		print("Brücke: %s · wächst noch %s" % [IslandSights.S().br.keys(), not IslandSights.grow.is_empty()])
 
 ## test: the workshop (--craft): the merge of two fixed swords as a check against mergeOf in the browser, then the window
 ## (=merge or =ench, =merge-go and =ench-go also strike; =look only stands the hero beside the anvil)
@@ -723,7 +791,9 @@ func enter_floor(f: int, by_door := false) -> void:
 		level.queue_free()
 	Game.floor_no = f
 	Game.max_floor = maxi(Game.max_floor, f)
-	Game.mlvl = Game.mlvl_of(f) if f > 0 else 1
+	Game.mlvl = Game.mlvl_of(f) if f > 0 else (Game.crypt_lvl if f < 0 else 1)
+	if f >= 0:
+		Game.crypt = null         # a crypt closes behind you
 	level = Level.new()
 	world_vp.add_child(level)
 	if f == 0:
@@ -731,6 +801,8 @@ func enter_floor(f: int, by_door := false) -> void:
 			wg = WorldGen.new(Game.seed_value)
 			HillVillage.build(wg, HillVillage.grow())
 		level.build({"world": true, "wg": wg, "floor": 0, "w": wg.w, "h": wg.h, "t": wg.t, "under": wg.under, "start": wg.start, "objs": [], "props": [], "deco": []})
+	elif f < 0:
+		level.build(Game.crypt)
 	else:
 		if not Game.maps.has(f):
 			Game.maps[f] = DungeonGen.generate(Game.seed_value, f)
@@ -748,7 +820,9 @@ func enter_floor(f: int, by_door := false) -> void:
 	if playing():
 		save_game.call_deferred()
 	Game.floor_changed.emit(f)
-	if f > 0:
+	if f < 0:
+		Game.banner.emit(Game.crypt_name, "Monsterstufe %d · am Ende wartet ein Schatz" % Game.mlvl, "")
+	elif f > 0:
 		Game.log_msg("Ebene %d · Monsterstufe %d" % [f, Game.mlvl], Color("#a39b88"))
 		# the theme and the curse greet you (the enterFloor wrapper of 982)
 		var m: Dictionary = level.m
@@ -926,6 +1000,38 @@ static func world_hash(s: int) -> String:
 				fh = (fh * 31 + wg.t[k] * 7 + wg.under[k]) % 1000000007
 		far.append(str(fh))
 	out.append("Alle %d %d Felder %s" % [all.size(), _sh(" ".join(all)), " ".join(far)])
+	# the sights of 986 over a wide stretch of sky, chunk by chunk in rows, each built once
+	for dy in range(-12, 13):
+		for dx in range(-12, 13):
+			wg.ow_island(40 + dx, 40 + dy)
+	for dy in range(-11, 12):
+		for dx in range(-11, 12):
+			wg.ow_bridge(40 + dx, 40 + dy, 41 + dx, 40 + dy)
+			wg.ow_bridge(40 + dx, 40 + dy, 40 + dx, 41 + dy)
+	var sl := []
+	var cnt := {}
+	for cy in range(29, 52):
+		for cx in range(29, 52):
+			var key := "%d,%d" % [cx, cy]
+			var c: Dictionary = wg.cdata[key] if wg.cdata.has(key) else wg.ow_content(cx, cy)
+			for p in c.props:
+				if IslandSights.ISN.has(p.k):
+					sl.append("%s %s@%.2f,%.2f v%d ph%.3f" % [key, p.k, p.x, p.y, p.v, p.ph])
+					cnt[p.k] = cnt.get(p.k, 0) + 1
+			for o in c.objs:
+				if o.type == "iscrypt" or o.type == "isbstone":
+					sl.append("%s %s@%.2f,%.2f%s" % [key, o.type, o.x, o.y, (" " + o.name + " L%d" % o.lvl) if o.type == "iscrypt" else " " + o.bk])
+					cnt[o.type] = cnt.get(o.type, 0) + 1
+	var sh2 := 0
+	for j in range(28 * 32, 52 * 32):
+		for i in range(28 * 32, 52 * 32):
+			var k := j * wg.w + i
+			sh2 = (sh2 * 31 + wg.t[k] * 7 + wg.under[k]) % 1000000007
+	out.append("Sichten %d %d · %s · Felder %d" % [sl.size(), _sh(" ".join(sl)), " ".join(["islight", "isstatue", "isfall", "iscrypt", "isbstone"].map(func(k): return "%s %d" % [k, cnt.get(k, 0)])), sh2])
+	for l in sl.slice(0, 12):
+		out.append("  " + l)
+	var tb := IslandSights.bridge_tiles(wg, 40, 41, 41, 41)
+	out.append("Brückenfelder %d" % tb.size())
 	out.append("Wiese %d %d %d %.6f" % [Overworld.gh(1234, 1250, 77), Overworld.gh(1240, 1290, 36), Overworld.gh(7, 9, 404), Overworld.meadow(1234, 1250)])
 	return "\n".join(out)
 

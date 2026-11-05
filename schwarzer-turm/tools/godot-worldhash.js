@@ -1,6 +1,6 @@
 // Godot check, sky: prints the same numbers as `godot ... -- --worldhash` (tower.gd) for seed 4242. Runs like
 // tools/godot-export.js (test build, through __ev). Uses the functions of 300-endless-sky.js with the island content up to
-// the chests and small things of 760/770 (_owContentI), without the sights and living isles, because Godot has not got those yet.
+// the sights of 986 (_owContentLV), without the living isles of 989, because Godot has not got those yet.
 (() => {
   const S = 4242, keep = G.seed; G.seed = S; WBC = null; RG.seed = null;
   const sh = s => { let h = 0; for (const c of new TextEncoder().encode(s)) h = (h * 31 + c) % 1000000007; return h };
@@ -15,7 +15,7 @@
     for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) _owIslandR(m, cx + dx, cy + dy);
     const want = [];
     for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) { const a = cx + dx, b = cy + dy; owBridge(m, a, b, a + 1, b); owBridge(m, a, b, a, b + 1); owBridge(m, a - 1, b, a, b); owBridge(m, a, b - 1, a, b); want.push([a, b]) }
-    const cd = want.map(([a, b]) => [a + ',' + b, _owContentI(m, a, b)]);
+    const cd = want.map(([a, b]) => [a + ',' + b, _owContentLV(m, a, b)]);
     let h = 0;
     for (let j = 35 * 32; j < 44 * 32; j++) for (let i = 35 * 32; i < 44 * 32; i++) { const k = j * m.w + i; h = (h * 31 + m.t[k] * 7 + m.under[k]) % 1000000007 }
     out.push('Kacheln ' + h);
@@ -43,6 +43,19 @@
       far.push(fh);
     }
     out.push('Alle ' + all.length + ' ' + sh(all.join(' ')) + ' Felder ' + far.join(' '));
+    // the sights of 986 over a wide stretch of sky, chunk by chunk in rows, each built once
+    for (let dy = -12; dy <= 12; dy++) for (let dx = -12; dx <= 12; dx++) _owIslandR(m, 40 + dx, 40 + dy);
+    for (let dy = -11; dy <= 11; dy++) for (let dx = -11; dx <= 11; dx++) { owBridge(m, 40 + dx, 40 + dy, 41 + dx, 40 + dy); owBridge(m, 40 + dx, 40 + dy, 40 + dx, 41 + dy) }
+    const built = new Map(cd), sl = [], cnt = {};
+    for (let cy = 29; cy < 52; cy++) for (let cx = 29; cx < 52; cx++) {
+      const key = cx + ',' + cy, c = built.get(key) || _owContentLV(m, cx, cy);
+      for (const p of c.props) if (ISN[p.k]) { sl.push(key + ' ' + p.k + '@' + p.x.toFixed(2) + ',' + p.y.toFixed(2) + ' v' + p.v + ' ph' + p.ph.toFixed(3)); cnt[p.k] = (cnt[p.k] || 0) + 1 }
+      for (const o of c.objs) if (o.type === 'iscrypt' || o.type === 'isbstone') { sl.push(key + ' ' + o.type + '@' + o.x.toFixed(2) + ',' + o.y.toFixed(2) + (o.type === 'iscrypt' ? ' ' + o.name + ' L' + o.lvl : ' ' + o.bk)); cnt[o.type] = (cnt[o.type] || 0) + 1 }
+    }
+    let sh2 = 0; for (let j = 28 * 32; j < 52 * 32; j++) for (let i = 28 * 32; i < 52 * 32; i++) { const k = j * m.w + i; sh2 = (sh2 * 31 + m.t[k] * 7 + m.under[k]) % 1000000007 }
+    out.push('Sichten ' + sl.length + ' ' + sh(sl.join(' ')) + ' · ' + ['islight', 'isstatue', 'isfall', 'iscrypt', 'isbstone'].map(k => k + ' ' + (cnt[k] || 0)).join(' ') + ' · Felder ' + sh2);
+    for (const l of sl.slice(0, 12)) out.push('  ' + l);
+    out.push('Brückenfelder ' + isBridgeTiles(m, 40, 41, 41, 41).length);
     out.push('Wiese ' + gh(1234, 1250, 77) + ' ' + gh(1240, 1290, 36) + ' ' + gh(7, 9, 404) + ' ' + meadow(1234, 1250).toFixed(6));
   } finally { G.seed = keep; WBC = null; RG.seed = null }
   return out.join('\n');
