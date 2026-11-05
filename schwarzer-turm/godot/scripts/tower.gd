@@ -199,6 +199,27 @@ func _ready() -> void:
 			Items.inv_add(Items.junk_for(null, 3))
 		for gi in level.items:
 			gi.t = 1.0
+	if args.has("give"):
+		# test: these items (names, comma separated; "U:name" for a unique) in the bag and once more on the ground
+		var gx := 0.0
+		for n in args.give.split(","):
+			var it := {}
+			if n.begins_with("U:"):
+				for u in Data.uniques:
+					if u.n == n.substr(2):
+						it = Game.item_of(u.b)
+						it.rar = "unique"
+						it.name = u.n
+			elif Data.items.has(n):
+				it = Game.item_of(n)
+			if it.is_empty():
+				continue
+			Items.inv_add(it)
+			var g := it.duplicate(true)
+			level.drop_item(g, level.P.x + 1.2 + gx, level.P.y + 1.8 - gx)
+			gx += .9
+		for gi in level.items:
+			gi.t = 1.0
 	if args.has("pos"):
 		# test: stand somewhere else on the floor, "x,y" in tiles
 		var xy: PackedStringArray = args.pos.split(",")
