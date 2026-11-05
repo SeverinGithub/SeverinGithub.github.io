@@ -316,7 +316,8 @@ func _ready() -> void:
 
 ## test: the sights of 986 (--sights, best with --seed=4242). Plain: the crypt of 38,31 at level 6 in numbers, against genCrypt
 ## in the browser. =islight, =isstatue, =isfall, =iscrypt, =isbstone stand the hero before the first of its kind;
-## =isbstone-go touches the stone, =iscrypt-go goes down, =iscrypt-end goes down and opens the treasure.
+## =isbstone-go touches the stone, =iscrypt-go goes down, =iscrypt-end goes down and opens the treasure; =lvrune stands the hero
+## beside the first standing stone of 989, so its runes wake.
 func _test_sights() -> void:
 	var wg0 := WorldGen.new(Game.seed_value)
 	var c := IslandSights.gen_crypt(wg0, "38,31", 6)
@@ -327,7 +328,7 @@ func _test_sights() -> void:
 		c.props.size(), _sh(" ".join(c.props.map(func(p): return "%s@%.2f,%.2f%s" % [p.k, p.x, p.y, p.get("face", "")]))), c.deco.size(),
 		_sh(" ".join(c.deco.map(func(d): return "%s@%.2f,%.2f:%d" % [d.k, d.x, d.y, d.v]))), c.start.x, c.start.y])
 	var want: String = String(args.sights).trim_suffix("-go").trim_suffix("-end")
-	if not want.begins_with("is"):
+	if not want.begins_with("is") and want != "lvrune":
 		return
 	# find the first of its kind on a scratch sky, then go there in the real one
 	for dy in range(-12, 13):
@@ -343,7 +344,7 @@ func _test_sights() -> void:
 			if at != null:
 				break
 			var cc := wg0.ow_content(cx, cy)
-			for q in cc.props + cc.objs:
+			for q in cc.props + cc.objs + (cc.lv.rune.map(func(r): return {"k": "lvrune", "x": r.x, "y": r.y}) if cc.has("lv") else []):
 				if q.get("k", q.get("type")) == want:
 					at = Vector2(q.x, q.y)
 					break
@@ -1010,10 +1011,13 @@ static func world_hash(s: int) -> String:
 			wg.ow_bridge(40 + dx, 40 + dy, 40 + dx, 41 + dy)
 	var sl := []
 	var cnt := {}
+	var lvl := []
 	for cy in range(29, 52):
 		for cx in range(29, 52):
 			var key := "%d,%d" % [cx, cy]
 			var c: Dictionary = wg.cdata[key] if wg.cdata.has(key) else wg.ow_content(cx, cy)
+			wg.cdata[key] = c
+			lvl.append(LivingIsles.hash_line(c))
 			for p in c.props:
 				if IslandSights.ISN.has(p.k):
 					sl.append("%s %s@%.2f,%.2f v%d ph%.3f" % [key, p.k, p.x, p.y, p.v, p.ph])
@@ -1032,6 +1036,12 @@ static func world_hash(s: int) -> String:
 		out.append("  " + l)
 	var tb := IslandSights.bridge_tiles(wg, 40, 41, 41, 41)
 	out.append("Brückenfelder %d" % tb.size())
+	var cntL := func(k: String) -> int:
+		var n := 0
+		for key in wg.cdata:
+			n += wg.cdata[key].get("lv", {}).get(k, []).size()
+		return n
+	out.append("Leben %d · %s" % [_sh(" ".join(lvl)), " ".join(["tuft", "path", "patch", "rune", "crow", "gnat", "bee"].map(func(k): return "%s %d" % [k, cntL.call(k)]))])
 	out.append("Wiese %d %d %d %.6f" % [Overworld.gh(1234, 1250, 77), Overworld.gh(1240, 1290, 36), Overworld.gh(7, 9, 404), Overworld.meadow(1234, 1250)])
 	return "\n".join(out)
 

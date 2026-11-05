@@ -93,6 +93,7 @@ func tick(force := false) -> void:
 		_add_objs(key, wg.cdata[key])
 		_spawn(key)
 	_rebuild_static()
+	LivingIsles.gather(wg)
 	_occupied()
 	for key in _tufts.keys():
 		_free_tufts(key)
@@ -417,6 +418,9 @@ func _draw() -> void:
 				continue
 			var tex := _tx(key)
 			draw_texture(tex, sp - tex.get_size() / 2)
+	# trodden paths, patches and tufts that sway (lvGround of 989)
+	if L.lvn:
+		LivingIsles.ground(self, top, bot, L.lvn.wind, L.lvn.walkers())
 	# the meadow's tint over many tiles, and small patches of clover, pebbles, earth, daisies and leaves (drawDecals in 820)
 	for j in range(j0, j1 + 1):
 		for i in range(i0, i1 + 1):

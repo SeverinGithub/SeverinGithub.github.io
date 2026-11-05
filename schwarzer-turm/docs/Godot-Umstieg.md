@@ -167,6 +167,14 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 - Testschalter `--sights` (Gruft 38,31 in Zahlen), `=islight`, `=isstatue`, `=isfall`, `=iscrypt`, `=isbstone` stellen den Helden davor, `=isbstone-go` weckt den Stein, `=iscrypt-go` steigt hinab, `=iscrypt-end` öffnet den Schatz; am besten mit `--seed=4242`.
 - Noch nicht: das Klima der Regionen (Regenmoor, Schneefelder, Aschenebene) und der Schnee, die warten auf Wetter und Tag und Nacht; Klänge.
 
+## Stand 2026-11-05: Lebendige Inseln (989)
+- **Export** `tools/godot-export-lv.js` (wie die anderen, auf dem Hügel): die Bilder aus `lvSpr` – ausgetretenes Gras der Pfade (`lv/path/0–5`), Moos, Klee, Laub, Kies und Schlamm (`lv/<art>/v`), die vier Runensteine (`prop/lvrune/v`, Anker 15/49) und ihr Leuchten in drei Farben (`lv/glow/c|g|v/v`).
+- `scripts/living_isles.gd` (`LivingIsles`): `content` ist der owContent-Wrapper (nach 986): Grasbüschel verlassen den flachen Boden und stehen aufrecht, ausgetretene Pfade von der Mitte zu jeder Brücke, Flecken je Inselart, Laub unter Bäumen, Mückenschwärme, Krähen auf Gräbern, Bienen an Blumen und Runensteine (Ruinen cyan, Gräber grün, Wildnis violett, fest im Boden). Mit Seed 4242 stimmen alle Listen (4858 Büschel, 7959 Pfadfelder, 5499 Flecken, 157 Runensteine …) und die Felder genau mit dem Browser (`--worldhash`, Zeile „Leben“).
+- Im Spiel: Büschel neigen sich im Wind und weichen dem Helden und den Gegnern aus (Scherung beim Zeichnen), Blätter und Samen ziehen mit dem Wind, Luftschlieren bei Böen, alle 16–38 Sekunden ein Vogelzug, Krähen fliegen auf und kehren zurück, Mücken und Bienen tanzen, von den Kanten bröckeln Steine in die Tiefe, Runen erwachen in der Nähe (Leuchten in der Glow-Ebene, Lichtpunkte) und schlafen langsam wieder ein.
+- Lehre: `Vector2` hat nur 32 Bit. Wo Zahlen mit dem Browser übereinstimmen müssen, Arrays oder einzelne `float` nehmen; Prüfzahlen in ganzen Hundertsteln statt `%.2f` (rundet Grenzfälle anders als `toFixed`).
+- Testschalter `--sights=lvrune` stellt den Helden neben den ersten Runenstein.
+- Noch nicht: Glühwürmchen, Fledermäuse und Motten (warten auf Tag und Nacht), Pfützen und der Wind des Wetters (warten aufs Wetter), Rascheln, Krächzen, Glockenton und Flüstern (Klänge).
+
 ## Wie die Browser-Module in Godot aufgehen
 | Browser | Godot |
 |---|---|
@@ -184,7 +192,7 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 ## Offene Entscheidungen
 - ~~Ausrüstung am Helden~~: entschieden 2026-11-03, Ebenen backen (siehe oben).
 - ~~Web-Fassung~~: entschieden 2026-11-04: die Browser-Fassung bleibt für immer, eingefroren in `schwarzer-turm-browser/` (keine Updates mehr). Was später unter `/schwarzer-turm/` läuft (etwa ein Godot-Web-Export), ist offen.
-- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen, Werkstatt ✓ (danach Sehenswürdigkeiten 986 ✓) · 7. Mehrspieler · 8. Export iPad/PC.
+- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen, Werkstatt ✓ (danach Sehenswürdigkeiten 986 ✓, lebendige Inseln 989 ✓) · 7. Mehrspieler · 8. Export iPad/PC.
 
 ## Aufwand, ehrlich
 Das Browser-Spiel hat 107 Module und etwa 1,2 MB Code. Die Daten und Bilder sind jetzt mitnehmbar, die Logik muss übersetzt werden. Das sind eher Monate als Wochen, wenn alles wieder drin sein soll.

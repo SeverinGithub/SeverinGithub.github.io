@@ -41,6 +41,7 @@ var faded := {}
 var lights: Array = []           # lights cut into the darkness: {p: screen point, r, a, f (flicker), ph}
 var dark_mat: ShaderMaterial
 var glow_layer: CanvasLayer
+var lvn: LivingIsles             # the living isles in the sky: wind, birds, crows, falling stones (989)
 var ground_fx: Fx
 var top_fx: Fx
 var text_fx: Fx
@@ -120,6 +121,10 @@ func build(map: Dictionary) -> void:
 	top_fx = Fx.new()
 	top_fx.level = self
 	add_child(top_fx)
+	if ow:
+		lvn = LivingIsles.new(self)
+		add_child(lvn)
+		glow_layer.add_child(LivingIsles.Glow.new())
 	if not ow:
 		_walls()
 	for p in m.props:

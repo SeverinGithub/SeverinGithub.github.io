@@ -229,3 +229,6 @@ Schwarzer Turm: Runen, Schmiede und Schleifstein in Godot – runes.gd übersetz
 
 ### 53f44da · 2026-11-05
 Schwarzer Turm: Werkstatt und Glyphentisch in Godot – craft.gd übersetzt 600-workshop.js: Amboss der Vereinung (zwei gleiche Stücke werden eins, eine Stufe höher) und Glyphentisch (drei Glyphen für Glut und Schiefer), Fenster mit Bildnis, Vorschau und Schlag, Stationen unter dem Werkstattdach an den Browser-Stellen; Vereinungen, Kosten und Glyphen stimmen genau mit dem Browser; Export tools/godot-export-craft.js; Testschalter --craft
+
+### 4cf7f19 · 2026-11-05
+Schwarzer Turm: Sehenswürdigkeiten der Inseln in Godot – island_sights.gd übersetzt 986-island-sights.js: Leuchttürme, gestürzte Riesen und Wasserfälle ins Nichts zum Entdecken, Grüfte als Ebene −1 mit Schatz, Brückensteine, die eine Brücke wachsen lassen, treibende Inselchen und Lichter im Turm für besiegte Hüter; mit Seed 4242 stimmen alle 63 Sehenswürdigkeiten, die Felder und die Gruft genau mit dem Browser; Testschalter --sights

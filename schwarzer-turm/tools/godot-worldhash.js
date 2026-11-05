@@ -1,6 +1,6 @@
 // Godot check, sky: prints the same numbers as `godot ... -- --worldhash` (tower.gd) for seed 4242. Runs like
 // tools/godot-export.js (test build, through __ev). Uses the functions of 300-endless-sky.js with the island content up to
-// the sights of 986 (_owContentLV), without the living isles of 989, because Godot has not got those yet.
+// the living isles of 989 (the whole owContent chain).
 (() => {
   const S = 4242, keep = G.seed; G.seed = S; WBC = null; RG.seed = null;
   const sh = s => { let h = 0; for (const c of new TextEncoder().encode(s)) h = (h * 31 + c) % 1000000007; return h };
@@ -15,7 +15,7 @@
     for (let dy = -3; dy <= 3; dy++) for (let dx = -3; dx <= 3; dx++) _owIslandR(m, cx + dx, cy + dy);
     const want = [];
     for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) { const a = cx + dx, b = cy + dy; owBridge(m, a, b, a + 1, b); owBridge(m, a, b, a, b + 1); owBridge(m, a - 1, b, a, b); owBridge(m, a, b - 1, a, b); want.push([a, b]) }
-    const cd = want.map(([a, b]) => [a + ',' + b, _owContentLV(m, a, b)]);
+    const cd = want.map(([a, b]) => [a + ',' + b, owContent(m, a, b)]);
     let h = 0;
     for (let j = 35 * 32; j < 44 * 32; j++) for (let i = 35 * 32; i < 44 * 32; i++) { const k = j * m.w + i; h = (h * 31 + m.t[k] * 7 + m.under[k]) % 1000000007 }
     out.push('Kacheln ' + h);
@@ -48,7 +48,7 @@
     for (let dy = -11; dy <= 11; dy++) for (let dx = -11; dx <= 11; dx++) { owBridge(m, 40 + dx, 40 + dy, 41 + dx, 40 + dy); owBridge(m, 40 + dx, 40 + dy, 40 + dx, 41 + dy) }
     const built = new Map(cd), sl = [], cnt = {};
     for (let cy = 29; cy < 52; cy++) for (let cx = 29; cx < 52; cx++) {
-      const key = cx + ',' + cy, c = built.get(key) || _owContentLV(m, cx, cy);
+      const key = cx + ',' + cy, c = built.get(key) || owContent(m, cx, cy); built.set(key, c);
       for (const p of c.props) if (ISN[p.k]) { sl.push(key + ' ' + p.k + '@' + p.x.toFixed(2) + ',' + p.y.toFixed(2) + ' v' + p.v + ' ph' + p.ph.toFixed(3)); cnt[p.k] = (cnt[p.k] || 0) + 1 }
       for (const o of c.objs) if (o.type === 'iscrypt' || o.type === 'isbstone') { sl.push(key + ' ' + o.type + '@' + o.x.toFixed(2) + ',' + o.y.toFixed(2) + (o.type === 'iscrypt' ? ' ' + o.name + ' L' + o.lvl : ' ' + o.bk)); cnt[o.type] = (cnt[o.type] || 0) + 1 }
     }
@@ -56,6 +56,17 @@
     out.push('Sichten ' + sl.length + ' ' + sh(sl.join(' ')) + ' · ' + ['islight', 'isstatue', 'isfall', 'iscrypt', 'isbstone'].map(k => k + ' ' + (cnt[k] || 0)).join(' ') + ' · Felder ' + sh2);
     for (const l of sl.slice(0, 12)) out.push('  ' + l);
     out.push('Brückenfelder ' + isBridgeTiles(m, 40, 41, 41, 41).length);
+    // the living isles of 989: per list one number over the whole stretch
+    const f2 = x => String(Math.round(x * 100)), E = {tuft: [], path: [], patch: [], rune: [], crow: [], gnat: [], bee: []}, lvl = [];
+    for (let cy = 29; cy < 52; cy++) for (let cx = 29; cx < 52; cx++) {
+      const Q = (built.get(cx + ',' + cy) || {}).lv || E;
+      lvl.push([Q.tuft.map(d => f2(d.x) + ',' + f2(d.y) + ':' + d.v + ':' + f2(d.ph)).join(' '), Q.path.map(p => p.i + ',' + p.j + ':' + p.v).join(' '),
+        Q.patch.map(p => p.k + '@' + f2(p.x) + ',' + f2(p.y) + ':' + p.v + (p.f ? 'f' : '')).join(' '), Q.rune.map(r => f2(r.x) + ',' + f2(r.y) + ':' + r.v + r.col).join(' '),
+        Q.crow.map(r => f2(r.hx) + ',' + f2(r.hy) + ':' + Math.trunc(r.hz) + ':' + f2(r.t)).join(' '), Q.gnat.map(r => f2(r.x) + ',' + f2(r.y) + ':' + f2(r.ph)).join(' '),
+        Q.bee.map(r => f2(r.x) + ',' + f2(r.y) + ':' + f2(r.ph)).join(' ')].map(sh).join('/'));
+    }
+    const cntL = k => [...built.values()].reduce((a, c) => a + (c.lv ? c.lv[k].length : 0), 0);
+    out.push('Leben ' + sh(lvl.join(' ')) + ' · ' + ['tuft', 'path', 'patch', 'rune', 'crow', 'gnat', 'bee'].map(k => k + ' ' + cntL(k)).join(' '));
     out.push('Wiese ' + gh(1234, 1250, 77) + ' ' + gh(1240, 1290, 36) + ' ' + gh(7, 9, 404) + ' ' + meadow(1234, 1250).toFixed(6));
   } finally { G.seed = keep; WBC = null; RG.seed = null }
   return out.join('\n');

@@ -634,6 +634,8 @@ func ow_content(cx: int, cy: int) -> Dictionary:
 	Chests.island_chests(self, c, I, cx, cy)
 	# lighthouses, giants, waterfalls, crypts and bridge stones (the owContent wrapper of 986-island-sights.js)
 	IslandSights.content(self, c, cx, cy)
+	# tufts that sway, trodden paths, patches, rune stones, crows, gnats and bees (the owContent wrapper of 989-living-isles.js)
+	LivingIsles.content(self, c, cx, cy)
 	return c
 
 static func var_pool(f: int) -> Array:
