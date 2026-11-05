@@ -166,7 +166,7 @@ func _gamble(slot: String) -> void:
 func _process(_dt: float) -> void:
 	if not visible:
 		return
-	var sig := "%d|%d|%d|%d|%d|%d|%d|%d" % [Game.glut, Game.flask_max, Game.flask_pow, Game.keys, stock().size(), Game.lvl, Game.inv.size(), Runes.sock_list().size()]
+	var sig := "%d|%d|%d|%d|%d|%d|%d|%d" % [Game.glut, Game.flask_max, Game.flask_pow, Game.keys, stock().size(), Game.lvl, Game.inv.size(), Runes.sock_list().size()] + str(Game.bounty) + str(o.get("bo"))
 	if sig != _sig:
 		_sig = sig
 		_build()
@@ -225,6 +225,7 @@ func _build() -> void:
 		_v.add_child(r)
 	if sl.is_empty():
 		_v.add_child(Ui.hint("Kein gewöhnlicher Gegenstand ohne Sockel dabei."))
+	_bounties()
 	_v.add_child(Ui.sub("Glücksspiel · %d Glut pro Wurf" % _gamble_cost()))
 	_v.add_child(Ui.hint("Ein unbekannter Gegenstand deiner Stufe. Meist magisch, manchmal selten, ganz selten einzigartig."))
 	var g := GridContainer.new()
@@ -239,6 +240,24 @@ func _build() -> void:
 	_v.add_child(g)
 	_v.add_child(Ui.sub("Verkaufen"))
 	_v.add_child(Ui.hint("Klicke im Inventar auf einen Gegenstand, um ihn zu verkaufen."))
+
+## the bounty: the one you hold, or the two on offer (shopBountyHTML in 370)
+func _bounties() -> void:
+	_v.add_child(Ui.sub("Kopfgeld"))
+	var b = Game.bounty
+	if b:
+		var r := _row("%s · %d/%d" % [b.t, WorldEvents.prog(b), b.n], Ui.PAPER, str(b.glut), func(): WorldEvents.drop())
+		(r.get_child(2) as Button).text = "Aufgeben"
+		_v.add_child(r)
+		_v.add_child(Ui.hint("Wird sofort ausgezahlt, sobald es erfüllt ist. Dazu ein seltener Gegenstand%s." % (" und eine Rune" if b.rune else "")))
+		return
+	_v.add_child(Ui.hint("Ein Auftrag zur Zeit. Belohnung in Glut, dazu ein seltener Gegenstand."))
+	var offs := WorldEvents.offers(o)
+	for i in offs.size():
+		var x: Dictionary = offs[i]
+		var r := _row(x.t + (" · + Rune" if x.rune else ""), Ui.PAPER, str(x.glut), WorldEvents.take.bind(o, i))
+		(r.get_child(2) as Button).text = "Annehmen"
+		_v.add_child(r)
 
 ## a line of the shop (.shoprow): what, the price in glut, Kaufen
 func _row(text: String, col: Color, price: String, cb: Callable, off := false) -> Control:

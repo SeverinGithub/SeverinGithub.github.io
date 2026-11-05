@@ -2,7 +2,7 @@ class_name IslandSights
 ## The sights of the sky islands (986-island-sights.js): old lighthouses, fallen giants and waterfalls into the void,
 ## crypts with a treasure at the end, bridge stones that raise a bridge where two islands have none, small islets drifting
 ## far behind, and a pale light in the tower for every beaten guardian of the deep.
-## Not yet: the climate of regions (rain moors, snowfields, ash plains) and the snow, which wait for the weather.
+## The climate of regions (rain moors, snowfields, ash plains) and the snow live in Weather.
 
 const ISN := {"islight": "Der alte Leuchtturm", "isstatue": "Der gestürzte Riese", "isfall": "Der Fall ins Nichts"}
 const CRYPTN := ["der Vergessenen", "der Stillen", "der Ahnen", "der Krähen", "der Namenlosen", "unter der Asche"]

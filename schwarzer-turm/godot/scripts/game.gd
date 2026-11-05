@@ -47,6 +47,9 @@ var hero_at := Vector2.ZERO      # where the hero stands, for pictures that fade
 var t := 0.0
 var day_t := 0.0                 # the sky's clock, eight minutes a day (G.dayT, see DayNight)
 var night := false               # deep night in the sky (G.night)
+var wx := {"k": "clear", "t": 90.0, "i": 0.0}   # the weather: kind, seconds until it turns, strength (G.wx, see Weather)
+var bounty = null                # the trader's bounty you took: {ty, key, n, t, glut, rune, base} (P.bounty)
+var clim = null                  # the climate of the reach the hero stands in (G.clim)
 
 # ---------- P ----------
 var cls := "krieger"
@@ -136,6 +139,9 @@ func start_new(c: String) -> void:
 	maps = {}
 	day_t = 0.0
 	night = false
+	wx = {"k": "clear", "t": 90.0, "i": 0.0}
+	clim = null
+	bounty = null
 	tw = {"done": {}, "lift": {}, "crypt": {}, "seen": {}, "br": {}}
 	rg = {"seen": {}, "hut": {}}
 	crypt = null

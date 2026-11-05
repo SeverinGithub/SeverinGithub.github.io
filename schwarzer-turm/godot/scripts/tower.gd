@@ -97,6 +97,29 @@ func _ready() -> void:
 	if args.has("hour"):
 		# test: the sky's clock at a phase of the day, 0–1 (.55 dusk, .7 night, .95 dawn); --hunt sends the night's hunters at once
 		Game.day_t = float(args.hour) * DayNight.DAYLEN
+	if args.has("wx"):
+		# test: this weather at full strength, held (--wx=rain|ash|fog|snow); rain also fills the puddles and throws a lightning
+		Game.wx = {"k": args.wx, "t": 999.0, "i": 1.0}
+		if args.wx == "rain":
+			LivingIsles.wet = 1.0
+			Weather.th_t = 2.5
+	if args.has("ev"):
+		# test: a chance encounter after the opening banner (--ev=ambush|merchant|thief|meteor); --bounty takes the first offer of a trader
+		get_tree().create_timer(2.0).timeout.connect(func():
+			WorldEvents.start(level, args.ev)
+			print("Begegnung ", args.ev, ": ", level.enemies.filter(func(e): return e.ev and not e.dead).map(func(e): return "%s %s %s" % [e.e_name, e.rank, e.world.round()])))
+	if args.has("bounty"):
+		var tr := {"type": "merchant", "lvl": 5}
+		WorldEvents.take(tr, 0)
+		print("Kopfgeld: ", Game.bounty)
+	if args.has("evwin"):
+		# test: slay what the encounter brought after three seconds, then print the counters, the glut and the bounty
+		get_tree().create_timer(3.0).timeout.connect(func():
+			for e in level.enemies.filter(func(e): return e.ev and not e.dead):
+				level.kill_enemy(e)
+			if Game.bounty and args.evwin == "pay":
+				Quests.inc(Game.bounty.key, Game.bounty.n)
+			get_tree().create_timer(.5).timeout.connect(func(): print("Nach dem Sieg: ", Game.qc, " Glut ", Game.glut, " Kopfgeld ", Game.bounty, " Beutel ", Game.inv.size())))
 	if args.has("hunt"):
 		DayNight.nt_t = 1.0
 	if args.has("at"):
@@ -328,6 +351,9 @@ func _ready() -> void:
 		# test: Odalinde's window with glut to spend, the bag beside it
 		Game.glut = 5000
 		open_shop({"type": "merchant", "lvl": 5})
+		if args.shop == "bounty":
+			# test: scrolled down to the bounties
+			get_tree().create_timer(1.0).timeout.connect(func(): (shop_panel._v.get_parent() as ScrollContainer).scroll_vertical = 520)
 		if args.shop == "buy":
 			var n0 := Game.inv.size()
 			shop_panel._buy("life")

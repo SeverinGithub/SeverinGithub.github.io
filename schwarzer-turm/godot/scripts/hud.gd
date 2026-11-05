@@ -137,8 +137,9 @@ func _top_info() -> void:
 			_shadow_text(f, Vector2(x + 22, 46), str(n), 16, Runes.SLATE[k].col)
 			x += 22 + f.get_string_size(str(n), HORIZONTAL_ALIGNMENT_LEFT, -1, 16).x + 12
 	_quest_track()
+	_bounty_track()
 
-## beside the place, in the sky: the hour with a little sun or moon, and that the night creatures are out (dayHUD in 370)
+## beside the place, in the sky: the hour with a little sun or moon, the weather, and that the night creatures are out (dayHUD in 370)
 func _day(f: Font, x: float) -> void:
 	if Game.floor_no != 0 or not level or not level.ow:
 		return
@@ -153,7 +154,8 @@ func _day(f: Font, x: float) -> void:
 			var a := k * TAU / 8
 			draw_line(c + Vector2(cos(a), sin(a)) * 6, c + Vector2(cos(a), sin(a)) * 8.5, col, 1.5)
 		draw_circle(c, 4.2, col)
-	_shadow_text(f, Vector2(x + 17, 26), nm + (" · Nachtgestalten" if Game.night else ""), 14, col)
+	var wn := Weather.label()
+	_shadow_text(f, Vector2(x + 17, 26), nm + (" · " + wn if wn != "" else "") + (" · Nachtgestalten" if Game.night else ""), 14, col)
 
 ## under it the chronicle's active quest and where it points: an arrow on the screen's diagonal grid and the steps
 ## to go, or in the tower how deep it still is (#qtrack)
@@ -195,6 +197,13 @@ func _quest_track() -> void:
 			s = "Kehre über ein Leuchtfeuer zu den Himmelsinseln zurück"
 		if s != "":
 			_shadow_text(it, Vector2(14, 92), s, 13, Ui.PAPER)
+
+## the bounty you hold, under the quest (#btrack)
+func _bounty_track() -> void:
+	var b = Game.bounty
+	if b == null:
+		return
+	_shadow_text(Ui.font("italic"), Vector2(14, 112), "Kopfgeld: %s · %d/%d" % [b.t, WorldEvents.prog(b), b.n], 13, Color("#ffd88a"))
 
 ## a bar in a socket: 4 px iron round it, dark inside, the fill from the left
 func _sock_bar(r: Rect2, f: float, col_top: Color, col_bot: Color, gold := false) -> void:

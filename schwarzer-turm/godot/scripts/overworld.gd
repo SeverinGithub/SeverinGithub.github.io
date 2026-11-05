@@ -386,7 +386,10 @@ func _grass() -> void:
 	for e in L.enemies:
 		if not e.dead and walkers.size() < 16 and absf(e.world.x - L.P.x) < 14 and absf(e.world.y - L.P.y) < 14:
 			walkers.append(Vector3(e.world.x, e.world.y, .9 + e.r))
+	# the wind runs stronger in rain and ash (windAt)
+	var gust: float = .5 + (Game.wx.i * .55 if Game.wx.k == "rain" or Game.wx.k == "ash" else 0.0)
 	for mat in _tuft_mat:
+		mat.set_shader_parameter("wind", gust)
 		mat.set_shader_parameter("t", Game.t)
 		mat.set_shader_parameter("n", walkers.size())
 		mat.set_shader_parameter("walkers", walkers)

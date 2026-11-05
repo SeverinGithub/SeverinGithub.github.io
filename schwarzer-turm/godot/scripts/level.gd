@@ -222,6 +222,7 @@ func _layers() -> void:
 	wl.layer = 2
 	add_child(wl)
 	wl.add_child(DayNight.Dusk.new())
+	wl.add_child(Weather.Veil.new())
 	var pl := CanvasLayer.new()
 	pl.layer = 3
 	add_child(pl)
@@ -805,6 +806,8 @@ func _process(dt: float) -> void:
 	_trial_tick()
 	_upd_traps(dt)
 	DayNight.tick(self, dt)
+	if Game.in_play and title_cam == null:
+		WorldEvents.bounty_tick(self)
 	if ow:
 		_stations(dt)
 		IslandSights.tick(self, dt)
@@ -1654,6 +1657,7 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	if ow:
 		RgPlay.on_kill(self, e)
 		DayNight.on_kill(self, e)
+	WorldEvents.on_kill(self, e)
 	var rm: float = {"boss": 25.0, "unique": 6.0, "champ": 2.5}.get(e.rank, 1.0)
 	var gl := roundi((3 + Game.mlvl * 1.6) * R.rnd(.8, 1.25) * rm * (1 + d.glutf / 100.0))
 	Game.glut += gl
@@ -1860,6 +1864,9 @@ func _drop_dead() -> void:
 # ---------- foes (updEnemy, chase, fireProj, bossUpdate) ----------
 
 func _upd_enemy(e: Enemy, dt: float) -> void:
+	if e.thief:
+		WorldEvents.thief_update(self, e, dt)
+		return
 	e.flash = maxf(0, e.flash - dt)
 	if e.wall:
 		e.hit_t = maxf(0, e.hit_t - dt)
@@ -2122,6 +2129,8 @@ func _update_tele(dt: float) -> void:
 							break
 						ow.world = np
 					shake = 8
+				"meteor":
+					WorldEvents.meteor_done(self, tl)
 				"nova":
 					for k in tl.n:
 						var aa: float = k / float(tl.n) * TAU

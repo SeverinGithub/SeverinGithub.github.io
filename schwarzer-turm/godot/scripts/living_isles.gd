@@ -6,13 +6,15 @@ extends Node2D
 ## This node lives in the sky level above everything standing (drawFxWorld); the ground is painted by the Overworld
 ## (drawDecals), the waking runes by a node in the glow layer (drawFxGlow).
 ## After dark fireflies drift over the grass (most in the forests) and moths circle every warm light.
-## Not yet: puddles that fill in the rain and the wind of the weather, the sounds.
+## The wind follows the weather, ash rides it in an ash rain, and the muddy patches fill to puddles in the rain.
+## Not yet: the sounds.
 
 const DIRS4 := [[1, 0], [-1, 0], [0, 1], [0, -1]]
 const NV := {"path": 6, "moss": 3, "clover": 3, "leaves": 3, "gravel": 3, "mud": 2}
 const RCOL := {"c": Color("#a0e8ff"), "g": Color("#b0ffc8"), "v": Color("#d0b0ff")}
 const RGLOW := {"c": Color("#7ae0ff"), "g": Color("#8affb0"), "v": Color("#b08aff")}
 
+static var wet := 0.0            # how full the puddles are (LV.wet): fills in twenty seconds of rain, dries in two minutes
 static var ffly: Array = []        # fireflies after dark, around the hero (LV.ffly), glowing in the glow layer
 static var lv := {"tuft": [], "path": [], "patch": [], "rune": [], "crow": [], "gnat": [], "bee": []}
 
@@ -242,6 +244,9 @@ static func ground(ow: Node2D, top: Vector2, bot: Vector2, wind: Dictionary, wal
 			ow.draw_texture_rect(tex, Rect2((sp - sz / 2).round() + Vector2(sz.x, 0), Vector2(-sz.x, sz.y)), false)
 		else:
 			ow.draw_texture(tex, (sp - sz / 2).round())
+		# in the rain the mud fills to a puddle that mirrors the sky, with rings where the drops strike
+		if p.k == "mud" and wet > .02:
+			_puddle(ow, sp, p)
 	# tufts lean with the wind and away from whoever walks through them
 	var nt := Data.variants_of("deco/tuft")
 	if nt == 0:
@@ -294,8 +299,9 @@ func _process(dt: float) -> void:
 	var t := Game.t
 	var wg: WorldGen = L.ow.wg
 	var night := DayNight.a()
-	# wind, with gusts (the weather steers it once there is weather)
-	var ws := .35
+	# wind follows the weather, with gusts
+	var ws: float = {"clear": .35, "rain": .8, "ash": .6, "fog": .15, "snow": .75}.get(Weather.now(), .35)
+	wet = clampf(wet + (dt / 20 if Weather.now() == "rain" else -dt / 120), 0, 1)
 	wind.s += (ws * (1 + .35 * sin(t * .31) * sin(t * .13)) - wind.s) * minf(1, dt * .5)
 	wind.a = wg.hsh(3, 7, 177) * 6.28 + sin(t * .011) * .7
 	# leaves and seeds on the wind, and now and then a streak of air
@@ -307,7 +313,7 @@ func _process(dt: float) -> void:
 	if leaf.size() < want and R.next() < dt * 8:
 		var a := R.rnd(0, 6.28)
 		var r := R.rnd(2, 13)
-		leaf.append({"x": P.x + cos(a) * r - wx * 4, "y": P.y + sin(a) * r - wy * 4, "z": R.rnd(.3, 2.6), "k": "leaf" if kind == "forest" or R.next() < .3 else "seed",
+		leaf.append({"x": P.x + cos(a) * r - wx * 4, "y": P.y + sin(a) * r - wy * 4, "z": R.rnd(.3, 2.6), "k": "ash" if Weather.now() == "ash" else ("leaf" if kind == "forest" or R.next() < .3 else "seed"),
 			"c": Color(R.pick(["#c07a2a", "#d8a03a", "#8aa030", "#a0522a"])), "t": 0.0, "life": R.rnd(4, 7), "ph": R.rnd(0, 6), "r": R.rnd(0, 6)})
 	for f in leaf:
 		f.t += dt
@@ -455,6 +461,24 @@ func _process(dt: float) -> void:
 	ffly = ffly.filter(func(f): return f.t < f.life and pp.distance_to(Vector2(f.x, f.y)) < 17)
 	queue_redraw()
 
+## a puddle on a muddy patch: a pale sky by day, a dark blue one at night (lvGround)
+static func _puddle(ow: Node2D, sp: Vector2, p: Dictionary) -> void:
+	var nt := DayNight.a() > .5
+	var c0 := Color("#3a4a70") if nt else Color("#c8dcf4")
+	var c1 := Color("#1a2440") if nt else Color("#7aa4d8")
+	ow.draw_set_transform(sp, 0, Vector2(1, .5))
+	for k in 8:
+		var q := 1.0 - k / 8.0
+		var col := c1.lerp(c0, 1 - q) if q > .3 else Color(60 / 255.0, 80 / 255.0, 110 / 255.0, 0).lerp(c1, q / .3)
+		col.a *= wet * .85 * (.35 if k else 1.0)
+		ow.draw_circle(Vector2(-4, -4) * (1 - q), 20 * q, col)
+	if Weather.now() == "rain":
+		var t := Game.t
+		var q := fposmod(t * 1.3 + p.x, 1.0)
+		var s := floorf(t * 1.3)
+		ow.draw_arc(Vector2(sin(p.x * 9 + s) * 8, cos(p.y * 7 + s) * 6), q * 9 + .01, 0, TAU, 16, Color(220 / 255.0, 235 / 255.0, 1, (1 - q) * .6), 1.5)
+	ow.draw_set_transform_matrix(Transform2D.IDENTITY)
+
 ## the wind as the ground needs it
 func walkers() -> Array:
 	var out := [{"x": L.P.x, "y": L.P.y}]
@@ -490,6 +514,8 @@ func _draw() -> void:
 			draw_set_transform(sp, f.r, Vector2(1, absf(sin(f.r * 1.3)) + .2))
 			ThemeDraw.ell(self, Vector2.ZERO, 3, 1.5, Color(f.c, a), 0, 10)
 			draw_set_transform(Vector2.ZERO)
+		elif f.k == "ash":
+			draw_rect(Rect2(sp.x, sp.y, 2, 2), Color("#5a5652" if f.ph > 3 else "#8a8680", a))
 		else:
 			draw_rect(Rect2(sp.x - 1, sp.y, 3, 1), Color(250 / 255.0, 250 / 255.0, 240 / 255.0, .85 * a))
 			draw_rect(Rect2(sp.x, sp.y - 1, 1, 3), Color(250 / 255.0, 250 / 255.0, 240 / 255.0, .85 * a))

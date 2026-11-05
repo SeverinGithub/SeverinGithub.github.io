@@ -4,7 +4,7 @@ class_name DayNight
 ## and only the lights cut through it, foes made after dark are stronger and carry more magic, and werewolves and night
 ## ghosts come hunting on the islands and pay for it. At dusk and dawn a warm glow lies over everything. The bonfires in
 ## the sky let you rest until morning or until night. The tower has no clock: down there it is always dark.
-## Not yet: the weather (rain, ash, fog, snow), the chance encounters and the bounties of 370, the night's sounds.
+## The weather of 370 lives in Weather, the chance encounters and bounties in WorldEvents. Not yet: the night's sounds.
 
 const DAYLEN := 480.0
 static var nt_t := 20.0          # the next pack of night hunters (NT.t)
@@ -49,6 +49,8 @@ static func tick(L: Level, dt: float) -> void:
 			Game.recalc()
 		return
 	Game.day_t += dt
+	Weather.tick(L, dt)
+	WorldEvents.tick(L, dt)
 	var was := Game.night
 	Game.night = a() > .6
 	if Game.night != was:
