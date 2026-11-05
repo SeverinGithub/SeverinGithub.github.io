@@ -87,6 +87,10 @@ func _ready() -> void:
 		print(world_hash(int(args.get("seed", "4242"))))
 		get_tree().quit()
 		return
+	if args.has("rghash"):
+		print(DeadLands.hash_text(WorldGen.new(int(args.get("seed", "4242")))))
+		get_tree().quit()
+		return
 	Game.start_new(args.get("class", "krieger"))
 	if args.has("seed"):
 		Game.seed_value = int(args.seed)
@@ -330,12 +334,44 @@ func _ready() -> void:
 		_test_craft()
 	if args.has("sights"):
 		_test_sights()
+	if args.has("rg"):
+		_test_rg()
 	if args.has("ctl"):
 		_test_ctl()
 	if args.has("bot"):
 		_bot()
 	if args.has("shot"):
 		_shot()
+
+## test: stand in the dead lands (--rg=gate, city, market, road, clo, church, hall, wood, hut, castle), the land around awake
+func _test_rg() -> void:
+	var wg0: WorldGen = level.ow.wg
+	var to := {"gate": [-60, 3], "city": [-2, 0], "market": [62, 4], "road": [140, 0], "clo": [160, 0], "church": [190, 3], "hall": [224, 4],
+		"wood": [262, 0], "castle": [446, 0], "bridge": [434, 0]}
+	var at := Vector2.ZERO
+	if args.rg == "hut":
+		DeadLands.plan(wg0)
+		var h: Array = wg0._rg.huts[0]
+		at = Vector2(h[0], h[1] + 4)
+	elif args.rg == "gate":
+		var I = wg0.island_of(wg0._rg.gcx, wg0._rg.gcy)
+		at = Vector2(I.x + 1, I.y + 1)
+	else:
+		var pq: Array = to.get(args.rg, to.city)
+		var v := wg0._rg_w(pq[0], pq[1])
+		at = Vector2(v.x + .5, v.y + .5)
+	if args.has("boss"):
+		Game.ow_boss.rgk = 1
+	level.reset_hero(at)
+	level.P.iframe = 9999
+	level.ow.tick(true)
+	print("RG ", args.rg, " bei ", at, " Feld ", level.tile_at(at.x, at.y), " Zone ", DeadLands.zone_at(wg0, at.x, at.y), " Gegner ", level.enemies.size())
+	if args.has("use"):
+		# --use=rgcgate (or rgsign, rghut): use the nearest such object, as a click would
+		for o in level.obj_nodes:
+			if o.p.type == args.use:
+				level._interact(o)
+				break
 
 ## test: the new controls (--ctl, not saved). Holds W, then D, each for half a second, and prints how far the hero went on the
 ## screen; then a left click beside the hero must swing the sword and not walk. --ctl=classic checks the old click still walks.

@@ -34,7 +34,7 @@ func setup(d: Dictionary, obj := false) -> Prop:
 	return self
 
 func animated() -> bool:
-	return is_obj or _hv() or IslandSights.ISN.has(p.get("k", "")) or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder", "ftwin", "ftglass", "ftbars", "ftgear", "ftcandle", "ftcruc", "ftcold"]
+	return is_obj or _hv() or DeadLands.is_rg(p.get("k", "")) or IslandSights.ISN.has(p.get("k", "")) or p.k in ["torch", "brazier", "candles", "altar", "fire", "dccand", "dcboulder", "ftwin", "ftglass", "ftbars", "ftgear", "ftcandle", "ftcruc", "ftcold"]
 
 ## a piece of the hill village (988): drawn by HillVillage
 func _hv() -> bool:
@@ -69,6 +69,9 @@ func _draw() -> void:
 		if String(p.type).begins_with("is"):
 			IslandSights.obj(self, p, sx, sy, t)
 			return
+		if String(p.type).begins_with("rg"):
+			DeadLands.obj(self, p, sx, sy, t)
+			return
 		if String(p.type).begins_with("tw"):
 			ThemeDraw.obj(self, p, sx, sy, t, ThemeRun.room, Game.tw.lift.has(Game.floor_no))
 			return
@@ -79,6 +82,9 @@ func _draw() -> void:
 		return
 	if IslandSights.ISN.has(p.k):
 		IslandSights.prop(self, p, sx, sy, t)
+		return
+	if DeadLands.is_rg(p.k):
+		DeadLands.prop(self, p, sx, sy, t)
 		return
 	match p.k:
 		"torch":

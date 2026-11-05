@@ -52,6 +52,7 @@ var hz = null                    # its entry in the map's hazards
 var fuse := -1.0                 # the fuse burns (keg) or the chain gives (chandelier) once this is 0 or more
 var stun := 0.0                  # stunned by a falling chandelier
 var tw_wave := false             # a foe of the trial's waves
+var rgz := ""                    # the part of the dead lands it belongs to (e.rgz in 520)
 
 static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = null) -> Enemy:
 	if R == null:
@@ -77,6 +78,10 @@ static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = nu
 	e.xp = d.xp * (1 + (ml - 1) * .35) * (v.hp * .6 + v.dmg * .4)
 	e.elem = v.get("elem")
 	e.proj = v.get("proj")
+	if v.get("gear") and v.gear.get("reach"):
+		# the long arms of the dead lands: pitchforks, scythes, halberds and lances (the makeEnemy wrapper of 550)
+		e.mon = d.duplicate()
+		e.mon.range = v.gear.reach
 	if rk == "champ":
 		e.hp *= 2.6
 		e.dmg = [e.dmg[0] * 1.4, e.dmg[1] * 1.4]

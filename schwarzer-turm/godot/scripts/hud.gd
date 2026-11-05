@@ -251,6 +251,9 @@ func _hover_names() -> void:
 		"colossus": txt = "Wächter der Arena · erwacht ab Ebene 20"
 		"stairs": txt = "Hinab zu Ebene %d" % (Game.floor_no + 1)
 		"hvsign": txt = "Wegweiser"
+		_ when String(o.p.type).begins_with("rg"):
+			txt = DeadLands.obj_name(o.p)
+			col = Color("#ffd88a")
 		_ when String(o.p.type).begins_with("is"):
 			txt = IslandSights.obj_name(o.p)
 			col = Color("#ffd88a")

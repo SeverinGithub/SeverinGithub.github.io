@@ -100,14 +100,24 @@ func _tele(t: Dictionary) -> void:
 		col = Color8(255, 110, 30)
 	elif t.get("elem") == "frost":
 		col = Color8(140, 200, 255)
-	var outer := shape_pts(t)
+	# drawn around its own origin: far out in the sky (the dead lands) screen points pass 70 000 and the triangulation
+	# of a cone loses its footing
+	var o := Iso.to_screen(Vector2(t.x, t.y))
+	draw_set_transform(o)
+	var outer := _rel(shape_pts(t), o)
 	draw_colored_polygon(outer, Color(col, .13))
 	var ring := outer.duplicate()
 	ring.append(outer[0])
 	draw_polyline(ring, Color(col, .6), 1.5)
-	if t.shape == "line" and p < .02:
-		return                   # a line of no length yet has no area to fill
-	draw_colored_polygon(shape_pts(t, p if t.shape == "line" else maxf(.05, p)), Color(col, .18 + p * .25))
+	if not (t.shape == "line" and p < .02):
+		# a line of no length yet has no area to fill
+		draw_colored_polygon(_rel(shape_pts(t, p if t.shape == "line" else maxf(.05, p)), o), Color(col, .18 + p * .25))
+	draw_set_transform(Vector2.ZERO)
+
+static func _rel(pts: PackedVector2Array, o: Vector2) -> PackedVector2Array:
+	for k in pts.size():
+		pts[k] -= o
+	return pts
 
 func _slash(s: Dictionary) -> void:
 	# a sweeping arc in front of the striker (slashFx): bright at the blade's edge, fading behind

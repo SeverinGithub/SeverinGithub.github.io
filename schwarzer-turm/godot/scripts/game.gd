@@ -56,6 +56,7 @@ var spts := 1
 var glut := 0
 var maps := {}                   # floor → its map, kept while you play (G.maps)
 var no_traps := false            # test: no spike plates and fire spouts, so floors can be compared with the browser
+var rg := {"seen": {}, "hut": {}}   # the dead lands: parts seen, witch huts found, Eldrik's map, the mount (P.rgSeen, rgHut, … in 550)
 var tw := {"done": {}, "lift": {}, "crypt": {}, "seen": {}, "br": {}}   # solved rooms, unlocked lifts, plundered crypts, sights found, bridges raised (twS in 984)
 var crypt = null                 # the crypt you are in (G.maps.crypt), floor -1; gone when you leave it
 var crypt_name := ""
@@ -132,6 +133,7 @@ func start_new(c: String) -> void:
 	smith_met = 0
 	maps = {}
 	tw = {"done": {}, "lift": {}, "crypt": {}, "seen": {}, "br": {}}
+	rg = {"seen": {}, "hut": {}}
 	crypt = null
 	bless_t = 0.0
 	eq = {"weapon": start_weapon(C.wc), "armor": item_of("Lederwams")}

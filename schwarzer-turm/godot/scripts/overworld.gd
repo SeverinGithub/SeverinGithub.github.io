@@ -103,12 +103,17 @@ func tick(force := false) -> void:
 	var I = wg.island_of(int(floor(L.P.x / WorldGen.CH)), int(floor(L.P.y / WorldGen.CH)))
 	Game.place = wg.place_name(L.P.x, L.P.y)
 	Game.mlvl = 1 if I == null or I.kind == "home" else WorldGen.lvl_at(I.x, I.y)
+	if I == null and wg.cdata.has(_here()):
+		Game.mlvl = wg.cdata[_here()].lvl
 	var here := "%d,%d" % [int(floor(L.P.x / WorldGen.CH)), int(floor(L.P.y / WorldGen.CH))]
 	if I == null or I.kind == "home" or Game.ow_seen.has(here):
 		return
 	Game.ow_seen[here] = 1
 	if I.kind == "boss" and not Game.ow_boss.has(WorldGen.WB[I.wb].id):
 		Game.log_msg("Du betrittst das Revier von %s." % WorldGen.WB[I.wb].n, Color("#ff8a6a"))
+
+func _here() -> String:
+	return "%d,%d" % [int(floor(L.P.x / WorldGen.CH)), int(floor(L.P.y / WorldGen.CH))]
 
 func _build_home() -> void:
 	# the hill grows with every fallen guardian of the deep (hvTick)
@@ -179,6 +184,7 @@ func _spawn(key: String) -> void:
 				continue
 			var e := Enemy.make(s.vid, Vector2(s.x, s.y), s.rank, c.lvl, L.R)
 			e.ck = key
+			e.rgz = s.get("rgz", "")
 			e.pack = pack
 			pack.append(e)
 			L._add_enemy(e)
@@ -210,6 +216,17 @@ func _rebuild_static() -> void:
 		var j0 := int(ab[1]) * WorldGen.CH
 		for j in range(j0, j0 + WorldGen.CH):
 			for i in range(i0, i0 + WorldGen.CH):
+				if wg.t[j * wg.w + i] == 2:
+					# the walls of the dead city and the cloister stand like the tower's
+					var ws := Sprite2D.new()
+					ws.texture = _tx("wall/%d" % ((i * 3 + j * 5) % 4))
+					ws.centered = false
+					ws.offset = Vector2(-32, -16 - Prop.WH)
+					ws.position = Iso.to_screen(Vector2(i + .5, j + .5))
+					L.world.add_child(ws)
+					_static.append(ws)
+					_fade.append([ws, i + j + 1, "wall"])
+					continue
 				if wg.t[j * wg.w + i] != 3:
 					continue
 				var s := Sprite2D.new()
@@ -233,6 +250,10 @@ func fade() -> void:
 		var near := false
 		if f[2] == "tower":
 			near = pd < f[1] and absf(ps.x - sp.x) < 75 and ps.y < sp.y - 19.2 + 20 and ps.y > sp.y - 19.2 - 520
+		elif f[2] == "wall":
+			near = f[1] > pd + .5 and absf(sp.x - ps.x) < 70 and sp.y - 16 - ps.y < 90 and sp.y - 16 - ps.y > -10
+			s.modulate.a = .32 if near else 1.0
+			continue
 		else:
 			near = f[1] > pd + .5 and absf(sp.x - ps.x) < 40 and sp.y - ps.y < 60 and sp.y - ps.y > -10
 		s.modulate.a = (.45 if f[2] == "tower" else .4) if near else 1.0
@@ -473,6 +494,12 @@ func _draw() -> void:
 					draw_texture(_clv(0, i, j), at)
 				if v1:
 					draw_texture(_clv(1, i, j), at)
+			elif tt == 1 or tt == 2 or tt == 6:
+				# stone floors and walls: the dead lands' church and city walls (the floor branch of render)
+				draw_texture(_tx("floor/%d" % (v % 6)), at)
+				var sh := (sin(i * .27 + j * .11) + sin(i * .09 - j * .23 + 1.7) + 2) * .1
+				if sh > .04:
+					draw_colored_polygon(PackedVector2Array([sp, sp + Vector2(32, 16), sp + Vector2(0, 32), sp + Vector2(-32, 16)]), Color(0, 0, 6 / 255.0, snappedf(sh, .01)))
 	# flat dressing on top of the ground
 	for list in [wg.home.deco] + wg.active.keys().map(func(key): return wg.cdata[key].deco):
 		for d in list:

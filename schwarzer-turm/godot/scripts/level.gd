@@ -125,6 +125,7 @@ func build(map: Dictionary) -> void:
 		lvn = LivingIsles.new(self)
 		add_child(lvn)
 		glow_layer.add_child(LivingIsles.Glow.new())
+		glow_layer.add_child(DeadLands.Glow.new(self))
 	if not ow:
 		_walls()
 	for p in m.props:
@@ -277,6 +278,7 @@ func prop_light(p: Dictionary):
 		"ftcold": return {"r": 40, "a": .3, "col": Color8(255, 80, 30), "f": 1, "h": 14}
 		"twL": return null if p.get("off") else {"r": p.get("r", 130), "a": .7, "col": p.col, "f": 3, "h": p.get("h", 20)}
 		"islight", "isfall": return IslandSights.prop_light(p)
+		"rglamp", "rgcaul", "rghut": return DeadLands.prop_light(p)
 	return PLIGHT.get(p.k)
 
 ## a prop on the floor, with its light if it has one
@@ -799,6 +801,7 @@ func _process(dt: float) -> void:
 	if ow:
 		_stations(dt)
 		IslandSights.tick(self, dt)
+		DeadLands.tick(self, dt)
 	if theme:
 		theme.tick(dt)
 	for e in enemies:
@@ -852,7 +855,7 @@ func _camera(dt: float) -> void:
 		var sw := sin(Game.t * .12) * .5
 		cam_w = title_cam + Vector2(sw, -sw)
 	else:
-		cam_w += (Vector2(P.x, P.y) - cam_w) * ck
+		cam_w += (Vector2(P.x, P.y) + (DeadLands.cam_pull(self) if ow else Vector2.ZERO) - cam_w) * ck
 	var sh := Vector2(R.rnd(-shake, shake), R.rnd(-shake, shake)) if shake > 0 and Game.cfg.shake else Vector2.ZERO
 	cam.position = (Iso.to_screen(cam_w) + Vector2(0, 40) + sh + (kick_v if Game.cfg.shake else Vector2.ZERO)).round()
 	hero.world = Vector2(P.x, P.y)
@@ -1234,6 +1237,8 @@ func _interact(o: Prop) -> void:
 			get_tree().current_scene.open_craft("merge" if o.p.type == "anvil" else "ench")
 		"iscrypt", "iscryptexit", "iscryptchest", "isbstone":
 			IslandSights.interact(self, o)
+		"rgcgate", "rgsign", "rghut":
+			DeadLands.interact(self, o)
 		_:
 			if theme:
 				theme.interact(o)
@@ -2316,10 +2321,26 @@ func kick(a: float, k: float) -> void:
 
 func _lights() -> void:
 	var want := []
+	# the dead lands' church and forest are dark by day: the darkness of the tower over the sky (rgDark, darkFill)
+	var rd := DeadLands.dark if ow else 0.0
+	if ow:
+		dark_layer.visible = rd > .01
+		if not dark_layer.visible:
+			return
+		var dc := DeadLands.dark_color()
+		dark_mat.set_shader_parameter("dark_col", Vector4(dc.r, dc.g, dc.b, rd))
 	if not P.dead:
-		want.append([Iso.to_screen(Vector2(P.x, P.y)), (330 + sin(Game.t * 7) * 5) * (theme.pl_light() if theme else 1.0), 1.0])
+		want.append([Iso.to_screen(Vector2(P.x, P.y)), (330 + sin(Game.t * 7) * 5) * (theme.pl_light() if theme else 1.0) * (1 - rd * .38), 1.0 - rd * .42])
 	for L in lights:
 		want.append([L.p, L.r + sin(Game.t * 9 + L.ph) * L.f, L.a])
+	if ow:
+		for n in obj_nodes:
+			if n.p.type == "shrine":
+				want.append([Iso.to_screen(Vector2(n.p.x, n.p.y)), 280.0 if n.lit else 120.0, .9])
+		for p in ow.wg.live("props"):
+			var Lp = prop_light(p)
+			if Lp:
+				want.append([Iso.to_screen(Vector2(p.x, p.y)), Lp.r + sin(Game.t * 9 + p.ph) * Lp.f, Lp.a])
 	# moving lights: fire in flight, burning telegraphs, short flashes, the glut you left behind
 	for p in proj:
 		if p.kind != "arrow":

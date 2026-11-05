@@ -276,7 +276,12 @@ func bridge_kind(ax: int, ay: int, bx: int, by: int) -> String:
 
 # ---------- building the ground (owIsland, owBridge) ----------
 
+## the island of a chunk, then its part of the dead lands (the owIsland wrapper of 520)
 func ow_island(cx: int, cy: int) -> void:
+	ow_island_base(cx, cy)
+	DeadLands.fill(self, cx, cy)
+
+func ow_island_base(cx: int, cy: int) -> void:
 	var key := _key(cx, cy)
 	if gen.has(key):
 		return
@@ -406,7 +411,12 @@ func unpost(i: int, j: int) -> void:
 func ow_content(cx: int, cy: int) -> Dictionary:
 	var c := {"objs": [], "props": [], "deco": [], "blocks": [], "spawn": [], "lvl": 1, "boss": null}
 	var I = island_of(cx, cy)
-	if I == null or I.kind == "home":
+	if I == null:
+		# the dead lands have no islands of their own; their tufts still sway (989)
+		DeadLands.content(self, c, cx, cy)
+		LivingIsles.content(self, c, cx, cy)
+		return c
+	if I.kind == "home":
 		return c
 	var Rg := Rng.new(int(floor(hsh(cx, cy, 20) * 1e9)))
 	c.lvl = lvl_at(I.x, I.y)
@@ -629,6 +639,8 @@ func ow_content(cx: int, cy: int) -> Dictionary:
 				var p = spot.call(0, 3)
 				if p != null:
 					chest.call(p)
+	# the dead gate's fire, waystone and graves (the owContent wrapper of 520-dead-lands-plan.js)
+	DeadLands.content(self, c, cx, cy)
 	# what lies about and the barrels, crates and finer chests (owContent wrappers of 760-tower-2.js and 770-chests.js)
 	Chests.island_decor(self, c, I, cx, cy)
 	Chests.island_chests(self, c, I, cx, cy)
