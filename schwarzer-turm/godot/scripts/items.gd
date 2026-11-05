@@ -254,6 +254,8 @@ static func tip(it: Dictionary, act := "") -> Array:
 		return L
 	if it.slot == "rune":
 		return Runes.rune_tip(it, act)
+	if it.slot == "mount":
+		return RgPlay.tip(act)
 	if it.slot == "slate":
 		return Runes.slate_tip(it)
 	if it.slot == "junk":

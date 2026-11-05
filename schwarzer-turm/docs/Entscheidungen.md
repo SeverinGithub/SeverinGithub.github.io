@@ -52,6 +52,8 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-05 | Godot: zweite Steuerung mit W A S D, Linksklick nur Schwerthieb; was nah unter der Maus liegt, nimmt oder benutzt der Klick ohne Laufen | Nutzer: „Linksklick … nur noch der Attack mit dem Schwert“; ohne Aufheben und Türen ginge es nicht weiter, neue Tasten dafür wollte er nicht |
 | 2026-11-05 | Godot: Insel-Kleinkram als Low-Poly-Bilder aus 810 statt der flachen aus 760; Wegweiser, Fahnen, Karren, Brunnen, Vogelscheuchen und andere große Stücke sind fest | Nutzer: die Stücke „passen vom Pixel-Art-Stil überhaupt nicht“ und man kann durchgehen; der Browser zeichnete längst die Low-Poly-Fassung, nur der Export nahm die alte; kleines Zeug (Knochen, Pilze, Büsche) bleibt begehbar, damit Inseln nicht verstopfen |
 | 2026-11-05 | Godot: vor der Riesenburg zieht die Kamera halb zur Burg, aber nicht zurück wie im Browser (ZF bis 0,58) | Mehr Bild ginge nur mit ungleichen Pixeln oder Weichzeichnen, die Godot-Fassung hält ganzzahlige Pixel ([[Godot-Umstieg]]) |
+| 2026-11-05 | Godot: H ist neben einem brennenden Leuchtfeuer die Heimkehr, sonst Auf- und Absitzen | Im Browser lösten beide zugleich aus; so tut die Taste immer genau eines ([[Godot-Umstieg]]) |
+| 2026-11-05 | Godot: Eldriks Karte (Akt VI) gibt vorerst die Chronik (L), seine Worte stehen auf der Questkarte | Eldrik steht in Godot noch nicht im Dorf; sobald er kommt, wandert die Übergabe zu ihm ([[Godot-Umstieg]]) |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

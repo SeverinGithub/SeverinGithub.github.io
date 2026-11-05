@@ -53,6 +53,9 @@ static func buy_price(it: Dictionary) -> int:
 	return roundi(Items.value(it) * 4 * _disc())
 
 static func sell(it: Dictionary) -> void:
+	if it.slot == "mount":
+		Game.log_msg("Gram lässt sich nicht verkaufen. Er würde ohnehin zurückkommen.", Color("#a39b88"))
+		return
 	var v := sell_price(it)
 	Game.glut += v
 	Game.inv.erase(it)

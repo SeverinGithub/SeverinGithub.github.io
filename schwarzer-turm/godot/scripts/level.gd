@@ -807,7 +807,7 @@ func _process(dt: float) -> void:
 	for e in enemies:
 		if e.wb != "" and not e.aggro and not e.dead and e.world.distance_to(Vector2(P.x, P.y)) < 11:
 			e.aggro = true
-			Game.banner.emit(e.e_name.to_upper(), "Herr der Himmelsinseln", "boss")
+			Game.banner.emit(e.e_name.to_upper(), e.bsub if e.bsub else "Herr der Himmelsinseln", "boss")
 		elif e.boss and e.wb == "" and not e.dead and not Game.boss_seen.get(Game.floor_no, false) and e.world.distance_to(Vector2(P.x, P.y)) < 11:
 			Game.boss_seen[Game.floor_no] = true
 			Game.banner.emit(e.e_name.to_upper(), "Hüter der Tiefe", "boss")
@@ -1454,6 +1454,7 @@ func _boulder(b: Dictionary, dt: float) -> void:
 func hurt_player(dmg: float, elem, src) -> bool:
 	if P.dead or P.iframe > 0 or P.get("dash"):
 		return false
+	dmg = RgPlay.hurt(dmg, elem)
 	var d := Game.d
 	if elem == null and d.block > 0 and R.next() * 100 < d.block:
 		ftext(Vector2(P.x, P.y), "Geblockt", Color("#c8c2b0"))
@@ -1488,7 +1489,7 @@ func hurt_player(dmg: float, elem, src) -> bool:
 	kick(a, 3.5)
 	if dmg > d.life * .08:
 		hitstop = .07
-	if elem == "frost":
+	if elem == "frost" and not RgPlay.riding():
 		P.chill = 1.5
 	if elem == "poison":
 		P.poisonT = 3.5
@@ -1643,6 +1644,8 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	_loot(e)
 	if theme:
 		theme.on_kill(e)
+	if ow:
+		RgPlay.on_kill(self, e)
 	var rm: float = {"boss": 25.0, "unique": 6.0, "champ": 2.5}.get(e.rank, 1.0)
 	var gl := roundi((3 + Game.mlvl * 1.6) * R.rnd(.8, 1.25) * rm * (1 + d.glutf / 100.0))
 	Game.glut += gl
@@ -1709,6 +1712,10 @@ func _home() -> void:
 			else:
 				get_tree().current_scene.call_deferred("enter_floor", 0)
 			return
+	# H is also the saddle (550): away from a bonfire it mounts and dismounts Gram
+	if Game.eq.has("mount"):
+		RgPlay.toggle(self)
+		return
 	Game.log_msg("Heimkehr (H) gelingt nur neben einem brennenden Leuchtfeuer.", Color("#a39b88"))
 
 ## the nearest spot one can stand on (nearWalk)
@@ -2021,7 +2028,7 @@ func _boss_update(e: Enemy, dt: float, d: float, busy: bool, sp: float) -> void:
 				var aa := R.next() * 7
 				var at := e.world + Vector2(cos(aa), sin(aa)) * 1.6
 				if free_at(at.x, at.y, .3):
-					var s := Enemy.make(R.pick(["spider", "skel"]), at, "normal", Game.mlvl, R)
+					var s := Enemy.make(R.pick(e.sum_p if e.sum_p.size() else ["spider", "skel"]), at, "normal", Game.mlvl, R)
 					s.aggro = true
 					s.summoned = true
 					s.ck = e.ck

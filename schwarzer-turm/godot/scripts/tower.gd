@@ -366,6 +366,25 @@ func _test_rg() -> void:
 	level.P.iframe = 9999
 	level.ow.tick(true)
 	print("RG ", args.rg, " bei ", at, " Feld ", level.tile_at(at.x, at.y), " Zone ", DeadLands.zone_at(wg0, at.x, at.y), " Gegner ", level.enemies.size())
+	var hal = level.enemies.filter(func(e): return e.wb == "rgk")
+	if hal.size():
+		print("Haldor: ", hal[0].e_name, " Leben ", roundi(hal[0].hp), " bei ", hal[0].world)
+	if args.has("slay") and hal.size():
+		# --slay: Ser Haldor falls at once; Gram must lie on the ground, the slot open, the hind gate lift
+		level.kill_enemy(hal[0])
+		print("Haldor besiegt: Platz ", Game.rg.get("mslot"), " Gram am Boden ", level.items.any(func(g): return g.it.get("slot") == "mount"), " Hintertor offen ", wg0.t[wg0._rg_w(242, 0).y * wg0.w + wg0._rg_w(242, 0).x] == 1)
+	if args.has("ride"):
+		# --ride: Gram in his slot and the hero in the saddle; --ride=walk also gallops east for a second
+		Game.rg.mslot = 1
+		for z in DeadLands.ZN:
+			DeadLands.S().seen[z] = 1
+		Game.eq.mount = RgPlay.make_mount()
+		Game.rg.ride = false
+		RgPlay.toggle(level)
+		print("Reiten: ", RgPlay.riding(), " Tempo +", Game.d.frw, "% Verteidigung ", Game.d.def)
+		if String(args.ride) == "walk":
+			# after the opening banner, so a screenshot sees him (--shot-after=3.6)
+			get_tree().create_timer(3.2).timeout.connect(func(): level.P.path = level.find_path(Vector2(level.P.x, level.P.y), Vector2(level.P.x + 8, level.P.y - 8)))
 	if args.has("use"):
 		# --use=rgcgate (or rgsign, rghut): use the nearest such object, as a click would
 		for o in level.obj_nodes:

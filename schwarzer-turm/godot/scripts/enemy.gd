@@ -53,6 +53,8 @@ var fuse := -1.0                 # the fuse burns (keg) or the chain gives (chan
 var stun := 0.0                  # stunned by a falling chandelier
 var tw_wave := false             # a foe of the trial's waves
 var rgz := ""                    # the part of the dead lands it belongs to (e.rgz in 520)
+var sum_p: Array = []            # what a boss calls to its side (e.sumP); empty: spiders and skeletons
+var bsub := ""                   # the line under a lord's name when he wakes (e.bsub)
 
 static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = null) -> Enemy:
 	if R == null:

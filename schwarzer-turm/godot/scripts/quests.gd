@@ -1,12 +1,13 @@
 class_name Quests
-## The chronicle (320-quest-chronicle.js): one long line of fifty quests in five acts, always exactly one of them active.
+## The chronicle (320-quest-chronicle.js): one long line of fifty quests in five acts and the
+## eleven of Act VI in the dead lands (550, RgPlay), always exactly one of them active.
 ## Counters (Game.qc) run all the time; a quest counts from where they stood when it began (Game.qb). Done gives glut,
 ## 12 % of a level's experience and, at the end of each act, a talent point. In the sky the quest points to a place
 ## (target), which the tracker top left, the map and the compass on the HUD show.
 ## The arena's statue is not in Godot yet: its quest waits in the line, marked, and is passed over without reward
 ## (LATER) until the arena comes.
 
-const QACT := ["Akt I · Der Hügel", "Akt II · Die Himmelsinseln", "Akt III · Feuer und Nebel", "Akt IV · Die Tiefe", "Akt V · Der schwarze Himmel"]
+const QACT := ["Akt I · Der Hügel", "Akt II · Die Himmelsinseln", "Akt III · Feuer und Nebel", "Akt IV · Die Tiefe", "Akt V · Der schwarze Himmel", RgPlay.ACT]
 const FAMN := {"skel": "Skelette", "archer": "Knochenschützen", "ghoul": "Ghule", "spider": "Spinnen", "cult": "Kultisten", "wraith": "Klageseelen", "golem": "Kolosse", "scorp": "Skorpione"}
 const FAMK := {"skel": ["ruins", "grave", "village"], "archer": ["ruins", "grave"], "ghoul": ["grave", "forest"], "spider": ["forest"], "scorp": ["forest"],
 	"cult": ["grave", "village"], "wraith": ["ruins", "grave"], "golem": ["ruins"]}
@@ -81,6 +82,8 @@ static func all() -> Array:
 		_f(4, 21, "Ebene 21", "Steig bis Ebene 21 hinab."),
 		_c(4, "arena", 10, "Der Wächter der Statue", "Seit du Ebene 20 erreicht hast, ist die Statue in der Arena wach. Schlag sie und besiege 10 Gegner, die sie herbeiruft."),
 		_w(4, 7, "Aschemutter, die Letzte", "Am äußersten Rand wartet die Aschemutter, Ursprung aller Asche. Beende es.")]
+	# Act VI: the dead lands (RGQ in 550)
+	Q.append_array(RgPlay.quests())
 	for i in Q.size():
 		Q[i].i = i
 		Q[i].glut = floori(40 + i * 38 + .5)
@@ -124,6 +127,8 @@ static func _wg():
 
 ## [done, needed] (qProg)
 static func prog(q: Dictionary) -> Array:
+	if q.has("rg") and q.ty != "kill":
+		return RgPlay.prog(q)
 	var base := cnt(key(q)) - Game.qb if key(q) != "" else 0
 	match q.ty:
 		"kill", "buy", "sell", "chest", "arena": return [base, q.n]
@@ -188,6 +193,10 @@ static func target(q, L: Level):
 	if _tc.get("k") == ck:
 		return _tc.t
 	var t = null
+	if q.has("rg"):
+		t = RgPlay.target(q, L)
+		_tc = {"k": ck, "t": t}
+		return t
 	var isl := func(I, l: String): return {"x": I.x, "y": I.y, "l": l} if I else null
 	var home: Array = wg.home.objs
 	var of := func(ty: String): return home.filter(func(o): return o.type == ty).front()

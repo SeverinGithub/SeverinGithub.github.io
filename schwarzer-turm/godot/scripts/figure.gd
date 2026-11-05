@@ -32,16 +32,20 @@ func play(name: String) -> void:
 
 func _process(dt: float) -> void:
 	_t += dt
-	if anim == "attack" and _t * FPS.attack >= float(_meta.get("attack", [0, 1])[1]):
+	if anim == "attack" and _t * _fps("attack") >= float(_meta.get("attack", [0, 1])[1]):
 		play("idle")
 	position = Iso.to_screen(world)
 	_apply()
+
+## frames a second: a sheet may bring its own (the bone horses gallop faster than anyone walks)
+func _fps(a: String) -> float:
+	return float(_meta.get("fps", {}).get(a, FPS.get(a, 1.0)))
 
 func _apply() -> void:
 	if _meta.is_empty():
 		return
 	var cell := int(_meta.cell)
 	var span: Array = _meta.get(anim, _meta.idle)
-	var col := int(span[0]) + int(_t * FPS.get(anim, 1.0)) % int(span[1])
+	var col := int(span[0]) + int(_t * _fps(anim)) % int(span[1])
 	_spr.region_rect = Rect2(col * cell, Iso.dir_row(face) * cell, cell, cell)
 	_spr.position = -Vector2(_meta.anchor[0], _meta.anchor[1])

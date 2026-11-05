@@ -10,6 +10,12 @@ const EQ := [["helm", "Helm", 5, 1, 2, 2], ["amulet", "Amulett", 7, 2, 1, 1], ["
 	["offhand", "Schild", 9, 2, 2, 4], ["ring1", "Ring", 4, 6, 1, 1], ["belt", "Gürtel", 5, 6, 2, 1], ["ring2", "Ring", 7, 6, 1, 1],
 	["gloves", "Handschuhe", 1, 6, 2, 2], ["boots", "Stiefel", 9, 6, 2, 2]]
 
+## the mount's slot, once Ser Haldor has fallen (the buildInv wrapper of 550)
+const MOUNT := ["mount", "Reittier", 7, 3, 2, 2]
+
+func _eq() -> Array:
+	return EQ + [MOUNT] if Game.rg.get("mslot") else EQ
+
 var level: Level
 var ui: UiLayer
 var cell := 48.0
@@ -117,7 +123,7 @@ func _slot_rect(e: Array) -> Rect2:
 	return Rect2(_eq_at + Vector2((e[2] - 1) * u, (e[3] - 1) * u), Vector2(e[4] * u, e[5] * u)).grow(-2)
 
 func _slot_at(p: Vector2) -> String:
-	for e in EQ:
+	for e in _eq():
 		if _slot_rect(e).has_point(p):
 			return e[0]
 	return ""
@@ -262,7 +268,7 @@ func _panel() -> void:
 	# the sockets of what is worn
 	var hand_ok := func(k: String) -> bool:
 		return Game.hand != null and (Game.hand.slot == k or (Game.hand.slot == "ring" and k.begins_with("ring")))
-	for e in EQ:
+	for e in _eq():
 		var r := _slot_rect(e)
 		var it = Game.eq.get(e[0])
 		var cols: Array = R_BG.get(it.rar, [Color("#1a1410"), Color("#060403")]) if it else [Color("#1a1410"), Color("#060403")]
@@ -314,6 +320,8 @@ func _panel() -> void:
 	y += 12
 	var it_f := Ui.font("italic")
 	var hint := ("Klick: verkaufen" if mode == "shop" else ("Klick: Rune in einen Sockel setzen" if Game.hand and Game.hand.slot == "rune" else "Klick: aufnehmen und ablegen")) + " · Rechtsklick: anlegen oder trinken · Shift+Klick: " + ("in die Truhe" if mode == "stash" else "fallen lassen")
+	if Game.eq.has("mount"):
+		hint += " · H: " + ("absitzen" if RgPlay.riding() else "aufsitzen")
 	for l in Ui.wrap_text(it_f, hint, size.x - 48, 13):
 		y += 17
 		Ui.shadow_text(self, it_f, Vector2(24, y), l, 13, Ui.PAPER_DIM)

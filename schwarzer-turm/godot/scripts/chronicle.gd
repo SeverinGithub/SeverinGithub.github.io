@@ -20,6 +20,7 @@ func _ready() -> void:
 	s_max = 1.0
 
 func opened() -> void:
+	RgPlay.take_map()
 	_layout()
 	vx = 0
 	var cur := Game.qi
@@ -55,6 +56,10 @@ func _card_lines(q: Dictionary, st: String) -> Array:
 		L.append(["body", l, 14, Ui.PAPER])
 	if Quests.LATER.has(q.ty) and st != "done":
 		L.append(["italic", Quests.LATER[q.ty] + " · wird bis dahin übersprungen", 13, Color("#a89878")])
+	if st == "cur" and RgPlay.STORY.has(q.t):
+		# Eldrik's word on the act of the dead lands (STORY in 550), until he stands on the hill himself
+		for l in Ui.wrap_text(Ui.font("italic"), "Eldrik: „" + RgPlay.STORY[q.t] + "“", CW - 28, 13):
+			L.append(["italic", l, 13, Color("#c8b88a")])
 	if st == "cur":
 		L.append(["bar", "", 20, Ui.GOLD])
 		var t = Quests.tgt

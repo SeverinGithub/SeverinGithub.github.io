@@ -1254,10 +1254,10 @@
   "look": "skel"
  },
  "enemy_rg_ross": {
-  "cell": 136,
+  "cell": 156,
   "anchor": [
-   68,
-   116
+   78,
+   133
   ],
   "dirs": 8,
   "walk": [
@@ -1272,14 +1272,17 @@
    12,
    1
   ],
+  "fps": {
+   "walk": 19
+  },
   "name": "Knochenross",
   "look": "skel"
  },
  "enemy_rg_reiter": {
-  "cell": 141,
+  "cell": 162,
   "anchor": [
-   70.5,
-   120
+   81,
+   138
   ],
   "dirs": 8,
   "walk": [
@@ -1294,6 +1297,9 @@
    12,
    1
   ],
+  "fps": {
+   "walk": 19
+  },
   "name": "Knochenreiter",
   "look": "skel"
  },
@@ -1710,5 +1716,30 @@
    1
   ],
   "name": "Alchemist"
+ },
+ "enemy_rg_haldor": {
+  "cell": 296,
+  "anchor": [
+   148,
+   252
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "fps": {
+   "walk": 19
+  },
+  "name": "Ser Haldor, der Riesenritter",
+  "look": "rgk"
  }
 }

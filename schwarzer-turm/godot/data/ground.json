@@ -7063,5 +7063,10 @@
   "file": "slate_e.png",
   "w": 34,
   "h": 34
+ },
+ "Knochenross": {
+  "file": "knochenross.png",
+  "w": 34,
+  "h": 34
  }
 }

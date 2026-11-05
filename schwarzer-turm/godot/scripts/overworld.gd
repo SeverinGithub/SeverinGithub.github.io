@@ -177,6 +177,11 @@ func _spawn(key: String) -> void:
 		var e := Enemy.make_wboss(c.boss, wg.wb_pos(c.boss), c.lvl)
 		e.ck = key
 		L._add_enemy(e)
+	# Ser Haldor waits in the cloister's boss hall until he falls (the owSpawn wrapper of 520)
+	if c.has("rgBoss") and not Game.ow_boss.has("rgk") and not L.enemies.any(func(x): return x.wb == "rgk"):
+		var e := RgPlay.make_boss(Vector2(c.rgBoss.x, c.rgBoss.y), c.lvl + 2)
+		e.ck = key
+		L._add_enemy(e)
 	if c.spawn.size() and not Game.ow_clear.has(key):
 		var pack := []
 		for s in c.spawn:

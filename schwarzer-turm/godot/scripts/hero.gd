@@ -14,6 +14,16 @@ var unique := {}                 # slot → unique name, for its own colours
 var _t := 0.0
 var rate := 1.0                  # animation speed: an attack plays out in exactly one swing time
 var _sprites: Array[Sprite2D] = []
+var _rig: Node2D                 # the rider: every layer, set into the saddle when mounted
+# Gram under the hero (the drawPlayer wrapper of 550): the horse behind the rider, the near flank and legs in front of him
+var _hb: Sprite2D
+var _hn: Sprite2D
+var _rear := 0.0                 # 1 → 0 as the horse rears up when the hero mounts
+var _paw := 6.0                  # seconds until it paws the ground again, standing
+var _paw_t := 0.0
+var _gt := 0.0                   # the gallop's clock
+var _tf := 1.0                   # facing, eased: a quick squash through the side view when it turns
+static var _M: Dictionary = {}
 static var _L: Dictionary = {}
 const SHADER := preload("res://shaders/ramp_map.gdshader")
 const FPS := {"walk": 10.0, "attack": 14.0, "idle": 1.0}
@@ -22,6 +32,12 @@ func _ready() -> void:
 	if _L.is_empty():
 		var f := FileAccess.open("res://data/hero_layers.json", FileAccess.READ)
 		_L = JSON.parse_string(f.get_as_text())
+	if _M.is_empty() and FileAccess.file_exists("res://data/mount.json"):
+		_M = JSON.parse_string(FileAccess.open("res://data/mount.json", FileAccess.READ).get_as_text())
+	_hb = _horse_sprite("back")
+	_rig = Node2D.new()
+	add_child(_rig)
+	_hn = _horse_sprite("near")
 	rebuild()
 
 func equip(slot: String, item: String, unique_name := "") -> void:
@@ -138,10 +154,25 @@ func _add(path: String, mat: ShaderMaterial) -> void:
 	s.centered = false
 	s.region_enabled = true
 	s.material = mat
-	add_child(s)
+	_rig.add_child(s)
 	_sprites.append(s)
 
+func _horse_sprite(part: String) -> Sprite2D:
+	var s := Sprite2D.new()
+	s.texture = load("res://assets/mount/gram_%s.png" % part) if ResourceLoader.exists("res://assets/mount/gram_%s.png" % part) else null
+	s.centered = false
+	s.region_enabled = true
+	s.visible = false
+	add_child(s)
+	return s
+
+## up into the saddle: the horse rears and paddles the air, then lands
+func rear_up() -> void:
+	_rear = 1.0
+	_tf = 1.0 if Enemy._scr_dir(face).x >= 0 else -1.0
+
 func _process(dt: float) -> void:
+	_ride(dt)
 	_t += dt * rate
 	if anim == "attack" and _t * FPS.attack >= float(_L.attack[1]):
 		play("idle")
@@ -152,9 +183,52 @@ func _apply() -> void:
 	if _L.is_empty():
 		return
 	var cell := int(_L.cell)
-	var span: Array = _L.get(anim, _L.idle)
+	# in the saddle the rider sits still while the horse walks: no stride, only his swings
+	var span: Array = _L.get("idle" if anim == "walk" and _hb.visible else anim, _L.idle)
 	var col := int(span[0]) + int(_t * FPS.get(anim, 1.0)) % int(span[1])
 	var r := Rect2(col * cell, Iso.dir_row(face) * cell, cell, cell)
 	for s in _sprites:
 		s.region_rect = r
 		s.position = -Vector2(_L.anchor[0], _L.anchor[1])
+
+## Gram's frame: gallop while the hero moves, rear after mounting, now and then paw the ground standing; the rider rides on
+## the saddle point of that frame and tips with it (sd in rgHorse). The sheets are one side view, mirrored for the other.
+func _ride(dt: float) -> void:
+	var on := RgPlay.riding() and not _M.is_empty() and _hb.texture != null
+	_hb.visible = on
+	_hn.visible = on
+	if not on:
+		_rig.position = Vector2.ZERO
+		_rig.rotation = 0
+		return
+	var f := 1.0 if Enemy._scr_dir(face).x >= 0 else -1.0
+	_tf += (f - _tf) * minf(1, dt * 14)
+	var sq := maxf(.18, absf(_tf))
+	var fs := 1.0 if _tf >= 0 else -1.0
+	var col := 0
+	if _rear > 0:
+		_rear = maxf(0, _rear - dt / 1.05)
+		col = int(_M.rear[0]) + mini(int(_M.rear[1]) - 1, int((1 - _rear) * float(_M.rear[1])))
+	elif anim == "walk":
+		_gt += dt
+		_paw = maxf(_paw, 2)
+		col = int(_M.gallop[0]) + int(_gt * float(_M.fps.gallop)) % int(_M.gallop[1])
+	else:
+		_paw -= dt
+		if _paw < 0:
+			_paw = randf_range(4, 10)
+			_paw_t = 1.0
+		if _paw_t > 0:
+			_paw_t = maxf(0, _paw_t - dt / 1.1)
+			col = int(_M.paw[0]) + mini(int(_M.paw[1]) - 1, int((1 - _paw_t) * float(_M.paw[1])))
+		else:
+			col = int(_M.idle[0])
+	var cw := float(_M.cell[0])
+	var r := Rect2(col * cw, 0, cw, float(_M.cell[1]))
+	for h in [_hb, _hn]:
+		h.region_rect = r
+		h.scale = Vector2(fs * sq, 1)
+		h.position = Vector2(-float(_M.anchor[0]) * fs * sq, -float(_M.anchor[1]))
+	var sd: Array = _M.saddle[col]
+	_rig.position = Vector2(float(sd[0]) * fs * sq, float(sd[1]))
+	_rig.rotation = float(sd[2]) * fs

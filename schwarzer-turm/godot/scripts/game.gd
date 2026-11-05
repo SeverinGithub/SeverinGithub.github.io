@@ -230,6 +230,7 @@ func recalc() -> void:
 		d.dmax = roundi(d.dmax * k + w.up * .5)
 		if w.cls == "staff":
 			d.spellMul += w.up * .03
+	RgPlay.recalc(d)
 	Items.IH = 5 + d.invRows
 	hp = minf(hp, d.life)
 	mp = minf(mp, d.mana)
