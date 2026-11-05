@@ -421,10 +421,10 @@ func tile_at(x: float, y: float) -> int:
 	return t[j * w + i]
 
 func walkable(x: float, y: float) -> bool:
-	return walk_t(tile_at(x, y))
+	return walk_t(tile_at(x, y)) and (ow == null or ow.open_at(x, y))
 
 func free_at(x: float, y: float, r: float) -> bool:
-	return walkable(x - r, y - r) and walkable(x + r, y - r) and walkable(x - r, y + r) and walkable(x + r, y + r)
+	return walkable(x - r, y - r) and walkable(x + r, y - r) and walkable(x - r, y + r) and walkable(x + r, y + r) and (ow == null or ow.open_box(x, y, r))
 
 func los(a: Vector2, b: Vector2, r := 0.0) -> bool:
 	var d := a.distance_to(b)
@@ -532,6 +532,8 @@ func _find_path_in(s: Vector2, g: Vector2, mg: int):
 					continue
 				if not walk_t(t[(ny + y0) * w + nx + x0]):
 					continue
+				if ow and not ow.open_box(nx + x0 + .5, ny + y0 + .5, .3):
+					continue
 				if dx and dy and (not walk_t(t[(cy + y0) * w + nx + x0]) or not walk_t(t[(ny + y0) * w + cx + x0])):
 					continue
 				var ni := ny * bw + nx
@@ -552,6 +554,8 @@ func _find_path_in(s: Vector2, g: Vector2, mg: int):
 	return path
 
 func _T(i: int, j: int) -> int:
+	if ow and not ow.open_box(i + .5, j + .5, .3):
+		return 0      # a cart, a well or a signpost on the islands stands on the tile: paths and foes go round
 	return 0 if i < 0 or j < 0 or i >= w or j >= h else t[j * w + i]
 
 class Heap:

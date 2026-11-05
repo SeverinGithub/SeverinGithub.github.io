@@ -17,6 +17,7 @@ var _tex := {}
 var _tufts := {}                 # chunk key → its grass tufts (Sprite2D), only for chunks in view
 var _tuft_mat: Array = []        # one wind material per kind of tuft
 var _occ := {}                   # tiles where nothing grows (grassOcc): under things
+var _solid := {}                 # tile index → [x, y, r] of the things lying about that you cannot walk through
 const TUFT := preload("res://shaders/tuft.gdshader")
 
 func _init(level: Level, gen: WorldGen) -> void:
@@ -81,6 +82,7 @@ func tick(force := false) -> void:
 		wg.active = {}
 		wg.ac = ""
 	var ch = wg.tick(L.P.x, L.P.y)
+	_unstick()
 	if ch == null:
 		return
 	for key in ch.gone:
@@ -95,6 +97,7 @@ func tick(force := false) -> void:
 	_rebuild_static()
 	LivingIsles.gather(wg)
 	_occupied()
+	_solids()
 	for key in _tufts.keys():
 		_free_tufts(key)
 	var I = wg.island_of(int(floor(L.P.x / WorldGen.CH)), int(floor(L.P.y / WorldGen.CH)))
@@ -263,6 +266,69 @@ func _occupied() -> void:
 	for b in wg.live("blocks"):
 		add.call(b.i + .5, b.j + .5, 1.4 if b.get("big", false) else .8)
 	add.call(wg.tower.x, wg.tower.y, 4)
+
+## what of the small things on the islands stands in the way, as circles in tiles from its foot ([dx, dy, r], 32 units to
+## a tile, read off the meshes in 810-low-poly-props.js); bones, skulls, mushrooms, candles, rubble, books, bushes and
+## the sword in the ground stay underfoot. The browser let you walk through all of them.
+const SOLID := {
+	"dcsign": [[0, 0, .24]], "dcbanner": [[0, 0, .16]], "dcscare": [[0, 0, .22]], "dccage": [[0, 0, .3]], "dcurn": [[0, 0, .22]],
+	"dcwell": [[0, 0, .4]], "dcstump": [[0, 0, .26]], "dcstones": [[-.2, -.06, .2], [.1, -.15, .24], [.22, .06, .18]],
+	"dccart": [[-.28, 0, .3], [.2, 0, .3], [.65, 0, .14]], "dclog": [[-.38, 0, .18], [0, 0, .18], [.38, 0, .18]]}
+
+func _solids() -> void:
+	_solid.clear()
+	for p in wg.live("props"):
+		if not SOLID.has(p.get("k", "")):
+			continue
+		for c in SOLID[p.k]:
+			# a mirrored picture (p.f) is the thing turned so that x and y trade places
+			var x: float = p.x + (c[1] if p.get("f") else c[0])
+			var y: float = p.y + (c[0] if p.get("f") else c[1])
+			var r: float = c[2]
+			for i in range(floori(x - r), floori(x + r) + 1):
+				for j in range(floori(y - r), floori(y + r) + 1):
+					var k := j * wg.w + i
+					if not _solid.has(k):
+						_solid[k] = []
+					_solid[k].append(Vector3(x, y, r * r))
+
+## a hero saved before these things stood in the way (or set down by a test) may stand inside one: he steps out to the
+## nearest free spot instead of being stuck for good; one look into a dictionary each frame
+func _unstick() -> void:
+	var r0: float = L.P.get("r", .28) * .8
+	if _solid.is_empty() or not L.P.has("x") or open_box(L.P.x, L.P.y, r0):
+		return
+	for d in range(1, 13):
+		for k in 16:
+			var q := Vector2(L.P.x, L.P.y) + Vector2.from_angle(k * TAU / 16) * d * .1
+			if L.free_at(q.x, q.y, r0):
+				L.P.x = q.x
+				L.P.y = q.y
+				L.P.path = []
+				return
+
+## no small thing stands on this point (Level.walkable asks on floor 0)
+func open_at(x: float, y: float) -> bool:
+	var a = _solid.get(floori(y) * wg.w + floori(x))
+	if a == null:
+		return true
+	for c in a:
+		if (x - c.x) * (x - c.x) + (y - c.y) * (y - c.y) < c.z:
+			return false
+	return true
+
+## nothing small stands in the square of half-width r around x, y: a thin post would slip between free_at's four corners
+func open_box(x: float, y: float, r: float) -> bool:
+	if _solid.is_empty():
+		return true
+	for i in range(floori(x - r), floori(x + r) + 1):
+		for j in range(floori(y - r), floori(y + r) + 1):
+			for c in _solid.get(j * wg.w + i, []):
+				var dx: float = c.x - clampf(c.x, x - r, x + r)
+				var dy: float = c.y - clampf(c.y, y - r, y + r)
+				if dx * dx + dy * dy < c.z:
+					return false
+	return true
 
 ## grass tufts stand only in the chunks in view; they come and go as the camera moves
 func _grass() -> void:

@@ -127,8 +127,9 @@ func _draw() -> void:
 		else:
 			draw_texture(_tex, Vector2(roundf(sx - float(_meta.ax)), roundf(sy - float(_meta.ay))))
 		if p.k == "dccand":
-			for xh in [[2, 7], [6, 10], [10, 5], [13, 8]]:
-				flame(self, roundf(sx - float(_meta.ax) + xh[0] + 1), roundf(sy - float(_meta.ay) + 13 - xh[1]), 1.6, p.get("ph", 0.0) + xh[0], t)
+			# each wick where the baked mesh put it (c.fl of dcLP), mirrored with the picture
+			for w in _meta.get("fl", []):
+				flame(self, sx + (-float(w[0]) if p.get("f") else float(w[0])), sy + float(w[1]), 1.6, p.get("ph", 0.0) + float(w[0]), t)
 		return
 	draw_texture(_tex, Vector2(sx - float(_meta.ax), sy - float(_meta.ay)))
 	if p.k == "candles":
