@@ -223,3 +223,6 @@ Schwarzer Turm: die ganze Oberfläche in Godot – Welt im SubViewport mit harte
 
 ### 20d0160 · 2026-11-05
 Schwarzer Turm: Talentbaum, Sammlung, große Karte und Chronik in Godot – Vollbild-Ansicht mit Ziehen und Zoomen, Talentbaum (P) Zeile für Zeile aus 920, Sammlung (J) mit Reitern, große Karte (M) mit erkundeten Gängen und Inseln, Chronik (L) mit fünfzig Quests in fünf Akten und Zielen am Himmel; Testschalter --tree, --coll, --map, --quests
+
+### 91c39cb · 2026-11-05
+Schwarzer Turm: Runen, Schmiede und Schleifstein in Godot – runes.gd übersetzt 350-runes.js mit Sperre, Schiefer, Stufen und Schleifen: vierzehn Runen, Sockel, Runen per Klick einsetzen, fünfzehn Runenwörter; Runenbeutel und Sockeln bei Odalinde und den Wanderhändlern; Brannocs Schmiede (forge.gd) mit Hammerschlag und +N bis +10, in der Welt als gebackene Runde; Schleifstein (grind.gd); Sammlung mit Runen und Runenwort-Rezepten; Export tools/godot-export-runes.js; Testschalter --runes, --forge, --grind, --coll=N

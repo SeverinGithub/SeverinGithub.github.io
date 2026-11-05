@@ -146,7 +146,15 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 - **Schleifstein** (`grind.gd`, `Grind`): Liste alles Gesockelten, ein Klick schleift die Runen heil heraus ins Inventar, die Sockel bleiben, ein Runenwort zerfällt; das Rad dreht sich schneller und sprüht. Er steht schon jetzt auf seinem Platz unter dem Werkstattdach (im Browser erst mit dem Glyphentisch).
 - Beide Fenster schließen sich, wenn der Held weggeht. Das Hügeldorf stimmt weiter genau mit dem Browser (`--hillhash`, die Wegweiser kennen jetzt Brannoc).
 - Testschalter: `--runes` (drei Hüter tot, Runenwort im Schwert, Helm mit Rune, Beute aus 400 Gegnern, Sockelquote), `--forge` (`=strike` schlägt dreimal, `=look` stellt nur den Helden davor), `--grind` (`=go` schleift das Schwert), `--coll=N` öffnet Reiter N.
-- Noch nicht: Klänge, Odalindes wählbare Sockelanzahl (offene Frage), der Glyphentisch und die Werkstatt (600).
+- Noch nicht: Klänge, Odalindes wählbare Sockelanzahl (offene Frage).
+
+## Stand 2026-11-05: Werkstatt und Glyphentisch (600)
+- **Export** `tools/godot-export-craft.js` (wie `godot-export-runes.js`, auf dem Hügel): Amboss der Vereinung auf seinem Stumpf und Glyphentisch als die gebackenen Bilder des Browsers (`LPA.anv`, `LPA.tab`) nach `assets/sprites/craft/anvil.png` und `enchant.png`, Anker in `sprites.json`. Leuchten, Runenlinie und kreisende Steine malt Godot darüber (`prop.gd`).
+- `scripts/craft.gd` (`Craft`) übersetzt 600-workshop.js: `merge_of` (`mergeOf`: alles von beiden, gemeinsame Eigenschaften stärker, eine Stufe höher, Aufstieg zu magisch oder selten mit Namen), `merge_cost`, `offers` (`enchOffers`: drei Glyphen aus den Affixen des Platzes ohne gekappte, Preise in Glut und Schiefer). Mit gleichem Zufall stimmen Vereinungen, Kosten und Glyphen genau mit dem Browser (`--craft`).
+- Fenster für beide Modi mit Bildnis und Sprechtext: Liste der Ausrüstung (Zwillinge zuerst, einsame verblasst, passende leuchten), Szene mit Amboss und Hammer bzw. Buch auf dem Tisch, Vorschau des Ergebnisses (gewachsene Eigenschaften grün), drei Glyphen-Kästen; beim Aufschlag bezahlen, Funken, Wackeln, „+N“; in der Welt sprüht die Station (`level.craft_spark`), am Glyphentisch steigen Lichtpunkte. Das gezeigte Ergebnis wird beim Schlag genau so übernommen.
+- Amboss, Glyphentisch und Schleifstein stehen unter dem Werkstattdach genau an den Browser-Stellen. Tooltip zeigt „Verzaubert ×N“.
+- Testschalter: `--craft` (Vereinungen und Glyphen ausgeben), `=merge`/`=ench` öffnen das Fenster, `=merge-go`/`=ench-go` schlagen auch zu, `=look` stellt nur den Helden davor und nennt die Stellen.
+- Dictionaries vergleichen in GDScript nach Inhalt: zwei gleiche Stücke sind mit `==`, `has` und `erase` nicht zu unterscheiden, deshalb arbeitet `craft.gd` mit `is_same`.
 
 ## Wie die Browser-Module in Godot aufgehen
 | Browser | Godot |
@@ -165,7 +173,7 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 ## Offene Entscheidungen
 - ~~Ausrüstung am Helden~~: entschieden 2026-11-03, Ebenen backen (siehe oben).
 - ~~Web-Fassung~~: entschieden 2026-11-04: die Browser-Fassung bleibt für immer, eingefroren in `schwarzer-turm-browser/` (keine Updates mehr). Was später unter `/schwarzer-turm/` läuft (etwa ein Godot-Web-Export), ist offen.
-- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen ✓ (Glyphentisch und Werkstatt fehlen) · 7. Mehrspieler · 8. Export iPad/PC.
+- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen, Werkstatt ✓ · 7. Mehrspieler · 8. Export iPad/PC.
 
 ## Aufwand, ehrlich
 Das Browser-Spiel hat 107 Module und etwa 1,2 MB Code. Die Daten und Bilder sind jetzt mitnehmbar, die Logik muss übersetzt werden. Das sind eher Monate als Wochen, wenn alles wieder drin sein soll.

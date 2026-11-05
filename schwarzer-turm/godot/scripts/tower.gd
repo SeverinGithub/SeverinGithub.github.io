@@ -19,6 +19,7 @@ var shop_panel: Shop
 var stash_panel: Stash
 var forge_panel: Forge
 var grind_panel: Grind
+var craft_panel: Craft
 var tree_view: TalentView
 var coll_panel: Collection
 var map_view: MapView
@@ -134,6 +135,10 @@ func _ready() -> void:
 	grind_panel.ui = ui
 	grind_panel.host = self
 	ui.add_panel(grind_panel)
+	craft_panel = Craft.new()
+	craft_panel.ui = ui
+	craft_panel.host = self
+	ui.add_panel(craft_panel)
 	tree_view = TalentView.new()
 	tree_view.ui = ui
 	tree_view.host = self
@@ -300,10 +305,73 @@ func _ready() -> void:
 		open_stash()
 	if args.has("runes") or args.has("forge") or args.has("grind"):
 		_test_runes()
+	if args.has("craft"):
+		_test_craft()
 	if args.has("bot"):
 		_bot()
 	if args.has("shot"):
 		_shot()
+
+## test: the workshop (--craft): the merge of two fixed swords as a check against mergeOf in the browser, then the window
+## (=merge or =ench, =merge-go and =ench-go also strike; =look only stands the hero beside the anvil)
+func _test_craft() -> void:
+	var sw := func(rar: String, nm: String, mods: Dictionary, dmg: Array, ilvl: int, up: int) -> Dictionary:
+		var x := {"b": "Kurzschwert", "slot": "weapon", "cls": "sword", "rar": rar, "name": nm, "mods": mods, "dmg": dmg, "speed": 1.2, "ilvl": ilvl, "req": {"lvl": ilvl, "str": 10 + up, "dex": 0}}
+		if up:
+			x.up = up
+			Runes.up_name(x)
+		return x
+	var a: Dictionary = sw.call("magic", "Kurzschwert", {"ed": 20, "str": 5}, [2, 5], 10, 0)
+	var b: Dictionary = sw.call("rare", "Grimmzahn", {"ed": 31, "life": 12, "ias": 10}, [3, 6], 12, 2)
+	var r := Craft.merge_of(a, b)
+	var ks: Array = r.mods.keys()
+	ks.sort()
+	print("Vereint: %s %s up %d ilvl %d req %s dmg %s mods %s Kosten %s" % [r.name, r.rar, r.up, r.ilvl, [r.req.lvl, r.req.str, r.req.dex], r.dmg, ks.map(func(k): return "%s=%d" % [k, r.mods[k]]), Craft.merge_cost(a, b)])
+	var c: Dictionary = sw.call("normal", "Kurzschwert", {}, [2, 5], 4, 0)
+	var d: Dictionary = sw.call("normal", "Kurzschwert", {"ls": 3}, [2, 4], 6, 5)
+	var r2 := Craft.merge_of(c, d)
+	print("Vereint: %s %s up %d mods %s Kosten %s" % [r2.name, r2.rar, r2.up, r2.mods, Craft.merge_cost(c, d)])
+	var e: Dictionary = sw.call("rare", "Grimmzahn", {"ls": 18, "crit": 4}, [3, 6], 20, 0)
+	e.encN = 3
+	var R0 := Items.R
+	Items.R = Rng.new(77)
+	var offs := Craft.offers(e)
+	Items.R = R0
+	print("Glyphen: ", offs.map(func(o): return "%s +%d · %d Glut · %d/%d Schiefer" % [o.k, o.v, o.gl, o.g, o.e]))
+	if args.craft == "1":
+		return
+	Game.glut = 400000
+	Game.slate_g = 60
+	Game.slate_e = 12
+	Game.eq.weapon = a
+	Items.inv_add(b)
+	Items.inv_add(sw.call("magic", "Kurzschwert", {"ed": 15}, [2, 5], 8, 0))
+	Items.inv_add(Items.make(12, {"rarity": "rare"}))
+	Game._gear()
+	await get_tree().process_frame
+	var m: String = "ench" if args.craft.begins_with("ench") else "merge"
+	for n in level.obj_nodes:
+		if n.p.type in ["anvil", "enchant", "grind", "smith"]:
+			print("Werkstatt: %s@%.2f,%.2f" % [n.p.type, n.p.x, n.p.y])
+		if n.p.type == ("enchant" if m == "ench" else "anvil"):
+			level.P.x = n.p.x + 1.2
+			level.P.y = n.p.y + 1.2
+	if args.craft == "look":
+		return
+	open_craft(m)
+	if m == "merge":
+		craft_panel.pick(a)
+		craft_panel.pick(b)
+		if args.craft == "merge-go":
+			craft_panel.merge_go()
+			await get_tree().create_timer(1.3).timeout
+			print("Am Amboss: ", Game.eq.weapon.name, " ", Game.eq.weapon.mods, " Tasche ", Game.inv.size(), " Glut ", Game.glut)
+	else:
+		craft_panel.pick(a)
+		if args.craft == "ench-go":
+			craft_panel.buy(0)
+			await get_tree().create_timer(1.3).timeout
+			print("Am Tisch: ", a.name, " ", a.mods, " ×", a.get("encN", 0), " Glut ", Game.glut, " Schiefer ", Game.slate_g, "/", Game.slate_e)
 
 ## test: runes, sockets and runewords (--runes), Brannoc's forge (--forge, =strike hits three times) and the grindstone (--grind)
 func _test_runes() -> void:
@@ -566,6 +634,9 @@ func open_forge() -> void:
 
 func open_grind() -> void:
 	grind_panel.open()
+
+func open_craft(mode: String) -> void:
+	craft_panel.open(mode)
 
 ## the small buttons on the belt
 func panel_button(k: String) -> void:

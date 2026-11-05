@@ -46,6 +46,7 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-04 | Godot: der Himmelsboden wird jedes Bild neu gezeichnet statt in festen Kacheln | Wie im Browser; Felskanten und Brückenseiten hängen weit über ihr Feld hinaus und müssen in der Reihenfolge i+j liegen |
 | 2026-11-04 | Godot: Grasbüschel als Sprites mit Vertex-Shader statt jedes Bild neu gezeichnet | Tausende Büschel; der Shader biegt sie im Wind und unter Läufern ohne Rechenzeit im Skript, das Bild bleibt wie im Browser |
 | 2026-11-04 | Godot: `dungeonChests` läuft schon beim Erzeugen der Ebene statt beim ersten `populate` | Sie hat ihren eigenen festen Zufall und hängt nur an Karte und Objekten; so prüft `--maphash` die Truhen gleich mit |
+| 2026-11-05 | Godot-Werkstatt: das Ergebnis der Vereinung wird einmal berechnet und beim Schlag übernommen | Die Beförderung würfelt einen Namen; so bekommt man genau das Stück, das die Vorschau zeigte |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

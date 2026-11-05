@@ -242,6 +242,12 @@ func _hover_names() -> void:
 		"grind":
 			txt = "Schleifstein"
 			col = Color("#e8c878")
+		"anvil":
+			txt = "Amboss der Vereinung"
+			col = Craft.TEAL
+		"enchant":
+			txt = "Glyphentisch"
+			col = Craft.TEAL
 		"colossus": txt = "Wächter der Arena · erwacht ab Ebene 20"
 		"stairs": txt = "Hinab zu Ebene %d" % (Game.floor_no + 1)
 		"hvsign": txt = "Wegweiser"
@@ -258,7 +264,7 @@ func _hover_names() -> void:
 				txt += " · versiegelt, besiege die Wächter des Raums" if o.p.get("sealed") != false else " · bereit"
 	if txt == "":
 		return
-	var up: float = {"door": 120, "colossus": 290, "merchant": 66, "stash": 48, "smith": 100, "grind": 52, "shrine": 58, "chest": 36, "twlift": 80, "twcage": 66}.get(o.p.type, 58 if String(o.p.type).begins_with("tw") else 46)
+	var up: float = {"door": 120, "colossus": 290, "merchant": 66, "stash": 48, "smith": 100, "grind": 52, "anvil": 48, "enchant": 58, "shrine": 58, "chest": 36, "twlift": 80, "twcage": 66}.get(o.p.type, 58 if String(o.p.type).begins_with("tw") else 46)
 	var at := s - Vector2(0, up * level.get_viewport().get_canvas_transform().get_scale().x / k)
 	var f := Ui.font("sc")
 	var tw := f.get_string_size(txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 15).x

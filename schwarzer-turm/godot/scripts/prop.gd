@@ -184,11 +184,35 @@ func _draw_obj(sx: float, sy: float, t: float) -> void:
 			var gl: float = Game.smith_hit
 			if gl > 0:
 				glow(self, Vector2(sx - 9, sy - 13), 14, Color(1, .86, .55, minf(1, gl * 2)))
+		"anvil":
+			# the anvil of joining on its stump (drawAnvilJ in 810): the baked mesh, the rune line glowing on its face
+			shadow(self, sx + 4, sy, .5)
+			_draw_still("craft/anvil", sx, sy)
+			draw_line(Vector2(sx - 11, sy - 23), Vector2(sx + 5.5, sy - 15), Color(122 / 255.0, 240 / 255.0, 224 / 255.0, .45 + sin(t * 3) * .3), 1.2)
+		"enchant":
+			# the glyph table (drawEnchT in 810): light over the book, four gems circling
+			shadow(self, sx, sy - 2, .55)
+			_draw_still("craft/enchant", sx, sy)
+			glow(self, Vector2(sx, sy - 30), 22, Color(122 / 255.0, 240 / 255.0, 224 / 255.0, .35 + sin(t * 2) * .08))
+			for i in 4:
+				var a := t * .9 + i * 1.5708
+				var x := sx + cos(a) * 13
+				var y := sy - 42 + sin(a) * 4 + sin(t * 2 + i) * 1.5
+				var fr := sin(a) > 0
+				draw_colored_polygon(PackedVector2Array([Vector2(x, y - 4), Vector2(x + 2.5, y), Vector2(x, y + 4)]), Color("#5ef0d8") if fr else Color("#1a9a8a"))
+				draw_colored_polygon(PackedVector2Array([Vector2(x, y - 4), Vector2(x - 2.5, y), Vector2(x, y + 4)]), Color("#c8fff4") if fr else Color("#3ac8b0"))
 		"grind":
 			var fx: float = p.get("fx", 0.0)
 			_draw_sheet("grind", int(fposmod(p.get("rot", 0.0), PI * 10 / 3) / (PI * 10 / 3) * 96), sx, sy)
 			if fx > 0:
 				glow(self, Vector2(sx - 6, sy - 16), 18, Color(1, .78, .47, .5 * fx))
+
+## a baked still picture with its anchor (tools/godot-export-craft.js)
+func _draw_still(key: String, sx: float, sy: float) -> void:
+	var m: Dictionary = Data.sprites.get(key, {})
+	if m.is_empty():
+		return
+	draw_texture(Data.sprite(key), Vector2(roundf(sx - float(m.ax)), roundf(sy - float(m.ay))))
 
 ## one frame of a baked sheet (tools/godot-export-runes.js): frames of fw × fh in cols columns, anchor ax, ay
 func _draw_sheet(key: String, f: int, sx: float, sy: float) -> void:

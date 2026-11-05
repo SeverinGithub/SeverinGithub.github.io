@@ -291,6 +291,8 @@ static func tip(it: Dictionary, act := "") -> Array:
 		L.append(["Element: " + {"fire": "Feuer", "frost": "Frost", "light": "Blitz", "poison": "Gift"}.get(it.elem, it.elem), mod])
 	if it.get("up"):
 		L.append(["Geschmiedet +%d" % it.up, Color("#ffd88a")])
+	if it.get("encN"):
+		L.append(["Verzaubert ×%d" % it.encN, Color("#7af0e0")])
 	L.append_array(Runes.sock_lines(it))
 	var own = Data.item_rules.owner.get(it.b)
 	if own and it.slot != "weapon" and Data.classes.has(own):

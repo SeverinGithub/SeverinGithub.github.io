@@ -1168,6 +1168,8 @@ func _interact(o: Prop) -> void:
 			get_tree().current_scene.open_forge()
 		"grind":
 			get_tree().current_scene.open_grind()
+		"anvil", "enchant":
+			get_tree().current_scene.open_craft("merge" if o.p.type == "anvil" else "ench")
 		_:
 			if theme:
 				theme.interact(o)
@@ -2136,6 +2138,12 @@ func _stations(dt: float) -> void:
 	Game.smith_hit = maxf(0, Game.smith_hit - dt)
 	for n in obj_nodes:
 		var o: Dictionary = n.p
+		if o.type == "enchant":
+			# motes rising from the book (craftTick)
+			if Vector2(o.x - P.x, o.y - P.y).length() < 22 and R.next() < dt * 4:
+				parts.append({"k": "spark", "x": o.x + R.rnd(-.4, .4), "y": o.y + R.rnd(-.4, .4), "z": 1.1, "vx": 0.0, "vy": 0.0, "vz": R.rnd(.3, .8),
+					"t": 0.0, "life": R.rnd(.8, 1.4), "col": Color(R.pick(["#7af0e0", "#c8fff4", "#2ac8b0"])), "s": R.rnd(1, 1.6), "g": -.2})
+			continue
 		if o.type == "grind":
 			var fx: float = o.get("fx", 0.0)
 			o.rot = o.get("rot", 0.0) + (.4 + fx * 14) * dt
@@ -2175,6 +2183,13 @@ func forge_spark() -> void:
 		if n.p.type == "smith":
 			var w := _sm_w(n.p, -11, -24, 18)
 			sparks(Vector2(w.x, w.y), w.z, -1.57, 20, [Color("#ffffff"), Color("#fff4d0"), Color("#ffc070"), Color("#ff7a1a")], 6)
+
+## the workshop struck: teal sparks over the anvil or the table out in the world (cWorld)
+func craft_spark(type: String) -> void:
+	for n in obj_nodes:
+		if n.p.type == type:
+			sparks(Vector2(n.p.x, n.p.y), .7, -1.57, 18, [Color("#ffffff"), Color("#c8fff4"), Color("#7af0e0"), Color("#2ac8b0")], 5)
+			_flash(Vector2(n.p.x, n.p.y), .6)
 
 ## the grindstone turned fast with sparks (the data-grind click)
 func grind_spark() -> void:
