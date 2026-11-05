@@ -897,6 +897,9 @@ func _unhandled_input(ev: InputEvent) -> void:
 		if P.dead:
 			return
 		_hover()
+		if Game.wasd():
+			_wasd_click()
+			return
 		if ev.shift_pressed:
 			var mw := _mouse_w()
 			P.standAtk = atan2(mw.y - P.y, mw.x - P.x)
@@ -942,6 +945,41 @@ func _unhandled_input(ev: InputEvent) -> void:
 				_cast_at_mouse(ev.keycode - KEY_1)
 	elif ev is InputEventMouseButton and ev.pressed and ev.button_index == MOUSE_BUTTON_RIGHT:
 		_cast_at_mouse(Game.sel)
+
+## the new controls: the left button only swings the sword towards the mouse; what lies close at hand
+## (an item, a door, a chest, a trader) is still taken or used, but the hero never walks to it
+func _wasd_click() -> void:
+	if Game.hand:
+		drop_item(Game.hand, P.x, P.y)
+		Game.hand = null
+		return
+	var pp := Vector2(P.x, P.y)
+	P.path = []
+	P.target = null
+	P.interact = null
+	P.pick = null
+	if hover_i and pp.distance_to(Vector2(hover_i.x, hover_i.y)) < 1.6:
+		pickup(hover_i)
+		return
+	if hover_o and not hover_e and pp.distance_to(Vector2(hover_o.p.x, hover_o.p.y)) < 2.2:
+		_interact(hover_o)
+		return
+	var mw := _mouse_w()
+	P.standAtk = atan2(mw.y - P.y, mw.x - P.x)
+
+## W A S D as screen directions: up is world (-1,-1), right (1,-1); zero when no key is held or a text field types
+func _wasd_dir() -> Vector2:
+	if not Game.wasd() or title_cam != null:
+		return Vector2.ZERO
+	var f := get_viewport().gui_get_focus_owner()
+	if f is LineEdit or f is TextEdit:
+		return Vector2.ZERO
+	var sx := float(Input.is_physical_key_pressed(KEY_D)) - float(Input.is_physical_key_pressed(KEY_A))
+	var sy := float(Input.is_physical_key_pressed(KEY_S)) - float(Input.is_physical_key_pressed(KEY_W))
+	if sx == 0 and sy == 0:
+		return Vector2.ZERO
+	# the screen step (sx, sy) in world terms: x = sy + sx, y = sy - sx (Iso.to_world without the tile size)
+	return Vector2(sy + sx, sy - sx).normalized()
 
 func _set_move() -> void:
 	var mw := _mouse_w()
@@ -999,6 +1037,15 @@ func _update_hero(dt: float) -> void:
 	elif P.standAtk != null and mouse_down:
 		var mw := _mouse_w()
 		_start_attack(atan2(mw.y - P.y, mw.x - P.x))
+	elif _wasd_dir() != Vector2.ZERO:
+		var wd := _wasd_dir()
+		P.path = []
+		P.target = null
+		P.interact = null
+		P.pick = null
+		P.face = atan2(wd.y, wd.x)
+		pp = move_ent(pp, wd * spd * dt, P.r)
+		moving = true
 	else:
 		if P.target:
 			var e: Enemy = P.target
@@ -1015,7 +1062,7 @@ func _update_hero(dt: float) -> void:
 					if P.repath <= 0:
 						P.repath = .25
 						P.path = [e.world] if los(pp, e.world, P.r) else find_path(pp, e.world)
-		elif mouse_down and not P.interact and not P.pick and not _over_ui():
+		elif mouse_down and not Game.wasd() and not P.interact and not P.pick and not _over_ui():
 			P.repath -= dt
 			if P.repath <= 0:
 				P.repath = .12
@@ -1092,6 +1139,10 @@ func _do_roll() -> void:
 	var a := atan2(mw.y - P.y, mw.x - P.x)
 	if mw.distance_to(Vector2(P.x, P.y)) < .2:
 		a = P.face
+	# with W A S D held the roll goes where the hero walks
+	var wd := _wasd_dir()
+	if wd != Vector2.ZERO:
+		a = atan2(wd.y, wd.x)
 	P.roll = .38
 	P.iframe = .3
 	P.rollA = a

@@ -198,3 +198,8 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 Das Browser-Spiel hat 107 Module und etwa 1,2 MB Code. Die Daten und Bilder sind jetzt mitnehmbar, die Logik muss übersetzt werden. Das sind eher Monate als Wochen, wenn alles wieder drin sein soll.
 
 Zurück zu [[Start]].
+
+## Stand 2026-11-05: Zwei Steuerungen
+- **Einstellungen → Steuerung** (`menus.gd`): oben zwei Knöpfe, „Oldschool Classic“ (Klicken zum Gehen, genau wie bisher) und „Neue Steuerung“; die gewählte leuchtet golden, die Tastenliste darunter passt sich an. Gemerkt in `Game.cfg.ctl` (`"classic"` oder `"wasd"`, `user://settings.cfg`), abgefragt mit `Game.wasd()`. Gibt es in der Browser-Fassung nicht.
+- **Neue Steuerung** (`level.gd`): W A S D gehen in Bildschirmrichtungen (hoch, links, runter, rechts, schräg mit zwei Tasten; `_wasd_dir` rechnet sie in Weltrichtungen um, Tempo wie beim Klicken). Der Linksklick ist nur noch der Schwerthieb zur Maus, gehalten schlägt er weiter (`_wasd_click` setzt `standAtk`); nie geht der Held zum Klick. Liegt ein Gegenstand, eine Tür, Truhe oder ein Händler in Reichweite unter der Maus, nimmt bzw. benutzt der Klick ihn ohne Laufen. Die Rolle geht bei gehaltenen Tasten in Laufrichtung, sonst zur Maus. Rechtsklick, 1–6, Y/X/Q, F, C I K P J M L, H und Esc sind unverändert. In Textfeldern laufen die Tasten nicht.
+- Testschalter `--ctl` (`=classic`): hält W und D je eine halbe Sekunde und klickt neben den Helden; mit `--menu=controls` zeigt er die Seite in dieser Steuerung (nicht gespeichert).

@@ -171,7 +171,7 @@ func _ready() -> void:
 		return
 	Game.in_play = true
 	enter_floor(int(args.get("floor", "0")))
-	Game.log_msg("Klicke auf den Boden, um zu gehen, auf Feinde, um zuzuschlagen. Leertaste rollt, F trinkt aus dem Flakon, Q und X Tränke, 1–6 Fertigkeiten, I Inventar, K Fertigkeiten.")
+	Game.log_msg(("W A S D gehen, Linksklick schlägt zu." if Game.wasd() else "Klicke auf den Boden, um zu gehen, auf Feinde, um zuzuschlagen.") + " Leertaste rollt, F trinkt aus dem Flakon, Q und X Tränke, 1–6 Fertigkeiten, I Inventar, K Fertigkeiten.")
 	if args.has("lvl"):
 		# test: a hero of this level with all six slots learned
 		Game.lvl = int(args.lvl)
@@ -309,10 +309,55 @@ func _ready() -> void:
 		_test_craft()
 	if args.has("sights"):
 		_test_sights()
+	if args.has("ctl"):
+		_test_ctl()
 	if args.has("bot"):
 		_bot()
 	if args.has("shot"):
 		_shot()
+
+## test: the new controls (--ctl, not saved). Holds W, then D, each for half a second, and prints how far the hero went on the
+## screen; then a left click beside the hero must swing the sword and not walk. --ctl=classic checks the old click still walks.
+func _test_ctl() -> void:
+	Game.cfg.ctl = "classic" if String(args.ctl) == "classic" else "wasd"
+	if args.has("menu"):
+		show_menu(args.menu)
+		return
+	await get_tree().create_timer(.6).timeout
+	var L: Level = level
+	var key := func(k: Key, on: bool):
+		var e := InputEventKey.new()
+		e.physical_keycode = k
+		e.keycode = k
+		e.pressed = on
+		Input.parse_input_event(e)
+	for k in [KEY_W, KEY_D]:
+		var s0 := Iso.to_screen(Vector2(L.P.x, L.P.y))
+		key.call(k, true)
+		await get_tree().create_timer(.5).timeout
+		key.call(k, false)
+		await get_tree().process_frame
+		var d := Iso.to_screen(Vector2(L.P.x, L.P.y)) - s0
+		print("Taste %s: Schirm %.0f,%.0f" % [OS.get_keycode_string(k), d.x, d.y])
+	var p0 := Vector2(L.P.x, L.P.y)
+	var at := Iso.to_screen(p0 + Vector2(2, 0))
+	var vp := L.get_viewport()
+	var m := InputEventMouseButton.new()
+	m.button_index = MOUSE_BUTTON_LEFT
+	m.pressed = true
+	m.position = vp.get_canvas_transform() * at
+	m.global_position = m.position
+	vp.warp_mouse(m.position)
+	await get_tree().process_frame
+	print("Maus %.2f,%.2f Ziel %.2f,%.2f" % [L._mouse_w().x, L._mouse_w().y, p0.x + 2, p0.y])
+	L._unhandled_input(m)
+	await get_tree().create_timer(.1).timeout
+	print("Klick: Hieb %s Weg %d" % [L.P.atkT > 0 or L.P.standAtk != null, L.P.path.size()])
+	m = m.duplicate()
+	m.pressed = false
+	L._unhandled_input(m)
+	await get_tree().create_timer(.6).timeout
+	print("danach bewegt %.2f" % Vector2(L.P.x, L.P.y).distance_to(p0))
 
 ## test: the sights of 986 (--sights, best with --seed=4242). Plain: the crypt of 38,31 at level 6 in numbers, against genCrypt
 ## in the browser. =islight, =isstatue, =isfall, =iscrypt, =isbstone stand the hero before the first of its kind;
@@ -612,7 +657,7 @@ func start_game(c: String) -> void:
 	Game.in_play = true
 	hud_layer.visible = true
 	enter_floor(0)
-	Game.log_msg("Klicke auf den Boden, um zu gehen. Der Eingang des Turms liegt vor dem Tor.", Color("#ece4cf"))
+	Game.log_msg(("Mit W A S D gehst du." if Game.wasd() else "Klicke auf den Boden, um zu gehen.") + " Der Eingang des Turms liegt vor dem Tor.", Color("#ece4cf"))
 	save_game()
 
 ## back where you left off: in the sky the world grows around the spot, in the tower the floor is built from its seed

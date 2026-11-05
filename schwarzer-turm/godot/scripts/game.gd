@@ -7,7 +7,11 @@ signal message(text: String, col: Color)
 signal banner(title: String, sub: String, kind: String)
 
 # ---------- settings (CFG in 440-menus.js), kept in user://settings.cfg ----------
-var cfg := {"music": 70, "sfx": 80, "voice": 80, "mute": false, "shake": true, "hitstop": true, "numbers": true}
+var cfg := {"music": 70, "sfx": 80, "voice": 80, "mute": false, "shake": true, "hitstop": true, "numbers": true, "ctl": "classic"}
+
+## the new controls: WASD walks, the left button only swings the sword (Einstellungen → Steuerung)
+func wasd() -> bool:
+	return cfg.ctl == "wasd"
 
 func _ready() -> void:
 	var c := ConfigFile.new()

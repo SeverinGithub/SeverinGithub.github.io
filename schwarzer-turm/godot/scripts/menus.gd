@@ -7,6 +7,10 @@ const KEYS := [["Linksklick", "Gehen, angreifen, aufheben, benutzen"], ["Shift +
 	["1 – 6", "Fertigkeit wirken und auswählen"], ["Leertaste", "Ausweichrolle (kostet Ausdauer)"], ["F", "Heilflakon"], ["Y · X", "Heiltrank · Manatrank (auch Q)"],
 	["C · I · K", "Charakter · Inventar · Fertigkeiten"], ["Esc", "Pause und Menü, schließt offene Fenster"],
 	["F11 · Alt+Enter", "Vollbild (Mac: Cmd+Ctrl+F)"], ["Strg + Plus · Minus", "Pixel größer · kleiner (Strg+0 zurück)"]]
+## the new controls: the hero walks with W A S D, the left button swings the sword towards the mouse
+const KEYS_WASD := [["W A S D", "Gehen: hoch, links, runter, rechts"], ["Linksklick", "Schwerthieb zur Maus (halten: weiter)"],
+	["Linksklick nah", "Aufheben, benutzen, ansprechen"], ["Rechtsklick", "Gewählte Fertigkeit wirken"]]
+const SCHEMES := [["classic", "Oldschool Classic", "Klicken zum Gehen"], ["wasd", "Neue Steuerung", "W A S D gehen, Klick schlägt"]]
 
 ## the box: a plate 440 wide (or wider), a centred heading, then rows
 static func _box(title: String, w := 440.0) -> Array:
@@ -144,13 +148,33 @@ static func _check(k: String, n: String) -> Control:
 static func controls(host) -> Control:
 	var bv := _box("Steuerung")
 	var v: VBoxContainer = bv[1]
+	# the two schemes side by side, the chosen one lit
+	var row := HBoxContainer.new()
+	row.add_theme_constant_override("separation", 8)
+	for e in SCHEMES:
+		var id: String = e[0]
+		var b := _mbtn(e[1], func():
+			Game.cfg.ctl = id
+			Game.save_cfg()
+			host.show_menu("controls"), e[2])
+		b.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		b.toggle_mode = true
+		b.button_pressed = Game.cfg.ctl == id
+		if Game.cfg.ctl == id:
+			b.add_theme_color_override("font_color", Ui.GOLD)
+			b.add_theme_color_override("font_pressed_color", Ui.GOLD)
+		row.add_child(b)
+	v.add_child(row)
 	var pc := PanelContainer.new()
 	pc.add_theme_stylebox_override("panel", _keys_box())
 	var g := GridContainer.new()
 	g.columns = 2
 	g.add_theme_constant_override("h_separation", 14)
 	g.add_theme_constant_override("v_separation", 3)
-	for e in KEYS:
+	var keys: Array = KEYS
+	if Game.wasd():
+		keys = KEYS_WASD + KEYS.slice(3)
+	for e in keys:
 		g.add_child(Ui.label(e[0], 14, Ui.GOLD, "sc"))
 		g.add_child(Ui.label(e[1], 14))
 	pc.add_child(g)
