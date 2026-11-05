@@ -120,7 +120,8 @@ static func make(vid_: String, at: Vector2, rk := "normal", ml := 1, R: Rng = nu
 	DayNight.buff(e)
 	return e
 
-## a floor guardian (makeBoss). Bosses are not baked yet: a great stone figure stands in for all three.
+## a floor guardian (makeBoss): Morgrath the knight, the Ash Weaver, Graukeil the stone warden, baked at their own size
+## by tools/godot-export-bosses.js
 static func make_boss(f: int, at: Vector2, ml: int) -> Enemy:
 	var bi := int(f / 3) - 1
 	var def: Dictionary = Data.bosses[bi % 3]
@@ -128,8 +129,7 @@ static func make_boss(f: int, at: Vector2, ml: int) -> Enemy:
 	var hs := 1 + (ml - 1) * .32
 	var ds := 1 + (ml - 1) * .2
 	var e := Enemy.new()
-	e.key = {"knight": "enemy_grabritter", "weaver": "enemy_brutmutter", "warden": "enemy_golem"}.get(def.look, "enemy_golem")
-	e.scale_f = 1.6 if e.key != "enemy_golem" else 1.3
+	e.key = "boss_" + def.look
 	e.type = "boss"
 	e.boss = true
 	e.rank = "boss"
@@ -148,14 +148,14 @@ static func make_boss(f: int, at: Vector2, ml: int) -> Enemy:
 	e.max_hp = e.hp
 	return e
 
-## an island lord (makeWBoss in 310-overworld-bosses.js); like the floor guardians a stand-in figure for now
+## an island lord (makeWBoss in 310-overworld-bosses.js): the guardians' three looks in each lord's own colours and size,
+## and Vyrthrax the fire dragon (660), each baked as boss_wb0…wb8
 static func make_wboss(i: int, at: Vector2, ml: int) -> Enemy:
 	var b: Dictionary = WorldGen.WB[i]
 	var hs := 1 + (ml - 1) * .32
 	var ds := 1 + (ml - 1) * .2
 	var e := Enemy.new()
-	e.key = {"knight": "enemy_grabritter", "weaver": "enemy_brutmutter"}.get(b.look, "enemy_golem")
-	e.scale_f = (1.6 if e.key != "enemy_golem" else 1.3) * b.scale / 2.1
+	e.key = "boss_" + b.id
 	e.type = "boss"
 	e.boss = true
 	e.rank = "boss"

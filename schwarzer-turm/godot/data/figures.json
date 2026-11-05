@@ -1741,5 +1741,269 @@
   },
   "name": "Ser Haldor, der Riesenritter",
   "look": "rgk"
+ },
+ "boss_knight": {
+  "cell": 245,
+  "anchor": [
+   122.5,
+   208
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Morgrath, der Hügeltyrann",
+  "look": "knight"
+ },
+ "boss_weaver": {
+  "cell": 245,
+  "anchor": [
+   122.5,
+   208
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Die Ascheweberin",
+  "look": "weaver"
+ },
+ "boss_warden": {
+  "cell": 245,
+  "anchor": [
+   122.5,
+   208
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Graukeil, Wächter der Tiefe",
+  "look": "warden"
+ },
+ "boss_wb0": {
+  "cell": 226,
+  "anchor": [
+   113,
+   192
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Rußklaue, Plünderer der Dörfer",
+  "look": "knight"
+ },
+ "boss_wb1": {
+  "cell": 226,
+  "anchor": [
+   113,
+   192
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Die Nebelweberin",
+  "look": "weaver"
+ },
+ "boss_wb2": {
+  "cell": 245,
+  "anchor": [
+   122.5,
+   208
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Moosfaust, der Grabwächter",
+  "look": "warden"
+ },
+ "boss_wb3": {
+  "cell": 245,
+  "anchor": [
+   122.5,
+   208
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Kaltherz von der Frostfurt",
+  "look": "knight"
+ },
+ "boss_wb4": {
+  "cell": 255,
+  "anchor": [
+   127.5,
+   217
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Die Brutkönigin",
+  "look": "weaver"
+ },
+ "boss_wb5": {
+  "cell": 274,
+  "anchor": [
+   137,
+   233
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Glutkoloss Vharn",
+  "look": "warden"
+ },
+ "boss_wb6": {
+  "cell": 264,
+  "anchor": [
+   132,
+   224
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Der Schattenkönig",
+  "look": "knight"
+ },
+ "boss_wb7": {
+  "cell": 284,
+  "anchor": [
+   142,
+   241
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Aschemutter, die Letzte",
+  "look": "weaver"
+ },
+ "boss_wb8": {
+  "cell": 322,
+  "anchor": [
+   161,
+   274
+  ],
+  "dirs": 8,
+  "walk": [
+   0,
+   8
+  ],
+  "attack": [
+   8,
+   4
+  ],
+  "idle": [
+   12,
+   1
+  ],
+  "name": "Vyrthrax, der Feuerdrache",
+  "look": "dragon"
  }
 }

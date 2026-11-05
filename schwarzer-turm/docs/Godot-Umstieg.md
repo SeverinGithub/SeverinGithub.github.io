@@ -55,7 +55,7 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 - **Bild wie im Browser**: `shaders/darkness.gdshader` legt die Dunkelheit über die Ebene und schneidet jedes Licht als weiche Ellipse heraus (wie `destination-out` in `render()`), farbiges Leuchten wird danach addiert, und `shaders/palette.gdshader` macht zum Schluss, was `present()` per WebGL macht: Bayer-Dithering und Abbildung auf die 139 Farben der Palette (`assets/palette_lut.png`, erzeugt mit `node tools/godot-palette.mjs`). Zahlen und HUD liegen außerhalb.
 - Testschalter (nach `--`): `--seed=4242 --floor=3 --class=jaegerin`, `--shot=/pfad.png --shot-after=3` (Bildschirmfoto, dann Ende), `--bot` (`=near`, `=boss`, `=stairs`: spielt selbst und schreibt Leben, Stufe, Erfahrung in die Konsole), `--raw` (ohne Dunkelheit und Palette), `--maphash` (Prüfsummen der Ebenen 1–4). Beispiel: `godot --path godot -- --bot=boss --floor=3 --shot=/tmp/boss.png --shot-after=8`.
 - Stolperstein: Texturen, die nur in `_draw()` mit `draw_texture()` benutzt werden, müssen festgehalten werden, sonst werden sie freigegeben und zeichnen weiß. `Data.sprite()` hält deshalb alle geladenen Weltbilder.
-- Noch nicht drin: die späteren Schichten der Turmebenen (Themen-Stockwerke und Flüche aus 982, Sonderräume aus 984), Fertigkeiten (Schritt 4), Klänge, Karte, Speichern, Titelbild. Bosse haben noch keine eigenen Bögen (Platzhalter: Grabritter, Brutmutter, Koloss), Kerzen haben drei geschätzte Dochte (`candlesTop` fehlt im Export), Lichtschächte, Ratten, Staub und Sporen fehlen.
+- Noch nicht drin: die späteren Schichten der Turmebenen (Themen-Stockwerke und Flüche aus 982, Sonderräume aus 984), Fertigkeiten (Schritt 4), Klänge, Karte, Speichern, Titelbild. Bosse haben seit 2026-11-05 eigene Bögen (siehe unten), Kerzen haben drei geschätzte Dochte (`candlesTop` fehlt im Export), Lichtschächte, Ratten, Staub und Sporen fehlen.
 
 ## Stand 2026-11-04 abends: Gegenstände, Beute, Inventar (Schritt 3)
 - **Export** `tools/godot-export-items.js` (läuft wie `godot-export.js`, dauert eine Minute): `data/affixes.json` jetzt mit den Wertebereichen je Stufe (`r`: vier Paare; auch `godot-export.js` schreibt sie jetzt so), `data/loot.json` (Platz-Gewichte und -Kürzel, Seltenheitsfarben, Ramsch und Ramsch-Familien), `data/item_rules.json` (je Grundteil die festen Werte der Klassenausrüstung aus `MGIMP`/`HUIMP`/`ALIMP`/`NWIMP`/`KRIMP`, wessen Ausrüstung es ist, welche Klassen eine Waffe führen dürfen; Drachenteile, Stab-Elemente), `data/ground.json` + `assets/ground/` (das Bodenbild `pxCanvas` jedes Grundteils, Unikats, Ramschs und Tranks, 1397), dazu die Beutelsymbole für Ramsch, Tränke und Unikate in `icons.json` (Schlüssel `Junk:<art>`, `potL`/`potM`, `U:<unikat>`).
@@ -211,6 +211,11 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 - Noch nicht: Klänge von Regen und Donner, die Kopfgeldzeile in der Chronik, Mehrspieler-Abgleich von Uhr und Wetter (780).
 - Testschalter `--wx=rain|ash|fog|snow` (volle Stärke, Regen mit vollen Pfützen und einem Blitz), `--ev=ambush|merchant|thief|meteor` (nach 2 s, schreibt die Gegner), `--evwin` (tötet sie nach 3 s und schreibt Zähler, Glut, Kopfgeld; `=pay` erfüllt dazu das Kopfgeld), `--bounty` (nimmt das erste Angebot), `--shop=bounty` (Händlerfenster beim Kopfgeld).
 
+## Stand 2026-11-05: Boss-Bögen (080, 310, 660)
+- **Export** `tools/godot-export-bosses.js` (wie die anderen, im Spiel über `__ev`): backt die drei Turmhüter aus `makeBoss` (`boss_knight` Morgrath, `boss_weaver` die Ascheweberin, `boss_warden` Graukeil) und die Inselherren aus `makeWBoss` (`boss_wb0`…`boss_wb7` in eigenen Farben und Größen, `boss_wb8` Vyrthrax der Feuerdrache aus 660) in voller Größe: 8 Richtungen × 8 Lauf, 4 Schlag, 1 Stand, Zelle `ceil(96·scale)+24` (226–322 px). Die Weberin schwebt und ihre Beine laufen auf `G.t`, deshalb schreitet das Werkzeug `G.t` mit den Lauf-Spalten mit.
+- `enemy.gd`: `make_boss` und `make_wboss` nehmen `boss_<look>` bzw. `boss_<id>` statt der Platzhalter (Grabritter, Brutmutter, Koloss); `scale_f` bleibt 1, weil der Bogen schon groß gebacken ist.
+- Testschalter `--lord=0…8` (Inselherr) bzw. `--lord=t1…t3` (Turmhüter) stellt den Boss neben den Helden.
+
 ## Wie die Browser-Module in Godot aufgehen
 | Browser | Godot |
 |---|---|
@@ -228,7 +233,7 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 ## Offene Entscheidungen
 - ~~Ausrüstung am Helden~~: entschieden 2026-11-03, Ebenen backen (siehe oben).
 - ~~Web-Fassung~~: entschieden 2026-11-04: die Browser-Fassung bleibt für immer, eingefroren in `schwarzer-turm-browser/` (keine Updates mehr). Was später unter `/schwarzer-turm/` läuft (etwa ein Godot-Web-Export), ist offen.
-- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit Platzhalter-Figur) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen, Werkstatt ✓ (danach Tag und Nacht ✓, Wetter, Begegnungen und Kopfgelder ✓, Sehenswürdigkeiten 986 ✓, lebendige Inseln 989 ✓) · 7. Mehrspieler · 8. Export iPad/PC.
+- ~~Reihenfolge~~: gearbeitet wird nach dem Vorschlag (2026-11-04): 1. Laufen, Kamera, eine Turmebene ✓ · 2. Kampf ✓ (alle Gegnerarten, Bosse mit eigenen Bögen seit 2026-11-05) · 3. Gegenstände, Beute, Inventar ✓ · 4. Fertigkeiten der vier Klassen ✓ · 5. Oberwelt mit Inseln und Dorf (5a ✓, 5b Teil 1 ✓) · 6. Händler, Schmiede, Runen, Werkstatt ✓ (danach Tag und Nacht ✓, Wetter, Begegnungen und Kopfgelder ✓, Sehenswürdigkeiten 986 ✓, lebendige Inseln 989 ✓) · 7. Mehrspieler · 8. Export iPad/PC.
 
 ## Aufwand, ehrlich
 Das Browser-Spiel hat 107 Module und etwa 1,2 MB Code. Die Daten und Bilder sind jetzt mitnehmbar, die Logik muss übersetzt werden. Das sind eher Monate als Wochen, wenn alles wieder drin sein soll.

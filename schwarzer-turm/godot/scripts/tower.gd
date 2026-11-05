@@ -261,6 +261,13 @@ func _ready() -> void:
 			for o in level.obj_nodes:
 				if Vector2(o.p.x, o.p.y).distance_to(Vector2(level.P.x, level.P.y)) < 8:
 					print(o.p.get("ct", o.p.type), " ", o.p.x, ",", o.p.y, " ", o.visible, " ", o.position, " ", o.get_parent().name)
+	if args.has("lord"):
+		# test: a boss three steps from the hero, asleep (--lord=0…8 the island lords, --lord=t1…t3 the tower's guardians)
+		var at := Vector2(level.P.x + 2.2, level.P.y + 2.2)
+		var e: Enemy = Enemy.make_boss(3 * int(String(args.lord).substr(1)), at, 5) if String(args.lord).begins_with("t") else Enemy.make_wboss(int(args.lord), at, 5)
+		e.face = PI * 1.25
+		level._add_enemy(e)
+		print("Boss: ", e.e_name, " ", e.key)
 	if args.has("bonfire"):
 		# --bonfire: the nearest bonfire's window; --bonfire=night (or =day): rest there until that hour and print the clock
 		var best: Prop = null
