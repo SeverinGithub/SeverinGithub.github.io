@@ -24,6 +24,7 @@ func save_cfg() -> void:
 	for k in cfg:
 		c.set_value("cfg", k, cfg[k])
 	c.save("user://settings.cfg")
+	Sound.apply_cfg()
 
 var in_play := false             # a hero plays (not the title)
 var ow_at = null                 # where to stand when the sky is entered next (travel, a save)
@@ -300,6 +301,7 @@ func equip_to(it: Dictionary, slot: String) -> bool:
 			else:
 				drop_item.emit(o)
 	_gear()
+	Sound.equipped()
 	return true
 
 func unequip(slot: String) -> void:
@@ -398,6 +400,7 @@ func sk_mana(id: String, l: int) -> int:
 	return maxi(1, roundi(m[mini(l, m.size() - 1)] * (1 - d.mcost / 100.0)))
 
 func gain_xp(x: float) -> void:
+	var l0 := lvl
 	xp += roundi(x * (1 + d.xp / 100.0))
 	while xp >= xp_next(lvl):
 		xp -= xp_next(lvl)
@@ -408,6 +411,8 @@ func gain_xp(x: float) -> void:
 		hp = d.life
 		mp = d.mana
 		banner.emit("Stufe %d" % lvl, "5 Attributpunkte · 1 Fertigkeitspunkt", "")
+	if lvl > l0:
+		Sound.sample("lvlup", .75, {"rate": 1.0})
 
 ## the monster level of a tower floor (enterFloor in 150-music.js)
 static func mlvl_of(f: int) -> int:

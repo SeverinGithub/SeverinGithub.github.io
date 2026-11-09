@@ -806,6 +806,7 @@ func _process(dt: float) -> void:
 	_trial_tick()
 	_upd_traps(dt)
 	DayNight.tick(self, dt)
+	Sound.tick(self, dt)
 	if Game.in_play and title_cam == null:
 		WorldEvents.bounty_tick(self)
 	if ow:
@@ -1129,6 +1130,8 @@ func _start_attack(ang: float) -> bool:
 	P.stDelay = .7
 	hero.face = ang
 	hero.play("attack", hero.attack_time() / P.atkDur)
+	if not Sound.sample("sword", .55):
+		Sound.sfx("swing")
 	return true
 
 func _resolve_swing() -> void:
@@ -1169,6 +1172,7 @@ func _do_roll() -> void:
 	P.atkT = 0
 	P.path = []
 	_smoke(Vector2(P.x, P.y), 4)
+	Sound.sfx("roll")
 
 ## the mouse is over an open panel: holding the button there does not walk
 func _over_ui() -> bool:
@@ -1198,6 +1202,8 @@ func drink(it: Dictionary) -> void:
 	if it.kind == "life":
 		P.poisonT = 0.0
 	P.heal += Game.use_potion(it)
+	if not Sound.sample("potion", .7):
+		Sound.sfx("pick")
 
 func _drink_flask() -> void:
 	if P.dead or Game.flasks <= 0 or P.flaskT > 0:
@@ -1209,6 +1215,7 @@ func _drink_flask() -> void:
 	P.poisonT = 0
 	P.heal = Game.d.life * (.45 + Game.flask_pow * .08 + Game.d.flaskH / 100.0)
 	burst(Vector2(P.x, P.y), Color("#ffcf6a"), 14, 1.5)
+	Sound.sample("potion", .7)
 
 func _interact(o: Prop) -> void:
 	match o.p.type:
@@ -1220,6 +1227,7 @@ func _interact(o: Prop) -> void:
 					Game.tbonus += 1
 					Game.log_msg("+1 Talentpunkt (P)", Color("#e8c878"))
 					Game.banner.emit("LEUCHTFEUER ENTZÜNDET", o.p.name, "boss")
+					Sound.sfx("lvl")
 					o.lit = true
 			elif ow:
 				Game.lit[0] = true
@@ -1227,6 +1235,7 @@ func _interact(o: Prop) -> void:
 			elif not Game.lit.get(Game.floor_no, false):
 				Game.lit[Game.floor_no] = true
 				Game.banner.emit("LEUCHTFEUER ENTZÜNDET", "", "boss")
+				Sound.sfx("lvl")
 				o.lit = true
 				o.get_meta("light").r = 280.0
 			get_tree().current_scene.open_bonfire(o)
@@ -1237,11 +1246,17 @@ func _interact(o: Prop) -> void:
 				_open_chest(o)
 		"merchant":
 			get_tree().current_scene.open_shop(o.p)
+			Sound.voice("vtrade" if o.p.has("name") else "vodal")
 		"stash":
+			if not Sound.sample("chest", .6):
+				Sound.sfx("pick")
 			get_tree().current_scene.open_stash()
 		"smith":
 			get_tree().current_scene.open_forge()
+			Sound.voice("vsmith")
 		"grind":
+			if not Sound.sample("chest", .3):
+				Sound.sfx("pick")
 			get_tree().current_scene.open_grind()
 		"anvil", "enchant":
 			get_tree().current_scene.open_craft("merge" if o.p.type == "anvil" else "ench")
@@ -1263,8 +1278,10 @@ func _open_chest(o: Prop) -> void:
 	if lk == "vault":
 		if Game.keys <= 0:
 			Game.log_msg("Verschlossen. Ein Truhenschlüssel öffnet sie – Odalinde und die fahrenden Händler verkaufen welche.", Color("#e8b060"))
+			Sound.sample("chest", .3, {"rate": 1.8})
 			return
 		Game.keys -= 1
+		Sound.sample("chest", .5, {"rate": .7})
 		Game.log_msg("Der Schlüssel dreht sich. Noch %d Schlüssel übrig." % Game.keys, Color("#e8b060"))
 	if lk == "trial" and o.p.get("sealed") != false:
 		var n := trial_left(o.p)
@@ -1274,9 +1291,13 @@ func _open_chest(o: Prop) -> void:
 	if not s.get("junk"):
 		Quests.inc("chest")
 	if s.get("junk"):
+		if not Sound.sample("chest", .45, {"rate": 1.5}):
+			Sound.sfx("pick")
 		_smoke(at, 5)
 		burst(at, Color("#7a4a24"), 10, 2)
 	else:
+		if not Sound.sample("chest", .75 if lk == "wood" else .9, {"rate": .85 if s.get("shine") else 1.0}):
+			Sound.sfx("boom")
 		sparks(at, .5, -1.57, 24 if s.get("shine") else 10, [Color.WHITE, Color("#fff0a0"), Color(s.col)] if s.get("shine") else [Color("#ffe0a0"), Color("#c8a050")], 5)
 	if s.get("shine"):
 		Game.banner.emit("EINE GOLDENE TRUHE" if lk == "gold" else "EINE SMARAGDTRUHE", "Ein seltener Fund", "boss")
@@ -1468,6 +1489,7 @@ func hurt_player(dmg: float, elem, src) -> bool:
 	var d := Game.d
 	if elem == null and d.block > 0 and R.next() * 100 < d.block:
 		ftext(Vector2(P.x, P.y), "Geblockt", Color("#c8c2b0"))
+		Sound.sfx("hit")
 		hitstop = .05
 		return false
 	if elem != null:
@@ -1491,6 +1513,7 @@ func hurt_player(dmg: float, elem, src) -> bool:
 	P.hurt = .2
 	shake = maxf(shake, minf(10, 3 + dmg / d.life * 30))
 	ftext(Vector2(P.x, P.y), str(roundi(dmg)), Color("#ff5040"))
+	Sound.sfx("hurt")
 	var a := R.rnd(0, TAU)
 	if src != null:
 		var sp: Vector2 = src.world if src is Enemy else Vector2(src.x, src.y)
@@ -1510,6 +1533,9 @@ func hurt_player(dmg: float, elem, src) -> bool:
 	return true
 
 func _die() -> void:
+	if not P.dead:
+		Sound.sfx("death")
+		Sound.sample("pdie", .8, {"rate": 1.0})
 	P.dead = true
 	Game.hp = 0
 	P.deathT = 3.6
@@ -1591,6 +1617,7 @@ func hit_enemy(e: Enemy, dmg: float, o := {}) -> void:
 	for p in e.pack:
 		p.aggro = true
 	var crit: bool = o.get("crit", false)
+	Sound.boss_crit(e, dmg, crit)
 	ftext(e.world, str(roundi(dmg)) + ("!" if crit else ""), Color("#ffd94f") if crit else o.get("col", Color("#f2ecd8")), crit)
 	if o.get("slow", 0):
 		e.slow = maxf(e.slow, o.slow)
@@ -1642,6 +1669,8 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	e.fall_a = a if a != INF else atan2(e.world.y - P.y, e.world.x - P.x)
 	e.kv = Vector2.ZERO
 	e.play("idle")
+	Sound.sfx("hit")
+	Sound.death(e)
 	var g := _gore_of(e)
 	gore(e.world, e.fall_a, 40 if e.boss else 16, g, .9 * e.scale_f)
 	hitstop = .45 if e.boss else .06
@@ -1673,6 +1702,7 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 			Game.tbonus += 2
 			Game.log_msg("+2 Talentpunkte (P)", Color("#e8c878"))
 		Game.banner.emit("FEIND BEZWUNGEN", e.e_name, "boss")
+		Sound.sfx("unique")
 		shake = 14
 	elif e.boss:
 		if not Game.boss_dead.get(Game.floor_no, false):
@@ -1687,6 +1717,7 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 		obj_nodes.append(n)
 		_light(Iso.to_screen(Vector2(st.x, st.y)), 140, .6)
 		Game.banner.emit("FEIND BEZWUNGEN", e.e_name, "boss")
+		Sound.sfx("unique")
 		shake = 14
 
 ## resting at a bonfire in the sky: whole again, and every chunk's foes rise anew (rest in 150-music.js)
@@ -1701,6 +1732,7 @@ func rest_at(o: Prop) -> void:
 	Game.flasks = Game.fmax()
 	populate()
 	Game.log_msg("Du rastest am Leuchtfeuer. Die Feinde dieser Ebene erheben sich erneut.", Color("#ffd88a"))
+	Sound.sfx("lvl")
 
 func _rest(o: Prop) -> void:
 	Game.respawn_floor = 0
@@ -1712,6 +1744,7 @@ func _rest(o: Prop) -> void:
 	Game.flasks = Game.fmax()
 	ow.tick(true)
 	Game.log_msg("Du rastest am Leuchtfeuer. Die Feinde kehren zurück.", Color("#ffd88a"))
+	Sound.sfx("lvl")
 
 ## H beside a burning bonfire: home to the hill (the shrine's way home in owTravel, 300-endless-sky.js)
 func _home() -> void:
@@ -1721,6 +1754,7 @@ func _home() -> void:
 				reset_hero(Vector2(m.start.x, m.start.y))
 				ow.tick(true)
 				Game.banner.emit("Der Hügel", "", "")
+				Sound.sample("portal", .6, {"rate": 1.0})
 			else:
 				get_tree().current_scene.call_deferred("enter_floor", 0)
 			return
@@ -1758,6 +1792,7 @@ func drop_item(it: Dictionary, x: float, y: float) -> void:
 	items.append({"it": it, "x": x, "y": y, "t": 0.0})
 	if it.rar == "unique":
 		Game.log_msg("Einzigartig: " + it.name, Items.RCOL.unique)
+		Sound.sfx("unique")
 	elif it.slot == "rune":
 		Game.log_msg("Rune: " + it.name, Runes.COL)
 
@@ -1815,12 +1850,14 @@ func pickup(gi: Dictionary) -> void:
 		else:
 			Game.slate_g += 1
 		ftext(Vector2(P.x, P.y - .5), "+1 " + gi.it.name, Runes.SLATE[gi.it.slate].col)
+		Sound.pick(gi.it)
 		return
 	if not Items.inv_add(gi.it):
 		Game.log_msg("Das Inventar ist voll.", Color("#ff5a4a"))
 		return
 	items.erase(gi)
 	Game.discover(gi.it)
+	Sound.pick(gi.it)
 
 ## the name plates of everything on the ground, stacked so none covers another (drawLabels in 230-environment.js)
 func _labels() -> void:
@@ -1902,6 +1939,7 @@ func _upd_enemy(e: Enemy, dt: float) -> void:
 		return
 	if not e.aggro and not P.dead and d < (9.0 if e.boss else 7.5) and e_los(e, 0):
 		e.aggro = true
+		Sound.growl(e)
 		for p in e.pack:
 			p.aggro = true
 	if not e.aggro:
@@ -1941,6 +1979,7 @@ func _upd_enemy(e: Enemy, dt: float) -> void:
 			else:
 				tele.append({"shape": "cone", "x": e.world.x, "y": e.world.y, "ang": e.face, "arc": 1.8, "r": e.mon.range + e.r + .45, "t": 0.0,
 					"dur": e.mon.wind * (.75 if "schnell" in e.aff else 1.0), "dmg": dmg, "owner": e, "follow": true, "elem": el})
+			Sound.growl(e, .3)
 			e.cd = e.mon.cd + e.mon.wind
 			e.play("idle")
 			return
@@ -1988,6 +2027,10 @@ func _fire_proj(e: Enemy) -> void:
 	var sp := 11.0 if k == "arrow" else (6.5 if k == "frost" else 7.5)
 	var dmg := R.rnd(e.dmg[0], e.dmg[1])
 	var shots := 3 if e.rank == "unique" or e.rank == "champ" else 1
+	if k == "fire":
+		Sound.sample("fire", .3)
+	elif k == "arrow":
+		Sound.growl(e, .25)
 	for s in shots:
 		var aa := a + (s - (shots - 1) / 2.0) * .22
 		proj.append({"x": e.world.x + cos(aa) * .4, "y": e.world.y + sin(aa) * .4, "vx": cos(aa) * sp, "vy": sin(aa) * sp, "owner": "e", "dmg": dmg, "kind": k, "r": .25, "life": 2.0})
@@ -1998,6 +2041,7 @@ func _boss_update(e: Enemy, dt: float, d: float, busy: bool, sp: float) -> void:
 	if p2 and not e.p2:
 		e.p2 = true
 		Game.banner.emit(e.e_name.to_upper(), "erhebt sich in Raserei", "boss")
+		Sound.sfx("boom")
 		shake = 10
 	if busy:
 		return
@@ -2262,6 +2306,9 @@ func _stations(dt: float) -> void:
 		var t0 := _sm_t if _sm_t >= 0 else t
 		_sm_t = t
 		var cross := func(a: float) -> bool: return (t0 < a and t >= a) if t0 <= t else (t0 < a or t >= a)
+		var v := clampf(1 - Vector2(o.x - P.x, o.y - P.y).length() / 10, 0, 1)   # Brannoc is heard from ten tiles
+		if v > 0 and cross.call(8.38):
+			Sound.syn_v("quench", v)
 		var F := _sm_w(o, 34, -29, 13)
 		var blow := t < 2.6
 		if R.next() < dt * (10 if blow else 3):
@@ -2272,11 +2319,15 @@ func _stations(dt: float) -> void:
 			if cross.call(a):
 				for k in 6:
 					_ember(F, 2.5, ["#fff0b0", "#ffc070"])
+				if v > 0:
+					Sound.syn_v("bellows", v)
 		for b in 6:
 			if cross.call(3.3 + b * .7 + .62 * .7):
 				var heat := 1 - .55 * (t - 3.3) / 4.2
 				var w := _sm_w(o, -14 + 5, -4 - 10, 20)
 				sparks(Vector2(w.x, w.y), w.z, -1.57, roundi(4 + heat * 12), [Color("#fff4d0"), Color("#ffc070"), Color("#ff7a1a")], 4.5)
+				if v > 0:
+					Sound.sample("anvil", .32 * v, {"rate": randf_range(1.08, 1.22)})
 		if t > 8.1 + 1.4 * .16 and t < 8.1 + 1.4 * .85 and R.next() < dt * 22:
 			_puff(_sm_w(o, -42, -13, 7), Color(235 / 255.0, 240 / 255.0, 245 / 255.0, .45), 2.5, 1.0)
 

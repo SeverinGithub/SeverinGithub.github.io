@@ -1,0 +1,187 @@
+{
+ "syn": {
+  "s_hit": {
+   "n": 2,
+   "g": 0.05362
+  },
+  "s_swing": {
+   "n": 2,
+   "g": 0.03389
+  },
+  "s_hurt": {
+   "n": 2,
+   "g": 0.06966
+  },
+  "s_cast": {
+   "n": 2,
+   "g": 0.06177
+  },
+  "s_boom": {
+   "n": 2,
+   "g": 0.057
+  },
+  "s_pick": {
+   "n": 2,
+   "g": 0.04211
+  },
+  "s_gold": {
+   "n": 2,
+   "g": 0.03989
+  },
+  "s_lvl": {
+   "n": 2,
+   "g": 0.08227
+  },
+  "s_roll": {
+   "n": 2,
+   "g": 0.01692
+  },
+  "s_unique": {
+   "n": 2,
+   "g": 0.08373
+  },
+  "s_zap": {
+   "n": 2,
+   "g": 0.07887
+  },
+  "s_draw": {
+   "n": 2,
+   "g": 0.00814
+  },
+  "s_twang": {
+   "n": 2,
+   "g": 0.09389
+  },
+  "s_bolt": {
+   "n": 2,
+   "g": 0.06316
+  },
+  "s_death": {
+   "n": 2,
+   "g": 0.08206
+  },
+  "y_thud": {
+   "n": 3,
+   "g": 0.9175
+  },
+  "y_quake": {
+   "n": 3,
+   "g": 1.11309
+  },
+  "y_whoosh": {
+   "n": 3,
+   "g": 0.13735
+  },
+  "y_spin": {
+   "n": 3,
+   "g": 0.12672
+  },
+  "y_twang": {
+   "n": 3,
+   "g": 0.41637
+  },
+  "y_volley": {
+   "n": 3,
+   "g": 0.36201
+  },
+  "y_bones": {
+   "n": 3,
+   "g": 0.27202
+  },
+  "y_clang": {
+   "n": 3,
+   "g": 0.4935
+  },
+  "y_bubble": {
+   "n": 3,
+   "g": 0.2076
+  },
+  "y_snap": {
+   "n": 3,
+   "g": 0.53533
+  },
+  "y_equip": {
+   "n": 3,
+   "g": 0.07091
+  },
+  "y_ghoul": {
+   "n": 3,
+   "g": 0.19888
+  },
+  "y_cult": {
+   "n": 3,
+   "g": 0.10521
+  },
+  "y_wraith": {
+   "n": 3,
+   "g": 0.26642
+  },
+  "y_golem": {
+   "n": 3,
+   "g": 0.50647
+  },
+  "y_bellows": {
+   "n": 3,
+   "g": 0.01342
+  },
+  "y_quench": {
+   "n": 3,
+   "g": 0.12529
+  },
+  "y_dragon": {
+   "n": 3,
+   "g": 0.4653
+  }
+ },
+ "sfx": {
+  "anvil": 2,
+  "blitz": 1,
+  "bosscrit": 1,
+  "bossdown": 1,
+  "bossscr": 1,
+  "bossscr2": 1,
+  "buy": 1,
+  "chest": 3,
+  "dash": 1,
+  "fire": 4,
+  "heart": 1,
+  "lvlup": 1,
+  "pdie": 1,
+  "pickn": 1,
+  "pickr": 1,
+  "picku": 1,
+  "portal": 1,
+  "potion": 2,
+  "quest": 1,
+  "rain": 1,
+  "region": 1,
+  "scorpdie": 1,
+  "skel": 2,
+  "skeldie": 1,
+  "sksix": 1,
+  "skthree": 1,
+  "sktwo": 1,
+  "spiderbig": 1,
+  "spiderdie": 1,
+  "step": 1,
+  "sturm": 1,
+  "sword": 7,
+  "thunder": 1,
+  "vodal": 4,
+  "vquest": 5,
+  "vsmith": 4,
+  "vtrade": 5,
+  "zombie": 1
+ },
+ "music": [
+  "boss1.mp3",
+  "boss2.mp3",
+  "overworld1.mp3",
+  "overworld2.mp3",
+  "overworld3.mp3",
+  "overworld4.mp3",
+  "tower1.mp3",
+  "tower2.mp3",
+  "tower3.mp3"
+ ]
+}

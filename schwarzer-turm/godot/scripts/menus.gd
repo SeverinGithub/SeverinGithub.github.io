@@ -129,6 +129,12 @@ static func _slider(k: String, n: String) -> Control:
 		Game.cfg[k] = int(x)
 		o.text = str(int(x))
 		Game.save_cfg())
+	# letting go plays a sample at the new volume (a blow for the effects, someone speaking for the voices)
+	s.drag_ended.connect(func(_c):
+		if k == "sfx":
+			Sound.sample("sword", .55)
+		elif k == "voice":
+			Sound.voice(["vodal", "vsmith", "vquest", "vtrade"].pick_random()))
 	return h
 
 static func _check(k: String, n: String) -> Control:

@@ -322,6 +322,13 @@ func _ench_impact() -> void:
 
 ## sparks over the anvil or the table out in the world too (cWorld)
 func _world(type: String) -> void:
+	if type == "anvil":
+		Sound.anvil()
+		Sound.sfx("boom")
+	else:
+		if not Sound.sample("chest", .4):
+			Sound.sfx("lvl")
+		Sound.sfx("lvl")
 	if host.level:
 		host.level.craft_spark(type)
 

@@ -5,3 +5,6 @@ godot/assets/hero/
 godot/data/hero_layers.json
 godot/_vgl*.png
 godot/.godot/
+
+# Musik: Kopie von ../music/, erzeugt mit node tools/godot-sounds.mjs
+godot/assets/audio/music/

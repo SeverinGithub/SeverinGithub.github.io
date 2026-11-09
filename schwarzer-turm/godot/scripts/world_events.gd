@@ -39,6 +39,7 @@ static func tick(L: Level, dt: float) -> void:
 			Game.glut += gl
 			L.ftext(Vector2(o.x, o.y), "+%d Glut" % gl, Color("#ff9a3a"))
 			Quests.inc("rescue")
+			Sound.sfx("gold")
 			Game.log_msg("%s ist gerettet und schenkt dir %s." % [o.name, it.name], Color("#e8d8b0"))
 	if P.dead:
 		return
@@ -90,6 +91,7 @@ static func _ambush(L: Level) -> void:
 	if k:
 		Game.banner.emit("HINTERHALT!", "Champions brechen aus dem Gebüsch", "")
 		L.shake = 6
+		Sound.sfx("boom")
 
 static func _merchant(L: Level) -> void:
 	var s = DayNight.spot(L, 6, 8)
@@ -135,6 +137,7 @@ static func _thief(L: Level) -> void:
 	L._add_enemy(e)
 	e._spr.self_modulate = Color(.42, .3, .24)      # all in char, as his palette in the browser
 	Game.banner.emit("EIN GLUTDIEB!", "Fang ihn, bevor er verschwindet", "")
+	Sound.sfx("unique")
 
 static func _meteor(L: Level) -> void:
 	var s = DayNight.spot(L, 5, 7)
@@ -148,6 +151,7 @@ static func _meteor(L: Level) -> void:
 static func meteor_done(L: Level, tl: Dictionary) -> void:
 	L.add_obj({"type": "chest", "x": tl.x, "y": tl.y, "ev": true, "star": true, "open": false})
 	L.shake = 10
+	Sound.sfx("boom")
 	L.flashes.append({"x": tl.x, "y": tl.y, "r": 300.0, "a": 1.0, "t": 0.0, "life": 1.5})
 	L.sparks(Vector2(tl.x, tl.y), .3, -1.57, 30, [Color("#ffd080"), Color("#ff9a30"), Color.WHITE], 6)
 
@@ -264,5 +268,6 @@ static func bounty_tick(L: Level) -> void:
 		if not Items.inv_add(ru):
 			L.drop_item(ru, L.P.x, L.P.y)
 	Quests.inc("bounty")
+	Sound.sfx("gold")
 	Game.banner.emit("KOPFGELD ERFÜLLT", "+%d Glut · %s%s" % [b.glut, it.name, " · eine Rune" if b.rune else ""], "")
 	Game.log_msg("Kopfgeld kassiert: " + b.t, Color("#ffd88a"))

@@ -100,6 +100,11 @@ static func cnt(k: String) -> int:
 ## count one more of something a quest may want: kill, k_<kind>, buy, sell, chest (qInc)
 static func inc(k: String, n := 1) -> void:
 	Game.qc[k] = cnt(k) + n
+	# trade sounds (the qInc wrapper of 630): anything bought, and the glut changing hands
+	if k == "buy":
+		Sound.sample("buy", .7, {"rate": 1.0})
+	if k == "buy" or k == "sell":
+		Sound.sfx("gold")
 
 static func key(q: Dictionary) -> String:
 	if q.ty == "kill":

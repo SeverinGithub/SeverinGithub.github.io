@@ -5,7 +5,7 @@ class_name Weather
 ## snowfields and ash plains, five chunks wide, choose the weather there. Rain darkens the world and falls in streaks,
 ## ash drifts down with a few embers, fog rolls by in soft banks, snow whirls; in heavy rain lightning flashes now and then.
 ## The wind follows the weather (LivingIsles), the grass leans harder in rain and ash, puddles fill in the rain.
-## Not yet: the sounds of rain and thunder.
+## Rain and thunder sound through Sound (the rain loop follows Game.wx there).
 
 const WXN := {"clear": "", "rain": "Regen", "ash": "Ascheregen", "fog": "Nebel", "snow": "Schneetreiben"}
 const CLIM := {
@@ -64,11 +64,12 @@ static func tick(L: Level, dt: float) -> void:
 		w.k = R.pick(CLIM[c].k)
 		if w.k != was and w.k != "clear":
 			Game.log_msg(WXN[w.k] + " zieht auf.", Color("#8a9ab0"))
-	# lightning in heavy rain (rainTick: the thunder rolls with it once there is sound)
+	# lightning in heavy rain, and the thunder with it (rainTick in 630)
 	if w.k == "rain" and w.i > .5:
 		th_t -= dt
 		if th_t <= 0:
 			th_t = R.rnd(60, 240)
+			Sound.thunder()
 			flash = 1.0
 			L.shake = maxf(L.shake, 2)
 	flash = maxf(0, flash - dt * 2.2)

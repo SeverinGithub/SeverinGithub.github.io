@@ -188,6 +188,8 @@ static func insert(rn: Dictionary, it: Dictionary) -> bool:
 		it.mods[k] = it.mods.get(k, 0) + m[k]
 	it.req.lvl = maxi(it.req.lvl, r.l)
 	Quests.inc("socket")
+	if not Sound.sample("chest", .35):
+		Sound.sfx("pick")
 	Game.log_msg("%s sitzt in %s: %s." % [r.n, it.name, txt(m)], COL)
 	if it.runes.size() == it.soc:
 		var w = _word(it)
@@ -201,6 +203,7 @@ static func insert(rn: Dictionary, it: Dictionary) -> bool:
 			Quests.inc("runeword")
 			Game.found["rw:" + w.n] = 1
 			Game.banner.emit("RUNENWORT", w.n, "boss")
+			Sound.sfx("unique")
 			Game.log_msg("Die Runen erwachen: %s!" % w.n, RWCOL)
 		elif w:
 			Game.log_msg("Die Runen flackern, doch nur in gewöhnlichen Gegenständen werden sie zum Wort.", Ui.PAPER_DIM)

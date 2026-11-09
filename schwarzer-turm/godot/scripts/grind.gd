@@ -60,6 +60,12 @@ func _grind(it: Dictionary) -> void:
 			var o = _stone()
 			host.level.drop_item(rn, o.x if o else host.level.P.x, o.y if o else host.level.P.y)
 	host.level.grind_spark()
+	Sound.sample("sword", .55, {"rate": .55})
+	get_tree().create_timer(.26).timeout.connect(func():
+		if not Sound.sample("chest", .35):
+			Sound.sfx("pick"))
+	if r.get("rw"):
+		Sound.sfx("unique")
 	var names := []
 	for k in r.rs:
 		names.append(Runes.by(k).n)

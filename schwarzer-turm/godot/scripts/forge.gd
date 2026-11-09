@@ -115,6 +115,8 @@ func _impact() -> void:
 		_parts.append({"x": 110.0, "y": 58.0, "vx": cos(a) * v, "vy": sin(a) * v, "l": randf_range(.4, .9), "t": 0.0, "c": Color(["#ffffff", "#fff4d0", "#ffc070", "#ff7a1a"].pick_random())})
 	_pop = {"t": 0.0, "txt": "+%d" % it.up}
 	_shake = .35
+	Sound.anvil()
+	Sound.sfx("boom")
 	if host.level:
 		host.level.forge_spark()
 	host.save_game()

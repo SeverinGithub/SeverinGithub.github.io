@@ -90,6 +90,7 @@ func cast(i: int, tx: float, ty: float) -> void:
 	L.hero.play("attack", L.hero.attack_time() / .35)
 	if has_method("_" + id):
 		call("_" + id, l, ang, tx, ty)
+	Sound.cast(id, i, Game.m_elem())
 
 ## the six slots of the weapon set or class, ready or not, for the bar
 func cd_frac(i: int) -> float:
@@ -221,7 +222,7 @@ func _slam(l: int, ang: float, _tx: float, _ty: float) -> void:
 
 func _charge(l: int, ang: float, tx: float, ty: float) -> void:
 	var d := minf(6, pos().distance_to(Vector2(tx, ty)))
-	P.dash = {"ang": ang, "left": maxf(1, d), "l": l}
+	P.dash = {"ang": ang, "left": maxf(1, d), "l": l, "sturm": true}
 	P.cast = 0.0
 
 func _cry(l: int, _ang: float, _tx: float, _ty: float) -> void:
@@ -755,6 +756,7 @@ func hero_motion(dt: float) -> bool:
 			slam_fx(pos(), 2.4)
 			L.shake = maxf(L.shake, 10)
 			L.hitstop = .12
+			Sound.sfx("boom")
 			for e in foes():
 				if e.world.distance_to(pos()) < 2.4 + e.r:
 					L.weapon_hit(e, 1.6 + J.l * .18)
@@ -784,6 +786,9 @@ func hero_motion(dt: float) -> bool:
 				slam_fx(pos(), 1.8)
 				L.kick(D.ang, 6)
 				L.hitstop = .1
+				Sound.sfx("boom")
+				if D.get("sturm"):
+					Sound.sample("sturm", .8, {"rate": 1.0})
 			P.dash = null
 			P.iframe = .15
 		return true
@@ -859,6 +864,7 @@ func _zones(dt: float) -> void:
 					z.hit = true
 					boom(c, 2, "fire")
 					L.shake = maxf(L.shake, 8)
+					Sound.sfx("boom")
 					for e in foes():
 						if e.world.distance_to(c) < z.r + e.r:
 							L.hit_enemy(e, z.dmg * R.rnd(.9, 1.1), {"col": Color("#ffb070"), "kb": .5, "from": atan2(e.world.y - c.y, e.world.x - c.x)})
@@ -949,6 +955,7 @@ func explode(p: Dictionary) -> void:
 		return
 	var c := Vector2(p.x, p.y)
 	boom(c, p.aoe / 1.3, p.get("boomE", "fire"))
+	Sound.sfx("boom")
 	if p.get("on_boom"):
 		p.on_boom.call(p)
 	for e in foes():
