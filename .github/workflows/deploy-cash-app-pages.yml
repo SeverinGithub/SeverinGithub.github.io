@@ -72,7 +72,7 @@ jobs:
         run: |
           rm -rf .site
           mkdir -p .site
-          rsync -a --exclude '.git' --exclude '.github' ./ .site/
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'schwarzer-turm/godot/' ./ .site/
           rm -rf .site/cash-app
           mkdir -p .site/cash-app
           cp -R cash-app/dist/. .site/cash-app/
@@ -101,3 +101,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          timeout: 1800000

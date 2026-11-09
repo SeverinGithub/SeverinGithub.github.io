@@ -263,3 +263,4 @@ Zurück zu [[Start]].
   Danach `play/` mitcommitten. Lokal testen mit einem einfachen Server über `127.0.0.1` (z. B. `python3 -m http.server`).
 - Spielstände und Einstellungen liegen im Browser (IndexedDB, je Gerät und Browser).
 - Die Konsole meldet einmal ein leeres SVG (das Projekt hat kein eigenes Symbol); harmlos.
+- Das Godot-Quellprojekt `schwarzer-turm/godot/` wird nicht mehr auf GitHub Pages hochgeladen (Ausschluss im Workflow `.github/workflows/deploy-cash-app-pages.yml`, Deploy-Zeitgrenze 30 Minuten): mit ihm und `play/` war das Paket 262 MB groß, und der Deploy brach zweimal nach 10 Minuten ab. Die Export-Werkzeuge laufen lokal und brauchen es online nicht.
