@@ -56,6 +56,7 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-05 | Godot: Eldriks Karte (Akt VI) gibt vorerst die Chronik (L), seine Worte stehen auf der Questkarte | Eldrik steht in Godot noch nicht im Dorf; sobald er kommt, wandert die Übergabe zu ihm ([[Godot-Umstieg]]) |
 | 2026-11-05 | Godot: Rasten bis zur Nacht stellt erst die Uhr, dann wird gerastet, und zeigt nur ein Banner | Im Browser setzt erst das nächste Bild `G.night`, nach `rest()`, und das Nacht-Banner überdeckt dann das Rast-Banner ([[Godot-Umstieg]]) |
 | 2026-11-05 | Godot: was eine Zufallsbegegnung bringt (Gegner, Hausierer, Sternentruhe), verschwindet 45 Felder hinter dem Helden | Im Browser baut `owTick` die Objekte neu und räumt sie so ab; Godot streamt Objekte anders, deshalb die feste Regel ([[Godot-Umstieg]]) |
+| 2026-11-09 | Godot-Web-Export unter `/schwarzer-turm/play/`, ohne Threads; die alte Browser-Fassung bleibt unter `/schwarzer-turm/` | Nutzer wollte die neuen Godot-Sachen online sehen; GitHub Pages erlaubt keine COOP/COEP-Kopfzeilen, also kein SharedArrayBuffer |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

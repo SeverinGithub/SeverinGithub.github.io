@@ -253,3 +253,13 @@ Zurück zu [[Start]].
 - **Noch alt**: Klassenrüstung von Magier, Jägerin und Alchemist (Roben, Hüte, Mäntel, Kapuzen, Masken, Schürzen, Bücher als Nebenhand) und die Drachenschuppen-Teile, Ringe, Amulette, Tränke, Runen, Schiefer, Ramsch und alle Waffen.
 - Testschalter `--give=Barbuta,Runenstahl-Ritterharnisch,U:Mondmantel` (diese Gegenstände in den Beutel und noch einmal auf den Boden), etwa mit `--inv --shot=… --shot-after=6`.
 
+
+## Stand 2026-11-09: Web-Fassung unter /schwarzer-turm/play/
+- Die Godot-Fassung läuft im Browser unter https://severingithub.github.io/schwarzer-turm/play/. Unter `/schwarzer-turm/` bleibt die eingefrorene Browser-Fassung (`index.html`).
+- Export-Vorgabe `godot/export_presets.cfg` („Web“): ohne Threads (GitHub Pages schickt keine COOP/COEP-Kopfzeilen), Renderer Compatibility, `include_filter` nimmt `data/*.json` mit (die Daten werden über `FileAccess` gelesen, nicht als Ressource). Ergebnis in `schwarzer-turm/play/`: `index.html`, `index.js`, `index.wasm` (≈40 MB), `index.pck` (≈71 MB, mit den Heldenebenen) – GitHub nimmt Dateien bis 100 MB.
+- Einmalig nötig: die Web-Vorlagen von Godot 4.7.2 in `~/Library/Application Support/Godot/export_templates/4.7.2.stable/` (aus dem offiziellen `…export_templates.tpz`, nur `web_*.zip` und `version.txt`).
+- Neu exportieren (Heldenebenen müssen lokal vorhanden sein, sie sind nicht im Git):
+  `cd godot && godot --headless --import --path . && godot --headless --path . --export-release "Web" ../play/index.html`
+  Danach `play/` mitcommitten. Lokal testen mit einem einfachen Server über `127.0.0.1` (z. B. `python3 -m http.server`).
+- Spielstände und Einstellungen liegen im Browser (IndexedDB, je Gerät und Browser).
+- Die Konsole meldet einmal ein leeres SVG (das Projekt hat kein eigenes Symbol); harmlos.
