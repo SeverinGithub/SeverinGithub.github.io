@@ -12,6 +12,7 @@ tags: [todo]
 - [ ] Kreuzschnitt der Jägerin (2026-11-10, nur HTML): im echten Spiel prüfen, ob 260 % und bis +50 % Krit bei 2 s Abklingzeit zu stark sind; nach Godot (`skills.gd`) übertragen? Siehe [[Klassen]].
 - [ ] Mittlere Maustaste (2026-11-10): mit echter Maus prüfen, auch in Safari und unter Windows (Auto-Scroll). Siehe [[Steuerung]].
 - [ ] Multiplayer (2026-11-10): Blutung, Gift und Verlangsamung eines Gastes und die Krit-Stapel am Mitspieler mit zwei echten Spielern prüfen. Siehe [[Multiplayer]].
+- [ ] Eigener Mauszeiger (2026-11-10, nur HTML): mit echter Maus ansehen (Größe, Treffpunkt an der Fingerspitze, Lesbarkeit); danach nach Godot übertragen? Siehe [[Steuerung]].
 - [ ] Web-Fassung `/schwarzer-turm/play/` (seit 2026-11-09): nach jedem größeren Godot-Schritt neu exportieren und `play/` mitcommitten; auf dem iPad und in Safari prüfen (Leistung ohne Threads, Ladezeit bei ≈110 MB).
 - [ ] **Mit `?perf` auf dem iPad messen** (auf dem Mac ist auch der große Kampf nur halb ausgelastet, Messung 2026-11-03 abends) (Oberwelt mit vielen Gegnern, Turm, Multiplayer) – Grundlage für den GPU-Renderer, siehe [[Performance]].
 - [ ] **GPU-Renderer** (Texturatlas, instanziertes Zeichnen, Licht als Shader, Boden-Chunks) als umschaltbares Modul neben dem alten bauen.

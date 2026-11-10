@@ -44,4 +44,12 @@ Wunsch: „mittlere Mausrad soll die Standardattacke zusätzlich sein, Linksklic
 - `preventDefault` verhindert das Auto-Scrollen des Browsers; `blur` und der Zustand „am Boden“ im Multiplayer lösen die Taste.
 - Steht in der Steuerungsübersicht (`440-menus.js`). Linksklick und Touch unverändert.
 
+## Eigener Mauszeiger (2026-11-10, HTML-Fassung, `994-cursor.js`)
+Wunsch: ein eigener Mauszeiger wie in Diablo 2, erst nur für HTML.
+- Vier Zeiger, zur Laufzeit als Pixelbild gemalt (`curPaint`, Pixelgröße `CURS`, dunkler Rand automatisch): Panzerhandschuh (`--cur`, Standard), derselbe golden (`--cur-p`, über Knöpfen, Gegenständen und allem Benutzbaren), geschlossene Faust (`--cur-h`, solange `G.hand` einen Gegenstand trägt, überall), Klinge mit rotem Griff (`--cur-a`, über Gegnern).
+- Nach einem Vorbild des Nutzers (schräg liegender Plattenhandschuh, Fingerspitze oben links, Lederriemen, dunkle Stulpe mit braunem Rand); dritte Fassung auf Wunsch „mehr Mühe, soll echt gut und exakt aussehen“: `curHand(fist)` setzt jeden Pixel auf dem Diagonalraster der Hand (`s=x+y` entlang ab der Spitze, `t=x-y` quer), dadurch sind alle Fugen echte Pixel-Diagonalen. Teile: Zeigefinger aus drei Platten, drei gekrümmte Finger mit gestuften Knöcheln, Handrücken aus zwei Platten, Daumen, Riemen, Handgelenkplatte, Stulpe. Fünf Stahltöne (`h l m d k`), Licht von oben rechts (`lane`). 30×27 Pixel, `CURS`=3, mit Rand 96×87 auf dem Bildschirm (Nutzer wollte ihn größer), Treffpunkt an der Fingerspitze. Der Zeigefinger war erst ein gleich breites Band („Wurst“, dazu ein loser Pixel an der Spitze): jetzt drei Schuppen, jede breiter als die davor, zwei flache Flächen mit hellem Grat und eine saubere 2×2-Spitze. Eigene Zeichnung, nicht kopiert. Zum Ansehen: Bild aus `--cur` vergrößert als `<img>` einblenden.
+- Eingehängt per CSS-Variablen und einem Stylesheet mit `!important`; Textfelder behalten den Textzeiger. In der Welt setzt ein Takt von 90 ms `body[data-cur]` auf `foe`/`use` nach `hoverEnemy`, `hoverLabel`, `hoverObj`.
+- Auf Touch-Geräten (`TOUCH`) passiert nichts. Kein Schalter in den Einstellungen.
+- Godot: möglich über `Input.set_custom_mouse_cursor` mit denselben Bildern, noch nicht gemacht.
+
 Zurück zu [[Start]].
