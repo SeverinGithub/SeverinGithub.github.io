@@ -275,7 +275,7 @@ func _hover_names() -> void:
 		"enchant":
 			txt = "Glyphentisch"
 			col = Craft.TEAL
-		"colossus": txt = "Wächter der Arena · erwacht ab Ebene 20"
+		"colossus": txt = "Wächter der Arena · erwacht ab Ebene 20" if Game.max_floor < 20 else "Wächter der Arena · ruft drei Gegner"
 		"stairs": txt = "Hinab zu Ebene %d" % (Game.floor_no + 1)
 		"hvsign": txt = "Wegweiser"
 		_ when String(o.p.type).begins_with("rg"):

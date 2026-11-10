@@ -1090,7 +1090,7 @@ func _update_hero(dt: float) -> void:
 			P.pick = null
 			P.path = []
 			pickup(gi)
-		if P.interact and pp.distance_to(Vector2(P.interact.p.x, P.interact.p.y)) < 1.4:
+		if P.interact and pp.distance_to(Vector2(P.interact.p.x, P.interact.p.y)) < (2.2 if P.interact.p.type == "colossus" else 1.4):
 			var o: Prop = P.interact
 			P.interact = null
 			P.path = []
@@ -1258,6 +1258,8 @@ func _interact(o: Prop) -> void:
 			if not Sound.sample("chest", .3):
 				Sound.sfx("pick")
 			get_tree().current_scene.open_grind()
+		"colossus":
+			Arena.summon(self)
 		"anvil", "enchant":
 			get_tree().current_scene.open_craft("merge" if o.p.type == "anvil" else "ench")
 		"iscrypt", "iscryptexit", "iscryptchest", "isbstone":
@@ -1666,6 +1668,9 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	e.die_t = 0
 	Quests.inc("k_" + e.type)
 	Quests.inc("kill")
+	Arena.remember(e)
+	if e.arena:
+		Quests.inc("arena")
 	e.fall_a = a if a != INF else atan2(e.world.y - P.y, e.world.x - P.x)
 	e.kv = Vector2.ZERO
 	e.play("idle")
@@ -1680,7 +1685,9 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	if d.mok:
 		Game.mp = minf(d.mana, Game.mp + d.mok)
 	Game.gain_xp(e.xp)
-	_loot(e)
+	# what the statue called gives experience and nothing else: no loot, not a grain of glut
+	if not e.arena:
+		_loot(e)
 	if theme:
 		theme.on_kill(e)
 	if ow:
@@ -1689,8 +1696,9 @@ func kill_enemy(e: Enemy, a := INF) -> void:
 	WorldEvents.on_kill(self, e)
 	var rm: float = {"boss": 25.0, "unique": 6.0, "champ": 2.5}.get(e.rank, 1.0)
 	var gl := roundi((3 + Game.mlvl * 1.6) * R.rnd(.8, 1.25) * rm * (1 + d.glutf / 100.0))
-	Game.glut += gl
-	ftext(e.world - Vector2(0, .3), "+%d Glut" % gl, Color("#ff9a3a"))
+	if not e.arena:
+		Game.glut += gl
+		ftext(e.world - Vector2(0, .3), "+%d Glut" % gl, Color("#ff9a3a"))
 	if "feuer" in e.aff:
 		tele.append({"shape": "circle", "x": e.world.x, "y": e.world.y, "r": 1.8, "t": 0.0, "dur": .6, "dmg": e.dmg[1] * 1.2, "elem": "fire", "owner": null})
 	if e.ck != "" and ow and not enemies.any(func(o): return o.ck == e.ck and not o.dead):
@@ -2284,6 +2292,7 @@ var _sm_t := -1.0
 ## the forge breathes with Brannoc's round: embers at the bellows, sparks on each blow, steam at the trough, smoke from the chimney
 func _stations(dt: float) -> void:
 	Game.smith_hit = maxf(0, Game.smith_hit - dt)
+	Game.statue_t = maxf(0, Game.statue_t - dt)
 	for n in obj_nodes:
 		var o: Dictionary = n.p
 		if o.type == "enchant":

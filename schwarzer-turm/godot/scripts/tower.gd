@@ -120,6 +120,26 @@ func _ready() -> void:
 			if Game.bounty and args.evwin == "pay":
 				Quests.inc(Game.bounty.key, Game.bounty.n)
 			get_tree().create_timer(.5).timeout.connect(func(): print("Nach dem Sieg: ", Game.qc, " Glut ", Game.glut, " Kopfgeld ", Game.bounty, " Beutel ", Game.inv.size())))
+	if args.has("arena"):
+		# test: floor 20 reached, a few kinds beaten, the hero beside the statue, which is touched after two seconds;
+		# --arena=win slays what it called and prints experience, glut, what lies on the ground and the quest counter
+		Game.max_floor = 20
+		Game.lvl = maxi(Game.lvl, 12)
+		for v in ["skel", "ghoul"]:
+			Arena.kv_of()[v] = 1
+		get_tree().create_timer(.5).timeout.connect(func():
+			var st: Prop = level.obj_nodes.filter(func(o): return o.p.type == "colossus").front()
+			level.P.x = st.p.x - 3.0
+			level.P.y = st.p.y + .6)
+		get_tree().create_timer(2.0).timeout.connect(func():
+			var g0 := Game.glut
+			var x0 := Game.xp + Game.lvl * 1000000
+			print("Statue: ", Arena.summon(level), " · ", level.enemies.filter(func(e): return e.arena).map(func(e): return "%s %s %s" % [e.e_name, e.rank, e.world.round()]))
+			if args.arena == "win":
+				get_tree().create_timer(1.5).timeout.connect(func():
+					for e in level.enemies.filter(func(e): return e.arena and not e.dead):
+						level.kill_enemy(e)
+					print("Nach dem Sieg: Glut ", Game.glut - g0, " · Erfahrung ", Game.xp + Game.lvl * 1000000 - x0, " · am Boden ", level.items.size(), " · Arena-Zähler ", Game.qc.get("arena", 0), " · bezwungen ", Game.kv.keys())))
 	if args.has("hunt"):
 		DayNight.nt_t = 1.0
 	if args.has("at"):

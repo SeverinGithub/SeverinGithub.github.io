@@ -225,6 +225,16 @@ Startszene ist jetzt `scenes/tower.tscn`: ein neuer Krieger auf Ebene 1, Klick z
 - Testschalter `--snd` schreibt jeden Klang mit Zeit, Datei und Lautstärke in die Konsole.
 - Noch nicht: die Klangschichten des Erzählers (`MX` in 410), Klänge der Dörfler und Glocken, Hufschlag (die Aufnahmen fehlen auch im Browser), Klänge der Totenlande, Fallen und Turmräume (Hebel, Kronleuchter, Druckplatten, Bodenrisse, Felsbrocken, Geheimwand), Brückenstein, Sterbeklänge der Mitspieler.
 
+## Stand 2026-11-10: Arena und Wächterstatue (170, 850)
+- `scripts/arena.gd` (`Arena`): `summon` übersetzt `summonArena` in der Fassung von 850. Die Statue schläft bis `Game.max_floor >= 20`; jede Berührung ruft drei Gegner auf der Stufe des Helden (8 % einzigartig, 14 % Champion), aber nur Arten, die er schon besiegt hat; höchstens zwölf leben zugleich, 1,2 s Abklingzeit. Violetter Rauch, Lichtblitz, Ring, Steinsplitter, Wackeln, `boom` und das tiefe `portal`.
+- **Besiegte Arten** `Game.kv` (wie `stOf().kv`, im Spielstand): `Level.kill_enemy` merkt sich jede gefallene Art (`Arena.remember`). Ein Held von vor der Arena beginnt mit allen Arten der Familien, die seine Chronik gezählt hat (`qc["k_<art>"]`).
+- **Keine Beute**: Gegner der Statue (`Enemy.arena`) geben Erfahrung, aber keine Glut, keine Gegenstände, keinen Ramsch, keine Tränke, Runen oder Schiefer (`_loot` und die Glutzeile werden übersprungen). Sie zählen für die Chronik (`arena`) und für Kopfgelder.
+- **Chronik**: die Quest „Der Wächter der Statue“ (Akt V) wird nicht mehr übersprungen (`Quests.LATER` ist leer), ihr Pfeil zeigt auf die Statue.
+- Die Augen der Statue glimmen rot und flammen 1,6 s auf, wenn sie ruft (`Game.statue_t`). Sie sitzen im Visierschlitz; im Browser lag das Glühen 18 Pixel zu tief am Kinn (`SPR.colEyes`).
+- Klassische Steuerung: der Held bleibt 2,2 Felder vor der Statue stehen (sonst 1,4). Schild beim Zeigen: „erwacht ab Ebene 20“ bzw. „ruft drei Gegner“.
+- Testschalter `--arena` (Ebene 20 erreicht, Skelette und Ghule gelten als besiegt, Held neben der Statue, Berührung nach 2 s), `--arena=win` tötet die Gerufenen und schreibt Glut, Erfahrung, Beute am Boden und den Zähler. Geprüft: Glut 0, am Boden 0, Erfahrung steigt, Zähler 3.
+- Noch nicht: die Statue für Gäste im Mehrspieler (`ar`/`arx`, kommt mit Schritt 7).
+
 ## Wie die Browser-Module in Godot aufgehen
 | Browser | Godot |
 |---|---|

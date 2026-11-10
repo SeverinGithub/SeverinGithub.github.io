@@ -31,5 +31,8 @@ Drei Schichten, damit wirklich nichts durchrutscht:
 - Die Gegner kommen über den normalen Host-Sync (`mpDesc` kopiert das Bool `arena`) zum Gast; dessen Kill eines Spiegel-Gegners läuft lokal durch `killEnemy` → XP ja, Glut/Beute nein, `kv` wird gemerkt.
 - Ist der Gast nicht auf der Host-Karte, verhält sich die Statue wie offline.
 
+## Godot (2026-11-10)
+Die Statue steht auch in der Godot-Fassung (`godot/scripts/arena.gd`): gleiche Regeln (ab Ebene 20, drei Gegner auf Heldenstufe, nur besiegte Arten, höchstens zwölf, keine Beute und keine Glut). Die Mehrspieler-Anfrage der Gäste fehlt dort noch. Details in [[Godot-Umstieg]].
+
 Siehe auch [[Multiplayer]].
 Zurück zu [[Start]].

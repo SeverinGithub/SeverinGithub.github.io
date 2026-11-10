@@ -56,6 +56,7 @@ var ev := false                  # came by chance (an ambush, the pedlar's attac
 var thief := false               # the glut thief, who runs (370)
 var thief_t := 0.0
 var thief_ph := 0.0
+var arena := false               # called by the statue of the arena: experience, never loot or glut (e.arena)
 var night := false               # a werewolf or night ghost that came with the dark (e.night in 720)
 var rgz := ""                    # the part of the dead lands it belongs to (e.rgz in 520)
 var sum_p: Array = []            # what a boss calls to its side (e.sumP); empty: spiders and skeletons

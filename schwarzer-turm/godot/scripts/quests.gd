@@ -4,15 +4,15 @@ class_name Quests
 ## Counters (Game.qc) run all the time; a quest counts from where they stood when it began (Game.qb). Done gives glut,
 ## 12 % of a level's experience and, at the end of each act, a talent point. In the sky the quest points to a place
 ## (target), which the tracker top left, the map and the compass on the HUD show.
-## The arena's statue is not in Godot yet: its quest waits in the line, marked, and is passed over without reward
-## (LATER) until the arena comes.
+## A quest whose system is not in Godot yet would wait in the line, marked, and be passed over without reward (LATER);
+## since the arena's statue stands, none is left.
 
 const QACT := ["Akt I · Der Hügel", "Akt II · Die Himmelsinseln", "Akt III · Feuer und Nebel", "Akt IV · Die Tiefe", "Akt V · Der schwarze Himmel", RgPlay.ACT]
 const FAMN := {"skel": "Skelette", "archer": "Knochenschützen", "ghoul": "Ghule", "spider": "Spinnen", "cult": "Kultisten", "wraith": "Klageseelen", "golem": "Kolosse", "scorp": "Skorpione"}
 const FAMK := {"skel": ["ruins", "grave", "village"], "archer": ["ruins", "grave"], "ghoul": ["grave", "forest"], "spider": ["forest"], "scorp": ["forest"],
 	"cult": ["grave", "village"], "wraith": ["ruins", "grave"], "golem": ["ruins"]}
 const KINDN := {"village": "brennendes Dorf", "ruins": "Ruinen", "grave": "Gräberinsel", "camp": "Lager", "forest": "Waldinsel", "wild": "wilde Insel", "rock": "Felsinsel", "boss": "Bossinsel"}
-const LATER := {"arena": "Kommt mit der Arena"}
+const LATER := {}
 
 static var Q: Array = []
 static var _tc := {}             # the target, remembered per quest and chunk (G.qtc)
@@ -227,6 +227,9 @@ static func target(q, L: Level):
 			var od = of.call("merchant")
 			var I = _near(wg, at, func(I): return I.kind == "camp")
 			t = isl.call(I, "Lager mit Händler") if I and Vector2(I.x, I.y).distance_to(at) < Vector2(od.x, od.y).distance_to(at) else {"x": od.x, "y": od.y, "l": "Odalinde"}
+		"arena":
+			var c = of.call("colossus")
+			t = {"x": c.x, "y": c.y, "l": "Statue in der Arena"}
 		"chest":
 			t = isl.call(_near(wg, at, func(I): return I.kind == "village" or I.kind == "rock"), "Dorf mit Truhen")
 		"kill":

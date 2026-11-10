@@ -190,6 +190,10 @@ func _draw_obj(sx: float, sy: float, t: float) -> void:
 			var hp := Iso.to_screen(Game.hero_at)
 			var behind: bool = Game.hero_at.x + Game.hero_at.y < p.x + p.y and absf(hp.x - position.x) < 60 and hp.y < position.y
 			draw_texture(c, Vector2(sx - 85, sy - 268), Color(1, 1, 1, .45 if behind else 1.0))
+			# its eyes smoulder, and flare when it calls
+			var gl: float = Game.statue_t
+			for ey in Arena.EYES:
+				glow(self, Vector2(sx, sy) + ey, 6 + gl * 10, Color(1, .235, .118, minf(1, .25 + sin(t * 2) * .1 + gl * .6)))
 		"chest":
 			_draw_chest(sx, sy, t)
 		"smith":

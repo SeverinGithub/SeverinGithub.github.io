@@ -71,6 +71,8 @@ var bless_t := 0.0               # the blood altar's blessing: +30 % damage whil
 var slate_g := 0                 # grave slate and ember slate for Brannoc's forge (P.slateG, P.slateE)
 var slate_e := 0
 var smith_met := 0               # Brannoc has said who he is
+var kv = null                    # every kind of foe this hero has beaten: variant id → 1, built on first use (stOf().kv, see Arena)
+var statue_t := 0.0              # the statue's eyes flare a moment after it has called (G.statueT)
 var smith_hit := 0.0             # the anvil glows a moment after the forge window strikes (G.smithHit)
 var keys := 0                    # chest keys for the locked chests (770-chests.js)
 var eq := {}                     # slot → item {b, slot, cls, dmg, speed, def, block, mods, req}; rings in ring1 and ring2
@@ -124,6 +126,8 @@ func start_new(c: String) -> void:
 	ow_seen = {}
 	ow_respawn = null
 	max_floor = 0
+	kv = null
+	statue_t = 0.0
 	respawn_floor = 1
 	cls = c
 	var C: Dictionary = Data.classes.get(c, Data.classes.krieger)
