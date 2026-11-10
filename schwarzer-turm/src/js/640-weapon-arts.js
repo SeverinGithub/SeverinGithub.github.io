@@ -21,7 +21,7 @@ const _saveDataW=saveData;saveData=function(){const d=_saveDataW();if(d&&P&&P.sl
 const _recalcW=recalc;recalc=function(){_recalcW();try{slotSync()}catch(e){}};
 // helpers: hits in an arc, a circle or a line, a leap that lands, a short sprint
 const wFoes=()=>G.map.enemies.filter(e=>!e.dead&&!e.ally);
-function wHit(e,mult,o,fx,fy){weaponHit(e,mult);if(o.kb)hitEnemy(e,0,{kb:o.kb,from:Math.atan2(e.y-fy,e.x-fx)});if(o.slow)e.slow=Math.max(e.slow||0,o.slow);if(o.bleed&&!e.dead){e.dotT=3;e.dotD=Math.max(e.dotD||0,o.bleed)}}
+function wHit(e,mult,o,fx,fy){weaponHit(e,mult);if(o.kb)hitEnemy(e,0,{kb:o.kb,from:Math.atan2(e.y-fy,e.x-fx)});if(o.slow){e.slow=Math.max(e.slow||0,o.slow);if(e.mir)mpSend({t:'h',n:e.nid,d:0,o:{slow:o.slow}})}if(o.bleed&&!e.dead){e.dotT=3;e.dotD=Math.max(e.dotD||0,o.bleed)}}
 function hitArc(ang,r,arc,mult,o={}){let n=0;for(const e of wFoes()){const dx=e.x-P.x,dy=e.y-P.y,d=hyp(dx,dy);if(d<r+e.r&&(d<.5||Math.abs(angDiff(Math.atan2(dy,dx),ang))<arc/2)){wHit(e,o.exec&&e.hp/e.max<.3?mult*2:mult,o,P.x,P.y);n++}}return n}
 function hitCirc(x,y,r,mult,o={}){let n=0;for(const e of wFoes())if(hyp(e.x-x,e.y-y)<r+e.r&&(!o.set||!o.set.has(e))){o.set&&o.set.add(e);wHit(e,o.exec&&e.hp/e.max<.3?mult*2:mult,o,x,y);n++}return n}
 function hitLine(x,y,ang,len,w,mult,o={}){const c=Math.cos(ang),s=Math.sin(ang);let n=0;for(const e of wFoes()){const dx=e.x-x,dy=e.y-y,al=dx*c+dy*s,pe=Math.abs(-dx*s+dy*c);if(al>-.3&&al<len&&pe<w+e.r){wHit(e,mult,o,x,y);n++}}return n}
@@ -36,7 +36,10 @@ const dir=a=>[Math.cos(a),Math.sin(a)];
 const WSK={
  d_flurry(l,a){for(let k=0;k<4;k++)later(k*85,()=>{const q=P.face+(k%2?.4:-.4);slashFx(P.x,P.y,q,1.7,1.75,'225,235,255',.14,.75,.32);hitArc(P.face,1.9,1.9,.5+l*.05);if(k%2)sample('sword',.35)})},
  d_dash(l,a,tx,ty){const d=Math.min(6,Math.max(2.5,hyp(tx-P.x,ty-P.y)));const[c,s]=dir(a),sx=P.x,sy=P.y;P.dash={ang:a,left:d,l:Math.round(l*.6)};later(110,()=>{hitLine(sx,sy,a,d,.7,.8+l*.08);slashFx(sx+c*d*.5,sy+s*d*.5,a,.5,d*.55,'200,215,255',.2,.6,.2)})},
- d_cross(l,a){const b=wAvg()*.18*(1+l*.1);slashFx(P.x,P.y,a+.55,1.4,2,'235,240,255',.2,.8,.4);later(70,()=>slashFx(P.x,P.y,a-.55,1.4,2,'235,240,255',.2,.8,.4));hitArc(a,2.1,1.7,1.5+l*.14,{bleed:b});sample('sword',.5)},
+ // the cross cut is the huntress's heavy blow: always 1.3 times a whole flurry, and every cut that lands sharpens the next one (+10% crit, five deep, 4 s)
+ d_cross(l,a){const b=wAvg()*.18*(1+l*.1),st=P.crossT>0?P.crossN||0:0;slashFx(P.x,P.y,a+.55,1.4,2,'235,240,255',.2,.8,.4);later(70,()=>slashFx(P.x,P.y,a-.55,1.4,2,'235,240,255',.2,.8,.4));
+  XCRIT=st*XCR1;let n=0;try{n=hitArc(a,2.1,1.7,2.6+l*.26,{bleed:b})}finally{XCRIT=0}
+  if(n){P.crossN=Math.min(XCRN,st+1);P.crossT=4;ftext(P.x,P.y-.5,'Krit +'+P.crossN*XCR1+'%','#ffd94f')}sample('sword',.5)},
  d_fan(l,a){const x0=P.x,y0=P.y,n=7;for(let i=0;i<n;i++){const q=a+(i-(n-1)/2)*.17,[c,s]=dir(q),hit=new Set();for(let k=1;k<=11;k++)setTimeout(()=>{if(!G.map)return;const x=x0+c*k*.65,y=y0+s*k*.65;if(!walkable(x,y))return;
      fxp({k:'shard',x,y,z:.7,vx:c*3,vy:s*3,vz:0,life:.12,col:pick(['#ffffff','#cfe0ff','#9ab8e8']),s:2.2,rot:q+k,g:0});hitCirc(x,y,.55,.7+l*.07,{set:hit})},k*38)}},
  d_dance(l){let k=0;const iv=setInterval(()=>{if(!P||P.dead||G.state!=='play'||++k>10){clearInterval(iv);return}P.whirl=.3;hitCirc(P.x,P.y,2,.45+l*.05);if(k%2)sample('sword',.25)},250);ftext(P.x,P.y-.4,'Klingentanz','#cfe0ff',true)},
@@ -66,7 +69,7 @@ const pct=v=>Math.round(v*100)+'%';
 SKILLS.push(
  {id:'d_flurry',n:'Klingenwirbel',req:1,cd:.8,mana:l=>4+l,desc:l=>`Vier schnelle Schnitte nach vorn, je ${pct(.5+l*.05)} Waffenschaden.`},
  {id:'d_dash',n:'Schattenschnitt',req:1,cd:3,mana:l=>8+l,desc:l=>`Du schneidest dich bis zu 6 Schritte durch die Reihen: ${pct(.8+l*.08)} Waffenschaden auf dem Weg, am Ende ein Hieb.`},
- {id:'d_cross',n:'Kreuzschnitt',req:3,cd:2,mana:l=>7+l,desc:l=>`Zwei Klingen schneiden ein X: ${pct(1.5+l*.14)} Waffenschaden, die Wunden bluten 3 Sekunden.`},
+ {id:'d_cross',n:'Kreuzschnitt',req:3,cd:2,mana:l=>7+l,desc:l=>`Zwei Klingen schneiden ein X: ${pct(2.6+l*.26)} Waffenschaden, die Wunden bluten 3 Sekunden. Jeder Treffer schärft den nächsten Kreuzschnitt: +${XCR1}% kritische Trefferchance für 4 Sekunden, bis zu ${XCRN}-mal.`},
  {id:'d_fan',n:'Klingenfächer',req:6,cd:4,mana:l=>10+l,desc:l=>`Wirft sieben Wurfklingen im Fächer, jede trifft für ${pct(.7+l*.07)} Waffenschaden.`},
  {id:'d_dance',n:'Klingentanz',req:9,cd:10,mana:l=>14+l,desc:l=>`2,5 Sekunden lang wirbeln beide Klingen um dich: viermal pro Sekunde ${pct(.45+l*.05)} Waffenschaden im Umkreis.`},
  {id:'d_exec',n:'Todesreigen',req:15,cd:8,mana:l=>18+l*2,desc:l=>`Sprung zum Ziel, dann ein Rundschnitt für ${pct(2.4+l*.25)} Waffenschaden. Gegner unter 30% Leben trifft er doppelt.`},

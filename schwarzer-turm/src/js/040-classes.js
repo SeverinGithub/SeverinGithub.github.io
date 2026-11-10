@@ -46,7 +46,7 @@ function castExt(id,l,ang,tx,ty){const m=G.map;
   if(id==='blink'){let ex=P.x,ey=P.y;const d=Math.min(8,hyp(tx-P.x,ty-P.y));for(let s=0;s<=d;s+=.25){const x=P.x+Math.cos(ang)*s,y=P.y+Math.sin(ang)*s;if(free(x,y,P.r)){ex=x;ey=y}}
     const burst=(x,y)=>{boom(x,y,.9,'fire');for(const e of m.enemies)if(!e.dead&&hyp(e.x-x,e.y-y)<1.8+e.r)hitEnemy(e,spellBase('blink',l)*rnd(.85,1.15),{col:'#ffb070'})};burst(P.x,P.y);P.x=ex;P.y=ey;P.path=[];P.iframe=.25;camX+=0;burst(P.x,P.y);sfx('zap')}}
 function updExt(dt){const m=G.map;
-  if(P.cryT>0)P.cryT-=dt;if(P.shadowT>0)P.shadowT-=dt;if(P.veilT>0)P.veilT-=dt;if(P.venomT>0){P.venomT-=dt;if(Math.random()<dt*8)fxp({k:'mote',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.2),vx:0,vy:0,vz:.6,life:.5,col:'#9ae050',s:1,g:0})}
+  if(P.cryT>0)P.cryT-=dt;if(P.shadowT>0)P.shadowT-=dt;if(P.crossT>0)P.crossT-=dt;if(P.veilT>0)P.veilT-=dt;if(P.venomT>0){P.venomT-=dt;if(Math.random()<dt*8)fxp({k:'mote',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.2),vx:0,vy:0,vz:.6,life:.5,col:'#9ae050',s:1,g:0})}
   if(P.cryT>0&&Math.random()<dt*6)fxp({k:'ember',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.4),vx:0,vy:0,vz:1,life:.5,col:'#ff7a3a',s:1,g:0});
   for(const z of G.zones){z.t+=dt;
     if(z.k==='rain'){z.acc+=dt;for(let q=0;q<3;q++){const a=rnd(0,6.28),r=rnd(0,z.r);fxp({k:'shard',x:z.x+Math.cos(a)*r,y:z.y+Math.sin(a)*r,z:3,vx:0,vy:0,vz:-14,life:.2,col:'#e8e2d0',s:1.4,rot:1.57,g:0})}

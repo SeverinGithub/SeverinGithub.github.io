@@ -9,6 +9,9 @@ tags: [todo]
 - [ ] Godot: Nacht im echten Spiel prüfen – sind Werwölfe und Nachtgeister auf frühen Inseln zu hart (ein Stufe-1-Held fällt nachts schnell), und ist die Dunkelheit (wie im Browser 80 %) gut zu sehen?
 - [ ] Godot: Gram im echten Spiel reiten – fühlt sich Tempo ×2 gut an, sitzt der Reiter in allen Rüstungen richtig, und ist H als Heimkehr und Aufsitzen zugleich klar genug?
 - [ ] Godot: neue Steuerung (W A S D, Linksklick nur Schwerthieb, seit 2026-11-05) im echten Spiel prüfen – Reichweite fürs Aufheben und Benutzen ohne Laufen (1,6 bzw. 2,2 Felder), Schlagen beim Gehen. Auf dem iPad gibt es keine Tasten: dort bleibt Classic.
+- [ ] Kreuzschnitt der Jägerin (2026-11-10, nur HTML): im echten Spiel prüfen, ob 260 % und bis +50 % Krit bei 2 s Abklingzeit zu stark sind; nach Godot (`skills.gd`) übertragen? Siehe [[Klassen]].
+- [ ] Mittlere Maustaste (2026-11-10): mit echter Maus prüfen, auch in Safari und unter Windows (Auto-Scroll). Siehe [[Steuerung]].
+- [ ] Multiplayer (2026-11-10): Blutung, Gift und Verlangsamung eines Gastes und die Krit-Stapel am Mitspieler mit zwei echten Spielern prüfen. Siehe [[Multiplayer]].
 - [ ] Web-Fassung `/schwarzer-turm/play/` (seit 2026-11-09): nach jedem größeren Godot-Schritt neu exportieren und `play/` mitcommitten; auf dem iPad und in Safari prüfen (Leistung ohne Threads, Ladezeit bei ≈110 MB).
 - [ ] **Mit `?perf` auf dem iPad messen** (auf dem Mac ist auch der große Kampf nur halb ausgelastet, Messung 2026-11-03 abends) (Oberwelt mit vielen Gegnern, Turm, Multiplayer) – Grundlage für den GPU-Renderer, siehe [[Performance]].
 - [ ] **GPU-Renderer** (Texturatlas, instanziertes Zeichnen, Licht als Shader, Boden-Chunks) als umschaltbares Modul neben dem alten bauen.

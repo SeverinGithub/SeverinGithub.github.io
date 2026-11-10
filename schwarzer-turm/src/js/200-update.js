@@ -21,9 +21,9 @@ function update(dt){
     if(P.dash.left<=0||hitE||(hyp(P.x-ox,P.y-oy)<st*.3)){for(const e of m.enemies)if(!e.dead&&hyp(e.x-P.x,e.y-P.y)<1.7+e.r)weaponHit(e,1.5+P.dash.l*.2);slamFx(P.x,P.y,1.8,false);kick(P.dash.ang,6);hitstop(.1);sfx('boom');P.dash=null;P.iframe=.15}}
   else if(P.cast>0)P.cast-=dt;
   else if(P.atkT>0){P.atkT-=dt;if(!P.hitDone&&P.atkT<P.atkDur*.55){P.hitDone=true;resolveSwing()}}
-  else if(P.standAtk!=null&&mouse.down){const[wx,wy]=scr2w(mouse.x,mouse.y);startAttack(Math.atan2(wy-P.y,wx-P.x))}
+  else if((P.standAtk!=null&&mouse.down)||(mouse.mid&&!P.target)){const[wx,wy]=scr2w(mouse.x,mouse.y);startAttack(Math.atan2(wy-P.y,wx-P.x))}
   else{
-    if(P.target){const e=P.target;if(e.dead){P.target=null}else{const dd=hyp(e.x-P.x,e.y-P.y);if(dd<=P.d.reach+e.r){P.path=[];if(startAttack(Math.atan2(e.y-P.y,e.x-P.x))&&!mouse.down)P.target=null}else{P.repath-=dt;if(P.repath<=0){P.repath=.25;P.path=los(P.x,P.y,e.x,e.y,P.r)?[[e.x,e.y]]:(findPath(P.x,P.y,e.x,e.y)||[])}}}}
+    if(P.target){const e=P.target;if(e.dead){P.target=null}else{const dd=hyp(e.x-P.x,e.y-P.y);if(dd<=P.d.reach+e.r){P.path=[];if(startAttack(Math.atan2(e.y-P.y,e.x-P.x))&&!mouse.down&&!mouse.mid)P.target=null}else{P.repath-=dt;if(P.repath<=0){P.repath=.25;P.path=los(P.x,P.y,e.x,e.y,P.r)?[[e.x,e.y]]:(findPath(P.x,P.y,e.x,e.y)||[])}}}}
     else if(mouse.down&&!P.interact&&!P.pickup){P.repath-=dt;if(P.repath<=0){P.repath=.12;setMove()}}
     if(P.interact&&hyp(P.interact.x-P.x,P.interact.y-P.y)<(P.interact.type==='colossus'?2.2:1.4)){const o=P.interact;P.interact=null;P.path=[];interact(o)}
     if(P.pickup&&hyp(P.pickup.x-P.x,P.pickup.y-P.y)<.9){const gi=P.pickup;P.pickup=null;P.path=[];pickup(gi)}

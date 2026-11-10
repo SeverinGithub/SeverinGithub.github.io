@@ -1,10 +1,12 @@
 /* ---------- input ---------- */
-const mouse={x:0,y:0,down:false,right:false,shift:false};const keys={};
+const mouse={x:0,y:0,down:false,right:false,mid:false,shift:false};const keys={};
 cv.addEventListener('contextmenu',e=>e.preventDefault());
 cv.addEventListener('mousemove',e=>{mouse.x=e.clientX/ZM;mouse.y=e.clientY/ZM});
 cv.addEventListener('mousedown',e=>{initAudio();if(AC&&AC.state==='suspended')AC.resume();mouse.x=e.clientX/ZM;mouse.y=e.clientY/ZM;if(G.state!=='play')return;
   if(G.hand&&e.button===0){dropItem(G.hand,P.x,P.y);G.hand=null;sfx('pick');updatePanels();return}
   if(e.button===2){mouse.right=true;const[wx,wy]=scr2w(mouse.x,mouse.y);const he=hoverEnemy();castSkill(P.sel,he?he.x:wx,he?he.y:wy);return}
+  // the wheel button is a second plain attack: it never walks to a spot, it strikes toward the pointer (or goes for the foe under it) for as long as it is held
+  if(e.button===1){e.preventDefault();if(P.dead)return;mouse.mid=true;closeDialog();const he=hoverEnemy();P.interact=null;P.pickup=null;P.moveTo=null;P.path=[];P.target=he||null;P.repath=0;return}
   if(e.button!==0)return;mouse.down=true;closeDialog();
   if(P.dead)return;
   const lab=hoverLabel();if(lab){P.pickup=lab.gi;P.target=null;P.interact=null;P.moveTo=null;P.path=findPath(P.x,P.y,lab.gi.x,lab.gi.y)||[];return}
@@ -12,7 +14,8 @@ cv.addEventListener('mousedown',e=>{initAudio();if(AC&&AC.state==='suspended')AC
   const he=hoverEnemy();if(he){P.target=he;P.interact=null;P.pickup=null;P.repath=0;return}
   const ho=hoverObj();if(ho){P.interact=ho;P.target=null;P.pickup=null;P.path=findPath(P.x,P.y,ho.x,ho.y)||[];return}
   P.target=null;P.interact=null;P.pickup=null;setMove()});
-addEventListener('mouseup',e=>{if(e.button===0){mouse.down=false;P&&(P.standAtk=null)}if(e.button===2)mouse.right=false});
+addEventListener('mouseup',e=>{if(e.button===0){mouse.down=false;P&&(P.standAtk=null)}if(e.button===1)mouse.mid=false;if(e.button===2)mouse.right=false});
+addEventListener('blur',()=>{mouse.mid=false});
 function setMove(){const[wx,wy]=scr2w(mouse.x,mouse.y);if(hyp(wx-P.x,wy-P.y)<.3){P.path=[];return}if(los(P.x,P.y,wx,wy,P.r)&&walkable(wx,wy))P.path=[[wx,wy]];else P.path=findPath(P.x,P.y,wx,wy)||[];G.clickFx={x:wx,y:wy,t:.4}}
 addEventListener('keydown',e=>{
   const k=e.key.toLowerCase();if(k==='escape'){e.preventDefault();escKey();return}

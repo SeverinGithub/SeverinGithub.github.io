@@ -888,7 +888,7 @@ function castExt(id,l,ang,tx,ty){const m=G.map;
   if(id==='blink'){let ex=P.x,ey=P.y;const d=Math.min(8,hyp(tx-P.x,ty-P.y));for(let s=0;s<=d;s+=.25){const x=P.x+Math.cos(ang)*s,y=P.y+Math.sin(ang)*s;if(free(x,y,P.r)){ex=x;ey=y}}
     const burst=(x,y)=>{boom(x,y,.9,'fire');for(const e of m.enemies)if(!e.dead&&hyp(e.x-x,e.y-y)<1.8+e.r)hitEnemy(e,spellBase('blink',l)*rnd(.85,1.15),{col:'#ffb070'})};burst(P.x,P.y);P.x=ex;P.y=ey;P.path=[];P.iframe=.25;camX+=0;burst(P.x,P.y);sfx('zap')}}
 function updExt(dt){const m=G.map;
-  if(P.cryT>0)P.cryT-=dt;if(P.shadowT>0)P.shadowT-=dt;if(P.veilT>0)P.veilT-=dt;if(P.venomT>0){P.venomT-=dt;if(Math.random()<dt*8)fxp({k:'mote',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.2),vx:0,vy:0,vz:.6,life:.5,col:'#9ae050',s:1,g:0})}
+  if(P.cryT>0)P.cryT-=dt;if(P.shadowT>0)P.shadowT-=dt;if(P.crossT>0)P.crossT-=dt;if(P.veilT>0)P.veilT-=dt;if(P.venomT>0){P.venomT-=dt;if(Math.random()<dt*8)fxp({k:'mote',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.2),vx:0,vy:0,vz:.6,life:.5,col:'#9ae050',s:1,g:0})}
   if(P.cryT>0&&Math.random()<dt*6)fxp({k:'ember',x:P.x+rnd(-.3,.3),y:P.y+rnd(-.3,.3),z:rnd(.5,1.4),vx:0,vy:0,vz:1,life:.5,col:'#ff7a3a',s:1,g:0});
   for(const z of G.zones){z.t+=dt;
     if(z.k==='rain'){z.acc+=dt;for(let q=0;q<3;q++){const a=rnd(0,6.28),r=rnd(0,z.r);fxp({k:'shard',x:z.x+Math.cos(a)*r,y:z.y+Math.sin(a)*r,z:3,vx:0,vy:0,vz:-14,life:.2,col:'#e8e2d0',s:1.4,rot:1.57,g:0})}
@@ -919,7 +919,7 @@ let P=null,UID=1;
 function newPlayer(){return{x:0,y:0,r:.28,face:.8,anim:0,hp:1,mp:1,st:1,lvl:1,xp:0,stats:{str:15,dex:15,vit:15,ene:10},pts:0,spts:1,
   sk:{whirl:1,fire:0,nova:0,charge:0,ward:0,chain:0},sel:'whirl',eq:{weapon:null,offhand:null,helm:null,armor:null,gloves:null,boots:null,belt:null,ring1:null,ring2:null,amulet:null},
   inv:[],stash:[],found:{},glut:0,flaskMax:3,flasks:3,flaskPow:0,tree:[],tbonus:0,qi:0,qc:{},qb:0}}
-function resetTransient(){Object.assign(P,{leap:null,cryT:0,shadowT:0,veilT:0,venomT:0,path:[],target:null,interact:null,pickup:null,atkT:0,atkDur:0,hitDone:true,roll:0,iframe:0,cast:0,cds:{},ward:0,wardT:0,stDelay:0,dead:false,dash:null,poisonT:0,poisonD:0,flaskT:0,hurt:0,moveTo:null,standAtk:null,repath:0,heal:0})}
+function resetTransient(){Object.assign(P,{leap:null,cryT:0,shadowT:0,crossT:0,crossN:0,veilT:0,venomT:0,path:[],target:null,interact:null,pickup:null,atkT:0,atkDur:0,hitDone:true,roll:0,iframe:0,cast:0,cds:{},ward:0,wardT:0,stDelay:0,dead:false,dash:null,poisonT:0,poisonD:0,flaskT:0,hurt:0,moveTo:null,standAtk:null,repath:0,heal:0})}
 const xpNext=l=>Math.floor(80*Math.pow(l,1.75));
 
 /* ---------- items ---------- */
@@ -1415,8 +1415,10 @@ function hitEnemy(e,dmg,o={}){
   if(o.kb&&!e.boss){const k=o.kb*16/(e.scale||1);e.kvx=(e.kvx||0)+Math.cos(a)*k;e.kvy=(e.kvy||0)+Math.sin(a)*k}
   gore(e.x,e.y,a,o.crit?11:5,goreOf(e),.8*(e.scale||1));
   if(e.hp<=0)killEnemy(e,a)}
+// extra crit chance that only the blow being struck right now enjoys (the cross cut's stacks)
+let XCRIT=0;const XCR1=10,XCRN=5;
 function weaponHit(e,mult=1){
-  const d=P.d;let dmg=rnd(d.dmin,d.dmax)*mult+d.ele;const crit=Math.random()*100<d.crit+(P.shadowT>0?P.shadowB:0);if(crit)dmg*=1.9;
+  const d=P.d;let dmg=rnd(d.dmin,d.dmax)*mult+d.ele;const crit=Math.random()*100<d.crit+(P.shadowT>0?P.shadowB:0)+XCRIT;if(crit)dmg*=1.9;
   const a=Math.atan2(e.y-P.y,e.x-P.x),hx=e.x-Math.cos(a)*e.r*.6,hy=e.y-Math.sin(a)*e.r*.6,z=.8*(e.scale||1);
   sparks(hx,hy,z,a,crit?16:8,d.ele>0?(d.cold>0?['#ffffff','#c8e4ff','#6ad0ff']:['#ffffff','#ffc070','#ff9a30']):['#ffffff','#fff0c0','#ffc070'],crit?8:6);
   flash(hx,hy,z,crit?40:22,crit?'255,220,120':'255,235,200',crit?.18:.11);hitstop(crit?.1:.05);kick(a,crit?4.5:2.2);if(crit)G.shake=Math.max(G.shake,4);
@@ -1501,12 +1503,14 @@ function pickup(gi){
 // the door leads to the deepest floor whose bonfire is lit; you wake beside that fire
 function topFloor(){let f=1;for(const k in G.lit){const n=+k;if(G.lit[k]&&Number.isInteger(n)&&n>f)f=n}return f}
 /* ---------- input ---------- */
-const mouse={x:0,y:0,down:false,right:false,shift:false};const keys={};
+const mouse={x:0,y:0,down:false,right:false,mid:false,shift:false};const keys={};
 cv.addEventListener('contextmenu',e=>e.preventDefault());
 cv.addEventListener('mousemove',e=>{mouse.x=e.clientX/ZM;mouse.y=e.clientY/ZM});
 cv.addEventListener('mousedown',e=>{initAudio();if(AC&&AC.state==='suspended')AC.resume();mouse.x=e.clientX/ZM;mouse.y=e.clientY/ZM;if(G.state!=='play')return;
   if(G.hand&&e.button===0){dropItem(G.hand,P.x,P.y);G.hand=null;sfx('pick');updatePanels();return}
   if(e.button===2){mouse.right=true;const[wx,wy]=scr2w(mouse.x,mouse.y);const he=hoverEnemy();castSkill(P.sel,he?he.x:wx,he?he.y:wy);return}
+  // the wheel button is a second plain attack: it never walks to a spot, it strikes toward the pointer (or goes for the foe under it) for as long as it is held
+  if(e.button===1){e.preventDefault();if(P.dead)return;mouse.mid=true;closeDialog();const he=hoverEnemy();P.interact=null;P.pickup=null;P.moveTo=null;P.path=[];P.target=he||null;P.repath=0;return}
   if(e.button!==0)return;mouse.down=true;closeDialog();
   if(P.dead)return;
   const lab=hoverLabel();if(lab){P.pickup=lab.gi;P.target=null;P.interact=null;P.moveTo=null;P.path=findPath(P.x,P.y,lab.gi.x,lab.gi.y)||[];return}
@@ -1514,7 +1518,8 @@ cv.addEventListener('mousedown',e=>{initAudio();if(AC&&AC.state==='suspended')AC
   const he=hoverEnemy();if(he){P.target=he;P.interact=null;P.pickup=null;P.repath=0;return}
   const ho=hoverObj();if(ho){P.interact=ho;P.target=null;P.pickup=null;P.path=findPath(P.x,P.y,ho.x,ho.y)||[];return}
   P.target=null;P.interact=null;P.pickup=null;setMove()});
-addEventListener('mouseup',e=>{if(e.button===0){mouse.down=false;P&&(P.standAtk=null)}if(e.button===2)mouse.right=false});
+addEventListener('mouseup',e=>{if(e.button===0){mouse.down=false;P&&(P.standAtk=null)}if(e.button===1)mouse.mid=false;if(e.button===2)mouse.right=false});
+addEventListener('blur',()=>{mouse.mid=false});
 function setMove(){const[wx,wy]=scr2w(mouse.x,mouse.y);if(hyp(wx-P.x,wy-P.y)<.3){P.path=[];return}if(los(P.x,P.y,wx,wy,P.r)&&walkable(wx,wy))P.path=[[wx,wy]];else P.path=findPath(P.x,P.y,wx,wy)||[];G.clickFx={x:wx,y:wy,t:.4}}
 addEventListener('keydown',e=>{
   const k=e.key.toLowerCase();if(k==='escape'){e.preventDefault();escKey();return}
@@ -1559,9 +1564,9 @@ function update(dt){
     if(P.dash.left<=0||hitE||(hyp(P.x-ox,P.y-oy)<st*.3)){for(const e of m.enemies)if(!e.dead&&hyp(e.x-P.x,e.y-P.y)<1.7+e.r)weaponHit(e,1.5+P.dash.l*.2);slamFx(P.x,P.y,1.8,false);kick(P.dash.ang,6);hitstop(.1);sfx('boom');P.dash=null;P.iframe=.15}}
   else if(P.cast>0)P.cast-=dt;
   else if(P.atkT>0){P.atkT-=dt;if(!P.hitDone&&P.atkT<P.atkDur*.55){P.hitDone=true;resolveSwing()}}
-  else if(P.standAtk!=null&&mouse.down){const[wx,wy]=scr2w(mouse.x,mouse.y);startAttack(Math.atan2(wy-P.y,wx-P.x))}
+  else if((P.standAtk!=null&&mouse.down)||(mouse.mid&&!P.target)){const[wx,wy]=scr2w(mouse.x,mouse.y);startAttack(Math.atan2(wy-P.y,wx-P.x))}
   else{
-    if(P.target){const e=P.target;if(e.dead){P.target=null}else{const dd=hyp(e.x-P.x,e.y-P.y);if(dd<=P.d.reach+e.r){P.path=[];if(startAttack(Math.atan2(e.y-P.y,e.x-P.x))&&!mouse.down)P.target=null}else{P.repath-=dt;if(P.repath<=0){P.repath=.25;P.path=los(P.x,P.y,e.x,e.y,P.r)?[[e.x,e.y]]:(findPath(P.x,P.y,e.x,e.y)||[])}}}}
+    if(P.target){const e=P.target;if(e.dead){P.target=null}else{const dd=hyp(e.x-P.x,e.y-P.y);if(dd<=P.d.reach+e.r){P.path=[];if(startAttack(Math.atan2(e.y-P.y,e.x-P.x))&&!mouse.down&&!mouse.mid)P.target=null}else{P.repath-=dt;if(P.repath<=0){P.repath=.25;P.path=los(P.x,P.y,e.x,e.y,P.r)?[[e.x,e.y]]:(findPath(P.x,P.y,e.x,e.y)||[])}}}}
     else if(mouse.down&&!P.interact&&!P.pickup){P.repath-=dt;if(P.repath<=0){P.repath=.12;setMove()}}
     if(P.interact&&hyp(P.interact.x-P.x,P.interact.y-P.y)<(P.interact.type==='colossus'?2.2:1.4)){const o=P.interact;P.interact=null;P.path=[];interact(o)}
     if(P.pickup&&hyp(P.pickup.x-P.x,P.pickup.y-P.y)<.9){const gi=P.pickup;P.pickup=null;P.path=[];pickup(gi)}
@@ -3951,7 +3956,7 @@ function expandItems(){
     UNIQ.push({n:name,b:b.n,lvl,m});PXU[name]=th.sk}}
 /* ---------- menus: title, pause, settings, controls ---------- */
 const KEYS_HTML=`<div class="keys">
-  <b>Linksklick</b><span>Gehen, angreifen, aufheben, benutzen</span><b>Shift + Klick</b><span>Angriff auf der Stelle</span>
+  <b>Linksklick</b><span>Gehen, angreifen, aufheben, benutzen</span><b>Shift + Klick</b><span>Angriff auf der Stelle</span><b>Mittlere Maustaste</b><span>Grundangriff zum Mauszeiger, ohne zu gehen</span>
   <b>Rechtsklick</b><span>Gewählte Fertigkeit wirken</span><b>1 – 6</b><span>Fertigkeit wirken und auswählen</span>
   <b>Leertaste</b><span>Ausweichrolle (kostet Ausdauer)</span><b>F</b><span>Heilflakon</span><b>Y · X</b><span>Heiltrank · Manatrank</span>
   <b>C · I · K · J · P</b><span>Charakter · Inventar · Fertigkeiten · Sammlung · Talentbaum</span><b>L · M</b><span>Chronik der Quests · große Karte</span><b>Tab</b><span>Namen am Boden ein/aus</span><b>V</b><span>Minikarte ein/aus</span><b>N</b><span>Ton aus/an</span><b>R</b><span>Grafik neu laden, falls das Bild hängt</span><b>Esc</b><span>Pause und Menü</span></div>`;
@@ -4388,7 +4393,7 @@ function updForge(dt){if(!P||!G.map||G.state==='title')return;forgeTick();skMigr
 const _hitEnemyK=hitEnemy;hitEnemy=function(e,dmg,o={}){if(P&&P.oathT>0&&!o.ally&&dmg>0&&!e.dead&&UNDEAD.has(e.type)){dmg*=1+P.oathB/100;P.hp=Math.min(P.d.life,P.hp+P.d.life*.01);if(Math.random()<.4)sparks(e.x,e.y,.8,0,4,['#fff0a8','#ffd88a'],3,3)}return _hitEnemyK(e,dmg,o)};
 const _hurtPlayerS=hurtPlayer;hurtPlayer=function(dmg,el,src){if(P&&P.oathT>0)dmg*=.85;return _hurtPlayerS(dmg,el,src)};
 // running buffs, small and above the belt
-const BUFFS=[['cryT','cry','Wut'],['atemT','atem','Zweiter Atem'],['oathT','schwur','Heiliger Schwur'],['fuseT','m_fuse','Verschmelzung'],['venomT','venom','Giftklinge'],['shadowT','dash','Schattenschritt']];
+const BUFFS=[['cryT','cry','Wut'],['atemT','atem','Zweiter Atem'],['oathT','schwur','Heiliger Schwur'],['fuseT','m_fuse','Verschmelzung'],['venomT','venom','Giftklinge'],['shadowT','dash','Schattenschritt'],['crossT','d_cross','Kreuzschnitt: mehr kritische Treffer']];
 function buffHud(){let el=$('buffs');if(!el){document.body.insertAdjacentHTML('beforeend','<div id="buffs"></div>');el=$('buffs')}
   const on=G.state==='play'?BUFFS.filter(([k])=>P[k]>0):[],key=on.map(([k])=>k+Math.ceil(P[k])).join();if(el.dataset.k===key)return;el.dataset.k=key;
   el.innerHTML=on.map(([k,ic,n])=>`<span title="${n}">${SKIC[ic]?`<img class="px" src="${SKIC[ic]}" alt="">`:''}<b>${Math.ceil(P[k])}</b></span>`).join('')}
@@ -5607,13 +5612,15 @@ function mpHostSync(dt){const L=NET.hostSync=mpSyncList();NET.snapT-=dt;const m=
   const ts=Math.round(performance.now());
   for(const r of L){const c=r.conn,nw=[],snap=[],seen=new Set();c.wasSync=1;
     for(const e of m.enemies){if(e.dead||(e.dummy||e.wall))continue;if(e.nid==null)e.nid=++NET.nid;if(hyp(e.x-r.px.x,e.y-r.px.y)>(c.known.has(e.nid)?MPSEE+6:MPSEE))continue;seen.add(e.nid);if(!c.known.has(e.nid)){c.known.add(e.nid);nw.push([e.nid,mpDesc(e)])}
-      snap.push([e.nid,Math.round(e.x*100)/100,Math.round(e.y*100)/100,Math.round((e.face||0)*100)/100,Math.round(e.hp),(e.aggro?1:0)|(e.charge>0?2:0)|(e.lungeT>0?4:0)|(e.slow>0?8:0),Math.round(e.max)])}
+      snap.push([e.nid,Math.round(e.x*100)/100,Math.round(e.y*100)/100,Math.round((e.face||0)*100)/100,Math.round(e.hp),(e.aggro?1:0)|(e.charge>0?2:0)|(e.lungeT>0?4:0)|(e.slow>0?8:0)|(e.dotT>0?16:0),Math.round(e.max)])}
     // what walked out of sight or was unloaded leaves the friend's screen too
     const gone=[];for(const n of c.known)if(!seen.has(n))gone.push(n);for(const n of gone)c.known.delete(n);
     if(gone.length)mpTo(c,{t:'ex',l:gone});if(nw.length)mpTo(c,{t:'es',fl:G.floor,ts,l:nw});mpTo(c,{t:'e',fl:G.floor,ts,l:snap},true)}}
 // host: a friend's blow lands on the real monster
 function mpGuestHit(d,c){const r=NET.others.get(c.mpId);if(!r||r.floor!==G.floor)return;const e=G.map.enemies.find(x=>x.nid===d.n&&!x.dead);if(!e)return;const o=d.o||{};
   if(o.ven){e.dotT=3;e.dotD=Math.max(e.dotD||0,o.ven)}
+  // a skill's after-effect alone (a bleeding wound, a chill): no blow, no number, but the monster knows who did it
+  if(!d.d&&!o.kb){if(o.slow)e.slow=Math.max(e.slow||0,o.slow);e.aggro=true;return}
   NET.hitBy=r.id;try{hitEnemy(e,d.d,{crit:!!o.crit,slow:o.slow||0,kb:o.kb||0,from:o.from!=null?o.from:Math.atan2(e.y-r.y,e.x-r.x),col:o.col||'#9ad0ff',ally:true})}finally{NET.hitBy=null}}
 // host: every death is announced to the friends who saw that monster
 const _killEnemyMP=killEnemy;killEnemy=function(e,a){const was=e.dead;_killEnemyMP(e,a);if(NET.role!=='host'||was||e.nid==null||e.mir)return;
@@ -5641,10 +5648,13 @@ function mpSnap(d){if(d.fl!==G.floor||!mpHostHere())return;const ts=d.ts!=null?d
     mpPush(e.buf,{t:ts,x,y});e.tx=x;e.ty=y;e.face=f;
     // a friend's blows show here as they land on the host
     const lost=e.hp-hp;if(lost>.5&&now-(e.myT||0)>400){e.flash=.1;e.hitT=.18;e.oT=now;e.oAcc=(e.oAcc||0)+lost;if(now-(e.oNT||0)>180){e.oNT=now;if(CFG.numbers)ftext(e.x,e.y,Math.round(e.oAcc)+'','#9ad0ff',false);e.oAcc=0}}
-    e.hp=now-(e.myT||0)<400?Math.min(e.hp,hp):hp;if(mx)e.max=mx;e.aggro=!!(fl&1);e.charge=fl&2?.2:0;if(fl&4)e.lungeT=Math.max(e.lungeT||0,.1);e.slow=fl&8?.2:0;e.seenT=now}
+    e.hp=now-(e.myT||0)<400?Math.min(e.hp,hp):hp;if(mx)e.max=mx;e.aggro=!!(fl&1);e.charge=fl&2?.2:0;if(fl&4)e.lungeT=Math.max(e.lungeT||0,.1);e.slow=fl&8?.2:0;e.dotV=fl&16?.3:0;e.seenT=now}
   if(ask)mpSend({t:'rq',l:ask})}
 function mpMirTick(e,dt){const q=mpAt(e.buf||[],mpNow(NET.hc)-MPLAG),ox=e.ix,oy=e.iy;if(q){e.ix=q.x;e.iy=q.y}e.x=e.ix;e.y=e.iy;
-  if(hyp(e.ix-ox,e.iy-oy)>dt*.3)e.anim+=dt*(e.spd||2)*.6;else e.anim+=dt*.3;e.flash=Math.max(0,(e.flash||0)-dt);e.hitT=Math.max(0,(e.hitT||0)-dt);e.lungeT=Math.max(0,(e.lungeT||0)-dt);e.kvx=e.kvy=0}
+  if(hyp(e.ix-ox,e.iy-oy)>dt*.3)e.anim+=dt*(e.spd||2)*.6;else e.anim+=dt*.3;e.flash=Math.max(0,(e.flash||0)-dt);e.hitT=Math.max(0,(e.hitT||0)-dt);e.lungeT=Math.max(0,(e.lungeT||0)-dt);e.kvx=e.kvy=0;
+  // wounds and poison a skill of yours left on the mirror are settled on the host; whatever bleeds there, from anyone, drips here too
+  if(e.dotT>0){if(e.dotT>(e._dotL||0)&&e.dotD>0)mpSend({t:'h',n:e.nid,d:0,o:{ven:Math.round(e.dotD*10)/10}});e.dotT-=dt;e._dotL=e.dotT}else e._dotL=0;
+  if((e.dotV>0||e.dotT>0)&&Math.random()<dt*6)fxp({k:'mote',x:e.x+rnd(-.2,.2),y:e.y+rnd(-.2,.2),z:.8,vx:0,vy:0,vz:.5,life:.5,col:'#9ae050',s:1,g:0})}
 // guest: the host says it fell. Whoever stood close gets the kill: experience, glut, quests and their own loot
 function mpMirrorDies(d){const e=NET.mir.get(d.n);if(!e||e.dead)return;NET.mir.delete(d.n);
   if(P&&!P.dead&&hyp(e.x-P.x,e.y-P.y)<32){delete e.mir;try{killEnemy(e,d.a)}catch(er){e.dead=true;e.dieT=0}}else{e.dead=true;e.dieT=0;e.fallA=d.a}}
@@ -5735,8 +5745,8 @@ function mpRevived(by){if(!P||!(P.down>0))return;const r=NET.others.get(by);P.do
 // while you lie there the world goes on: the monsters move, you cannot
 const _updateMP=update;update=function(dt){if(!P||!(P.down>0)){_updateMP(dt);if(P&&P.dead&&mpOn())mpTick(dt);return}
   P.down-=dt;if(P.down<=0||!mpAllyNear()){P.down=0;P.dead=false;_dieMP();_updateMP(dt);return}
-  const md=mouse.down;mouse.down=false;P.dead=false;P.hp=1;P.iframe=Math.max(P.iframe,.2);P.path=[];P.target=null;P.interact=null;P.pickup=null;P.standAtk=null;P.atkT=0;
-  try{_updateMP(dt)}finally{P.hp=0;P.dead=true;mouse.down=md;G.deathT=1e9}};
+  const md=mouse.down,mm=mouse.mid;mouse.down=mouse.mid=false;P.dead=false;P.hp=1;P.iframe=Math.max(P.iframe,.2);P.path=[];P.target=null;P.interact=null;P.pickup=null;P.standAtk=null;P.atkT=0;
+  try{_updateMP(dt)}finally{P.hp=0;P.dead=true;mouse.down=md;mouse.mid=mm;G.deathT=1e9}};
 // a fallen hero: a slow red pulse, the time left, and the friend's hand on the shoulder
 const _drawPlayerMP=drawPlayer;drawPlayer=function(){_drawPlayerMP();if(!P||!(P.down>0))return;const[sx,sy]=iso(P.x,P.y);
   const pr=P.mpRemote?P.rv/MPREV:Math.max(0,...[...NET.others.values()].filter(r=>r.rvi===NET.me).map(r=>r.rvp||0),0),pul=.5+Math.sin(G.t*6)*.25;
@@ -6431,7 +6441,7 @@ const _saveDataW=saveData;saveData=function(){const d=_saveDataW();if(d&&P&&P.sl
 const _recalcW=recalc;recalc=function(){_recalcW();try{slotSync()}catch(e){}};
 // helpers: hits in an arc, a circle or a line, a leap that lands, a short sprint
 const wFoes=()=>G.map.enemies.filter(e=>!e.dead&&!e.ally);
-function wHit(e,mult,o,fx,fy){weaponHit(e,mult);if(o.kb)hitEnemy(e,0,{kb:o.kb,from:Math.atan2(e.y-fy,e.x-fx)});if(o.slow)e.slow=Math.max(e.slow||0,o.slow);if(o.bleed&&!e.dead){e.dotT=3;e.dotD=Math.max(e.dotD||0,o.bleed)}}
+function wHit(e,mult,o,fx,fy){weaponHit(e,mult);if(o.kb)hitEnemy(e,0,{kb:o.kb,from:Math.atan2(e.y-fy,e.x-fx)});if(o.slow){e.slow=Math.max(e.slow||0,o.slow);if(e.mir)mpSend({t:'h',n:e.nid,d:0,o:{slow:o.slow}})}if(o.bleed&&!e.dead){e.dotT=3;e.dotD=Math.max(e.dotD||0,o.bleed)}}
 function hitArc(ang,r,arc,mult,o={}){let n=0;for(const e of wFoes()){const dx=e.x-P.x,dy=e.y-P.y,d=hyp(dx,dy);if(d<r+e.r&&(d<.5||Math.abs(angDiff(Math.atan2(dy,dx),ang))<arc/2)){wHit(e,o.exec&&e.hp/e.max<.3?mult*2:mult,o,P.x,P.y);n++}}return n}
 function hitCirc(x,y,r,mult,o={}){let n=0;for(const e of wFoes())if(hyp(e.x-x,e.y-y)<r+e.r&&(!o.set||!o.set.has(e))){o.set&&o.set.add(e);wHit(e,o.exec&&e.hp/e.max<.3?mult*2:mult,o,x,y);n++}return n}
 function hitLine(x,y,ang,len,w,mult,o={}){const c=Math.cos(ang),s=Math.sin(ang);let n=0;for(const e of wFoes()){const dx=e.x-x,dy=e.y-y,al=dx*c+dy*s,pe=Math.abs(-dx*s+dy*c);if(al>-.3&&al<len&&pe<w+e.r){wHit(e,mult,o,x,y);n++}}return n}
@@ -6446,7 +6456,10 @@ const dir=a=>[Math.cos(a),Math.sin(a)];
 const WSK={
  d_flurry(l,a){for(let k=0;k<4;k++)later(k*85,()=>{const q=P.face+(k%2?.4:-.4);slashFx(P.x,P.y,q,1.7,1.75,'225,235,255',.14,.75,.32);hitArc(P.face,1.9,1.9,.5+l*.05);if(k%2)sample('sword',.35)})},
  d_dash(l,a,tx,ty){const d=Math.min(6,Math.max(2.5,hyp(tx-P.x,ty-P.y)));const[c,s]=dir(a),sx=P.x,sy=P.y;P.dash={ang:a,left:d,l:Math.round(l*.6)};later(110,()=>{hitLine(sx,sy,a,d,.7,.8+l*.08);slashFx(sx+c*d*.5,sy+s*d*.5,a,.5,d*.55,'200,215,255',.2,.6,.2)})},
- d_cross(l,a){const b=wAvg()*.18*(1+l*.1);slashFx(P.x,P.y,a+.55,1.4,2,'235,240,255',.2,.8,.4);later(70,()=>slashFx(P.x,P.y,a-.55,1.4,2,'235,240,255',.2,.8,.4));hitArc(a,2.1,1.7,1.5+l*.14,{bleed:b});sample('sword',.5)},
+ // the cross cut is the huntress's heavy blow: always 1.3 times a whole flurry, and every cut that lands sharpens the next one (+10% crit, five deep, 4 s)
+ d_cross(l,a){const b=wAvg()*.18*(1+l*.1),st=P.crossT>0?P.crossN||0:0;slashFx(P.x,P.y,a+.55,1.4,2,'235,240,255',.2,.8,.4);later(70,()=>slashFx(P.x,P.y,a-.55,1.4,2,'235,240,255',.2,.8,.4));
+  XCRIT=st*XCR1;let n=0;try{n=hitArc(a,2.1,1.7,2.6+l*.26,{bleed:b})}finally{XCRIT=0}
+  if(n){P.crossN=Math.min(XCRN,st+1);P.crossT=4;ftext(P.x,P.y-.5,'Krit +'+P.crossN*XCR1+'%','#ffd94f')}sample('sword',.5)},
  d_fan(l,a){const x0=P.x,y0=P.y,n=7;for(let i=0;i<n;i++){const q=a+(i-(n-1)/2)*.17,[c,s]=dir(q),hit=new Set();for(let k=1;k<=11;k++)setTimeout(()=>{if(!G.map)return;const x=x0+c*k*.65,y=y0+s*k*.65;if(!walkable(x,y))return;
      fxp({k:'shard',x,y,z:.7,vx:c*3,vy:s*3,vz:0,life:.12,col:pick(['#ffffff','#cfe0ff','#9ab8e8']),s:2.2,rot:q+k,g:0});hitCirc(x,y,.55,.7+l*.07,{set:hit})},k*38)}},
  d_dance(l){let k=0;const iv=setInterval(()=>{if(!P||P.dead||G.state!=='play'||++k>10){clearInterval(iv);return}P.whirl=.3;hitCirc(P.x,P.y,2,.45+l*.05);if(k%2)sample('sword',.25)},250);ftext(P.x,P.y-.4,'Klingentanz','#cfe0ff',true)},
@@ -6476,7 +6489,7 @@ const pct=v=>Math.round(v*100)+'%';
 SKILLS.push(
  {id:'d_flurry',n:'Klingenwirbel',req:1,cd:.8,mana:l=>4+l,desc:l=>`Vier schnelle Schnitte nach vorn, je ${pct(.5+l*.05)} Waffenschaden.`},
  {id:'d_dash',n:'Schattenschnitt',req:1,cd:3,mana:l=>8+l,desc:l=>`Du schneidest dich bis zu 6 Schritte durch die Reihen: ${pct(.8+l*.08)} Waffenschaden auf dem Weg, am Ende ein Hieb.`},
- {id:'d_cross',n:'Kreuzschnitt',req:3,cd:2,mana:l=>7+l,desc:l=>`Zwei Klingen schneiden ein X: ${pct(1.5+l*.14)} Waffenschaden, die Wunden bluten 3 Sekunden.`},
+ {id:'d_cross',n:'Kreuzschnitt',req:3,cd:2,mana:l=>7+l,desc:l=>`Zwei Klingen schneiden ein X: ${pct(2.6+l*.26)} Waffenschaden, die Wunden bluten 3 Sekunden. Jeder Treffer schärft den nächsten Kreuzschnitt: +${XCR1}% kritische Trefferchance für 4 Sekunden, bis zu ${XCRN}-mal.`},
  {id:'d_fan',n:'Klingenfächer',req:6,cd:4,mana:l=>10+l,desc:l=>`Wirft sieben Wurfklingen im Fächer, jede trifft für ${pct(.7+l*.07)} Waffenschaden.`},
  {id:'d_dance',n:'Klingentanz',req:9,cd:10,mana:l=>14+l,desc:l=>`2,5 Sekunden lang wirbeln beide Klingen um dich: viermal pro Sekunde ${pct(.45+l*.05)} Waffenschaden im Umkreis.`},
  {id:'d_exec',n:'Todesreigen',req:15,cd:8,mana:l=>18+l*2,desc:l=>`Sprung zum Ziel, dann ein Rundschnitt für ${pct(2.4+l*.25)} Waffenschaden. Gegner unter 30% Leben trifft er doppelt.`},
@@ -7862,15 +7875,15 @@ function visProxy(r){if(!r._px||Object.getPrototypeOf(r._px)!==P){r._px=Object.c
   const el=r._el||null,w=el?{cls:'staff',elem:el}:null;px.eq=Object.assign({},P.eq,{weapon:w});px.d=r._pd;px.d.okS=new Set(w?[w]:[]);
   px.dead=false;px.leap=null;px.path=[];px.target=null;px.interact=null;return px}
 function visRun(r,fn){if(VIS)return fn();if(!P||!G.map)return;const P0=P,px=visProxy(r),far=hyp(r.x-P0.x,r.y-P0.y),vol=Math.max(.15,1-far/MPSEE);
-  px.x=r.x;px.y=r.y;px.fuseT=Math.max(0,(r.fuseU||0)-G.t);px.whirl=0;px.atemT=px.oathT=0;
+  px.x=r.x;px.y=r.y;px.fuseT=Math.max(0,(r.fuseU||0)-G.t);px.whirl=0;px.atemT=px.oathT=0;px.crossT=Math.max(0,(r.crossU||0)-G.t);px.crossN=r.crossN||0;
   const S={hitEnemy,weaponHit,wHit,eHit,killEnemy,leapTo,hitstop,kick,st:window.setTimeout,si:window.setInterval,v:SFXV},mL=[G.mLast,G.mImpact,G.mJumpFrom],sh0=G.shake,
     n0=G.proj.length,z0=G.zones.length,r0=G.rings.length;
   const wrap=f=>function(){const a=arguments;return visRun(r,()=>f.apply(null,a))};
   P=px;VIS=1;hitEnemy=weaponHit=wHit=eHit=killEnemy=hitstop=kick=()=>{};
   SFXV=vol;
   leapTo=(tx,ty,maxD,dur,l,f)=>{const a=Math.atan2(ty-px.y,tx-px.x),dd=Math.min(maxD,Math.max(1.5,hyp(tx-px.x,ty-px.y)));let x=px.x+Math.cos(a)*dd,y=px.y+Math.sin(a)*dd;if(!free(x,y,.3))[x,y]=nearWalk(x,y);
-    px.face=a;smoke(px.x,px.y,4,'rgba(90,78,62,',5,.3);S.st(()=>visRun(r,()=>{px.x=x;px.y=y;slamFx(x,y,1.2,false);if(f)f()}),dur*1000)};
-  window.setTimeout=(f,ms,...a)=>S.st(typeof f==='function'?wrap(()=>f(...a)):f,ms);window.setInterval=(f,ms,...a)=>S.si(typeof f==='function'?wrap(()=>f(...a)):f,ms);
+    px.face=a;smoke(px.x,px.y,4,'rgba(90,78,62,',5,.3);S.st.call(window,()=>visRun(r,()=>{px.x=x;px.y=y;slamFx(x,y,1.2,false);if(f)f()}),dur*1000)};
+  window.setTimeout=(f,ms,...a)=>S.st.call(window,typeof f==='function'?wrap(()=>f(...a)):f,ms);window.setInterval=(f,ms,...a)=>S.si.call(window,typeof f==='function'?wrap(()=>f(...a)):f,ms);
   G.mLast=r._mL;G.mImpact=r._mI;G.mJumpFrom=r._mJ;
   try{fn()}catch(err){}finally{P=P0;VIS=0;({hitEnemy,weaponHit,wHit,eHit,killEnemy,leapTo,hitstop,kick}=S);SFXV=S.v;window.setTimeout=S.st;window.setInterval=S.si;
     r._mL=G.mLast;r._mI=G.mImpact;r._mJ=G.mJumpFrom;[G.mLast,G.mImpact,G.mJumpFrom]=mL;G.shake=sh0+Math.max(0,G.shake-sh0)*vol*.5;
@@ -7880,7 +7893,9 @@ function visRun(r,fn){if(VIS)return fn();if(!P||!G.map)return;const P0=P,px=visP
     // a wall of blades and a dash stay on the friend for as long as they would last on you
     if(Object.hasOwn(px,'ward')){if(px.ward>0)r.wardU=G.t+(px.wardT||8);delete px.ward;delete px.wardT;delete px.wardMax}
     if(Object.hasOwn(px,'dash')){if(px.dash){r.dashA=px.dash.ang;r.dashU=G.t+px.dash.left/16}delete px.dash}
-    if(px.whirl>0)r.whirl=Math.max(r.whirl||0,px.whirl);if(px.fuseT>0)r.fuseU=G.t+px.fuseT;if(px.atemT>0)r.atemU=G.t+px.atemT;if(px.oathT>0)r.oathU=G.t+px.oathT}}
+    if(px.whirl>0)r.whirl=Math.max(r.whirl||0,px.whirl);if(px.fuseT>0)r.fuseU=G.t+px.fuseT;if(px.atemT>0)r.atemU=G.t+px.atemT;if(px.oathT>0)r.oathU=G.t+px.oathT;
+    // the friend's cross cut keeps its own count of sharpened cuts, apart from yours
+    if(px.crossT>=4){r.crossU=G.t+4;r.crossN=px.crossN}}}
 const _mpCastFxV=mpCastFx;mpCastFx=function(r,d){if(!d||MPOLD.has(d.sk)||!SKBY[d.sk]){const v0=SFXV;if(P)SFXV=Math.max(.15,1-hyp(r.x-P.x,r.y-P.y)/MPSEE);try{return _mpCastFxV(r,d)}finally{SFXV=v0}}
   if(r.floor!==G.floor||typeof G.floor!=='number'||hyp(r.x-P.x,r.y-P.y)>MPSEE)return;r.face=d.a||0;r._el=d.e||(r.eq&&r.eq.weapon&&r.eq.weapon.elem)||(d.sk.startsWith('m_')?'fire':null);
   visRun(r,()=>{P.face=d.a||0;castExt(d.sk,d.l||1,d.a||0,d.tx??r.x,d.ty??r.y)});if(ANK[d.sk]){r.anK=d.sk;r.anS=G.t}};

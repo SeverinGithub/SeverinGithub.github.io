@@ -37,4 +37,11 @@ Haupt-Handler: `addEventListener('keydown',…)` bei Zeile ~1500, weitere kleine
 - **Großer Knopf rechts = Ausweichen** (Rolle in Stick-Richtung, `data-t="dash"`, ⟲). **Kleiner Knopf links neben dem Stick = Angriff** (`#tvdash` trägt jetzt `data-t="atk"`, ⚔ „Angriff“, gebunden mit `bindPad`; gedrückt halten greift weiter an).
 - Achtung, Regressionsgefahr: Diese Belegung wurde schon zweimal vertauscht (`bf4b7be` → `07af7f4` → Nutzer meldete „hat sich wieder vertauscht“ → `79220d1`). Bei Änderungen an `tvCluster`/`bindPad` immer prüfen. `bindPad`-`up` entfernt `.on` auch vom Element selbst.
 
+## Mittlere Maustaste als zweiter Grundangriff (2026-11-10, HTML-Fassung)
+Wunsch: „mittlere Mausrad soll die Standardattacke zusätzlich sein, Linksklick bleibt.“
+- `190-input.js`: Taste 1 setzt `mouse.mid`. Sie läuft nie zu einem Punkt: ohne Gegner unter dem Zeiger schlägt der Held auf der Stelle zum Mauszeiger (wie Shift+Klick), mit Gegner unter dem Zeiger wird der zum Ziel (hingehen und schlagen). Gehalten wird weiter geschlagen; fällt das Ziel, geht es auf der Stelle weiter.
+- `200-update.js`: Bedingung `(P.standAtk!=null&&mouse.down)||(mouse.mid&&!P.target)`; das Ziel bleibt, solange die Taste gehalten wird.
+- `preventDefault` verhindert das Auto-Scrollen des Browsers; `blur` und der Zustand „am Boden“ im Multiplayer lösen die Taste.
+- Steht in der Steuerungsübersicht (`440-menus.js`). Linksklick und Touch unverändert.
+
 Zurück zu [[Start]].

@@ -7,6 +7,7 @@ Diese Regeln hat der Nutzer im Lauf der Sessions festgelegt. Sie gelten weiter.
 
 ## Browser-Fassung abgeschlossen (2026-11-04)
 - Die fertige Browser-Fassung liegt eingefroren in `schwarzer-turm-browser/` im Repo-Stamm (`index.html`, `music/`, `sfx/`, README), auf GitHub Pages unter `/schwarzer-turm-browser/`. **Nie anfassen**, sie bekommt keine Updates mehr – Wunsch des Nutzers: das Browser-Spiel für immer behalten.
+- **Seit 2026-11-10** wird auf Wunsch des Nutzers auch die HTML-Fassung in `schwarzer-turm/src/` wieder weitergeschrieben (live unter `/schwarzer-turm/`); die eingefrorene Kopie bleibt unberührt. Achtung: die Godot-Exportwerkzeuge lesen aus `src/`, die Spiellogik in Godot zieht aber nicht von selbst nach. Der folgende Satz ist damit überholt:
 - Weiterentwickelt wird nur die Godot-Fassung (`godot/`, siehe [[Godot-Umstieg]]). `src/` bleibt als Vorlage für die Übersetzung und für den Export; Änderungen dort nur, wenn der Export sie braucht.
 - Das Turm-Wiki liest seine Daten und Bilder seitdem aus der eingefrorenen Kopie.
 

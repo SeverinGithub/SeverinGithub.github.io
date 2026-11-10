@@ -49,6 +49,15 @@ Wunsch des Nutzers (2026-11-02): Die Klassen sollen sich deutlich unterscheiden 
 - Armbrust: liegt auf der zweiten Hand; nach dem Schuss zieht diese Hand die Sehne wieder zurück (`XRL`), bis der Bolzen bei `sp=.88` wieder liegt.
 - **Gegner mit Bogen** (`archEnemy`): Knochenschützen (alle Elementvarianten) und die ausgerüsteten Schützen der Totenlande (Langbogen, Armbrust) benutzen dieselbe Haltung während ihrer Ausholzeit `e.charge` (`bowDraw(1-charge/wind,1)`), danach 0,6 s Nachschwingen (`e.relT` aus einem `fireProj`-Wrapper). Das Leuchten hat die Farbe ihres Elements (Feuer, Frost, Gift). In Ruhe hängt der Bogen in der Hand. Spannen und Schuss hört man nur in der Nähe (`bowSfx`, bis 12 Schritte, leiser mit der Entfernung).
 
+## Jägerin: Kreuzschnitt als schwerer Schlag mit Krit-Stapeln (2026-11-10, nur HTML-Fassung)
+Wunsch: Fertigkeit 3 soll proportional stärker sein als Fertigkeit 1 und beim Treffen die Krit-Chance erhöhen, aber nur für sich selbst („wenn man sie spammt“).
+- Schaden `2.6+l*.26` statt `1.5+l*.14`: auf jeder Stufe das 1,3-Fache eines ganzen Klingenwirbels (4 × `.5+l*.05`). Blutung und Abklingzeit (2 s) unverändert.
+- Jeder Kreuzschnitt, der mindestens einen Gegner trifft, gibt einen Stapel: `P.crossN` (höchstens `XCRN`=5), `P.crossT`=4 s, bei jedem Treffer aufgefrischt; läuft die Zeit ab, beginnt es wieder bei null. Je Stapel `XCR1`=10 % Krit-Chance, also bis +50 %, über der Grenze von 60 % aus der Ausrüstung.
+- Der Bonus gilt nur für den Kreuzschnitt selbst: `d_cross` setzt `XCRIT` nur für die Dauer seines `hitArc`, `weaponHit` (`170-combat.js`) zählt es zur Krit-Chance. Grundangriff und andere Fertigkeiten bleiben ohne.
+- Anzeige: „Krit +30%“ über dem Kopf, dazu das Kreuzschnitt-Symbol mit Restzeit in der Buff-Leiste (`BUFFS`).
+- Geprüft mit festem Würfel: Krit ab dem dritten Schnitt bei 11,7 % Grundchance, 61 % bei vollen Stapeln, Klingenwirbel und Grundangriff unverändert.
+- Godot (`skills.gd`, `_d_cross`) hat die alten Werte.
+
 ## Jägerin: Schatten nach dem Schattenschritt (2026-11-03)
 - `dash` setzt zusätzlich `P.veilT=min(3, 2+0,1·Stufe)`. Solange er läuft, verlieren normale Gegner weiter als 1,4 Schritte das Ziel (`updEnemy` in `200-update.js`: `aggro=false`, Schuss-Aufladung abgebrochen, „?“ über dem Kopf). Bosse lassen sich nicht täuschen.
 - Grundangriff (`startAttack`) und jede andere Fertigkeit (`castSkill`) beenden den Schatten – der erste Schlag aus dem Schatten trifft mit dem Krit-Bonus.

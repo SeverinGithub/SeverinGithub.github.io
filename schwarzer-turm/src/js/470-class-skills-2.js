@@ -107,7 +107,7 @@ function updForge(dt){if(!P||!G.map||G.state==='title')return;forgeTick();skMigr
 const _hitEnemyK=hitEnemy;hitEnemy=function(e,dmg,o={}){if(P&&P.oathT>0&&!o.ally&&dmg>0&&!e.dead&&UNDEAD.has(e.type)){dmg*=1+P.oathB/100;P.hp=Math.min(P.d.life,P.hp+P.d.life*.01);if(Math.random()<.4)sparks(e.x,e.y,.8,0,4,['#fff0a8','#ffd88a'],3,3)}return _hitEnemyK(e,dmg,o)};
 const _hurtPlayerS=hurtPlayer;hurtPlayer=function(dmg,el,src){if(P&&P.oathT>0)dmg*=.85;return _hurtPlayerS(dmg,el,src)};
 // running buffs, small and above the belt
-const BUFFS=[['cryT','cry','Wut'],['atemT','atem','Zweiter Atem'],['oathT','schwur','Heiliger Schwur'],['fuseT','m_fuse','Verschmelzung'],['venomT','venom','Giftklinge'],['shadowT','dash','Schattenschritt']];
+const BUFFS=[['cryT','cry','Wut'],['atemT','atem','Zweiter Atem'],['oathT','schwur','Heiliger Schwur'],['fuseT','m_fuse','Verschmelzung'],['venomT','venom','Giftklinge'],['shadowT','dash','Schattenschritt'],['crossT','d_cross','Kreuzschnitt: mehr kritische Treffer']];
 function buffHud(){let el=$('buffs');if(!el){document.body.insertAdjacentHTML('beforeend','<div id="buffs"></div>');el=$('buffs')}
   const on=G.state==='play'?BUFFS.filter(([k])=>P[k]>0):[],key=on.map(([k])=>k+Math.ceil(P[k])).join();if(el.dataset.k===key)return;el.dataset.k=key;
   el.innerHTML=on.map(([k,ic,n])=>`<span title="${n}">${SKIC[ic]?`<img class="px" src="${SKIC[ic]}" alt="">`:''}<b>${Math.ceil(P[k])}</b></span>`).join('')}

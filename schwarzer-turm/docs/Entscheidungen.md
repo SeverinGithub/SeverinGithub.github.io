@@ -60,6 +60,8 @@ Was entschieden wurde und warum, neueste zuerst.
 | 2026-11-09 | Godot: die WebAudio-Klänge des Browsers werden mit `tools/godot-sounds.mjs` als WAV vorgerechnet, nicht in Godot zur Laufzeit erzeugt | So klingen sie wie im Browser, kosten keine Rechenzeit und laufen gleich auf Web, iPad und PC ([[Godot-Umstieg]]) |
 | 2026-11-10 | Godot: das Augenglühen der Arena-Statue sitzt im Visierschlitz, nicht wie im Browser 18 Pixel tiefer | `SPR.colEyes` war im Browser verrechnet (−24 statt −42), das Glühen lag am Kinn; in Godot gleich richtig gesetzt ([[Godot-Umstieg]]) |
 | 2026-11-09 | Godot-Web: Musik nicht im Paket, sondern aus `/schwarzer-turm/music/` nachgeladen | Mit Musik wäre `index.pck` über 110 MB, GitHub nimmt höchstens 100 MB je Datei; die Dateien liegen dort ohnehin schon ([[Godot-Umstieg]]) |
+| 2026-11-10 | Die HTML-Fassung in `schwarzer-turm/src/` wird wieder weitergeschrieben, die Kopie in `schwarzer-turm-browser/` bleibt eingefroren | Wunsch des Nutzers; Godot zieht Logikänderungen nicht von selbst nach ([[Arbeitsweise]]) |
+| 2026-11-10 | Kreuzschnitt der Jägerin: 1,3 × Klingenwirbel, Krit-Stapel (+10 % je Treffer, bis 5, 4 s) nur für den Kreuzschnitt selbst | Nutzer wählte „nur Kreuzschnitt“ und „stapelnd bis +50 %“ ([[Klassen]]) |
 | laufend | Push nur nach „Ja, live schalten“ | Standing rule, siehe [[Arbeitsweise]] |
 
 Zurück zu [[Start]].

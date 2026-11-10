@@ -36,8 +36,10 @@ function hitEnemy(e,dmg,o={}){
   if(o.kb&&!e.boss){const k=o.kb*16/(e.scale||1);e.kvx=(e.kvx||0)+Math.cos(a)*k;e.kvy=(e.kvy||0)+Math.sin(a)*k}
   gore(e.x,e.y,a,o.crit?11:5,goreOf(e),.8*(e.scale||1));
   if(e.hp<=0)killEnemy(e,a)}
+// extra crit chance that only the blow being struck right now enjoys (the cross cut's stacks)
+let XCRIT=0;const XCR1=10,XCRN=5;
 function weaponHit(e,mult=1){
-  const d=P.d;let dmg=rnd(d.dmin,d.dmax)*mult+d.ele;const crit=Math.random()*100<d.crit+(P.shadowT>0?P.shadowB:0);if(crit)dmg*=1.9;
+  const d=P.d;let dmg=rnd(d.dmin,d.dmax)*mult+d.ele;const crit=Math.random()*100<d.crit+(P.shadowT>0?P.shadowB:0)+XCRIT;if(crit)dmg*=1.9;
   const a=Math.atan2(e.y-P.y,e.x-P.x),hx=e.x-Math.cos(a)*e.r*.6,hy=e.y-Math.sin(a)*e.r*.6,z=.8*(e.scale||1);
   sparks(hx,hy,z,a,crit?16:8,d.ele>0?(d.cold>0?['#ffffff','#c8e4ff','#6ad0ff']:['#ffffff','#ffc070','#ff9a30']):['#ffffff','#fff0c0','#ffc070'],crit?8:6);
   flash(hx,hy,z,crit?40:22,crit?'255,220,120':'255,235,200',crit?.18:.11);hitstop(crit?.1:.05);kick(a,crit?4.5:2.2);if(crit)G.shake=Math.max(G.shake,4);

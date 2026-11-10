@@ -1,6 +1,6 @@
 /* ---------- menus: title, pause, settings, controls ---------- */
 const KEYS_HTML=`<div class="keys">
-  <b>Linksklick</b><span>Gehen, angreifen, aufheben, benutzen</span><b>Shift + Klick</b><span>Angriff auf der Stelle</span>
+  <b>Linksklick</b><span>Gehen, angreifen, aufheben, benutzen</span><b>Shift + Klick</b><span>Angriff auf der Stelle</span><b>Mittlere Maustaste</b><span>Grundangriff zum Mauszeiger, ohne zu gehen</span>
   <b>Rechtsklick</b><span>Gewählte Fertigkeit wirken</span><b>1 – 6</b><span>Fertigkeit wirken und auswählen</span>
   <b>Leertaste</b><span>Ausweichrolle (kostet Ausdauer)</span><b>F</b><span>Heilflakon</span><b>Y · X</b><span>Heiltrank · Manatrank</span>
   <b>C · I · K · J · P</b><span>Charakter · Inventar · Fertigkeiten · Sammlung · Talentbaum</span><b>L · M</b><span>Chronik der Quests · große Karte</span><b>Tab</b><span>Namen am Boden ein/aus</span><b>V</b><span>Minikarte ein/aus</span><b>N</b><span>Ton aus/an</span><b>R</b><span>Grafik neu laden, falls das Bild hängt</span><b>Esc</b><span>Pause und Menü</span></div>`;

@@ -48,4 +48,13 @@ Statt alles nachzubauen, läuft die **echte** Fertigkeit (`castExt(id,l,ang,tx,t
 - **Entfernungsdämpfung:** `SFXV` (0,15…1) in `120-audio.js`; `sfxOut()` schickt Klänge durch einen leiseren Gain-Knoten. Genutzt von `sample`, `sfx` und `syn` (`690-sounds-4.js`). `visRun` setzt `SFXV` nach Entfernung (ersetzt die alte `sample`-Hülle), der alte `MPOLD`-Pfad in `mpCastFx` ebenfalls (verzögerte Teile dort bleiben ungedämpft).
 - Nur mit simuliertem Mitspieler geprüft.
 
+## Nachwirkungen von Fertigkeiten und Krit-Stapel (2026-11-10, HTML-Fassung)
+Wunsch: „im Multiplayer soll der Effekt einer Fertigkeit auch übertragen werden.“
+- **Lücke vorher:** Traf ein Gast einen Spiegel-Gegner, kam beim Host nur der Schlag an (`h` mit Schaden, Krit, Rückstoß) und das Gift der Giftklinge (`ven`). Blutung (Kreuzschnitt), Gift aus Zaubern und Pfeilen und die Verlangsamung aus `wHit` blieben am Spiegel hängen und taten nichts.
+- **Jetzt:** `mpMirTick` meldet jede neue oder aufgefrischte Wunde am Spiegel (`e.dotT` gestiegen) als `{t:'h',d:0,o:{ven}}`; `wHit` schickt die Verlangsamung als `{t:'h',d:0,o:{slow}}`. `mpGuestHit` nimmt Pakete ohne Schaden und Rückstoß ohne Schlag an (keine Zahl, kein Blitzen, Gegner wird aufmerksam).
+- **Sichtbar für alle:** Der Schnappschuss trägt Bit 16 = „blutet/vergiftet“; Gäste sehen dann die grünen Tropfen am Spiegel (`e.dotV`).
+- **Krit-Stapel des Kreuzschnitts am Mitspieler:** `visRun` führt pro Mitspieler `r.crossN`/`r.crossU`, getrennt von den eigenen Stapeln; über dem Mitspieler steht „Krit +30%“.
+- **Behobener alter Fehler:** In `visRun` wurden `S.st(…)`/`S.si(…)` (das gesicherte `setTimeout`/`setInterval`) als Methode von `S` aufgerufen – Chrome wirft dabei „Illegal invocation“, der Fehler wurde verschluckt. Alle verzögerten Teile der Fertigkeiten eines Mitspielers (`later(…)`, Klingentanz, Lanzenwall, Sprunglandung) fehlten deshalb. Jetzt `S.st.call(window,…)`.
+- Geprüft mit simulierten Paketen und einem Fake-Mitspieler, nicht mit zwei echten Spielern. Direkt gesetzte Verlangsamungen außerhalb von `wHit` (Frostpfeil des Holzstabs in `890`) werden weiter nicht übertragen.
+
 Zurück zu [[Start]].

@@ -175,13 +175,15 @@ function mpHostSync(dt){const L=NET.hostSync=mpSyncList();NET.snapT-=dt;const m=
   const ts=Math.round(performance.now());
   for(const r of L){const c=r.conn,nw=[],snap=[],seen=new Set();c.wasSync=1;
     for(const e of m.enemies){if(e.dead||(e.dummy||e.wall))continue;if(e.nid==null)e.nid=++NET.nid;if(hyp(e.x-r.px.x,e.y-r.px.y)>(c.known.has(e.nid)?MPSEE+6:MPSEE))continue;seen.add(e.nid);if(!c.known.has(e.nid)){c.known.add(e.nid);nw.push([e.nid,mpDesc(e)])}
-      snap.push([e.nid,Math.round(e.x*100)/100,Math.round(e.y*100)/100,Math.round((e.face||0)*100)/100,Math.round(e.hp),(e.aggro?1:0)|(e.charge>0?2:0)|(e.lungeT>0?4:0)|(e.slow>0?8:0),Math.round(e.max)])}
+      snap.push([e.nid,Math.round(e.x*100)/100,Math.round(e.y*100)/100,Math.round((e.face||0)*100)/100,Math.round(e.hp),(e.aggro?1:0)|(e.charge>0?2:0)|(e.lungeT>0?4:0)|(e.slow>0?8:0)|(e.dotT>0?16:0),Math.round(e.max)])}
     // what walked out of sight or was unloaded leaves the friend's screen too
     const gone=[];for(const n of c.known)if(!seen.has(n))gone.push(n);for(const n of gone)c.known.delete(n);
     if(gone.length)mpTo(c,{t:'ex',l:gone});if(nw.length)mpTo(c,{t:'es',fl:G.floor,ts,l:nw});mpTo(c,{t:'e',fl:G.floor,ts,l:snap},true)}}
 // host: a friend's blow lands on the real monster
 function mpGuestHit(d,c){const r=NET.others.get(c.mpId);if(!r||r.floor!==G.floor)return;const e=G.map.enemies.find(x=>x.nid===d.n&&!x.dead);if(!e)return;const o=d.o||{};
   if(o.ven){e.dotT=3;e.dotD=Math.max(e.dotD||0,o.ven)}
+  // a skill's after-effect alone (a bleeding wound, a chill): no blow, no number, but the monster knows who did it
+  if(!d.d&&!o.kb){if(o.slow)e.slow=Math.max(e.slow||0,o.slow);e.aggro=true;return}
   NET.hitBy=r.id;try{hitEnemy(e,d.d,{crit:!!o.crit,slow:o.slow||0,kb:o.kb||0,from:o.from!=null?o.from:Math.atan2(e.y-r.y,e.x-r.x),col:o.col||'#9ad0ff',ally:true})}finally{NET.hitBy=null}}
 // host: every death is announced to the friends who saw that monster
 const _killEnemyMP=killEnemy;killEnemy=function(e,a){const was=e.dead;_killEnemyMP(e,a);if(NET.role!=='host'||was||e.nid==null||e.mir)return;
@@ -209,10 +211,13 @@ function mpSnap(d){if(d.fl!==G.floor||!mpHostHere())return;const ts=d.ts!=null?d
     mpPush(e.buf,{t:ts,x,y});e.tx=x;e.ty=y;e.face=f;
     // a friend's blows show here as they land on the host
     const lost=e.hp-hp;if(lost>.5&&now-(e.myT||0)>400){e.flash=.1;e.hitT=.18;e.oT=now;e.oAcc=(e.oAcc||0)+lost;if(now-(e.oNT||0)>180){e.oNT=now;if(CFG.numbers)ftext(e.x,e.y,Math.round(e.oAcc)+'','#9ad0ff',false);e.oAcc=0}}
-    e.hp=now-(e.myT||0)<400?Math.min(e.hp,hp):hp;if(mx)e.max=mx;e.aggro=!!(fl&1);e.charge=fl&2?.2:0;if(fl&4)e.lungeT=Math.max(e.lungeT||0,.1);e.slow=fl&8?.2:0;e.seenT=now}
+    e.hp=now-(e.myT||0)<400?Math.min(e.hp,hp):hp;if(mx)e.max=mx;e.aggro=!!(fl&1);e.charge=fl&2?.2:0;if(fl&4)e.lungeT=Math.max(e.lungeT||0,.1);e.slow=fl&8?.2:0;e.dotV=fl&16?.3:0;e.seenT=now}
   if(ask)mpSend({t:'rq',l:ask})}
 function mpMirTick(e,dt){const q=mpAt(e.buf||[],mpNow(NET.hc)-MPLAG),ox=e.ix,oy=e.iy;if(q){e.ix=q.x;e.iy=q.y}e.x=e.ix;e.y=e.iy;
-  if(hyp(e.ix-ox,e.iy-oy)>dt*.3)e.anim+=dt*(e.spd||2)*.6;else e.anim+=dt*.3;e.flash=Math.max(0,(e.flash||0)-dt);e.hitT=Math.max(0,(e.hitT||0)-dt);e.lungeT=Math.max(0,(e.lungeT||0)-dt);e.kvx=e.kvy=0}
+  if(hyp(e.ix-ox,e.iy-oy)>dt*.3)e.anim+=dt*(e.spd||2)*.6;else e.anim+=dt*.3;e.flash=Math.max(0,(e.flash||0)-dt);e.hitT=Math.max(0,(e.hitT||0)-dt);e.lungeT=Math.max(0,(e.lungeT||0)-dt);e.kvx=e.kvy=0;
+  // wounds and poison a skill of yours left on the mirror are settled on the host; whatever bleeds there, from anyone, drips here too
+  if(e.dotT>0){if(e.dotT>(e._dotL||0)&&e.dotD>0)mpSend({t:'h',n:e.nid,d:0,o:{ven:Math.round(e.dotD*10)/10}});e.dotT-=dt;e._dotL=e.dotT}else e._dotL=0;
+  if((e.dotV>0||e.dotT>0)&&Math.random()<dt*6)fxp({k:'mote',x:e.x+rnd(-.2,.2),y:e.y+rnd(-.2,.2),z:.8,vx:0,vy:0,vz:.5,life:.5,col:'#9ae050',s:1,g:0})}
 // guest: the host says it fell. Whoever stood close gets the kill: experience, glut, quests and their own loot
 function mpMirrorDies(d){const e=NET.mir.get(d.n);if(!e||e.dead)return;NET.mir.delete(d.n);
   if(P&&!P.dead&&hyp(e.x-P.x,e.y-P.y)<32){delete e.mir;try{killEnemy(e,d.a)}catch(er){e.dead=true;e.dieT=0}}else{e.dead=true;e.dieT=0;e.fallA=d.a}}
@@ -303,8 +308,8 @@ function mpRevived(by){if(!P||!(P.down>0))return;const r=NET.others.get(by);P.do
 // while you lie there the world goes on: the monsters move, you cannot
 const _updateMP=update;update=function(dt){if(!P||!(P.down>0)){_updateMP(dt);if(P&&P.dead&&mpOn())mpTick(dt);return}
   P.down-=dt;if(P.down<=0||!mpAllyNear()){P.down=0;P.dead=false;_dieMP();_updateMP(dt);return}
-  const md=mouse.down;mouse.down=false;P.dead=false;P.hp=1;P.iframe=Math.max(P.iframe,.2);P.path=[];P.target=null;P.interact=null;P.pickup=null;P.standAtk=null;P.atkT=0;
-  try{_updateMP(dt)}finally{P.hp=0;P.dead=true;mouse.down=md;G.deathT=1e9}};
+  const md=mouse.down,mm=mouse.mid;mouse.down=mouse.mid=false;P.dead=false;P.hp=1;P.iframe=Math.max(P.iframe,.2);P.path=[];P.target=null;P.interact=null;P.pickup=null;P.standAtk=null;P.atkT=0;
+  try{_updateMP(dt)}finally{P.hp=0;P.dead=true;mouse.down=md;mouse.mid=mm;G.deathT=1e9}};
 // a fallen hero: a slow red pulse, the time left, and the friend's hand on the shoulder
 const _drawPlayerMP=drawPlayer;drawPlayer=function(){_drawPlayerMP();if(!P||!(P.down>0))return;const[sx,sy]=iso(P.x,P.y);
   const pr=P.mpRemote?P.rv/MPREV:Math.max(0,...[...NET.others.values()].filter(r=>r.rvi===NET.me).map(r=>r.rvp||0),0),pul=.5+Math.sin(G.t*6)*.25;

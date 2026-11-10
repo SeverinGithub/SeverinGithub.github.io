@@ -42,15 +42,15 @@ function visProxy(r){if(!r._px||Object.getPrototypeOf(r._px)!==P){r._px=Object.c
   const el=r._el||null,w=el?{cls:'staff',elem:el}:null;px.eq=Object.assign({},P.eq,{weapon:w});px.d=r._pd;px.d.okS=new Set(w?[w]:[]);
   px.dead=false;px.leap=null;px.path=[];px.target=null;px.interact=null;return px}
 function visRun(r,fn){if(VIS)return fn();if(!P||!G.map)return;const P0=P,px=visProxy(r),far=hyp(r.x-P0.x,r.y-P0.y),vol=Math.max(.15,1-far/MPSEE);
-  px.x=r.x;px.y=r.y;px.fuseT=Math.max(0,(r.fuseU||0)-G.t);px.whirl=0;px.atemT=px.oathT=0;
+  px.x=r.x;px.y=r.y;px.fuseT=Math.max(0,(r.fuseU||0)-G.t);px.whirl=0;px.atemT=px.oathT=0;px.crossT=Math.max(0,(r.crossU||0)-G.t);px.crossN=r.crossN||0;
   const S={hitEnemy,weaponHit,wHit,eHit,killEnemy,leapTo,hitstop,kick,st:window.setTimeout,si:window.setInterval,v:SFXV},mL=[G.mLast,G.mImpact,G.mJumpFrom],sh0=G.shake,
     n0=G.proj.length,z0=G.zones.length,r0=G.rings.length;
   const wrap=f=>function(){const a=arguments;return visRun(r,()=>f.apply(null,a))};
   P=px;VIS=1;hitEnemy=weaponHit=wHit=eHit=killEnemy=hitstop=kick=()=>{};
   SFXV=vol;
   leapTo=(tx,ty,maxD,dur,l,f)=>{const a=Math.atan2(ty-px.y,tx-px.x),dd=Math.min(maxD,Math.max(1.5,hyp(tx-px.x,ty-px.y)));let x=px.x+Math.cos(a)*dd,y=px.y+Math.sin(a)*dd;if(!free(x,y,.3))[x,y]=nearWalk(x,y);
-    px.face=a;smoke(px.x,px.y,4,'rgba(90,78,62,',5,.3);S.st(()=>visRun(r,()=>{px.x=x;px.y=y;slamFx(x,y,1.2,false);if(f)f()}),dur*1000)};
-  window.setTimeout=(f,ms,...a)=>S.st(typeof f==='function'?wrap(()=>f(...a)):f,ms);window.setInterval=(f,ms,...a)=>S.si(typeof f==='function'?wrap(()=>f(...a)):f,ms);
+    px.face=a;smoke(px.x,px.y,4,'rgba(90,78,62,',5,.3);S.st.call(window,()=>visRun(r,()=>{px.x=x;px.y=y;slamFx(x,y,1.2,false);if(f)f()}),dur*1000)};
+  window.setTimeout=(f,ms,...a)=>S.st.call(window,typeof f==='function'?wrap(()=>f(...a)):f,ms);window.setInterval=(f,ms,...a)=>S.si.call(window,typeof f==='function'?wrap(()=>f(...a)):f,ms);
   G.mLast=r._mL;G.mImpact=r._mI;G.mJumpFrom=r._mJ;
   try{fn()}catch(err){}finally{P=P0;VIS=0;({hitEnemy,weaponHit,wHit,eHit,killEnemy,leapTo,hitstop,kick}=S);SFXV=S.v;window.setTimeout=S.st;window.setInterval=S.si;
     r._mL=G.mLast;r._mI=G.mImpact;r._mJ=G.mJumpFrom;[G.mLast,G.mImpact,G.mJumpFrom]=mL;G.shake=sh0+Math.max(0,G.shake-sh0)*vol*.5;
@@ -60,7 +60,9 @@ function visRun(r,fn){if(VIS)return fn();if(!P||!G.map)return;const P0=P,px=visP
     // a wall of blades and a dash stay on the friend for as long as they would last on you
     if(Object.hasOwn(px,'ward')){if(px.ward>0)r.wardU=G.t+(px.wardT||8);delete px.ward;delete px.wardT;delete px.wardMax}
     if(Object.hasOwn(px,'dash')){if(px.dash){r.dashA=px.dash.ang;r.dashU=G.t+px.dash.left/16}delete px.dash}
-    if(px.whirl>0)r.whirl=Math.max(r.whirl||0,px.whirl);if(px.fuseT>0)r.fuseU=G.t+px.fuseT;if(px.atemT>0)r.atemU=G.t+px.atemT;if(px.oathT>0)r.oathU=G.t+px.oathT}}
+    if(px.whirl>0)r.whirl=Math.max(r.whirl||0,px.whirl);if(px.fuseT>0)r.fuseU=G.t+px.fuseT;if(px.atemT>0)r.atemU=G.t+px.atemT;if(px.oathT>0)r.oathU=G.t+px.oathT;
+    // the friend's cross cut keeps its own count of sharpened cuts, apart from yours
+    if(px.crossT>=4){r.crossU=G.t+4;r.crossN=px.crossN}}}
 const _mpCastFxV=mpCastFx;mpCastFx=function(r,d){if(!d||MPOLD.has(d.sk)||!SKBY[d.sk]){const v0=SFXV;if(P)SFXV=Math.max(.15,1-hyp(r.x-P.x,r.y-P.y)/MPSEE);try{return _mpCastFxV(r,d)}finally{SFXV=v0}}
   if(r.floor!==G.floor||typeof G.floor!=='number'||hyp(r.x-P.x,r.y-P.y)>MPSEE)return;r.face=d.a||0;r._el=d.e||(r.eq&&r.eq.weapon&&r.eq.weapon.elem)||(d.sk.startsWith('m_')?'fire':null);
   visRun(r,()=>{P.face=d.a||0;castExt(d.sk,d.l||1,d.a||0,d.tx??r.x,d.ty??r.y)});if(ANK[d.sk]){r.anK=d.sk;r.anS=G.t}};
