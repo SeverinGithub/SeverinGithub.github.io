@@ -10,7 +10,7 @@ Live: https://severingithub.github.io/english-fox/
 ```
 npm install
 npm run dev        # http://localhost:5173
-npm test           # matcher + check of all answer keys
+npm test           # matcher, answer keys, streak/freeze/badges
 npm run build      # -> dist/ (built automatically by GitHub Actions on push)
 ```
 
@@ -51,8 +51,16 @@ The API key exists only in Supabase. The function uses server-side refusal fallb
 - [ ] Field grows when you write down to the bottom edge
 - [ ] Standalone mode after "Zum Home-Bildschirm", app starts offline
 
+## Gamification
+- **Stars, Speed (XP), trophies, streak** – rules in `src/config/scoring.ts`.
+- **Safety Car (streak freeze):** costs 25 trophies in Profil, max. 2 in stock. Missed days are bridged automatically if there are enough.
+- **Badges:** `src/config/achievements.ts`, derived from progress (each new badge +10 trophies). Shown in Profil and on the result screen.
+
+## Offline queue (AI checking)
+If a handwritten exercise cannot reach the AI (offline, timeout, server error), it waits in a queue and the lesson goes on.
+The app retries when the device is online again (plus every 30 s, or "Nochmal versuchen"); the feedback for those exercises is shown before the result screen.
+The queue lives only in the running lesson: leaving the lesson drops it (the quit dialog warns).
+
 ## Not built yet (compared with the spec)
 - Supabase Auth with invite codes, admin area (/admin/codes, /users, /progress, /review). Access to the AI is currently protected only by the family code. Progress is stored per device (localStorage).
-- Offline queue for AI checking (if offline: error message, answers are kept).
-- Drag & drop in word order (tapping works), highlighting signal words by drawing over them (tapping works).
-- Achievements, streak freeze, leaderboard (phase 2), Playwright E2E.
+- Leaderboard (phase 2), Playwright E2E.

@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react'
+import { Fragment, useRef, useState, type MouseEvent as ReactMouseEvent, type PointerEvent as ReactPointerEvent, type ReactNode } from 'react'
 import type { Exercise, Item } from '../../../shared/types'
 import { gridColumns } from '../../../shared/fields'
 import { tokenize } from '../../../shared/match'
@@ -20,19 +20,45 @@ function Num({ n }: { n: number }) {
 }
 
 // ---------- gap fill (+ signal words, word box, cards, timeline) ----------
+// Signal words: tap them, or (pen / mouse) draw across several words to mark them in one stroke.
 function GapSentence({ ex, item }: { ex: Exercise; item: Item }) {
-  const { answers, setAnswer, results } = useLesson()
+  const { answers, setAnswer, results, input, fingerDraw } = useLesson()
   const tokens = tokenize(item.text ?? '')
   const sigId = `${item.id}.sig`
   const picked = answers[sigId]?.tokens ?? []
   const sigResult = results?.[sigId]
+  const paint = useRef<{ value: boolean; set: Set<number> } | null>(null)
+  const tapStart = useRef<number | null>(null)
+  const paintTouch = input === 'pen' && fingerDraw
   let gap = 0
   const toggle = (i: number) => {
     if (results) return
     setAnswer(sigId, { tokens: picked.includes(i) ? picked.filter((x) => x !== i) : [...picked, i] })
   }
+  const mark = (i: number) => {
+    const p = paint.current
+    if (!p || p.set.has(i) === p.value) return
+    if (p.value) p.set.add(i); else p.set.delete(i)
+    setAnswer(sigId, { tokens: [...p.set] })
+  }
+  const down = (e: ReactPointerEvent, i: number) => {
+    if (results || e.button > 0) return
+    if (e.pointerType === 'touch' && !paintTouch) { tapStart.current = i; return } // fingers scroll; a tap toggles on release
+    paint.current = { value: !picked.includes(i), set: new Set(picked) }
+    mark(i)
+  }
+  const move = (e: ReactPointerEvent) => {
+    if (!paint.current) return
+    const el = (document.elementFromPoint(e.clientX, e.clientY) as HTMLElement | null)?.closest<HTMLElement>('[data-sig]')
+    if (el && el.dataset.item === item.id) mark(Number(el.dataset.sig))
+  }
+  const up = (i?: number) => {
+    if (tapStart.current !== null && tapStart.current === i) toggle(i)
+    tapStart.current = null
+    paint.current = null
+  }
   return (
-    <span className="sentence">
+    <span className="sentence" onPointerMove={move} onPointerUp={() => up()} onPointerCancel={() => up()}>
       {tokens.map((t, i) => {
         if (t.includes('{}')) {
           const [pre, post] = t.split('{}')
@@ -49,7 +75,18 @@ function GapSentence({ ex, item }: { ex: Exercise; item: Item }) {
           const on = picked.includes(i)
           return (
             <span key={i}>
-              <button type="button" className={`word ${on ? 'word-hl' : ''}`} onClick={() => toggle(i)} aria-pressed={on}>{t}</button>{' '}
+              <button
+                type="button"
+                data-sig={i}
+                data-item={item.id}
+                className={`word ${on ? 'word-hl' : ''} ${input === 'pen' ? 'word-paint' : ''}`}
+                onPointerDown={(e) => down(e, i)}
+                onPointerUp={(e) => { e.stopPropagation(); up(i) }}
+                onClick={(e) => { if (e.detail === 0) toggle(i) }}
+                aria-pressed={on}
+              >
+                {t}
+              </button>{' '}
             </span>
           )
         }
@@ -64,7 +101,7 @@ function GapFill({ ex }: Props) {
   const [used, setUsed] = useState<number[]>([])
   return (
     <div>
-      {ex.signal && <p className="hint">Tippe die Signalwörter an, um sie zu markieren.</p>}
+      {ex.signal && <p className="hint">Markiere die Signalwörter: antippen oder mit dem Stift darüberstreichen.</p>}
       {ex.timeline && (
         <div className="timeline" aria-label="Zeitleiste">
           {ex.timeline.map((k, i) => (
@@ -251,39 +288,113 @@ function Table({ ex }: Props) {
 }
 
 // ---------- word order ----------
-function WordOrder({ ex }: Props) {
+// Tap a chip to add/remove it, or drag it: from the pool into the line, or within the line to reorder.
+interface Drag { src: 'pool' | 'line'; k: number; word: number; sx: number; sy: number; x: number; y: number; on: boolean; at: number | null }
+
+function WordOrderItem({ item, n }: { item: Item; n: number }) {
   const { answers, setAnswer, results } = useLesson()
+  const id = `${item.id}.wo`
+  const order = answers[id]?.order ?? []
+  const r = results?.[id]
+  const words = item.words ?? []
+  const lineRef = useRef<HTMLDivElement>(null)
+  // the drag lives in a ref so fast pointer events never see a stale value; state only re-renders
+  const dragRef = useRef<Drag | null>(null)
+  const [drag, setDragState] = useState<Drag | null>(null)
+  const setDrag = (d: Drag | null) => { dragRef.current = d; setDragState(d) }
+  const locked = !!results
+
+  const rest = (d: Drag) => (d.src === 'line' ? order.filter((_, j) => j !== d.k) : order)
+  // where in the line (without the dragged chip) the pointer would drop
+  const dropIndex = (d: Drag, x: number, y: number): number | null => {
+    const line = lineRef.current
+    if (!line) return null
+    const box = line.getBoundingClientRect()
+    if (x < box.left - 24 || x > box.right + 24 || y < box.top - 28 || y > box.bottom + 28) return null
+    let j = 0
+    for (const el of Array.from(line.querySelectorAll<HTMLElement>('[data-k]'))) {
+      if (d.src === 'line' && Number(el.dataset.k) === d.k) continue
+      const c = el.getBoundingClientRect()
+      if (y < c.top || (y <= c.bottom && x < c.left + c.width / 2)) return j
+      j++
+    }
+    return j
+  }
+
+  const down = (e: ReactPointerEvent, src: Drag['src'], k: number, word: number) => {
+    if (locked || e.button > 0) return
+    e.currentTarget.setPointerCapture(e.pointerId)
+    setDrag({ src, k, word, sx: e.clientX, sy: e.clientY, x: e.clientX, y: e.clientY, on: false, at: null })
+  }
+  const move = (e: ReactPointerEvent) => {
+    const drag = dragRef.current
+    if (!drag) return
+    const on = drag.on || Math.hypot(e.clientX - drag.sx, e.clientY - drag.sy) > 8
+    setDrag({ ...drag, x: e.clientX, y: e.clientY, on, at: on ? dropIndex(drag, e.clientX, e.clientY) : null })
+  }
+  const up = () => {
+    const d = dragRef.current
+    setDrag(null)
+    if (!d) return
+    if (!d.on) return tap(d.src, d.k, d.word) // a plain tap
+    const list = rest(d)
+    if (d.at === null) { if (d.src === 'line') setAnswer(id, { order: list }); return }
+    setAnswer(id, { order: [...list.slice(0, d.at), d.word, ...list.slice(d.at)] })
+  }
+  const tap = (src: Drag['src'], k: number, word: number) => {
+    if (locked) return
+    if (src === 'pool') { if (!order.includes(word)) setAnswer(id, { order: [...order, word] }) }
+    else setAnswer(id, { order: order.filter((_, j) => j !== k) })
+  }
+  const handlers = (src: Drag['src'], k: number, word: number) => ({
+    onPointerDown: (e: ReactPointerEvent) => down(e, src, k, word),
+    onPointerMove: move,
+    onPointerUp: up,
+    onPointerCancel: () => setDrag(null),
+    onClick: (e: ReactMouseEvent) => { if (e.detail === 0) tap(src, k, word) }, // keyboard
+  })
+
+  const lifted = drag?.on && drag.src === 'line' ? drag.k : -1
+  const caretAt = drag?.on ? drag.at : null
+  let j = 0 // position among the chips that stay in the line
+  return (
+    <li className="item item-col">
+      <div className="row">
+        <Num n={n + 1} />
+        <div className="chips">
+          {words.map((w, i) => (
+            <button key={i} type="button" className={`chip chip-drag ${order.includes(i) ? 'chip-used' : ''}`} disabled={locked || order.includes(i)} {...handlers('pool', i, i)}>
+              {w}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div ref={lineRef} className={`wo-line ${verdictClass(r)} ${caretAt !== null ? 'wo-target' : ''}`}>
+        {order.length === 0 && caretAt === null && <span className="muted">Tippe die Wörter an oder zieh sie hierher …</span>}
+        {order.map((wi, k) => {
+          const caret = k !== lifted && caretAt === j
+          if (k !== lifted) j++
+          return (
+            <Fragment key={k}>
+              {caret && <span className="wo-caret" aria-hidden />}
+              <button type="button" data-k={k} className={`chip chip-on chip-drag ${k === lifted ? 'chip-lifted' : ''}`} disabled={locked} {...handlers('line', k, wi)}>
+                {words[wi]}
+              </button>
+            </Fragment>
+          )
+        })}
+        {caretAt !== null && caretAt >= j && <span className="wo-caret" aria-hidden />}
+      </div>
+      {drag?.on && <span className="chip chip-on chip-ghost" style={{ left: drag.x, top: drag.y }} aria-hidden>{words[drag.word]}</span>}
+      {r && <LineFeedback id={id} r={r} />}
+    </li>
+  )
+}
+
+function WordOrder({ ex }: Props) {
   return (
     <ol className="items">
-      {ex.items.map((item, n) => {
-        const id = `${item.id}.wo`
-        const order = answers[id]?.order ?? []
-        const r = results?.[id]
-        const words = item.words ?? []
-        return (
-          <li key={item.id} className="item item-col">
-            <div className="row">
-              <Num n={n + 1} />
-              <div className="chips">
-                {words.map((w, i) => (
-                  <button key={i} type="button" className={`chip ${order.includes(i) ? 'chip-used' : ''}`} disabled={!!results || order.includes(i)} onClick={() => setAnswer(id, { order: [...order, i] })}>
-                    {w}
-                  </button>
-                ))}
-              </div>
-            </div>
-            <div className={`wo-line ${verdictClass(r)}`}>
-              {order.length === 0 && <span className="muted">Tippe die Wörter in der richtigen Reihenfolge an …</span>}
-              {order.map((i, k) => (
-                <button key={k} type="button" className="chip chip-on" disabled={!!results} onClick={() => setAnswer(id, { order: order.filter((_, j) => j !== k) })}>
-                  {words[i]}
-                </button>
-              ))}
-            </div>
-            {r && <LineFeedback id={id} r={r} />}
-          </li>
-        )
-      })}
+      {ex.items.map((item, n) => <WordOrderItem key={item.id} item={item} n={n} />)}
     </ol>
   )
 }

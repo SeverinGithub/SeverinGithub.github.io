@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import confetti from 'canvas-confetti'
 import type { Answers, FieldAnswer, Lesson, Results, SolutionMap } from '../../shared/types'
 import { fieldIds, itemsOf } from '../../shared/fields'
@@ -8,15 +8,16 @@ import { exerciseRegistry } from '../components/exercises/Exercises'
 import { Mascot } from '../components/Mascot'
 import { MerkboxCard } from '../components/MerkboxCard'
 import { Stars } from '../components/Stars'
-import { evaluateInk, evaluateLocal, exerciseScore, isAnswered } from '../lib/evaluate'
+import { EvalError, evaluateInk, evaluateLocal, exerciseScore, isAnswered } from '../lib/evaluate'
 import { playSound } from '../lib/sound'
 import { scoring, starsFor } from '../config/scoring'
 import { theme } from '../config/theme'
 import { brand, foxGenitive } from '../config/brand'
 import { useStore, type Mistake } from '../store'
+import { badgeById } from '../config/achievements'
 import { go } from '../router'
 
-type Phase = 'intro' | 'exercise' | 'checking' | 'feedback' | 'result'
+type Phase = 'intro' | 'exercise' | 'checking' | 'feedback' | 'waiting' | 'result'
 
 interface Props {
   lesson: Lesson
@@ -37,6 +38,13 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
   const [error, setError] = useState('')
   const [showMerkbox, setShowMerkbox] = useState(false)
   const [summary, setSummary] = useState<Summary | null>(null)
+  // Offline queue: handwritten exercises that could not reach the AI wait here and are checked
+  // as soon as the device is online again; their feedback is shown before the result screen.
+  const [queue, setQueue] = useState<string[]>([])
+  const [later, setLater] = useState<string[]>([])
+  const [reviewing, setReviewing] = useState(false)
+  const [notice, setNotice] = useState('')
+  const retrying = useRef(false)
   const startedAt = useRef(new Date().toISOString())
   const scrollRef = useRef<HTMLDivElement>(null)
 
@@ -65,6 +73,7 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
   // Graded the same way whether everything is filled in or not: empty fields count as wrong and show the solution.
   const submit = async () => {
     setError('')
+    setNotice('')
     const { results: local, ink } = evaluateLocal(lesson, ex, answers, sol)
     let merged = local
     if (ink.length) {
@@ -76,6 +85,14 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
       try {
         merged = { ...local, ...(await evaluateInk(lesson, ex, ink, answers, settings)) }
       } catch (e) {
+        if (e instanceof EvalError && e.retry) {
+          setResults((x) => ({ ...x, ...local }))
+          setQueue((q) => (q.includes(ex.id) ? q : [...q, ex.id]))
+          setLater((l) => (l.includes(ex.id) ? l : [...l, ex.id]))
+          setNotice(`Keine Verbindung – ${brand.foxName} prüft Übung ${idx + 1}, sobald du wieder online bist. Mach einfach weiter!`)
+          next()
+          return
+        }
         setPhase('exercise')
         setError(`${(e as Error).message} Deine Antworten sind gespeichert – versuch es gleich nochmal.`)
         return
@@ -90,14 +107,58 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
   }
 
   const next = () => {
-    if (idx < lesson.exercises.length - 1) {
+    if (!reviewing && idx < lesson.exercises.length - 1) {
       setIdx(idx + 1)
       setPhase('exercise')
       scrollRef.current?.scrollTo({ top: 0 })
       return
     }
-    finish()
+    setPhase('waiting') // the effect below shows late feedback or finishes
   }
+
+  const retryQueue = async () => {
+    if (retrying.current || !queue.length) return
+    retrying.current = true
+    for (const id of queue) {
+      const e = lesson.exercises.find((x) => x.id === id)!
+      const { results: local, ink } = evaluateLocal(lesson, e, answers, sol)
+      try {
+        const got = ink.length ? await evaluateInk(lesson, e, ink, answers, settings) : {}
+        setResults((x) => ({ ...x, ...local, ...got }))
+        setChecked((c) => ({ ...c, [id]: true }))
+        setQueue((q) => q.filter((x) => x !== id))
+        setNotice(`Übung ${lesson.exercises.indexOf(e) + 1} ist jetzt geprüft – die Auswertung siehst du am Ende.`)
+      } catch (err) {
+        setNotice(err instanceof EvalError && err.retry ? 'Immer noch keine Verbindung – ich versuche es weiter.' : `${(err as Error).message}`)
+        break
+      }
+    }
+    retrying.current = false
+  }
+  const retryRef = useRef(retryQueue)
+  retryRef.current = retryQueue
+  useEffect(() => {
+    if (!queue.length) return
+    const on = () => retryRef.current()
+    window.addEventListener('online', on)
+    const t = window.setInterval(on, 30000)
+    return () => { window.removeEventListener('online', on); window.clearInterval(t) }
+  }, [queue.length])
+
+  useEffect(() => {
+    if (phase !== 'waiting') return
+    if (queue.length) { retryRef.current(); return }
+    if (later.length) {
+      setLater((l) => l.slice(1))
+      setReviewing(true)
+      setIdx(lesson.exercises.findIndex((e) => e.id === later[0]))
+      setPhase('feedback')
+      setNotice('')
+      scrollRef.current?.scrollTo({ top: 0 })
+      return
+    }
+    finish()
+  }, [phase, queue.length, later.length]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const finish = () => {
     let total = 0, count = 0, correctItems = 0
@@ -126,19 +187,20 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
     const xp = practice ? 5 + correctItems : scoring.xpPerLesson + scoring.xpStarBonus[stars] + correctItems * scoring.xpPerCorrectItem
     const finishedAt = new Date().toISOString()
     const topTag = Object.entries(tagCount).sort((a, b) => b[1] - a[1])[0]?.[0]
-    finishAttempt(
+    const info = finishAttempt(
       { id: crypto.randomUUID(), lessonId: lesson.id, practice, startedAt: startedAt.current, finishedAt, score, stars, xp, exercises: perEx.map(({ id, score }) => ({ id, score })), tags: Object.keys(tagCount) },
       mistakes,
       practice ? solved : [],
     )
-    setSummary({ score, stars, xp, perEx, mistakes, topTag, minutes: Math.max(1, Math.round((Date.parse(finishedAt) - Date.parse(startedAt.current)) / 60000)) })
+    setSummary({ score, stars, xp, perEx, mistakes, topTag, newBadges: info.newBadges, freezesUsed: info.freezesUsed, minutes: Math.max(1, Math.round((Date.parse(finishedAt) - Date.parse(startedAt.current)) / 60000)) })
     setPhase('result')
     if (stars === 3) setTimeout(() => confetti({ particleCount: 140, spread: 80, origin: { y: 0.4 }, disableForReducedMotion: true }), 900)
     if (settings.sound) playSound(stars >= 2 || practice ? 'win' : 'meh')
   }
 
   const quit = () => {
-    if (phase === 'result' || window.confirm('Lektion wirklich beenden? Dein Fortschritt in dieser Lektion geht verloren.')) go(practice ? '/practice' : '/learn')
+    const waitingNote = queue.length ? ` ${queue.length === 1 ? 'Eine Übung wartet' : `${queue.length} Übungen warten`} noch auf die KI.` : ''
+    if (phase === 'result' || window.confirm(`Lektion wirklich beenden? Dein Fortschritt in dieser Lektion geht verloren.${waitingNote}`)) go(practice ? '/practice' : '/learn')
   }
 
   if (phase === 'result' && summary) {
@@ -190,6 +252,13 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
             </section>
           </Ctx.Provider>
         )}
+        {phase === 'waiting' && queue.length > 0 && (
+          <div className="checking" role="status">
+            <Mascot mood="sleep" size={120} />
+            <p>{queue.length === 1 ? 'Eine Übung wartet' : `${queue.length} Übungen warten`} auf Internet.</p>
+            <p className="muted">Sobald du online bist, liest {brand.foxName} deine Handschrift – dann kommt die Auswertung.</p>
+          </div>
+        )}
         {phase === 'checking' && (
           <div className="checking" role="status">
             <Mascot mood="read" size={120} />
@@ -200,6 +269,9 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
 
       <footer className="runner-bottom">
         {error && <p className="error">{error}</p>}
+        {notice && !error && <p className="notice">{notice}</p>}
+        {queue.length > 0 && phase !== 'waiting' && <span className="queue-pill" title="Wird geprüft, sobald Internet da ist">⏳ {queue.length}</span>}
+        {phase === 'waiting' && queue.length > 0 && <button className="btn btn-primary" onClick={() => retryQueue()}>Nochmal versuchen</button>}
         {phase === 'intro' && <button className="btn btn-primary" onClick={() => setPhase('exercise')}>Los geht's</button>}
         {phase === 'exercise' && (
           <>
@@ -215,7 +287,7 @@ export function LessonRunner({ lesson, sol, practice, nextLessonId }: Props) {
           <>
             {openRatings && <span className="muted">Bitte bewerte die offenen Antworten selbst.</span>}
             <button className="btn btn-primary" disabled={!!openRatings} onClick={next}>
-              {idx < lesson.exercises.length - 1 ? 'Weiter' : 'Auswertung'}
+              {!reviewing && idx < lesson.exercises.length - 1 ? 'Weiter' : later.length || queue.length ? 'Weiter' : 'Auswertung'}
             </button>
           </>
         )}
@@ -249,6 +321,8 @@ interface Summary {
   perEx: { id: string; title: string; score: number }[]
   mistakes: { itemId: string; tags: string[]; yours: string; correct: string }[]
   topTag?: string
+  newBadges: string[]
+  freezesUsed: number
 }
 
 function ResultScreen({ lesson, s, practice, nextLessonId, streak }: { lesson: Lesson; s: Summary; practice?: boolean; nextLessonId?: string; streak: number }) {
@@ -268,6 +342,23 @@ function ResultScreen({ lesson, s, practice, nextLessonId, streak }: { lesson: L
         <div className="stat"><strong>🔥 {streak}</strong><span>{theme.streak}</span></div>
         <div className="stat"><strong>{s.minutes} min</strong><span>Zeit</span></div>
       </div>
+      {s.freezesUsed > 0 && (
+        <p className="notice-box">🚧 Das {theme.freeze} hat deine {theme.streak} gerettet ({s.freezesUsed === 1 ? 'ein Tag' : `${s.freezesUsed} Tage`} Pause).</p>
+      )}
+      {s.newBadges.length > 0 && (
+        <section className="panel badge-new">
+          <h3>{s.newBadges.length > 1 ? `${s.newBadges.length} neue Abzeichen` : 'Neues Abzeichen'}!</h3>
+          <div className="badges">
+            {s.newBadges.map((id) => badgeById[id]).filter(Boolean).map((b) => (
+              <div key={b.id} className="badge badge-pop">
+                <span className="badge-icon">{b.icon}</span>
+                <strong>{b.title}</strong>
+                <span className="muted">{b.desc} · +{scoring.badgeGems} 🏆</span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
       <section className="panel">
         <h3>Pro Übung</h3>
         {s.perEx.map((e) => (

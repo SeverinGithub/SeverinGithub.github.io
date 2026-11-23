@@ -358,3 +358,31 @@ a { color: var(--blue); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ---------- word order drag & drop ---------- */
+.chip-drag { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+.chip-lifted { opacity: .25; }
+.chip-ghost { position: fixed; z-index: 50; pointer-events: none; transform: translate(-50%, -60%) rotate(-3deg); box-shadow: 0 8px 18px rgba(0,0,0,.25); }
+.wo-target { background: color-mix(in srgb, var(--blue) 8%, transparent); border-radius: 10px 10px 0 0; }
+.wo-caret { width: 4px; align-self: stretch; min-height: 36px; border-radius: 2px; background: var(--blue); margin: 0 -2px; }
+.word-paint { touch-action: none; user-select: none; -webkit-user-select: none; }
+.notice { flex-basis: 100%; margin: 0; font-weight: 700; font-size: 14px; color: var(--muted); }
+.queue-pill { font-weight: 800; background: var(--open-bg); color: var(--open); border-radius: 99px; padding: 4px 10px; }
+
+/* ---------- badges + streak freeze ---------- */
+.badges { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; }
+.badge { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px; padding: 10px 8px; border: 2.5px solid var(--ink-line); border-radius: 14px; background: var(--bg); }
+.badge strong { font-size: 15px; }
+.badge .muted { font-size: 12px; }
+.badge-icon { font-size: 34px; line-height: 1.1; }
+.badge-locked { opacity: .45; filter: grayscale(1); }
+.badge-pop { animation: badge-pop .5s cubic-bezier(.3,1.6,.5,1) both; }
+@keyframes badge-pop { from { transform: scale(.4); opacity: 0; } to { transform: none; opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .badge-pop { animation: none; } }
+.badge-new { border-color: var(--brand); }
+.freeze { display: flex; align-items: center; gap: 12px; }
+.freeze > div:nth-child(2) { flex: 1; }
+.freeze h3 { margin: 0 0 2px; }
+.freeze p { margin: 0; font-size: 14px; }
+.freeze-icon { font-size: 36px; }
+.notice-box { background: var(--open-bg); color: var(--open); font-weight: 700; border-radius: 12px; padding: 10px 14px; text-align: center; }

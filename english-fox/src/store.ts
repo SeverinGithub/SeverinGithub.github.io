@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { scoring } from './config/scoring'
+import { badges as allBadges } from './config/achievements'
 
 export interface LessonProgress {
   bestStars: number
@@ -55,17 +56,29 @@ interface State {
   streak: { current: number; longest: number; lastActive?: string }
   daily: { date: string; xp: number }
   chests: number[]
+  freezes: number // streak freezes in stock
+  badges: string[] // earned badge ids
   settings: Settings
   onboarded: boolean
-  finishAttempt: (a: AttemptLog, mistakes: Omit<Mistake, 'dueAt' | 'stage' | 'resolved' | 'lastSeen'>[], solved: string[]) => { newBest: boolean }
+  finishAttempt: (a: AttemptLog, mistakes: Omit<Mistake, 'dueAt' | 'stage' | 'resolved' | 'lastSeen'>[], solved: string[]) => FinishInfo
   openChest: (unit: number) => void
+  buyFreeze: () => boolean
+  syncBadges: () => void
   updateSettings: (s: Partial<Settings>) => void
   setOnboarded: () => void
   reset: () => void
 }
 
+export interface FinishInfo {
+  newBest: boolean
+  newBadges: string[]
+  freezesUsed: number
+}
+
 export const today = () => new Date().toISOString().slice(0, 10)
 const addDays = (days: number) => new Date(Date.now() + days * 864e5).toISOString().slice(0, 10)
+// whole days from `from` to today (both YYYY-MM-DD)
+const daysSince = (from: string) => Math.round((Date.parse(today()) - Date.parse(from)) / 864e5)
 
 const initial = {
   progress: {},
@@ -76,6 +89,8 @@ const initial = {
   streak: { current: 0, longest: 0 },
   daily: { date: today(), xp: 0 },
   chests: [],
+  freezes: 0,
+  badges: [] as string[],
   onboarded: false,
   settings: {
     inputMode: 'auto',
@@ -107,12 +122,20 @@ export const useStore = create<State>()(
                 completedAt: a.finishedAt,
               },
             }
-        // streak: one active day in a row
+        // streak: one active day in a row; missed days are bridged by streak freezes if there are enough
         const d = today()
         let streak = s.streak
+        let freezes = s.freezes
+        let freezesUsed = 0
         if (streak.lastActive !== d) {
-          const yesterday = addDays(-1)
-          const current = streak.lastActive === yesterday ? streak.current + 1 : 1
+          const missed = streak.lastActive ? daysSince(streak.lastActive) - 1 : Infinity
+          let current = 1
+          if (missed === 0) current = streak.current + 1
+          else if (missed > 0 && missed <= freezes && streak.current > 0) {
+            freezesUsed = missed
+            freezes -= missed
+            current = streak.current + 1
+          }
           streak = { current, longest: Math.max(streak.longest, current), lastActive: d }
         }
         const daily = s.daily.date === d ? { date: d, xp: s.daily.xp + a.xp } : { date: d, xp: a.xp }
@@ -128,16 +151,33 @@ export const useStore = create<State>()(
           const stage = m.stage + 1
           mistakes[key] = { ...m, stage, lastSeen: a.finishedAt, resolved: stage >= scoring.practiceIntervalsDays.length, dueAt: addDays(scoring.practiceIntervalsDays[Math.min(stage, scoring.practiceIntervalsDays.length - 1)]) }
         }
+        const attempts = [a, ...s.attempts].slice(0, 300)
+        const xp = s.xp + a.xp
+        const newBadges = allBadges.filter((b) => !s.badges.includes(b.id) && b.done({ progress, attempts, mistakes, streak, xp })).map((b) => b.id)
         set({
           progress,
-          attempts: [a, ...s.attempts].slice(0, 300),
+          attempts,
           mistakes,
-          xp: s.xp + a.xp,
-          gems: s.gems + gainedStars * scoring.gemsPerStar,
+          xp,
+          gems: s.gems + gainedStars * scoring.gemsPerStar + newBadges.length * scoring.badgeGems,
           streak,
+          freezes,
+          badges: [...s.badges, ...newBadges],
           daily,
         })
-        return { newBest }
+        return { newBest, newBadges, freezesUsed }
+      },
+      buyFreeze: () => {
+        const s = get()
+        if (s.gems < scoring.freezeCost || s.freezes >= scoring.maxFreezes) return false
+        set({ gems: s.gems - scoring.freezeCost, freezes: s.freezes + 1 })
+        return true
+      },
+      // badges reached before badges existed: grant them quietly (with their trophies)
+      syncBadges: () => {
+        const s = get()
+        const add = allBadges.filter((b) => !s.badges.includes(b.id) && b.done(s)).map((b) => b.id)
+        if (add.length) set({ badges: [...s.badges, ...add], gems: s.gems + add.length * scoring.badgeGems })
       },
       openChest: (unit) => set((s) => (s.chests.includes(unit) ? s : { chests: [...s.chests, unit], gems: s.gems + scoring.chestGems, xp: s.xp + 10 })),
       updateSettings: (p) => set((s) => ({ settings: { ...s.settings, ...p } })),
@@ -154,6 +194,9 @@ export function isUnlocked(order: string[], lessonId: string, progress: Record<s
   return (progress[order[i - 1]]?.bestStars ?? 0) >= scoring.unlockStars
 }
 
-export function streakAlive(lastActive?: string) {
-  return lastActive === today() || lastActive === addDays(-1)
+// The streak still counts if the learner can keep it today: last active today/yesterday,
+// or the missed days in between can be covered by streak freezes.
+export function streakAlive(lastActive?: string, freezes = 0) {
+  if (!lastActive) return false
+  return daysSince(lastActive) - 1 <= freezes
 }

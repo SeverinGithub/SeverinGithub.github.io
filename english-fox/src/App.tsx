@@ -20,6 +20,8 @@ export function App() {
   const route = useRoute()
   const [first] = route.parts
   const progress = useStore((s) => s.progress)
+  const syncBadges = useStore((s) => s.syncBadges)
+  useEffect(() => syncBadges(), [syncBadges])
 
   if (first === 'lesson') {
     const lesson = lessonById[route.parts[1]]
@@ -49,9 +51,9 @@ export function App() {
 }
 
 function TopBar() {
-  const { streak, xp, gems, daily, settings } = useStore()
+  const { streak, xp, gems, daily, settings, freezes } = useStore()
   const todayXp = daily.date === today() ? daily.xp : 0
-  const alive = streakAlive(streak.lastActive)
+  const alive = streakAlive(streak.lastActive, freezes)
   const goal = Math.min(1, todayXp / settings.dailyGoal)
   return (
     <header className="topbar">
@@ -60,7 +62,7 @@ function TopBar() {
         <span>{brand.shortName}<sup>GT</sup></span>
       </span>
       <span className="pills">
-        <span className={`pill ${alive && streak.current ? '' : 'pill-dim'}`} title={theme.streak}>🔥 {alive ? streak.current : 0}</span>
+        <span className={`pill ${alive && streak.current ? '' : 'pill-dim'}`} title={freezes ? `${theme.streak} · ${freezes}× ${theme.freeze}` : theme.streak}>🔥 {alive ? streak.current : 0}{freezes > 0 && <small> 🚧{freezes}</small>}</span>
         <span className="pill" title={`Tagesziel: ${todayXp}/${settings.dailyGoal} ${theme.xp}`}>
           <span className="ring" style={{ ['--p' as string]: goal }} />
           {xp} <small>{theme.xpShort}</small>

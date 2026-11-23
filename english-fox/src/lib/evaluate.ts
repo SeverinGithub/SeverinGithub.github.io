@@ -103,19 +103,34 @@ export function evaluateLocal(lesson: Lesson, ex: Exercise, answers: Answers, so
   return { results, ink }
 }
 
+// `retry`: a network problem – the exercise can wait in the queue and be checked once the device is online again.
+export class EvalError extends Error {
+  constructor(message: string, public retry: boolean) {
+    super(message)
+  }
+}
+
 // Handwriting goes to the Edge Function (Claude vision). It returns transcription + verdict;
 // the transcription is re-checked here against the key as well (spec 6.3).
 export async function evaluateInk(lesson: Lesson, ex: Exercise, fields: FieldInfo[], answers: Answers, settings: EvalSettings): Promise<Results> {
   const items = await Promise.all(
     fields.map(async (f) => ({ fieldId: f.id, image: await exportInk(answers[f.id]?.strokes ?? []) })),
   )
-  const res = await fetch(settings.evalUrl.replace(/\/$/, ''), {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', 'x-family-code': settings.familyCode },
-    body: JSON.stringify({ lessonId: lesson.id, exerciseId: ex.id, items }),
-    signal: AbortSignal.timeout(45000),
-  })
-  if (!res.ok) throw new Error(res.status === 401 ? 'Familien-Code stimmt nicht.' : res.status === 429 ? 'Tageslimit erreicht.' : 'Gerade nicht erreichbar.')
+  if (typeof navigator !== 'undefined' && navigator.onLine === false) throw new EvalError('Kein Internet.', true)
+  let res: Response
+  try {
+    res = await fetch(settings.evalUrl.replace(/\/$/, ''), {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', 'x-family-code': settings.familyCode },
+      body: JSON.stringify({ lessonId: lesson.id, exerciseId: ex.id, items }),
+      signal: AbortSignal.timeout(45000),
+    })
+  } catch {
+    throw new EvalError('Keine Verbindung zur KI.', true) // offline, timeout, DNS …
+  }
+  if (res.status === 401) throw new EvalError('Familien-Code stimmt nicht.', false)
+  if (res.status === 429) throw new EvalError('Tageslimit erreicht.', false)
+  if (!res.ok) throw new EvalError('Gerade nicht erreichbar.', res.status >= 500)
   const data = (await res.json()) as { results: Results }
   return data.results
 }

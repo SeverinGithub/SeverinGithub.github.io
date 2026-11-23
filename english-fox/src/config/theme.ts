@@ -6,6 +6,8 @@ export const theme = {
   chest: 'Boxenstopp',
   gems: 'Pokale',
   streak: 'Rennserie',
+  freeze: 'Safety Car', // streak freeze: keeps the streak when a day is missed
+  badges: 'Abzeichen',
   start: 'START',
   path: 'Rennstrecke',
   levels: [

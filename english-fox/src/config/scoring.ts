@@ -13,6 +13,9 @@ export const scoring = {
   gemsPerStar: 2,
   chestGems: 20,
   practiceIntervalsDays: [1, 3, 7],
+  badgeGems: 10, // trophies per new badge
+  freezeCost: 25, // trophies for one streak freeze
+  maxFreezes: 2,
 }
 
 export function starsFor(score: number): number {

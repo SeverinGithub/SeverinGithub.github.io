@@ -12,6 +12,8 @@ import { go } from '../router'
 import type { Exercise, Lesson, SolutionMap } from '../../shared/types'
 import { itemsOf } from '../../shared/fields'
 import { LessonRunner } from './LessonRunner'
+import { badges } from '../config/achievements'
+import { scoring } from '../config/scoring'
 
 // ---------- practice (Tab "Üben") ----------
 export function buildPracticeLesson(keys: string[]): { lesson: Lesson; sol: SolutionMap } | null {
@@ -159,6 +161,33 @@ export function Profile({ section }: { section?: string }) {
         <div className="stat"><strong>{Object.values(s.progress).reduce((a, p) => a + p.bestStars, 0)}</strong><span>Sterne</span></div>
       </div>
       <button className="btn btn-ghost btn-block" onClick={() => go('/profile/settings')}>⚙️ Einstellungen</button>
+
+      <section className="panel freeze">
+        <div className="freeze-icon" aria-hidden>🚧</div>
+        <div>
+          <h3>{theme.freeze} <span className="muted">{s.freezes}/{scoring.maxFreezes}</span></h3>
+          <p className="muted">Hält deine {theme.streak}, wenn du einen Tag aussetzt. Wird automatisch eingesetzt.</p>
+        </div>
+        <button className="btn btn-ghost" disabled={s.gems < scoring.freezeCost || s.freezes >= scoring.maxFreezes} onClick={() => s.buyFreeze()}>
+          {s.freezes >= scoring.maxFreezes ? 'Voll' : `${scoring.freezeCost} 🏆`}
+        </button>
+      </section>
+
+      <section className="panel">
+        <h3>{theme.badges} <span className="muted">{s.badges.length}/{badges.length}</span></h3>
+        <div className="badges">
+          {badges.map((b) => {
+            const got = s.badges.includes(b.id)
+            return (
+              <div key={b.id} className={`badge ${got ? '' : 'badge-locked'}`} title={b.desc}>
+                <span className="badge-icon">{got ? b.icon : '🔒'}</span>
+                <strong>{b.title}</strong>
+                <span className="muted">{b.desc}</span>
+              </div>
+            )
+          })}
+        </div>
+      </section>
 
       <section className="panel">
         <h3>Genauigkeit pro Zeitform</h3>
