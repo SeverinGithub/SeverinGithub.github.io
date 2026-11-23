@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3D8BFF"/>
+      <stop offset="1" stop-color="#5E3BF0"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E9ECF5"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <rect x="232" y="250" width="560" height="540" rx="96" fill="url(#card)"/>
+  <path d="M232 346a96 96 0 0 1 96-96h368a96 96 0 0 1 96 96v34H232z" fill="#FF453A"/>
+  <rect x="352" y="196" width="40" height="118" rx="20" fill="#FFFFFF"/>
+  <rect x="632" y="196" width="40" height="118" rx="20" fill="#FFFFFF"/>
+  <circle cx="352" cy="480" r="30" fill="#34C759"/>
+  <circle cx="452" cy="480" r="30" fill="#FF9F0A"/>
+  <circle cx="552" cy="480" r="30" fill="#C7CBD6"/>
+  <circle cx="652" cy="480" r="30" fill="#C7CBD6"/>
+  <path d="M398 640l76 76 156-156" fill="none" stroke="#3D6BFF" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
