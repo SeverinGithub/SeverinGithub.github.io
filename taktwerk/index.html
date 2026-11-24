@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <title>Taktwerk</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +33,12 @@ html,body{background:var(--ground);color:var(--ink)}
 body{font-family:var(--f-ui);font-size:15px;line-height:1.55;
   padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px));padding-block:28px 64px}
 .wrap{max-width:1240px;margin:0 auto}
+/* Spielmodus /play: nur die App, nichts scrollt, kein Zoomen per Doppeltipp */
+.alpha{display:none}
+body.play{position:fixed;inset:0;overflow:hidden;padding:0;overscroll-behavior:none;touch-action:manipulation;-webkit-user-select:none;user-select:none}
+body.play .intro, body.play .hint, body.play .concept{display:none}
+body.play .alpha{display:inline-block;margin-left:8px;vertical-align:3px;font:600 9px var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:#14161c;background:var(--p-b);border-radius:5px;padding:3px 6px}
+body.play .stage.full{background:var(--body)}
 header.intro{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 32px;margin-bottom:22px}
 header.intro h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,4vw,44px);letter-spacing:-.01em;margin:0;line-height:1}
 header.intro h1 span{color:var(--p-a)}
@@ -197,7 +204,7 @@ body.noscroll{overflow:hidden}
 .pads{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;padding:16px 18px;border-top:1px solid var(--line);background:linear-gradient(#1d212a,#171a21)}
 .pad{border-radius:14px;border:1px solid #303744;background:linear-gradient(#262b35,#1e222b);color:var(--ink);cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;padding:12px 14px;text-align:left;font:inherit;box-shadow:0 3px 0 #0e1015}
 .pad:active,.pad.lit{transform:translateY(2px);box-shadow:0 1px 0 #0e1015}
-.pad b{font:700 14px var(--f-display)}
+.pad b{font:700 14px var(--f-display);display:block;margin-bottom:2px}
 .pad span{font-size:11px;color:var(--muted);line-height:1.3}
 .pad i{width:22px;height:4px;border-radius:2px;background:var(--c, var(--dim))}
 .pad.lit i,.pad.on i{box-shadow:0 0 10px var(--c, var(--ink));background:var(--c, var(--ink))}
@@ -260,7 +267,7 @@ code{font-family:var(--f-mono);font-size:.88em;background:#171b22;border:1px sol
       <div class="screen" id="screen">
         <!-- Transport -->
         <div class="top">
-          <div class="logo">TAKT<b>WERK</b></div>
+          <div class="logo">TAKT<b>WERK</b><span class="alpha">Alpha</span></div>
           <button class="play" id="play" aria-label="Abspielen"><svg viewBox="0 0 20 20" id="playIcon"><path d="M5 3l12 7-12 7z"/></svg></button>
           <div class="lcd">
             <div><small>Tempo</small><div class="big" id="bpm" title="Ziehen zum Ändern">124</div></div>
@@ -500,6 +507,9 @@ code{font-family:var(--f-mono);font-size:.88em;background:#171b22;border:1px sol
 <script>
 (() => {
 'use strict';
+// Spielmodus (/play): nur die App, fensterfüllend, ohne Konzeptseite
+const PLAY = document.body.classList.contains('play');
+const BASE = document.body.dataset.base || '';
 // ---------- Daten ----------
 const TRACKS = [
   {id:'kick', name:'Kick'}, {id:'snare', name:'Snare'}, {id:'clap', name:'Clap'},
@@ -817,7 +827,7 @@ function applyLibrary(){
 }
 async function loadSamples(){
   if (await loadImported()) return;
-  try { MAN = await (await fetch('samples/manifest.json')).json(); }
+  try { MAN = await (await fetch(BASE + 'samples/manifest.json')).json(); }
   catch(e){ MAN = null; kitInfo(); return; }
   if (!MAN || !MAN.groups){ MAN = null; kitInfo(); return; }
   MAN.source = 'bundled';
@@ -829,7 +839,7 @@ async function loadSamples(){
   await Promise.all(groups.map(async g => {
     if (!MAN.groups[g].file){ done++; return; }
     try {
-      const ab = await (await fetch('samples/' + MAN.groups[g].file)).arrayBuffer();
+      const ab = await (await fetch(BASE + 'samples/' + MAN.groups[g].file)).arrayBuffer();
       const buf = await new Promise((res, rej) => ac.decodeAudioData(ab, res, rej));
       SPR[g] = {buf}; correct(g, buf);
     } catch(e){ console.warn('Sample-Gruppe fehlt', g, e); }
@@ -1601,13 +1611,17 @@ window.addEventListener('resize', fit);
 
 // Vollbild: echtes Vollbild, wo der Browser es erlaubt (Desktop, iPad), sonst füllt die App das Fenster
 const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+function fsIcon(){
+  const on = PLAY ? !!fsEl() : full;
+  $('#fsIcon').innerHTML = on ? '<path d="M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4"/>' : '<path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/>';
+  $('#fsToggle').setAttribute('aria-label', on ? 'Vollbild beenden' : 'Vollbild');
+}
 function setFull(on){
+  if (PLAY) on = true; // im Spielmodus füllt die App immer das Fenster
   full = on;
   $('#stage').classList.toggle('full', on);
   document.body.classList.toggle('noscroll', on);
-  $('#fsIcon').innerHTML = on ? '<path d="M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4"/>' : '<path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/>';
-  $('#fsToggle').setAttribute('aria-label', on ? 'Vollbild beenden' : 'Vollbild');
-  fit();
+  fsIcon(); fit();
 }
 async function enterFull(){
   setFull(true);
@@ -1627,13 +1641,14 @@ async function exitFull(){
   setFull(false);
 }
 $('#fsOpen').onclick = enterFull;
-$('#fsToggle').onclick = () => full ? exitFull() : enterFull();
-['fullscreenchange','webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { if (!fsEl() && full) setFull(false); else setTimeout(fit, 120); }));
+$('#fsToggle').onclick = () => (PLAY ? fsEl() : full) ? exitFull() : enterFull();
+['fullscreenchange','webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { if (!fsEl() && full && !PLAY) setFull(false); else { fsIcon(); setTimeout(fit, 120); } }));
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && full && !fsEl()) setFull(false); });
 
 // Start
 S.parts = makeParts(S.style); buildChain(0);
 renderStyles(); renderKnobs(); renderAll(); fit();
+if (PLAY) setFull(true);
 requestAnimationFrame(frame);
 loadSamples();
 initStore();
