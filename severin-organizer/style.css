@@ -409,3 +409,26 @@ body.privacy #app, body.privacy .navbar, body.privacy .tabbar, body.privacy .ove
 .fc-terms span { padding: 5px 11px; background: var(--fill3); }
 .cell .fc-terms input { position: absolute; opacity: 0; pointer-events: none; }
 .field select { font: inherit; font-size: 17px; color: var(--label2); background: none; border: 0; text-align: right; -webkit-appearance: none; appearance: none; max-width: 60%; }
+
+/* ---------- Prüfungen und Fachabi ---------- */
+:root { --exam: var(--c-pink); }
+.cal .mark.exam { background: var(--exam); }
+.exam-txt { color: var(--exam); }
+.view-pick { position: relative; display: inline-flex; align-items: center; gap: 6px; margin: 6px 4px 0; padding: 7px 14px; border-radius: 999px; background: var(--fill3); color: var(--tint); font-size: 15px; font-weight: 600; max-width: calc(100% - 8px); }
+.view-pick .txt { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.view-pick .dd { width: 8px; height: 12px; transform: rotate(90deg); flex: none; }
+.view-pick select { position: absolute; inset: 0; opacity: 0; width: 100%; font-size: 16px; cursor: pointer; }
+.view-pick:active { opacity: .6; }
+.need { --c: var(--tint); flex: none; min-width: 42px; height: 24px; padding: 0 8px; border-radius: 12px; display: inline-grid; place-items: center; font-size: 13px; font-weight: 700; letter-spacing: 0;
+  background: color-mix(in srgb, var(--c) 18%, transparent); color: color-mix(in srgb, var(--c) 80%, var(--label)); }
+.need.ok { --c: var(--c-green); }
+.need.bad { --c: var(--c-red); }
+.hjs { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.hj { font-size: 12px; line-height: 18px; padding: 0 6px; border-radius: 5px; background: var(--fill3); color: var(--label2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.hj b { color: var(--label); font-weight: 600; }
+.hj.open { box-shadow: inset 0 0 0 1px var(--sep); background: transparent; }
+.hj.drop b { text-decoration: line-through; color: var(--label3); }
+.hj.none { opacity: .45; }
+.w-seg { flex: 1; max-width: 220px; margin-left: auto; }
+.cell.field.hide { display: none; }
+.ad.exam { font-weight: 700; }

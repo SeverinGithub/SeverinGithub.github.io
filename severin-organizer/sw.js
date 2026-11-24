@@ -1,7 +1,7 @@
 /* Service Worker: hält die App offline bereit.
    Strategie: aus dem Cache antworten und im Hintergrund nachladen (stale-while-revalidate).
    Nach Änderungen an der App-Hülle VERSION hochzählen, damit alte Caches verschwinden. */
-const VERSION = 'so-v6';
+const VERSION = 'so-v7';
 const SHELL = [
   './',
   'index.html',
