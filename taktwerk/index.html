@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Taktwerk</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -63,7 +64,16 @@ header.intro p{margin:6px 0 0;color:var(--muted);max-width:60ch}
 .lcd .big{font-size:24px;font-weight:600;line-height:1.05;color:#ffd6a8;cursor:ns-resize;touch-action:none}
 .lcd .mid{font-size:15px;font-weight:600;color:var(--ink);line-height:1.3}
 .nudge{width:26px;height:20px;border-radius:5px;background:var(--panel);border:1px solid var(--line);color:var(--muted);font:600 12px var(--f-mono);cursor:pointer;display:block;padding:0}
-.styles{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;max-width:452px;overflow-x:auto;scrollbar-width:none}
+/* Vollbild: nur der Bildschirm, ohne Gehäuse, auf die ganze Fläche skaliert */
+.stage.full{position:fixed!important;inset:0;z-index:100;background:var(--ground);height:auto!important;
+  padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+.stage.full .device{padding:0;border-radius:0;width:1180px;height:820px;background:none;box-shadow:none}
+.stage.full .screen{border-radius:0}
+body.noscroll{overflow:hidden}
+.fsbtn{display:inline-flex;align-items:center;gap:8px;height:40px;padding:0 14px;border-radius:10px;border:1px solid var(--line);background:#12151b;color:var(--ink);font:600 13px var(--f-ui);cursor:pointer}
+.fsbtn:hover{border-color:#3a4250}
+.fsbtn svg,.iconbtn.fs svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8}
+.styles{display:flex;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px;max-width:404px;overflow-x:auto;scrollbar-width:none}
 .styles::-webkit-scrollbar{display:none}
 .style{font:600 12px var(--f-ui);color:var(--muted);background:none;border:0;border-radius:8px;padding:9px 8px;cursor:pointer;white-space:nowrap;flex:none}
 .style.on{background:#2a303b;color:var(--ink)}
@@ -209,6 +219,7 @@ code{font-family:var(--f-mono);font-size:.88em;background:#171b22;border:1px sol
       <h1>Takt<span>werk</span></h1>
       <p>Konzept und spielbarer Frontend-Prototyp einer Drum Machine fürs iPad. Tempo und Stil wählen, Play drücken, und die Maschine hängt die Teile eines Kits so aneinander, wie ein Drummer eine Nummer spielen würde.</p>
     </div>
+    <button class="fsbtn" id="fsOpen"><svg viewBox="0 0 16 16"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg>Im Vollbild öffnen</button>
     <div class="legend" aria-label="Farben der Kit-Teile">
       <span class="chip" style="--c:var(--p-intro)"><i></i>Intro</span>
       <span class="chip" style="--c:var(--p-a)"><i></i>Groove A</span>
@@ -237,6 +248,7 @@ code{font-family:var(--f-mono);font-size:.88em;background:#171b22;border:1px sol
           <button class="btn iconbtn" id="editGroove" aria-label="Eigenen Groove bearbeiten" hidden><svg viewBox="0 0 16 16"><path d="M10.5 2.5l3 3L6 13H3v-3z"/></svg></button>
           <button class="btn iconbtn plus" id="newGroove" aria-label="Eigenen Groove bauen" title="Eigenen Groove bauen">+</button>
           <div class="spacer"></div>
+          <button class="btn iconbtn fs" id="fsToggle" aria-label="Vollbild" title="Vollbild" style="margin-left:0"><svg viewBox="0 0 16 16" id="fsIcon"><path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/></svg></button>
           <div class="lcd">
             <div><small>Phrase</small><div class="mid" id="lcdPhrase">01</div></div>
             <div><small>Takt</small><div class="mid" id="lcdBar">01/16</div></div>
@@ -693,7 +705,8 @@ function kitInfo(){
 }
 async function loadSamples(){
   try { MAN = await (await fetch('samples/manifest.json')).json(); }
-  catch(e){ $('#kitInfo').textContent = 'Samples nicht gefunden, nur Synth-Klänge.'; return; }
+  catch(e){ $('#kitInfo').textContent = 'Ohne Library-Samples: Drums und Sounds als Synth-Klänge.'; return; }
+  if (!MAN || !MAN.groups){ MAN = null; $('#kitInfo').textContent = 'Ohne Library-Samples: Drums und Sounds als Synth-Klänge.'; return; }
   const names = {};
   for (const [g,v] of Object.entries(MAN.groups)) v.entries.forEach(e => { e.g = g; e.s = e.start; if (e.song && !names[e.song]) names[e.song] = e.songName; });
   const songs = Object.keys(names).filter(s => MAN.groups.kick.entries.some(e => e.song === s))
@@ -776,7 +789,27 @@ function scheduler(){
     if (S.step >= 16){ S.step = 0; advanceBar(); }
   }
 }
+// iPhone/iPad: Web Audio verstummt beim Stummschalter. Als Wiedergabe anmelden
+// und ein stilles <audio> mitlaufen lassen, dann klingt es auch im Lautlos-Modus.
+let silentEl = null;
+function unlockIOS(){
+  try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch(e){}
+  try {
+    if (!silentEl){
+      const n = 4000, b = new ArrayBuffer(44 + n), v = new DataView(b);
+      const w = (o, s) => [...s].forEach((c,i) => v.setUint8(o+i, c.charCodeAt(0)));
+      w(0,'RIFF'); v.setUint32(4, 36+n, true); w(8,'WAVE'); w(12,'fmt '); v.setUint32(16,16,true);
+      v.setUint16(20,1,true); v.setUint16(22,1,true); v.setUint32(24,8000,true); v.setUint32(28,8000,true);
+      v.setUint16(32,1,true); v.setUint16(34,8,true); w(36,'data'); v.setUint32(40,n,true);
+      for (let i=0;i<n;i++) v.setUint8(44+i,128);
+      silentEl = new Audio(URL.createObjectURL(new Blob([b], {type:'audio/wav'})));
+      silentEl.loop = true; silentEl.setAttribute('playsinline','');
+    }
+    const p = silentEl.play(); if (p) p.catch(()=>{});
+  } catch(e){}
+}
 function start(){
+  unlockIOS();
   initAudio(); ac.resume();
   S.playing = true; S.step = 0; nextTime = ac.currentTime + .06;
   timer = setInterval(scheduler, 25); scheduler();
@@ -784,6 +817,7 @@ function start(){
 }
 function stop(){
   S.playing = false; clearInterval(timer); visQ.length = 0; vis.step = -1;
+  if (silentEl) silentEl.pause();
   playIcons();
   if (S.editing) edGrid(); else renderAll();
 }
@@ -1150,15 +1184,58 @@ function frame(){
 }
 
 // Skalierung des iPads auf die verfügbare Breite
-let scale = 1;
+let scale = 1, full = false;
 function fit(){
   const st = $('#stage'), dv = $('#device');
+  if (full){
+    const cs = getComputedStyle(st);
+    const w = st.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+    const h = st.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
+    scale = Math.min(w / 1180, h / 820);
+    dv.style.transform = `scale(${scale})`;
+    dv.style.left = (parseFloat(cs.paddingLeft) + (w - 1180*scale)/2) + 'px';
+    dv.style.top = (parseFloat(cs.paddingTop) + (h - 820*scale)/2) + 'px';
+    return;
+  }
   scale = Math.min(1, st.clientWidth / 1236);
   dv.style.transform = `scale(${scale})`;
   dv.style.left = ((st.clientWidth - 1236*scale)/2) + 'px';
+  dv.style.top = '0px';
   st.style.height = (876*scale) + 'px';
 }
 window.addEventListener('resize', fit);
+
+// Vollbild: echtes Vollbild, wo der Browser es erlaubt (Desktop, iPad), sonst füllt die App das Fenster
+const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+function setFull(on){
+  full = on;
+  $('#stage').classList.toggle('full', on);
+  document.body.classList.toggle('noscroll', on);
+  $('#fsIcon').innerHTML = on ? '<path d="M6 2v4H2M14 6h-4V2M10 14v-4h4M2 10h4v4"/>' : '<path d="M2 6V2h4M10 2h4v4M14 10v4h-4M6 14H2v-4"/>';
+  $('#fsToggle').setAttribute('aria-label', on ? 'Vollbild beenden' : 'Vollbild');
+  fit();
+}
+async function enterFull(){
+  setFull(true);
+  const root = document.documentElement;
+  try {
+    if (root.requestFullscreen) await root.requestFullscreen({navigationUI:'hide'});
+    else if (root.webkitRequestFullscreen) root.webkitRequestFullscreen();
+  } catch(e){ /* nicht erlaubt: bleibt als Fenster-Vollbild */ }
+  try { if (screen.orientation && screen.orientation.lock) await screen.orientation.lock('landscape'); } catch(e){}
+  setTimeout(fit, 120);
+}
+async function exitFull(){
+  try {
+    if (document.exitFullscreen && document.fullscreenElement) await document.exitFullscreen();
+    else if (document.webkitExitFullscreen && document.webkitFullscreenElement) document.webkitExitFullscreen();
+  } catch(e){}
+  setFull(false);
+}
+$('#fsOpen').onclick = enterFull;
+$('#fsToggle').onclick = () => full ? exitFull() : enterFull();
+['fullscreenchange','webkitfullscreenchange'].forEach(ev => document.addEventListener(ev, () => { if (!fsEl() && full) setFull(false); else setTimeout(fit, 120); }));
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && full && !fsEl()) setFull(false); });
 
 // Start
 S.parts = makeParts(S.style); buildChain(0);
