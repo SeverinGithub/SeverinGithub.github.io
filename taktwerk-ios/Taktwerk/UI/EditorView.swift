@@ -22,6 +22,7 @@ struct EditorView: View {
                     .onChange(of: tw.draft.name) { _, v in if v.count > 24 { tw.draft.name = String(v.prefix(24)) } }
                     .accessibilityLabel("Name des Grooves")
                 TempoLCD(bpm: tw.draft.bpm) { tw.draft.bpm = clamp($0, 60, 190) }
+                TapButton { tw.tap() }.padding(.leading, -6)
                 LCD {
                     LCDField(label: "Swing", value: "\(Int(tw.draft.swing.rounded()))", minWidth: 28)
                     Slider(value: $tw.draft.swing, in: 0...100).tint(Color.amber).frame(width: 110).accessibilityLabel("Swing")

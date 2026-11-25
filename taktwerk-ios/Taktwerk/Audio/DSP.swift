@@ -164,6 +164,8 @@ struct Layer {
 protocol Voice: AnyObject {
     var startFrame: Int64 { get set }
     var group: Int { get }
+    /// Anteil, der in den Hall geht (0 … 1)
+    var send: Float { get set }
     /// addiert in out (Länge frames, beginnend bei Frame bufStart); false = fertig, darf weg
     func render(_ out: UnsafeMutablePointer<Float>, frames: Int, bufStart: Int64, sr: Double) -> Bool
     func choke(at frame: Int64, tau: Double)
@@ -172,6 +174,7 @@ protocol Voice: AnyObject {
 final class SynthVoice: Voice {
     var startFrame: Int64 = 0
     let group = 0
+    var send: Float = 0
     private var layers: [Layer]
     private let end: Double
 
@@ -196,16 +199,20 @@ final class SynthVoice: Voice {
     func choke(at frame: Int64, tau: Double) {}
 }
 
-/// Rohdaten eines Samples (mono, eigene Abtastrate)
+/// Rohdaten eines Samples (mono, 16 Bit, eigene Abtastrate) – halb so viel Speicher wie Float
 final class SampleData {
-    let samples: [Float]
+    let samples: [Int16]
     let sr: Double
-    init(_ samples: [Float], sr: Double) { self.samples = samples; self.sr = sr }
+    init(_ samples: [Int16], sr: Double) { self.samples = samples; self.sr = sr }
+    convenience init(floats: [Float], sr: Double) {
+        self.init(floats.map { Int16(max(-32767, min(32767, ($0 * 32767).rounded()))) }, sr: sr)
+    }
 }
 
 final class SampleVoice: Voice {
     var startFrame: Int64 = 0
     let group: Int
+    var send: Float = 0
     private let data: SampleData
     private let from: Int, count: Int
     private let gain: Float
@@ -230,7 +237,7 @@ final class SampleVoice: Voice {
                 let i = Int(pos)
                 if i + 1 >= count { return false }
                 let fr = Float(pos - Double(i))
-                var s = p[from + i] * (1 - fr) + p[from + i + 1] * fr
+                var s = (Float(p[from + i]) * (1 - fr) + Float(p[from + i + 1]) * fr) * (1 / 32767)
                 let abs = bufStart + Int64(f)
                 if abs >= chokeFrame {
                     let k = Float(Foundation.exp(-Double(abs - chokeFrame) / sr / chokeTau))
@@ -242,5 +249,49 @@ final class SampleVoice: Voice {
             }
             return true
         }
+    }
+}
+
+// MARK: - Hall (Freeverb nach Jezar, Stereo)
+
+private struct Comb {
+    var buf: [Float]; var i = 0; var store: Float = 0
+    init(_ n: Int) { buf = [Float](repeating: 0, count: max(1, n)) }
+    mutating func run(_ x: Float, fb: Float, damp: Float) -> Float {
+        let y = buf[i]
+        store = y * (1 - damp) + store * damp
+        buf[i] = x + store * fb
+        i += 1; if i == buf.count { i = 0 }
+        return y
+    }
+}
+private struct Allpass {
+    var buf: [Float]; var i = 0
+    init(_ n: Int) { buf = [Float](repeating: 0, count: max(1, n)) }
+    mutating func run(_ x: Float) -> Float {
+        let b = buf[i]
+        buf[i] = x + b * 0.5
+        i += 1; if i == buf.count { i = 0 }
+        return b - x
+    }
+}
+
+struct Reverb {
+    private var cl: [Comb], cr: [Comb], al: [Allpass], ar: [Allpass]
+    init(sr: Double) {
+        let k = sr / 44100
+        let combs = [1116, 1188, 1277, 1356, 1422, 1491, 1557, 1617], aps = [556, 441, 341, 225], spread = 23
+        cl = combs.map { Comb(Int(Double($0) * k)) }
+        cr = combs.map { Comb(Int(Double($0 + spread) * k)) }
+        al = aps.map { Allpass(Int(Double($0) * k)) }
+        ar = aps.map { Allpass(Int(Double($0 + spread) * k)) }
+    }
+    /// size, damp 0 … 1
+    mutating func process(_ x: Float, size: Float, damp: Float) -> (Float, Float) {
+        let input = x * 0.015, fb = size * 0.28 + 0.7, d = damp * 0.4
+        var l: Float = 0, r: Float = 0
+        for j in 0..<8 { l += cl[j].run(input, fb: fb, damp: d); r += cr[j].run(input, fb: fb, damp: d) }
+        for j in 0..<4 { l = al[j].run(l); r = ar[j].run(r) }
+        return (l * 3, r * 3)
     }
 }

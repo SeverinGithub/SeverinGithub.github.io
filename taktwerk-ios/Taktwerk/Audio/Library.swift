@@ -1,9 +1,9 @@
 import AVFoundation
 import Foundation
 
-/// Ein One-Shot aus der Library
+/// Ein One-Shot aus einer Sound-Quelle
 struct SampleEntry: Identifiable {
-    var id: String { group + "|" + name }
+    var id: String { source + "|" + group + "|" + name }
     let name: String
     let song: String
     let songName: String
@@ -12,13 +12,31 @@ struct SampleEntry: Identifiable {
     let data: SampleData
     let start: Int
     let count: Int
+    var source = ""
 }
 
-struct SampleLibrary {
-    enum Source { case bundled, imported }
-    var source: Source
-    var groups: [String: [SampleEntry]]
+typealias Groups = [String: [SampleEntry]]
 
+/// Alle aktiven Quellen zusammengeführt
+struct SampleLibrary {
+    var groups: Groups
+
+    /// Quellen nacheinander anhängen – keine ersetzt die andere. Steckt derselbe Sound
+    /// (gleiche Gruppe, gleicher Name) schon in einer früheren Quelle, zählt er nur einmal.
+    static func merge(_ parts: [Groups]) -> SampleLibrary {
+        var g: Groups = [:]
+        var seen = Set<String>()
+        for k in ALL_GROUPS { g[k] = [] }
+        for p in parts {
+            for (k, list) in p {
+                for e in list where seen.insert(k + "|" + e.name).inserted { g[k, default: []].append(e) }
+            }
+        }
+        return SampleLibrary(groups: g)
+    }
+
+    var isEmpty: Bool { groups.values.allSatisfy(\.isEmpty) }
+    var count: Int { groups.values.reduce(0) { $0 + $1.count } }
     func entries(_ g: String) -> [SampleEntry] { groups[g] ?? [] }
     func find(_ g: String, _ name: String) -> SampleEntry? { groups[g]?.first { $0.name == name } }
 
@@ -154,20 +172,21 @@ private struct Manifest: Decodable {
 }
 
 enum BundledLibrary {
+    static let id = "bundled"
     static var url: URL? { Bundle.main.url(forResource: "manifest", withExtension: "json", subdirectory: "Samples") }
 
-    static func load(progress: @escaping (Int, Int) -> Void) async -> SampleLibrary? {
+    static func load(progress: @escaping @MainActor (Int, Int) -> Void) async -> Groups? {
         guard let murl = url, let data = try? Data(contentsOf: murl),
               let man = try? JSONDecoder().decode(Manifest.self, from: data) else { return nil }
         let dir = murl.deletingLastPathComponent()
-        var groups: [String: [SampleEntry]] = [:]
+        var groups: Groups = [:]
         var done = 0
         let total = man.groups.count
         await withTaskGroup(of: (String, [SampleEntry]).self) { tg in
             for (g, grp) in man.groups {
                 tg.addTask {
                     guard let file = grp.file, let (chans, sr) = try? AudioDecode.read(dir.appendingPathComponent(file)), let d = chans.first else { return (g, []) }
-                    let sd = SampleData(d, sr: sr)
+                    let sd = SampleData(floats: d, sr: sr)
                     // AAC verschiebt den Anfang leicht: echten Einsatz jedes Samples im Sprite suchen
                     let entries = grp.entries.map { e -> SampleEntry in
                         let a = max(0, Int((e.start - 0.06) * sr)), b = min(d.count, Int((e.start + 0.15) * sr))
@@ -178,7 +197,7 @@ enum BundledLibrary {
                         while i < b && abs(d[i]) < thr { i += 1 }
                         let s = max(0, Int((Double(i) / sr - 0.002) * sr))
                         return SampleEntry(name: e.name, song: e.song ?? "", songName: e.songName ?? "", key: e.key, group: g,
-                                           data: sd, start: s, count: Int(e.dur * sr))
+                                           data: sd, start: s, count: Int(e.dur * sr), source: id)
                     }
                     return (g, entries)
                 }
@@ -187,55 +206,114 @@ enum BundledLibrary {
                 groups[g] = list
                 done += 1
                 let d = done
-                await MainActor.run { progress(d, total) }
+                await progress(d, total)
             }
         }
-        for g in ALL_GROUPS where groups[g] == nil { groups[g] = [] }
-        return SampleLibrary(source: .bundled, groups: groups)
+        return groups
+    }
+
+    static var info: SoundSource? {
+        guard let murl = url, let data = try? Data(contentsOf: murl), let man = try? JSONDecoder().decode(Manifest.self, from: data) else { return nil }
+        var counts: [String: Int] = [:]
+        var songs = Set<String>()
+        for (g, grp) in man.groups {
+            counts[g] = grp.entries.count
+            if DRUM_GROUPS.contains(g) { for e in grp.entries where !(e.song ?? "").isEmpty { songs.insert(e.song!) } }
+        }
+        return SoundSource(id: id, label: "Higher Place", count: counts.values.reduce(0, +), failed: 0, kits: songs.count,
+                           date: 0, enabled: true, counts: counts, bundled: true)
     }
 }
 
-// MARK: - Eigener Import (Ordner mit „Drums“ und „One Shots“), im Gerät gespeichert
+// MARK: - Sound-Quellen: jeder Import ist eine eigene Quelle, im Gerät gespeichert
 
-struct ImportMeta: Codable { var label: String; var count: Int; var failed: Int; var date: Double }
+struct SoundSource: Codable, Identifiable, Equatable {
+    var id: String
+    var label: String
+    var count: Int
+    var failed: Int
+    var kits: Int
+    var date: Double
+    var enabled: Bool
+    var counts: [String: Int]
+    var bundled = false
+}
 
 private struct StoredRecord: Codable {
     let g: String, name: String, song: String, songName: String, key: String?
     let sr: Double, offset: Int, count: Int
 }
-private struct StoredIndex: Codable { let meta: ImportMeta; let records: [StoredRecord] }
+private struct StoredIndex: Codable { let records: [StoredRecord] }
+private struct LegacyIndex: Codable {
+    struct Meta: Codable { var label: String; var count: Int; var failed: Int; var date: Double }
+    let meta: Meta; let records: [StoredRecord]
+}
 
-enum ImportedLibrary {
-    private static var dir: URL {
-        let d = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0].appendingPathComponent("Library", isDirectory: true)
-        try? FileManager.default.createDirectory(at: d, withIntermediateDirectories: true)
+enum SourceStore {
+    private static let fm = FileManager.default
+    private static var support: URL { fm.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0] }
+    private static var root: URL {
+        let d = support.appendingPathComponent("Libraries", isDirectory: true)
+        try? fm.createDirectory(at: d, withIntermediateDirectories: true)
         return d
     }
-    private static var indexURL: URL { dir.appendingPathComponent("index.json") }
-    private static var pcmURL: URL { dir.appendingPathComponent("samples.pcm") }
+    private static var listURL: URL { root.appendingPathComponent("sources.json") }
+    private static func dir(_ id: String) -> URL { root.appendingPathComponent(id, isDirectory: true) }
 
-    static func load() -> (SampleLibrary, ImportMeta)? {
-        guard let idata = try? Data(contentsOf: indexURL), let idx = try? JSONDecoder().decode(StoredIndex.self, from: idata),
-              let pcm = try? Data(contentsOf: pcmURL), !idx.records.isEmpty else { return nil }
-        var groups: [String: [SampleEntry]] = [:]
-        for g in ALL_GROUPS { groups[g] = [] }
+    /// Gespeicherte Quellen (ohne die mitgelieferte; deren An/Aus steht unter "bundled.enabled")
+    static func list() -> [SoundSource] {
+        migrateLegacy()
+        guard let d = try? Data(contentsOf: listURL), let l = try? JSONDecoder().decode([SoundSource].self, from: d) else { return [] }
+        return l
+    }
+    static func save(_ l: [SoundSource]) {
+        try? JSONEncoder().encode(l.filter { !$0.bundled }).write(to: listURL, options: .atomic)
+    }
+
+    static func loadGroups(_ id: String) -> Groups? {
+        guard let idata = try? Data(contentsOf: dir(id).appendingPathComponent("index.json")),
+              let idx = try? JSONDecoder().decode(StoredIndex.self, from: idata),
+              let pcm = try? Data(contentsOf: dir(id).appendingPathComponent("samples.pcm")) else { return nil }
+        var groups: Groups = [:]
         pcm.withUnsafeBytes { raw in
             let p = raw.bindMemory(to: Int16.self)
             for r in idx.records where r.offset + r.count <= p.count {
-                let f = (0..<r.count).map { Float(p[r.offset + $0]) / 32767 }
-                let e = SampleEntry(name: r.name, song: r.song, songName: r.songName, key: r.key, group: r.g, data: SampleData(f, sr: r.sr), start: 0, count: r.count)
-                groups[r.g, default: []].append(e)
+                let ints = Array(p[r.offset..<(r.offset + r.count)])
+                groups[r.g, default: []].append(SampleEntry(name: r.name, song: r.song, songName: r.songName, key: r.key, group: r.g,
+                                                            data: SampleData(ints, sr: r.sr), start: 0, count: r.count, source: id))
             }
         }
-        return (SampleLibrary(source: .imported, groups: groups), idx.meta)
+        return groups
     }
 
-    static func clear() {
-        try? FileManager.default.removeItem(at: indexURL)
-        try? FileManager.default.removeItem(at: pcmURL)
+    static func remove(_ id: String) {
+        try? fm.removeItem(at: dir(id))
+        save(list().filter { $0.id != id })
     }
 
-    struct Result { let library: SampleLibrary; let meta: ImportMeta; let counts: [String: Int]; let kits: Int; let saved: Bool }
+    /// Die erste Fassung kannte nur eine Library unter "Library/" – sie wird zur ersten Quelle
+    private static func migrateLegacy() {
+        let old = support.appendingPathComponent("Library", isDirectory: true)
+        let oi = old.appendingPathComponent("index.json")
+        guard let d = try? Data(contentsOf: oi), let legacy = try? JSONDecoder().decode(LegacyIndex.self, from: d) else { return }
+        let id = newId()
+        let nd = dir(id)
+        try? fm.createDirectory(at: nd, withIntermediateDirectories: true)
+        try? fm.moveItem(at: old.appendingPathComponent("samples.pcm"), to: nd.appendingPathComponent("samples.pcm"))
+        try? JSONEncoder().encode(StoredIndex(records: legacy.records)).write(to: nd.appendingPathComponent("index.json"))
+        var counts: [String: Int] = [:]
+        for r in legacy.records { counts[r.g, default: 0] += 1 }
+        let kits = Set(legacy.records.filter { DRUM_GROUPS.contains($0.g) && !$0.song.isEmpty }.map(\.song)).count
+        let src = SoundSource(id: id, label: legacy.meta.label, count: legacy.meta.count, failed: legacy.meta.failed, kits: kits,
+                              date: legacy.meta.date, enabled: true, counts: counts)
+        try? fm.removeItem(at: old)
+        let l = (try? JSONDecoder().decode([SoundSource].self, from: Data(contentsOf: listURL))) ?? []
+        save(l + [src])
+    }
+
+    private static func newId() -> String { "s" + String(Int(Date().timeIntervalSince1970 * 1000), radix: 36) }
+
+    struct Result { let source: SoundSource; let groups: Groups; let saved: Bool }
     enum Failure: Error, LocalizedError {
         case nothingFound, nothingReadable
         var errorDescription: String? {
@@ -248,30 +326,28 @@ enum ImportedLibrary {
 
     /// Alle Audiodateien unter Drums/One Shots, mit Gruppe und Name
     private static func scan(_ folder: URL) -> [(url: URL, g: String, name: String)] {
-        let root = folder.lastPathComponent
+        let rootName = folder.lastPathComponent
         let rootPath = folder.standardizedFileURL.path
         var todo: [(url: URL, g: String, name: String)] = []
-        if let en = FileManager.default.enumerator(at: folder, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles]) {
+        if let en = fm.enumerator(at: folder, includingPropertiesForKeys: [.isRegularFileKey], options: [.skipsHiddenFiles]) {
             while let u = en.nextObject() as? URL {
                 let rel = String(u.standardizedFileURL.path.dropFirst(rootPath.count))
-                if let c = Classifier.classify(root + rel) { todo.append((u, c.g, c.name)) }
+                if let c = Classifier.classify(rootName + rel) { todo.append((u, c.g, c.name)) }
             }
         }
         return todo.sorted { $0.url.path < $1.url.path }
     }
 
-    /// Läuft im Hintergrund; progress(Anteil, Text) kommt auf dem Hauptthread an
-    static func run(folder: URL, progress: @escaping @MainActor (Double, String) -> Void) async throws -> Result {
+    /// Neue Quelle aus einem Ordner. Läuft im Hintergrund; progress(Anteil, Text) kommt auf dem Hauptthread an.
+    static func importFolder(_ folder: URL, existing: [String], progress: @escaping @MainActor (Double, String) -> Void) async throws -> Result {
         let access = folder.startAccessingSecurityScopedResource()
         defer { if access { folder.stopAccessingSecurityScopedResource() } }
-        let root = folder.lastPathComponent
         let todo = scan(folder)
         if todo.isEmpty { throw Failure.nothingFound }
-
+        let id = newId()
         var records: [StoredRecord] = []
         var pcm = Data()
-        var entries: [String: [SampleEntry]] = [:]
-        for g in ALL_GROUPS { entries[g] = [] }
+        var groups: Groups = [:]
         var failed = 0
         for (i, it) in todo.enumerated() {
             if let (chans, sr) = try? AudioDecode.read(it.url), let shaped = AudioDecode.shape(chans, sr: sr, group: it.g) {
@@ -280,26 +356,31 @@ enum ImportedLibrary {
                 var ints = shaped.map { Int16(max(-32767, min(32767, ($0 * 32767).rounded()))) }
                 pcm.append(Data(bytes: &ints, count: ints.count * 2))
                 records.append(StoredRecord(g: it.g, name: it.name, song: so.song, songName: so.songName, key: so.key, sr: sr, offset: offset, count: shaped.count))
-                entries[it.g, default: []].append(SampleEntry(name: it.name, song: so.song, songName: so.songName, key: so.key, group: it.g,
-                                                               data: SampleData(shaped, sr: sr), start: 0, count: shaped.count))
+                groups[it.g, default: []].append(SampleEntry(name: it.name, song: so.song, songName: so.songName, key: so.key, group: it.g,
+                                                             data: SampleData(ints, sr: sr), start: 0, count: shaped.count, source: id))
             } else { failed += 1 }
             if i % 5 == 0 || i == todo.count - 1 {
-                let f = Double(i + 1) / Double(todo.count), msg = "Sounds verarbeiten … \(i + 1) von \(todo.count)"
-                await progress(f, msg)
+                await progress(Double(i + 1) / Double(todo.count), "Sounds verarbeiten … \(i + 1) von \(todo.count)")
             }
         }
         if records.isEmpty { throw Failure.nothingReadable }
-        for g in ALL_GROUPS { entries[g]!.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending } }
-        let meta = ImportMeta(label: root, count: records.count, failed: failed, date: Date().timeIntervalSince1970)
-        await progress(1, "Im Gerät speichern …")
-        var saved = true
-        do {
-            try pcm.write(to: pcmURL, options: .atomic)
-            try JSONEncoder().encode(StoredIndex(meta: meta, records: records)).write(to: indexURL, options: .atomic)
-        } catch { saved = false }
+        for g in groups.keys { groups[g]!.sort { $0.name.localizedStandardCompare($1.name) == .orderedAscending } }
+        // Gleicher Ordnername wie eine vorhandene Quelle: Nummer anhängen
+        var label = folder.lastPathComponent, n = 2
+        while existing.contains(label) { label = folder.lastPathComponent + " (\(n))"; n += 1 }
         var counts: [String: Int] = [:]
         for r in records { counts[r.g, default: 0] += 1 }
         let kits = Set(records.filter { DRUM_GROUPS.contains($0.g) && !$0.song.isEmpty }.map(\.song)).count
-        return Result(library: SampleLibrary(source: .imported, groups: entries), meta: meta, counts: counts, kits: kits, saved: saved)
+        let src = SoundSource(id: id, label: label, count: records.count, failed: failed, kits: kits,
+                              date: Date().timeIntervalSince1970, enabled: true, counts: counts)
+        await progress(1, "Im Gerät speichern …")
+        var saved = true
+        do {
+            try fm.createDirectory(at: dir(id), withIntermediateDirectories: true)
+            try pcm.write(to: dir(id).appendingPathComponent("samples.pcm"), options: .atomic)
+            try JSONEncoder().encode(StoredIndex(records: records)).write(to: dir(id).appendingPathComponent("index.json"), options: .atomic)
+            save(list() + [src])
+        } catch { saved = false }
+        return Result(source: src, groups: groups, saved: saved)
     }
 }

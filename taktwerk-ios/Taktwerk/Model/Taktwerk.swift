@@ -40,12 +40,39 @@ final class Taktwerk {
     var editPart: PartKey = .a
     var selTrack = "kick"
 
-    // Library
+    // Navigation
+    enum Screen { case home, play, sounds }
+    var screen: Screen = .home
+    /// nur für Tests: welcher Reiter rechts offen ist
+    var debugTab = 0
+
+    // Sounds: mehrere Quellen nebeneinander
     var library: SampleLibrary? = nil
-    var importMeta: ImportMeta? = nil
+    var sources: [SoundSource] = []
+    private var loaded: [String: Groups] = [:]
+    var loadingSources = true
     var kits: [(id: String, name: String)] = []
     var kitInfo = "Lade Samples …"
     private var bank: [String: [SampleEntry]] = [:]
+
+    // Mixer und Effekte
+    var levels: [String: Double] = [:]      // 0 … 100, 80 = 0 dB
+    var solos: Set<String> = []
+    var master = 80.0
+    var fx: [String: Double] = ["reverb": 15, "size": 55, "damp": 50, "comp": 50]
+    /// Wie viel jede Spur in den Hall schickt (eigene Reihen: 0.8)
+    static let SEND: [String: Float] = ["kick": 0.12, "snare": 1, "clap": 1, "hat": 0.45, "open": 0.7, "perc": 0.8, "sound": 1, "cymbal": 0.6]
+    /// Hall-Vorgabe je Stil
+    static let STYLE_REVERB: [String: Double] = ["house": 15, "techno": 12, "breaks": 15, "hiphop": 18, "afro": 20, "dnb": 10, "jazz": 38, "rnb": 32, "funk": 16]
+
+    // Einstellungen
+    var mixWithOthers = true { didSet { core.setMixWithOthers(mixWithOthers); saveSettings() } }
+    var backgroundPlay = true { didSet { saveSettings() } }
+    var keepAwake = true { didSet { saveSettings() } }
+    var autoReverb = true { didSet { saveSettings() } }
+
+    // Tap-Tempo
+    private var taps: [Double] = []
 
     // Anzeige
     struct Vis { var step = -1; var bar = 0; var part: PartKey = .intro; var phrase = 1; var editing = false; var hits: [Bool] = [] }
@@ -66,6 +93,7 @@ final class Taktwerk {
         let d = UserDefaults.standard
         if let s = d.string(forKey: "style"), styles[s] != nil { style = s }
         if let s = d.string(forKey: "soundSet") { soundSet = s }
+        loadSettings()
         applyStyle(style)
         frameTimer = Timer(timeInterval: 1 / 60, repeats: true) { [weak self] _ in MainActor.assumeIsolated { self?.frame() } }
         RunLoop.main.add(frameTimer!, forMode: .common)
@@ -131,6 +159,7 @@ final class Taktwerk {
         let st = styles[k]!
         bpm = st.bpm
         macros["swing"] = st.swing
+        if autoReverb { fx["reverb"] = Self.STYLE_REVERB[k] ?? 15; applyFX() }
         if st.custom, let g = st.groove {
             rows = sanitizeRows(g.rows)
             parts = decodeParts(g.parts, rows: rows)
@@ -181,58 +210,78 @@ final class Taktwerk {
     }
 
     @discardableResult
-    private func playEntry(_ e: SampleEntry, _ id: String, _ t: Double, _ v: Double) -> Bool {
+    private func playEntry(_ e: SampleEntry, _ id: String, _ t: Double, _ v: Double, send: Float = 0.5) -> Bool {
         let group = id == "open" ? AudioCore.Group.open : id == "sound" ? AudioCore.Group.sound : AudioCore.Group.none
         let voice = SampleVoice(e.data, from: e.start, count: e.count, gain: Float(v) * (Self.GAIN[id] ?? 0.7), group: group)
+        voice.send = send
         core.schedule(voice, at: t, chokes: group, tau: 0.03)
         return true
     }
 
-    private func synth(_ id: String, _ t: Double, _ v: Double) {
-        if let s = Synth.make(id, v: v, style: style) { core.schedule(s, at: t) }
+    private func synth(_ id: String, _ t: Double, _ v: Double, send: Float = 0.5) {
+        if let s = Synth.make(id, v: v, style: style) { s.send = send; core.schedule(s, at: t) }
     }
 
     private func trig(_ id: String, _ t: Double, _ v: Double, _ step: Int, _ part: PartKey) {
+        let send = Self.SEND[id] ?? 0.5
         if id == "hat" { core.choke(AudioCore.Group.open, at: t, tau: 0.01) }
         if id == "sound" {
             if soundSet == "off" { return }
-            if let pool = soundPool() { playEntry(pool[(PartKey.allCases.firstIndex(of: part) ?? 0) % pool.count], id, t, v); return }
-            return synth("sound", t, v)
+            if let pool = soundPool() { playEntry(pool[(PartKey.allCases.firstIndex(of: part) ?? 0) % pool.count], id, t, v, send: send); return }
+            return synth("sound", t, v, send: send)
         }
         if let pool = bank[id], !pool.isEmpty {
             let e = id == "hat" ? pick(pool) : id == "perc" ? pool[step % pool.count] : pool[0]
-            playEntry(e, id, t, v); return
+            playEntry(e, id, t, v, send: send); return
         }
-        synth(id, t, v)
+        synth(id, t, v, send: send)
     }
 
     private func trigRow(_ row: Track, _ t: Double, _ v: Double) {
         let p = (row.src ?? "").split(separator: "|", maxSplits: 2).map(String.init)
         guard p.count >= 2 else { return }
         if p[0] == "sample" {
-            if p.count == 3, let e = library?.find(p[1], p[2]) { playEntry(e, "row", t, v); return }
-            if let f = SYNTH_FOR_GROUP[p[1]] { synth(f, t, v) } // ohne Samples: ähnlicher Synth-Klang
+            if p.count == 3, let e = library?.find(p[1], p[2]) { playEntry(e, "row", t, v, send: 0.8); return }
+            if let f = SYNTH_FOR_GROUP[p[1]] { synth(f, t, v, send: 0.8) } // ohne Samples: ähnlicher Synth-Klang
             return
         }
-        synth(p[1], t, v)
+        synth(p[1], t, v, send: 0.8)
+    }
+
+    /// Ein Sample im Sounds-Bereich anhören
+    func preview(_ e: SampleEntry) {
+        core.start(); applyFX()
+        playEntry(e, e.group == "kick" ? "kick" : "row", core.currentTime + 0.03, 0.9, send: 0.3)
     }
 
     // MARK: - Library
 
     func loadSamples() async {
-        if let (lib, meta) = await Task.detached(priority: .userInitiated, operation: { ImportedLibrary.load() }).value {
-            library = lib; importMeta = meta; applyLibrary(); return
+        loadingSources = true
+        var list = SourceStore.list()
+        if var b = BundledLibrary.info {
+            b.enabled = UserDefaults.standard.object(forKey: "bundled.enabled") as? Bool ?? true
+            list.insert(b, at: 0)
         }
-        guard BundledLibrary.url != nil else { library = nil; updateKitInfo(); return }
-        kitInfo = "Lade Samples …"
-        let lib = await BundledLibrary.load { [weak self] d, n in self?.kitInfo = "Lade Samples … \(d)/\(n)" }
-        if library?.source == .imported { return } // inzwischen eigene Library importiert
-        library = lib
-        if lib != nil { applyLibrary() } else { updateKitInfo() }
+        sources = list
+        for src in list where !src.bundled {
+            let id = src.id
+            if let g = await Task.detached(priority: .userInitiated, operation: { SourceStore.loadGroups(id) }).value { loaded[id] = g }
+        }
+        if list.first?.bundled == true {
+            kitInfo = "Lade Samples …"
+            loaded[BundledLibrary.id] = await BundledLibrary.load { [weak self] d, n in self?.kitInfo = "Lade Samples … \(d)/\(n)" }
+        }
+        loadingSources = false
+        rebuildLibrary()
     }
 
-    func applyLibrary() {
-        guard let lib = library else { return }
+    /// Aktive Quellen zusammenführen und Kits neu bestimmen
+    func rebuildLibrary() {
+        let parts = sources.filter(\.enabled).compactMap { loaded[$0.id] }
+        let lib = SampleLibrary.merge(parts)
+        library = lib.isEmpty ? nil : lib
+        guard let lib = library else { kits = []; kit = "synth"; bank = [:]; updateKitInfo(); return }
         kits = lib.kits
         let ids = kits.map(\.id)
         let saved = UserDefaults.standard.string(forKey: "kit")
@@ -250,27 +299,106 @@ final class Taktwerk {
     func setSoundSet(_ s: String) { soundSet = s; UserDefaults.standard.set(s, forKey: "soundSet") }
 
     private func updateKitInfo() {
-        guard let lib = library else { kitInfo = "Ohne Library-Samples: Drums und Sounds als Synth-Klänge."; return }
-        let src = lib.source == .imported ? "Eigene Library" : "Higher Place"
+        let active = sources.filter(\.enabled)
+        guard library != nil else {
+            kitInfo = loadingSources ? "Lade Samples …" : "Ohne Library-Samples: Drums und Sounds als Synth-Klänge."
+            return
+        }
+        let src = active.count == 1 ? active[0].label : "\(active.count) Quellen"
         if kit == "synth" { kitInfo = "Synth-Drums · Sounds aus \(src)"; return }
         let mine = DRUM_GROUPS.filter { bank[$0]?.first?.song == kit }
         let n = mine.reduce(0) { $0 + (bank[$1]?.count ?? 0) }
         kitInfo = "\(src) · \(n) Drum-Samples · \(mine.count) von 7 Spuren aus dem Kit"
     }
 
-    func adoptImport(_ r: ImportedLibrary.Result) {
-        if playing { stop() }
-        library = r.library; importMeta = r.meta; userKit = false
-        UserDefaults.standard.removeObject(forKey: "kit")
-        applyLibrary()
+    /// Neue Quelle kommt dazu – vorhandene bleiben
+    func addSource(_ r: SourceStore.Result) {
+        loaded[r.source.id] = r.groups
+        sources.append(r.source)
+        rebuildLibrary()
     }
 
-    func removeImport() async {
-        ImportedLibrary.clear()
-        importMeta = nil; library = nil; userKit = false; bank = [:]; kits = []
-        UserDefaults.standard.removeObject(forKey: "kit")
-        await loadSamples()
-        if library == nil { kit = "synth"; updateKitInfo() }
+    func setSourceEnabled(_ id: String, _ on: Bool) {
+        guard let i = sources.firstIndex(where: { $0.id == id }) else { return }
+        sources[i].enabled = on
+        if sources[i].bundled { UserDefaults.standard.set(on, forKey: "bundled.enabled") } else { SourceStore.save(sources) }
+        rebuildLibrary()
+    }
+
+    func removeSource(_ id: String) {
+        guard let s = sources.first(where: { $0.id == id }), !s.bundled else { return }
+        if playing { stop() }
+        SourceStore.remove(id)
+        sources.removeAll { $0.id == id }
+        loaded[id] = nil
+        rebuildLibrary()
+        say("Quelle „\(s.label)“ entfernt.")
+    }
+
+    // MARK: - Mixer, Effekte, Einstellungen
+
+    func level(_ id: String) -> Double { levels[id] ?? 80 }
+    private func levelGain(_ id: String) -> Double { let v = level(id) / 80; return v * v }
+    func setLevel(_ id: String, _ v: Double) { levels[id] = clamp(v, 0, 100); saveMix() }
+    func toggleSolo(_ id: String) { if solos.contains(id) { solos.remove(id) } else { solos.insert(id) } }
+    func setMaster(_ v: Double) { master = clamp(v, 0, 100); applyFX(); saveMix() }
+    func setFX(_ k: String, _ v: Double) { fx[k] = clamp(v, 0, 100); applyFX(); saveMix() }
+    func resetMixer() {
+        levels = [:]; solos = []; mutes = []; master = 80
+        fx = ["reverb": Self.STYLE_REVERB[style] ?? 15, "size": 55, "damp": 50, "comp": 50]
+        applyFX(); saveMix()
+        say("Mixer und Effekte zurückgesetzt.")
+    }
+
+    func applyFX() {
+        let m = master / 80
+        core.setParams(AudioCore.Params(master: Float(m * m), reverb: Float(fx["reverb"]! / 100 * 1.6), size: Float(fx["size"]! / 100),
+                                        damp: Float(fx["damp"]! / 100), comp: fx["comp"]! / 100))
+    }
+
+    private func saveMix() {
+        let d = UserDefaults.standard
+        d.set(levels, forKey: "mix.levels"); d.set(master, forKey: "mix.master"); d.set(fx, forKey: "mix.fx")
+    }
+
+    private func loadSettings() {
+        let d = UserDefaults.standard
+        if let l = d.dictionary(forKey: "mix.levels") as? [String: Double] { levels = l }
+        if d.object(forKey: "mix.master") != nil { master = d.double(forKey: "mix.master") }
+        if let f = d.dictionary(forKey: "mix.fx") as? [String: Double] { for (k, v) in f { fx[k] = v } }
+        mixWithOthers = d.object(forKey: "set.mix") as? Bool ?? true
+        backgroundPlay = d.object(forKey: "set.background") as? Bool ?? true
+        keepAwake = d.object(forKey: "set.awake") as? Bool ?? true
+        autoReverb = d.object(forKey: "set.autoReverb") as? Bool ?? true
+        applyFX()
+    }
+
+    private func saveSettings() {
+        let d = UserDefaults.standard
+        d.set(mixWithOthers, forKey: "set.mix"); d.set(backgroundPlay, forKey: "set.background")
+        d.set(keepAwake, forKey: "set.awake"); d.set(autoReverb, forKey: "set.autoReverb")
+    }
+
+    /// Tempo durch Antippen: Mittel der letzten Abstände, nach 2 s Pause beginnt es neu
+    func tap() {
+        let now = CACurrentMediaTime()
+        if let last = taps.last, now - last > 2 { taps.removeAll() }
+        taps.append(now)
+        if taps.count > 6 { taps.removeFirst() }
+        guard taps.count >= 2 else { return }
+        let iv = zip(taps.dropFirst(), taps).map { $0 - $1 }
+        let avg = iv.reduce(0, +) / Double(iv.count)
+        if editing { draft.bpm = clamp(Int((60 / avg).rounded()), 60, 190) } else { setBpm(Int((60 / avg).rounded())) }
+    }
+
+    var customCount: Int { customOrder.count }
+
+    func deleteAllGrooves() {
+        if curStyle.custom { setStyle("house") }
+        for id in customOrder { styles[id] = nil }
+        customOrder = []
+        _ = saveGrooves()
+        say("Alle eigenen Grooves gelöscht.")
     }
 
     // MARK: - Wiedergabe
@@ -330,14 +458,15 @@ final class Taktwerk {
             for tr in TL {
                 let v = curBar[tr.id]?[step] ?? 0
                 if v == 0 || (mutes.contains(tr.id) && !editing) { continue }
+                if !editing && !solos.isEmpty && !solos.contains(tr.id) { continue }
                 if half && !editing && tr.id == "kick" && step == 8 { continue }
                 let jt = hum * (rnd() * 2 - 1) * 0.009
-                let vv = clamp(v * (1 - hum * 0.25 * rnd()), 0.05, 1.1)
+                let vv = clamp(v * (1 - hum * 0.25 * rnd()), 0.05, 1.1) * (editing ? 1 : levelGain(tr.id))
                 let tt = max(core.currentTime, t0 + jt)
                 if tr.src != nil { trigRow(tr, tt, vv) } else { trig(tr.id, tt, vv, step, curPart) }
             }
             if crash, let cy = bank["cymbal"], !cy.isEmpty { playEntry(cy[0], "cymbal", t0, 0.85) }
-            let hits = TL.map { t in (curBar[t.id]?[step] ?? 0) > 0 && (editing || !mutes.contains(t.id)) }
+            let hits = TL.map { t in (curBar[t.id]?[step] ?? 0) > 0 && (editing || (!mutes.contains(t.id) && (solos.isEmpty || solos.contains(t.id)))) }
             visQ.append((t0, Vis(step: step, bar: bar, part: curPart, phrase: phrase, editing: editing, hits: hits)))
             nextTime += sd
             step += 1
@@ -346,7 +475,7 @@ final class Taktwerk {
     }
 
     func start() {
-        core.start()
+        core.start(); applyFX()
         playing = true; step = 0; nextTime = core.currentTime + 0.06
         let t = Timer(timeInterval: 0.025, repeats: true) { [weak self] _ in MainActor.assumeIsolated { self?.scheduler() } }
         RunLoop.main.add(t, forMode: .common)

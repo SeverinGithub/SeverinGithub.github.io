@@ -1,33 +1,17 @@
 import SwiftUI
 
+/// Wurzel: Home, Taktwerk oder Sounds – dazu Meldungen
 struct MainView: View {
     @Environment(Taktwerk.self) private var tw
-    @State private var showImport = false
+    @Environment(\.scenePhase) private var phase
 
     var body: some View {
         ZStack(alignment: .top) {
             Color.body.ignoresSafeArea()
-            RadialGradient(colors: [.white.opacity(0.05), .clear], center: UnitPoint(x: 0.7, y: -0.1), startRadius: 0, endRadius: 900)
-                .ignoresSafeArea().allowsHitTesting(false)
-            VStack(spacing: 0) {
-                TopBar()
-                    .frame(height: 72)
-                Divider().overlay(Color.line)
-                HStack(spacing: 0) {
-                    KitColumn(showImport: $showImport).frame(width: 250)
-                    Divider().overlay(Color.line)
-                    ArrangeColumn()
-                    Divider().overlay(Color.line)
-                    MacroColumn().frame(width: 224)
-                }
-                .frame(maxHeight: .infinity)
-                PadRow().frame(height: 128)
-            }
-            if tw.editing {
-                EditorView().transition(.opacity)
-            }
-            if showImport {
-                ImportSheet { showImport = false }.transition(.opacity)
+            switch tw.screen {
+            case .home: HomeView().transition(.opacity)
+            case .play: PlayView().transition(.opacity)
+            case .sounds: SoundsView().transition(.opacity)
             }
             if let msg = tw.toast {
                 Text(msg).font(.ui(13, .regular)).foregroundStyle(Color.ink)
@@ -42,27 +26,62 @@ struct MainView: View {
         }
         .ignoresSafeArea(.keyboard)
         .animation(.easeOut(duration: 0.2), value: tw.toast)
-        .animation(.easeOut(duration: 0.15), value: tw.editing)
-        .animation(.easeOut(duration: 0.15), value: showImport)
-        .onKeyPress(.space) { tw.toggle(); return .handled }
+        .animation(.easeOut(duration: 0.18), value: tw.screen)
+        .onKeyPress(.space) { if tw.screen == .play { tw.toggle(); return .handled }; return .ignored }
+        .onChange(of: phase) { _, p in
+            if p == .background && !tw.backgroundPlay && tw.playing { tw.stop() }
+        }
+        .onChange(of: tw.keepAwake, initial: true) { _, on in UIApplication.shared.isIdleTimerDisabled = on }
         #if DEBUG
         .task {
-            // Nur zum Testen im Simulator: -autoplay, -editor, -import
+            // Nur zum Testen im Simulator: -play, -sounds, -autoplay, -editor, -mixer, -fx, -importPath <Ordner>
             let a = ProcessInfo.processInfo.arguments
+            if a.contains("-play") { tw.screen = .play }
+            if a.contains("-sounds") { tw.screen = .sounds }
             try? await Task.sleep(for: .seconds(1.5))
             if a.contains("-autoplay") { tw.start() }
-            if a.contains("-editor") { tw.openEditor(nil); tw.addRow() }
-            if a.contains("-import") { showImport = true }
+            if a.contains("-editor") { tw.screen = .play; tw.openEditor(nil); tw.addRow() }
+            if a.contains("-mixer") { tw.debugTab = 1 }
+            if a.contains("-fx") { tw.debugTab = 2 }
             if let i = a.firstIndex(of: "-importPath"), i + 1 < a.count {
                 let url = URL(fileURLWithPath: a[i + 1])
                 do {
-                    let r = try await ImportedLibrary.run(folder: url) { _, _ in }
-                    tw.adoptImport(r)
-                    print("TAKTWERK-IMPORT ok \(r.meta.count) Sounds, \(r.kits) Kits, \(r.meta.failed) Fehler, gespeichert \(r.saved) \(r.counts)")
+                    let r = try await SourceStore.importFolder(url, existing: tw.sources.map(\.label)) { _, _ in }
+                    tw.addSource(r)
+                    print("TAKTWERK-IMPORT ok \(r.source.label) \(r.source.count) Sounds, \(r.source.kits) Kits, Quellen \(tw.sources.count)")
                 } catch { print("TAKTWERK-IMPORT Fehler \(error)") }
             }
         }
         #endif
+    }
+}
+
+/// Das Instrument
+struct PlayView: View {
+    @Environment(Taktwerk.self) private var tw
+    var body: some View {
+        ZStack(alignment: .top) {
+            RadialGradient(colors: [.white.opacity(0.05), .clear], center: UnitPoint(x: 0.7, y: -0.1), startRadius: 0, endRadius: 900)
+                .ignoresSafeArea().allowsHitTesting(false)
+            VStack(spacing: 0) {
+                TopBar()
+                    .frame(height: 72)
+                Divider().overlay(Color.line)
+                HStack(spacing: 0) {
+                    KitColumn().frame(width: 250)
+                    Divider().overlay(Color.line)
+                    ArrangeColumn()
+                    Divider().overlay(Color.line)
+                    RightColumn().frame(width: 224)
+                }
+                .frame(maxHeight: .infinity)
+                PadRow().frame(height: 128)
+            }
+            if tw.editing {
+                EditorView().transition(.opacity)
+            }
+        }
+        .animation(.easeOut(duration: 0.15), value: tw.editing)
     }
 }
 
@@ -72,15 +91,23 @@ struct TopBar: View {
     @Environment(Taktwerk.self) private var tw
     var body: some View {
         HStack(spacing: 14) {
-            HStack(spacing: 0) {
-                Text("TAKT").foregroundStyle(Color.ink)
-                Text("WERK").foregroundStyle(Color.pA)
+            Button { tw.screen = .home } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: "chevron.left").font(.system(size: 13, weight: .bold)).foregroundStyle(Color.muted)
+                    HStack(spacing: 0) {
+                        Text("TAKT").foregroundStyle(Color.ink)
+                        Text("WERK").foregroundStyle(Color.pA)
+                    }
+                    .font(.display(17)).tracking(0.4)
+                }
+                .frame(height: 44).contentShape(Rectangle())
             }
-            .font(.display(17)).tracking(0.4)
-            .padding(.trailing, 6)
+            .buttonStyle(.plain)
+            .accessibilityLabel("Zum Home-Bildschirm")
             PlayButton(playing: tw.playing) { tw.toggle() }
             TempoLCD(bpm: tw.bpm) { tw.setBpm($0) }
-            StyleStrip()
+            TapButton { tw.tap() }.padding(.leading, -6)
+            StyleStrip().layoutPriority(-1)
             if tw.curStyle.custom {
                 Button { tw.openEditor(tw.style) } label: {
                     Image(systemName: "pencil").font(.system(size: 15, weight: .semibold)).frame(width: 40, height: 40)
@@ -130,7 +157,7 @@ struct StyleStrip: View {
                 }
                 .padding(4)
             }
-            .frame(maxWidth: 404)
+            .frame(minWidth: 180, maxWidth: 404)
             .fixedSize(horizontal: false, vertical: true)
             .background(RoundedRectangle(cornerRadius: 12).fill(Color.panel))
             .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.line))
@@ -143,10 +170,9 @@ struct StyleStrip: View {
 
 struct KitColumn: View {
     @Environment(Taktwerk.self) private var tw
-    @Binding var showImport: Bool
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            SectionLabel("Kit") { MiniButton(title: "Importieren") { showImport = true } }
+            SectionLabel("Kit") { MiniButton(title: "Sounds") { tw.screen = .sounds } }
             Menu {
                 Picker("Kit", selection: Binding(get: { tw.kit }, set: { tw.setKit($0) })) {
                     Text("Synth (Demo)").tag("synth")
@@ -154,7 +180,7 @@ struct KitColumn: View {
                 }
             } label: { SelectLabel(text: tw.kit == "synth" ? "Synth (Demo)" : tw.kits.first { $0.id == tw.kit }?.name ?? tw.kit) }
             Text(tw.kitInfo).font(.ui(11, .regular)).foregroundStyle(Color.muted).lineLimit(2).fixedSize(horizontal: false, vertical: true).frame(minHeight: 16, alignment: .top).padding(.top, -4).padding(.bottom, 2)
-            SectionLabel("Sounds")
+            SectionLabel("Sounds").padding(.top, 2)
             Menu {
                 Picker("Sounds", selection: Binding(get: { tw.soundSet }, set: { tw.setSoundSet($0) })) {
                     ForEach(SOUND_SETS, id: \.id) { s in Text(s.label).tag(s.id) }
@@ -352,35 +378,164 @@ struct StepCell: View, Equatable {
     }
 }
 
-// MARK: - Rechts: Makros und Ausgang
+// MARK: - Rechts: Makros, Mixer, Effekte und Ausgang
 
-struct MacroColumn: View {
+struct RightColumn: View {
     @Environment(Taktwerk.self) private var tw
+    @State private var tab = 0
     var body: some View {
-        @Bindable var tw = tw
         VStack(alignment: .leading, spacing: 10) {
-            SectionLabel("Makros")
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                ForEach(MACROS) { m in
-                    Knob(name: m.name, value: Binding(get: { tw.macros[m.id] ?? 0 }, set: { tw.macros[m.id] = $0 })) { tw.macroReleased(m.id) }
+            HStack(spacing: 3) {
+                ForEach(Array(["Makros", "Mixer", "FX"].enumerated()), id: \.offset) { i, t in
+                    Button { tab = i } label: {
+                        Text(t.uppercased()).font(.mono(10, .semibold)).tracking(1)
+                            .foregroundStyle(tab == i ? Color.ink : Color.muted)
+                            .frame(maxWidth: .infinity).frame(height: 28)
+                            .background(RoundedRectangle(cornerRadius: 7).fill(tab == i ? Color.line : .clear))
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityAddTraits(tab == i ? .isSelected : [])
                 }
             }
-            SectionLabel("Ausgang").padding(.top, 6)
-            HStack(alignment: .bottom, spacing: 3) {
-                ForEach(0..<14, id: \.self) { i in
-                    let v = tw.meter[i]
-                    RoundedRectangle(cornerRadius: 2)
-                        .fill(v > 0.8 ? Color.pA : v > 0.5 ? Color.amber : Color.dim)
-                        .frame(maxWidth: .infinity).frame(height: max(2, 22 * (0.08 + 0.92 * v)))
-                }
-            }
-            .frame(height: 22, alignment: .bottom)
-            .padding(.horizontal, 8).padding(.vertical, 6)
+            .padding(3)
             .background(RoundedRectangle(cornerRadius: 10).fill(Color.panel))
             .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.line))
+            switch tab {
+            case 1: MixerPanel()
+            case 2: FXPanel()
+            default: MacroPanel()
+            }
             Spacer(minLength: 0)
+            SectionLabel("Ausgang")
+            Meter()
         }
         .padding(.horizontal, 16).padding(.vertical, 14)
+        .onChange(of: tw.debugTab) { _, t in tab = t }
+    }
+}
+
+struct MacroPanel: View {
+    @Environment(Taktwerk.self) private var tw
+    var body: some View {
+        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+            ForEach(MACROS) { m in
+                Knob(name: m.name, value: Binding(get: { tw.macros[m.id] ?? 0 }, set: { tw.macros[m.id] = $0 })) { tw.macroReleased(m.id) }
+            }
+        }
+    }
+}
+
+struct FXPanel: View {
+    @Environment(Taktwerk.self) private var tw
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
+                Knob(name: "Hall", value: fx("reverb"))
+                Knob(name: "Raum", value: fx("size"))
+                Knob(name: "Dämpfung", value: fx("damp"))
+                Knob(name: "Kompressor", value: fx("comp"))
+            }
+            Text(tw.autoReverb ? "Der Hall folgt dem Stil. Abschalten in den Einstellungen." : "Snare, Clap und Sounds gehen am stärksten in den Hall, die Kick kaum.")
+                .font(.ui(11, .regular)).foregroundStyle(Color.muted).fixedSize(horizontal: false, vertical: true)
+        }
+    }
+    private func fx(_ k: String) -> Binding<Double> { Binding(get: { tw.fx[k] ?? 0 }, set: { tw.setFX(k, $0) }) }
+}
+
+struct MixerPanel: View {
+    @Environment(Taktwerk.self) private var tw
+    var body: some View {
+        VStack(spacing: 6) {
+            MixRow(name: "Master", value: Binding(get: { tw.master }, set: { tw.setMaster($0) }), color: .amber)
+            Divider().overlay(Color.line)
+            ScrollView {
+                VStack(spacing: 4) {
+                    ForEach(TRACKS + tw.rows) { t in
+                        MixRow(name: t.name, value: Binding(get: { tw.level(t.id) }, set: { tw.setLevel(t.id, $0) }),
+                               color: t.src != nil ? .pV : .pA, muted: tw.mutes.contains(t.id), solo: tw.solos.contains(t.id),
+                               onMute: { tw.toggleMute(t.id) }, onSolo: { tw.toggleSolo(t.id) })
+                    }
+                }
+            }
+        }
+    }
+}
+
+/// Eine Mixer-Zeile: Name, Regler, Stumm und Solo
+struct MixRow: View {
+    let name: String
+    @Binding var value: Double
+    var color: Color
+    var muted = false
+    var solo = false
+    var onMute: (() -> Void)? = nil
+    var onSolo: (() -> Void)? = nil
+    @State private var start: Double? = nil
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 3) {
+            HStack(spacing: 4) {
+                Text(name).font(.ui(11)).foregroundStyle(muted ? Color.dim : Color.ink).strikethrough(muted).lineLimit(1)
+                Spacer(minLength: 2)
+                Text(db).font(.mono(9)).foregroundStyle(Color.muted).monospacedDigit()
+                if let onMute { small("M", on: muted, color: .pBrk, action: onMute).accessibilityLabel("\(name) stumm") }
+                if let onSolo { small("S", on: solo, color: .pB, action: onSolo).accessibilityLabel("\(name) solo") }
+            }
+            GeometryReader { g in
+                let w = g.size.width
+                ZStack(alignment: .leading) {
+                    Capsule().fill(Color.panel).overlay(Capsule().stroke(Color.line))
+                    Capsule().fill(color.opacity(muted ? 0.25 : 0.85)).frame(width: max(6, w * value / 100))
+                    Rectangle().fill(Color.ink.opacity(0.35)).frame(width: 1, height: 10).offset(x: w * 0.8) // 0 dB
+                }
+                .contentShape(Rectangle())
+                .gesture(DragGesture(minimumDistance: 0).onChanged { d in
+                    if start == nil { start = value }
+                    value = clamp(start! + d.translation.width / w * 100, 0, 100)
+                }.onEnded { _ in start = nil })
+                .onTapGesture(count: 2) { value = 80 }
+            }
+            .frame(height: 10)
+        }
+        .padding(.vertical, 2)
+        .accessibilityElement(children: .contain)
+        .accessibilityValue(db)
+        .accessibilityAdjustableAction { d in value = clamp(value + (d == .increment ? 5 : -5), 0, 100) }
+    }
+
+    private var db: String {
+        if value < 0.5 { return "−∞" }
+        let g = pow(value / 80, 2)
+        let d = 20 * log10(g)
+        return String(format: "%+.0f dB", d)
+    }
+
+    private func small(_ t: String, on: Bool, color: Color, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Text(t).font(.mono(9, .bold)).foregroundStyle(on ? Color.dark : Color.muted)
+                .frame(width: 20, height: 18)
+                .background(RoundedRectangle(cornerRadius: 4).fill(on ? color : Color.panel))
+                .overlay(RoundedRectangle(cornerRadius: 4).stroke(Color.line))
+        }
+        .buttonStyle(.plain)
+    }
+}
+
+struct Meter: View {
+    @Environment(Taktwerk.self) private var tw
+    var body: some View {
+        HStack(alignment: .bottom, spacing: 3) {
+            ForEach(0..<14, id: \.self) { i in
+                let v = tw.meter[i]
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(v > 0.8 ? Color.pA : v > 0.5 ? Color.amber : Color.dim)
+                    .frame(maxWidth: .infinity).frame(height: max(2, 22 * (0.08 + 0.92 * v)))
+            }
+        }
+        .frame(height: 22, alignment: .bottom)
+        .padding(.horizontal, 8).padding(.vertical, 6)
+        .background(RoundedRectangle(cornerRadius: 10).fill(Color.panel))
+        .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.line))
     }
 }
 

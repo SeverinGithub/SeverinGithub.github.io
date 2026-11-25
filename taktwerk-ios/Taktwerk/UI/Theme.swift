@@ -239,3 +239,22 @@ struct SelectLabel: View {
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.line))
     }
 }
+
+/// Tap-Tempo: im Takt antippen
+struct TapButton: View {
+    let action: () -> Void
+    @State private var lit = false
+    var body: some View {
+        Button {
+            action(); lit = true
+            Task { try? await Task.sleep(for: .milliseconds(90)); lit = false }
+        } label: {
+            Text("TAP").font(.mono(11, .bold)).tracking(1).foregroundStyle(lit ? Color.dark : Color.amber)
+                .frame(width: 46, height: 48)
+                .background(RoundedRectangle(cornerRadius: 10).fill(lit ? Color.amber : Color.lcdBg))
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.line))
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel("Tempo antippen")
+    }
+}
